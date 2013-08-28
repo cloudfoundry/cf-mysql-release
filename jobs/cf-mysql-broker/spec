@@ -1,0 +1,10 @@
+---
+name: cf-mysql-broker
+
+templates:
+  cf-mysql-broker_ctl.erb:  bin/cf-mysql-broker_ctl
+  unicorn.conf.rb.erb:  config/unicorn.conf.rb
+
+packages:
+- ruby
+- cf-mysql-broker

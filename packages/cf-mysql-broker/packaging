@@ -1,0 +1,10 @@
+# abort script on any command that exits with a non zero value
+set -e
+
+rsync -a cf-mysql-broker/ ${BOSH_INSTALL_TARGET}
+
+# install gems from cache
+(
+  cd ${BOSH_INSTALL_TARGET}
+  bundle install --local --deployment --without development test
+)

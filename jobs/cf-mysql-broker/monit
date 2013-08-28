@@ -1,0 +1,5 @@
+check process cf-mysql-broker
+  with pidfile /var/vcap/sys/run/cf-mysql-broker/unicorn.pid
+  start program "/var/vcap/jobs/cf-mysql-broker/bin/cf-mysql-broker_ctl start" with timeout 60 seconds
+  stop program "/var/vcap/jobs/cf-mysql-broker/bin/cf-mysql-broker_ctl stop" with timeout 60 seconds
+  group vcap

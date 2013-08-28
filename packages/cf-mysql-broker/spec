@@ -1,0 +1,8 @@
+---
+name: cf-mysql-broker
+
+dependencies:
+- ruby
+
+files:
+- cf-mysql-broker/**/*

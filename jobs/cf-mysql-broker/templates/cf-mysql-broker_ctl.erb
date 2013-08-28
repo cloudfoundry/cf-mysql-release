@@ -1,0 +1,30 @@
+#!/bin/bash -e
+
+export PATH=/var/vcap/packages/ruby/bin:$PATH
+export BUNDLE_GEMFILE=/var/vcap/packages/cf-mysql-broker/Gemfile
+
+RUN_DIR=/var/vcap/sys/run/cf-mysql-broker
+LOG_DIR=/var/vcap/sys/log/cf-mysql-broker
+PIDFILE=$RUN_DIR/unicorn.pid
+
+
+case $1 in
+
+  start)
+    mkdir -p $RUN_DIR
+    mkdir -p $LOG_DIR
+
+    bundle exec unicorn_rails \
+      --daemonize \
+      -c /var/vcap/jobs/cf-mysql-broker/config/unicorn.conf.rb
+    ;;
+
+  stop)
+    kill -QUIT `cat $PIDFILE`
+    ;;
+
+  *)
+    echo "Usage: cf-mysql-broker_ctl {start|stop}"
+    ;;
+
+esac

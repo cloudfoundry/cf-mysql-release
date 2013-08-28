@@ -1,0 +1,12 @@
+# abort script on any command that exits with a non zero value
+set -e
+
+(
+  cd ${BUILD_DIR}/cf-mysql-broker
+
+  # cache gems
+  bundle package
+
+  # remove unneeded files
+  rm -rf spec
+)

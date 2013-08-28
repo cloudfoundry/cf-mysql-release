@@ -1,0 +1,3 @@
+[submodule "src/cf-mysql-broker"]
+	path = src/cf-mysql-broker
+	url = git@github.com:cloudfoundry/cf-mysql-broker.git
