@@ -14,7 +14,7 @@ case $1 in
     mkdir -p $RUN_DIR
     mkdir -p $LOG_DIR
 
-    bundle exec unicorn_rails \
+    bundle exec unicorn \
       --daemonize \
       -c /var/vcap/jobs/cf-mysql-broker/config/unicorn.conf.rb
     ;;
