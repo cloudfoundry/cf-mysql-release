@@ -8,3 +8,7 @@ templates:
 packages:
 - ruby
 - cf-mysql-broker
+
+properties:
+  broker.auth_token:
+    description: 'Broker authentication token (AUTH_TOKEN)'

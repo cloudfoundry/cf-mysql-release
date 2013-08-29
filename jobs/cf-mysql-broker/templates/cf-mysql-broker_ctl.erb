@@ -2,11 +2,11 @@
 
 export PATH=/var/vcap/packages/ruby/bin:$PATH
 export BUNDLE_GEMFILE=/var/vcap/packages/cf-mysql-broker/Gemfile
+export AUTH_TOKEN=<%= p('broker.auth_token') %>
 
 RUN_DIR=/var/vcap/sys/run/cf-mysql-broker
 LOG_DIR=/var/vcap/sys/log/cf-mysql-broker
 PIDFILE=$RUN_DIR/unicorn.pid
-
 
 case $1 in
 
