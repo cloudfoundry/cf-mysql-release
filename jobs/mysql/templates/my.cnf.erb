@@ -1,0 +1,37 @@
+<%
+base_folder = '/var/vcap/sys/run/mysql'
+%>
+
+[client]
+port      = 3306
+socket		= <%= "#{base_folder}/mysqld.sock" %>
+
+[mysqld_safe]
+socket		= <%= "#{base_folder}/mysqld.sock" %>
+nice      = 0
+log-error = /var/vcap/sys/log/mysql/mysqld.err.log
+innodb_file_per_table
+
+
+[mysqld]
+collation_server        = utf8_unicode_ci
+character_set_server    = utf8
+user		= vcap
+socket		= <%= "#{base_folder}/mysqld.sock" %>
+port     	= 3306
+basedir		= /var/vcap/packages/mysql
+datadir		= /var/vcap/store/mysql
+language	= /var/vcap/packages/mysql/share/english
+skip-external-locking
+pid-file  = /var/vcap/sys/run/mysql/mysqld.pid
+init-file = /var/vcap/jobs/mysql/config/mysql_init
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet	= 16M
+
+[mysql]
+
+[isamchk]
+key_buffer		= 16M

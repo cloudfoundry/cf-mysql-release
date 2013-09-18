@@ -1,0 +1,35 @@
+#!/bin/bash -e
+
+export MYSQL_JOB_DIR=/var/vcap/jobs/mysql
+RUN_DIR=/var/vcap/sys/run/mysql
+datadir=/var/vcap/store/mysql
+LOG_DIR=/var/vcap/sys/log/mysql
+
+case $1 in
+
+  start)
+
+    ln -sf $MYSQL_JOB_DIR/config/my.cnf /etc/my.cnf
+
+    if ! test -d ${datadir}; then
+
+      mkdir ${datadir}
+      mkdir $LOG_DIR
+      /var/vcap/packages/mysql/scripts/mysql_install_db \
+             --basedir=/var/vcap/packages/mysql --user=vcap \
+             --datadir=${datadir}
+    fi
+
+
+    /var/vcap/packages/mysql/support-files/mysql.server start
+    ;;
+
+  stop)
+    /var/vcap/packages/mysql/support-files/mysql.server stop
+    ;;
+
+  *)
+    echo "Usage: mysql_ctl {start|stop}"
+    ;;
+
+esac

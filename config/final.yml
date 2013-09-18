@@ -1,6 +1,6 @@
 ---
 final_name: cf-mysql
-min_cli_version: 1.5.0.pre.3
+min_cli_version: 1.5.0.pre.993
 blobstore:
   provider: local
   options:

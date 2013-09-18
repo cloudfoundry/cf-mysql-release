@@ -1,0 +1,15 @@
+# abort script on any command that exits with a non zero value
+set -e
+
+MYSQL_VERSION=5.6.13
+
+tar xzf mysql/mysql-${MYSQL_VERSION}.tar.gz
+(
+  set -e
+  cd mysql-${MYSQL_VERSION}
+  mkdir bld
+  cd bld
+  cmake .. -DCMAKE_INSTALL_PREFIX=${BOSH_INSTALL_TARGET}
+  make
+  make install
+)
