@@ -3,7 +3,7 @@ base_folder = '/var/vcap/sys/run/mysql'
 %>
 
 [client]
-port      = 3306
+port      = <%= properties.mysql.port %>
 socket		= <%= "#{base_folder}/mysqld.sock" %>
 
 [mysqld_safe]
@@ -18,7 +18,7 @@ collation_server        = utf8_unicode_ci
 character_set_server    = utf8
 user		= vcap
 socket		= <%= "#{base_folder}/mysqld.sock" %>
-port     	= 3306
+port     	= <%= properties.mysql.port %>
 basedir		= /var/vcap/packages/mysql
 datadir		= /var/vcap/store/mysql
 language	= /var/vcap/packages/mysql/share/english

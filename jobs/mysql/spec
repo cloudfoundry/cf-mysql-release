@@ -8,3 +8,7 @@ templates:
 
 packages:
 - mysql
+
+properties:
+  mysql.root_password:
+    description: 'Root password for the mysql server'

@@ -2,4 +2,6 @@ UPDATE mysql.user SET Password=PASSWORD('<%= properties.mysql.root_password %>')
 FLUSH PRIVILEGES;
 
 SET GLOBAL fast_index_creation=false;
-DROP DATABASE IF EXISTS test;
+
+-- For now, provide credentials from this db
+-- DROP DATABASE IF EXISTS test;

@@ -2,6 +2,7 @@
 name: cf-mysql-broker
 
 templates:
+  app_settings.yml.erb: config/app_settings.yml
   cf-mysql-broker_ctl.erb:  bin/cf-mysql-broker_ctl
   unicorn.conf.rb.erb:  config/unicorn.conf.rb
 
@@ -12,3 +13,7 @@ packages:
 properties:
   broker.auth_token:
     description: 'Broker authentication token (AUTH_TOKEN)'
+  mysql.ip:
+    description: 'IP address of the mysql server'
+  mysql.port:
+    description: 'Port of the mysql server'
