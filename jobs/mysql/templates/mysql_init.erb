@@ -1,4 +1,7 @@
 UPDATE mysql.user SET Password=PASSWORD('<%= properties.mysql.root_password %>') WHERE User='root';
+
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+
 FLUSH PRIVILEGES;
 
 SET GLOBAL fast_index_creation=false;
