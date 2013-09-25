@@ -19,7 +19,7 @@ case $1 in
     mkdir -p $LOG_DIR
 
     cp $JOB_CONFIG/database.yml $PACKAGE_CONFIG
-    cp $JOB_CONFIG/app_settings.yml $PACKAGE_CONFIG/app_settings_production.yml
+    cp $JOB_CONFIG/app_settings.yml $PACKAGE_CONFIG
 
     bundle exec unicorn --daemonize -c $JOB_CONFIG/unicorn.conf.rb
     ;;
