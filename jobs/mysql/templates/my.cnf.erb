@@ -7,11 +7,7 @@ port      = <%= properties.mysql.port %>
 socket		= <%= "#{base_folder}/mysqld.sock" %>
 
 [mysqld_safe]
-socket		= <%= "#{base_folder}/mysqld.sock" %>
 nice      = 0
-log-error = /var/vcap/sys/log/mysql/mysqld.err.log
-innodb_file_per_table
-
 
 [mysqld]
 collation_server        = utf8_unicode_ci
@@ -22,9 +18,11 @@ port     	= <%= properties.mysql.port %>
 basedir		= /var/vcap/packages/mysql
 datadir		= /var/vcap/store/mysql
 language	= /var/vcap/packages/mysql/share/english
-skip-external-locking
 pid-file  = /var/vcap/sys/run/mysql/mysqld.pid
+log-error = /var/vcap/sys/log/mysql/mysqld.err.log
 init-file = /var/vcap/jobs/mysql/config/mysql_init
+skip-external-locking
+innodb_file_per_table
 
 [mysqldump]
 quick
