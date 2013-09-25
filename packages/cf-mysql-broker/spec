@@ -3,7 +3,7 @@ name: cf-mysql-broker
 
 dependencies:
 - ruby
-- mysql
+- mysqlclient
 
 files:
 - cf-mysql-broker/**/*

@@ -5,15 +5,19 @@ templates:
   app_settings.yml.erb: config/app_settings.yml
   cf-mysql-broker_ctl.erb:  bin/cf-mysql-broker_ctl
   unicorn.conf.rb.erb:  config/unicorn.conf.rb
+  database.yml.erb: config/database.yml
 
 packages:
 - ruby
+- mysqlclient
 - cf-mysql-broker
 
 properties:
   broker.auth_token:
     description: 'Broker authentication token (AUTH_TOKEN)'
-  mysql.ip:
-    description: 'IP address of the mysql server'
+  mysql.host:
+    description: 'Host or IP address of the mysql server'
   mysql.port:
     description: 'Port of the mysql server'
+  mysql.root_password:
+    description: 'Password for the root mysql account'

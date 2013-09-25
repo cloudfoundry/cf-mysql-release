@@ -1,8 +1,12 @@
 #!/bin/bash -e
 
+export JOB_CONFIG=/var/vcap/jobs/cf-mysql-broker/config
+export PACKAGE_CONFIG=/var/vcap/packages/cf-mysql-broker/config
+
 export PATH=/var/vcap/packages/ruby/bin:$PATH
 export BUNDLE_GEMFILE=/var/vcap/packages/cf-mysql-broker/Gemfile
 export AUTH_TOKEN=<%= p('broker.auth_token') %>
+export RAILS_ENV=production
 
 RUN_DIR=/var/vcap/sys/run/cf-mysql-broker
 LOG_DIR=/var/vcap/sys/log/cf-mysql-broker
@@ -14,9 +18,10 @@ case $1 in
     mkdir -p $RUN_DIR
     mkdir -p $LOG_DIR
 
-    bundle exec unicorn \
-      --daemonize \
-      -c /var/vcap/jobs/cf-mysql-broker/config/unicorn.conf.rb
+    cp $JOB_CONFIG/database.yml $PACKAGE_CONFIG
+    cp $JOB_CONFIG/app_settings.yml $PACKAGE_CONFIG/app_settings_production.yml
+
+    bundle exec unicorn --daemonize -c $JOB_CONFIG/unicorn.conf.rb
     ;;
 
   stop)

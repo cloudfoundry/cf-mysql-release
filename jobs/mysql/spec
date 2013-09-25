@@ -12,3 +12,5 @@ packages:
 properties:
   mysql.root_password:
     description: 'Root password for the mysql server'
+  mysql.port:
+    description: 'Port the mysql server should bind to'
