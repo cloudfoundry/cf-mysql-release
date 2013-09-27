@@ -1,0 +1,81 @@
+---
+name: cf-mysql
+director_uuid: (( merge ))
+
+releases:
+- name: cf-mysql
+  version: latest
+
+properties: (( merge ))
+
+compilation:
+  workers: 3
+  network: services1
+  reuse_compilation_vms: true
+  cloud_properties:
+    instance_type: c1.medium
+    availability_zone: (( properties.template_only.aws.availability_zone ))
+
+update:
+  canaries: 1
+  canary_watch_time: 30000-180000
+  update_watch_time: 30000-180000
+  max_in_flight: 4
+  max_errors: 1
+
+networks:
+- name: services1
+  type: (( merge ))
+  subnets:
+  - name: default_unused
+    range: (( merge ))
+    reserved: (( merge ))
+    static: (( merge ))
+    gateway: (( merge ))
+    dns: (( merge ))
+    cloud_properties:
+      security_groups:
+      - cf
+      subnet: (( properties.template_only.aws.subnet_ids.services1 ))
+
+resource_pools:
+- name: services-small
+  network: services1
+  size: 2
+  stemcell:
+    name: bosh-stemcell
+    version: latest
+  cloud_properties:
+    instance_type: m1.small
+    availability_zone: (( properties.template_only.aws.availability_zone ))
+
+jobs:
+- name: mysql
+  release: cf-mysql
+  template:
+  - mysql
+  instances: 1
+  resource_pool: services-small
+  persistent_disk: 100000
+  networks:
+  - name: services1
+    static_ips: (( static_ips(0) ))
+  properties:
+    mysql:
+      root_password: changeme1
+      port: 3306
+- name: cf-mysql-broker
+  release: cf-mysql
+  template:
+  - cf-mysql-broker
+  instances: 1
+  resource_pool: services-small
+  networks:
+  - name: services1
+  properties:
+    broker:
+      auth_token: opensesame
+    mysql:
+      host: (( jobs.mysql.networks.services1.static_ips.[0] ))
+      port: (( jobs.mysql.properties.mysql.port ))
+      root_password: (( jobs.mysql.properties.mysql.root_password ))
