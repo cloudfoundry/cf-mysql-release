@@ -1,31 +1,26 @@
 #!/bin/bash -e
 
-export JOB_CONFIG=/var/vcap/jobs/cf-mysql-broker/config
-export PACKAGE_CONFIG=/var/vcap/packages/cf-mysql-broker/config
+job_dir=/var/vcap/jobs/cf-mysql-broker
+run_dir=/var/vcap/sys/run/cf-mysql-broker
+log_dir=/var/vcap/sys/log/cf-mysql-broker
+pidfile=$run_dir/unicorn.pid
 
 export PATH=/var/vcap/packages/ruby/bin:$PATH
 export BUNDLE_GEMFILE=/var/vcap/packages/cf-mysql-broker/Gemfile
-export AUTH_TOKEN=<%= p('broker.auth_token') %>
 export RAILS_ENV=production
-
-RUN_DIR=/var/vcap/sys/run/cf-mysql-broker
-LOG_DIR=/var/vcap/sys/log/cf-mysql-broker
-PIDFILE=$RUN_DIR/unicorn.pid
+export SETTINGS_PATH=$job_dir/config/settings.yml
 
 case $1 in
 
   start)
-    mkdir -p $RUN_DIR
-    mkdir -p $LOG_DIR
+    mkdir -p $run_dir
+    mkdir -p $log_dir
 
-    cp $JOB_CONFIG/database.yml $PACKAGE_CONFIG
-    cp $JOB_CONFIG/app_settings.yml $PACKAGE_CONFIG
-
-    bundle exec unicorn --daemonize -c $JOB_CONFIG/unicorn.conf.rb
+    bundle exec unicorn --daemonize -c $job_dir/config/unicorn.conf.rb
     ;;
 
   stop)
-    kill -QUIT `cat $PIDFILE`
+    kill -QUIT `cat $pidfile`
     ;;
 
   *)

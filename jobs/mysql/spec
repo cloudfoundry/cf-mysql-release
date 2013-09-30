@@ -10,7 +10,11 @@ packages:
 - mysql
 
 properties:
-  mysql.root_password:
-    description: 'Root password for the mysql server'
+  mysql.admin_username:
+    description: 'Username for the MySQL server admin user'
+    default: 'root'
+  mysql.admin_password:
+    description: 'Password for the MySQL server admin user'
   mysql.port:
     description: 'Port the mysql server should bind to'
+    default: 3306

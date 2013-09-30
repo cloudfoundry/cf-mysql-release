@@ -62,8 +62,7 @@ jobs:
     static_ips: (( static_ips(0) ))
   properties:
     mysql:
-      root_password: changeme1
-      port: 3306
+      admin_password: changeme1
 - name: cf-mysql-broker
   release: cf-mysql
   template:
@@ -75,7 +74,6 @@ jobs:
   properties:
     broker:
       auth_token: opensesame
-    mysql:
+    mysql_node:
       host: (( jobs.mysql.networks.services1.static_ips.[0] ))
-      port: (( jobs.mysql.properties.mysql.port ))
-      root_password: (( jobs.mysql.properties.mysql.root_password ))
+      admin_password: (( jobs.mysql.properties.mysql.admin_password ))

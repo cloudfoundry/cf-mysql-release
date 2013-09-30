@@ -2,7 +2,7 @@
 name: cf-mysql-broker
 
 templates:
-  app_settings.yml.erb: config/app_settings.yml
+  settings.yml.erb: config/settings.yml
   cf-mysql-broker_ctl.erb:  bin/cf-mysql-broker_ctl
   unicorn.conf.rb.erb:  config/unicorn.conf.rb
   database.yml.erb: config/database.yml
@@ -15,9 +15,13 @@ packages:
 properties:
   broker.auth_token:
     description: 'Broker authentication token (AUTH_TOKEN)'
-  mysql.host:
-    description: 'Host or IP address of the mysql server'
-  mysql.port:
-    description: 'Port of the mysql server'
-  mysql.root_password:
-    description: 'Password for the root mysql account'
+  mysql_node.host:
+    description: 'Host or IP address of the MySQL server'
+  mysql_node.port:
+    description: 'Port of the MySQL server'
+    default: 3306
+  mysql_node.admin_username:
+    description: 'Username for the admin MySQL account'
+    default: 'root'
+  mysql_node.admin_password:
+    description: 'Password for the admin MySQL account'
