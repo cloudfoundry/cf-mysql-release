@@ -1,5 +1,6 @@
 GRANT ALL PRIVILEGES ON *.* TO '<%= properties.mysql.admin_username %>'@'%' WITH GRANT OPTION;
 UPDATE mysql.user SET Password=PASSWORD('<%= properties.mysql.admin_password %>') WHERE User='<%= properties.mysql.admin_username %>';
+DELETE FROM mysql.user WHERE User='';
 
 FLUSH PRIVILEGES;
 
