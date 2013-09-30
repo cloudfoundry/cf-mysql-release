@@ -27,11 +27,18 @@ def run(cmd)
   system(cmd) || raise("Command #{cmd} failed")
 end
 
+def are_there_changes
+  !system('git diff --cached --exit-code')
+end
+
 SUBMODULE = "src/cf-mysql-broker"
 
 last_green_broker = last_green_build(SUBMODULE)
 bump_submodule_code(SUBMODULE, last_green_broker)
 
 run "git status"
-run "./shared/staged_shortlog"
-run './shared/staged_shortlog | git commit -F -'
+
+if are_there_changes
+  run "./shared/staged_shortlog"
+  run './shared/staged_shortlog | git commit -F -'
+end
