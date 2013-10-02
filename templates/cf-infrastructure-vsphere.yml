@@ -1,0 +1,15 @@
+compilation:
+  cloud_properties:
+    ram: 1024
+    disk: 4096
+    cpu: 2
+
+networks: (( merge ))
+
+resource_pools:
+  - name: services-small
+    cloud_properties:
+      ram: 1024
+      # enough for extracting mysql
+      disk: 10480
+      cpu: 1

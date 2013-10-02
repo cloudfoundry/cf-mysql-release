@@ -1,0 +1,28 @@
+compilation:
+  cloud_properties:
+    instance_type: c1.medium
+    availability_zone: (( properties.template_only.aws.availability_zone ))
+
+networks:
+  - name: services1
+    type: (( merge ))
+    subnets:
+    - name: default_unused
+      range: (( merge ))
+      reserved: (( merge ))
+      static: (( merge ))
+      gateway: (( merge ))
+      dns: (( merge ))
+      cloud_properties:
+        security_groups:
+        - cf
+        subnet: (( properties.template_only.aws.subnet_ids.services1 ))
+
+resource_pools:
+  - name: services-small
+    cloud_properties:
+      instance_type: m1.small
+      availability_zone: (( properties.template_only.aws.availability_zone ))
+
+properties:
+  template_only: (( merge ))
