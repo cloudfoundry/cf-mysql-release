@@ -13,8 +13,6 @@ releases:
 - name: cf-mysql
   version: latest
 
-properties: (( merge ))
-
 compilation:
   workers: 3
   network: services1
