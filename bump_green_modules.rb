@@ -17,6 +17,7 @@ end
 
 def bump_submodule_code(submodule_path, sha)
   Dir.chdir(submodule_path) do
+    run "git fetch origin"
     run "git checkout #{sha}"
   end
 
@@ -27,7 +28,7 @@ def run(cmd)
   system(cmd) || raise("Command #{cmd} failed")
 end
 
-def are_there_changes
+def uncomitted_changes?
   !system('git diff --cached --exit-code')
 end
 
@@ -38,7 +39,7 @@ bump_submodule_code(SUBMODULE, last_green_broker)
 
 run "git status"
 
-if are_there_changes
+if uncomitted_changes?
   run "./shared/staged_shortlog"
   run './shared/staged_shortlog | git commit -F -'
 end
