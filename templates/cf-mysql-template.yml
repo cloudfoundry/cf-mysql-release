@@ -64,3 +64,5 @@ jobs:
       mysql_node:
         host: (( jobs.mysql.networks.services1.static_ips.[0] ))
         admin_password: (( jobs.mysql.properties.mysql.admin_password ))
+
+properties: {}
