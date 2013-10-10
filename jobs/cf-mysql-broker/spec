@@ -2,6 +2,7 @@
 name: cf-mysql-broker
 
 templates:
+  00-validation.erb: config/00-validation # this must be first in alphabetical order
   settings.yml.erb: config/settings.yml
   cf-mysql-broker_ctl.erb: bin/cf-mysql-broker_ctl
   unicorn.conf.rb.erb: config/unicorn.conf.rb

@@ -65,4 +65,16 @@ jobs:
         host: (( jobs.mysql.networks.services1.static_ips.[0] ))
         admin_password: (( jobs.mysql.properties.mysql.admin_password ))
 
-properties: {}
+properties:
+  services:
+  - id: cf-mysql-1
+   name: cf-mysql
+   description: Cloud Foundry MySQL
+   bindable: true
+   plans:
+   - id: cf-mysql-plan-1
+     name: free
+     description: Free Trial
+     max_storage_mb: 10
+     max_user_connections: 20
+
