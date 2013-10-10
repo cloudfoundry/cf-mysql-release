@@ -24,7 +24,7 @@ init-file = /var/vcap/jobs/mysql/config/mysql_init
 skip-external-locking
 innodb_file_per_table
 
-max_user_connections = 20
+max_user_connections = <%= properties.services[0].plans[0].max_user_connections %>
 
 [mysqldump]
 quick

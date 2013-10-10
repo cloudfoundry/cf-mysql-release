@@ -18,3 +18,7 @@ properties:
   mysql.port:
     description: 'Port the mysql server should bind to'
     default: 3306
+
+  # We need the max_user_connections for the singleton plan
+  services:
+    description: 'Services and plans offered by the broker'

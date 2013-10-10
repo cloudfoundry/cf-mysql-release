@@ -26,3 +26,6 @@ properties:
     default: 'root'
   mysql_node.admin_password:
     description: 'Password for the admin MySQL account'
+
+  services:
+    description: 'Services and plans offered by the broker'
