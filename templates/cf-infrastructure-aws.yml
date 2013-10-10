@@ -5,14 +5,18 @@ compilation:
 
 networks:
   - name: services1
-    type: (( merge ))
+    type: manual
     subnets:
     - name: default_unused
-      range: (( merge ))
-      reserved: (( merge ))
-      static: (( merge ))
-      gateway: (( merge ))
-      dns: (( merge ))
+      range: 10.10.32.0/20
+      reserved:
+        - 10.10.32.2 - 10.10.33.255
+        - 10.10.36.1 - 10.10.47.254
+      static:
+        - 10.10.34.1 - 10.10.34.255
+      gateway: 10.10.32.1
+      dns:
+        - 10.10.0.2
       cloud_properties:
         security_groups:
         - cf
