@@ -4,13 +4,13 @@ production:
   auth_token: '<%= properties.broker.auth_token %>'
 
   services:
-  <% properties.services.each do |service| %>
+  <% (properties.services || []).each do |service| %>
   - id: <%= service.id %>
     name: <%= service.name %>
     description: <%= service.description %>
     bindable: <%= service.bindable ? true : false %>
     plans:
-    <% service.plans.each do |plan| %>
+    <% (service.plans || []).each do |plan| %>
     - id: <%= plan.id %>
       name: <%= plan.name %>
       description: <%= plan.description %>

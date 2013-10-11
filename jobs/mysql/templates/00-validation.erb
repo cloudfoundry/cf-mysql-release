@@ -8,16 +8,18 @@ It should be ignored after deployment.
 
    begin
      services = properties.services
-     raise "Property 'services' must be an array of one service" unless services.is_a?(Array) && services.length == 1
+     if services
+       raise "Property 'services' must be empty or an array of one service" unless services.is_a?(Array) && services.length == 1
 
-     service = services[0]
+       service = services[0]
 
-     plans = service.plans
-     if plans
-       raise "Service property 'plans' must be empty or an array of one plan" unless plans.is_a?(Array) && plans.length == 1
+       plans = service.plans
+       if plans
+         raise "Service property 'plans' must be empty or an array of one plan" unless plans.is_a?(Array) && plans.length == 1
 
-       plan = plans[0]
-       raise "Plan must have integer property 'max_user_connections'" unless plan.max_user_connections && is_number(plan.max_user_connections)
+         plan = plans[0]
+         raise "Plan must have integer property 'max_user_connections'" unless plan.max_user_connections && is_number(plan.max_user_connections)
+       end
      end
 
    rescue => e
@@ -35,6 +37,6 @@ services:
     max_user_connections: 20
 END
 
-     raise e.message + "\n\nExample:\n\n" + text
+     raise e.message + "\n\nExample of complete service properties:\n\n" + text
    end
 %>

@@ -8,24 +8,26 @@ It should be ignored after deployment.
 
    begin
      services = properties.services
-     raise "Property 'services' must be an array of one service" unless services.is_a?(Array) && services.length == 1
+     if services
+       raise "Property 'services' must be empty or an array of one service" unless services.is_a?(Array) && services.length == 1
 
-     service = services[0]
-     raise "Service must have property 'id'" unless service.id
-     raise "Service must have property 'name'" unless service.name
-     raise "Service must have property 'description'" unless service.description
-     raise "Service must have property 'bindable'" unless service.bindable != nil
+       service = services[0]
+       raise "Service must have property 'id'" unless service.id
+       raise "Service must have property 'name'" unless service.name
+       raise "Service must have property 'description'" unless service.description
+       raise "Service must have property 'bindable'" unless service.bindable != nil
 
-     plans = service.plans
-     if plans
-       raise "Service property 'plans' must be empty or an array of one plan" unless plans.is_a?(Array) && plans.length == 1
+       plans = service.plans
+       if plans
+         raise "Service property 'plans' must be empty or an array of one plan" unless plans.is_a?(Array) && plans.length == 1
 
-       plan = plans[0]
-       raise "Plan must have property 'id'" unless plan.id
-       raise "Plan must have property 'name'" unless plan.name
-       raise "Plan must have property 'description'" unless plan.description
-       raise "Plan must have integer property 'max_storage_mb'" unless plan.max_storage_mb && is_number(plan.max_storage_mb)
-       # we don't care about max_user_connections here, only in the mysql
+         plan = plans[0]
+         raise "Plan must have property 'id'" unless plan.id
+         raise "Plan must have property 'name'" unless plan.name
+         raise "Plan must have property 'description'" unless plan.description
+         raise "Plan must have integer property 'max_storage_mb'" unless plan.max_storage_mb && is_number(plan.max_storage_mb)
+         # we don't care about max_user_connections here, only in the mysql
+       end
      end
    rescue => e
      text = <<-END
@@ -42,6 +44,6 @@ services:
    max_user_connections: 20
 END
 
-     raise e.message + "\n\nExample:\n\n" + text
+     raise e.message + "\n\nExample of complete service properties:\n\n" + text
    end
 %>
