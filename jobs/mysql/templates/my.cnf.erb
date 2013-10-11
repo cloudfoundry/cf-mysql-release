@@ -2,6 +2,7 @@
 base_folder = '/var/vcap/sys/run/mysql'
 
 max_user_connections = properties.services[0].plans[0].max_user_connections rescue nil
+max_connections = properties.services[0].plans[0].max_connections rescue nil
 %>
 
 [client]
@@ -28,6 +29,10 @@ innodb_file_per_table
 
 <% if !max_user_connections.nil? %>
 max_user_connections = <%= max_user_connections %>
+<% end %>
+
+<% if max_connections %>
+max_connections = <%= max_connections %>
 <% end %>
 
 [mysqldump]
