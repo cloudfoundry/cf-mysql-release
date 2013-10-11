@@ -71,6 +71,7 @@ properties:
     name: cf-mysql
     description: Cloud Foundry MySQL
     bindable: true
+    max_db_per_node: 255
     plans:
     - id: cf-mysql-plan-1
       name: free

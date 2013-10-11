@@ -16,6 +16,7 @@ It should be ignored after deployment.
        raise "Service must have property 'name'" unless service.name
        raise "Service must have property 'description'" unless service.description
        raise "Service must have property 'bindable'" unless service.bindable != nil
+       # max_db_per_node is an optional configuration
 
        plans = service.plans
        if plans
