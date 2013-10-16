@@ -1,12 +1,9 @@
 <%
 base_folder = '/var/vcap/sys/run/mysql'
-
-max_user_connections = properties.services[0].plans[0].max_user_connections rescue nil
-max_connections = properties.services[0].max_connections rescue nil
 %>
 
 [client]
-port      = <%= properties.mysql.port %>
+port      = <%= p('port') %>
 socket		= <%= "#{base_folder}/mysqld.sock" %>
 
 [mysqld_safe]
@@ -17,7 +14,7 @@ collation_server        = utf8_unicode_ci
 character_set_server    = utf8
 user		= vcap
 socket		= <%= "#{base_folder}/mysqld.sock" %>
-port     	= <%= properties.mysql.port %>
+port      = <%= p('port') %>
 basedir		= /var/vcap/packages/mysql
 datadir		= /var/vcap/store/mysql
 language	= /var/vcap/packages/mysql/share/english
@@ -27,11 +24,11 @@ init-file = /var/vcap/jobs/mysql/config/mysql_init
 skip-external-locking
 innodb_file_per_table
 
-<% if max_user_connections %>
+<% if_p('max_user_connections') do |max_user_connections| %>
 max_user_connections = <%= max_user_connections %>
 <% end %>
 
-<% if max_connections %>
+<% if_p('max_connections') do |max_connections| %>
 max_connections = <%= max_connections %>
 <% end %>
 

@@ -1,7 +1,7 @@
 production:
   database_config_path: '/var/vcap/jobs/cf-mysql-broker/config/database.yml'
   log_path: '/var/vcap/sys/log/cf-mysql-broker/cf-mysql-broker.log'
-  auth_token: '<%= properties.broker.auth_token %>'
+  auth_password: '<%= p('auth_password') %>'
 
   services:
   <% (properties.services || []).each do |service| %>
@@ -16,6 +16,5 @@ production:
       name: <%= plan.name %>
       description: <%= plan.description %>
       max_storage_mb: <%= plan.max_storage_mb %>
-      max_user_connections: <%= plan.max_user_connections %>
     <% end %>
   <% end %>

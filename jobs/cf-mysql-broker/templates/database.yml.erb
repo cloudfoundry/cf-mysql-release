@@ -14,7 +14,7 @@ production:
   encoding: utf8
   database: test
   pool: 5
-  host: <%= properties.mysql_node.host %>
-  port: <%= properties.mysql_node.port %>
-  username: <%= properties.mysql_node.admin_username %>
-  password: <%= properties.mysql_node.admin_password %>
+  host: <%= p('mysql_node.host') %>
+  port: <%= p('mysql_node.port') %>
+  username: <%= p('mysql_node.admin_username') %>
+  password: <%= p('mysql_node.admin_password') %>

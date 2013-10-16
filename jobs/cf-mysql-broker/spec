@@ -15,8 +15,9 @@ packages:
 - cf-mysql-broker
 
 properties:
-  broker.auth_token:
-    description: 'Broker authentication token (AUTH_TOKEN)'
+  auth_password:
+    description: "Broker's basic auth password (username can be anything)"
+
   mysql_node.host:
     description: 'Host or IP address of the MySQL server'
   mysql_node.port:

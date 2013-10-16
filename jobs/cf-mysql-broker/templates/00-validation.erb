@@ -27,7 +27,6 @@ It should be ignored after deployment.
          raise "Plan must have property 'name'" unless plan.name
          raise "Plan must have property 'description'" unless plan.description
          raise "Plan must have integer property 'max_storage_mb'" unless plan.max_storage_mb && is_number(plan.max_storage_mb)
-         # we don't care about max_user_connections here, only in the mysql
        end
      end
    rescue => e
@@ -42,9 +41,8 @@ services:
    name: free
    description: Free Trial
    max_storage_mb: 5
-   max_user_connections: 20
 END
 
-     raise e.message + "\n\nExample of complete service properties:\n\n" + text
+     raise e.message + "\n\nExample of complete services section:\n\n" + text
    end
 %>

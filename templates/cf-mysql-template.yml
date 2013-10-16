@@ -48,8 +48,10 @@ jobs:
     - name: services1
       static_ips: (( static_ips(0) ))
     properties:
-      mysql:
-        admin_password: changeme1
+      admin_password: changeme1
+      max_connections: 100
+      max_user_connections: 20
+
   - name: cf-mysql-broker
     release: cf-mysql
     template:
@@ -59,24 +61,18 @@ jobs:
     networks:
     - name: services1
     properties:
-      broker:
-        auth_token: opensesame
+      auth_password: opensesame
+      services:
+      - id: cf-mysql-1
+        name: cf-mysql
+        description: Cloud Foundry MySQL
+        bindable: true
+        max_db_per_node: 255
+        plans:
+        - id: cf-mysql-plan-1
+          name: free
+          description: Free Trial
+          max_storage_mb: 10
       mysql_node:
         host: (( jobs.mysql.networks.services1.static_ips.[0] ))
-        admin_password: (( jobs.mysql.properties.mysql.admin_password ))
-
-properties:
-  services:
-  - id: cf-mysql-1
-    name: cf-mysql
-    description: Cloud Foundry MySQL
-    bindable: true
-    max_db_per_node: 255
-    max_connections: 100
-    plans:
-    - id: cf-mysql-plan-1
-      name: free
-      description: Free Trial
-      max_storage_mb: 10
-      max_user_connections: 20
-
+        admin_password: (( jobs.mysql.properties.admin_password ))
