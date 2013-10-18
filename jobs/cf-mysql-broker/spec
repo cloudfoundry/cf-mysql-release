@@ -7,7 +7,7 @@ templates:
   cf-mysql-broker_ctl.erb: bin/cf-mysql-broker_ctl
   unicorn.conf.rb.erb: config/unicorn.conf.rb
   database.yml.erb: config/database.yml
-  cf-mysql.cron.erb: config/cf-mysql.cron
+  cf-mysql-cron.erb: config/cf-mysql-cron
 
 packages:
 - ruby
