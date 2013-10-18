@@ -35,7 +35,7 @@ job_types:
         type: integer
         label: Ephemeral Disk
         configurable: true
-        default: 2048
+        default: 4096
 
       - name: persistent_disk
         type: integer
@@ -93,7 +93,7 @@ job_types:
         type: integer
         label: Ephemeral Disk
         configurable: true
-        default: 2048
+        default: 4096
 
       - name: persistent_disk
         type: integer
@@ -162,7 +162,7 @@ job_types:
         type: integer
         label: Ephemeral Disk
         configurable: true
-        default: 2_048
+        default: 8_192
 
       - name: persistent_disk
         type: integer
