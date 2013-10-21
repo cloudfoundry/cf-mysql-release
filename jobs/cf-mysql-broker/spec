@@ -8,6 +8,7 @@ templates:
   unicorn.conf.rb.erb: config/unicorn.conf.rb
   database.yml.erb: config/database.yml
   cf-mysql-cron.erb: config/cf-mysql-cron
+  cf-mysql-quota-enforcer_ctl.erb: bin/cf-mysql-quota-enforcer_ctl
 
 packages:
 - ruby

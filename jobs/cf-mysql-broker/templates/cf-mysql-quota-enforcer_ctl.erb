@@ -1,0 +1,37 @@
+#!/bin/bash -e
+
+job_dir=/var/vcap/jobs/cf-mysql-broker
+run_dir=/var/vcap/sys/run/cf-mysql-broker
+log_dir=/var/vcap/sys/log/cf-mysql-broker
+package_dir=/var/vcap/packages/cf-mysql-broker
+pidfile=$run_dir/quota-enforcer.pid
+
+
+export PATH=/var/vcap/packages/ruby/bin:$PATH
+export BUNDLE_GEMFILE=/var/vcap/packages/cf-mysql-broker/Gemfile
+export RAILS_ENV=production
+export SETTINGS_PATH=$job_dir/config/settings.yml
+
+source /var/vcap/packages/common/utils.sh
+
+case $1 in
+
+  start)
+    pid_guard $pidfile "MySQL Storage Quota Enforcer"
+
+    mkdir -p $run_dir
+    mkdir -p $log_dir
+
+    exec chpst -u vcap:vcap bundle exec $package_dir/bin/quota_enforcer \
+     >>$log_dir/quota_enforcer.stdout.log 2>>$log_dir/quota_enforcer.stderr.log
+    ;;
+
+  stop)
+    kill_and_wait $pidfile
+    ;;
+
+  *)
+    echo "Usage: cf-mysql-quota-enforcer_ctl {start|stop}"
+    ;;
+
+esac

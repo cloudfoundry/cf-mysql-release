@@ -3,3 +3,9 @@ check process cf-mysql-broker
   start program "/var/vcap/jobs/cf-mysql-broker/bin/cf-mysql-broker_ctl start" with timeout 60 seconds
   stop program "/var/vcap/jobs/cf-mysql-broker/bin/cf-mysql-broker_ctl stop" with timeout 60 seconds
   group vcap
+
+check process cf-mysql-quota-enforcer
+  with pidfile /var/vcap/sys/run/cf-mysql-broker/quota-enforcer.pid
+  start program "/var/vcap/jobs/cf-mysql-broker/bin/cf-mysql-quota-enforcer_ctl start" with timeout 60 seconds
+  stop program "/var/vcap/jobs/cf-mysql-broker/bin/cf-mysql-quota-enforcer_ctl stop" with timeout 60 seconds
+  group vcap
