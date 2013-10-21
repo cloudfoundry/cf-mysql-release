@@ -1,6 +1,0 @@
-PATH=/var/vcap/packages/ruby/bin
-SETTINGS_PATH=/var/vcap/jobs/cf-mysql-broker/config/settings.yml
-RAILS_ENV=production
-
-# Every minute run the quota check
-*/1 * * * * root (cd /var/vcap/packages/cf-mysql-broker; bundle exec rake quota:enforce)
