@@ -14,6 +14,7 @@ packages:
 - ruby
 - mysqlclient
 - cf-mysql-broker
+- common
 
 properties:
   auth_password:
