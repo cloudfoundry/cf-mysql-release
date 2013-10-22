@@ -52,8 +52,8 @@ jobs:
       static_ips: (( static_ips(0) ))
     properties:
       admin_password: changeme1
-      max_connections: 100
-      max_user_connections: 20
+      max_connections: 1500
+      max_user_connections: 40
 
   - name: cf-mysql-broker
     release: cf-mysql
