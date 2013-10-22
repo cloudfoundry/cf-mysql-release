@@ -16,9 +16,6 @@ case $1 in
     mkdir -p $run_dir
     mkdir -p $log_dir
 
-    chmod a+r $job_dir/config/cf-mysql-cron
-    ln -sf $job_dir/config/cf-mysql-cron /etc/cron.d/cf-mysql-cron
-
     bundle exec unicorn --daemonize -c $job_dir/config/unicorn.conf.rb
     ;;
 
