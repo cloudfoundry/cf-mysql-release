@@ -29,13 +29,13 @@ job_types:
         type: integer
         label: RAM
         configurable: true
-        default: 512
+        default: 8192
 
       - name: ephemeral_disk
         type: integer
         label: Ephemeral Disk
         configurable: true
-        default: 4096
+        default: 30000
 
       - name: persistent_disk
         type: integer
@@ -56,7 +56,7 @@ job_types:
       - name: instances
         type: integer
         label: Instances
-        configurable: true
+        configurable: false
         default: 1
 
     property_definitions:
@@ -73,7 +73,7 @@ job_types:
 
     manifest: |
       admin_password: (( mysql_admin_password.value ))
-      max_connections: 100
+      max_connections: 1500
       max_user_connections: 40
       innodb_buffer_pool_size: 2147483648
 
@@ -89,13 +89,13 @@ job_types:
         type: integer
         label: RAM
         configurable: true
-        default: 512
+        default: 1024
 
       - name: ephemeral_disk
         type: integer
         label: Ephemeral Disk
         configurable: true
-        default: 4096
+        default: 10000
 
       - name: persistent_disk
         type: integer
@@ -107,7 +107,7 @@ job_types:
         type: integer
         label: CPU
         configurable: true
-        default: 2
+        default: 1
 
     static_ip: 1
     dynamic_ip: 0
@@ -116,7 +116,7 @@ job_types:
       - name: instances
         type: integer
         label: Instances
-        configurable: true
+        configurable: false
         default: 1
 
     property_definitions:
