@@ -75,6 +75,7 @@ job_types:
       admin_password: (( mysql_admin_password.value ))
       max_connections: 100
       max_user_connections: 40
+      innodb_buffer_pool_size: 2147483648
 
 
   - name: cf-mysql-broker

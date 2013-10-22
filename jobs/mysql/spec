@@ -22,3 +22,5 @@ properties:
     description: 'Maximum total number of database connections for the node'
   max_user_connections:
     description: 'Max # of connections allowed for each user (binding)'
+  innodb_buffer_pool_size:
+    description: 'The size in bytes of the memory buffer InnoDB uses to cache data and indexes of its tables'

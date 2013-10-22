@@ -24,6 +24,11 @@ init-file = /var/vcap/jobs/mysql/config/mysql_init
 skip-external-locking
 innodb_file_per_table
 
+
+<% if_p('innodb_buffer_pool_size') do |innodb_buffer_pool_size| %>
+innodb_buffer_pool_size = <%= innodb_buffer_pool_size %>
+<% end %>
+
 <% if_p('max_user_connections') do |max_user_connections| %>
 max_user_connections = <%= max_user_connections %>
 <% end %>
