@@ -18,6 +18,66 @@ image: iVBORw0KGgoAAAANSUhEUgAAALQAAAAoCAYAAABXadAKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZ
 rank: 1
 
 job_types:
+  # mysql server must come before the broker, or broker will fail to start as it can't find the database server
+  - name: mysql
+    label: mysql
+    resource_label: MySQL Node
+    description: MySQL Server Node
+    template: mysql
+
+    resource_definitions:
+      - name: ram
+        type: integer
+        label: RAM
+        configurable: true
+        default: 8192
+
+      - name: ephemeral_disk
+        type: integer
+        label: Ephemeral Disk
+        configurable: true
+        default: 30000
+
+      - name: persistent_disk
+        type: integer
+        label: Persistent Disk
+        configurable: true
+        default: 100000
+
+      - name: cpu
+        type: integer
+        label: CPU
+        configurable: true
+        default: 2
+
+    static_ip: 1
+    dynamic_ip: 0
+
+    instance_definitions:
+      - name: instances
+        type: integer
+        label: Instances
+        configurable: false
+        default: 1
+
+    property_definitions:
+      - name: vm_credentials
+        type: salted_credentials
+        label: VM credentials
+        default:
+          identity: vcap
+
+      - name: mysql_admin_password
+        type: string
+        label: MySQL root password
+        configurable: true
+
+    manifest: |
+      admin_password: (( mysql_admin_password.value ))
+      max_connections: 1500
+      max_user_connections: 40
+      innodb_buffer_pool_size: 2147483648
+
   - name: cf-mysql-broker
     label: MySQL Broker
     resource_label: MySQL Broker
@@ -87,65 +147,6 @@ job_types:
           name: 100mb
           description: Shared MySQL Server, 100mb persistent disk, 40 max concurrent connections per user
           max_storage_mb: 100
-
-  - name: mysql
-    label: mysql
-    resource_label: MySQL Node
-    description: MySQL Server Node
-    template: mysql
-
-    resource_definitions:
-      - name: ram
-        type: integer
-        label: RAM
-        configurable: true
-        default: 8192
-
-      - name: ephemeral_disk
-        type: integer
-        label: Ephemeral Disk
-        configurable: true
-        default: 30000
-
-      - name: persistent_disk
-        type: integer
-        label: Persistent Disk
-        configurable: true
-        default: 100000
-
-      - name: cpu
-        type: integer
-        label: CPU
-        configurable: true
-        default: 2
-
-    static_ip: 1
-    dynamic_ip: 0
-
-    instance_definitions:
-      - name: instances
-        type: integer
-        label: Instances
-        configurable: false
-        default: 1
-
-    property_definitions:
-      - name: vm_credentials
-        type: salted_credentials
-        label: VM credentials
-        default:
-          identity: vcap
-
-      - name: mysql_admin_password
-        type: string
-        label: MySQL root password
-        configurable: true
-
-    manifest: |
-      admin_password: (( mysql_admin_password.value ))
-      max_connections: 1500
-      max_user_connections: 40
-      innodb_buffer_pool_size: 2147483648
 
   - name: compilation
     label: Compilation
