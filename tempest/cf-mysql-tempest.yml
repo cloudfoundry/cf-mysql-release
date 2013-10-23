@@ -1,6 +1,6 @@
 ---
 name: cf-mysql
-version: 16
+version: 17
 installer_version: 1.0.0
 stemcell:
   name:    bosh-vsphere-esxi-ubuntu
@@ -138,7 +138,7 @@ job_types:
         admin_password: (( .mysql.mysql_admin_password.value ))
       services:
       - id: cf-mysql-1
-        name: pivotal-mysql
+        name: cf-mysql
         description: A multi-tenant MySQL service for application development and testing.
         bindable: true
         max_db_per_node: 500
