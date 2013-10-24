@@ -1,7 +1,7 @@
 ---
 final_name: cf-mysql
-min_cli_version: 1.5.0.pre.1067
+min_cli_version: 1.5.0.pre.1113
 blobstore:
-  provider: local
+  provider: s3
   options:
-    blobstore_path: /tmp/blobs
+    bucket_name: steuart-cf-app-com-mysql-release-test-blobstore

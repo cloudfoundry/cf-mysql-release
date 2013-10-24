@@ -1,1 +1,26 @@
---- {}
+---
+mysql/mysql-5.6.13.tar.gz:
+  object_id: 1158da06-64ec-4c7a-976c-5f9307bf66a6
+  sha: !binary |-
+    MDZlMWQ4NTZjZmIxZjk4ODQ0ZWY5MmFmNDdkNGY0ZjcwMzZlZjI5NA==
+  size: 35951160
+mysqlclient/mysql-connector-c-6.1.1-src.tar.gz:
+  object_id: 13c99767-b368-4d00-a086-2df41bba306f
+  sha: !binary |-
+    OGEwMDE0YWQzNGQwZWE5OGMzMTA0ZGM4ZTg2M2UwNjIyNTk3MTk0Yw==
+  size: 3031012
+ruby/bundler-1.3.5.gem:
+  object_id: 42dd42db-f32d-4657-b8c7-8a35116b7a73
+  sha: !binary |-
+    MmNhZDMwNTJhNTliODNmMWY2MTZlODIwMmY1YzcxNGU0NmJkODUyMw==
+  size: 268800
+ruby/ruby-1.9.3-p448.tar.gz:
+  object_id: 0a79bda3-a21a-47c4-86d9-f0f487d33352
+  sha: !binary |-
+    YzdmNzM2ZTNiYzFjYTFlNjYxOWE5MTIxODM3ZGQwODQwYWFkNzdjZQ==
+  size: 12559260
+ruby/rubygems-2.0.7.tgz:
+  object_id: 1cca7581-5ee6-4552-bb0e-d74db4e84755
+  sha: !binary |-
+    ZjBiMGEwM2Q1NzNlMjExMjViYTVkYTFkYjE0NDYxZDZhOTkzNDBkNA==
+  size: 337146
