@@ -4,4 +4,4 @@ min_cli_version: 1.5.0.pre.1113
 blobstore:
   provider: s3
   options:
-    bucket_name: steuart-cf-app-com-mysql-release-test-blobstore
+    bucket_name: mysql-service-blobs
