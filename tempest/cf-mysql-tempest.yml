@@ -138,7 +138,9 @@ job_types:
       - id: cf-mysql-1
         name: p-mysql
         description: MySQL relational database service for application development and testing.
-        bindable: true
+        tags:
+          - mysql
+          - relational
         max_db_per_node: 500
         plans:
         - id: cf-mysql-plan-1

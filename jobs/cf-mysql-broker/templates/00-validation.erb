@@ -12,11 +12,14 @@ It should be ignored after deployment.
        raise "Property 'services' must be empty or an array of one service" unless services.is_a?(Array) && services.length == 1
 
        service = services[0]
+       # required fields for services
        raise "Service must have property 'id'" unless service.id
        raise "Service must have property 'name'" unless service.name
        raise "Service must have property 'description'" unless service.description
-       raise "Service must have property 'bindable'" unless service.bindable != nil
-       # max_db_per_node is an optional configuration
+
+       # validating optional fields if present
+       raise "Service property 'tags' must be empty or an array of one or more tags" if service.tags && !service.tags.is_a?(Array)
+       raise "Service property 'metadata' must be empty or a hash" if service.metadata && !service.metadata.is_a?(OpenStruct)
 
        plans = service.plans
        if plans
@@ -27,6 +30,8 @@ It should be ignored after deployment.
          raise "Plan must have property 'name'" unless plan.name
          raise "Plan must have property 'description'" unless plan.description
          raise "Plan must have integer property 'max_storage_mb'" unless plan.max_storage_mb && is_number(plan.max_storage_mb)
+
+         raise "Plan property 'metadata' must be empty or a hash" if plan.metadata && !plan.metadata.is_a?(OpenStruct)
        end
      end
    rescue => e
@@ -35,11 +40,19 @@ services:
 - id: cf-mysql-1
  name: cf-mysql
  description: Cloud Foundry MySQL
- bindable: true
+ max_db_per_node: 50
+ tags:
+ - mysql
+ - relational
+ metadata:
+   listing:
+     imageUrl: http://example.com/mysql.jpg
  plans:
  - id: cf-mysql-plan-1
    name: free
    description: Free Trial
+   metadata:
+     cost: "0.0"
    max_storage_mb: 5
 END
 

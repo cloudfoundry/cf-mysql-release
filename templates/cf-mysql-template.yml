@@ -69,7 +69,9 @@ jobs:
       - id: cf-mysql-1
         name: cf-mysql
         description: Cloud Foundry MySQL
-        bindable: true
+        tags:
+          - mysql
+          - relational
         max_db_per_node: 255
         plans:
         - id: cf-mysql-plan-1
