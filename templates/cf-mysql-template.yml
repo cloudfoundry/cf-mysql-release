@@ -83,7 +83,7 @@ jobs:
           description: Free Trial
           max_storage_mb: 10
           metadata:
-            cost: 0.0
+            cost: 0
             bullets:
               - content: Shared MySQL server
               - content: 100 MB storage
