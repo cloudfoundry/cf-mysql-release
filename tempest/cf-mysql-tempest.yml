@@ -141,12 +141,22 @@ job_types:
         tags:
           - mysql
           - relational
+        metadata:
+          listing:
+            imageUrl:
+            blurb: MySQL service for application development and testing
         max_db_per_node: 500
         plans:
         - id: cf-mysql-plan-1
           name: 100mb
           description: Shared MySQL Server, 100mb persistent disk, 40 max concurrent connections per user
           max_storage_mb: 100
+          metadata:
+            cost: 0.0
+            bullets:
+              - content: Shared MySQL server
+              - content: 100 MB storage
+              - content: 40 concurrent connections
 
   - name: compilation
     label: Compilation
