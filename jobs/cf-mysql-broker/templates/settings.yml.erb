@@ -8,7 +8,10 @@ production:
   - id: <%= service.id %>
     name: <%= service.name %>
     description: <%= service.description %>
-    bindable: <%= service.bindable ? true : false %>
+    tags:
+    <% (service.tags || []).each do |tag| %>
+      - <%= tag %>
+    <% end %>
     max_db_per_node: <%= service.max_db_per_node %>
     plans:
     <% (service.plans || []).each do |plan| %>
