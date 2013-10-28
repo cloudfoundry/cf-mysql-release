@@ -24,6 +24,10 @@ init-file = /var/vcap/jobs/mysql/config/mysql_init
 skip-external-locking
 innodb_file_per_table
 
+# These are required to make the quota enforcer work
+innodb_stats_on_metadata = ON
+innodb_stats_persistent = OFF
+
 
 <% if_p('innodb_buffer_pool_size') do |innodb_buffer_pool_size| %>
 innodb_buffer_pool_size = <%= innodb_buffer_pool_size %>
