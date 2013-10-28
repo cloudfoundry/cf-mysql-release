@@ -51,7 +51,7 @@ jobs:
     - name: services1
       static_ips: (( static_ips(0) ))
     properties:
-      admin_password: changeme1
+      admin_password: (( merge ))
       max_connections: 1500
       max_user_connections: 40
 
@@ -64,7 +64,7 @@ jobs:
     networks:
     - name: services1
     properties:
-      auth_password: opensesame
+      auth_password: (( merge ))
       services:
       - id: cf-mysql-1
         name: cf-mysql
