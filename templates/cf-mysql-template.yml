@@ -64,6 +64,7 @@ jobs:
     networks:
     - name: services1
     properties:
+      auth_username: (( merge ))
       auth_password: (( merge ))
       services:
       - id: cf-mysql-1

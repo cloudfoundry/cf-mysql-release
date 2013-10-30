@@ -125,12 +125,13 @@ job_types:
         default:
           identity: vcap
 
-      - name: broker_auth_password
+      - name: broker_auth_credentials
         type: simple_credentials
-        label: Basic Auth Password
+        label: Basic Auth Credentials
 
     manifest: |
-      auth_password: (( broker_auth_password.password ))
+      auth_username: (( broker_auth_credentials.identity ))
+      auth_password: (( broker_auth_credentials.password ))
       mysql_node:
         host: (( .mysql.first_ip ))
         admin_password: (( .mysql.mysql_admin_password.password ))

@@ -16,8 +16,10 @@ packages:
 - common
 
 properties:
+  auth_username:
+    description: "Broker's basic auth username"
   auth_password:
-    description: "Broker's basic auth password (username can be anything)"
+    description: "Broker's basic auth password"
 
   mysql_node.host:
     description: 'Host or IP address of the MySQL server'
