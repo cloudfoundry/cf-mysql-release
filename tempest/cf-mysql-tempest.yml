@@ -1,6 +1,6 @@
 ---
 name: cf-mysql
-version: 21
+version: 33
 installer_version: 1.0.0
 stemcell:
   name:    bosh-vsphere-esxi-ubuntu
@@ -22,7 +22,7 @@ job_types:
   - name: mysql
     label: MySQL Server
     resource_label: MySQL Server
-    description: MySQL Server
+    description: Multi-tenant MySQL server.
     template: mysql
 
     resource_definitions:
@@ -137,7 +137,7 @@ job_types:
         admin_password: (( .mysql.mysql_admin_password.password ))
       services:
       - id: cf-mysql-1
-        name: p-mysql
+        name: cf-mysql
         description: MySQL relational database service for application development and testing.
         tags:
           - mysql
@@ -150,7 +150,7 @@ job_types:
         plans:
         - id: cf-mysql-plan-1
           name: 100mb
-          description: Shared MySQL Server, 100mb persistent disk, 40 max concurrent connections per user
+          description: Shared MySQL Server, 100mb persistent disk, 40 max concurrent connections.
           max_storage_mb: 100
           metadata:
             cost: 0.0
