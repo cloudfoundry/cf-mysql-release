@@ -7,9 +7,7 @@ meta:
   environment: ~
 
   stemcell:
-    name: bosh-aws-xen-ubuntu
     version: 1226
-
 
 name: (( meta.environment "-mysql" ))
 director_uuid: (( merge ))
