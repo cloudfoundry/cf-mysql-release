@@ -1,3 +1,7 @@
+meta:
+  stemcell:
+    name: bosh-aws-xen-ubuntu
+
 compilation:
   cloud_properties:
     instance_type: c1.medium
