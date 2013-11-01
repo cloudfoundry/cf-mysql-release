@@ -8,7 +8,7 @@ meta:
 
   stemcell:
     name: (( merge ))
-    version: 1226
+    version: latest
 
 name: (( meta.environment "-mysql" ))
 director_uuid: (( merge ))
