@@ -7,8 +7,8 @@ meta:
   environment: ~
 
   stemcell:
-    name: bosh-stemcell
-    version: latest
+    name: bosh-aws-xen-ubuntu
+    version: 1226
 
 
 name: (( meta.environment "-mysql" ))
