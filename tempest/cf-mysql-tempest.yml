@@ -1,6 +1,6 @@
 ---
 name: cf-mysql
-version: 33
+version: 34
 installer_version: 1.0.0
 stemcell:
   name:    bosh-vsphere-esxi-ubuntu
@@ -70,6 +70,8 @@ job_types:
       - name: mysql_admin_password
         type: simple_credentials
         label: MySQL root password
+        default:
+          identity: root
 
     manifest: |
       admin_password: (( mysql_admin_password.password ))
