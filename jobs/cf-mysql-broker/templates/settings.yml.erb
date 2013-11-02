@@ -10,11 +10,13 @@ production:
     name: <%= service.name %>
     description: <%= service.description %>
     tags:
-    <%- (service.tags || []).each do |tag| %>
-      - <%= tag %>
-    <%- end %>
+    <% (service.tags || []).each do |tag| %>
+    - <%= tag %>
+    <% end %>
     metadata:
-      <%= YAML.dump(service.metadata.marshal_dump).split("\n")[1..-1].join("\n" + ' '*6) %>
+      listing:
+        imageUrl: <%= service.metadata.listing.imageUrl %>
+        blurb: <%= service.metadata.listing.blurb %>
     max_db_per_node: <%= service.max_db_per_node %>
     plans:
     <% (service.plans || []).each do |plan| %>
@@ -23,6 +25,9 @@ production:
       description: <%= plan.description %>
       max_storage_mb: <%= plan.max_storage_mb %>
       metadata:
-        <%= YAML.dump(plan.metadata.marshal_dump).split("\n")[1..-1].join("\n" + ' '*8) %>
+        cost: <%= plan.metadata.cost %>
+        bullets: <% plan.metadata.bullets.each do |bullet| %>
+          - content: <%= bullet.content %>
+        <% end %>
     <% end %>
   <% end %>
