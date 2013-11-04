@@ -67,21 +67,21 @@ jobs:
       auth_password: (( merge ))
       services:
       - id: cf-mysql-1
-        name: cf-mysql
-        description: Cloud Foundry MySQL
+        name: p-mysql
+        description: MySQL service for application development and testing
         tags:
           - mysql
           - relational
-        max_db_per_node: 255
+        max_db_per_node: 250
         metadata:
           listing:
             imageUrl:
             blurb: MySQL service for application development and testing
         plans:
         - id: cf-mysql-plan-1
-          name: free
-          description: Free Trial
-          max_storage_mb: 10
+          name: 100mb
+          description: Shared MySQL Server, 100mb persistent disk, 40 max concurrent connections
+          max_storage_mb: 100
           metadata:
             cost: 0
             bullets:
