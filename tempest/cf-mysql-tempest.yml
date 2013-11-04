@@ -1,6 +1,6 @@
 ---
 name: cf-mysql
-version: 34
+version: 35
 installer_version: 1.0.0
 stemcell:
   name:    bosh-vsphere-esxi-ubuntu
