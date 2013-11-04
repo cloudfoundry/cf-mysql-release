@@ -6,7 +6,10 @@ require 'pp'
 def last_green_build(submodule_path)
   Dir.chdir(submodule_path) do
     last_green_build_sha = TravisBuild.new([]).travis_json.detect do |b|
-      b["branch"] == "master" && b["result"] == 0 && b["state"] == "finished"
+      b["branch"] == "master" &&
+        b["result"] == 0 &&
+        b["state"] == "finished" &&
+        b["event_type"] == "push"
     end["commit"]
 
     puts "Last green sha for #{submodule_path} is #{last_green_build_sha}"
