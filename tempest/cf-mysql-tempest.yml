@@ -138,8 +138,8 @@ job_types:
         host: (( .mysql.first_ip ))
         admin_password: (( .mysql.mysql_admin_password.password ))
       services:
-      - id: p-mysql-1
-        name: p-mysql
+      - name: p-mysql
+        id: 5e5f56da-9b39-43a5-840c-682d5412020b
         description: MySQL service for application development and testing
         tags:
           - mysql
@@ -152,8 +152,8 @@ job_types:
             blurb: MySQL service for application development and testing
         max_db_per_node: 250
         plans:
-        - id: p-mysql-plan-1
-          name: 100mb
+        - name: 100mb
+          id: 17d793e6-6da6-4f0e-b58d-364a407166a0
           description: Shared MySQL Server, 100mb persistent disk, 40 max concurrent connections
           max_storage_mb: 100
           metadata:
