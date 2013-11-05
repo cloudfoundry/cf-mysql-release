@@ -66,7 +66,7 @@ jobs:
       auth_username: (( merge ))
       auth_password: (( merge ))
       services:
-      - id: cf-mysql-1
+      - id: p-mysql-1
         name: p-mysql
         description: MySQL service for application development and testing
         tags:
@@ -78,7 +78,7 @@ jobs:
             imageUrl:
             blurb: MySQL service for application development and testing
         plans:
-        - id: cf-mysql-plan-1
+        - id: p-mysql-plan-1
           name: 100mb
           description: Shared MySQL Server, 100mb persistent disk, 40 max concurrent connections
           max_storage_mb: 100
