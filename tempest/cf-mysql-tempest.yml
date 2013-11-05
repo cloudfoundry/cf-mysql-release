@@ -145,6 +145,8 @@ job_types:
           - mysql
           - relational
         metadata:
+          provider:
+            name:
           listing:
             imageUrl:
             blurb: MySQL service for application development and testing

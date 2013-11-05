@@ -14,6 +14,8 @@ production:
     - <%= tag %>
     <% end %>
     metadata:
+      provider:
+        name: <%= service.metadata.provider.name %>
       listing:
         imageUrl: <%= service.metadata.listing.imageUrl %>
         blurb: <%= service.metadata.listing.blurb %>
