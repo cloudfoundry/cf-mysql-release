@@ -1,6 +1,6 @@
 ---
 name: cf-mysql
-version: 42
+version: 43
 installer_version: 1.0.0
 stemcell:
   name:    bosh-vsphere-esxi-ubuntu
@@ -10,7 +10,7 @@ stemcell:
 releases:
   - name:    cf-mysql
     file:    cf-mysql-1.tgz
-    version: '1'
+    version: '1.0.0.1'
     md5:     35039c8a6ddb050c0e0619aa6fb4a290
 label: Pivotal MySQL Dev
 description: MySQL relational database service for application development and testing.
