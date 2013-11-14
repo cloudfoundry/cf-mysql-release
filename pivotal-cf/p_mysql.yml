@@ -1,5 +1,5 @@
 ---
-name: p-mysql-dev
+name: p-mysql
 product_version: 1.0.0.2
 metadata_version: 1.0
 stemcell:
@@ -16,7 +16,7 @@ requires_product_versions:
   - name: cf
     version: "~> 1.0"
 label: Pivotal MySQL Dev
-description: MySQL relational database service for application development and testing
+description: MySQL service for application development and testing
 image: iVBORw0KGgoAAAANSUhEUgAAAHwAAAA2CAYAAAAF3f20AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA3NpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo2NzQyZTFkOS0yZjgzLTQ2Y2QtODRhZC0wNTgxMWY5ZTM4NTciIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MjA2RDU5NEQzRkZDMTFFM0EyQUFBRDIxNjhENjI3NzAiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MjA2RDU5NEMzRkZDMTFFM0EyQUFBRDIxNjhENjI3NzAiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDQzOTY0MTMtNDY2OS00NzNhLWIxYzMtNjdhN2RmNmM1NmM5IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjY3NDJlMWQ5LTJmODMtNDZjZC04NGFkLTA1ODExZjllMzg1NyIvPiA8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
 rank: 1
 
@@ -171,13 +171,13 @@ job_types:
         plans:
         - name: 100mb
           id: (( plan_1_id.value ))
-          description: Shared MySQL Server, 100mb persistent disk, 40 max concurrent connections
+          description: Shared MySQL Server, 100MB storage, 40 concurrent connections
           max_storage_mb: 100
           metadata:
             cost: 0.0
             bullets:
               - content: Shared MySQL server
-              - content: 100 MB storage
+              - content: 100MB storage
               - content: 40 concurrent connections
 
   - name: compilation
