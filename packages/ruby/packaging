@@ -1,9 +1,10 @@
 # abort script on any command that exits with a non zero value
 set -e
 
-RUBY_VERSION=1.9.3-p448
-RUBYGEMS_VERSION=2.0.7
-BUNDLER_VERSION=1.3.5
+# We grab the latest versions that are in the directory
+RUBY_VERSION=`ls -r ruby/ruby-* | sed 's/ruby\/ruby-\(.*\)\.tar\.gz/\1/' | head -1`
+RUBYGEMS_VERSION=`ls -r ruby/rubygems-* | sed 's/ruby\/rubygems-\(.*\)\.tgz/\1/' | head -1`
+BUNDLER_VERSION=`ls -r ruby/bundler-* | sed 's/ruby\/bundler-\(.*\)\.tgz/\1/' | head -1`
 
 tar xzf ruby/ruby-${RUBY_VERSION}.tar.gz
 (

@@ -14,11 +14,11 @@ ruby/bundler-1.3.5.gem:
   sha: !binary |-
     MmNhZDMwNTJhNTliODNmMWY2MTZlODIwMmY1YzcxNGU0NmJkODUyMw==
   size: 268800
-ruby/ruby-1.9.3-p448.tar.gz:
-  object_id: 683d6ee6-5f27-4fbd-a0ad-d4a5b333b64c
+ruby/ruby-1.9.3-p484.tar.gz:
+  object_id: 51971a13-94b2-4ef7-8c00-3e67832820f6
   sha: !binary |-
-    YzdmNzM2ZTNiYzFjYTFlNjYxOWE5MTIxODM3ZGQwODQwYWFkNzdjZQ==
-  size: 12559260
+    NmFlODBmNDI0OTY4YjVjZTY2MWVlOWIyYmVlMWMyMWFkYzllZTY3Yw==
+  size: 12576996
 ruby/rubygems-2.0.7.tgz:
   object_id: fc782cb1-f279-4f52-b2c3-3ac61d1abb55
   sha: !binary |-
