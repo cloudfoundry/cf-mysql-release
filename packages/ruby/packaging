@@ -4,7 +4,7 @@ set -e
 # We grab the latest versions that are in the directory
 RUBY_VERSION=`ls -r ruby/ruby-* | sed 's/ruby\/ruby-\(.*\)\.tar\.gz/\1/' | head -1`
 RUBYGEMS_VERSION=`ls -r ruby/rubygems-* | sed 's/ruby\/rubygems-\(.*\)\.tgz/\1/' | head -1`
-BUNDLER_VERSION=`ls -r ruby/bundler-* | sed 's/ruby\/bundler-\(.*\)\.tgz/\1/' | head -1`
+BUNDLER_VERSION=`ls -r ruby/bundler-* | sed 's/ruby\/bundler-\(.*\)\.gem/\1/' | head -1`
 
 tar xzf ruby/ruby-${RUBY_VERSION}.tar.gz
 (
