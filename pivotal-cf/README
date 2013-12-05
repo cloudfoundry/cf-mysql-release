@@ -1,7 +1,0 @@
-To update the pill in Pivotal CF
-
-curl -k -u $user:$password -X POST https://$installer_ip/api/releases --form release[file]=@$release_path
-curl -k -u $user:$password -X POST https://$installer_ip/api/stemcells --form stemcell[file]=@$stemcell_path
-curl -k -u $user:$password -X POST https://$installer_ip/api/metadata --form metadata[file]=@$metadata_path
-
-You can create the release tarball by running 'bosh create release --with-tarball'
