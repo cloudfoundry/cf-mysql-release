@@ -43,7 +43,7 @@ The MySQL service should now be advertised when running `gcf marketplace`
 
 ### Generating a Deployment Manifest
 
-The [generate_deployment_manifest](blob/master/generate_deployment_manifest) script will help create a deployment manifest.  It requires the following:
+The [generate_deployment_manifest](generate_deployment_manifest) script will help create a deployment manifest.  It requires the following:
 
 - Knowledge about the deployment infrastructure (AWS or vSphere)
 - [Spiff](https://github.com/cloudfoundry-incubator/spiff), installed on the local workstation
@@ -107,7 +107,7 @@ The [Deploying Cloud Foundry with BOSH](http://docs.cloudfoundry.com/docs/runnin
     $ gcf create-service-broker cf-mysql-v2 BROKER_USERNAME BROKER_PASSWORD URL
 
     - BROKER_USERNAME and BROKER_PASSWORD are specified in the deployment manifest.
-    - URL specifies how the Cloud Controller will access the MySQL broker.  If DNS is not configured for the MySQL broker, specify a URL with an IP address such as http://10.10.34.0.
+    - URL specifies how the Cloud Controller will access the MySQL broker.  If DNS is not configured for the MySQL broker, specify a URL with an IP address such as `http://10.10.34.0`
 
 ### Make MySQL Service Plan Public
 
