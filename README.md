@@ -23,7 +23,7 @@ This project contains a BOSH release of a MySQL service for Cloud Foundry. It ut
  	 </tr>
 </table>
 
-# Installation
+## Installation
 
 Prerequisites:
 
@@ -41,7 +41,7 @@ Steps:
 
 The MySQL service should now be advertised when running `gcf marketplace`
 
-## Generating a deployment manifest
+### Generating a Deployment Manifest
 
 The [generate_deployment_manifest](blob/master/generate_deployment_manifest) script will help create a deployment manifest.  It requires the following:
 
@@ -49,7 +49,7 @@ The [generate_deployment_manifest](blob/master/generate_deployment_manifest) scr
 - [Spiff](https://github.com/cloudfoundry-incubator/spiff), installed on the local workstation
 - A deployment manifest stub, which is a YAML file with customized values.
 
-###Example:
+####Example:
 
     $ ./generate_deployment_manifest aws /tmp/stub.yml
 
@@ -67,11 +67,11 @@ These errors indicate that the deployment manifest stub is missing the following
         properties:
           admin_password: <choose_admin_password>
 
-### Hints for creating a deployment manifest stub:
+#### Hints for Creating a Deployment Manifest Stub:
 
 All stubs:
 
-- director_uuid: Shown by running `BOSH status`
+- director_uuid: Shown by running `bosh status`
 
 AWS stubs:
 
@@ -82,24 +82,24 @@ vSphere stubs:
 
 - networks: Follow example from templates/cf-infrastructure-aws.yml.  Set IP addresses.  The networks.subnets.cloud_properties field requires only a sub-field called name.  This should match your vSphere network name, like "VM Network".
 
-## Upload release
+### Upload Release
 
 CF MySQL final releases are stored in the [cf-mysql-release/releases](https://github.com/cloudfoundry/cf-mysql-release/tree/master/releases) directory.  We recommend using the most recent final release.
 
 For example, upload final release 4 by running the following command:
 
-    $ BOSH upload release releases/cf-mysql-4.yml
+    $ bosh upload release releases/cf-mysql-4.yml
 
 The [cf-release document](http://docs.cloudfoundry.com/docs/running/deploying-cf/common/cf-release.html) provides additional details on uploading releases using BOSH.
 
-## Deploy using BOSH
+### Deploy Using BOSH
 
-    $ BOSH deployment <deployment manifest>.yml
-    $ BOSH deploy
+    $ bosh deployment <deployment manifest>.yml
+    $ bosh deploy
 
 The [Deploying Cloud Foundry with BOSH](http://docs.cloudfoundry.com/docs/running/deploying-cf/vsphere/deploy_cf_vsphere.html) provides additional details on deploying with BOSH.
 
-## Register the CF MySQL Service Broker
+### Register the CF MySQL Service Broker
 
 1. Login to Cloud Foundry as an admin user
 2. Run the following command to register the MySQL broker
@@ -109,7 +109,7 @@ The [Deploying Cloud Foundry with BOSH](http://docs.cloudfoundry.com/docs/runnin
     - BROKER_USERNAME and BROKER_PASSWORD are specified in the deployment manifest.
     - URL specifies how the Cloud Controller will access the MySQL broker.  If DNS is not configured for the MySQL broker, specify a URL with an IP address such as http://10.10.34.0.
 
-## Make MySQL Service Plan Public
+### Make MySQL Service Plan Public
 
 By default, new plans are private. This means they are not visible to end users.
 
