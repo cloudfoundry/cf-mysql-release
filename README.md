@@ -1,6 +1,6 @@
 # Cloud Foundry MySQL Service
 
-This project contains a BOSH release of a MySQL service for Cloud Foundry. It utilizes the v2 broker API.
+This project contains a BOSH release of a MySQL service for Cloud Foundry. It utilizes the [v2 broker API](http://docs.cloudfoundry.com/docs/running/architecture/services/writing-service.html).
 
 ## MySQL Service Components
 
