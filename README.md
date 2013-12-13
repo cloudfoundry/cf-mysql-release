@@ -45,7 +45,9 @@ The MySQL service should now be advertised when running `gcf marketplace`
 
 The [generate_deployment_manifest](generate_deployment_manifest) script will help create a deployment manifest.  It requires the following:
 
-- Knowledge about the deployment infrastructure (AWS or vSphere)
+- Knowledge about the deployment infrastructure 
+  - For AWS, you need to know the AZ and subnet id
+  - For vSphere, you need you available IP address range, IP address of DNS server
 - [Spiff](https://github.com/cloudfoundry-incubator/spiff), installed on the local workstation
 - A deployment manifest stub, which is a YAML file with customized values.
 
