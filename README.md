@@ -53,6 +53,9 @@ The [generate_deployment_manifest](generate_deployment_manifest) script will hel
 
 ####Example:
 
+`generate_deployment_manifest` takes `aws` or `vsphere` as the first argument, and the stub file as the second argument.
+
+
     $ ./generate_deployment_manifest aws /tmp/stub.yml
 
     2013/12/12 11:35:32 error generating manifest: unresolved nodes:
