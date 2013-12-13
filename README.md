@@ -45,18 +45,21 @@ The MySQL service should now be advertised when running `gcf marketplace`
 
 The [generate_deployment_manifest](generate_deployment_manifest) script will help create a deployment manifest.  It requires the following:
 
-- Knowledge about the deployment infrastructure 
+- Knowledge about the deployment infrastructure; AWS and vSphere are supported
   - For AWS, you need to know the AZ and subnet id
   - For vSphere, you need you available IP address range, IP address of DNS server
 - [Spiff](https://github.com/cloudfoundry-incubator/spiff), installed on the local workstation
-- A deployment manifest stub, which is a YAML file with customized values.
+- A deployment manifest stub, which is a YAML file with values unique to the deployment (two identical deployments of Cloud Foundry will have stubs with the same keys but some unique values).
+
+To generate your manifest, we recommend the following workflow. 
+
+1. Run the generate_deployment_manifest script. You'll get some error which indicate what the missing manifest parameters are. 
+1. Add those paramaters and values into the stub.  See "Hints for Creating a Deployment Manifest Stub" below.
+1. Rinse and repeat
 
 ####Example:
 
-`generate_deployment_manifest` takes `aws` or `vsphere` as the first argument, and the stub file as the second argument.
-
-
-    $ ./generate_deployment_manifest aws /tmp/stub.yml
+    $ ./generate_deployment_manifest aws ~/workspace/deployments/deployment-1/stub.yml
 
     2013/12/12 11:35:32 error generating manifest: unresolved nodes:
     dynaml.MergeExpr{[director_uuid]}
