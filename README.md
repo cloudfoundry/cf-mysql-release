@@ -104,16 +104,16 @@ The [Deploying Cloud Foundry with BOSH](http://docs.cloudfoundry.com/docs/runnin
 1. Login to Cloud Foundry as an admin user
 2. Run the following command to register the MySQL broker
 
-    $ gcf create-service-broker cf-mysql-v2 BROKER_USERNAME BROKER_PASSWORD URL
+    $ gcf create-service-broker cf-mysql BROKER_USERNAME BROKER_PASSWORD URL
 
     - BROKER_USERNAME and BROKER_PASSWORD are specified in the deployment manifest.
-    - URL specifies how the Cloud Controller will access the MySQL broker.  If DNS is not configured for the MySQL broker, specify a URL with an IP address such as `http://10.10.34.0`
+    - URL specifies where the Cloud Controller will access the MySQL broker.  If DNS is not configured for the MySQL broker, specify a URL with an IP address such as `http://10.10.34.0`
 
 ### Make MySQL Service Plan Public
 
-By default, new plans are private. This means they are not visible to end users.
+By default new plans are private, which means they are not visible to end users. This enables an admin to test services before making them available to end users.
 
-To make a plan public, use the old ruby CF CLI (this feature will be implemented soon on gcf).
+To make a plan public, use the old ruby CF CLI (the curl feature will be implemented soon on gcf).
 
 
 1) Login as an admin user with the ruby cf cli.
