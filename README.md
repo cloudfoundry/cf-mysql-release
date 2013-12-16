@@ -77,7 +77,7 @@ These errors indicate that the deployment manifest stub is missing the following
         properties:
           admin_password: <choose_admin_password>
 
-#### Hints for Creating a Deployment Manifest Stub:
+#### Hints for missing parameters in your deployment manifest stub:
 
 All stubs:
 
@@ -91,6 +91,12 @@ AWS stubs:
 vSphere stubs:
 
 - networks: Follow example from templates/cf-infrastructure-aws.yml.  Set IP addresses.  The networks.subnets.cloud_properties field requires only a sub-field called name.  This should match your vSphere network name, like "VM Network".
+
+Specific to this release:
+
+- admin_password: The admin password for the MySQL server process. You should generate a secure password and configure it using this parameter.
+- auth_username: The username cloud controller will use to authenticate with the service broker.
+- auth_password: The password cloud controller will use to authenticate with the service broker.
 
 ### Upload Release
 
