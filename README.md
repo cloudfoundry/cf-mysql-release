@@ -71,11 +71,14 @@ To generate your manifest, we recommend the following workflow.
 These errors indicate that the deployment manifest stub is missing the following fields:
 
     ---
-    director_uuid: <BOSH_director_uuid>
     jobs:
       mysql:
         properties:
           admin_password: <choose_admin_password>
+      cf-mysql-broker:
+        properties:
+          auth_username:
+          auth_password:
 
 #### Hints for missing parameters in your deployment manifest stub:
 
