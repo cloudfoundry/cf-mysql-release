@@ -56,7 +56,7 @@ To generate your manifest, we recommend the following workflow.
 1. Run the generate_deployment_manifest script. You'll get some error which indicate what the missing manifest parameters are. 
 1. Add those paramaters and values into the stub.  See "Hints for Creating a Deployment Manifest Stub" below.
 1. Rinse and repeat
-1. When you receive no errors, the script will output the result to stdout. Pipe this output to a file and this will be your deployment manifest.
+1. When all necessary stub parameters are present, the script will output the deployment manifest to stdout. Pipe this output to a file.
 
 ####Example:
 
