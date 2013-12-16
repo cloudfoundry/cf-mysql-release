@@ -56,7 +56,7 @@ To generate your manifest, we recommend the following workflow.
 1. Run the generate_deployment_manifest script. You'll get some error which indicate what the missing manifest parameters are. 
 1. Add those paramaters and values into the stub.  See "Hints for Creating a Deployment Manifest Stub" below.
 1. Rinse and repeat
-1. When all necessary stub parameters are present, the script will output the deployment manifest to stdout. Pipe this output to a file which indicates the environment and the release, such as `cf-mysql-myenv.yml`.
+1. When all necessary stub parameters are present, the script will output the deployment manifest to stdout. Pipe this output to a file which indicates the environment and the release, such as `cf-mysql-mydevenv.yml`.
 
 ####Example:
 
@@ -113,7 +113,9 @@ The [cf-release document](http://docs.cloudfoundry.com/docs/running/deploying-cf
 
 ### Deploy Using BOSH
 
-    $ bosh deployment <deployment manifest>.yml
+Set your deployment using the deployment manifest you generated above.
+
+    $ bosh deployment cf-mysql-mydevenv.yml
     $ bosh deploy
 
 The [Deploying Cloud Foundry with BOSH](http://docs.cloudfoundry.com/docs/running/deploying-cf/vsphere/deploy_cf_vsphere.html) provides additional details on deploying with BOSH.
@@ -125,7 +127,7 @@ The [Deploying Cloud Foundry with BOSH](http://docs.cloudfoundry.com/docs/runnin
 
     $ gcf create-service-broker cf-mysql BROKER_USERNAME BROKER_PASSWORD URL
 
-    - BROKER_USERNAME and BROKER_PASSWORD are specified in the deployment manifest.
+    - BROKER_USERNAME and BROKER_PASSWORD are the values you gave for `auth_username` and `auth_password` in the deployment manifest.
     - URL specifies where the Cloud Controller will access the MySQL broker.  If DNS is not configured for the MySQL broker, specify a URL with an IP address such as `http://10.10.34.0`
 
 ### Make MySQL Service Plan Public
