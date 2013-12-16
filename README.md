@@ -56,15 +56,17 @@ To generate your manifest, we recommend the following workflow.
 1. Run the generate_deployment_manifest script. You'll get some error which indicate what the missing manifest parameters are. 
 1. Add those paramaters and values into the stub.  See "Hints for Creating a Deployment Manifest Stub" below.
 1. Rinse and repeat
+1. When you receive no errors, the script will output the result to stdout. Pipe this output to a file and this will be your deployment manifest.
 
 ####Example:
 
     $ ./generate_deployment_manifest aws ~/workspace/deployments/deployment-1/stub.yml
 
-    2013/12/12 11:35:32 error generating manifest: unresolved nodes:
-    dynaml.MergeExpr{[director_uuid]}
-    dynaml.MergeExpr{[jobs mysql properties admin_password]}
-    dynaml.ReferenceExpr{[jobs mysql properties admin_password]}
+    2013/12/16 09:57:18 error generating manifest: unresolved nodes:
+	    dynaml.MergeExpr{[jobs mysql properties admin_password]}
+	    dynaml.MergeExpr{[jobs cf-mysql-broker properties auth_username]}
+	    dynaml.MergeExpr{[jobs cf-mysql-broker properties auth_password]}
+	    dynaml.ReferenceExpr{[jobs mysql properties admin_password]}
 
 These errors indicate that the deployment manifest stub is missing the following fields:
 
