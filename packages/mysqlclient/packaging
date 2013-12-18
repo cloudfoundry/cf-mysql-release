@@ -1,7 +1,7 @@
 # abort script on any command that exits with a non zero value
 set -e
 
-MYSQL_CLIENT_VERSION=6.1.1
+MYSQL_CLIENT_VERSION=6.1.2
 
 tar xzf mysqlclient/mysql-connector-c-${MYSQL_CLIENT_VERSION}-src.tar.gz
 (

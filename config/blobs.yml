@@ -4,23 +4,23 @@ mysql/mysql-5.6.13.tar.gz:
   sha: !binary |-
     MDZlMWQ4NTZjZmIxZjk4ODQ0ZWY5MmFmNDdkNGY0ZjcwMzZlZjI5NA==
   size: 35951160
-mysqlclient/mysql-connector-c-6.1.1-src.tar.gz:
-  object_id: 4568da3d-5618-4a7c-9afa-b4eda9f82cd5
-  sha: !binary |-
-    OGEwMDE0YWQzNGQwZWE5OGMzMTA0ZGM4ZTg2M2UwNjIyNTk3MTk0Yw==
-  size: 3031012
 ruby/bundler-1.3.5.gem:
   object_id: 7eba9228-785f-42b7-8315-9fe10f04e249
   sha: !binary |-
     MmNhZDMwNTJhNTliODNmMWY2MTZlODIwMmY1YzcxNGU0NmJkODUyMw==
   size: 268800
-ruby/rubygems-2.0.7.tgz:
-  object_id: fc782cb1-f279-4f52-b2c3-3ac61d1abb55
-  sha: !binary |-
-    ZjBiMGEwM2Q1NzNlMjExMjViYTVkYTFkYjE0NDYxZDZhOTkzNDBkNA==
-  size: 337146
 ruby/ruby-2.0.0-p353.tar.gz:
   object_id: f13bcd6c-a7cb-48d4-b60c-178b5be915d9
   sha: !binary |-
     N2YyYzhiOGY1NjgyYWFiYzExMTRmNDRkMzZkMzE0YzZjMzdjMTFiOA==
   size: 13572794
+ruby/rubygems-2.1.11.tgz:
+  object_id: 05612435-f24d-4416-9c49-3897c4d5fa0b
+  sha: !binary |-
+    Y2EzMDMzNDMyY2FlMjhkZWI3Y2VkNzljZGEyNzFjYjI5MmI3MGU1OQ==
+  size: 367166
+mysqlclient/mysql-connector-c-6.1.2-src.tar.gz:
+  object_id: 8fd8e233-2e59-4fb1-817c-6299f4f5729a
+  sha: !binary |-
+    OTZiMzUwMTlkNGZlMDgzY2YyM2JkMzcxNDRhMWUyMWE1ZDQzODYxNA==
+  size: 3036739
