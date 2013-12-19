@@ -79,6 +79,7 @@ jobs:
           listing:
             imageUrl:
             blurb: MySQL service for application development and testing
+            long_description: A MySQL relational database service for development and testing. Servers may be multi-tenant or dedicated MySQL servers, depending on what plans are offered. Servers are not redundant.
         plans:
         - name: 100mb
           id: ab08f1bc-e6fc-4b56-a767-ee0fea6e3f20

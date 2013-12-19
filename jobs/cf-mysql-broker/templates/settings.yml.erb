@@ -19,6 +19,7 @@ production:
       listing:
         imageUrl: <%= service.metadata.listing.imageUrl %>
         blurb: <%= service.metadata.listing.blurb %>
+        longDescription: <%= service.metadata.listing.longDescription %>
     max_db_per_node: <%= service.max_db_per_node %>
     plans:
     <% (service.plans || []).each do |plan| %>
