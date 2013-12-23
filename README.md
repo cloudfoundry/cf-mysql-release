@@ -60,7 +60,7 @@ To generate your manifest, we recommend the following workflow.
 
 ####Example:
 
-    $ ./generate_deployment_manifest aws ~/workspace/deployments/deployment-1/stub.yml
+    $ ./generate_deployment_manifest aws ~/workspace/deployments/mydevenv/stub.yml
 
     2013/12/16 09:57:18 error generating manifest: unresolved nodes:
 	    dynaml.MergeExpr{[jobs mysql properties admin_password]}
