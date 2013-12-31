@@ -33,7 +33,7 @@ production:
         <% end %>
         cost: <%= plan.metadata.cost %>
         bullets: <% plan.metadata.bullets.each do |bullet| %>
-          - content: <%= bullet.content %>
+          - <%= bullet %>
         <% end %>
     <% end %>
   <% end %>
