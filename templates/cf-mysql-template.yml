@@ -74,24 +74,25 @@ jobs:
           - relational
         max_db_per_node: 250
         metadata:
-          provider:
-            name:
           listing:
-            imageUrl:
-            blurb: MySQL service for application development and testing
             longDescription: A MySQL relational database service appropriate for development and testing. The service delivers databases on a multi-tenant non-redundant server. Unique user credentials are generated for each application binding.
           displayName: "Pivotal MySQL Dev"
+          providerDisplayName: Pivotal
         plans:
         - name: 100mb
           id: ab08f1bc-e6fc-4b56-a767-ee0fea6e3f20
           description: Shared MySQL Server, 100mb persistent disk, 40 max concurrent connections
           max_storage_mb: 100
           metadata:
-            cost: 0
+            costs:
+            - amount:
+                usd: 0.0
+              unit: MONTHLY
+
             bullets:
-              - content: Shared MySQL server
-              - content: 100 MB storage
-              - content: 40 concurrent connections
+              - Shared MySQL server
+              - 5 MB storage
+              - 40 concurrent connections
       mysql_node:
         host: (( jobs.mysql.networks.services1.static_ips.[0] ))
         admin_password: (( jobs.mysql.properties.admin_password ))
