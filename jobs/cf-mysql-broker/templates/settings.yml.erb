@@ -14,11 +14,8 @@ production:
     - <%= tag %>
     <% end %>
     metadata:
-      provider:
-        name: <%= service.metadata.provider.name %>
+      providerDisplayName: <%= service.metadata.providerDisplayName %>
       listing:
-        imageUrl: <%= service.metadata.listing.imageUrl %>
-        blurb: <%= service.metadata.listing.blurb %>
         longDescription: <%= service.metadata.listing.longDescription %>
     max_db_per_node: <%= service.max_db_per_node %>
     plans:
@@ -28,6 +25,12 @@ production:
       description: <%= plan.description %>
       max_storage_mb: <%= plan.max_storage_mb %>
       metadata:
+        costs:
+        <% plan.metadata.costs.each do |cost| %>
+          - amount:
+              usd: <%= cost.amount.usd %>
+            unit: <%= cost.unit %>
+        <% end %>
         cost: <%= plan.metadata.cost %>
         bullets: <% plan.metadata.bullets.each do |bullet| %>
           - content: <%= bullet.content %>
