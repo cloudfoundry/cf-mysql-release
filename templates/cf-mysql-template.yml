@@ -74,8 +74,7 @@ jobs:
           - relational
         max_db_per_node: 250
         metadata:
-          listing:
-            longDescription: A MySQL relational database service appropriate for development and testing. The service delivers databases on a multi-tenant non-redundant server. Unique user credentials are generated for each application binding.
+          longDescription: A MySQL relational database service appropriate for development and testing. The service delivers databases on a multi-tenant non-redundant server. Unique user credentials are generated for each application binding.
           displayName: "Pivotal MySQL Dev"
           providerDisplayName: Pivotal
         plans:
