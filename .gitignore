@@ -7,3 +7,5 @@ blobs
 .dev_builds
 .final_builds/jobs/**/*.tgz
 .final_builds/packages/**/*.tgz
+bosh-lite/manifests/*
+bosh-lite/tmp/*
