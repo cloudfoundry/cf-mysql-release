@@ -8,50 +8,10 @@ releases:
 jobs:
   - instances: 1
     name: mysql
-    persistent_disk: 100000
     properties:
-      admin_password: dusky7dirge
-      max_connections: 1500
-      max_user_connections: 40
-    release: cf-mysql
-    resource_pool: services-small
-    template:
-    - mysql
+      admin_password: password
   - instances: 1
     name: cf-mysql-broker
     properties:
-      auth_password: clad1.runner
-      auth_username: cc
-      mysql_node:
-        admin_password: dusky7dirge
-        host: 10.10.34.1
-      services:
-      - description: MySQL service for application development and testing
-        id: 44b26033-1f54-4087-b7bc-da9652c2a539
-        max_db_per_node: 250
-        metadata:
-          listing:
-            blurb: MySQL service for application development and testing
-            imageUrl:
-          provider:
-            name:
-        name: p-mysql
-        plans:
-        - description: Shared MySQL Server, 100mb persistent disk, 40 max concurrent
-            connections
-          id: ab08f1bc-e6fc-4b56-a767-ee0fea6e3f20
-          max_storage_mb: 100
-          metadata:
-            bullets:
-            - content: Shared MySQL server
-            - content: 100 MB storage
-            - content: 40 concurrent connections
-            cost: 0
-          name: 100mb
-        tags:
-        - mysql
-        - relational
-    release: cf-mysql
-    resource_pool: services-small
-    template:
-    - cf-mysql-broker
+      auth_password: password
+      auth_username: admin

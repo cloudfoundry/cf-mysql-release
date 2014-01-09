@@ -10,6 +10,7 @@ fi
 
 cd $MYSQL_RELEASE_DIR
 mkdir -p bosh-lite/tmp
+mkdir -p bosh-lite/manifests
 cp bosh-lite/cf-mysql-stub-spiff.yml bosh-lite/tmp/cf-mysql-stub-with-uuid.yml
 DIRECTOR_UUID=$(bosh status | grep UUID | awk '{print $2}')
 echo $DIRECTOR_UUID
