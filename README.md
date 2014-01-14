@@ -54,7 +54,7 @@ To generate a deployment manifest for AWS or vSphere, use the [generate_deployme
 1. Run the `generate_deployment_manifest` script. You'll get some error that indicates what the missing manifest parameters are. 
 1. Add those paramaters and values into the stub.  See [Hints for missing parameters in your deployment manifest stub](#hints-for-missing-parameters-in-your-deployment-manifest-stub) below.
 1. Rinse and repeat
-1. When all necessary stub parameters are present, the script will output the deployment manifest to stdout. Pipe this output to a file which indicates the environment and the release, such as `cf-mysql-mydevenv.yml`.
+1. When all necessary stub parameters are present, the script will output the deployment manifest to stdout. Pipe this output to a file in your environment directory which indicates the environment and the release, such as `~/workspace/deployments/mydevenv/cf-mysql-mydevenv.yml`.
 
 #### Example using AWS:
 
@@ -132,12 +132,12 @@ The [cf-release document](http://docs.cloudfoundry.com/docs/running/deploying-cf
 
 Set your deployment using the deployment manifest you generated above.
 
-    $ bosh deployment cf-mysql-mydevenv.yml
+    $ bosh deployment ~/workspace/deployments/mydevenv/cf-mysql-mydevenv.yml
     $ bosh deploy
     
 If you followed the instructions for bosh-lite above your manifest is in the `cf-mysql-release/bosh-lite/manifests` directory.
 
-    $ bosh deployment bosh-lite/manifests/cf-mysql-manifest.yml
+    $ bosh deployment ~/workspaces/cf-mysql-release/bosh-lite/manifests/cf-mysql-manifest.yml
     $ bosh deploy
 
 The [Deploying Cloud Foundry with BOSH](http://docs.cloudfoundry.com/docs/running/deploying-cf/vsphere/deploy_cf_vsphere.html) provides additional details on deploying with BOSH.
