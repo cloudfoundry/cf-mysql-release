@@ -111,7 +111,7 @@ For bosh-lite we provide a fully configured stub, including some default values 
 - `auth_username` defaults to admin.
 - `auth_password` defaults to password.
 
-Run the `make_manifest_spiff_mysql` script to generate your manifest, which you can find in [cf-mysql-release/bosh-lite/manifests/](bosh-lite/manifests/).
+Run the `make_manifest_spiff_mysql` script to generate your manifest, which you can find in [cf-mysql-release/bosh-lite/](bosh-lite/).
 
 Example:
 ```
