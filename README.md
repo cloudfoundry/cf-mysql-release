@@ -137,7 +137,7 @@ Set your deployment using the deployment manifest you generated above.
     
 If you followed the instructions for bosh-lite above your manifest is in the `cf-mysql-release/bosh-lite/manifests` directory.
 
-    $ bosh deployment ~/workspaces/cf-mysql-release/bosh-lite/manifests/cf-mysql-manifest.yml
+    $ bosh deployment ~/workspace/cf-mysql-release/bosh-lite/manifests/cf-mysql-manifest.yml
     $ bosh deploy
 
 The [Deploying Cloud Foundry with BOSH](http://docs.cloudfoundry.com/docs/running/deploying-cf/vsphere/deploy_cf_vsphere.html) provides additional details on deploying with BOSH.
