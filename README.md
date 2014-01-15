@@ -116,6 +116,7 @@ Run the `make_manifest_spiff_mysql` script to generate your manifest, which you 
 Example:
 ```
 $ ./bosh-lite/make_manifest_spiff_mysql
+# This step would have also set your deployment to ./bosh-lite/manifests/cf-mysql-manifest.yml
 ```
 
 ### Upload Release
@@ -135,9 +136,8 @@ Set your deployment using the deployment manifest you generated above.
     $ bosh deployment ~/workspace/deployments/mydevenv/cf-mysql-mydevenv.yml
     $ bosh deploy
     
-If you followed the instructions for bosh-lite above your manifest is in the `cf-mysql-release/bosh-lite/manifests` directory.
+If you followed the instructions for bosh-lite above your manifest is in the `cf-mysql-release/bosh-lite/manifests` directory. The make\_manifest\_spiff\_mysql script should have already set the deployment to the manifest, so you just have to run:
 
-    $ bosh deployment ~/workspace/cf-mysql-release/bosh-lite/manifests/cf-mysql-manifest.yml
     $ bosh deploy
 
 The [Deploying Cloud Foundry with BOSH](http://docs.cloudfoundry.com/docs/running/deploying-cf/vsphere/deploy_cf_vsphere.html) provides additional details on deploying with BOSH.
