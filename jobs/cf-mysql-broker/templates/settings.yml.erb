@@ -17,6 +17,7 @@ production:
       providerDisplayName: <%= service.metadata.providerDisplayName %>
       displayName: <%= service.metadata.displayName %>
       longDescription: <%= service.metadata.longDescription %>
+      imageUrl: <%= service.metadata.imageUrl %>
     max_db_per_node: <%= service.max_db_per_node %>
     plans:
     <% (service.plans || []).each do |plan| %>
