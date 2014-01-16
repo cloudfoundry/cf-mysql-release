@@ -147,10 +147,12 @@ The [Deploying Cloud Foundry with BOSH](http://docs.cloudfoundry.com/docs/runnin
 1. Login to Cloud Foundry as an admin user
 2. Run the following command to register the MySQL broker
 
-    $ gcf create-service-broker cf-mysql BROKER_USERNAME BROKER_PASSWORD URL
-
-    - BROKER_USERNAME and BROKER_PASSWORD are the values you gave for `auth_username` and `auth_password` in the deployment manifest.
-    - URL specifies where the Cloud Controller will access the MySQL broker.  If DNS is not configured for the MySQL broker, specify a URL with an IP address such as `http://10.10.34.0`
+    ```
+    $ gcf create-service-broker p-mysql BROKER_USERNAME BROKER_PASSWORD URL
+    ```
+    
+    - BROKER_USERNAME and BROKER_PASSWORD are the values you gave for `auth_username` and `auth_password` in the deployment manifest. 
+    - URL specifies where the Cloud Controller will access the MySQL broker. If DNS is not configured for the MySQL broker, specify a URL using the IP address such as `http://10.10.34.0`. You can discover the broker IP address with the BOSH command, `bosh vms`.
 
 ### Make MySQL Service Plan Public
 
