@@ -34,10 +34,11 @@ Prerequisites:
 Steps:
 
 1. Create a CF MySQL deployment manifest
-2. Upload a CF MySQL release to the BOSH director
-3. Deploy CF MySQL with BOSH
-4. Register the newly created service broker with the Cloud Controller
-5. Make the CF MySQL plans public
+1. Create a BOSH release for CF MySQL
+1. Upload a the release to the BOSH director
+1. Deploy CF MySQL with BOSH
+1. Register the newly created service broker with the Cloud Controller
+1. Make the CF MySQL plans public
 
 The MySQL service should now be advertised when running `gcf marketplace`
 
@@ -119,13 +120,15 @@ $ ./bosh-lite/make_manifest_spiff_mysql
 # This step would have also set your deployment to ./bosh-lite/manifests/cf-mysql-manifest.yml
 ```
 
+### Create a BOSH Release
+
+    $ bosh create release
+    
+When prompted to name the release, called it `cf-mysql`.
+
 ### Upload Release
 
-CF MySQL final releases are stored in the [cf-mysql-release/releases](https://github.com/cloudfoundry/cf-mysql-release/tree/master/releases) directory.  We recommend using the most recent final release.
-
-For example, upload final release 4 by running the following command:
-
-    $ bosh upload release releases/cf-mysql-4.yml
+    $ bosh upload release
 
 The [cf-release document](http://docs.cloudfoundry.com/docs/running/deploying-cf/common/cf-release.html) provides additional details on uploading releases using BOSH.
 
@@ -140,11 +143,18 @@ If you followed the instructions for bosh-lite above your manifest is in the `cf
 
     $ bosh deploy
 
-The [Deploying Cloud Foundry with BOSH](http://docs.cloudfoundry.com/docs/running/deploying-cf/vsphere/deploy_cf_vsphere.html) provides additional details on deploying with BOSH.
+[Deploying Cloud Foundry with BOSH](http://docs.cloudfoundry.com/docs/running/deploying-cf/vsphere/deploy_cf_vsphere.html) provides additional details on deploying with BOSH.
 
 ### Register the CF MySQL Service Broker
 
-1. Login to Cloud Foundry as an admin user
+1. Target Cloud Foundry and login as an admin user
+    
+    If you're using bosh-lite, you may have to run this script first:
+    
+    ```
+    $ ~/workspace/bosh-lite/scripts/add-route
+    ```
+    
 2. Run the following command to register the MySQL broker
 
     ```
@@ -152,7 +162,9 @@ The [Deploying Cloud Foundry with BOSH](http://docs.cloudfoundry.com/docs/runnin
     ```
     
     - BROKER_USERNAME and BROKER_PASSWORD are the values you gave for `auth_username` and `auth_password` in the deployment manifest. 
-    - URL specifies where the Cloud Controller will access the MySQL broker. If DNS is not configured for the MySQL broker, specify a URL using the IP address such as `http://10.10.34.0`. You can discover the broker IP address with the BOSH command, `bosh vms`.
+    - URL specifies where the Cloud Controller will access the MySQL broker. If DNS is not configured for the MySQL broker, specify a URL using the IP address such as `http://10.244.1.130`. You can discover the broker IP address with the BOSH command, `bosh vms`.
+    
+For more information, see the documentation on [Managing Service Brokers](http://docs.cloudfoundry.com/docs/running/architecture/services/managing-service-brokers.html).
 
 ### Make MySQL Service Plan Public
 
@@ -161,16 +173,21 @@ By default new plans are private, which means they are not visible to end users.
 To make a plan public, use the old ruby CF CLI (the curl feature will be implemented soon on gcf).
 
 
-1) Login as an admin user with the ruby cf cli.
+1. Login as an admin user with the ruby cf cli.
 
+    ```
     $ cf login
+    ```
 
-2) Get the service plan guid
+2. Get the service plan guid.
 
+    ```
     $ cf services -m -t
+    ```
 
-This returns a JSON response which includes something like the following for each service.
+   This returns a JSON response which includes something like the following for each service.
 
+    ```
     "service_plans": [
       {
         "metadata": {
@@ -190,20 +207,31 @@ This returns a JSON response which includes something like the following for eac
           "service_url": "/v2/services/e629bb0a-fee7-4a6c-a4f1-9eeec7096c29",
           "service_instances_url": "/v2/service_plans/a01d462f-a4a4-4945-a008-3ff13c06f719/service_instances"
         }
-      },
+      }
+    ]      
+    ```
 
-3) Set the plan as public, using its GUID.
+3. Set the plan as public, using its GUID.
 
+    ```
     $ cf curl PUT /v2/service_plans/a01d462f-a4a4-4945-a008-3ff13c06f719 -b '{"public":'true'}'
+    ```
 
-4) Verify that the the plan was set to public. Re-run this command and check the 'public' field:
+4. Verify that the the plan was set to public. Re-run this command and check the 'public' field:
 
+    ```
     $ cf services -m -t
+    ```
+    
+    You should now be able to view the p-mysql service in the service marketplace and create service instances.
 
-
-
-
-
+    ```
+    $ gcf m
+    Getting services from marketplace in org scoen / space broker as admin...
+    OK
+    service   plans   description
+    p-mysql   100mb   MySQL service for application development and testing
+    ```
 
 
 
