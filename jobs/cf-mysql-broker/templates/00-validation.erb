@@ -38,21 +38,34 @@ It should be ignored after deployment.
      text = <<-END
 services:
 - id: cf-mysql-1
- name: cf-mysql
- description: Cloud Foundry MySQL
- max_db_per_node: 50
- tags:
- - mysql
- - relational
- metadata:
-   imageUrl: http://example.com/mysql.jpg
- plans:
- - id: cf-mysql-plan-1
-   name: free
-   description: Free Trial
-   metadata:
-     cost: "0.0"
-   max_storage_mb: 5
+  name: cf-mysql
+  description: Cloud Foundry MySQL
+  max_db_per_node: 50
+  tags:
+  - mysql
+  - relational
+  metadata:
+    displayName: "Pivotal MySQL Dev"
+    imageUrl: "data:image/png;base64,encodedBase64binary"
+    longDescription: "Long Description"
+    providerDisplayName: "Pivotal Software"
+    documentationUrl:
+    supportUrl: "http://support.cloudfoundry.com/"
+  plans:
+  - name: 100mb
+    id: cf-mysql-plan-1
+    description: Free Trial
+    max_storage_mb: 100
+    metadata:
+      costs:
+      - amount:
+          usd: 0.0
+        unit: MONTHLY
+
+      bullets:
+        - Shared MySQL server
+        - 100 MB storage
+        - 40 concurrent connections
 END
 
      raise e.message + "\n\nExample of complete services section:\n\n" + text
