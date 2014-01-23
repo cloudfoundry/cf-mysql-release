@@ -34,9 +34,9 @@ Prerequisites:
 Steps:
 
 1. Create a CF MySQL deployment manifest
-1. Create a BOSH release for CF MySQL
-1. Upload a the release to the BOSH director
-1. Deploy CF MySQL with BOSH
+1. (Optional) Create a BOSH release for CF MySQL
+1. Upload the release to the BOSH director
+1. Deploy the CF MySQL release with BOSH
 1. Register the newly created service broker with the Cloud Controller
 1. Make the CF MySQL plans public
 
@@ -120,8 +120,11 @@ $ ./bosh-lite/make_manifest_spiff_mysql
 # This step would have also set your deployment to ./bosh-lite/manifests/cf-mysql-manifest.yml
 ```
 
-### Create a BOSH Release
+### (Optional) Create a BOSH Release
 
+You can build a release from HEAD, or use a pre-built final release. Final releases contain pre-compiled packages, making deployment much faster. To build the release from HEAD:
+
+    $ ./update
     $ bosh create release
     
 When prompted to name the release, called it `cf-mysql`.
@@ -129,6 +132,10 @@ When prompted to name the release, called it `cf-mysql`.
 ### Upload Release
 
     $ bosh upload release
+
+If you'd like to use a pre-built final release, reference one of the config files in the `releases` directory in your upload command. For example:
+
+    $ bosh upload releases/cf-mysql-6.yml
 
 The [cf-release document](http://docs.cloudfoundry.com/docs/running/deploying-cf/common/cf-release.html) provides additional details on uploading releases using BOSH.
 
