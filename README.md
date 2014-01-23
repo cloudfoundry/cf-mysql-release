@@ -48,7 +48,7 @@ We have provided scripts to help you generate a deployment manifest.  These scri
 
 The scripts we provide require [Spiff](https://github.com/cloudfoundry-incubator/spiff) to be installed on the local workstation.  Spiff is a tool we use to help generate a deployment manifest from "stubs", YAML files with values unique to the deployment environment (two identical deployments of Cloud Foundry will have stubs with the same keys but some unique values).  Stub files make it easier to consider only the keys/values that are important to you without having to comb through an entire deployment manifest file, which can be quite large.
 
-To generate a deployment manifest for bosh-lite, use the [make_manifest_spiff_mysql](bosh-lite/make_manifest_spiff_mysql) script and follow the instructions [here](#using-bosh-lite).
+To generate a deployment manifest for bosh-lite, follow the instructions [here](#using-bosh-lite).
 
 To generate a deployment manifest for AWS or vSphere, use the [generate_deployment_manifest](generate_deployment_manifest) script.  We recommend the following workflow:
 
