@@ -83,7 +83,7 @@ jobs:
         plans:
         - name: 100mb
           id: ab08f1bc-e6fc-4b56-a767-ee0fea6e3f20
-          description: Shared MySQL Server, 100mb persistent disk, 40 max concurrent connections
+          description: Shared MySQL Server, 100MB persistent disk, 40 max concurrent connections
           max_storage_mb: 100
           metadata:
             costs:
