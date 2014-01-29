@@ -20,6 +20,7 @@ case $1 in
              --basedir=/var/vcap/packages/mysql --user=vcap \
              --datadir=${datadir}
     fi
+    chown -R vcap:vcap ${datadir}
 
     /var/vcap/packages/mysql/support-files/mysql.server start
     ;;
