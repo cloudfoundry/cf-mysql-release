@@ -135,7 +135,7 @@ When prompted to name the release, called it `cf-mysql`.
 
 If you'd like to use a pre-built final release, reference one of the config files in the `releases` directory in your upload command. For example:
 
-    $ bosh upload releases/cf-mysql-6.yml
+    $ bosh upload release releases/cf-mysql-6.yml
 
 The [cf-release document](http://docs.cloudfoundry.com/docs/running/deploying-cf/common/cf-release.html) provides additional details on uploading releases using BOSH.
 
@@ -221,7 +221,7 @@ To make a plan public, use the old ruby CF CLI (the curl feature will be impleme
 3. Set the plan as public, using its GUID.
 
     ```
-    $ cf curl PUT /v2/service_plans/a01d462f-a4a4-4945-a008-3ff13c06f719 -b '{"public":'true'}'
+    $ cf curl PUT /v2/service_plans/a01d462f-a4a4-4945-a008-3ff13c06f719 -b '{"public":true}'
     ```
 
 4. Verify that the the plan was set to public. Re-run this command and check the 'public' field:
