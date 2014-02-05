@@ -27,7 +27,7 @@ This project contains a BOSH release of a MySQL service for Cloud Foundry. It ut
 
 Prerequisites:
 
-- The CF MySQL service requires a fully working version of [Cloud Foundry (runtime)](https://github.com/cloudfoundry/cf-release) (release [155](https://github.com/cloudfoundry/cf-release/tree/v155) or higher).
+- The MySQL service requires a deployment of Cloud Foundry ([cf-release](https://github.com/cloudfoundry/cf-release)) and has been supported since [final release 155](https://github.com/cloudfoundry/cf-release/blob/master/releases/cf-155.yml) ([tag v155](https://github.com/cloudfoundry/cf-release/tree/v155)).
 - Installing the CF MySQL service requires BOSH.
 - Instructions on installing BOSH as well as Cloud Foundry (runtime) are located in the [Cloud Foundry documentation](http://docs.cloudfoundry.com/docs/running/deploying-cf/).
 
