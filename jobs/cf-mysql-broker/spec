@@ -34,3 +34,8 @@ properties:
 
   services:
     description: 'Services and plans offered by the broker'
+
+  auth_server_url:
+    description: 'URL of the CloudFoundry login server'
+  token_server_url:
+    description: 'URL of the UAA server'

@@ -4,6 +4,9 @@ production:
   auth_username: '<%= p('auth_username') %>'
   auth_password: '<%= p('auth_password') %>'
 
+  auth_server_url: <%= p('auth_server_url') %>
+  token_server_url: <%= p('token_server_url') %>
+
   services:
   <% (properties.services || []).each do |service| %>
   - id: <%= service.id %>
@@ -38,4 +41,8 @@ production:
           - <%= bullet %>
         <% end %>
     <% end %>
+    dashboard_client:
+      id: <%= service.dashboard_client.id %>
+      secret: <%= service.dashboard_client.secret %>
+      redirect_uri: <%= service.dashboard_client.redirect_uri %>
   <% end %>

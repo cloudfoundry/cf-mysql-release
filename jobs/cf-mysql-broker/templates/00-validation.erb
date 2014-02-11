@@ -7,6 +7,11 @@ It should be ignored after deployment.
    end
 
    begin
+     raise "Property 'auth_username' must be present" unless properties.auth_username
+     raise "Property 'auth_password' must be present" unless properties.auth_password
+     raise "Property 'auth_server_url' must be present" unless properties.auth_server_url
+     raise "Property 'token_server_url' must be present" unless properties.token_server_url
+
      services = properties.services
      if services
        raise "Property 'services' must be empty or an array of one service" unless services.is_a?(Array) && services.length == 1
@@ -16,6 +21,12 @@ It should be ignored after deployment.
        raise "Service must have property 'id'" unless service.id
        raise "Service must have property 'name'" unless service.name
        raise "Service must have property 'description'" unless service.description
+
+       dashboard_client = service.dashboard_client
+       raise "Service must have property 'dashboard_client' and it must be a hash" unless dashboard_client && service.metadata.is_a?(OpenStruct)
+       raise "Dashboard client must have property 'id'" unless dashboard_client.id
+       raise "Dashboard client must have property 'secret'" unless dashboard_client.secret
+       raise "Dashboard client must have property 'redirect_uri'" unless dashboard_client.redirect_uri
 
        # validating optional fields if present
        raise "Service property 'tags' must be empty or an array of one or more tags" if service.tags && !service.tags.is_a?(Array)
@@ -36,6 +47,10 @@ It should be ignored after deployment.
      end
    rescue => e
      text = <<-END
+auth_username: admin
+auth_password: password
+auth_server_url: http://login.cloudfoundry.com
+token_server_url: http://uaa.cloudfoundry.com
 services:
 - id: cf-mysql-1
   name: cf-mysql
@@ -51,6 +66,10 @@ services:
     providerDisplayName: "Pivotal Software"
     documentationUrl:
     supportUrl: "http://support.cloudfoundry.com/"
+  dashboard_client:
+    id: p-mysql-client
+    secret: p-mysql-secret
+    redirect_uri: "http://broker.p-mysql.com"
   plans:
   - name: 100mb
     id: cf-mysql-plan-1
@@ -68,6 +87,6 @@ services:
         - 40 concurrent connections
 END
 
-     raise e.message + "\n\nExample of complete services section:\n\n" + text
+     raise e.message + "\n\nExample of complete broker properties:\n\n" + text
    end
 %>
