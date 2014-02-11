@@ -10,6 +10,8 @@ meta:
     name: (( merge ))
     version: latest
 
+  redirect_uri: (( merge ))
+
 name: (( meta.environment "-mysql" ))
 director_uuid: (( merge ))
 
@@ -65,6 +67,8 @@ jobs:
     properties:
       auth_username: (( merge ))
       auth_password: (( merge ))
+      auth_server_url: (( merge ))
+      token_server_url: (( merge ))
       services:
       - name: p-mysql
         id: 44b26033-1f54-4087-b7bc-da9652c2a539
@@ -80,6 +84,10 @@ jobs:
           providerDisplayName: "Pivotal Software"
           documentationUrl:
           supportUrl: "http://support.cloudfoundry.com/"
+        dashboard_client:
+            id: p-mysql
+            secret: (( merge ))
+            redirect_uri: (( meta.redirect_uri "/manage/auth/cloudfoundry/callback" ))
         plans:
         - name: 100mb
           id: ab08f1bc-e6fc-4b56-a767-ee0fea6e3f20
