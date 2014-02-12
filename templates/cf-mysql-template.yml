@@ -67,8 +67,8 @@ jobs:
     properties:
       auth_username: (( merge ))
       auth_password: (( merge ))
-      auth_server_url: (( merge ))
-      token_server_url: (( merge ))
+      cc_api_url: (( merge ))
+      cookie_secret: (( merge ))
       services:
       - name: p-mysql
         id: 44b26033-1f54-4087-b7bc-da9652c2a539
