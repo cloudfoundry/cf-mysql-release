@@ -21,6 +21,8 @@ properties:
   auth_password:
     description: "Broker's basic auth password"
 
+  cookie_secret: 'A unique secret key, used to sign sessions'
+
   mysql_node.host:
     description: 'Host or IP address of the MySQL server'
   mysql_node.port:
@@ -35,7 +37,5 @@ properties:
   services:
     description: 'Services and plans offered by the broker'
 
-  auth_server_url:
-    description: 'URL of the CloudFoundry login server'
-  token_server_url:
-    description: 'URL of the UAA server'
+  cc_api_url:
+    description: 'URL of the CloudFoundry Cloud Controller'

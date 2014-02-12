@@ -9,8 +9,8 @@ It should be ignored after deployment.
    begin
      raise "Property 'auth_username' must be present" unless properties.auth_username
      raise "Property 'auth_password' must be present" unless properties.auth_password
-     raise "Property 'auth_server_url' must be present" unless properties.auth_server_url
-     raise "Property 'token_server_url' must be present" unless properties.token_server_url
+     raise "Property 'cc_api_url' must be present" unless properties.cc_api_url
+     raise "Property 'cookie_secret' must be present" unless properties.cookie_secret
 
      services = properties.services
      if services
@@ -49,8 +49,7 @@ It should be ignored after deployment.
      text = <<-END
 auth_username: admin
 auth_password: password
-auth_server_url: http://login.cloudfoundry.com
-token_server_url: http://uaa.cloudfoundry.com
+cc_api_url: http://api.cloudfoundry.com
 services:
 - id: cf-mysql-1
   name: cf-mysql

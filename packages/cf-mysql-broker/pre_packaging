@@ -5,7 +5,7 @@ set -e
   cd ${BUILD_DIR}/cf-mysql-broker
 
   # cache gems
-  bundle package
+  bundle package --all
 
   # remove unneeded files
   rm -rf spec
