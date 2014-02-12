@@ -1,6 +1,6 @@
 [submodule "src/cf-mysql-broker"]
 	path = src/cf-mysql-broker
-	url = git@github.com:cloudfoundry/cf-mysql-broker.git
+	url = https://github.com/cloudfoundry/cf-mysql-broker.git
 [submodule "shared"]
 	path = shared
 	url = https://github.com/cloudfoundry/shared-release-packages.git
