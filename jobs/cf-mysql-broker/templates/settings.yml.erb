@@ -5,7 +5,7 @@ production:
   auth_password: '<%= p('auth_password') %>'
   cookie_secret: <%= p('cookie_secret') %>
 
-  cc_api_url: <%= p('cc_api_url') %>
+  cc_api_uri: <%= p('cc_api_uri') %>
 
   services:
   <% (properties.services || []).each do |service| %>

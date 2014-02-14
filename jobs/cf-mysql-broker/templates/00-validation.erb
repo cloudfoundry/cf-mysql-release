@@ -9,7 +9,7 @@ It should be ignored after deployment.
    begin
      raise "Property 'auth_username' must be present" unless properties.auth_username
      raise "Property 'auth_password' must be present" unless properties.auth_password
-     raise "Property 'cc_api_url' must be present" unless properties.cc_api_url
+     raise "Property 'cc_api_uri' must be present" unless properties.cc_api_uri
      raise "Property 'cookie_secret' must be present" unless properties.cookie_secret
 
      services = properties.services
