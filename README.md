@@ -241,4 +241,15 @@ To make a plan public, use the old ruby CF CLI (the curl feature will be impleme
     ```
 
 
+### Dashboard
 
+The service broker implements a user-facing UI. Services wanting to implement such a UI and integrate with the Cloud Foundry Web UI should implement something similar. Instructions to implement this feature can be found [here](http://docs.cloudfoundry.com/docs/running/architecture/services/).
+
+The broker displays usage information on a per instance basis.
+
+#### Implementation Details
+
+1. Update the broker catalog with the dashboard client [properties](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/config/settings.yml#L26)
+2. Implement oauth [workflow](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/config/initializers/omniauth.rb) with the [omniauth-uaa-oauth2 gem](https://github.com/cloudfoundry/omniauth-uaa-oauth2)
+3. [Use](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/lib/access_token_handler.rb) the [cf-uaa-lib gem](https://github.com/cloudfoundry/cf-uaa-lib) to get a valid access token and request permissions on the instance
+4. Before showing the user the dashboard, [the broker checks](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/app/controllers/manage/instances_controller.rb#L7) to see if the user is logged-in and has permissions to view the usage details of the instance.
