@@ -67,7 +67,7 @@ jobs:
     properties:
       auth_username: (( merge ))
       auth_password: (( merge ))
-      cc_api_url: (( merge ))
+      cc_api_uri: (( merge ))
       cookie_secret: (( merge ))
       services:
       - name: p-mysql

@@ -37,5 +37,5 @@ properties:
   services:
     description: 'Services and plans offered by the broker'
 
-  cc_api_url:
+  cc_api_uri:
     description: 'URL of the CloudFoundry Cloud Controller'
