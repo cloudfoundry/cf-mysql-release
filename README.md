@@ -165,7 +165,7 @@ If you followed the instructions for bosh-lite above your manifest is in the `cf
 2. Run the following command to register the MySQL broker
 
     ```
-    $ gcf create-service-broker p-mysql BROKER_USERNAME BROKER_PASSWORD URL
+    $ cf create-service-broker p-mysql BROKER_USERNAME BROKER_PASSWORD URL
     ```
     
     - BROKER_USERNAME and BROKER_PASSWORD are the values you gave for `auth_username` and `auth_password` in the deployment manifest. 
@@ -177,68 +177,7 @@ For more information, see the documentation on [Managing Service Brokers](http:/
 
 By default new plans are private, which means they are not visible to end users. This enables an admin to test services before making them available to end users.
 
-To make a plan public, use the old ruby CF CLI (the curl feature will be implemented soon on gcf).
-
-
-1. Login as an admin user with the ruby cf cli.
-
-    ```
-    $ cf login
-    ```
-
-2. Get the service plan guid.
-
-    ```
-    $ cf services -m -t
-    ```
-
-   This returns a JSON response which includes something like the following for each service.
-
-    ```
-    "service_plans": [
-      {
-        "metadata": {
-          "guid": "a01d462f-a4a4-4945-a008-3ff13c06f719",
-          "url": "/v2/service_plans/a01d462f-a4a4-4945-a008-3ff13c06f719",
-          "created_at": "2013-11-15T23:42:52+00:00",
-          "updated_at": "2013-11-22T18:57:46+00:00"
-        },
-        "entity": {
-          "name": "large",
-          "free": false,
-          "description": "Large Dummy",
-          "service_guid": "e629bb0a-fee7-4a6c-a4f1-9eeec7096c29",
-          "extra": "{\"cost\":20.0,\"bullets\":[]}",
-          "unique_id": "addonOffering_3365",
-          "public": false,
-          "service_url": "/v2/services/e629bb0a-fee7-4a6c-a4f1-9eeec7096c29",
-          "service_instances_url": "/v2/service_plans/a01d462f-a4a4-4945-a008-3ff13c06f719/service_instances"
-        }
-      }
-    ]      
-    ```
-
-3. Set the plan as public, using its GUID.
-
-    ```
-    $ cf curl PUT /v2/service_plans/a01d462f-a4a4-4945-a008-3ff13c06f719 -b '{"public":'true'}'
-    ```
-
-4. Verify that the the plan was set to public. Re-run this command and check the 'public' field:
-
-    ```
-    $ cf services -m -t
-    ```
-    
-    You should now be able to view the p-mysql service in the service marketplace and create service instances.
-
-    ```
-    $ gcf m
-    Getting services from marketplace in org scoen / space broker as admin...
-    OK
-    service   plans   description
-    p-mysql   100mb   MySQL service for application development and testing
-    ```
+To make a plan public, see [Access Control](http://docs.cloudfoundry.com/docs/running/architecture/services/access-control.html#make-plans-public).
 
 
 ### Dashboard
