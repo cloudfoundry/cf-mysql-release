@@ -24,3 +24,8 @@ mysqlclient/mysql-connector-c-6.1.2-src.tar.gz:
   sha: !binary |-
     OTZiMzUwMTlkNGZlMDgzY2YyM2JkMzcxNDRhMWUyMWE1ZDQzODYxNA==
   size: 3036739
+ruby/yaml-0.1.5.tar.gz:
+  object_id: da3ee2c1-11f0-4969-a37f-0298f8bf8987
+  sha: !binary |-
+    OGI3OGNiOWY3NTljN2Q4MGRiOGE3MzI4YzBlYmVjZmUzNGZkZTczNw==
+  size: 504897
