@@ -4,3 +4,6 @@
 [submodule "shared"]
 	path = shared
 	url = https://github.com/cloudfoundry/shared-release-packages.git
+[submodule "packages/ruby"]
+	path = packages/ruby
+	url = git@github.com:cloudfoundry/ruby.git
