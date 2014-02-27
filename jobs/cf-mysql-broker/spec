@@ -39,3 +39,18 @@ properties:
 
   cc_api_uri:
     description: 'URL of the CloudFoundry Cloud Controller'
+
+  external_host:
+    description: 'External domain where the broker will be available on a subdomain (often the same as the system domain)'
+
+  nats.user:
+    description: 'Username for broker to connect to NATS'
+  nats.password:
+    description: 'Password for broker to connect to NATS'
+  nats.port:
+    description: 'IP port of Cloud Foundry NATS server'
+  nats.machines:
+    description: 'IP of each NATS cluster member.'
+
+  networks.broker_network:
+    description: 'Name of the network the broker will get its IP address from'

@@ -4,6 +4,13 @@ production:
   auth_username: '<%= p('auth_username') %>'
   auth_password: '<%= p('auth_password') %>'
   cookie_secret: <%= p('cookie_secret') %>
+  message_bus_servers:
+  <% p('nats.machines').each do |ip| %>
+    - nats://<%= p('nats.user') %>:<%= p('nats.password') %>@<%= ip %>:<%= p('nats.port') %>
+  <% end %>
+
+  external_host: <%= p('external_host') %>
+  external_ip: <%= spec.networks.send(p('networks.broker_network')).ip %>
 
   cc_api_uri: <%= p('cc_api_uri') %>
 
