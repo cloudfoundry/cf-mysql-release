@@ -69,7 +69,7 @@ jobs:
       auth_username: (( merge ))
       auth_password: (( merge ))
       cookie_secret: (( merge ))
-      external_host: (( "pmysql." meta.external_domain ))
+      external_host: (( "p-mysql." meta.external_domain ))
       cc_api_uri: (( merge ))
       nats: (( meta.nats ))
       networks:
