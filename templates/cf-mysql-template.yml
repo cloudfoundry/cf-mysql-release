@@ -125,7 +125,7 @@ jobs:
         password: (( merge ))
       broker:
         name: p-mysql
-        ip: (( jobs.cf-mysql-broker.properties.external_host ))
+        url: (( jobs.cf-mysql-broker.properties.external_host ))
         port: 80
         username: (( jobs.cf-mysql-broker.properties.auth_username ))
         password: (( jobs.cf-mysql-broker.properties.auth_password ))
