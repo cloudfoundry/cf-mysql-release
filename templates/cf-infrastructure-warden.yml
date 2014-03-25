@@ -3,10 +3,6 @@ meta:
     provider: Local
     local_root: /var/vcap/store
 
-  stemcell:
-    name: bosh-warden-boshlite-ubuntu
-    version: latest
-
 compilation:
   workers: 6
   network: services1
@@ -16,9 +12,9 @@ compilation:
 
 resource_pools:
   - name: services-small
-    size: 2
     network: services1
-    stemcell: (( meta.stemcell ))
+    stemcell:
+      name: bosh-warden-boshlite-ubuntu
     cloud_properties:
       name: random
 

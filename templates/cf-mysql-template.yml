@@ -6,10 +6,6 @@ meta:
   # i.e. cf-tabasco
   environment: ~
 
-  stemcell:
-    name: (( merge ))
-    version: latest
-
   external_domain: (( merge ))
   nats: (( merge ))
 
@@ -38,7 +34,10 @@ resource_pools:
   - name: services-small
     network: services1
     size: (( auto ))
-    stemcell: (( meta.stemcell ))
+    stemcell:
+      name: (( merge ))
+      # Always use the same version
+      version: 2200
     cloud_properties: (( merge ))
 
 jobs:
@@ -111,5 +110,24 @@ jobs:
       mysql_node:
         host: (( jobs.mysql.networks.services1.static_ips.[0] ))
         admin_password: (( jobs.mysql.properties.admin_password ))
+  - name: broker-registrar
+    template: broker-registrar
+    release: cf-mysql
+    instances: 1
+    resource_pool: services-small
+    lifecycle: errand
+    networks:
+    - name: services1
+    properties:
+      cf:
+        api_url: (( jobs.cf-mysql-broker.properties.cc_api_uri ))
+        username: (( merge ))
+        password: (( merge ))
+      broker:
+        name: p-mysql
+        ip: (( jobs.cf-mysql-broker.properties.external_host ))
+        port: 80
+        username: (( jobs.cf-mysql-broker.properties.auth_username ))
+        password: (( jobs.cf-mysql-broker.properties.auth_password ))
 
 properties: {}  # Pivotal CF cannot generate global properties
