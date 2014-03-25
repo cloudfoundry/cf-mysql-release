@@ -6,12 +6,12 @@ releases:
     version: latest
 
 jobs:
-  - instances: 1
-    name: mysql
+  - name: mysql
+    instances: 1
     properties:
       admin_password: password
-  - instances: 1
-    name: cf-mysql-broker
+  - name: cf-mysql-broker
+    instances: 1
     properties:
       auth_password: password
       auth_username: admin
@@ -21,6 +21,11 @@ jobs:
       - name: p-mysql
         dashboard_client:
           secret: p-mysql-secret
+  - name: broker-registrar
+    properties:
+      cf:
+        username: admin
+        password: admin
 
 meta:
   external_domain: 10.244.0.34.xip.io
