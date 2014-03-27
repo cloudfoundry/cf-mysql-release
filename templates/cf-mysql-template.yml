@@ -7,6 +7,7 @@ meta:
   environment: ~
 
   external_domain: (( merge ))
+  test_apps_domain: (( merge ))
   nats: (( merge ))
 
 name: (( meta.environment "-mysql" ))
@@ -143,6 +144,6 @@ jobs:
         admin_password: (( merge ))
         regular_username: (( merge ))
         regular_password: (( merge ))
-        apps_domain: (( merge ))
+        apps_domain: (( meta.test_apps_domain ))
 
 properties: {}  # Pivotal CF cannot generate global properties
