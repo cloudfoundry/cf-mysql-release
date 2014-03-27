@@ -26,7 +26,14 @@ jobs:
       cf:
         admin_username: admin
         admin_password: admin
-
+  - name: acceptance-tests
+    properties:
+      cf:
+        admin_username: admin
+        admin_password: admin
+        regular_username: admin
+        regular_password: admin
+        apps_domain: 10.244.0.34.xip.io
 meta:
   external_domain: 10.244.0.34.xip.io
   nats:
