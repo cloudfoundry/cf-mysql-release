@@ -128,5 +128,21 @@ jobs:
         host: (( jobs.cf-mysql-broker.properties.external_host ))
         username: (( jobs.cf-mysql-broker.properties.auth_username ))
         password: (( jobs.cf-mysql-broker.properties.auth_password ))
+  - name: acceptance-tests
+    template: acceptance-tests
+    release: cf-mysql
+    instances: 1
+    resource_pool: services-small
+    lifecycle: errand
+    networks:
+    - name: services1
+    properties:
+      cf:
+        api_url: (( jobs.cf-mysql-broker.properties.cc_api_uri ))
+        admin_username: (( merge ))
+        admin_password: (( merge ))
+        regular_username: (( merge ))
+        regular_password: (( merge ))
+        apps_domain: (( merge ))
 
 properties: {}  # Pivotal CF cannot generate global properties
