@@ -24,8 +24,8 @@ jobs:
   - name: broker-registrar
     properties:
       cf:
-        username: admin
-        password: admin
+        admin_username: admin
+        admin_password: admin
 
 meta:
   external_domain: 10.244.0.34.xip.io
