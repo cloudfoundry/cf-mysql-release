@@ -121,12 +121,11 @@ jobs:
     properties:
       cf:
         api_url: (( jobs.cf-mysql-broker.properties.cc_api_uri ))
-        username: (( merge ))
-        password: (( merge ))
+        admin_username: (( merge ))
+        admin_password: (( merge ))
       broker:
         name: p-mysql
-        url: (( jobs.cf-mysql-broker.properties.external_host ))
-        port: 80
+        host: (( jobs.cf-mysql-broker.properties.external_host ))
         username: (( jobs.cf-mysql-broker.properties.auth_username ))
         password: (( jobs.cf-mysql-broker.properties.auth_password ))
 
