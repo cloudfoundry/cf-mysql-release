@@ -15,6 +15,7 @@ resource_pools:
     network: services1
     stemcell:
       name: bosh-warden-boshlite-ubuntu
+      version: 51
     cloud_properties:
       name: random
 
