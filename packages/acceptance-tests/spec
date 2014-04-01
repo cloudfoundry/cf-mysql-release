@@ -1,0 +1,6 @@
+---
+name: acceptance-tests
+dependencies:
+  - ruby
+files:
+  - acceptance-tests/**/*

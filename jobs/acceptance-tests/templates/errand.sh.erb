@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e -x
+export PATH=/var/vcap/packages/ruby/bin:$PATH
+cd /var/vcap/packages/acceptance-tests
+
+# Don't expose passwords
+set +x
+
+export NYET_ADMIN_PASSWORD='<%= p("cf.admin_password") %>'
+export NYET_REGULAR_PASSWORD='<%= p("cf.regular_password") %>'
+
+set -x
+
+export NYET_TARGET='<%= p("cf.api_url") %>'
+export NYET_ADMIN_USERNAME='<%= p("cf.admin_username") %>'
+export NYET_REGULAR_USERNAME='<%= p("cf.regular_username") %>'
+export NYET_RAISE_ALL_ERRORS="1"
+export NYET_APPS_DOMAIN='<%= p("cf.apps_domain") %>'
+
+bundle exec rspec -fd services_spec/cf_mysql_spec.rb:79
+
