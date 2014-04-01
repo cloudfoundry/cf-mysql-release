@@ -1,6 +1,4 @@
-meta:
-  stemcell:
-    name: bosh-aws-xen-ubuntu
+meta: ~
 
 compilation:
   cloud_properties:
@@ -28,6 +26,8 @@ networks:
 
 resource_pools:
   - name: services-small
+    stemcell:
+      name: bosh-aws-xen-ubuntu
     cloud_properties:
       instance_type: m1.small
       availability_zone: (( properties.template_only.aws.availability_zone ))
