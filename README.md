@@ -28,6 +28,7 @@ This project contains a BOSH release of a MySQL service for Cloud Foundry. It ut
 Prerequisites:
 
 - The MySQL service requires a deployment of Cloud Foundry ([cf-release](https://github.com/cloudfoundry/cf-release)) and has been supported since [final release 155](https://github.com/cloudfoundry/cf-release/blob/master/releases/cf-155.yml) ([tag v155](https://github.com/cloudfoundry/cf-release/tree/v155)).
+  - Dashboard SSO is currently in development and requires a more recent version of cf-release. See the Dashboard section at the end of this doc for details.
 - Installing the CF MySQL service requires BOSH.
 - Instructions on installing BOSH as well as Cloud Foundry (runtime) are located in the [Cloud Foundry documentation](http://docs.cloudfoundry.com/docs/running/deploying-cf/).
 
@@ -182,7 +183,14 @@ To make a plan public, see [Access Control](http://docs.cloudfoundry.com/docs/ru
 
 ### Dashboard
 
-The service broker implements a user-facing UI. Services wanting to implement such a UI and integrate with the Cloud Foundry Web UI should implement something similar. Instructions to implement this feature can be found [here](http://docs.cloudfoundry.com/docs/running/architecture/services/).
+The service broker implements a user-facing UI which users can access via SSO once authenticated with Cloud Foundry. The SSO feature is currently in development. If you encounter an error when you register the service broker, try removing the following lines from your manifest and redeploy.
+
+        dashboard_client:
+            id: p-mysql
+            secret: yoursecret
+            redirect_uri: http://p-mysql.yourdomain.com/manage/auth/cloudfoundry/callback
+
+Services wanting to implement such a UI and integrate with the Cloud Foundry Web UI should implement something similar. Instructions to implement this feature can be found [here](http://docs.cloudfoundry.com/docs/running/architecture/services/).
 
 The broker displays usage information on a per instance basis.
 
