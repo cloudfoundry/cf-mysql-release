@@ -155,6 +155,14 @@ If you followed the instructions for bosh-lite above your manifest is in the `cf
 
 ### Register the CF MySQL Service Broker
 
+This bosh release is packaged with errands to perform the broker registration. To run the errand, just run:
+
+```
+bosh run errand broker-registrar
+```
+
+If you'd rather register the broker by hand, here are the instructions for doing so with the CF CLI.
+
 1. Target Cloud Foundry and login as an admin user
     
     If you're using bosh-lite, you may have to run this script first:
@@ -180,6 +188,13 @@ By default new plans are private, which means they are not visible to end users.
 
 To make a plan public, see [Access Control](http://docs.cloudfoundry.org/services/access-control.html).
 
+### De-register the CF MySQL Service Broker
+
+This bosh release also has an errand to de-register the broker and purge all services/service instances along with it. To do this simply run:
+
+```
+bosh run errand broker-deregistrar
+```
 
 ### Dashboard
 
@@ -193,6 +208,14 @@ The service broker implements a user-facing UI which users can access via SSO on
 Services wanting to implement such a UI and integrate with the Cloud Foundry Web UI should implement something similar. Instructions to implement this feature can be found [here](http://docs.cloudfoundry.com/docs/running/architecture/services/).
 
 The broker displays usage information on a per instance basis.
+
+### Acceptance Tests
+
+This release also has an errand to run acceptance tests. They can be run using this command:
+
+```
+bosh run errand acceptance-tests
+```
 
 #### Implementation Details
 
