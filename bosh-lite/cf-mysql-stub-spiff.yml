@@ -26,6 +26,11 @@ jobs:
       cf:
         admin_username: admin
         admin_password: admin
+  - name: broker-deregistrar
+    properties:
+      cf:
+        admin_username: admin
+        admin_password: admin
   - name: acceptance-tests
     properties:
       cf:
