@@ -178,7 +178,7 @@ For more information, see the documentation on [Managing Service Brokers](http:/
 
 By default new plans are private, which means they are not visible to end users. This enables an admin to test services before making them available to end users.
 
-To make a plan public, see [Access Control](http://docs.cloudfoundry.com/docs/running/architecture/services/access-control.html#make-plans-public).
+To make a plan public, see [Access Control](http://docs.cloudfoundry.org/services/access-control.html).
 
 
 ### Dashboard
