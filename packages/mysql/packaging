@@ -10,6 +10,6 @@ tar xzf mysql/mysql-${MYSQL_VERSION}.tar.gz
   mkdir bld
   cd bld
   cmake .. -DCMAKE_INSTALL_PREFIX=${BOSH_INSTALL_TARGET}
-  make
+  make -j 3
   make install
 )
