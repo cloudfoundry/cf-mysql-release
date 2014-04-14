@@ -201,13 +201,16 @@ bosh run errand broker-deregistrar
 The service broker implements a user-facing UI which users can access via SSO once authenticated with Cloud Foundry. The SSO feature is currently in development. If you encounter an error when you register the service broker, try removing the following lines from your manifest and redeploy.
 
         dashboard_client:
-            id: p-mysql
-            secret: yoursecret
-            redirect_uri: http://p-mysql.yourdomain.com/manage/auth/cloudfoundry/callback
+          id: p-mysql
+          secret: yoursecret
 
 Services wanting to implement such a UI and integrate with the Cloud Foundry Web UI should implement something similar. Instructions to implement this feature can be found [here](http://docs.cloudfoundry.com/docs/running/architecture/services/).
 
 The broker displays usage information on a per instance basis.
+
+#### SSL
+
+The dashboard redirect URL defaults to using the `https` scheme. To override this, you can change `properties.ssl_enabled` to `false`.
 
 ### Acceptance Tests
 
