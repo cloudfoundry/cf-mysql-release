@@ -13,6 +13,8 @@ production:
   external_host: <%= p('external_host') %>
   external_ip: <%= spec.networks.send(p('networks.broker_network')).ip %>
 
+  ssl_enabled: <%= p('ssl_enabled') %>
+
   cc_api_uri: <%= p('cc_api_uri') %>
 
   services:
@@ -52,5 +54,5 @@ production:
     dashboard_client:
       id: <%= service.dashboard_client.id %>
       secret: <%= service.dashboard_client.secret %>
-      redirect_uri: <%= service.dashboard_client.redirect_uri %>
+      redirect_uri: <%= "#{p('ssl_enabled') ? 'https' : 'http'}://#{p('external_host')}/" %>
   <% end %>

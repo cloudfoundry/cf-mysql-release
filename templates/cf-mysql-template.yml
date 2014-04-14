@@ -70,6 +70,7 @@ jobs:
       auth_password: (( merge ))
       cookie_secret: (( merge ))
       external_host: (( "p-mysql." meta.external_domain ))
+      ssl_enabled: (( merge || true ))
       cc_api_uri: (( merge ))
       nats: (( meta.nats ))
       networks:
@@ -90,9 +91,8 @@ jobs:
           documentationUrl: "http://docs.gopivotal.com/"
           supportUrl: "http://gopivotal.com/support/"
         dashboard_client:
-            id: p-mysql
-            secret: (( merge ))
-            redirect_uri: (( "http://" external_host "/" ))
+          id: p-mysql
+          secret: (( merge ))
         plans:
         - name: 100mb
           id: ab08f1bc-e6fc-4b56-a767-ee0fea6e3f20
