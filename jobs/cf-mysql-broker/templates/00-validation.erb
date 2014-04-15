@@ -26,7 +26,6 @@ It should be ignored after deployment.
        raise "Service must have property 'dashboard_client' and it must be a hash" unless dashboard_client && service.metadata.is_a?(OpenStruct)
        raise "Dashboard client must have property 'id'" unless dashboard_client.id
        raise "Dashboard client must have property 'secret'" unless dashboard_client.secret
-       raise "Dashboard client must have property 'redirect_uri'" unless dashboard_client.redirect_uri
 
        # validating optional fields if present
        raise "Service property 'tags' must be empty or an array of one or more tags" if service.tags && !service.tags.is_a?(Array)
@@ -68,7 +67,6 @@ services:
   dashboard_client:
     id: p-mysql-client
     secret: p-mysql-secret
-    redirect_uri: "http://broker.p-mysql.com"
   plans:
   - name: 100mb
     id: cf-mysql-plan-1
