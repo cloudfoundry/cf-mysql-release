@@ -1,6 +1,6 @@
 # Cloud Foundry MySQL Service
 
-This project contains a BOSH release of a MySQL service for Cloud Foundry. It utilizes the [v2 broker API](http://docs.cloudfoundry.com/docs/running/architecture/services/writing-service.html).
+This project contains a BOSH release of a MySQL service for Cloud Foundry. It utilizes the [v2 broker API](http://docs.cloudfoundry.org/services/api.html).
 
 ## MySQL Service Components
 
@@ -30,7 +30,7 @@ Prerequisites:
 - The MySQL service requires a deployment of Cloud Foundry ([cf-release](https://github.com/cloudfoundry/cf-release)) and has been supported since [final release 155](https://github.com/cloudfoundry/cf-release/blob/master/releases/cf-155.yml) ([tag v155](https://github.com/cloudfoundry/cf-release/tree/v155)).
   - Dashboard SSO is currently in development and requires a more recent version of cf-release. See the Dashboard section at the end of this doc for details.
 - Installing the CF MySQL service requires BOSH.
-- Instructions on installing BOSH as well as Cloud Foundry (runtime) are located in the [Cloud Foundry documentation](http://docs.cloudfoundry.com/docs/running/deploying-cf/).
+- Instructions on installing BOSH as well as Cloud Foundry (runtime) are located in the [Cloud Foundry documentation](http://docs.cloudfoundry.org/).
 
 Steps:
 
@@ -138,8 +138,6 @@ If you'd like to use a pre-built final release, reference one of the config file
 
     $ bosh upload release releases/cf-mysql-6.yml
 
-The [cf-release document](http://docs.cloudfoundry.com/docs/running/deploying-cf/common/cf-release.html) provides additional details on uploading releases using BOSH.
-
 ### Deploy Using BOSH
 
 Set your deployment using the deployment manifest you generated above.
@@ -147,11 +145,9 @@ Set your deployment using the deployment manifest you generated above.
     $ bosh deployment ~/workspace/deployments/mydevenv/cf-mysql-mydevenv.yml
     $ bosh deploy
     
-If you followed the instructions for bosh-lite above your manifest is in the `cf-mysql-release/bosh-lite/manifests` directory. The make\_manifest\_spiff\_mysql script should have already set the deployment to the manifest, so you just have to run:
+If you followed the instructions for bosh-lite above, your manifest is in the `cf-mysql-release/bosh-lite/manifests` directory. The make\_manifest\_spiff\_mysql script should have already set the deployment to the manifest, so you just have to run:
 
     $ bosh deploy
-
-[Deploying Cloud Foundry with BOSH](http://docs.cloudfoundry.com/docs/running/deploying-cf/vsphere/deploy_cf_vsphere.html) provides additional details on deploying with BOSH.
 
 ### Register the CF MySQL Service Broker
 
@@ -180,7 +176,7 @@ If you'd rather register the broker by hand, here are the instructions for doing
     - BROKER_USERNAME and BROKER_PASSWORD are the values you gave for `auth_username` and `auth_password` in the deployment manifest. 
     - URL specifies where the Cloud Controller will access the MySQL broker. If DNS is not configured for the MySQL broker, specify a URL using the IP address such as `http://10.244.1.130`. You can discover the broker IP address with the BOSH command, `bosh vms`.
     
-    For more information, see the documentation on [Managing Service Brokers](http://docs.cloudfoundry.com/docs/running/architecture/services/managing-service-brokers.html).
+    For more information, see the documentation on [Managing Service Brokers](http://docs.cloudfoundry.org/services/managing-service-brokers.html).
 
 3. Make MySQL Service Plan Public
 
@@ -219,7 +215,12 @@ The broker displays usage information on a per instance basis.
 
 #### SSL
 
-The dashboard redirect URL defaults to using the `https` scheme. To override this, you can change `properties.ssl_enabled` to `false`.
+The dashboard URL defaults to using the `https` scheme. To override this, you can change `properties.ssl_enabled` to `false` in the `cf-mysql-broker` job.
+
+Keep in mind that changing the `ssl_enabled` setting for an existing broker will not update previously advertised dashboard URLs.
+Visiting the old URL may fail if you are using the [SSO integration](http://docs.cloudfoundry.org/services/dashboard-sso.html),
+because the OAuth2 client registered with UAA will expect users to both come from and return to a URI using the scheme
+implied by the `ssl_enabled` setting.
 
 #### Implementation Details
 
