@@ -180,21 +180,30 @@ If you'd rather register the broker by hand, here are the instructions for doing
     - BROKER_USERNAME and BROKER_PASSWORD are the values you gave for `auth_username` and `auth_password` in the deployment manifest. 
     - URL specifies where the Cloud Controller will access the MySQL broker. If DNS is not configured for the MySQL broker, specify a URL using the IP address such as `http://10.244.1.130`. You can discover the broker IP address with the BOSH command, `bosh vms`.
     
-For more information, see the documentation on [Managing Service Brokers](http://docs.cloudfoundry.com/docs/running/architecture/services/managing-service-brokers.html).
+    For more information, see the documentation on [Managing Service Brokers](http://docs.cloudfoundry.com/docs/running/architecture/services/managing-service-brokers.html).
 
-### Make MySQL Service Plan Public
+3. Make MySQL Service Plan Public
 
-By default new plans are private, which means they are not visible to end users. This enables an admin to test services before making them available to end users.
+    By default new plans are private, which means they are not visible to end users. This enables an admin to test services before making them available to end users. To make a plan public, see [Access Control](http://docs.cloudfoundry.org/services/access-control.html).
 
-To make a plan public, see [Access Control](http://docs.cloudfoundry.org/services/access-control.html).
+### Acceptance Tests
+
+This release also has an errand to run acceptance tests. They can be run using this command:
+
+```
+bosh run errand acceptance-tests
+```
 
 ### De-register the CF MySQL Service Broker
 
 This bosh release also has an errand to de-register the broker and purge all services/service instances along with it. To do this simply run:
 
-```
-bosh run errand broker-deregistrar
-```
+    $ bosh run errand broker-deregistrar
+
+This is equivalent to running the following CLI commands:
+
+    $ cf purge-service-offering p-mysql
+    $ cf delete-service-broker p-mysql
 
 ### Dashboard
 
@@ -212,17 +221,10 @@ The broker displays usage information on a per instance basis.
 
 The dashboard redirect URL defaults to using the `https` scheme. To override this, you can change `properties.ssl_enabled` to `false`.
 
-### Acceptance Tests
-
-This release also has an errand to run acceptance tests. They can be run using this command:
-
-```
-bosh run errand acceptance-tests
-```
-
 #### Implementation Details
 
 1. Update the broker catalog with the dashboard client [properties](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/config/settings.yml#L26)
 2. Implement oauth [workflow](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/config/initializers/omniauth.rb) with the [omniauth-uaa-oauth2 gem](https://github.com/cloudfoundry/omniauth-uaa-oauth2)
 3. [Use](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/lib/access_token_handler.rb) the [cf-uaa-lib gem](https://github.com/cloudfoundry/cf-uaa-lib) to get a valid access token and request permissions on the instance
 4. Before showing the user the dashboard, [the broker checks](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/app/controllers/manage/instances_controller.rb#L7) to see if the user is logged-in and has permissions to view the usage details of the instance.
+
