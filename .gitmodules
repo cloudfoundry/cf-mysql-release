@@ -6,10 +6,10 @@
 	url = https://github.com/cloudfoundry/shared-release-packages.git
 [submodule "packages/ruby"]
 	path = packages/ruby
-	url = git@github.com:cloudfoundry/ruby.git
+	url = https://github.com/cloudfoundry/ruby.git
 [submodule "src/broker-registrar"]
 	path = src/broker-registrar
-	url = git@github.com:pivotal-cf/broker-registrar.git
+	url = https://github.com/pivotal-cf/broker-registrar.git
 [submodule "src/acceptance-tests"]
 	path = src/acceptance-tests
-	url = git@github.com:cloudfoundry/nyet.git
+	url = https://github.com/cloudfoundry/nyet.git
