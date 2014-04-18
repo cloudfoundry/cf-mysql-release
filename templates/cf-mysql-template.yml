@@ -38,7 +38,7 @@ resource_pools:
     stemcell:
       name: (( merge ))
       # Stemcell version 2200 is the first to support errands for aws and vsphere
-      version: (( merge || 2200 ))
+      version: (( merge || 2366 ))
     cloud_properties: (( merge ))
 
 jobs:
