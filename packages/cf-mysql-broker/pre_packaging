@@ -7,6 +7,8 @@ set -e
   # cache gems
   bundle package --all
 
+  RAILS_ENV=assets bundle exec rake assets:precompile
+
   # remove unneeded files
   rm -rf spec
 )
