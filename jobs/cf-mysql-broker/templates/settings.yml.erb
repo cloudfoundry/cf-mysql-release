@@ -4,7 +4,7 @@ production:
   auth_username: '<%= p('auth_username') %>'
   auth_password: '<%= p('auth_password') %>'
   cookie_secret: <%= p('cookie_secret') %>
-  session_expiry: 10
+  session_expiry: 86400
   message_bus_servers:
   <% p('nats.machines').each do |ip| %>
     - nats://<%= p('nats.user') %>:<%= p('nats.password') %>@<%= ip %>:<%= p('nats.port') %>
