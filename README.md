@@ -6,7 +6,7 @@ This project contains a BOSH release of a MySQL service for Cloud Foundry. It ut
 
 <table>
   <tr>
- 		<th>Component</th><th>Description</th><th>Build Status</th>
+     	<th>Component</th><th>Description</th><th>Build Status</th>
  	</tr>
  	<tr>
  	  <td>CF MySQL Broker</td>
@@ -28,22 +28,22 @@ This project contains a BOSH release of a MySQL service for Cloud Foundry. It ut
 Prerequisites:
 
 - The MySQL service requires a deployment of Cloud Foundry ([cf-release](https://github.com/cloudfoundry/cf-release)) and has been supported since [final release 155](https://github.com/cloudfoundry/cf-release/blob/master/releases/cf-155.yml) ([tag v155](https://github.com/cloudfoundry/cf-release/tree/v155)).
-  - Dashboard SSO is currently in development and requires a more recent version of cf-release. See the Dashboard section at the end of this doc for details.
+  - Dashboard SSO depends on having at least [version 169 of cf-release](https://github.com/cloudfoundry/cf-release/tree/v169). See the [Dashboard](#dashboard) section at the end of this doc for details.
 - Installing the CF MySQL service requires BOSH.
 - Instructions on installing BOSH as well as Cloud Foundry (runtime) are located in the [Cloud Foundry documentation](http://docs.cloudfoundry.org/).
 
 Steps:
 
-1. Create a CF MySQL deployment manifest
-1. (Optional) Create a BOSH release for CF MySQL
-1. Upload the release to the BOSH director
-1. Deploy the CF MySQL release with BOSH
-1. Register the newly created service broker with the Cloud Controller
-1. Make the CF MySQL plans public
+1. [Create a CF MySQL deployment manifest](#create_manifest)
+1. [(Optional) Create a BOSH release for CF MySQL](#create_release)
+1. [Upload the release to the BOSH director](#upload_release)
+1. [Deploy the CF MySQL release with BOSH](#deploy_release)
+1. [Register the newly created service broker with the Cloud Controller](#register_broker)
+1. [Make the CF MySQL plans public](#publicize_plans)
 
 The MySQL service should now be advertised when running `gcf marketplace`
 
-### Generating a Deployment Manifest
+### Generating a Deployment Manifest<a name="create_manifest"></a>
 
 We have provided scripts to help you generate a deployment manifest.  These scripts currently support AWS, vSphere, and [bosh-lite](https://github.com/cloudfoundry/bosh-lite) deployments.
 
@@ -53,10 +53,10 @@ To generate a deployment manifest for bosh-lite, follow the instructions [here](
 
 To generate a deployment manifest for AWS or vSphere, use the [generate_deployment_manifest](generate_deployment_manifest) script.  We recommend the following workflow:
 
-1. Run the `generate_deployment_manifest` script. You'll get some error that indicates what the missing manifest parameters are. 
+1. Run the `generate_deployment_manifest` script. 
+1. If you're missing manifest parameters in your stub, you'll get a list of missing manifest parameters. Check the `spec` file for each job in `jobs/#{job_name}/spec`. These spec files contain all the required parameters you will need to supply.
 1. Add those paramaters and values into the stub.  See [Hints for missing parameters in your deployment manifest stub](#hints-for-missing-parameters-in-your-deployment-manifest-stub) below.
-1. Rinse and repeat
-1. When all necessary stub parameters are present, the script will output the deployment manifest to stdout. Pipe this output to a file in your environment directory which indicates the environment and the release, such as `~/workspace/deployments/mydevenv/cf-mysql-mydevenv.yml`.
+1. When all necessary stub parameters are present, the script will output the deployment manifest to stdout. Pipe this output to a file in your environment directory that indicates the environment and the release, e.g. `~/workspace/deployments/mydevenv/cf-mysql-mydevenv.yml`.
 
 #### Example using AWS:
 
@@ -99,7 +99,7 @@ You need to know the AZ and subnet id, and you will need to configure them in th
   
 #### For vSphere:
 
-You need the available IP address range and the IP address of the DNS server, and should configure these in the stub:
+You need the available IP address range and the IP address of the DNS server and should configure these in the stub:
 
 - `networks`: Follow example from `templates/cf-infrastructure-aws.yml`.  Set IP addresses.  The `networks.subnets.cloud_properties` field requires only a sub-field called `name`.  This should match your vSphere network name, e.g. "VM Network".
 
@@ -121,7 +121,7 @@ $ ./bosh-lite/make_manifest_spiff_mysql
 # This step would have also set your deployment to ./bosh-lite/manifests/cf-mysql-manifest.yml
 ```
 
-### (Optional) Create a BOSH Release
+### (Optional) Create a BOSH Release<a name="create_release"></a>
 
 You can build a release from HEAD, or use a pre-built final release. Final releases contain pre-compiled packages, making deployment much faster. To build the release from HEAD:
 
@@ -130,7 +130,7 @@ You can build a release from HEAD, or use a pre-built final release. Final relea
     
 When prompted to name the release, called it `cf-mysql`.
 
-### Upload Release
+### Upload Release<a name="upload_release"></a>
 
     $ bosh upload release
 
@@ -138,7 +138,7 @@ If you'd like to use a pre-built final release, reference one of the config file
 
     $ bosh upload release releases/cf-mysql-6.yml
 
-### Deploy Using BOSH
+### Deploy Using BOSH<a name="deploy_release"></a>
 
 Set your deployment using the deployment manifest you generated above.
 
@@ -149,7 +149,7 @@ If you followed the instructions for bosh-lite above, your manifest is in the `c
 
     $ bosh deploy
 
-### Register the CF MySQL Service Broker
+### Register the CF MySQL Service Broker<a name="register_broker"></a>
 
 This bosh release is packaged with errands to perform the broker registration. To run the errand, just run:
 
@@ -178,19 +178,18 @@ If you'd rather register the broker by hand, here are the instructions for doing
     
     For more information, see the documentation on [Managing Service Brokers](http://docs.cloudfoundry.org/services/managing-service-brokers.html).
 
-3. Make MySQL Service Plan Public
+### Make MySQL Service Plan Public <a name="publicize_plans"></a>
 
     By default new plans are private, which means they are not visible to end users. This enables an admin to test services before making them available to end users. To make a plan public, see [Access Control](http://docs.cloudfoundry.org/services/access-control.html).
-
-### Acceptance Tests
-
+### New Features in this Release
+#### Acceptance Tests
 This release also has an errand to run acceptance tests. They can be run using this command:
 
 ```
 bosh run errand acceptance-tests
 ```
 
-### De-register the CF MySQL Service Broker
+#### De-register the CF MySQL Service Broker
 
 This bosh release also has an errand to de-register the broker and purge all services/service instances along with it. To do this simply run:
 
@@ -201,15 +200,15 @@ This is equivalent to running the following CLI commands:
     $ cf purge-service-offering p-mysql
     $ cf delete-service-broker p-mysql
 
-### Dashboard
+#### Dashboard <a name="dashboard"></a>
 
-The service broker implements a user-facing UI which users can access via SSO once authenticated with Cloud Foundry. The SSO feature is currently in development. If you encounter an error when you register the service broker, try removing the following lines from your manifest and redeploy.
+The service broker implements a user-facing UI which users can access via Single Sign-On (SSO) once authenticated with Cloud Foundry. SSO was implemented in build 169 of cf-release, so CF 169 is a minimum requirement for the SSO feature. If you encounter an error when you register the service broker, try removing the following lines from your manifest and redeploy.
 
         dashboard_client:
           id: p-mysql
           secret: yoursecret
 
-Services wanting to implement such a UI and integrate with the Cloud Foundry Web UI should implement something similar. Instructions to implement this feature can be found [here](http://docs.cloudfoundry.com/docs/running/architecture/services/).
+Services wanting to implement such a UI and integrate with the Cloud Foundry Web UI should implement something similar. Instructions to implement this feature can be found [here](http://docs.cloudfoundry.org/services/dashboard-sso.html).
 
 The broker displays usage information on a per instance basis.
 
@@ -226,6 +225,6 @@ implied by the `ssl_enabled` setting.
 
 1. Update the broker catalog with the dashboard client [properties](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/config/settings.yml#L26)
 2. Implement oauth [workflow](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/config/initializers/omniauth.rb) with the [omniauth-uaa-oauth2 gem](https://github.com/cloudfoundry/omniauth-uaa-oauth2)
-3. [Use](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/lib/access_token_handler.rb) the [cf-uaa-lib gem](https://github.com/cloudfoundry/cf-uaa-lib) to get a valid access token and request permissions on the instance
+3. [Use](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/lib/uaa_session.rb) the [cf-uaa-lib gem](https://github.com/cloudfoundry/cf-uaa-lib) to get a valid access token and request permissions on the instance
 4. Before showing the user the dashboard, [the broker checks](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/app/controllers/manage/instances_controller.rb#L7) to see if the user is logged-in and has permissions to view the usage details of the instance.
 
