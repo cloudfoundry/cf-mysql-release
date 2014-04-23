@@ -107,6 +107,7 @@ jobs:
               - Shared MySQL server
               - 100 MB storage
               - 40 concurrent connections
+            displayName: (( merge || "100 MB" ))
       mysql_node:
         host: (( jobs.mysql.networks.services1.static_ips.[0] ))
         admin_password: (( jobs.mysql.properties.admin_password ))
