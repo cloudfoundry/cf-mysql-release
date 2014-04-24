@@ -181,19 +181,18 @@ If you'd rather register the broker by hand, here are the instructions for doing
 ### Make MySQL Service Plan Public <a name="publicize_plans"></a>
 
     By default new plans are private, which means they are not visible to end users. This enables an admin to test services before making them available to end users. To make a plan public, see [Access Control](http://docs.cloudfoundry.org/services/access-control.html).
-### New Features in this Release
-#### Acceptance Tests
-This release also has an errand to run acceptance tests. They can be run using this command:
+### New Features in this Release (v7)
+#### Errands
+##### Acceptance Tests
+This release includes an errand to run acceptance tests. They can be run using this command:
 
-```
-bosh run errand acceptance-tests
-```
+`$ bosh run errand acceptance-tests`
 
-#### De-register the CF MySQL Service Broker
+##### De-registration of the CF MySQL Service Broker
 
-This bosh release also has an errand to de-register the broker and purge all services/service instances along with it. To do this simply run:
+This bosh release also has an errand to de-register the broker and purge all services/service instances along with it. To do this, simply run:
 
-    $ bosh run errand broker-deregistrar
+`$ bosh run errand broker-deregistrar`
 
 This is equivalent to running the following CLI commands:
 
@@ -208,7 +207,7 @@ The service broker implements a user-facing UI which users can access via Single
           id: p-mysql
           secret: yoursecret
 
-Services wanting to implement such a UI and integrate with the Cloud Foundry Web UI should implement something similar. Instructions to implement this feature can be found [here](http://docs.cloudfoundry.org/services/dashboard-sso.html).
+Services wanting to implement such a UI and integrate with the Cloud Foundry Web UI should try something similar. Instructions to implement this feature can be found [here](http://docs.cloudfoundry.org/services/dashboard-sso.html).
 
 The broker displays usage information on a per instance basis.
 
