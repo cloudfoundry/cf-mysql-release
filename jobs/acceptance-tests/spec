@@ -1,7 +1,7 @@
 ---
 name: acceptance-tests
 packages:
-- ruby
+- golang
 - acceptance-tests
 templates:
   errand.sh.erb: bin/run
@@ -12,9 +12,11 @@ properties:
     description: 'Username of the admin user'
   cf.admin_password:
     description: 'Password of the admin user'
-  cf.regular_username:
-    description: 'Username of a user'
-  cf.regular_password:
-    description: 'Password of a user'
   cf.apps_domain:
     description: 'Shared domain for pushed apps'
+  cf.existing_service_instance_name:
+    description: 'A long-running service instance for testing'
+  cf.existing_service_instance_org:
+    description: 'A long-running service instance org for testing'
+  cf.existing_service_instance_space:
+    description: 'A long-running service instance space for testing'

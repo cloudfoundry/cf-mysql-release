@@ -36,8 +36,9 @@ jobs:
       cf:
         admin_username: admin
         admin_password: admin
-        regular_username: admin
-        regular_password: admin
+        existing_service_instance_name: cf-mysql-acceptance-tests-service-instance
+        existing_service_instance_org: cf-mysql-acceptance-tests-service-instance-org
+        existing_service_instance_space: cf-mysql-acceptance-tests-service-instance-space
 meta:
   external_domain: 10.244.0.34.xip.io
   test_apps_domain: 10.244.0.34.xip.io

@@ -1,6 +1,6 @@
 ---
 name: acceptance-tests
 dependencies:
-  - ruby
+  - golang
 files:
   - acceptance-tests/**/*
