@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # vim: set ft=sh
 
 set -e
@@ -13,11 +13,14 @@ if [ -z "$GOPATH" ]; then
   exit 1
 fi
 
-go get github.com/vito/gocart
-gocart install
+if [[ ! $1 || $1 != "errand" ]]; then
+  go get github.com/vito/gocart
+  gocart install
+fi
 
 go install github.com/onsi/ginkgo/ginkgo
 
-go fmt ./apps/...
+go fmt ./cf-mysql-service/...
 
-ginkgo -r -v -slowSpecThreshold=300 "$@"
+CF_COLOR=false CF_VERBOSE_OUTPUT=true \
+  ginkgo ./cf-mysql-service -v -slowSpecThreshold=300 "$@"
