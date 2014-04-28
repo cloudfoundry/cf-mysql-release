@@ -29,3 +29,8 @@ ruby/yaml-0.1.5.tar.gz:
   sha: !binary |-
     OGI3OGNiOWY3NTljN2Q4MGRiOGE3MzI4YzBlYmVjZmUzNGZkZTczNw==
   size: 504897
+golang/go1.2.1.linux-amd64.tar.gz:
+  object_id: 64d22c00-b555-4337-8ec4-46ec19318def
+  sha: !binary |-
+    NzYwNWY1NzdmZjZhYzJkNjA4YTNhNGU4MjliMjU1YWUyZWJjOGRjZg==
+  size: 56123695
