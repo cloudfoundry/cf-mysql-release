@@ -1,5 +1,4 @@
-github.com/onsi/ginkgo	7083fb7612a8bc8ef9a48c35b8364fd06fadf9ad
-github.com/onsi/gomega	ff48b6baeb8028ce0ad570efbe36b1534b7efd0c
-github.com/vito/cmdtest	fbd89b77403b5ed2f394946ec8debcc251b96815
+github.com/onsi/ginkgo	1e48048b2e01c7f1830144e30eea21db3cd3b574
+github.com/onsi/gomega	af40dc423678b84288e18d0b993770cf9d599a68
 github.com/nu7hatch/gouuid	179d4d0c4d8d407a32af483c2354df1d2c91e6c3
-github.com/pivotal-cf-experimental/cf-test-helpers	0e1d12aa96a27ce7c275335df9fe3fc0c8bac982
+github.com/pivotal-cf-experimental/cf-test-helpers	98f623cc95a731aec78981fee8259a5520414011
