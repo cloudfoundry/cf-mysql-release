@@ -10,9 +10,6 @@ type IntegrationConfig struct {
 	ApiEndpoint                 	string `json:"api_url"`
 	AdminUser                   	string `json:"admin_user"`
 	AdminPassword               	string `json:"admin_password"`
-	ExistingServiceInstanceName 	string `json:"existing_service_instance_name"`
-	ExistingServiceInstanceOrg		string `json:"existing_service_instance_org"`
-	ExistingServiceInstanceSpace	string `json:"existing_service_instance_space"`
 	SkipSSLValidation           	bool `json:"skip_ssl_validation"`
 }
 

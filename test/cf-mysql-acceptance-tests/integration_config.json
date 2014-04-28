@@ -2,8 +2,5 @@
   "api_url": "http://api.10.244.0.34.xip.io",
   "apps_domain": "10.244.0.34.xip.io",
   "admin_user": "admin",
-  "admin_password": "admin",
-  "existing_service_instance_name": "long-running-instance",
-  "existing_service_instance_org": "long-running-org",
-  "existing_service_instance_space": "long-running-space"
+  "admin_password": "admin"
 }

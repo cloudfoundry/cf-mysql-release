@@ -12,9 +12,6 @@ cat > integration_config.json <<EOF
 {
   "api_url":                         "<%= p("cf.api_url") %>",
   "apps_domain":                     "<%= p("cf.apps_domain") %>",
-  "existing_service_instance_name":  "<%= p("cf.existing_service_instance_name") %>",
-  "existing_service_instance_org":   "<%= p("cf.existing_service_instance_org") %>",
-  "existing_service_instance_space": "<%= p("cf.existing_service_instance_space") %>",
   "admin_user":                      "<%= p("cf.admin_username") %>",
 EOF
 
@@ -22,7 +19,7 @@ EOF
 set +x
 
 cat >> integration_config.json <<EOF
-  "admin_password":   "<%= p("cf.admin_password") %>",
+  "admin_password":   "<%= p("cf.admin_password") %>"
 }
 EOF
 
