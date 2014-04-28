@@ -8,7 +8,7 @@ import (
 	ginkgoconfig "github.com/onsi/ginkgo/config"
 	"github.com/onsi/ginkgo/reporters"
 	. "github.com/onsi/gomega"
-	"github.com/vito/cmdtest"
+	"github.com/onsi/gomega/gexec"
 
 	"../helpers"
 	. "github.com/pivotal-cf-experimental/cf-test-helpers/runner"
@@ -24,8 +24,8 @@ func AppUri(appname string) string {
 	return "http://" + appname + "." + IntegrationConfig.AppsDomain
 }
 
-func Curling(args ...string) func() *cmdtest.Session {
-	return func() *cmdtest.Session {
+func Curling(args ...string) func() *gexec.Session {
+	return func() *gexec.Session {
 		return Curl(args...)
 	}
 }

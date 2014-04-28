@@ -3,11 +3,13 @@ package cf_mysql_service
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/vito/cmdtest/matchers"
+	. "github.com/onsi/gomega/gbytes"
+	. "github.com/onsi/gomega/gexec"
 
 	"fmt"
 	. "github.com/pivotal-cf-experimental/cf-test-helpers/cf"
 	. "github.com/pivotal-cf-experimental/cf-test-helpers/generator"
+	. "github.com/pivotal-cf-experimental/cf-test-helpers/runner"
 	"time"
 )
 
@@ -22,7 +24,7 @@ var (
 			uri := AppUri("p-mysql") + "/v2/catalog"
 
 			fmt.Println("Curling url: ", uri)
-			Eventually(Curling(uri), timeout, retryInterval).Should(Say("HTTP Basic: Access denied."))
+			Eventually(Curl(uri), timeout, retryInterval).Should(Say("HTTP Basic: Access denied."))
 		})
 
 		Describe("Service instance lifecycle", func() {
@@ -31,11 +33,11 @@ var (
 			BeforeEach(func() {
 				appName = RandomName()
 
-				Expect(Cf("push", appName, "-m", "256M", "-p", sinatraPath, "-no-start")).To(ExitWithTimeout(0, 60*time.Second))
+				Eventually(Cf("push", appName, "-m", "256M", "-p", sinatraPath, "-no-start"), 60*time.Second).Should(Exit(0))
 			})
 
 			AfterEach(func() {
-				Expect(Cf("delete", appName, "-f")).To(ExitWithTimeout(0, 20*time.Second))
+				Eventually(Cf("delete", appName, "-f"), 20*time.Second).Should(Exit(0))
 			})
 
 			Context("using a new service instance", func() {
@@ -43,20 +45,20 @@ var (
 					serviceInstanceName := RandomName()
 					uri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/mykey"
 
-					Expect(Cf("create-service", serviceName, planName, serviceInstanceName)).To(ExitWithTimeout(0, 60*time.Second))
-					Expect(Cf("bind-service", appName, serviceInstanceName)).To(ExitWithTimeout(0, 60*time.Second))
-					Expect(Cf("start", appName)).To(ExitWithTimeout(0, 5*60*time.Second))
+					Eventually(Cf("create-service", serviceName, planName, serviceInstanceName), 60*time.Second).Should(Exit(0))
+					Eventually(Cf("bind-service", appName, serviceInstanceName), 60*time.Second).Should(Exit(0))
+					Eventually(Cf("start", appName), 5*60*time.Second).Should(Exit(0))
 
 					fmt.Println("Posting to url: ", uri)
-					Eventually(Curling("-d", "myvalue", uri), timeout, retryInterval).Should(Say("myvalue"))
+					Eventually(Curl("-d", "myvalue", uri), timeout, retryInterval).Should(Say("myvalue"))
 					fmt.Println("\n")
 
 					fmt.Println("Curling url: ", uri)
-					Eventually(Curling(uri), timeout, retryInterval).Should(Say("myvalue"))
+					Eventually(Curl(uri), timeout, retryInterval).Should(Say("myvalue"))
 					fmt.Println("\n")
 
-					Expect(Cf("unbind-service", appName, serviceInstanceName)).To(ExitWithTimeout(0, 20*time.Second))
-					Expect(Cf("delete-service", "-f", serviceInstanceName)).To(ExitWithTimeout(0, 20*time.Second))
+					Eventually(Cf("unbind-service", appName, serviceInstanceName), 20*time.Second).Should(Exit(0))
+					Eventually(Cf("delete-service", "-f", serviceInstanceName), 20*time.Second).Should(Exit(0))
 				})
 			})
 		})
@@ -69,16 +71,16 @@ var (
 				appName = RandomName()
 				serviceInstanceName = RandomName()
 
-				Expect(Cf("push", appName, "-m", "256M", "-p", sinatraPath, "-no-start")).To(ExitWithTimeout(0, 60*time.Second))
-				Expect(Cf("create-service", serviceName, planName, serviceInstanceName)).To(ExitWithTimeout(0, 60*time.Second))
-				Expect(Cf("bind-service", appName, serviceInstanceName)).To(ExitWithTimeout(0, 60*time.Second))
-				Expect(Cf("start", appName)).To(ExitWithTimeout(0, 5*60*time.Second))
+				Eventually(Cf("push", appName, "-m", "256M", "-p", sinatraPath, "-no-start"), 60*time.Second).Should(Exit(0))
+				Eventually(Cf("create-service", serviceName, planName, serviceInstanceName), 60*time.Second).Should(Exit(0))
+				Eventually(Cf("bind-service", appName, serviceInstanceName), 60*time.Second).Should(Exit(0))
+				Eventually(Cf("start", appName), 5*60*time.Second).Should(Exit(0))
 			})
 
 			AfterEach(func() {
-				Expect(Cf("unbind-service", appName, serviceInstanceName)).To(ExitWithTimeout(0, 20*time.Second))
-				Expect(Cf("delete-service", "-f", serviceInstanceName)).To(ExitWithTimeout(0, 20*time.Second))
-				Expect(Cf("delete", appName, "-f")).To(ExitWithTimeout(0, 20*time.Second))
+				Eventually(Cf("unbind-service", appName, serviceInstanceName), 20*time.Second).Should(Exit(0))
+				Eventually(Cf("delete-service", "-f", serviceInstanceName), 20*time.Second).Should(Exit(0))
+				Eventually(Cf("delete", appName, "-f"), 20*time.Second).Should(Exit(0))
 			})
 
 			It("enforces the storage quota", func() {
@@ -90,31 +92,31 @@ var (
 				secondValue := RandomName()[:20]
 
 				fmt.Println("*** Proving we can write")
-				Eventually(Curling("-d", firstValue, uri), timeout, retryInterval).Should(Say(firstValue))
+				Eventually(Curl("-d", firstValue, uri), timeout, retryInterval).Should(Say(firstValue))
 				fmt.Println("*** Proving we can read")
-				Eventually(Curling(uri), timeout, retryInterval).Should(Say(firstValue))
+				Eventually(Curl(uri), timeout, retryInterval).Should(Say(firstValue))
 
 				fmt.Println("*** Exceeding quota")
-				Eventually(Curling("-d", "100", writeUri), timeout, retryInterval).Should(Say("Database now contains"))
+				Eventually(Curl("-d", "100", writeUri), timeout, retryInterval).Should(Say("Database now contains"))
 
 				fmt.Println("*** Sleeping to let quota enforcer run")
 				time.Sleep(quotaEnforcerSleepTime)
 
 				fmt.Println("*** Proving we cannot write")
-				Eventually(Curling("-d", firstValue, uri), timeout, retryInterval).Should(Say("Error: (INSERT|UPDATE) command denied .* for table 'data_values'"))
+				Eventually(Curl("-d", firstValue, uri), timeout, retryInterval).Should(Say("Error: (INSERT|UPDATE) command denied .* for table 'data_values'"))
 				fmt.Println("*** Proving we can read")
-				Eventually(Curling(uri), timeout, retryInterval).Should(Say(firstValue))
+				Eventually(Curl(uri), timeout, retryInterval).Should(Say(firstValue))
 
 				fmt.Println("*** Deleting below quota")
-				Eventually(Curling("-d", "20", deleteUri), timeout, retryInterval).Should(Say("Database now contains"))
+				Eventually(Curl("-d", "20", deleteUri), timeout, retryInterval).Should(Say("Database now contains"))
 
 				fmt.Println("*** Sleeping to let quota enforcer run")
 				time.Sleep(quotaEnforcerSleepTime)
 
 				fmt.Println("*** Proving we can write")
-				Eventually(Curling("-d", secondValue, uri), timeout, retryInterval).Should(Say(secondValue))
+				Eventually(Curl("-d", secondValue, uri), timeout, retryInterval).Should(Say(secondValue))
 				fmt.Println("*** Proving we can read")
-				Eventually(Curling(uri), timeout, retryInterval).Should(Say(secondValue))
+				Eventually(Curl(uri), timeout, retryInterval).Should(Say(secondValue))
 			})
 		})
 	})
