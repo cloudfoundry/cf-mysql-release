@@ -41,7 +41,7 @@ func SetupEnvironment(context SuiteContext) {
 	AfterEach(func() {
 		cf.RestoreUserContext(RegularUserContext, originalCfHomeDir, currentCfHomeDir)
 
-		context.Teardown()
+		//		context.Teardown()
 	})
 }
 
