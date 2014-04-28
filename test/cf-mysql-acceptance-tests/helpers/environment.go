@@ -4,6 +4,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	. "github.com/onsi/gomega/gexec"
+	"time"
 
 	"github.com/pivotal-cf-experimental/cf-test-helpers/cf"
 )
@@ -45,8 +46,8 @@ func SetupEnvironment(context SuiteContext) {
 }
 
 func setUpSpaceWithUserAccess(uc cf.UserContext) {
-	Eventually(cf.Cf("create-space", "-o", uc.Org, uc.Space)).Should(Exit(0))
-	Eventually(cf.Cf("set-space-role", uc.Username, uc.Org, uc.Space, "SpaceManager")).Should(Exit(0))
-	Eventually(cf.Cf("set-space-role", uc.Username, uc.Org, uc.Space, "SpaceDeveloper")).Should(Exit(0))
-	Eventually(cf.Cf("set-space-role", uc.Username, uc.Org, uc.Space, "SpaceAuditor")).Should(Exit(0))
+	Eventually(cf.Cf("create-space", "-o", uc.Org, uc.Space), 60*time.Second).Should(Exit(0))
+	Eventually(cf.Cf("set-space-role", uc.Username, uc.Org, uc.Space, "SpaceManager"), 60*time.Second).Should(Exit(0))
+	Eventually(cf.Cf("set-space-role", uc.Username, uc.Org, uc.Space, "SpaceDeveloper"), 60*time.Second).Should(Exit(0))
+	Eventually(cf.Cf("set-space-role", uc.Username, uc.Org, uc.Space, "SpaceAuditor"), 60*time.Second).Should(Exit(0))
 }
