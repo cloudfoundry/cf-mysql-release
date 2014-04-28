@@ -21,9 +21,6 @@ type ConfiguredContext struct {
 	regularUserPassword string
 
 	isPersistent bool
-
-	existingServiceInstanceOrgName string
-	existingServiceInstanceSpaceName string
 }
 
 func NewContext(config IntegrationConfig) *ConfiguredContext {
@@ -40,9 +37,6 @@ func NewContext(config IntegrationConfig) *ConfiguredContext {
 		regularUserPassword: "meow",
 
 		isPersistent: false,
-
-		existingServiceInstanceOrgName: config.ExistingServiceInstanceOrg,
-		existingServiceInstanceSpaceName: config.ExistingServiceInstanceSpace,
 	}
 }
 
@@ -85,17 +79,6 @@ func (context *ConfiguredContext) RegularUserContext() cf.UserContext {
 		context.regularUserPassword,
 		context.organizationName,
 		context.spaceName,
-		context.config.SkipSSLValidation,
-	)
-}
-
-func (context *ConfiguredContext) RegularUserExistingOrgSpaceContext() cf.UserContext {
-	return cf.NewUserContext(
-		context.config.ApiEndpoint,
-		context.regularUserUsername,
-		context.regularUserPassword,
-		context.existingServiceInstanceOrgName,
-		context.existingServiceInstanceSpaceName,
 		context.config.SkipSSLValidation,
 	)
 }

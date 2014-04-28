@@ -59,34 +59,6 @@ var (
 					Expect(Cf("delete-service", "-f", serviceInstanceName)).To(ExitWithTimeout(0, 20*time.Second))
 				})
 			})
-
-			Context("using a long-running, existing service instance", func() {
-				It("Allows users to bind, write to, read from, and unbind the service instance", func() {
-					// Need a different app uri for Existing Service Test to avoid collision
-					appName = RandomName()
-					serviceInstanceName := IntegrationConfig.ExistingServiceInstanceName
-					serviceInstanceOrg := IntegrationConfig.ExistingServiceInstanceOrg
-					serviceInstanceSpace := IntegrationConfig.ExistingServiceInstanceSpace
-					testValue := RandomName()[:20]
-					uri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/mykey"
-
-					Expect(Cf("target", "-o", serviceInstanceOrg, "-s", serviceInstanceSpace)).To(ExitWith(0))
-					Expect(Cf("push", appName, "-m", "256M", "-p", sinatraPath, "-no-start")).To(ExitWithTimeout(0, 60*time.Second))
-
-					Eventually(Cf("bind-service", appName, serviceInstanceName), timeout, retryInterval).Should(ExitWithTimeout(0, 60*time.Second))
-					Expect(Cf("start", appName)).To(ExitWithTimeout(0, 5*60*time.Second))
-
-					fmt.Println("Posting to url: ", uri)
-					Eventually(Curling("-d", testValue, uri), timeout, retryInterval).Should(Say(testValue))
-					fmt.Println("\n")
-
-					fmt.Println("Curling url: ", uri)
-					Eventually(Curling(uri), timeout, retryInterval).Should(Say(testValue))
-					fmt.Println("\n")
-
-					Expect(Cf("unbind-service", appName, serviceInstanceName)).To(ExitWithTimeout(0, 20*time.Second))
-				})
-			})
 		})
 
 		Describe("Enforcing MySQL quota", func() {

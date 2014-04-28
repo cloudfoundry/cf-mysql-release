@@ -14,9 +14,3 @@ properties:
     description: 'Password of the admin user'
   cf.apps_domain:
     description: 'Shared domain for pushed apps'
-  cf.existing_service_instance_name:
-    description: 'A long-running service instance for testing'
-  cf.existing_service_instance_org:
-    description: 'A long-running service instance org for testing'
-  cf.existing_service_instance_space:
-    description: 'A long-running service instance space for testing'

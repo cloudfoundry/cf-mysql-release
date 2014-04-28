@@ -10,7 +10,6 @@ import (
 
 var AdminUserContext cf.UserContext
 var RegularUserContext cf.UserContext
-var RegularUserExistingOrgSpaceContext cf.UserContext
 
 type SuiteContext interface {
 	Setup()
@@ -18,7 +17,6 @@ type SuiteContext interface {
 
 	AdminUserContext() cf.UserContext
 	RegularUserContext() cf.UserContext
-	RegularUserExistingOrgSpaceContext() cf.UserContext
 }
 
 func SetupEnvironment(context SuiteContext) {
@@ -27,13 +25,11 @@ func SetupEnvironment(context SuiteContext) {
 	BeforeEach(func() {
 		AdminUserContext = context.AdminUserContext()
 		RegularUserContext = context.RegularUserContext()
-		RegularUserExistingOrgSpaceContext = context.RegularUserExistingOrgSpaceContext()
 
 		context.Setup()
 
 		cf.AsUser(AdminUserContext, func() {
 				setUpSpaceWithUserAccess(RegularUserContext)
-				setUpSpaceWithUserAccessExistingOrgSpace(RegularUserExistingOrgSpaceContext)
 			})
 
 		originalCfHomeDir, currentCfHomeDir = cf.InitiateUserContext(RegularUserContext)
@@ -50,12 +46,6 @@ func SetupEnvironment(context SuiteContext) {
 
 func setUpSpaceWithUserAccess(uc cf.UserContext) {
 	Expect(cf.Cf("create-space", "-o", uc.Org, uc.Space)).To(ExitWith(0))
-	Expect(cf.Cf("set-space-role", uc.Username, uc.Org, uc.Space, "SpaceManager")).To(ExitWith(0))
-	Expect(cf.Cf("set-space-role", uc.Username, uc.Org, uc.Space, "SpaceDeveloper")).To(ExitWith(0))
-	Expect(cf.Cf("set-space-role", uc.Username, uc.Org, uc.Space, "SpaceAuditor")).To(ExitWith(0))
-}
-
-func setUpSpaceWithUserAccessExistingOrgSpace(uc cf.UserContext) {
 	Expect(cf.Cf("set-space-role", uc.Username, uc.Org, uc.Space, "SpaceManager")).To(ExitWith(0))
 	Expect(cf.Cf("set-space-role", uc.Username, uc.Org, uc.Space, "SpaceDeveloper")).To(ExitWith(0))
 	Expect(cf.Cf("set-space-role", uc.Username, uc.Org, uc.Space, "SpaceAuditor")).To(ExitWith(0))
