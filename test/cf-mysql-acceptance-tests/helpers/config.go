@@ -1,16 +1,17 @@
 package helpers
 
 import (
-"encoding/json"
-"os"
+	"encoding/json"
+	"os"
 )
 
 type IntegrationConfig struct {
-	AppsDomain                  	string `json:"apps_domain"`
-	ApiEndpoint                 	string `json:"api_url"`
-	AdminUser                   	string `json:"admin_user"`
-	AdminPassword               	string `json:"admin_password"`
-	SkipSSLValidation           	bool `json:"skip_ssl_validation"`
+	AppsDomain        string `json:"apps_domain"`
+	SystemDomain      string `json:"system_domain"`
+	ApiEndpoint       string `json:"api_url"`
+	AdminUser         string `json:"admin_user"`
+	AdminPassword     string `json:"admin_password"`
+	SkipSSLValidation bool   `json:"skip_ssl_validation"`
 }
 
 func LoadConfig() (config IntegrationConfig) {

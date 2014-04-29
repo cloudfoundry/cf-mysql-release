@@ -37,8 +37,9 @@ jobs:
         admin_username: admin
         admin_password: admin
 meta:
-  external_domain: 10.244.0.34.xip.io
-  test_apps_domain: 10.244.0.34.xip.io
+  apps_domain: 10.244.0.34.xip.io
+  system_domain: &SYSTEM_DOMAIN 10.244.0.34.xip.io
+  external_domain: *SYSTEM_DOMAIN
   nats:
     machines:
       - 10.244.0.6

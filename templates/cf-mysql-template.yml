@@ -7,7 +7,8 @@ meta:
   environment: ~
 
   external_domain: (( merge ))
-  test_apps_domain: (( merge ))
+  apps_domain: (( merge ))
+  system_domain: (( merge ))
   nats: (( merge ))
 
 name: (( meta.environment "-mysql" ))
@@ -158,6 +159,7 @@ jobs:
         api_url: (( jobs.cf-mysql-broker.properties.cc_api_uri ))
         admin_username: (( merge ))
         admin_password: (( merge ))
-        apps_domain: (( meta.test_apps_domain ))
+        apps_domain: (( meta.apps_domain ))
+        system_domain: (( meta.system_domain ))
 
 properties: {}  # Pivotal CF cannot generate global properties

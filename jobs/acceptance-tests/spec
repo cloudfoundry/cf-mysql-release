@@ -14,3 +14,5 @@ properties:
     description: 'Password of the admin user'
   cf.apps_domain:
     description: 'Shared domain for pushed apps'
+  cf.system_domain:
+    description: 'Domain for system components'
