@@ -17,7 +17,7 @@ var (
 	_ = Describe("P-MySQL Service", func() {
 		serviceName := "p-mysql"
 		planName := "100mb"
-		timeout := 10.0
+		timeout := 120.0
 		retryInterval := 1.0
 
 		It("Registers a route", func() {
