@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 
@@ -17,10 +18,24 @@ type ConfiguredContext struct {
 	organizationName string
 	spaceName        string
 
+	quotaDefinitionName string
+	quotaDefinitionGUID string
+
 	regularUserUsername string
 	regularUserPassword string
 
 	isPersistent bool
+}
+
+type quotaDefinition struct {
+	Name string `json:"name"`
+
+	NonBasicServicesAllowed bool `json:"non_basic_services_allowed"`
+
+	TotalServices int `json:"total_services"`
+	TotalRoutes   int `json:"total_routes"`
+
+	MemoryLimit int `json:"memory_limit"`
 }
 
 func NewContext(config IntegrationConfig) *ConfiguredContext {
@@ -29,6 +44,8 @@ func NewContext(config IntegrationConfig) *ConfiguredContext {
 
 	return &ConfiguredContext{
 		config: config,
+
+		quotaDefinitionName: fmt.Sprintf("MySqlATS-QUOTA-%d-%s", node, timeTag),
 
 		organizationName: fmt.Sprintf("MySqlATS-ORG-%d-%s", node, timeTag),
 		spaceName:        fmt.Sprintf("MySQLATS-SPACE-%d-%s", node, timeTag),
@@ -50,7 +67,28 @@ func (context *ConfiguredContext) Setup() {
 			Fail("failed to create user")
 		}
 
+		definition := quotaDefinition{
+			Name: context.quotaDefinitionName,
+
+			TotalServices: 100,
+			TotalRoutes:   1000,
+
+			MemoryLimit: 10240,
+
+			NonBasicServicesAllowed: true,
+		}
+
+		definitionPayload, err := json.Marshal(definition)
+		Expect(err).ToNot(HaveOccurred())
+
+		var response cf.GenericResource
+
+		cf.ApiRequest("POST", "/v2/quota_definitions", &response, string(definitionPayload))
+
+		context.quotaDefinitionGUID = response.Metadata.Guid
+
 		Eventually(cf.Cf("create-org", context.organizationName), 60*time.Second).Should(Exit(0))
+		Eventually(cf.Cf("set-quota", context.organizationName, definition.Name), 60*time.Second).Should(Exit(0))
 	})
 }
 
@@ -60,6 +98,12 @@ func (context *ConfiguredContext) Teardown() {
 
 		if !context.isPersistent {
 			Eventually(cf.Cf("delete-org", "-f", context.organizationName), 60*time.Second).Should(Exit(0))
+
+			cf.ApiRequest(
+				"DELETE",
+				"/v2/quota_definitions/"+context.quotaDefinitionGUID+"?recursive=true",
+				nil,
+			)
 		}
 	})
 }
