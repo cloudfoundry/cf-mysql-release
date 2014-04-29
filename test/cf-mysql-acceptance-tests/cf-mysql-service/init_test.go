@@ -24,6 +24,10 @@ func AppUri(appname string) string {
 	return "http://" + appname + "." + IntegrationConfig.AppsDomain
 }
 
+func SystemUri(componentName string) string {
+	return "http://" + componentName + "." + IntegrationConfig.SystemDomain
+}
+
 func Curling(args ...string) func() *gexec.Session {
 	return func() *gexec.Session {
 		return Curl(args...)

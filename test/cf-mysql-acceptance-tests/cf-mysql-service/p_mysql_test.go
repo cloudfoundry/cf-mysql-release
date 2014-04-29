@@ -21,7 +21,7 @@ var (
 		retryInterval := 1.0
 
 		It("Registers a route", func() {
-			uri := AppUri("p-mysql") + "/v2/catalog"
+			uri := SystemUri("p-mysql") + "/v2/catalog"
 
 			fmt.Println("Curling url: ", uri)
 			Eventually(Curl(uri), timeout, retryInterval).Should(Say("HTTP Basic: Access denied."))
