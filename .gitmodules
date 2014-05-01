@@ -10,6 +10,3 @@
 [submodule "src/broker-registrar"]
 	path = src/broker-registrar
 	url = https://github.com/pivotal-cf/broker-registrar.git
-[submodule "src/acceptance-tests"]
-	path = src/acceptance-tests
-	url = https://github.com/cloudfoundry/nyet.git
