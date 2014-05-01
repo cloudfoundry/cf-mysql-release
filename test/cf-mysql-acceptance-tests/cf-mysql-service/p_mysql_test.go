@@ -83,7 +83,7 @@ var (
 				Eventually(Cf("delete", appName, "-f"), 20*time.Second).Should(Exit(0))
 			})
 
-			FIt("enforces the storage quota", func() {
+			It("enforces the storage quota", func() {
 				quotaEnforcerSleepTime := 10 * time.Second
 				uri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/mykey"
 				writeUri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/write-bulk-data"
