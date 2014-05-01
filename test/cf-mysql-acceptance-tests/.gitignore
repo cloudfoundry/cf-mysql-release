@@ -1,2 +1,4 @@
 tags
 *.xml
+vendor/bin
+vendor/pkg

@@ -1,26 +1,18 @@
 #!/bin/bash
-# vim: set ft=sh
 
 set -e
+set -x
+set -u
 
 if ! which go 2>/dev/null; then
   echo "Go is not installed."
   exit 1
 fi
 
-if [ -z "$GOPATH" ]; then
-  echo "\$GOPATH is not set."
-  exit 1
-fi
-
-if [[ ! $1 || $1 != "errand" ]]; then
-  go get github.com/vito/gocart
-  gocart install
-fi
-
-go install github.com/onsi/ginkgo/ginkgo
+GOPATH=$PWD/vendor \
+  go install github.com/onsi/ginkgo/ginkgo
 
 go fmt ./cf-mysql-service/...
 
-CF_COLOR=false CF_VERBOSE_OUTPUT=true \
-  ginkgo ./cf-mysql-service -v -slowSpecThreshold=300 "$@"
+GOPATH=$PWD/vendor CF_COLOR=false CF_VERBOSE_OUTPUT=true \
+  vendor/bin/ginkgo -v -slowSpecThreshold=300 "$@" ./cf-mysql-service
