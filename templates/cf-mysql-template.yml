@@ -160,6 +160,7 @@ jobs:
         admin_username: (( merge ))
         admin_password: (( merge ))
         apps_domain: (( meta.apps_domain ))
+        skip_ssl_validation: (( merge || nil ))
       broker:
         host: (( jobs.cf-mysql-broker.properties.external_host ))
       service:
