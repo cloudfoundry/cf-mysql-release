@@ -203,7 +203,9 @@ The following properties must be included in the manifest (most will be there by
 - cf.admin_username:
 - cf.admin_password:
 - cf.apps_domain:
-- cf.system_domain:
+- broker.host:
+- service.name:
+- service.plan_name:
 
 To run the errand:
 
@@ -225,11 +227,13 @@ installation. Replace credentials and URLs as appropriate for your environment.
 
     cat > integration_config.json <<EOF
     {
-      "api": "api.10.244.0.34.xip.io",
+      "api_url": "http://api.10.244.0.34.xip.io",
+      "apps_domain": "10.244.0.34.xip.io",
       "admin_user": "admin",
       "admin_password": "admin",
-      "apps_domain": "10.244.0.34.xip.io",
-      "system_domain": "10.244.0.34.xip.io",
+      "broker_host": "p-mysql.10.244.0.34.xip.io",
+      "service_name": "p-mysql",
+      "plan_name": "100mb"
     }
     EOF
     export CONFIG=$PWD/integration_config.json
