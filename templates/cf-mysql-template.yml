@@ -160,6 +160,10 @@ jobs:
         admin_username: (( merge ))
         admin_password: (( merge ))
         apps_domain: (( meta.apps_domain ))
-        system_domain: (( meta.system_domain ))
+      broker:
+        host: (( jobs.cf-mysql-broker.properties.external_host ))
+      service:
+        name: (( jobs.cf-mysql-broker.properties.services.[0].name ))
+        plan_name: (( jobs.cf-mysql-broker.properties.services.[0].plans.[0].name ))
 
 properties: {}  # Pivotal CF cannot generate global properties
