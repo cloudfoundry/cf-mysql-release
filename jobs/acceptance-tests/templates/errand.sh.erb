@@ -9,19 +9,22 @@ export CONFIG=$PWD/integration_config.json
 
 cat > integration_config.json <<EOF
 {
-  "api_url":       "<%= p("cf.api_url") %>",
-  "apps_domain":   "<%= p("cf.apps_domain") %>",
-  "admin_user":    "<%= p("cf.admin_username") %>",
-  "broker_host":   "<%= p("broker.host") %>",
-  "service_name":  "<%= p("service.name") %>",
-  "plan_name":     "<%= p("service.plan_name") %>",
+  "api_url":       "<%= p('cf.api_url') %>",
+  "apps_domain":   "<%= p('cf.apps_domain') %>",
+  "admin_user":    "<%= p('cf.admin_username') %>",
+  "broker_host":   "<%= p('broker.host') %>",
+  "service_name":  "<%= p('service.name') %>",
+  "plan_name":     "<%= p('service.plan_name') %>",
+<% if p('cf.skip_ssl_validation') %>
+  "skip_ssl_validation": true,
+<% end %>
 EOF
 
 # don't expose passwords
 set +x
 
 cat >> integration_config.json <<EOF
-  "admin_password":   "<%= p("cf.admin_password") %>"
+  "admin_password":   "<%= p('cf.admin_password') %>"
 }
 EOF
 

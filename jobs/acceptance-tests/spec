@@ -14,6 +14,8 @@ properties:
     description: 'Password of the admin user'
   cf.apps_domain:
     description: 'Shared domain for pushed apps'
+  cf.skip_ssl_validation:
+    description: 'Whether to add --skip-ssl-validation for cf cli'
 
   broker.host:
     description: 'Host used to register the broker'

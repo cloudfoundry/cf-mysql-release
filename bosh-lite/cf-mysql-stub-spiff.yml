@@ -36,6 +36,7 @@ jobs:
       cf:
         admin_username: admin
         admin_password: admin
+        skip_ssl_validation: true
 meta:
   apps_domain: 10.244.0.34.xip.io
   system_domain: &SYSTEM_DOMAIN 10.244.0.34.xip.io

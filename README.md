@@ -203,6 +203,7 @@ The following properties must be included in the manifest (most will be there by
 - cf.admin_username:
 - cf.admin_password:
 - cf.apps_domain:
+- cf.skip_ssl_validation:
 - broker.host:
 - service.name:
 - service.plan_name:
