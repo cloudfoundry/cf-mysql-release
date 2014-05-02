@@ -169,9 +169,9 @@ Note: the broker-registrar errand will fail if the broker has already been regis
     - `BROKER_USERNAME` and `BROKER_PASSWORD` are the credentials Cloud Foundry will use to authenticate when making API calls to the service broker. Use the values you gave for the manifest properties `jobs.cf-mysql-broker.properties.auth_username` and `jobs.cf-mysql-broker.properties.auth_password`. 
     - `URL` specifies where the Cloud Controller will access the MySQL broker. Use the value of the manifest property `jobs.cf-mysql-broker.properties.external_host`.
 
-    For more information, see the documentation on [Managing Service Brokers](http://docs.cloudfoundry.org/services/managing-service-brokers.html).
+	For more information, see [Managing Service Brokers](http://docs.cloudfoundry.org/services/managing-service-brokers.html).
 
-2. [Make the service plan public](http://docs.cloudfoundry.org/services/services/managing-service-brokers.html#make-plans-public).
+2. Then [make the service plan public](http://docs.cloudfoundry.org/services/services/managing-service-brokers.html#make-plans-public).
 
 ### New Features in this Release (v7)
 #### Errands
