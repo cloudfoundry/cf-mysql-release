@@ -151,36 +151,28 @@ If you followed the instructions for bosh-lite above, your manifest is in the `c
 
 ### Register the CF MySQL Service Broker<a name="register_broker"></a>
 
-This bosh release is packaged with errands to perform the broker registration. To run the errand, just run:
+### Using BOSH errands
 
-```
-bosh run errand broker-registrar
-```
+If you're using a new enough BOSH director, stemcell, and CLI to support errands, run the following errand:
 
-If you'd rather register the broker by hand, here are the instructions for doing so with the CF CLI.
+        bosh run errand broker-registrar
+        
+Note: the broker-registrar errand will fail if the broker has already been registered, and the broker name does not match the manifest property `jobs.broker-registrar.properties.broker.name`. Use the `cf rename-service-broker` CLI command to change the broker name to match the manifest property then this errand will succeed. 
 
-1. Target Cloud Foundry and login as an admin user
-    
-    If you're using bosh-lite, you may have to run this script first:
-    
-    ```
-    $ ~/workspace/bosh-lite/scripts/add-route
-    ```
-    
-2. Run the following command to register the MySQL broker
+### Manually
+1. First register the broker using the `cf` CLI.  You must be logged in as an admin.
 
     ```
     $ cf create-service-broker p-mysql BROKER_USERNAME BROKER_PASSWORD URL
     ```
     
-    - BROKER_USERNAME and BROKER_PASSWORD are the values you gave for `auth_username` and `auth_password` in the deployment manifest. 
-    - URL specifies where the Cloud Controller will access the MySQL broker. If DNS is not configured for the MySQL broker, specify a URL using the IP address such as `http://10.244.1.130`. You can discover the broker IP address with the BOSH command, `bosh vms`.
-    
+    - BROKER_USERNAME and BROKER_PASSWORD are the values you gave for the manifest properties `jobs.cf-mysql-broker.properties.auth_username` and `jobs.cf-mysql-broker.properties.auth_password`. 
+    - URL specifies where the Cloud Controller will access the MySQL broker. Use the value of the manifest property `jobs.cf-mysql-broker.properties.external_host`.
+
     For more information, see the documentation on [Managing Service Brokers](http://docs.cloudfoundry.org/services/managing-service-brokers.html).
 
-### Make MySQL Service Plan Public <a name="publicize_plans"></a>
+2. [Make the service plan public](http://docs.cloudfoundry.org/services/services/managing-service-brokers.html#make-plans-public).
 
-    By default new plans are private, which means they are not visible to end users. This enables an admin to test services before making them available to end users. To make a plan public, see [Access Control](http://docs.cloudfoundry.org/services/access-control.html).
 ### New Features in this Release (v7)
 #### Errands
 ##### Acceptance Tests
