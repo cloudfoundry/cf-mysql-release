@@ -177,14 +177,15 @@ Note: the broker-registrar errand will fail if the broker has already been regis
 
 1. First register the broker using the `cf` CLI.  You must be logged in as an admin.
 
-```bash
-cf create-service-broker p-mysql BROKER_USERNAME BROKER_PASSWORD URL
-```
+    ```bash
+    cf create-service-broker p-mysql BROKER_USERNAME BROKER_PASSWORD URL
+    ```
+        
+    `BROKER_USERNAME` and `BROKER_PASSWORD` are the credentials Cloud Foundry will use to authenticate when making API calls to the service broker. Use the values for manifest properties `jobs.cf-mysql-broker.properties.auth_username` and `jobs.cf-mysql-broker.properties.auth_password`.
     
-- `BROKER_USERNAME` and `BROKER_PASSWORD` are the credentials Cloud Foundry will use to authenticate when making API calls to the service broker. Use the values for manifest properties `jobs.cf-mysql-broker.properties.auth_username` and `jobs.cf-mysql-broker.properties.auth_password`.
-- `URL` specifies where the Cloud Controller will access the MySQL broker. Use the value of the manifest property `jobs.cf-mysql-broker.properties.external_host`.
-
-For more information, see [Managing Service Brokers](http://docs.cloudfoundry.org/services/managing-service-brokers.html).
+    `URL` specifies where the Cloud Controller will access the MySQL broker. Use the value of the manifest property `jobs.cf-mysql-broker.properties.external_host`.
+    
+    For more information, see [Managing Service Brokers](http://docs.cloudfoundry.org/services/managing-service-brokers.html).
 
 2. Then [make the service plan public](http://docs.cloudfoundry.org/services/services/managing-service-brokers.html#make-plans-public).
 
@@ -220,7 +221,7 @@ bosh run errand acceptance-tests
 2. `cd` into `cf-mysql-release/test/acceptance-tests/`
 3. Update `cf-mysql-release/test/acceptance-tests/integration_config.json`
 
-The following script will configure these prerequisites for a [bosh-lite](https://github.com/cloudfoundry/bosh-lite)
+    The following script will configure these prerequisites for a [bosh-lite](https://github.com/cloudfoundry/bosh-lite)
 installation. Replace credentials and URLs as appropriate for your environment.
 
     ```bash
