@@ -60,13 +60,15 @@ To generate a deployment manifest for AWS or vSphere, use the [generate_deployme
 
 #### Example using AWS:
 
-    $ ./generate_deployment_manifest aws ~/workspace/deployments/mydevenv/stub.yml
+```bash
+./generate_deployment_manifest aws ~/workspace/deployments/mydevenv/stub.yml
 
-    2013/12/16 09:57:18 error generating manifest: unresolved nodes:
-	    dynaml.MergeExpr{[jobs mysql properties admin_password]}
-	    dynaml.MergeExpr{[jobs cf-mysql-broker properties auth_username]}
-	    dynaml.MergeExpr{[jobs cf-mysql-broker properties auth_password]}
-	    dynaml.ReferenceExpr{[jobs mysql properties admin_password]}
+2013/12/16 09:57:18 error generating manifest: unresolved nodes:
+    dynaml.MergeExpr{[jobs mysql properties admin_password]}
+    dynaml.MergeExpr{[jobs cf-mysql-broker properties auth_username]}
+    dynaml.MergeExpr{[jobs cf-mysql-broker properties auth_password]}
+    dynaml.ReferenceExpr{[jobs mysql properties admin_password]}
+```
 
 These errors indicate that the deployment manifest stub is missing the following fields:
 
@@ -116,8 +118,8 @@ For bosh-lite we provide a fully configured stub, including some default values 
 Run the `make_manifest_spiff_mysql` script to generate your manifest, which you can find in [cf-mysql-release/bosh-lite/](bosh-lite/).
 
 Example:
-```
-$ ./bosh-lite/make_manifest_spiff_mysql
+```bash
+./bosh-lite/make_manifest_spiff_mysql
 # This step would have also set your deployment to ./bosh-lite/manifests/cf-mysql-manifest.yml
 ```
 
@@ -125,74 +127,146 @@ $ ./bosh-lite/make_manifest_spiff_mysql
 
 You can build a release from HEAD, or use a pre-built final release. Final releases contain pre-compiled packages, making deployment much faster. To build the release from HEAD:
 
-    $ ./update
-    $ bosh create release
+```bash
+./update
+bosh create release
+```
     
 When prompted to name the release, called it `cf-mysql`.
 
 ### Upload Release<a name="upload_release"></a>
 
-    $ bosh upload release
+```bash
+bosh upload release
+```
 
 If you'd like to use a pre-built final release, reference one of the config files in the `releases` directory in your upload command. For example:
 
-    $ bosh upload release releases/cf-mysql-6.yml
+```bash
+bosh upload release releases/cf-mysql-6.yml
+```
 
 ### Deploy Using BOSH<a name="deploy_release"></a>
 
 Set your deployment using the deployment manifest you generated above.
 
-    $ bosh deployment ~/workspace/deployments/mydevenv/cf-mysql-mydevenv.yml
-    $ bosh deploy
-    
+```bash
+bosh deployment ~/workspace/deployments/mydevenv/cf-mysql-mydevenv.yml
+bosh deploy
+```
+
 If you followed the instructions for bosh-lite above, your manifest is in the `cf-mysql-release/bosh-lite/manifests` directory. The make\_manifest\_spiff\_mysql script should have already set the deployment to the manifest, so you just have to run:
 
-    $ bosh deploy
+```bash
+bosh deploy
+```
 
 ### Register the Service Broker<a name="register_broker"></a>
 
-### Using BOSH errands
+#### BOSH errand
 
 If you're using a new enough BOSH director, stemcell, and CLI to support errands, run the following errand:
 
-        bosh run errand broker-registrar
+```bash
+bosh run errand broker-registrar
+```
         
 Note: the broker-registrar errand will fail if the broker has already been registered, and the broker name does not match the manifest property `jobs.broker-registrar.properties.broker.name`. Use the `cf rename-service-broker` CLI command to change the broker name to match the manifest property then this errand will succeed. 
 
-### Manually
+#### Manually
 
 1. First register the broker using the `cf` CLI.  You must be logged in as an admin.
 
-    ```
-    $ cf create-service-broker p-mysql BROKER_USERNAME BROKER_PASSWORD URL
-    ```
+```bash
+cf create-service-broker p-mysql BROKER_USERNAME BROKER_PASSWORD URL
+```
     
-    - `BROKER_USERNAME` and `BROKER_PASSWORD` are the credentials Cloud Foundry will use to authenticate when making API calls to the service broker. Use the values for manifest properties `jobs.cf-mysql-broker.properties.auth_username` and `jobs.cf-mysql-broker.properties.auth_password`. 
-    - `URL` specifies where the Cloud Controller will access the MySQL broker. Use the value of the manifest property `jobs.cf-mysql-broker.properties.external_host`.
-    
-    For more information, see [Managing Service Brokers](http://docs.cloudfoundry.org/services/managing-service-brokers.html).
+- `BROKER_USERNAME` and `BROKER_PASSWORD` are the credentials Cloud Foundry will use to authenticate when making API calls to the service broker. Use the values for manifest properties `jobs.cf-mysql-broker.properties.auth_username` and `jobs.cf-mysql-broker.properties.auth_password`.
+- `URL` specifies where the Cloud Controller will access the MySQL broker. Use the value of the manifest property `jobs.cf-mysql-broker.properties.external_host`.
+
+For more information, see [Managing Service Brokers](http://docs.cloudfoundry.org/services/managing-service-brokers.html).
 
 2. Then [make the service plan public](http://docs.cloudfoundry.org/services/services/managing-service-brokers.html#make-plans-public).
 
-### New Features in this Release (v7)
-#### Errands
-##### Acceptance Tests
-This release includes an errand to run acceptance tests. They can be run using this command:
+### Acceptance Tests<a name="acceptance_tests"></a>
 
-`$ bosh run errand acceptance-tests`
+To run the MySQL Release Acceptance tests, you will need:
+- a running CF instance
+- credentials for a CF Admin user
+- a deployed MySQL Release with the broker registered and the plan made public
+- an environment variable `$CONFIG` which points to a `.json` file that contains the application domain
 
-##### De-registration of the CF MySQL Service Broker
+#### BOSH errand
 
-This bosh release also has an errand to de-register the broker and purge all services/service instances along with it. To do this, simply run:
+The following properties must be included in the manifest (most will be there by default):
+- cf.api_url:
+- cf.admin_username:
+- cf.admin_password:
+- cf.apps_domain:
+- cf.system_domain:
 
-`$ bosh run errand broker-deregistrar`
+To run the errand:
 
-This is equivalent to running the following CLI commands:
+```bash
+bosh run errand acceptance-tests
+```
 
-    $ cf purge-service-offering p-mysql
-    $ cf delete-service-broker p-mysql
+#### Manually
 
-#### Dashboard <a name="dashboard"></a>
+1. Install **Go** by following the directions found [here](http://golang.org/doc/install)
+2. `cd` into `cf-mysql-release/test/acceptance-tests/`
+3. Update `cf-mysql-release/test/acceptance-tests/integration_config.json`
+
+The following script will configure these prerequisites for a [bosh-lite](https://github.com/cloudfoundry/bosh-lite)
+installation. Replace credentials and URLs as appropriate for your environment.
+
+    ```bash
+    #! /bin/bash
+
+    cat > integration_config.json <<EOF
+    {
+      "api": "api.10.244.0.34.xip.io",
+      "admin_user": "admin",
+      "admin_password": "admin",
+      "apps_domain": "10.244.0.34.xip.io",
+      "system_domain": "10.244.0.34.xip.io",
+    }
+    EOF
+    export CONFIG=$PWD/integration_config.json
+    ```
+
+    If you are using running the tests with a version newer than 6.0.2-0bba99f of the Go CLI against bosh-lite or any other environment using self-signed certificates, add
+
+    ```
+      "skip_ssl_validation": true
+    ```
+
+4. Run  the tests
+
+    ```bash
+    ./bin/test
+    ```
+
+### De-register the Service Broker<a name="deregister_broker"></a>
+
+#### BOSH errand
+
+To run the errand:
+
+```bash
+bosh run errand broker-deregistrar
+```
+
+#### Manually
+
+Run the following:
+
+```bash
+cf purge-service-offering p-mysql
+cf delete-service-broker p-mysql
+```
+
+### Dashboard <a name="dashboard"></a>
 
 The service broker implements a user-facing UI which users can access via Single Sign-On (SSO) once authenticated with Cloud Foundry. SSO was implemented in build 169 of cf-release, so CF 169 is a minimum requirement for the SSO feature. If you encounter an error when you register the service broker, try removing the following lines from your manifest and redeploy.
 
@@ -219,4 +293,3 @@ implied by the `ssl_enabled` setting.
 2. Implement oauth [workflow](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/config/initializers/omniauth.rb) with the [omniauth-uaa-oauth2 gem](https://github.com/cloudfoundry/omniauth-uaa-oauth2)
 3. [Use](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/lib/uaa_session.rb) the [cf-uaa-lib gem](https://github.com/cloudfoundry/cf-uaa-lib) to get a valid access token and request permissions on the instance
 4. Before showing the user the dashboard, [the broker checks](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/app/controllers/manage/instances_controller.rb#L7) to see if the user is logged-in and has permissions to view the usage details of the instance.
-
