@@ -15,13 +15,11 @@ import (
 
 var (
 	_ = Describe("P-MySQL Service", func() {
-		serviceName := "p-mysql"
-		planName := "100mb"
 		timeout := 120.0
 		retryInterval := 1.0
 
 		It("Registers a route", func() {
-			uri := SystemUri("p-mysql") + "/v2/catalog"
+			uri := "http://" + IntegrationConfig.BrokerHost + "/v2/catalog"
 
 			fmt.Println("Curling url: ", uri)
 			Eventually(Curl(uri), timeout, retryInterval).Should(Say("HTTP Basic: Access denied."))
@@ -45,7 +43,9 @@ var (
 					serviceInstanceName := RandomName()
 					uri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/mykey"
 
-					Eventually(Cf("create-service", serviceName, planName, serviceInstanceName), 60*time.Second).Should(Exit(0))
+					Eventually(Cf("create-service", IntegrationConfig.ServiceName, IntegrationConfig.PlanName,
+						serviceInstanceName),
+						60*time.Second).Should(Exit(0))
 					Eventually(Cf("bind-service", appName, serviceInstanceName), 60*time.Second).Should(Exit(0))
 					Eventually(Cf("start", appName), 5*60*time.Second).Should(Exit(0))
 
@@ -72,7 +72,8 @@ var (
 				serviceInstanceName = RandomName()
 
 				Eventually(Cf("push", appName, "-m", "256M", "-p", sinatraPath, "-no-start"), 60*time.Second).Should(Exit(0))
-				Eventually(Cf("create-service", serviceName, planName, serviceInstanceName), 60*time.Second).Should(Exit(0))
+				Eventually(Cf("create-service", IntegrationConfig.ServiceName, IntegrationConfig.PlanName,
+					serviceInstanceName), 60*time.Second).Should(Exit(0))
 				Eventually(Cf("bind-service", appName, serviceInstanceName), 60*time.Second).Should(Exit(0))
 				Eventually(Cf("start", appName), 5*60*time.Second).Should(Exit(0))
 			})

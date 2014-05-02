@@ -1,7 +1,9 @@
 {
   "api_url": "http://api.10.244.0.34.xip.io",
   "apps_domain": "10.244.0.34.xip.io",
-  "system_domain": "10.244.0.34.xip.io",
   "admin_user": "admin",
-  "admin_password": "admin"
+  "admin_password": "admin",
+  "broker_host": "p-mysql.10.244.0.34.xip.io",
+  "service_name": "p-mysql",
+  "plan_name": "100mb"
 }

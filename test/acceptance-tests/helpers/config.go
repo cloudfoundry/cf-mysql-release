@@ -7,11 +7,13 @@ import (
 
 type IntegrationConfig struct {
 	AppsDomain        string `json:"apps_domain"`
-	SystemDomain      string `json:"system_domain"`
 	ApiEndpoint       string `json:"api_url"`
 	AdminUser         string `json:"admin_user"`
 	AdminPassword     string `json:"admin_password"`
 	SkipSSLValidation bool   `json:"skip_ssl_validation"`
+	BrokerHost 				string `json:"broker_host"`
+	ServiceName				string `json:"service_name"`
+	PlanName					string `json:"plan_name"`
 }
 
 func LoadConfig() (config IntegrationConfig) {
@@ -45,6 +47,18 @@ func LoadPath(path string) (config IntegrationConfig) {
 
 	if config.ApiEndpoint == "" {
 		panic("missing configuration 'admin_password'")
+	}
+
+	if config.ServiceName == "" {
+		panic("missing configuration 'service_name'")
+	}
+
+	if config.PlanName == "" {
+		panic("missing configuration 'plan_name'")
+	}
+
+	if config.BrokerHost == "" {
+		panic("missing configuration 'broker_host'")
 	}
 
 	return

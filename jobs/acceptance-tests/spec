@@ -14,5 +14,11 @@ properties:
     description: 'Password of the admin user'
   cf.apps_domain:
     description: 'Shared domain for pushed apps'
-  cf.system_domain:
-    description: 'Domain for system components'
+
+  broker.host:
+    description: 'Host used to register the broker'
+
+  service.name:
+    description: 'Name of the MySQL service'
+  service.plan_name:
+    description: 'Name of the MySQL plan'
