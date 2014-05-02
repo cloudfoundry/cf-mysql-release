@@ -149,7 +149,7 @@ If you followed the instructions for bosh-lite above, your manifest is in the `c
 
     $ bosh deploy
 
-### Register the CF MySQL Service Broker<a name="register_broker"></a>
+### Register the Service Broker<a name="register_broker"></a>
 
 ### Using BOSH errands
 
