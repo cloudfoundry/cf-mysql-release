@@ -2,3 +2,4 @@ tags
 *.xml
 vendor/bin
 vendor/pkg
+integration_config.json
