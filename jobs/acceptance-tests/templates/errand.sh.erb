@@ -15,9 +15,7 @@ cat > integration_config.json <<EOF
   "broker_host":   "<%= p('broker.host') %>",
   "service_name":  "<%= p('service.name') %>",
   "plan_name":     "<%= p('service.plan_name') %>",
-<% if p('cf.skip_ssl_validation') %>
-  "skip_ssl_validation": true,
-<% end %>
+  "skip_ssl_validation": <%= p('cf.skip_ssl_validation') %>,
 EOF
 
 # don't expose passwords
