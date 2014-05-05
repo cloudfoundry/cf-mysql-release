@@ -8,7 +8,6 @@ meta:
 
   external_domain: (( merge ))
   apps_domain: (( merge ))
-  system_domain: (( merge ))
   nats: (( merge ))
 
 name: (( meta.environment "-mysql" ))
