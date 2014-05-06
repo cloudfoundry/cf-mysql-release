@@ -235,17 +235,15 @@ installation. Replace credentials and URLs as appropriate for your environment.
       "admin_password": "admin",
       "broker_host": "p-mysql.10.244.0.34.xip.io",
       "service_name": "p-mysql",
-      "plan_name": "100mb"
+      "plan_name": "100mb",
+      "skip_ssl_validation": true
+
     }
     EOF
     export CONFIG=$PWD/integration_config.json
     ```
 
-    If you are using running the tests with a version newer than 6.0.2-0bba99f of the Go CLI against bosh-lite or any other environment using self-signed certificates, add
-
-    ```
-      "skip_ssl_validation": true
-    ```
+    When `skip_ssl_validation: true`, commands run by the tests will accept self-signed certificates from Cloud Foundry. This option requires v6.0.2 or newer of the CLI.
 
 4. Run  the tests
 
