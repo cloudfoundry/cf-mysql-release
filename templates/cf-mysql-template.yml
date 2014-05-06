@@ -69,6 +69,7 @@ jobs:
       cookie_secret: (( merge ))
       external_host: (( "p-mysql." meta.external_domain ))
       ssl_enabled: (( merge || true ))
+      skip_ssl_validation: (( merge || false ))
       cc_api_uri: (( merge ))
       nats: (( meta.nats ))
       networks:
