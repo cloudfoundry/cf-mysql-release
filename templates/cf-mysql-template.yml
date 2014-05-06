@@ -77,6 +77,7 @@ jobs:
       - name: p-mysql
         id: 44b26033-1f54-4087-b7bc-da9652c2a539
         description: Database as a service
+        tags:
           - mysql
         max_db_per_node: 250
         metadata:
