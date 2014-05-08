@@ -22,12 +22,14 @@ pid-file  = /var/vcap/sys/run/mysql/mysqld.pid
 log-error = /var/vcap/sys/log/mysql/mysqld.err.log
 init-file = /var/vcap/jobs/mysql/config/mysql_init
 skip-external-locking
+max_allowed_packet = 256M
+
 innodb_file_per_table
+innodb_log_file_size = 1G
 
 # These are required to make the quota enforcer work
 innodb_stats_on_metadata = ON
 innodb_stats_persistent = OFF
-
 
 <% if_p('innodb_buffer_pool_size') do |innodb_buffer_pool_size| %>
 innodb_buffer_pool_size = <%= innodb_buffer_pool_size %>
@@ -44,9 +46,10 @@ max_connections = <%= max_connections %>
 [mysqldump]
 quick
 quote-names
-max_allowed_packet	= 16M
+max_allowed_packet = 256M
 
 [mysql]
+max_allowed_packet = 256M
 
 [isamchk]
 key_buffer		= 16M
