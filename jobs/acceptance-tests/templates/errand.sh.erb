@@ -16,6 +16,7 @@ cat > integration_config.json <<EOF
   "service_name":  "<%= p('service.name') %>",
   "plan_name":     "<%= p('service.plan_name') %>",
   "skip_ssl_validation": <%= p('cf.skip_ssl_validation') %>,
+  "max_storage_mb": "<%= p('service.max_storage_mb') %>",
 EOF
 
 # don't expose passwords
