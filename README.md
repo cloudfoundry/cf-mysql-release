@@ -235,9 +235,9 @@ installation. Replace credentials and URLs as appropriate for your environment.
       "admin_password": "admin",
       "broker_host": "p-mysql.10.244.0.34.xip.io",
       "service_name": "p-mysql",
-      "plan_name": "100mb",
-      "skip_ssl_validation": true
-
+      "plan_name": "100mb-dev",
+      "skip_ssl_validation": true,
+      "max_storage_mb": "100"
     }
     EOF
     export CONFIG=$PWD/integration_config.json
