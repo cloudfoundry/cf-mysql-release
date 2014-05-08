@@ -14,6 +14,7 @@ type IntegrationConfig struct {
 	BrokerHost 				string `json:"broker_host"`
 	ServiceName				string `json:"service_name"`
 	PlanName					string `json:"plan_name"`
+	MaxStorageMb			string `json:"max_storage_mb"`
 }
 
 func LoadConfig() (config IntegrationConfig) {
@@ -59,6 +60,10 @@ func LoadPath(path string) (config IntegrationConfig) {
 
 	if config.BrokerHost == "" {
 		panic("missing configuration 'broker_host'")
+	}
+
+	if config.MaxStorageMb == "" {
+		panic("missing configuration 'max_storage_mb'")
 	}
 
 	return
