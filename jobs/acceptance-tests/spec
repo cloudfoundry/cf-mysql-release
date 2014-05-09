@@ -3,6 +3,7 @@ name: acceptance-tests
 packages:
 - golang
 - acceptance-tests
+- cli
 templates:
   errand.sh.erb: bin/run
 properties:

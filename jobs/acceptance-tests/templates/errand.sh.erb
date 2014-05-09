@@ -4,7 +4,7 @@ set -e -x
 cd /var/vcap/packages/acceptance-tests
 
 export GOROOT=/var/vcap/packages/golang
-export PATH=$GOROOT/bin:$PWD/bin:$PATH
+export PATH=/var/vcap/packages/cli/bin:$GOROOT/bin:$PWD/bin:$PATH
 export CONFIG=$PWD/integration_config.json
 
 cat > integration_config.json <<EOF
