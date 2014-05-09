@@ -14,7 +14,7 @@ resource_pools:
   - name: services-small
     network: services1
     stemcell:
-      name: bosh-warden-boshlite-ubuntu
+      name: bosh-warden-boshlite-ubuntu-lucid-go_agent
       version: latest
     cloud_properties:
       name: random
