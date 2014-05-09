@@ -34,14 +34,62 @@ Prerequisites:
 
 Steps:
 
-1. [Create a CF MySQL deployment manifest](#create_manifest)
-1. [(Optional) Create a BOSH release for CF MySQL](#create_release)
+1. Create a release **OR** check out a tag of a final release of CF MySQL
+    - [Create a BOSH release for CF MySQL](#create_release)
+    - [Check out a tag of a final BOSH release for CF MySQL](#checkout_release)
 1. [Upload the release to the BOSH director](#upload_release)
+1. [Create a CF MySQL deployment manifest](#create_manifest)
 1. [Deploy the CF MySQL release with BOSH](#deploy_release)
 1. [Register the newly created service broker with the Cloud Controller](#register_broker)
 1. [Make the CF MySQL plans public](#publicize_plans)
 
-The MySQL service should now be advertised when running `gcf marketplace`
+After installation, the MySQL service should be shown when running `gcf marketplace`
+
+### Create a release **OR** check out a tag of a final release of CF MySQL
+
+You can build a release from HEAD, or use a pre-built final release.
+
+#### Option 1: Create a BOSH Release<a name="create_release"></a>
+
+To build the release from HEAD:
+
+```bash
+cd ~/workspace/cf-mysql-release
+./update
+bosh create release
+```
+
+When prompted to name the release, call it `cf-mysql`.
+
+#### Option 2: Check out a tag of a final BOSH release for CF MySQL<a name="checkout_release"></a>
+
+Final releases contain pre-compiled packages, making deployment much faster.
+
+Check out the desired revision of cf-release, (eg, version 8)
+
+```bash
+cd ~/workspace/cf-mysql-release
+./update
+git checkout v8
+```
+
+### Upload Release<a name="upload_release"></a>
+
+#### Option 1: Upload the locally built BOSH Release:
+
+If you built a release from source, upload the release to your bosh environment:
+
+```bash
+bosh upload release
+```
+
+#### Option 2: Upload the pre-built final BOSH release:
+
+If you'd like to use a pre-built final release, reference one of the config files in the `releases` directory in your upload command. For example:
+
+```bash
+bosh upload release releases/cf-mysql-8.yml
+```
 
 ### Generating a Deployment Manifest<a name="create_manifest"></a>
 
@@ -53,7 +101,7 @@ To generate a deployment manifest for bosh-lite, follow the instructions [here](
 
 To generate a deployment manifest for AWS or vSphere, use the [generate_deployment_manifest](generate_deployment_manifest) script.  We recommend the following workflow:
 
-1. Run the `generate_deployment_manifest` script. 
+1. Run the `generate_deployment_manifest` script.
 1. If you're missing manifest parameters in your stub, you'll get a list of missing manifest parameters. Check the `spec` file for each job in `jobs/#{job_name}/spec`. These spec files contain all the required parameters you will need to supply.
 1. Add those paramaters and values into the stub.  See [Hints for missing parameters in your deployment manifest stub](#hints-for-missing-parameters-in-your-deployment-manifest-stub) below.
 1. When all necessary stub parameters are present, the script will output the deployment manifest to stdout. Pipe this output to a file in your environment directory that indicates the environment and the release, e.g. `~/workspace/deployments/mydevenv/cf-mysql-mydevenv.yml`.
@@ -98,7 +146,7 @@ You need to know the AZ and subnet id, and you will need to configure them in th
 
 - `availability_zone`: From the EC2 page of the AWS console, like `us-east-1a`.
 - `subnet_id`:  From VPC/Subnets page of AWS console.  Availability zone must match the value set above.  
-  
+
 #### For vSphere:
 
 You need the available IP address range and the IP address of the DNS server and should configure these in the stub:
@@ -121,29 +169,6 @@ Example:
 ```bash
 ./bosh-lite/make_manifest_spiff_mysql
 # This step would have also set your deployment to ./bosh-lite/manifests/cf-mysql-manifest.yml
-```
-
-### (Optional) Create a BOSH Release<a name="create_release"></a>
-
-You can build a release from HEAD, or use a pre-built final release. Final releases contain pre-compiled packages, making deployment much faster. To build the release from HEAD:
-
-```bash
-./update
-bosh create release
-```
-    
-When prompted to name the release, called it `cf-mysql`.
-
-### Upload Release<a name="upload_release"></a>
-
-```bash
-bosh upload release
-```
-
-If you'd like to use a pre-built final release, reference one of the config files in the `releases` directory in your upload command. For example:
-
-```bash
-bosh upload release releases/cf-mysql-6.yml
 ```
 
 ### Deploy Using BOSH<a name="deploy_release"></a>
@@ -170,8 +195,8 @@ If you're using a new enough BOSH director, stemcell, and CLI to support errands
 ```bash
 bosh run errand broker-registrar
 ```
-        
-Note: the broker-registrar errand will fail if the broker has already been registered, and the broker name does not match the manifest property `jobs.broker-registrar.properties.broker.name`. Use the `cf rename-service-broker` CLI command to change the broker name to match the manifest property then this errand will succeed. 
+
+Note: the broker-registrar errand will fail if the broker has already been registered, and the broker name does not match the manifest property `jobs.broker-registrar.properties.broker.name`. Use the `cf rename-service-broker` CLI command to change the broker name to match the manifest property then this errand will succeed.
 
 #### Manually
 
@@ -180,11 +205,11 @@ Note: the broker-registrar errand will fail if the broker has already been regis
     ```bash
     cf create-service-broker p-mysql BROKER_USERNAME BROKER_PASSWORD URL
     ```
-        
+
     `BROKER_USERNAME` and `BROKER_PASSWORD` are the credentials Cloud Foundry will use to authenticate when making API calls to the service broker. Use the values for manifest properties `jobs.cf-mysql-broker.properties.auth_username` and `jobs.cf-mysql-broker.properties.auth_password`.
-    
+
     `URL` specifies where the Cloud Controller will access the MySQL broker. Use the value of the manifest property `jobs.cf-mysql-broker.properties.external_host`.
-    
+
     For more information, see [Managing Service Brokers](http://docs.cloudfoundry.org/services/managing-service-brokers.html).
 
 2. Then [make the service plan public](http://docs.cloudfoundry.org/services/services/managing-service-brokers.html#make-plans-public).
