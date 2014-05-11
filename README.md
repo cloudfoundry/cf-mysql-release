@@ -34,10 +34,7 @@ Prerequisites:
 
 Steps:
 
-1. Create a release **OR** check out a tag of a final release of CF MySQL
-    - [Create a BOSH release for CF MySQL](#create_release)
-    - [Check out a tag of a final BOSH release for CF MySQL](#checkout_release)
-1. [Upload the release to the BOSH director](#upload_release)
+1. [Upload a release to the BOSH director](#upload_release)
 1. [Create a CF MySQL deployment manifest](#create_manifest)
 1. [Deploy the CF MySQL release with BOSH](#deploy_release)
 1. [Register the newly created service broker with the Cloud Controller](#register_broker)
@@ -45,51 +42,43 @@ Steps:
 
 After installation, the MySQL service should be shown when running `gcf marketplace`
 
-### Create a release **OR** check out a tag of a final release of CF MySQL
-
-You can build a release from HEAD, or use a pre-built final release.
-
-#### Option 1: Create a BOSH Release<a name="create_release"></a>
-
-To build the release from HEAD:
-
-```bash
-cd ~/workspace/cf-mysql-release
-./update
-bosh create release
-```
-
-When prompted to name the release, call it `cf-mysql`.
-
-#### Option 2: Check out a tag of a final BOSH release for CF MySQL<a name="checkout_release"></a>
-
-Final releases contain pre-compiled packages, making deployment much faster.
-
-Check out the desired revision of cf-release, (eg, version 8)
-
-```bash
-cd ~/workspace/cf-mysql-release
-./update
-git checkout v8
-```
-
 ### Upload Release<a name="upload_release"></a>
 
-#### Option 1: Upload the locally built BOSH Release:
+You can use a pre-built final release or build a release from HEAD. Final releases contain pre-compiled packages, making deployment much faster. However, these are created manually and infrequently. To be sure you're deploying the latest code, build a release yourself.
 
-If you built a release from source, upload the release to your bosh environment:
+#### Upload a pre-built final BOSH release
 
-```bash
-bosh upload release
-```
+1. Check out the tag for the desired version. This is necessary for generating a manifest that matches the code you're deploying.
 
-#### Option 2: Upload the pre-built final BOSH release:
+  ```bash
+  cd ~/workspace/cf-mysql-release
+  ./update
+  git checkout v8
+  ```
 
-If you'd like to use a pre-built final release, reference one of the config files in the `releases` directory in your upload command. For example:
+1. Run the upload command, referencing one of the config files in the `releases` directory.
 
-```bash
-bosh upload release releases/cf-mysql-8.yml
-```
+  ```bash
+  bosh upload release releases/cf-mysql-8.yml
+  ```
+
+#### Create a BOSH Release from HEAD and Upload:
+
+1. Build a BOSH development release from HEAD
+
+  ```bash
+  cd ~/workspace/cf-mysql-release
+  ./update
+  bosh create release
+  ```
+
+  When prompted to name the release, call it `cf-mysql`.
+
+1. Upload the release to your bosh environment:
+
+  ```bash
+  bosh upload release
+  ```
 
 ### Generating a Deployment Manifest<a name="create_manifest"></a>
 
