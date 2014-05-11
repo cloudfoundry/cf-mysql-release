@@ -37,7 +37,7 @@ Steps:
 1. [Upload a release to the BOSH director](#upload_release)
 1. [Create a CF MySQL deployment manifest](#create_manifest)
 1. [Deploy the CF MySQL release with BOSH](#deploy_release)
-1. [Register the service broker with the Cloud Controller and make plans public](#register_broker)
+1. [Register the service broker with Cloud Foundry](#register_broker)
 
 After installation, the MySQL service should be shown when running `gcf marketplace`
 
@@ -178,7 +178,7 @@ bosh deploy
 
 #### BOSH errand
 
-If you're using a new enough BOSH director, stemcell, and CLI to support errands, run the following errand:
+BOSH errands were introduced in version 2366 of the BOSH CLI, BOSH Director, and stemcells. 
 
 ```bash
 bosh run errand broker-registrar
@@ -211,6 +211,8 @@ To run the MySQL Release Acceptance tests, you will need:
 - an environment variable `$CONFIG` which points to a `.json` file that contains the application domain
 
 #### BOSH errand
+
+BOSH errands were introduced in version 2366 of the BOSH CLI, BOSH Director, and stemcells. 
 
 The following properties must be included in the manifest (most will be there by default):
 - cf.api_url:
@@ -266,9 +268,13 @@ installation. Replace credentials and URLs as appropriate for your environment.
 
 ### De-register the Service Broker<a name="deregister_broker"></a>
 
+The following commands are destructive and are intended to be run in conjuction with deleting your BOSH deployment.
+
 #### BOSH errand
 
-To run the errand:
+BOSH errands were introduced in version 2366 of the BOSH CLI, BOSH Director, and stemcells. 
+
+This errand runs the two commands listed in the manual section below from a BOSH-deployed VM. This errand should be run before deleting your BOSH deployment. If you have already deleted your deployment follow the manual instructions below.
 
 ```bash
 bosh run errand broker-deregistrar
