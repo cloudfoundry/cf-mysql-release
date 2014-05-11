@@ -37,8 +37,7 @@ Steps:
 1. [Upload a release to the BOSH director](#upload_release)
 1. [Create a CF MySQL deployment manifest](#create_manifest)
 1. [Deploy the CF MySQL release with BOSH](#deploy_release)
-1. [Register the newly created service broker with the Cloud Controller](#register_broker)
-1. [Make the CF MySQL plans public](#publicize_plans)
+1. [Register the service broker with the Cloud Controller and make plans public](#register_broker)
 
 After installation, the MySQL service should be shown when running `gcf marketplace`
 
