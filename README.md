@@ -224,6 +224,9 @@ The following properties must be included in the manifest (most will be there by
 - service.name:
 - service.plan_name:
 
+To customize the following values add them to the manifest:
+- mysql.max_user_connections: (default: 40)
+
 To run the errand:
 
 ```bash
@@ -252,7 +255,8 @@ installation. Replace credentials and URLs as appropriate for your environment.
       "service_name": "p-mysql",
       "plan_name": "100mb-dev",
       "skip_ssl_validation": true,
-      "max_storage_mb": "100"
+      "max_storage_mb": "100",
+      "max_user_connections": "40"
     }
     EOF
     export CONFIG=$PWD/integration_config.json

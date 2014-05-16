@@ -6,15 +6,16 @@ import (
 )
 
 type IntegrationConfig struct {
-	AppsDomain        string `json:"apps_domain"`
-	ApiEndpoint       string `json:"api_url"`
-	AdminUser         string `json:"admin_user"`
-	AdminPassword     string `json:"admin_password"`
-	SkipSSLValidation bool   `json:"skip_ssl_validation"`
+	AppsDomain        		string `json:"apps_domain"`
+	ApiEndpoint       		string `json:"api_url"`
+	AdminUser         		string `json:"admin_user"`
+	AdminPassword     		string `json:"admin_password"`
+	SkipSSLValidation 		bool   `json:"skip_ssl_validation"`
 	BrokerHost 				string `json:"broker_host"`
 	ServiceName				string `json:"service_name"`
-	PlanName					string `json:"plan_name"`
+	PlanName				string `json:"plan_name"`
 	MaxStorageMb			string `json:"max_storage_mb"`
+	MaxUserConnections		string `json:"max_user_connections"`
 }
 
 func LoadConfig() (config IntegrationConfig) {
@@ -64,6 +65,10 @@ func LoadPath(path string) (config IntegrationConfig) {
 
 	if config.MaxStorageMb == "" {
 		panic("missing configuration 'max_storage_mb'")
+	}
+
+	if config.MaxUserConnections == "" {
+		panic("missing configuration 'max_user_connections'")
 	}
 
 	return
