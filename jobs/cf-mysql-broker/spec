@@ -45,9 +45,11 @@ properties:
 
   ssl_enabled:
     description: 'Defaults to true, and dictates use of ssl for dashboard url'
+    default: true
 
   skip_ssl_validation:
     description: 'Determine whether broker verifies SSL certificates when communicating with Cloud Controller.  Defaults to false.'
+    default: false
 
   nats.user:
     description: 'Username for broker to connect to NATS'
