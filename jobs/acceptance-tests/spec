@@ -17,6 +17,7 @@ properties:
     description: 'Shared domain for pushed apps'
   cf.skip_ssl_validation:
     description: 'Whether to add --skip-ssl-validation for cf cli'
+    default: false
 
   broker.host:
     description: 'Host used to register the broker'

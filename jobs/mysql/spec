@@ -20,7 +20,9 @@ properties:
     default: 3306
   max_connections:
     description: 'Maximum total number of database connections for the node'
+    default: 1500
   max_user_connections:
     description: 'Max # of connections allowed for each user (binding)'
+    default: 40
   innodb_buffer_pool_size:
     description: 'The size in bytes of the memory buffer InnoDB uses to cache data and indexes of its tables'
