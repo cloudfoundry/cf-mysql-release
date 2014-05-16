@@ -10,6 +10,7 @@ import (
 	. "github.com/pivotal-cf-experimental/cf-test-helpers/cf"
 	. "github.com/pivotal-cf-experimental/cf-test-helpers/generator"
 	. "github.com/pivotal-cf-experimental/cf-test-helpers/runner"
+	"strconv"
 	"time"
 )
 
@@ -63,7 +64,7 @@ var (
 			})
 		})
 
-		Describe("Enforcing MySQL quota", func() {
+		Describe("Enforcing MySQL storage and connection quota", func() {
 			var appName string
 			var serviceInstanceName string
 
@@ -118,6 +119,18 @@ var (
 				Eventually(Curl("-d", secondValue, uri), timeout, retryInterval).Should(Say(secondValue))
 				fmt.Println("*** Proving we can read")
 				Eventually(Curl(uri), timeout, retryInterval).Should(Say(secondValue))
+			})
+
+			It("enforces the connections quota", func() {
+				uri := AppUri(appName) + "/connections/mysql/" + serviceInstanceName + "/"
+				allowable_connection_num, _ := strconv.Atoi(IntegrationConfig.MaxUserConnections)
+				over_maximum_connection_num := allowable_connection_num + 1
+
+				fmt.Println("*** Proving we can use the max num of connections")
+				Eventually(Curl(uri+strconv.Itoa(allowable_connection_num)), timeout, retryInterval).Should(Say("success"))
+
+				fmt.Println("*** Proving the connection quota is enforced")
+				Eventually(Curl(uri+strconv.Itoa(over_maximum_connection_num)), timeout, retryInterval).Should(Say("Error"))
 			})
 		})
 	})
