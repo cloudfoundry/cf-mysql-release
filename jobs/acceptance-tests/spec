@@ -20,7 +20,7 @@ properties:
     default: false
 
   broker.host:
-    description: 'URL used to register the broker'
+    description: 'URL of the broker. Should be the same as jobs.cf-mysql-broker.properties.external_host'
 
   service.name:
     description: 'Name of the MySQL service'
