@@ -41,7 +41,7 @@ properties:
     description: 'URL of the CloudFoundry Cloud Controller'
 
   external_host:
-    description: 'URL for the broker. Domain is often the same as system domain.'
+    description: 'Host used to register the broker. Domain is often the same as system domain.'
 
   ssl_enabled:
     description: 'Determines use of https in dashboard url and in callback uri for calls to UAA'
