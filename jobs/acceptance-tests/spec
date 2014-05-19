@@ -20,7 +20,7 @@ properties:
     default: false
 
   broker.host:
-    description: 'Host used to register the broker'
+    description: 'URL used to register the broker'
 
   service.name:
     description: 'Name of the MySQL service'
