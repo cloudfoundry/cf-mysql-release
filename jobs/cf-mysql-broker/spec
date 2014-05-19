@@ -41,14 +41,14 @@ properties:
     description: 'URL of the CloudFoundry Cloud Controller'
 
   external_host:
-    description: 'External domain where the broker will be available on a subdomain (often the same as the system domain)'
+    description: 'URL for the broker. Domain is often the same as system domain.'
 
   ssl_enabled:
-    description: 'Defaults to true, and dictates use of ssl for dashboard url'
+    description: 'Determines use of https in dashboard url and in callback uri for calls to UAA'
     default: true
 
   skip_ssl_validation:
-    description: 'Determine whether broker verifies SSL certificates when communicating with Cloud Controller.  Defaults to false.'
+    description: 'Determines whether dashboard verifies SSL certificates when communicating with Cloud Controller and UAA'
     default: false
 
   nats.user:
