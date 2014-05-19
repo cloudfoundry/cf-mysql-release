@@ -15,7 +15,7 @@ properties:
   broker.name:
     description: 'Name of the service broker'
   broker.host:
-    description: 'URL of the broker. Should be the same as jobs.cf-mysql-broker.properties.external_host'
+    description: 'Host used to register the broker. Should be the same as jobs.cf-mysql-broker.properties.external_host'
   broker.port:
     description: 'Port for the service broker'
     default: 80
