@@ -53,7 +53,8 @@ jobs:
       static_ips: (( static_ips(0) ))
     properties:
       admin_password: (( merge ))
-      <<: (( merge || nil ))
+      max_connections: 1500
+      max_user_connections: 40
 
   - name: cf-mysql-broker
     release: cf-mysql
@@ -67,9 +68,10 @@ jobs:
       auth_password: (( merge ))
       cookie_secret: (( merge ))
       external_host: (( "p-mysql." meta.external_domain ))
+      ssl_enabled: (( merge || true ))
+      skip_ssl_validation: (( merge || false ))
       cc_api_uri: (( merge ))
       nats: (( meta.nats ))
-      <<: (( merge || nil ))
       networks:
         broker_network: services1
       services:
@@ -158,7 +160,7 @@ jobs:
         admin_username: (( merge ))
         admin_password: (( merge ))
         apps_domain: (( meta.apps_domain ))
-        <<: (( merge || nil ))
+        skip_ssl_validation: (( merge || false ))
       broker:
         host: (( jobs.cf-mysql-broker.properties.external_host ))
       service:
