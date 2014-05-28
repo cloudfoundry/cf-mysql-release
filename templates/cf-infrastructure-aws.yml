@@ -27,7 +27,8 @@ networks:
 resource_pools:
   - name: services-small
     stemcell:
-      name: bosh-aws-xen-ubuntu
+      name: bosh-aws-xen-ubuntu-lucid-go_agent
+      version: (( merge || 2578 ))
     cloud_properties:
       instance_type: m1.small
       availability_zone: (( properties.template_only.aws.availability_zone ))
