@@ -11,7 +11,8 @@ networks: (( merge ))
 resource_pools:
   - name: services-small
     stemcell:
-      name: bosh-vsphere-esxi-ubuntu
+      name: bosh-aws-xen-ubuntu-lucid-go_agent
+      version: (( merge || 2578 ))
     cloud_properties:
       ram: 1024
       # enough for extracting mysql
