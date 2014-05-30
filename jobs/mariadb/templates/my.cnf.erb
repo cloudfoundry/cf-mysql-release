@@ -1,0 +1,56 @@
+<%
+base_folder = '/var/vcap/sys/run/mariadb'
+%>
+
+[client]
+port      = <%= p('port') %>
+socket		= <%= "#{base_folder}/mysqld.sock" %>
+
+[mysqld_safe]
+nice      = 0
+
+[mysqld]
+collation_server        = utf8_unicode_ci
+character_set_server    = utf8
+user		= vcap
+socket		= <%= "#{base_folder}/mariadb.sock" %>
+port      = <%= p('port') %>
+basedir		= /var/vcap/packages/mariadb
+datadir		= /var/vcap/store/mariadb
+language	= /var/vcap/packages/mariadb/share/english
+pid-file  = /var/vcap/sys/run/mariadb/mariadb.pid
+log-error = /var/vcap/sys/log/mariadb/mariadb.err.log
+init-file = /var/vcap/jobs/mariadb/config/mariadb_init
+skip-external-locking
+innodb_file_per_table
+max_allowed_packet = 256M
+
+innodb_file_per_table
+innodb_log_file_size = 1G
+
+# These are required to make the quota enforcer work
+innodb_stats_on_metadata = ON
+innodb_stats_persistent = OFF
+
+<% if_p('innodb_buffer_pool_size') do |innodb_buffer_pool_size| %>
+innodb_buffer_pool_size = <%= innodb_buffer_pool_size %>
+<% end %>
+
+<% if_p('max_user_connections') do |max_user_connections| %>
+max_user_connections = <%= max_user_connections %>
+<% end %>
+
+<% if_p('max_connections') do |max_connections| %>
+max_connections = <%= max_connections %>
+<% end %>
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet = 256M
+
+[mysql]
+max_allowed_packet = 256M
+
+[isamchk]
+key_buffer		= 16M

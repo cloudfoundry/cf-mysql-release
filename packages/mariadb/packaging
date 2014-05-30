@@ -1,0 +1,15 @@
+# abort script on any command that exits with a non zero value
+set -e
+
+MARIADB_VERSION=10.0.10
+
+tar xzf mariadb/mariadb-galera-${MARIADB_VERSION}.tar.gz
+(
+  set -e
+  cd mariadb-${MARIADB_VERSION}
+  mkdir bld
+  cd bld
+  cmake .. -DCMAKE_INSTALL_PREFIX=${BOSH_INSTALL_TARGET} -DWITH_WSREP=ON -DWITH_INNODB_DISALLOW_WRITES=1
+  make -j 3
+  make install
+)
