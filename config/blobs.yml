@@ -44,3 +44,8 @@ cli/cf-linux-amd64.tgz:
   sha: !binary |-
     MmRhNzE4ZThlMzMxMDVmZjU4ODRmMWU4MzRiNzk2NTBhYjMzMDgwMw==
   size: 3886903
+mariadb/mariadb-galera-10.0.10.tar.gz:
+  object_id: 5ac436da-3d7c-4577-a8ff-06a0af97cb3f
+  sha: !binary |-
+    ZTdkY2IxOWIxNjM5ZGIyMTAyZGVmMDM1MjEyZjE4ZDViZGE5ZWY4MQ==
+  size: 52124329
