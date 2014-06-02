@@ -1,0 +1,37 @@
+#!/bin/bash -e
+
+export MARIADB_JOB_DIR=/var/vcap/jobs/mariadb
+RUN_DIR=/var/vcap/sys/run/mariadb
+datadir=/var/vcap/store/mariadb
+LOG_DIR=/var/vcap/sys/log/mariadb
+LOG_FILE=$LOG_DIR/maria-ctl.log
+
+case $1 in
+
+  start)
+
+    # It is surprisingly hard to get the config file location passed in
+    # on the command line to the mysql.server script. This is easier.
+    ln -sf $MARIADB_JOB_DIR/config/my.cnf /etc/my.cnf
+    mkdir -p $LOG_DIR
+
+    if ! test -d ${datadir}; then
+      mkdir -p ${datadir}
+      /var/vcap/packages/mariadb/scripts/mysql_install_db \
+             --basedir=/var/vcap/packages/mariadb --user=vcap \
+             --datadir=${datadir} >> $LOG_FILE 2>> $LOG_FILE
+    fi
+    chown -R vcap:vcap ${datadir}
+
+    /var/vcap/packages/mariadb/support-files/mysql.server start >> $LOG_FILE 2>> $LOG_FILE
+    ;;
+
+  stop)
+    /var/vcap/packages/mariadb/support-files/mysql.server stop >> $LOG_FILE 2>> $LOG_FILE
+    ;;
+
+  *)
+    echo "Usage: mysql_ctl {start|stop}"
+    ;;
+
+esac

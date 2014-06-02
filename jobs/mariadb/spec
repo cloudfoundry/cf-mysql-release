@@ -1,0 +1,28 @@
+---
+name: mariadb
+
+templates:
+  mariadb_ctl.erb:  bin/mariadb_ctl
+  my.cnf.erb:     config/my.cnf
+  mariadb_init.erb: config/mariadb_init
+
+packages:
+- mariadb
+
+properties:
+  admin_username:
+    description: 'Username for the MySQL server admin user'
+    default: 'root'
+  admin_password:
+    description: 'Password for the MySQL server admin user'
+  port:
+    description: 'Port the mysql server should bind to'
+    default: 3306
+  max_connections:
+    description: 'Maximum total number of database connections for the node'
+    default: 1500
+  max_user_connections:
+    description: 'Max # of connections allowed for each user (binding)'
+    default: 40
+  innodb_buffer_pool_size:
+    description: 'The size in bytes of the memory buffer InnoDB uses to cache data and indexes of its tables'
