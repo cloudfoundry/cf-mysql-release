@@ -1,7 +1,0 @@
----
-name: mariadb
-
-dependencies:
-
-files:
-- mariadb/**/*
