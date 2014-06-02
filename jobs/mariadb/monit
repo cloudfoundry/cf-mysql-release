@@ -1,0 +1,5 @@
+check process mariadb
+  with pidfile /var/vcap/sys/run/mariadb/mariadb.pid
+  start program "/var/vcap/jobs/mariadb/bin/mariadb_ctl start"
+  stop program "/var/vcap/jobs/mariadb/bin/mariadb_ctl stop"
+  group vcap
