@@ -44,7 +44,7 @@ resource_pools:
 jobs:
   - name: mysql
     release: cf-mysql
-    template: mariadb
+    template: mysql
     instances: 1
     resource_pool: services-small
     persistent_disk: 100000

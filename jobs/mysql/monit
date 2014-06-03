@@ -1,5 +1,5 @@
-check process mysql
-  with pidfile /var/vcap/sys/run/mysql/mysqld.pid
-  start program "/var/vcap/jobs/mysql/bin/mysql_ctl start"
-  stop program "/var/vcap/jobs/mysql/bin/mysql_ctl stop"
+check process mariadb
+  with pidfile /var/vcap/sys/run/mysql/mysql.pid
+  start program "/var/vcap/jobs/mysql/bin/mariadb_ctl start"
+  stop program "/var/vcap/jobs/mysql/bin/mariadb_ctl stop"
   group vcap
