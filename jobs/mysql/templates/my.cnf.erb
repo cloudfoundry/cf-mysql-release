@@ -15,12 +15,12 @@ character_set_server    = utf8
 user		= vcap
 socket		= <%= "#{base_folder}/mysqld.sock" %>
 port      = <%= p('port') %>
-basedir		= /var/vcap/packages/mysql
+basedir		= /var/vcap/packages/mariadb
 datadir		= /var/vcap/store/mysql
-language	= /var/vcap/packages/mysql/share/english
-pid-file  = /var/vcap/sys/run/mysql/mysqld.pid
-log-error = /var/vcap/sys/log/mysql/mysqld.err.log
-init-file = /var/vcap/jobs/mysql/config/mysql_init
+language	= /var/vcap/packages/mariadb/share/english
+pid-file  = /var/vcap/sys/run/mysql/mysql.pid
+log-error = /var/vcap/sys/log/mysql/mysql.err.log
+init-file = /var/vcap/jobs/mysql/config/mariadb_init
 skip-external-locking
 max_allowed_packet = 256M
 

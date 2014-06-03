@@ -1,9 +1,9 @@
 #!/bin/bash -e
 
-export MARIADB_JOB_DIR=/var/vcap/jobs/mariadb
-RUN_DIR=/var/vcap/sys/run/mariadb
-datadir=/var/vcap/store/mariadb
-LOG_DIR=/var/vcap/sys/log/mariadb
+export MARIADB_JOB_DIR=/var/vcap/jobs/mysql
+RUN_DIR=/var/vcap/sys/run/mysql
+datadir=/var/vcap/store/mysql
+LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/maria-ctl.log
 
 case $1 in

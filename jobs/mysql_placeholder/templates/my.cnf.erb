@@ -1,5 +1,5 @@
 <%
-base_folder = '/var/vcap/sys/run/mariadb'
+base_folder = '/var/vcap/sys/run/mysql'
 %>
 
 [client]
@@ -13,16 +13,15 @@ nice      = 0
 collation_server        = utf8_unicode_ci
 character_set_server    = utf8
 user		= vcap
-socket		= <%= "#{base_folder}/mariadb.sock" %>
+socket		= <%= "#{base_folder}/mysqld.sock" %>
 port      = <%= p('port') %>
-basedir		= /var/vcap/packages/mariadb
-datadir		= /var/vcap/store/mariadb
-language	= /var/vcap/packages/mariadb/share/english
-pid-file  = /var/vcap/sys/run/mariadb/mariadb.pid
-log-error = /var/vcap/sys/log/mariadb/mariadb.err.log
-init-file = /var/vcap/jobs/mariadb/config/mariadb_init
+basedir		= /var/vcap/packages/mysql
+datadir		= /var/vcap/store/mysql
+language	= /var/vcap/packages/mysql/share/english
+pid-file  = /var/vcap/sys/run/mysql/mysqld.pid
+log-error = /var/vcap/sys/log/mysql/mysqld.err.log
+init-file = /var/vcap/jobs/mysql/config/mysql_init
 skip-external-locking
-innodb_file_per_table
 max_allowed_packet = 256M
 
 innodb_file_per_table
