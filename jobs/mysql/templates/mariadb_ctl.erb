@@ -5,6 +5,7 @@ RUN_DIR=/var/vcap/sys/run/mysql
 datadir=/var/vcap/store/mysql
 LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/maria-ctl.log
+CONFIG_DIR=/etc/mysql
 
 case $1 in
 
@@ -12,7 +13,10 @@ case $1 in
 
     # It is surprisingly hard to get the config file location passed in
     # on the command line to the mysql.server script. This is easier.
-    ln -sf $MARIADB_JOB_DIR/config/my.cnf /etc/my.cnf
+    mkdir -p $CONFIG_DIR
+    rm -f $CONFIG_DIR/my.cnf
+    ln -sf $MYSQL_JOB_DIR/config/my.cnf $CONFIG_DIR/my.cnf
+
     mkdir -p $LOG_DIR
 
     if ! test -d ${datadir}; then
