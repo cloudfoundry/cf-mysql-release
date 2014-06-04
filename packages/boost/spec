@@ -1,0 +1,7 @@
+---
+name: boost
+
+dependencies:
+
+files:
+- boost/**/*

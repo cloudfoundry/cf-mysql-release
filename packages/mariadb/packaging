@@ -10,6 +10,17 @@ tar xzf mariadb/mariadb-galera-${MARIADB_VERSION}.tar.gz
   mkdir bld
   cd bld
   cmake .. -DCMAKE_INSTALL_PREFIX=${BOSH_INSTALL_TARGET} -DWITH_WSREP=ON -DWITH_INNODB_DISALLOW_WRITES=1
-  make -j 3
-  make install
+
+  #
+  # Go Agent cannot handle more than 10MB output, so trim it
+  #
+  set +e
+  make -j 3 >> build.out 2>> build.err
+  make install >> build.out 2>> build.err
+  set -e
+  tail -n 1000 build.out
+  tail -n 1000 build.err
+
+  cp /var/vcap/packages/galera/garbd ${BOSH_INSTALL_TARGET}/bin/
+  cp /var/vcap/packages/galera/libgalera_smm.so ${BOSH_INSTALL_TARGET}/lib/plugin/
 )

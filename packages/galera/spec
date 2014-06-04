@@ -1,0 +1,10 @@
+---
+name: galera
+
+dependencies:
+ - scons
+ - boost
+ - check
+
+files:
+- galera/**/*
