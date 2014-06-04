@@ -1,0 +1,29 @@
+# abort script on any command that exits with a non zero value
+set -e
+
+export HOME=/var/vcap/data
+cd galera
+tar xfz galera-25.3.5-src.tar.gz
+cd galera-25.3.5-src
+
+#
+# Scons build system cannot be easily configured to use
+# non-standard locations for headers and libraries. That's why
+# we copy package files to the usual/standard location
+#
+cp -R /var/vcap/packages/boost/lib/* /usr/lib/
+cp -R /var/vcap/packages/boost/include/* /usr/include/
+cp -R /var/vcap/packages/check/lib/* /usr/lib/
+cp -R /var/vcap/packages/check/include/* /usr/include/
+
+#
+# Go Agent cannot handle more than 10MB output, so trim it
+#
+set +e
+/var/vcap/packages/scons/bin/scons >> build.out 2>> build.err
+set -e
+tail -n 1000 build.out
+tail -n 1000 build.err
+
+cp libgalera_smm.so ${BOSH_INSTALL_TARGET}
+cp garb/garbd ${BOSH_INSTALL_TARGET}

@@ -49,3 +49,23 @@ mariadb/mariadb-galera-10.0.10.tar.gz:
   sha: !binary |-
     ZTdkY2IxOWIxNjM5ZGIyMTAyZGVmMDM1MjEyZjE4ZDViZGE5ZWY4MQ==
   size: 52124329
+boost/boost_1_55_0.tar.gz:
+  object_id: 52348346-ba79-41e1-9c71-74ee464570d6
+  sha: !binary |-
+    NjFlZDBlNTdkM2M3Yzg5ODU4MDViYjA2ODJkZTNmNGM2NWY0YjZlNQ==
+  size: 69481257
+galera/galera-25.3.5-src.tar.gz:
+  object_id: 137c19a6-59c1-455c-bba8-073fac54792c
+  sha: !binary |-
+    MDU5ODhiYjQ0NDkwNDgxNDBjNmRmOGU0YjNjNjQ3NTA4MzMxMzlkYg==
+  size: 3820268
+scons/scons-2.3.1.tar.gz:
+  object_id: e3136aa7-9bf6-4c49-a26d-9ebe85665818
+  sha: !binary |-
+    Nzc1ZTcxNWU0OWZlNWZkOGUxZDI5NTUxYTI5NmZkYzkyNjc1MDllNw==
+  size: 499037
+check/check-0.9.13.tar.gz:
+  object_id: d6c51160-8a67-4290-a337-dbc9d515d08a
+  sha: !binary |-
+    MDlmNjgyZDIyMzliMTM1MzgxOGI3NGQwNjA5OWExNzQ2MDQ1MDI0MA==
+  size: 752880

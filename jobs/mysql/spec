@@ -8,6 +8,7 @@ templates:
 
 packages:
 - mariadb
+- galera
 
 properties:
   admin_username:

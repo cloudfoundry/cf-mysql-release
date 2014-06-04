@@ -1,0 +1,14 @@
+# abort script on any command that exits with a non zero value
+set -e
+
+cd boost
+tar xfz boost_1_55_0.tar.gz
+cd boost_1_55_0
+./bootstrap.sh --prefix=${BOSH_INSTALL_TARGET}
+
+# Go Agent cannot handle more than 10MB output, so trim it
+set +e
+./b2 install >> build.out 2>> build.err
+set -e
+tail -n 1000 build.out
+tail -n 1000 build.err
