@@ -20,10 +20,15 @@ cp -R /var/vcap/packages/check/include/* /usr/include/
 # Go Agent cannot handle more than 10MB output, so trim it
 #
 set +e
-/var/vcap/packages/scons/bin/scons >> build.out 2>> build.err
+/var/vcap/packages/scons/bin/scons > build.out 2> build.err
+BUILD_EXIT_CODE=$?
 set -e
+
+if [ $BUILD_EXIT_CODE -ne 0 ]; then
+    tail -n 1000 build.err
+    exit $BUILD_EXIT_CODE
+fi
 tail -n 1000 build.out
-tail -n 1000 build.err
 
 cp libgalera_smm.so ${BOSH_INSTALL_TARGET}
 cp garb/garbd ${BOSH_INSTALL_TARGET}
