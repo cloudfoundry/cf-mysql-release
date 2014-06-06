@@ -1,26 +1,42 @@
 #!/bin/bash -e
 
-job_dir=/var/vcap/jobs/cf-mysql-broker
-run_dir=/var/vcap/sys/run/cf-mysql-broker
-log_dir=/var/vcap/sys/log/cf-mysql-broker
-pidfile=$run_dir/unicorn.pid
+JOB_DIR=/var/vcap/jobs/cf-mysql-broker
+PACKAGE_DIR=/var/vcap/packages/cf-mysql-broker
+RUN_DIR=/var/vcap/sys/run/cf-mysql-broker
+LOG_DIR=/var/vcap/sys/log/cf-mysql-broker
+PIDFILE=$RUN_DIR/unicorn.pid
 
 export PATH=/var/vcap/packages/ruby/bin:$PATH
 export BUNDLE_GEMFILE=/var/vcap/packages/cf-mysql-broker/Gemfile
 export RAILS_ENV=production
-export SETTINGS_PATH=$job_dir/config/settings.yml
+export SETTINGS_PATH=$JOB_DIR/config/settings.yml
+# rake needs HOME to be set to run tasks
+export HOME=/home/vcap
 
 case $1 in
 
   start)
-    mkdir -p $run_dir
-    mkdir -p $log_dir
+    mkdir -p $RUN_DIR
+    mkdir -p $LOG_DIR
 
-    bundle exec unicorn --daemonize -c $job_dir/config/unicorn.conf.rb
+    # Run the migrations only on the first launch
+    <% if spec.index.to_i == 0 %>
+     cd $PACKAGE_DIR
+     bundle exec rake db:create
+     bundle exec rake db:migrate >>$LOG_DIR/db_migrate.stdout.log 2>>$LOG_DIR/db_migrate.stderr.log
+
+     if [ $? != 0 ]; then
+       echo "Migrations failed" >>$LOG_DIR/db_migrate.stderr.log
+       exit 1
+     fi
+    <% end %>
+
+    cd -
+    bundle exec unicorn --daemonize -c $JOB_DIR/config/unicorn.conf.rb
     ;;
 
   stop)
-    kill -QUIT `cat $pidfile`
+    kill -QUIT `cat $PIDFILE`
     ;;
 
   *)

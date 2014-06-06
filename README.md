@@ -222,7 +222,11 @@ The following properties must be included in the manifest (most will be there by
 - cf.skip_ssl_validation:
 - broker.host:
 - service.name:
-- service.plan_name:
+- service.plans:
+
+The service.plans array must include the following properties for each plan:
+- plan_name:
+- max_storage_mb:
 
 To customize the following values add them to the manifest:
 - mysql.max_user_connections: (default: 40)
@@ -253,9 +257,17 @@ installation. Replace credentials and URLs as appropriate for your environment.
       "admin_password": "admin",
       "broker_host": "p-mysql.10.244.0.34.xip.io",
       "service_name": "p-mysql",
-      "plan_name": "100mb-dev",
+      "plans" : [
+        {
+          "plan_name": "100mb-dev",
+          "max_storage_mb": "100"
+        },
+        {
+          "plan_name": "1gb-dev",
+          "max_storage_mb": "1000"
+        }
+      ],
       "skip_ssl_validation": true,
-      "max_storage_mb": "100",
       "max_user_connections": "40"
     }
     EOF

@@ -14,9 +14,20 @@ cat > integration_config.json <<EOF
   "admin_user":    "<%= p('cf.admin_username') %>",
   "broker_host":   "<%= p('broker.host') %>",
   "service_name":  "<%= p('service.name') %>",
-  "plan_name":     "<%= p('service.plan_name') %>",
+  "plans": [
+  <% plans = p('service.plans')
+  plans.each do |plan| %>
+    {
+      "plan_name": "<%= plan['plan_name'] %>",
+      "max_storage_mb": "<%= plan['max_storage_mb'] %>"
+  <% if plan != plans.last %>
+    },
+  <% else %>
+    }
+  <% end
+  end%>
+  ],
   "skip_ssl_validation": <%= p('cf.skip_ssl_validation') %>,
-  "max_storage_mb": "<%= p('service.max_storage_mb') %>",
   "max_user_connections": "<%= p('mysql.max_user_connections') %>",
 EOF
 

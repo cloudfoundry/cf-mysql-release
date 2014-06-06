@@ -92,21 +92,36 @@ jobs:
           id: p-mysql
           secret: (( merge ))
         plans:
-        - name: 100mb-dev
-          id: ab08f1bc-e6fc-4b56-a767-ee0fea6e3f20
-          description: Shared MySQL Server
-          max_storage_mb: 100
-          metadata:
-            costs:
-            - amount:
-                usd: 0.0
-              unit: MONTH
-            bullets:
-              - Not for production use - server is not replicated
-              - Shared MySQL server
-              - 100 MB storage
-              - 40 concurrent connections
-            displayName: (( merge || "100 MB Dev" ))
+          - name: 100mb-dev
+            id: ab08f1bc-e6fc-4b56-a767-ee0fea6e3f20
+            description: Shared MySQL Server
+            max_storage_mb: 100
+            metadata:
+              costs:
+              - amount:
+                  usd: 0.0
+                unit: MONTH
+              bullets:
+                - Not for production use - server is not replicated
+                - Shared MySQL server
+                - 100 MB storage
+                - 40 concurrent connections
+              displayName: (( merge || "100 MB Dev" ))
+          - name: 1gb-dev
+            id: 11d0aa36-dcec-4021-85f5-ea4d9a5c8342
+            description: Shared MySQL Server
+            max_storage_mb: 1000
+            metadata:
+              costs:
+              - amount:
+                  usd: 0.0
+                unit: MONTH
+              bullets:
+                - Not for production use - server is not replicated
+                - Shared MySQL server
+                - 1000 MB storage
+                - 40 concurrent connections
+              displayName: (( merge || "1 GB Dev" ))
       mysql_node:
         host: (( jobs.mysql.networks.services1.static_ips.[0] ))
         admin_password: (( jobs.mysql.properties.admin_password ))
@@ -165,7 +180,10 @@ jobs:
         host: (( jobs.cf-mysql-broker.properties.external_host ))
       service:
         name: (( jobs.cf-mysql-broker.properties.services.[0].name ))
-        plan_name: (( jobs.cf-mysql-broker.properties.services.[0].plans.[0].name ))
-        max_storage_mb: (( jobs.cf-mysql-broker.properties.services.[0].plans.[0].max_storage_mb ))
+        plans:
+          - plan_name: (( jobs.cf-mysql-broker.properties.services.[0].plans.[0].name ))
+            max_storage_mb: (( jobs.cf-mysql-broker.properties.services.[0].plans.[0].max_storage_mb ))
+          - plan_name: (( jobs.cf-mysql-broker.properties.services.[0].plans.[1].name ))
+            max_storage_mb: (( jobs.cf-mysql-broker.properties.services.[0].plans.[1].max_storage_mb ))
 
 properties: {}  # Pivotal CF cannot generate global properties
