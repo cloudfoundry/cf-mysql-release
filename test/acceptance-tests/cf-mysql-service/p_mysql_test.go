@@ -31,7 +31,6 @@ var (
 
 			BeforeEach(func() {
 				appName = RandomName()
-
 				Eventually(Cf("push", appName, "-m", "256M", "-p", sinatraPath, "-no-start"), 60*time.Second).Should(Exit(0))
 			})
 
@@ -39,14 +38,14 @@ var (
 				Eventually(Cf("delete", appName, "-f"), 20*time.Second).Should(Exit(0))
 			})
 
-			Context("using a new service instance", func() {
-				It("Allows users to create, bind, write to, read from, unbind, and destroy the service instance", func() {
+			AssertLifeCycleBehavior := func(PlanName string) {
+				It("Allows users to create, bind, write to, read from, unbind, and destroy a service instance a plan", func() {
 					serviceInstanceName := RandomName()
 					uri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/mykey"
 
-					Eventually(Cf("create-service", IntegrationConfig.ServiceName, IntegrationConfig.PlanName,
-						serviceInstanceName),
+					Eventually(Cf("create-service", IntegrationConfig.ServiceName, PlanName, serviceInstanceName),
 						60*time.Second).Should(Exit(0))
+
 					Eventually(Cf("bind-service", appName, serviceInstanceName), 60*time.Second).Should(Exit(0))
 					Eventually(Cf("start", appName), 5*60*time.Second).Should(Exit(0))
 
@@ -61,6 +60,12 @@ var (
 					Eventually(Cf("unbind-service", appName, serviceInstanceName), 20*time.Second).Should(Exit(0))
 					Eventually(Cf("delete-service", "-f", serviceInstanceName), 20*time.Second).Should(Exit(0))
 				})
+			}
+
+			Context("using a new service instance", func() {
+				for _, plan := range IntegrationConfig.Plans {
+					AssertLifeCycleBehavior(plan.Name)
+				}
 			})
 		})
 
@@ -73,10 +78,6 @@ var (
 				serviceInstanceName = RandomName()
 
 				Eventually(Cf("push", appName, "-m", "256M", "-p", sinatraPath, "-no-start"), 60*time.Second).Should(Exit(0))
-				Eventually(Cf("create-service", IntegrationConfig.ServiceName, IntegrationConfig.PlanName,
-					serviceInstanceName), 60*time.Second).Should(Exit(0))
-				Eventually(Cf("bind-service", appName, serviceInstanceName), 60*time.Second).Should(Exit(0))
-				Eventually(Cf("start", appName), 5*60*time.Second).Should(Exit(0))
 			})
 
 			AfterEach(func() {
@@ -85,7 +86,16 @@ var (
 				Eventually(Cf("delete", appName, "-f"), 20*time.Second).Should(Exit(0))
 			})
 
-			It("enforces the storage quota", func() {
+			CreatesBindsAndStartsApp := func(PlanName string) {
+				Eventually(Cf("create-service", IntegrationConfig.ServiceName, PlanName, serviceInstanceName),
+					60*time.Second).Should(Exit(0))
+				Eventually(Cf("bind-service", appName, serviceInstanceName), 60*time.Second).Should(Exit(0))
+				Eventually(Cf("start", appName), 5*60*time.Second).Should(Exit(0))
+			}
+
+			AssertQuotaBehavior := func(PlanName string, MaxStorageMb string) {
+				CreatesBindsAndStartsApp(PlanName)
+
 				quotaEnforcerSleepTime := 10 * time.Second
 				uri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/mykey"
 				writeUri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/write-bulk-data"
@@ -99,7 +109,7 @@ var (
 				Eventually(Curl(uri), timeout, retryInterval).Should(Say(firstValue))
 
 				fmt.Println("*** Exceeding quota")
-				Eventually(Curl("-d", IntegrationConfig.MaxStorageMb, writeUri), timeout, retryInterval).Should(Say("Database now contains"))
+				Eventually(Curl("-d", MaxStorageMb, writeUri), timeout, retryInterval).Should(Say("Database now contains"))
 
 				fmt.Println("*** Sleeping to let quota enforcer run")
 				time.Sleep(quotaEnforcerSleepTime)
@@ -119,9 +129,15 @@ var (
 				Eventually(Curl("-d", secondValue, uri), timeout, retryInterval).Should(Say(secondValue))
 				fmt.Println("*** Proving we can read")
 				Eventually(Curl(uri), timeout, retryInterval).Should(Say(secondValue))
+			}
+
+			It("enforces the storage quotas for the first plan", func() {
+				AssertQuotaBehavior(IntegrationConfig.Plans[0].Name, IntegrationConfig.Plans[0].MaxStorageMb)
 			})
 
 			It("enforces the connections quota", func() {
+				CreatesBindsAndStartsApp(IntegrationConfig.Plans[0].Name)
+
 				uri := AppUri(appName) + "/connections/mysql/" + serviceInstanceName + "/"
 				allowable_connection_num, _ := strconv.Atoi(IntegrationConfig.MaxUserConnections)
 				over_maximum_connection_num := allowable_connection_num + 1

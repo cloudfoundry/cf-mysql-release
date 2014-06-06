@@ -24,10 +24,8 @@ properties:
 
   service.name:
     description: 'Name of the MySQL service'
-  service.plan_name:
-    description: 'Name of the MySQL plan'
-  service.max_storage_mb:
-    description: 'Quota size for plan'
+  service.plans:
+    description: 'Array of MySQL plans'
 
   mysql.max_user_connections:
     description: 'Max # of connections allowed for each user (binding)'

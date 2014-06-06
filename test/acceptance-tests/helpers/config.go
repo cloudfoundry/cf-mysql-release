@@ -5,6 +5,11 @@ import (
 	"os"
 )
 
+type Plan struct {
+	Name					string `json:"plan_name"`
+    MaxStorageMb	        string `json:"max_storage_mb"`
+}
+
 type IntegrationConfig struct {
 	AppsDomain        		string `json:"apps_domain"`
 	ApiEndpoint       		string `json:"api_url"`
@@ -13,8 +18,7 @@ type IntegrationConfig struct {
 	SkipSSLValidation 		bool   `json:"skip_ssl_validation"`
 	BrokerHost 				string `json:"broker_host"`
 	ServiceName				string `json:"service_name"`
-	PlanName				string `json:"plan_name"`
-	MaxStorageMb			string `json:"max_storage_mb"`
+	Plans				    []Plan `json:"plans"`
 	MaxUserConnections		string `json:"max_user_connections"`
 }
 
@@ -55,16 +59,12 @@ func LoadPath(path string) (config IntegrationConfig) {
 		panic("missing configuration 'service_name'")
 	}
 
-	if config.PlanName == "" {
-		panic("missing configuration 'plan_name'")
+	if config.Plans == nil {
+		panic("missing configuration 'plans'")
 	}
 
 	if config.BrokerHost == "" {
 		panic("missing configuration 'broker_host'")
-	}
-
-	if config.MaxStorageMb == "" {
-		panic("missing configuration 'max_storage_mb'")
 	}
 
 	if config.MaxUserConnections == "" {
