@@ -25,8 +25,8 @@ compilation:
 
 update:
   canaries: 1
-  canary_watch_time: 30000-180000
-  update_watch_time: 30000-180000
+  canary_watch_time: 30000-600000
+  update_watch_time: 30000-600000
   max_in_flight: 4
 
 networks: (( merge ))
