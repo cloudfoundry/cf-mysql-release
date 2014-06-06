@@ -27,3 +27,5 @@ properties:
     default: 40
   innodb_buffer_pool_size:
     description: 'The size in bytes of the memory buffer InnoDB uses to cache data and indexes of its tables'
+  cluster_ips:
+    description: 'List of nodes'

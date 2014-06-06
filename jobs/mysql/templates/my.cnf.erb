@@ -10,6 +10,16 @@ socket		= <%= "#{base_folder}/mysqld.sock" %>
 nice      = 0
 
 [mysqld]
+# GALERA options:
+wsrep_provider=/var/vcap/packages/mariadb/lib/plugin/libgalera_smm.so
+wsrep_cluster_address="gcomm://<%= p('cluster_ips').join(",") %>"
+wsrep_node_address='<%= spec.networks.services1.ip %>'
+wsrep_node_name='node<%= index %>'
+wsrep_cluster_name='cf-mariadb-galera-cluster'
+wsrep_sst_method=mysqldump
+wsrep_sst_auth='<%= properties.admin_username %>:<%= properties.admin_password %>'
+
+# Regular MYSQL options:
 collation_server        = utf8_unicode_ci
 character_set_server    = utf8
 user		= vcap
