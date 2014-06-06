@@ -45,16 +45,17 @@ jobs:
   - name: mysql
     release: cf-mysql
     template: mysql
-    instances: 1
+    instances: 3
     resource_pool: services-small
     persistent_disk: 100000
     networks:
     - name: services1
-      static_ips: (( static_ips(0) ))
+      static_ips: (( static_ips(0, 1, 2) ))
     properties:
       admin_password: (( merge ))
       max_connections: 1500
       max_user_connections: 40
+      cluster_ips: (( networks.services1.static_ips ))
   - name: cf-mysql-broker
     release: cf-mysql
     template: cf-mysql-broker

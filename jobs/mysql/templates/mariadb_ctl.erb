@@ -6,6 +6,7 @@ datadir=/var/vcap/store/mysql
 LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/maria-ctl.log
 CONFIG_DIR=/etc/mysql
+export JOB_INDEX=<%= index %>
 
 case $1 in
 
@@ -27,6 +28,21 @@ case $1 in
              --datadir=${datadir} >> $LOG_FILE 2>> $LOG_FILE
     fi
     chown -R vcap:vcap ${datadir}
+
+    if [ $JOB_INDEX -eq 0 ]; then
+      echo "Starting up as seed node $JOB_INDEX" >> $LOG_FILE
+      echo "Checking if any other nodes are up" >> $LOG_FILE
+      if ( <%= p('cluster_ips')[1..-1].map{|i| "nc -z #{i} #{p('port')} >> $LOG_FILE 2>> $LOG_FILE"}.join(" || ") %> ); then
+        echo "One or more other nodes are running, joining cluster..." >> $LOG_FILE
+        /var/vcap/packages/mariadb/support-files/mysql.server start
+      else
+        echo "No other nodes are running, boostrapping cluster..." >> $LOG_FILE
+        /var/vcap/packages/mariadb/support-files/mysql.server bootstrap
+      fi
+    else
+      echo "Starting up as non-seed node $JOB_INDEX" >> $LOG_FILE
+      /var/vcap/packages/mariadb/support-files/mysql.server start
+    fi
 
     /var/vcap/packages/mariadb/support-files/mysql.server start >> $LOG_FILE 2>> $LOG_FILE
     ;;

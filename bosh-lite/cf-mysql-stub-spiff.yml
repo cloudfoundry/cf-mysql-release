@@ -7,7 +7,6 @@ releases:
 
 jobs:
   - name: mysql
-    instances: 1
     properties:
       admin_password: password
   - name: cf-mysql-broker
