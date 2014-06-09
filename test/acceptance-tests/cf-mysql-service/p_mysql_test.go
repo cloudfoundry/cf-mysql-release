@@ -7,9 +7,9 @@ import (
 	. "github.com/onsi/gomega/gexec"
 
 	"fmt"
-	. "github.com/pivotal-cf-experimental/cf-test-helpers/cf"
-	. "github.com/pivotal-cf-experimental/cf-test-helpers/generator"
-	. "github.com/pivotal-cf-experimental/cf-test-helpers/runner"
+	. "github.com/cloudfoundry-incubator/cf-test-helpers/cf"
+	. "github.com/cloudfoundry-incubator/cf-test-helpers/generator"
+	. "github.com/cloudfoundry-incubator/cf-test-helpers/runner"
 	"strconv"
 	"time"
 )

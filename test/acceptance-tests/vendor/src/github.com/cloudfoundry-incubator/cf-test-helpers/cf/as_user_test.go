@@ -4,10 +4,10 @@ import (
 	"os"
 	"os/exec"
 
+	"github.com/cloudfoundry-incubator/cf-test-helpers/cf"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/gexec"
-	"github.com/pivotal-cf-experimental/cf-test-helpers/cf"
 )
 
 var _ = Describe("AsUser", func() {

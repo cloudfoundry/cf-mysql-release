@@ -6,7 +6,7 @@ import (
 	. "github.com/onsi/gomega/gexec"
 	"time"
 
-	"github.com/pivotal-cf-experimental/cf-test-helpers/cf"
+	"github.com/cloudfoundry-incubator/cf-test-helpers/cf"
 )
 
 var AdminUserContext cf.UserContext
