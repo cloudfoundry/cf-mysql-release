@@ -3,11 +3,11 @@ package cf_test
 import (
 	"os/exec"
 
+	. "github.com/cloudfoundry-incubator/cf-test-helpers/cf"
+	"github.com/cloudfoundry-incubator/cf-test-helpers/runner"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	. "github.com/onsi/gomega/gexec"
-	. "github.com/pivotal-cf-experimental/cf-test-helpers/cf"
-	"github.com/pivotal-cf-experimental/cf-test-helpers/runner"
 )
 
 var _ = Describe("Cf", func() {
@@ -19,6 +19,6 @@ var _ = Describe("Cf", func() {
 			return exec.Command("bash", "-c", `exit 42`)
 		}
 
-		Eventually(Cf("apps")).Should(Exit(42))
+		Expect(Cf("apps").Wait(CF_API_TIMEOUT)).To(Exit(42))
 	})
 })

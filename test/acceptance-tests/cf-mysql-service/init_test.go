@@ -11,7 +11,7 @@ import (
 	"github.com/onsi/gomega/gexec"
 
 	"../helpers"
-	. "github.com/pivotal-cf-experimental/cf-test-helpers/runner"
+	. "github.com/cloudfoundry-incubator/cf-test-helpers/runner"
 )
 
 func TestServices(t *testing.T) {
