@@ -34,22 +34,21 @@ case $1 in
       echo "Checking if any other nodes are up" >> $LOG_FILE
       if ( <%= p('cluster_ips')[1..-1].map{|i| "nc -z #{i} #{p('port')} >> $LOG_FILE 2>> $LOG_FILE"}.join(" || ") %> ); then
         echo "One or more other nodes are running, joining cluster..." >> $LOG_FILE
-        /var/vcap/packages/mariadb/support-files/mysql.server start
+        /var/vcap/packages/mariadb/support-files/mysql.server start >> $LOG_FILE 2>> $LOG_FILE
       else
         echo "No other nodes are running, boostrapping cluster..." >> $LOG_FILE
-        /var/vcap/packages/mariadb/support-files/mysql.server bootstrap
+        /var/vcap/packages/mariadb/support-files/mysql.server bootstrap >> $LOG_FILE 2>> $LOG_FILE
       fi
     else
       echo "Starting up as non-seed node $JOB_INDEX" >> $LOG_FILE
-      /var/vcap/packages/mariadb/support-files/mysql.server start
+      /var/vcap/packages/mariadb/support-files/mysql.server start >> $LOG_FILE 2>> $LOG_FILE
     fi
-
-    /var/vcap/packages/mariadb/support-files/mysql.server start >> $LOG_FILE 2>> $LOG_FILE
     ;;
 
   stop)
     mkdir -p $LOG_DIR
     date >> $LOG_FILE 2>> $LOG_FILE
+    echo "Stopping node $JOB_INDEX" >> $LOG_FILE
     /var/vcap/packages/mariadb/support-files/mysql.server stop >> $LOG_FILE 2>> $LOG_FILE
     ;;
 
