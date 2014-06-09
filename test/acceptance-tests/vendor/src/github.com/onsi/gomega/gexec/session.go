@@ -5,6 +5,7 @@ package gexec
 
 import (
 	"io"
+	"os"
 	"os/exec"
 	"reflect"
 	"sync"
@@ -13,6 +14,8 @@ import (
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/gbytes"
 )
+
+const INVALID_EXIT_CODE = 254
 
 type Session struct {
 	//The wrapped command
@@ -23,6 +26,9 @@ type Session struct {
 
 	//A *gbytes.Buffer connected to the command's stderr
 	Err *gbytes.Buffer
+
+	//A channel that will close when the command exits
+	Exited <-chan struct{}
 
 	lock     *sync.Mutex
 	exitCode int
@@ -57,10 +63,13 @@ When the session exits it closes the stdout and stderr gbytes buffers.  This wil
 Eventuallys waiting fo the buffers to Say something.
 */
 func Start(command *exec.Cmd, outWriter io.Writer, errWriter io.Writer) (*Session, error) {
+	exited := make(chan struct{})
+
 	session := &Session{
 		Command:  command,
 		Out:      gbytes.NewBuffer(),
 		Err:      gbytes.NewBuffer(),
+		Exited:   exited,
 		lock:     &sync.Mutex{},
 		exitCode: -1,
 	}
@@ -82,7 +91,7 @@ func Start(command *exec.Cmd, outWriter io.Writer, errWriter io.Writer) (*Sessio
 
 	err := command.Start()
 	if err == nil {
-		go session.monitorForExit()
+		go session.monitorForExit(exited)
 	}
 
 	return session, err
@@ -104,6 +113,10 @@ ExitCode returns the wrapped command's exit code.  If the command hasn't exited 
 To assert that the command has exited it is more convenient to use the Exit matcher:
 
 	Eventually(s).Should(gexec.Exit())
+
+When the process exits because it has received a particular signal, the exit code will be 128+signal-value
+(See http://www.tldp.org/LDP/abs/html/exitcodes.html and http://man7.org/linux/man-pages/man7/signal.7.html)
+
 */
 func (s *Session) ExitCode() int {
 	s.lock.Lock()
@@ -128,11 +141,74 @@ func (s *Session) Wait(timeout ...interface{}) *Session {
 	return s
 }
 
-func (s *Session) monitorForExit() {
-	s.Command.Wait()
+/*
+Kill sends the running command a SIGKILL signal.  It does not wait for the process to exit.
+
+If the command has already exited, Kill returns silently.
+
+The session is returned to enable chaining.
+*/
+func (s *Session) Kill() *Session {
+	if s.ExitCode() != -1 {
+		return s
+	}
+	s.Command.Process.Kill()
+	return s
+}
+
+/*
+Interrupt sends the running command a SIGINT signal.  It does not wait for the process to exit.
+
+If the command has already exited, Interrupt returns silently.
+
+The session is returned to enable chaining.
+*/
+func (s *Session) Interrupt() *Session {
+	return s.Signal(syscall.SIGINT)
+}
+
+/*
+Terminate sends the running command a SIGTERM signal.  It does not wait for the process to exit.
+
+If the command has already exited, Terminate returns silently.
+
+The session is returned to enable chaining.
+*/
+func (s *Session) Terminate() *Session {
+	return s.Signal(syscall.SIGTERM)
+}
+
+/*
+Terminate sends the running command the passed in signal.  It does not wait for the process to exit.
+
+If the command has already exited, Signal returns silently.
+
+The session is returned to enable chaining.
+*/
+func (s *Session) Signal(signal os.Signal) *Session {
+	if s.ExitCode() != -1 {
+		return s
+	}
+	s.Command.Process.Signal(signal)
+	return s
+}
+
+func (s *Session) monitorForExit(exited chan<- struct{}) {
+	err := s.Command.Wait()
 	s.lock.Lock()
-	s.exitCode = s.Command.ProcessState.Sys().(syscall.WaitStatus).ExitStatus()
 	s.Out.Close()
 	s.Err.Close()
+	status := s.Command.ProcessState.Sys().(syscall.WaitStatus)
+	if status.Signaled() {
+		s.exitCode = 128 + int(status.Signal())
+	} else {
+		exitStatus := status.ExitStatus()
+		if exitStatus == -1 && err != nil {
+			s.exitCode = INVALID_EXIT_CODE
+		}
+		s.exitCode = exitStatus
+	}
 	s.lock.Unlock()
+
+	close(exited)
 }
