@@ -178,7 +178,7 @@ bosh deploy
 
 #### BOSH errand
 
-BOSH errands were introduced in version 2366 of the BOSH CLI, BOSH Director, and stemcells. 
+BOSH errands were introduced in version 2366 of the BOSH CLI, BOSH Director, and stemcells.
 
 ```bash
 bosh run errand broker-registrar
@@ -212,7 +212,7 @@ To run the MySQL Release Acceptance tests, you will need:
 
 #### BOSH errand
 
-BOSH errands were introduced in version 2366 of the BOSH CLI, BOSH Director, and stemcells. 
+BOSH errands were introduced in version 2366 of the BOSH CLI, BOSH Director, and stemcells.
 
 The following properties must be included in the manifest (most will be there by default):
 - cf.api_url:
@@ -246,41 +246,41 @@ bosh run errand acceptance-tests
     The following script will configure these prerequisites for a [bosh-lite](https://github.com/cloudfoundry/bosh-lite)
 installation. Replace credentials and URLs as appropriate for your environment.
 
-    ```bash
-    #! /bin/bash
+```bash
+#! /bin/bash
 
-    cat > integration_config.json <<EOF
+cat > integration_config.json <<EOF
+{
+  "api_url": "http://api.10.244.0.34.xip.io",
+  "apps_domain": "10.244.0.34.xip.io",
+  "admin_user": "admin",
+  "admin_password": "admin",
+  "broker_host": "p-mysql.10.244.0.34.xip.io",
+  "service_name": "p-mysql",
+  "plans" : [
     {
-      "api_url": "http://api.10.244.0.34.xip.io",
-      "apps_domain": "10.244.0.34.xip.io",
-      "admin_user": "admin",
-      "admin_password": "admin",
-      "broker_host": "p-mysql.10.244.0.34.xip.io",
-      "service_name": "p-mysql",
-      "plans" : [
-        {
-          "plan_name": "100mb-dev",
-          "max_storage_mb": "100"
-        },
-        {
-          "plan_name": "1gb-dev",
-          "max_storage_mb": "1000"
-        }
-      ],
-      "skip_ssl_validation": true,
-      "max_user_connections": "40"
+      "plan_name": "10mb-dev",
+      "max_storage_mb": "10"
+    },
+    {
+      "plan_name": "20mb-dev",
+      "max_storage_mb": "20"
     }
-    EOF
-    export CONFIG=$PWD/integration_config.json
-    ```
+  ],
+  "skip_ssl_validation": true,
+  "max_user_connections": "40"
+}
+EOF
+export CONFIG=$PWD/integration_config.json
+```
 
     When `skip_ssl_validation: true`, commands run by the tests will accept self-signed certificates from Cloud Foundry. This option requires v6.0.2 or newer of the CLI.
 
 4. Run  the tests
 
-    ```bash
-    ./bin/test
-    ```
+```bash
+./bin/test
+```
 
 ### De-register the Service Broker<a name="deregister_broker"></a>
 
@@ -288,7 +288,7 @@ The following commands are destructive and are intended to be run in conjuction 
 
 #### BOSH errand
 
-BOSH errands were introduced in version 2366 of the BOSH CLI, BOSH Director, and stemcells. 
+BOSH errands were introduced in version 2366 of the BOSH CLI, BOSH Director, and stemcells.
 
 This errand runs the two commands listed in the manual section below from a BOSH-deployed VM. This errand should be run before deleting your BOSH deployment. If you have already deleted your deployment follow the manual instructions below.
 

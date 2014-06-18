@@ -135,6 +135,10 @@ var (
 				AssertQuotaBehavior(IntegrationConfig.Plans[0].Name, IntegrationConfig.Plans[0].MaxStorageMb)
 			})
 
+			It("enforces the storage quotas for the second plan", func() {
+				AssertQuotaBehavior(IntegrationConfig.Plans[1].Name, IntegrationConfig.Plans[1].MaxStorageMb)
+			})
+
 			It("enforces the connections quota", func() {
 				CreatesBindsAndStartsApp(IntegrationConfig.Plans[0].Name)
 
