@@ -12,6 +12,7 @@ export RAILS_ENV=production
 export SETTINGS_PATH=$JOB_DIR/config/settings.yml
 # rake needs HOME to be set to run tasks
 export HOME=/home/vcap
+export JOB_INDEX=<%= index %>
 
 case $1 in
 
@@ -19,17 +20,19 @@ case $1 in
     mkdir -p $RUN_DIR
     mkdir -p $LOG_DIR
 
-    # Run the migrations only on the first launch
-    <% if spec.index.to_i == 0 %>
-     cd $PACKAGE_DIR
-     bundle exec rake db:create
-     bundle exec rake db:migrate >>$LOG_DIR/db_migrate.stdout.log 2>>$LOG_DIR/db_migrate.stderr.log
+    # Run the migrations only on the first node
+    if [ $JOB_INDEX -eq 0 ]; then
+      date >>$LOG_DIR/db_migrate.stdout.log
+      echo "Running db:create and db:migrate" >>$LOG_DIR/db_migrate.stdout.log
+      cd $PACKAGE_DIR
+      bundle exec rake db:create
+      bundle exec rake db:migrate >>$LOG_DIR/db_migrate.stdout.log 2>>$LOG_DIR/db_migrate.stderr.log
 
-     if [ $? != 0 ]; then
-       echo "Migrations failed" >>$LOG_DIR/db_migrate.stderr.log
-       exit 1
-     fi
-    <% end %>
+      if [ $? != 0 ]; then
+        echo "Migrations failed" >>$LOG_DIR/db_migrate.stderr.log
+        exit 1
+      fi
+    fi
 
     cd -
     bundle exec unicorn --daemonize -c $JOB_DIR/config/unicorn.conf.rb
