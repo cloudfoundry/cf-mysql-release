@@ -95,7 +95,7 @@ jobs:
           - name: 100mb-dev
             id: ab08f1bc-e6fc-4b56-a767-ee0fea6e3f20
             description: Shared MySQL Server
-            max_storage_mb: 100
+            max_storage_mb: (( merge || 100 ))
             metadata:
               costs:
               - amount:
@@ -110,7 +110,7 @@ jobs:
           - name: 1gb-dev
             id: 11d0aa36-dcec-4021-85f5-ea4d9a5c8342
             description: Shared MySQL Server
-            max_storage_mb: 1000
+            max_storage_mb: (( merge || 1000 ))
             metadata:
               costs:
               - amount:
