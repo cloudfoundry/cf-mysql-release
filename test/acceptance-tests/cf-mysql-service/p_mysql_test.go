@@ -109,7 +109,7 @@ var (
 				Eventually(Curl(uri), timeout, retryInterval).Should(Say(firstValue))
 
 				fmt.Println("*** Exceeding quota")
-				Eventually(Curl("-d", MaxStorageMb, writeUri), timeout, retryInterval).Should(Say("Database now contains"))
+				Eventually(Curl("-d", MaxStorageMb, writeUri), 5*60*time.Second, retryInterval).Should(Say("Database now contains"))
 
 				fmt.Println("*** Sleeping to let quota enforcer run")
 				time.Sleep(quotaEnforcerSleepTime)
