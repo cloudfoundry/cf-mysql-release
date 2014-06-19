@@ -200,7 +200,7 @@ Note: the broker-registrar errand will fail if the broker has already been regis
 
     For more information, see [Managing Service Brokers](http://docs.cloudfoundry.org/services/managing-service-brokers.html).
 
-2. Then [make the service plan public](http://docs.cloudfoundry.org/services/services/managing-service-brokers.html#make-plans-public).
+2. Then [make the service plan public](http://docs.cloudfoundry.org/services/managing-service-brokers.html#make-plans-public).
 
 ### Acceptance Tests<a name="acceptance_tests"></a>
 
