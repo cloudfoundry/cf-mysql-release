@@ -33,6 +33,8 @@ properties:
     default: 'root'
   mysql_node.admin_password:
     description: 'Password for the admin MySQL account'
+  mysql_node.storage_capacity_mb:
+    description: 'Maximum amount of persistent disk space to be provisioned by the broker'
 
   services:
     description: 'Services and plans offered by the broker'

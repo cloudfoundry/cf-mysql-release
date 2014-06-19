@@ -18,6 +18,8 @@ production:
 
   cc_api_uri: <%= p('cc_api_uri') %>
 
+  storage_capacity_mb: <%= p('mysql_node.storage_capacity_mb') %>
+
   services:
   <% (properties.services || []).each do |service| %>
   - id: <%= service.id %>
