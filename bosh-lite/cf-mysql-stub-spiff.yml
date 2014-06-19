@@ -21,6 +21,11 @@ jobs:
       - name: p-mysql
         dashboard_client:
           secret: p-mysql-secret
+        plans:
+        - name: 100mb-dev
+          max_storage_mb: 10
+        - name: 1gb-dev
+          max_storage_mb: 20
   - name: broker-registrar
     properties:
       cf:
