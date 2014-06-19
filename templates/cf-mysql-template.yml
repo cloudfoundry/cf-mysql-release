@@ -56,6 +56,8 @@ jobs:
       max_connections: 1500
       max_user_connections: 40
       cluster_ips: (( networks.services1.static_ips ))
+      # a reasonable value for storage_capacity_mb is 80% of persistent_disk
+      storage_capacity_mb: 80000
   - name: cf-mysql-broker
     release: cf-mysql
     template: cf-mysql-broker
@@ -125,6 +127,7 @@ jobs:
       mysql_node:
         host: (( jobs.mysql.networks.services1.static_ips.[0] ))
         admin_password: (( jobs.mysql.properties.admin_password ))
+        storage_capacity_mb: (( jobs.mysql.properties.storage_capacity_mb ))
   - name: broker-registrar
     template: broker-registrar
     release: cf-mysql
