@@ -58,6 +58,10 @@ post '/service/mysql/:service_name/delete-bulk-data' do
   "Database now contains #{megabytes_in_db} megabytes"
 end
 
+get '/ping' do
+  'OK'
+end
+
 get '/service/mysql/:service_name/:key' do
   client = load_mysql(params[:service_name])
   query = client.query("select data_value from data_values where id = '#{params[:key]}'")
