@@ -19,6 +19,13 @@ var (
 		timeout := 120.0
 		retryInterval := 1.0
 
+		AssertAppIsRunning := func(appName string) {
+			pingUri := AppUri(appName) + "/ping"
+			fmt.Println("Checking that the app is responding at url: ", pingUri)
+			Eventually(Curl(pingUri), timeout, retryInterval).Should(Say("OK"))
+			fmt.Println("\n")
+		}
+
 		It("Registers a route", func() {
 			uri := "http://" + IntegrationConfig.BrokerHost + "/v2/catalog"
 
@@ -48,6 +55,7 @@ var (
 
 					Eventually(Cf("bind-service", appName, serviceInstanceName), 60*time.Second).Should(Exit(0))
 					Eventually(Cf("start", appName), 5*60*time.Second).Should(Exit(0))
+					AssertAppIsRunning(appName)
 
 					fmt.Println("Posting to url: ", uri)
 					Eventually(Curl("-d", "myvalue", uri), timeout, retryInterval).Should(Say("myvalue"))
@@ -91,6 +99,7 @@ var (
 					60*time.Second).Should(Exit(0))
 				Eventually(Cf("bind-service", appName, serviceInstanceName), 60*time.Second).Should(Exit(0))
 				Eventually(Cf("start", appName), 5*60*time.Second).Should(Exit(0))
+				AssertAppIsRunning(appName)
 			}
 
 			AssertQuotaBehavior := func(PlanName string, MaxStorageMb string) {
