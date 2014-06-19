@@ -259,11 +259,11 @@ cat > integration_config.json <<EOF
   "service_name": "p-mysql",
   "plans" : [
     {
-      "plan_name": "10mb-dev",
+      "plan_name": "100mb-dev",
       "max_storage_mb": "10"
     },
     {
-      "plan_name": "20mb-dev",
+      "plan_name": "1gb-dev",
       "max_storage_mb": "20"
     }
   ],
