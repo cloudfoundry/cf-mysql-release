@@ -55,9 +55,27 @@ jobs:
       admin_password: (( merge ))
       max_connections: 1500
       max_user_connections: 40
-      cluster_ips: (( networks.services1.static_ips ))
       # a reasonable value for storage_capacity_mb is 80% of persistent_disk
       storage_capacity_mb: 80000
+      haproxy_mysql_user: haproxy_check
+      haproxy_ips:
+      - (( jobs.haproxy.networks.services1.static_ips.[0] ))
+      cluster_ips:
+      - (( jobs.mysql.networks.services1.static_ips.[0] ))
+      - (( jobs.mysql.networks.services1.static_ips.[1] ))
+      - (( jobs.mysql.networks.services1.static_ips.[2] ))
+  - name: haproxy
+    release: cf-mysql
+    template: haproxy
+    instances: 1
+    resource_pool: services-small
+    networks:
+    - name: services1
+      static_ips: (( static_ips(4) ))
+    properties:
+      haproxy_mysql_user: (( jobs.mysql.properties.haproxy_mysql_user ))
+      mysql_node:
+        ip: (( jobs.mysql.networks.services1.static_ips.[0] ))
   - name: cf-mysql-broker
     release: cf-mysql
     template: cf-mysql-broker
@@ -124,7 +142,7 @@ jobs:
                 - 40 concurrent connections
               displayName: (( merge || "1 GB Dev" ))
       mysql_node:
-        host: (( jobs.mysql.networks.services1.static_ips.[0] ))
+        host: (( jobs.haproxy.networks.services1.static_ips.[0] )) # HAProxy IP
         admin_password: (( jobs.mysql.properties.admin_password ))
         storage_capacity_mb: (( jobs.mysql.properties.storage_capacity_mb ))
   - name: broker-registrar

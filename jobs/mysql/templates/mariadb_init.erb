@@ -3,6 +3,10 @@ UPDATE mysql.user SET Password=PASSWORD('<%= properties.admin_password %>') WHER
 UPDATE mysql.user SET Plugin='';
 DELETE FROM mysql.user WHERE User='';
 
+<% properties.haproxy_ips.each do |haproxy_ip| %>
+INSERT IGNORE INTO mysql.user SET Host='<%= haproxy_ip %>', User='<%= properties.haproxy_mysql_user %>';
+<% end %>
+
 FLUSH PRIVILEGES;
 
 DROP DATABASE IF EXISTS test;

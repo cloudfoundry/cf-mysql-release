@@ -29,3 +29,7 @@ properties:
     description: 'The size in bytes of the memory buffer InnoDB uses to cache data and indexes of its tables'
   cluster_ips:
     description: 'List of nodes'
+  haproxy_mysql_user:
+    description: 'A user for HAProxy health check'
+  haproxy_ips:
+    description: 'List of haproxy node ip addresses'
