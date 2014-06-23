@@ -36,7 +36,6 @@ production:
       providerDisplayName: <%= service.metadata.providerDisplayName %>
       documentationUrl: <%= service.metadata.documentationUrl %>
       supportUrl: <%= service.metadata.supportUrl %>
-    max_db_per_node: <%= service.max_db_per_node %>
     plans:
     <% (service.plans || []).each do |plan| %>
     - id: <%= plan.id %>
