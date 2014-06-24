@@ -43,6 +43,18 @@ case $1 in
       echo "Starting up as non-seed node $JOB_INDEX" >> $LOG_FILE
       /var/vcap/packages/mariadb/support-files/mysql.server start >> $LOG_FILE 2>> $LOG_FILE
     fi
+
+    # Run mysql_upgrade and conditionally stop if update occurs or an error occurs besides "already upgraded"
+    UPGRADE_OUTPUT=$(/var/vcap/packages/mariadb/bin/mysql_upgrade -u<%= properties.admin_username %> -p<%= properties.admin_password %>)
+    UPGRADE_EXIT_CODE=$?
+
+    echo "UPGRADE_OUTPUT: $UPGRADE_OUTPUT" >> $LOG_FILE 2>> $LOG_FILE
+    echo "UPGRADE_EXIT_CODE: $UPGRADE_EXIT_CODE" >> $LOG_FILE 2>> $LOG_FILE
+
+    if [ $UPGRADE_EXIT_CODE != 1 ] || ! [[ $UPGRADE_OUTPUT =~ already\ upgraded ]]; then
+      echo "Stopping node after mysql_upgrade $JOB_INDEX" >> $LOG_FILE
+      /var/vcap/packages/mariadb/support-files/mysql.server stop >> $LOG_FILE 2>> $LOG_FILE
+    fi
     ;;
 
   stop)
