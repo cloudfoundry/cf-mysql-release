@@ -205,5 +205,8 @@ jobs:
             max_storage_mb: (( jobs.cf-mysql-broker.properties.services.[0].plans.[0].max_storage_mb ))
           - plan_name: (( jobs.cf-mysql-broker.properties.services.[0].plans.[1].name ))
             max_storage_mb: (( jobs.cf-mysql-broker.properties.services.[0].plans.[1].max_storage_mb ))
+      mysql:
+        max_user_connections: (( jobs.mysql.properties.max_user_connections ))
+        storage_capacity_mb: (( jobs.mysql.properties.storage_capacity_mb ))
 
 properties: {}  # Pivotal CF cannot generate global properties

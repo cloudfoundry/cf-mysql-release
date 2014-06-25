@@ -30,3 +30,6 @@ properties:
   mysql.max_user_connections:
     description: 'Max # of connections allowed for each user (binding)'
     default: 40
+  mysql.storage_capacity_mb:
+    description: 'Maximimum storage capacity for all MySQL service instances'
+    default: 80000
