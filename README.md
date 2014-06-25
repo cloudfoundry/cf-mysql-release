@@ -260,15 +260,16 @@ cat > integration_config.json <<EOF
   "plans" : [
     {
       "plan_name": "100mb-dev",
-      "max_storage_mb": "10"
+      "max_storage_mb": 10
     },
     {
       "plan_name": "1gb-dev",
-      "max_storage_mb": "20"
+      "max_storage_mb": 20
     }
   ],
   "skip_ssl_validation": true,
-  "max_user_connections": "40"
+  "max_user_connections": 40,
+  "storage_capacity_mb": 100
 }
 EOF
 export CONFIG=$PWD/integration_config.json

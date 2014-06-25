@@ -3,6 +3,7 @@ package helpers
 import (
 	"encoding/json"
 	"os"
+	"fmt"
 )
 
 type Plan struct {
@@ -62,6 +63,16 @@ func LoadPath(path string) (config IntegrationConfig) {
 
 	if config.Plans == nil {
 		panic("missing configuration 'plans'")
+	}
+
+	for index, plan := range config.Plans {
+		if plan.Name == "" {
+			panic(fmt.Sprintf("missing configuration 'plans.name' for plan %d", index))
+		}
+
+		if plan.MaxStorageMb == 0 {
+			panic(fmt.Sprintf("missing configuration 'plans.max_storage_mb' for plan %d", index))
+		}
 	}
 
 	if config.BrokerHost == "" {
