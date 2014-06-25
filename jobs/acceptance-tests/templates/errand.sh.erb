@@ -19,7 +19,7 @@ cat > integration_config.json <<EOF
   plans.each do |plan| %>
     {
       "plan_name": "<%= plan['plan_name'] %>",
-      "max_storage_mb": "<%= plan['max_storage_mb'] %>"
+      "max_storage_mb": <%= plan['max_storage_mb'] %>
   <% if plan != plans.last %>
     },
   <% else %>
@@ -28,7 +28,8 @@ cat > integration_config.json <<EOF
   end%>
   ],
   "skip_ssl_validation": <%= p('cf.skip_ssl_validation') %>,
-  "max_user_connections": "<%= p('mysql.max_user_connections') %>",
+  "max_user_connections": <%= p('mysql.max_user_connections') %>,
+  "storage_capacity_mb": <%= p('mysql.storage_capacity_mb') %>
 EOF
 
 # don't expose passwords

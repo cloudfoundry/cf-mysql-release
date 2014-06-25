@@ -141,18 +141,18 @@ var (
 			}
 
 			It("enforces the storage quotas for the first plan", func() {
-				AssertQuotaBehavior(IntegrationConfig.Plans[0].Name, IntegrationConfig.Plans[0].MaxStorageMb)
+				AssertQuotaBehavior(IntegrationConfig.Plans[0].Name, strconv.Itoa(IntegrationConfig.Plans[0].MaxStorageMb))
 			})
 
 			It("enforces the storage quotas for the second plan", func() {
-				AssertQuotaBehavior(IntegrationConfig.Plans[1].Name, IntegrationConfig.Plans[1].MaxStorageMb)
+				AssertQuotaBehavior(IntegrationConfig.Plans[1].Name, strconv.Itoa(IntegrationConfig.Plans[1].MaxStorageMb))
 			})
 
 			It("enforces the connections quota", func() {
 				CreatesBindsAndStartsApp(IntegrationConfig.Plans[0].Name)
 
 				uri := AppUri(appName) + "/connections/mysql/" + serviceInstanceName + "/"
-				allowable_connection_num, _ := strconv.Atoi(IntegrationConfig.MaxUserConnections)
+				allowable_connection_num := IntegrationConfig.MaxUserConnections
 				over_maximum_connection_num := allowable_connection_num + 1
 
 				fmt.Println("*** Proving we can use the max num of connections")
@@ -160,6 +160,41 @@ var (
 
 				fmt.Println("*** Proving the connection quota is enforced")
 				Eventually(Curl(uri+strconv.Itoa(over_maximum_connection_num)), timeout, retryInterval).Should(Say("Error"))
+			})
+		})
+
+		Describe("Enforcing MySQL service storage capacity", func() {
+
+			largePlan := IntegrationConfig.Plans[1]
+			maxInstancesPermittedByCapacity := IntegrationConfig.StorageCapacityMb / largePlan.MaxStorageMb
+
+			var permittedInstanceNames = make([]string, maxInstancesPermittedByCapacity)
+			var nonPermittedInstanceName string
+
+			BeforeEach(func() {
+				for index := range permittedInstanceNames {
+					permittedInstanceNames[index] = RandomName()
+				}
+				nonPermittedInstanceName = RandomName()
+			})
+
+			AfterEach(func() {
+				for _, name := range permittedInstanceNames {
+					Eventually(Cf("delete-service", "-f", name), 20*time.Second).Should(Exit(0))
+				}
+
+				// Ignore exit status of delete; it fails when the test runs as expected, and actually cleans up the service instance if the test fails.
+				Eventually(Cf("delete-service", "-f", nonPermittedInstanceName), 20*time.Second).Should(Exit())
+			})
+
+			It("enforces the service storage capacity", func() {
+				for _, name := range permittedInstanceNames {
+					Eventually(Cf("create-service", IntegrationConfig.ServiceName, largePlan.Name, name),
+						60*time.Second).Should(Exit(0))
+				}
+
+				Eventually(Cf("create-service", IntegrationConfig.ServiceName, largePlan.Name, nonPermittedInstanceName),
+					60*time.Second).Should(Exit(1))
 			})
 		})
 	})

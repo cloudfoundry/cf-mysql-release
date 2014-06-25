@@ -7,7 +7,7 @@ import (
 
 type Plan struct {
 	Name					string `json:"plan_name"`
-    MaxStorageMb	        string `json:"max_storage_mb"`
+    MaxStorageMb	        int `json:"max_storage_mb"`
 }
 
 type IntegrationConfig struct {
@@ -19,7 +19,8 @@ type IntegrationConfig struct {
 	BrokerHost 				string `json:"broker_host"`
 	ServiceName				string `json:"service_name"`
 	Plans				    []Plan `json:"plans"`
-	MaxUserConnections		string `json:"max_user_connections"`
+	MaxUserConnections		int `json:"max_user_connections"`
+	StorageCapacityMb		int `json:"storage_capacity_mb"`
 }
 
 func LoadConfig() (config IntegrationConfig) {
@@ -67,8 +68,12 @@ func LoadPath(path string) (config IntegrationConfig) {
 		panic("missing configuration 'broker_host'")
 	}
 
-	if config.MaxUserConnections == "" {
-		panic("missing configuration 'max_user_connections'")
+	if config.MaxUserConnections == 0 {
+		panic("invalid configuration: 'max_user_connections' must be > 0")
+	}
+
+	if config.StorageCapacityMb == 0 {
+		panic("invalid configuration: 'storage_capacity_mb' must be > 0")
 	}
 
 	return

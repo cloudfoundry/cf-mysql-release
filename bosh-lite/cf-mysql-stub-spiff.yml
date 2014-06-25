@@ -9,6 +9,7 @@ jobs:
   - name: mysql
     properties:
       admin_password: password
+      storage_capacity_mb: 100
   - name: cf-mysql-broker
     instances: 1
     properties:
