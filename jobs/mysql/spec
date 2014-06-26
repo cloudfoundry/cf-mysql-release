@@ -5,10 +5,13 @@ templates:
   mariadb_ctl.erb:  bin/mariadb_ctl
   my.cnf.erb:     config/my.cnf
   mariadb_init.erb: config/mariadb_init
+  galera-healthcheck_ctl.erb: bin/galera-healthcheck_ctl
 
 packages:
 - mariadb
 - galera
+- galera-healthcheck
+- common
 
 properties:
   admin_username:
