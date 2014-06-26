@@ -14,9 +14,8 @@ defaults
 
 listen mysql-cluster
     bind 0.0.0.0:3306
+    option httpchk GET / HTTP/1.1\r\nHost:\ www
     mode tcp
     option tcplog
-    option mysql-check user <%= p("haproxy_mysql_user") %>
-    balance roundrobin
-    server mysql-0 <%= p('mysql_node.ip')%>:3306 check
+    server mysql-0 <%= p('mysql_node.ip')%>:3306 check port 9200 inter 5000 rise 2 fall 1
 
