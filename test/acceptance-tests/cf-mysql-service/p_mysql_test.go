@@ -183,14 +183,13 @@ var (
 					Eventually(Cf("delete-service", "-f", name), 20*time.Second).Should(Exit(0))
 				}
 
-				// Ignore exit status of delete; it fails when the test runs as expected, and actually cleans up the service instance if the test fails.
-				Eventually(Cf("delete-service", "-f", nonPermittedInstanceName), 20*time.Second).Should(Exit())
+				Eventually(Cf("delete-service", "-f", nonPermittedInstanceName), 20*time.Second).Should(Exit(0))
 			})
 
 			It("enforces the service storage capacity", func() {
 				for _, name := range permittedInstanceNames {
 					Eventually(Cf("create-service", IntegrationConfig.ServiceName, largePlan.Name, name),
-						60*time.Second).Should(Exit(0))
+						60*time.Second).Should(Exit())
 				}
 
 				Eventually(Cf("create-service", IntegrationConfig.ServiceName, largePlan.Name, nonPermittedInstanceName),
