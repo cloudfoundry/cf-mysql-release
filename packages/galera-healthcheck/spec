@@ -1,0 +1,6 @@
+---
+name: galera-healthcheck
+dependencies:
+  - golang
+files:
+  - galera-healthcheck/**/*
