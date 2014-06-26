@@ -45,8 +45,10 @@ case $1 in
     fi
 
     # Run mysql_upgrade and conditionally stop if update occurs or an error occurs besides "already upgraded"
+    set +e
     UPGRADE_OUTPUT=$(/var/vcap/packages/mariadb/bin/mysql_upgrade -u<%= properties.admin_username %> -p<%= properties.admin_password %>)
     UPGRADE_EXIT_CODE=$?
+    set -e
 
     echo "UPGRADE_OUTPUT: $UPGRADE_OUTPUT" >> $LOG_FILE 2>> $LOG_FILE
     echo "UPGRADE_EXIT_CODE: $UPGRADE_EXIT_CODE" >> $LOG_FILE 2>> $LOG_FILE
