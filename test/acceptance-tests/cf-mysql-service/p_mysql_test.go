@@ -102,64 +102,67 @@ var (
 				AssertAppIsRunning(appName)
 			}
 
-			AssertQuotaBehavior := func(PlanName string, MaxStorageMb string) {
-				CreatesBindsAndStartsApp(PlanName)
+			AssertStorageQuotaBehavior := func(PlanName string, MaxStorageMb string) {
+				It("enforces the storage quota for the plan", func() {
+					CreatesBindsAndStartsApp(PlanName)
 
-				quotaEnforcerSleepTime := 10 * time.Second
-				uri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/mykey"
-				writeUri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/write-bulk-data"
-				deleteUri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/delete-bulk-data"
-				firstValue := RandomName()[:20]
-				secondValue := RandomName()[:20]
+					quotaEnforcerSleepTime := 10 * time.Second
+					uri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/mykey"
+					writeUri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/write-bulk-data"
+					deleteUri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/delete-bulk-data"
+					firstValue := RandomName()[:20]
+					secondValue := RandomName()[:20]
 
-				fmt.Println("*** Proving we can write")
-				Eventually(Curl("-d", firstValue, uri), timeout, retryInterval).Should(Say(firstValue))
-				fmt.Println("*** Proving we can read")
-				Eventually(Curl(uri), timeout, retryInterval).Should(Say(firstValue))
+					fmt.Println("*** Proving we can write")
+					Eventually(Curl("-d", firstValue, uri), timeout, retryInterval).Should(Say(firstValue))
+					fmt.Println("*** Proving we can read")
+					Eventually(Curl(uri), timeout, retryInterval).Should(Say(firstValue))
 
-				fmt.Println("*** Exceeding quota")
-				Eventually(Curl("-d", MaxStorageMb, writeUri), 5*60*time.Second, retryInterval).Should(Say("Database now contains"))
+					fmt.Println("*** Exceeding quota")
+					Eventually(Curl("-d", MaxStorageMb, writeUri), 5*60*time.Second, retryInterval).Should(Say("Database now contains"))
 
-				fmt.Println("*** Sleeping to let quota enforcer run")
-				time.Sleep(quotaEnforcerSleepTime)
+					fmt.Println("*** Sleeping to let quota enforcer run")
+					time.Sleep(quotaEnforcerSleepTime)
 
-				fmt.Println("*** Proving we cannot write")
-				Eventually(Curl("-d", firstValue, uri), timeout, retryInterval).Should(Say("Error: (INSERT|UPDATE) command denied .* for table 'data_values'"))
-				fmt.Println("*** Proving we can read")
-				Eventually(Curl(uri), timeout, retryInterval).Should(Say(firstValue))
+					fmt.Println("*** Proving we cannot write")
+					Eventually(Curl("-d", firstValue, uri), timeout, retryInterval).Should(Say("Error: (INSERT|UPDATE) command denied .* for table 'data_values'"))
+					fmt.Println("*** Proving we can read")
+					Eventually(Curl(uri), timeout, retryInterval).Should(Say(firstValue))
 
-				fmt.Println("*** Deleting below quota")
-				Eventually(Curl("-d", "20", deleteUri), timeout, retryInterval).Should(Say("Database now contains"))
+					fmt.Println("*** Deleting below quota")
+					Eventually(Curl("-d", "20", deleteUri), timeout, retryInterval).Should(Say("Database now contains"))
 
-				fmt.Println("*** Sleeping to let quota enforcer run")
-				time.Sleep(quotaEnforcerSleepTime)
+					fmt.Println("*** Sleeping to let quota enforcer run")
+					time.Sleep(quotaEnforcerSleepTime)
 
-				fmt.Println("*** Proving we can write")
-				Eventually(Curl("-d", secondValue, uri), timeout, retryInterval).Should(Say(secondValue))
-				fmt.Println("*** Proving we can read")
-				Eventually(Curl(uri), timeout, retryInterval).Should(Say(secondValue))
+					fmt.Println("*** Proving we can write")
+					Eventually(Curl("-d", secondValue, uri), timeout, retryInterval).Should(Say(secondValue))
+					fmt.Println("*** Proving we can read")
+					Eventually(Curl(uri), timeout, retryInterval).Should(Say(secondValue))
+				})
 			}
 
-			It("enforces the storage quotas for the first plan", func() {
-				AssertQuotaBehavior(IntegrationConfig.Plans[0].Name, strconv.Itoa(IntegrationConfig.Plans[0].MaxStorageMb))
-			})
+			AssertConnectionQuotaBehavior := func(PlanName string) {
+				It("enforces the connection quota for the plan", func() {
+					CreatesBindsAndStartsApp(PlanName)
 
-			It("enforces the storage quotas for the second plan", func() {
-				AssertQuotaBehavior(IntegrationConfig.Plans[1].Name, strconv.Itoa(IntegrationConfig.Plans[1].MaxStorageMb))
-			})
+					uri := AppUri(appName) + "/connections/mysql/" + serviceInstanceName + "/"
+					allowable_connection_num := IntegrationConfig.MaxUserConnections
+					over_maximum_connection_num := allowable_connection_num + 1
 
-			It("enforces the connections quota", func() {
-				CreatesBindsAndStartsApp(IntegrationConfig.Plans[0].Name)
+					fmt.Println("*** Proving we can use the max num of connections")
+					Eventually(Curl(uri+strconv.Itoa(allowable_connection_num)), timeout, retryInterval).Should(Say("success"))
 
-				uri := AppUri(appName) + "/connections/mysql/" + serviceInstanceName + "/"
-				allowable_connection_num := IntegrationConfig.MaxUserConnections
-				over_maximum_connection_num := allowable_connection_num + 1
+					fmt.Println("*** Proving the connection quota is enforced")
+					Eventually(Curl(uri+strconv.Itoa(over_maximum_connection_num)), timeout, retryInterval).Should(Say("Error"))
+				})
+			}
 
-				fmt.Println("*** Proving we can use the max num of connections")
-				Eventually(Curl(uri+strconv.Itoa(allowable_connection_num)), timeout, retryInterval).Should(Say("success"))
-
-				fmt.Println("*** Proving the connection quota is enforced")
-				Eventually(Curl(uri+strconv.Itoa(over_maximum_connection_num)), timeout, retryInterval).Should(Say("Error"))
+			Context("for each plan", func() {
+				for _, plan := range IntegrationConfig.Plans {
+					AssertStorageQuotaBehavior(plan.Name, strconv.Itoa(plan.MaxStorageMb))
+					AssertConnectionQuotaBehavior(plan.Name)
+				}
 			})
 		})
 
