@@ -35,10 +35,7 @@ resource_pools:
   - name: services-small
     network: services1
     size: (( auto ))
-    stemcell:
-      name: (( merge ))
-      # Stemcell version 2200 is the first to support errands for aws and vsphere
-      version: (( merge || 2366 ))
+    stemcell: (( merge ))
     cloud_properties: (( merge ))
 
 jobs:
