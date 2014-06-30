@@ -35,10 +35,6 @@ cli/cf-linux-amd64.tgz:
   object_id: 6998881f-c91e-4a66-a72e-9fe968aa64ad
   sha: 2da718e8e33105ff5884f1e834b79650ab330803
   size: 3886903
-mariadb/mariadb-galera-10.0.10.tar.gz:
-  object_id: 5ac436da-3d7c-4577-a8ff-06a0af97cb3f
-  sha: e7dcb19b1639db2102def035212f18d5bda9ef81
-  size: 52124329
 boost/boost_1_55_0.tar.gz:
   object_id: 52348346-ba79-41e1-9c71-74ee464570d6
   sha: 61ed0e57d3c7c8985805bb0682de3f4c65f4b6e5
@@ -71,3 +67,7 @@ pcre-8.35.tar.gz:
   object_id: 34f25eac-2566-45c5-afee-babae9b83f63
   sha: 5a0efc7332c6741114372020a60acfed22befcb9
   size: 1996552
+mariadb/mariadb-galera-10.0.12.tar.gz:
+  object_id: 99e4b497-e0af-45b5-a9f8-9d229f3ab529
+  sha: 6500c3055ba67956e0fd03a39e4da93901db96f0
+  size: 51307785
