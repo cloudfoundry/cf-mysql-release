@@ -13,8 +13,11 @@ mkdir -p bosh-lite/tmp
 mkdir -p bosh-lite/manifests
 cp bosh-lite/cf-mysql-stub-spiff.yml bosh-lite/tmp/cf-mysql-stub-with-uuid.yml
 DIRECTOR_UUID=$(bosh status | grep UUID | awk '{print $2}')
-echo $DIRECTOR_UUID
+echo bosh director UUID $DIRECTOR_UUID
+CF_DOMAIN=$(cf api | awk '{print $3}' | sed -e 's/https.*api\.//g')
+echo cf domain $CF_DOMAIN
 perl -pi -e "s/PLACEHOLDER-DIRECTOR-UUID/$DIRECTOR_UUID/g" bosh-lite/tmp/cf-mysql-stub-with-uuid.yml
+perl -pi -e "s/CF_DOMAIN/$CF_DOMAIN/g" bosh-lite/tmp/cf-mysql-stub-with-uuid.yml
 
 $MYSQL_RELEASE_DIR/generate_deployment_manifest warden bosh-lite/tmp/cf-mysql-stub-with-uuid.yml > bosh-lite/manifests/cf-mysql-manifest.yml
 bosh deployment bosh-lite/manifests/cf-mysql-manifest.yml
