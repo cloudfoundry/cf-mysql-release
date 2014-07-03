@@ -12,6 +12,7 @@ nice      = 0
 [mysqld]
 # GALERA options:
 wsrep_provider=/var/vcap/packages/mariadb/lib/plugin/libgalera_smm.so
+wsrep_provider_options="gcache.size=<%= p('gcache_size') %>"
 wsrep_cluster_address="gcomm://<%= p('cluster_ips').join(",") %>"
 wsrep_node_address='<%= spec.networks.services1.ip %>'
 wsrep_node_name='mysql/<%= index %>'

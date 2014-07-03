@@ -36,3 +36,6 @@ properties:
     description: 'A user for HAProxy health check'
   haproxy_ips:
     description: 'List of haproxy node ip addresses'
+  gcache_size:
+    description: 'Cache size used by galera (maximum amount of data possible in an IST)'
+    default: "512M"
