@@ -53,7 +53,12 @@ case $1 in
     echo "UPGRADE_OUTPUT: $UPGRADE_OUTPUT" >> $LOG_FILE 2>> $LOG_FILE
     echo "UPGRADE_EXIT_CODE: $UPGRADE_EXIT_CODE" >> $LOG_FILE 2>> $LOG_FILE
 
-    if [ $UPGRADE_EXIT_CODE != 1 ] || ! [[ $UPGRADE_OUTPUT =~ already\ upgraded|Unknown\ command ]]; then
+    # It's possible that the node hasn't come up yet or has not yet been able to join the cluster, for various reasons.
+    # We cannot know all of these, but we've added their signatures to the regex below.
+    # If they happen, we prefer to skip the restart and just let the node continue its startup sequence.
+    # mysql_upgrade will have to wait until the next time monit start is run, which is not ideal, but is better than either
+    # flapping or having the control script block waiting for the cluster to be healthy.
+    if [ $UPGRADE_EXIT_CODE != 1 ] || ! [[ $UPGRADE_OUTPUT =~ already\ upgraded|Unknown\ command|WSREP\ has\ not\ yet\ prepared\ node ]]; then
       echo "Stopping node after mysql_upgrade $JOB_INDEX" >> $LOG_FILE
       /var/vcap/packages/mariadb/support-files/mysql.server stop >> $LOG_FILE 2>> $LOG_FILE
     fi
