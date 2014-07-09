@@ -9,6 +9,8 @@ templates:
   haproxy_ctl:               bin/haproxy_ctl
   cert.pem.erb:              config/cert.pem
 properties:
+  network_name:
+    description: "The name of the network (needed for the syslog aggregator)"
   syslog_aggregator.address:
     description: "IP address for syslog aggregator"
   syslog_aggregator.port:
