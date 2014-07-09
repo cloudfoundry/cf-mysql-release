@@ -1,10 +1,12 @@
 <% if_p("syslog_aggregator.address", "syslog_aggregator.port", "syslog_aggregator.transport") do |address, port, transport| %>
-$ModLoad imuxsock                       # local message reception (rsyslog uses a datagram socket)
+$ModLoad imudp
+$UDPServerAddress 127.0.0.1
+$UDPServerRun 514
+
 $MaxMessageSize 4k                      # default is 2k
 $WorkDirectory /var/vcap/sys/rsyslog/buffered  # where messages should be buffered on disk
 
-# Forward vcap messages to the aggregator
-#
+# Forward syslog messages to the aggregator
 $ActionResumeRetryCount -1              # Try until the server becomes available
 $ActionQueueType LinkedList             # Allocate on-demand
 $ActionQueueFileName agg_backlog        # Spill to disk if queue is full
@@ -14,8 +16,8 @@ $ActionQueueHighWaterMark 8000          # Num messages. Assuming avg size of 512
 $ActionQueueTimeoutEnqueue 0            # Discard messages if the queue + disk is full
 $ActionQueueSaveOnShutdown on           # Save in-memory data to disk if rsyslog shuts down
 
-<% ip = spec.networks.send(properties.networks.apps).ip %>
-template(name="CfLogTemplate" type="list") {
+<% ip = spec.networks.send(p('network_name')).ip %>
+template(name="HaproxyLogTemplate" type="list") {
         constant(value="<")
         property(name="pri")
         constant(value=">")
@@ -25,41 +27,35 @@ template(name="CfLogTemplate" type="list") {
         constant(value=" [job=")
         property(name="programname")
         constant(value=" index=<%= spec.index.to_i %>] ")
+        property(name="syslogseverity-text")
+        constant(value=" -- ")
         property(name="msg")
+        constant(value="\n")
 }
 
 <% if transport == "relp" %>
-$ModLoad omrelp
-:programname, startswith, "vcap." :omrelp:<%= address %>:<%= port %>;CfLogTemplate
+  local1.*  :omrelp:<%= address %>:<%= port %>;HaproxyLogTemplate
 <% elsif transport == "udp" %>
-:programname, startswith, "vcap." @<%= address %>:<%= port %>;CfLogTemplate
+  local1.*  @<%= address %>:<%= port %>;HaproxyLogTemplate
 <% elsif transport == "tcp" %>
-:programname, startswith, "vcap." @@<%= address %>:<%= port %>;CfLogTemplate
+  local1.*  @@<%= address %>:<%= port %>;HaproxyLogTemplate
 <% else %>
-#only RELP, UDP, and TCP are supported
+  #only RELP, UDP, and TCP are supported
 <% end %>
 
-# Log vcap messages locally, too
-#$template VcapComponentLogFile, "/var/log/%programname:6:$%/%programname:6:$%.log"
-#$template VcapComponentLogFormat, "%timegenerated% %syslogseverity-text% -- %msg%\n"
-#:programname, startswith, "vcap." -?VcapComponentLogFile;VcapComponentLogFormat
-
-# Prevent them from reaching anywhere else
-:programname, startswith, "vcap." ~
-
 <% if properties.syslog_aggregator.all %>
-   <% if transport == "relp" %>
-*.*  :omrelp:<%= address %>:<%= port %>
-   <% elsif transport == "udp" %>
-*.*  @<%= address %>:<%= port %>
-   <% elsif transport == "tcp" %>
-*.*  @@<%= address %>:<%= port %>
-   <% else %>
-#only RELP, UDP, and TCP are supported
-   <% end %>
+  <% if transport == "relp" %>
+    *.*  :omrelp:<%= address %>:<%= port %>
+  <% elsif transport == "udp" %>
+    *.*  @<%= address %>:<%= port %>
+  <% elsif transport == "tcp" %>
+    *.*  @@<%= address %>:<%= port %>
+  <% else %>
+    #only RELP, UDP, and TCP are supported
+  <% end %>
 <% end %>
 
 <% end.else do %>
-# Prevent them from reaching anywhere else
-:programname, startswith, "vcap." ~
+# syslog aggregator address, port, and transport not specified in manifest
+# haproxy logs are not sent to any syslog drain
 <% end %>

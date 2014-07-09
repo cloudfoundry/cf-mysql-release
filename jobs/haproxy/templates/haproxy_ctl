@@ -10,6 +10,7 @@ DAEMON=$(which haproxy)
 CONFIG=/var/vcap/jobs/haproxy/config/haproxy.config
 DESC="HAProxy"
 USER=vcap
+JOB_DIR=/var/vcap/jobs/$NAME
 
 PID_FILE=/var/vcap/sys/run/haproxy/pid
 
@@ -109,6 +110,8 @@ restart_haproxy() {
 
 case "$1" in
     start)
+        # Start syslog forwarding
+        /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $JOB_DIR/config
         echo -n "Starting ${DESC}: "
         start_haproxy
         echo "${NAME}."

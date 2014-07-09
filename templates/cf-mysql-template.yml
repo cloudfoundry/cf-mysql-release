@@ -70,9 +70,11 @@ jobs:
     - name: services1
       static_ips: (( static_ips(4) ))
     properties:
+      <<: (( merge || nil ))
       haproxy_mysql_user: (( jobs.mysql.properties.haproxy_mysql_user ))
       mysql_node:
         ip: (( jobs.mysql.networks.services1.static_ips.[0] ))
+      network_name: services1
   - name: cf-mysql-broker
     release: cf-mysql
     template: cf-mysql-broker

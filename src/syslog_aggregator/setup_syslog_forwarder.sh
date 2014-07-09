@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+set -e
+
 if [ $# -ne 1 ]
 then
     echo "Usage: setup_syslog_forwarder.sh [Config dir]"
