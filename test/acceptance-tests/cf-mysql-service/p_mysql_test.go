@@ -165,39 +165,5 @@ var (
 				}
 			})
 		})
-
-		Describe("Enforcing MySQL service storage capacity", func() {
-
-			largePlan := IntegrationConfig.Plans[1]
-			maxInstancesPermittedByCapacity := IntegrationConfig.StorageCapacityMb / largePlan.MaxStorageMb
-
-			var permittedInstanceNames = make([]string, maxInstancesPermittedByCapacity)
-			var nonPermittedInstanceName string
-
-			BeforeEach(func() {
-				for index := range permittedInstanceNames {
-					permittedInstanceNames[index] = RandomName()
-				}
-				nonPermittedInstanceName = RandomName()
-			})
-
-			AfterEach(func() {
-				for _, name := range permittedInstanceNames {
-					Eventually(Cf("delete-service", "-f", name), 20*time.Second).Should(Exit(0))
-				}
-
-				Eventually(Cf("delete-service", "-f", nonPermittedInstanceName), 20*time.Second).Should(Exit(0))
-			})
-
-			It("enforces the service storage capacity", func() {
-				for _, name := range permittedInstanceNames {
-					Eventually(Cf("create-service", IntegrationConfig.ServiceName, largePlan.Name, name),
-						60*time.Second).Should(Exit())
-				}
-
-				Eventually(Cf("create-service", IntegrationConfig.ServiceName, largePlan.Name, nonPermittedInstanceName),
-					60*time.Second).Should(Exit(1))
-			})
-		})
 	})
 )

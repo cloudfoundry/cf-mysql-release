@@ -36,6 +36,11 @@ properties:
     description: 'A user for HAProxy health check'
   haproxy_ips:
     description: 'List of haproxy node ip addresses'
+
+  #these two properties are also used by the Broker
   gcache_size:
     description: 'Cache size used by galera (maximum amount of data possible in an IST)'
-    default: "512M"
+    default: 512
+  ib_log_file_size:
+    description: 'Size of the ib_log_file used by innodb'
+    default: 1000

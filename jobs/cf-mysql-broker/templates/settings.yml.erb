@@ -18,7 +18,9 @@ production:
 
   cc_api_uri: <%= p('cc_api_uri') %>
 
-  storage_capacity_mb: <%= p('mysql_node.storage_capacity_mb') %>
+  persistent_disk: <%= p('mysql_node.persistent_disk') %>
+  ib_log_file_size: <%= p('mysql_node.ib_log_file_size')%>
+  gcache_size: <%= p('mysql_node.gcache_size')%>
 
   services:
   <% (properties.services || []).each do |service| %>

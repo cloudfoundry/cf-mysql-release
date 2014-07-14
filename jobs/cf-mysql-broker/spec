@@ -33,8 +33,14 @@ properties:
     default: 'root'
   mysql_node.admin_password:
     description: 'Password for the admin MySQL account'
-  mysql_node.storage_capacity_mb:
-    description: 'Maximum amount of persistent disk space to be provisioned by the broker'
+  mysql_node.persistent_disk:
+    description: 'Size of the persistent disk allocated to the MySQL node for storage'
+  mysql_node.gcache_size:
+    description: 'Cache size used by galera (maximum amount of data possible in an IST)'
+    default: 512
+  mysql_node.ib_log_file_size:
+    description: 'Size of the ib_log_file used by innodb'
+    default: 1000
 
   services:
     description: 'Services and plans offered by the broker'
