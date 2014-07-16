@@ -31,7 +31,13 @@ post '/service/mysql/:service_name/write-bulk-data' do
     end
   end
 
-  megabytes_in_db = client.query("select count(*) from storage_quota_testing").first.values.first
+  begin
+    megabytes_in_db = client.query("select count(*) from storage_quota_testing").first.values.first
+  rescue => e
+    puts "Error trying to count total mb in database : #{e.inspect}"
+    megabytes_in_db = "unknown"
+  end
+
   client.close
 
   "Database now contains #{megabytes_in_db} megabytes"
@@ -52,7 +58,13 @@ post '/service/mysql/:service_name/delete-bulk-data' do
     end
   end
 
-  megabytes_in_db = client.query("select count(*) from storage_quota_testing").first.values.first
+  begin
+    megabytes_in_db = client.query("select count(*) from storage_quota_testing").first.values.first
+  rescue => e
+    puts "Error trying to count total mb in database : #{e.inspect}"
+    megabytes_in_db = "unknown"
+  end
+
   client.close
 
   "Database now contains #{megabytes_in_db} megabytes"
