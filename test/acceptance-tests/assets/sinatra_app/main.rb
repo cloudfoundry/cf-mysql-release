@@ -25,23 +25,24 @@ post '/service/mysql/:service_name/write-bulk-data' do
       # Note that this might succeed (writing the data) but raise an error because the connection was killed
       # by the quota enforcer.
       client.query("insert into storage_quota_testing (data) values ('#{one_mb_string}');")
-    rescue => e
+    rescue Exception => e
       puts "Error trying to insert one megabyte: #{e.inspect}"
       client = load_mysql(params[:service_name])
     end
   end
 
   begin
-    megabytes_in_db = client.query("select count(*) from storage_quota_testing").first.values.first
-  rescue => e
+    megabytes_in_db = client.query("select couddnt(*) from storage_quota_testing").first.values.first
+  rescue Exception => e
     puts "Error trying to count total mb in database : #{e.inspect}"
-    megabytes_in_db = "unknown"
+    megabytes_in_db = "#{e.inspect}"
   end
 
   begin
     client.close
-  rescue => e
+  rescue Exception => e
     puts "Error trying to close client: #{e.inspect}"
+    megabytes_in_db = "#{e.inspect}"
   end
 
   "Database now contains #{megabytes_in_db} megabytes"
@@ -56,23 +57,25 @@ post '/service/mysql/:service_name/delete-bulk-data' do
   megabytes.times do
     begin
       client.query("delete from storage_quota_testing limit 1;")
-    rescue => e
+    rescue Exception => e
       puts "Error trying to delete one megabyte: #{e.inspect}"
       client = load_mysql(params[:service_name])
+      megabytes_in_db = "#{e.inspect}"
     end
   end
 
   begin
     megabytes_in_db = client.query("select count(*) from storage_quota_testing").first.values.first
-  rescue => e
+  rescue Exception => e
     puts "Error trying to count total mb in database: #{e.inspect}"
-    megabytes_in_db = "unknown"
+    megabytes_in_db = "#{e.inspect}"
   end
 
   begin
     client.close
-  rescue => e
+  rescue Exception => e
     puts "Error trying to close client: #{e.inspect}"
+    megabytes_in_db = "#{e.inspect}"
   end
 
   "Database now contains #{megabytes_in_db} megabytes"
