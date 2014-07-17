@@ -29,7 +29,6 @@ cat > integration_config.json <<EOF
   ],
   "skip_ssl_validation": <%= p('cf.skip_ssl_validation') %>,
   "max_user_connections": <%= p('mysql.max_user_connections') %>,
-  "storage_capacity_mb": <%= p('mysql.storage_capacity_mb') %>,
 EOF
 
 # don't expose passwords
