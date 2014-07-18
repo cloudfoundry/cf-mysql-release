@@ -1,0 +1,11 @@
+#!/bin/sh
+# vim: set ft=sh
+
+set -e
+
+if ! which go 2>/dev/null; then
+  echo "Go is not installed."
+  exit 1
+fi
+
+go test -v ./mariadb_start_manager

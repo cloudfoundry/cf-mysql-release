@@ -9,8 +9,10 @@ templates:
 
 packages:
 - mariadb
+- mariadb_ctrl
 - galera
 - galera-healthcheck
+- golang
 - common
 
 properties:
