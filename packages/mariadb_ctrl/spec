@@ -1,0 +1,4 @@
+---
+name: mariadb_ctrl
+files:
+  - mariadb_ctrl/**/*
