@@ -31,16 +31,31 @@ post '/service/mysql/:service_name/write-bulk-data' do
     end
   end
 
+  counterror = ""
+  clienterror = ""
+
   begin
     megabytes_in_db = client.query("select count(*) from storage_quota_testing").first.values.first
   rescue Mysql2::Error => e
     puts "Error trying to count total mb in database : #{e.inspect}"
     megabytes_in_db = "unknown"
+    counterror += "\nCount Error: #{e.inspect}"
   end
 
-  client.close
+  max_errors = 10
+  current_errors = 0
+  client_closed = false
+  while client_closed && current_errors < max_errors
+    begin
+      client.close
+      client_closed = true
+    rescue Exception => e
+      clienterror = "\nClient Error: #{e.inspect}"
+      current_errors += 1
+    end
+  end
 
-  "Database now contains #{megabytes_in_db} megabytes"
+  "Database now contains #{megabytes_in_db} megabytes #{counterror} #{clienterror} \n #{current_errors}"
 end
 
 post '/service/mysql/:service_name/delete-bulk-data' do
@@ -59,16 +74,31 @@ post '/service/mysql/:service_name/delete-bulk-data' do
     end
   end
 
+  counterror = ""
+  clienterror = ""
+
   begin
     megabytes_in_db = client.query("select count(*) from storage_quota_testing").first.values.first
   rescue Mysql2::Error => e
-    puts "Error trying to count total mb in database: #{e.inspect}"
+    puts "Error trying to count total mb in database : #{e.inspect}"
     megabytes_in_db = "unknown"
+    counterror += "\nCount Error: #{e.inspect}"
   end
 
-  client.close
+  max_errors = 10
+  current_errors = 0
+  client_closed = false
+  while client_closed && current_errors < max_errors
+    begin
+      client.close
+      client_closed = true
+    rescue Exception => e
+      clienterror = "\nClient Error: #{e.inspect}"
+      current_errors += 1
+    end
+  end
 
-  "Database now contains #{megabytes_in_db} megabytes"
+  "Database now contains #{megabytes_in_db} megabytes #{counterror} #{clienterror} \n #{current_errors}"
 end
 
 get '/ping' do
