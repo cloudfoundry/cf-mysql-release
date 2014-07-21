@@ -2,8 +2,8 @@
 package fakes
 
 import (
-	"sync"
 	"../../os_helper"
+	"sync"
 )
 
 type FakeOsHelper struct {
@@ -17,14 +17,16 @@ type FakeOsHelper struct {
 		result1 string
 		result2 error
 	}
-	RunCommandPanicOnErrStub        func(executable string, args ...string) string
-	runCommandPanicOnErrMutex       sync.RWMutex
-	runCommandPanicOnErrArgsForCall []struct {
+	RunCommandWithTimeoutStub        func(timeout int, logFileName string, executable string, args ...string) error
+	runCommandWithTimeoutMutex       sync.RWMutex
+	runCommandWithTimeoutArgsForCall []struct {
+		timeout    int
+		logFileName string
 		executable string
 		args       []string
 	}
-	runCommandPanicOnErrReturns struct {
-		result1 string
+	runCommandWithTimeoutReturns struct {
+		result1 error
 	}
 	FileExistsStub        func(filename string) bool
 	fileExistsMutex       sync.RWMutex
@@ -88,36 +90,38 @@ func (fake *FakeOsHelper) RunCommandReturns(result1 string, result2 error) {
 	}{result1, result2}
 }
 
-func (fake *FakeOsHelper) RunCommandPanicOnErr(executable string, args ...string) string {
-	fake.runCommandPanicOnErrMutex.Lock()
-	defer fake.runCommandPanicOnErrMutex.Unlock()
-	fake.runCommandPanicOnErrArgsForCall = append(fake.runCommandPanicOnErrArgsForCall, struct {
+func (fake *FakeOsHelper) RunCommandWithTimeout(timeout int, logFileName string, executable string, args ...string) error {
+	fake.runCommandWithTimeoutMutex.Lock()
+	defer fake.runCommandWithTimeoutMutex.Unlock()
+	fake.runCommandWithTimeoutArgsForCall = append(fake.runCommandWithTimeoutArgsForCall, struct {
+		timeout    int
+		logFileName string
 		executable string
 		args       []string
-	}{executable, args})
-	if fake.RunCommandPanicOnErrStub != nil {
-		return fake.RunCommandPanicOnErrStub(executable, args...)
+	}{timeout, logFileName, executable, args})
+	if fake.RunCommandWithTimeoutStub != nil {
+		return fake.RunCommandWithTimeoutStub(timeout, logFileName, executable, args...)
 	} else {
-		return fake.runCommandPanicOnErrReturns.result1
+		return fake.runCommandWithTimeoutReturns.result1
 	}
 }
 
-func (fake *FakeOsHelper) RunCommandPanicOnErrCallCount() int {
-	fake.runCommandPanicOnErrMutex.RLock()
-	defer fake.runCommandPanicOnErrMutex.RUnlock()
-	return len(fake.runCommandPanicOnErrArgsForCall)
+func (fake *FakeOsHelper) RunCommandWithTimeoutCallCount() int {
+	fake.runCommandWithTimeoutMutex.RLock()
+	defer fake.runCommandWithTimeoutMutex.RUnlock()
+	return len(fake.runCommandWithTimeoutArgsForCall)
 }
 
-func (fake *FakeOsHelper) RunCommandPanicOnErrArgsForCall(i int) (string, []string) {
-	fake.runCommandPanicOnErrMutex.RLock()
-	defer fake.runCommandPanicOnErrMutex.RUnlock()
-	return fake.runCommandPanicOnErrArgsForCall[i].executable, fake.runCommandPanicOnErrArgsForCall[i].args
+func (fake *FakeOsHelper) RunCommandWithTimeoutArgsForCall(i int) (int, string, string, []string) {
+	fake.runCommandWithTimeoutMutex.RLock()
+	defer fake.runCommandWithTimeoutMutex.RUnlock()
+	return fake.runCommandWithTimeoutArgsForCall[i].timeout, fake.runCommandWithTimeoutArgsForCall[i].logFileName, fake.runCommandWithTimeoutArgsForCall[i].executable, fake.runCommandWithTimeoutArgsForCall[i].args
 }
 
-func (fake *FakeOsHelper) RunCommandPanicOnErrReturns(result1 string) {
-	fake.RunCommandPanicOnErrStub = nil
-	fake.runCommandPanicOnErrReturns = struct {
-		result1 string
+func (fake *FakeOsHelper) RunCommandWithTimeoutReturns(result1 error) {
+	fake.RunCommandWithTimeoutStub = nil
+	fake.runCommandWithTimeoutReturns = struct {
+		result1 error
 	}{result1}
 }
 

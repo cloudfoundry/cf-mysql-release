@@ -1,33 +1,36 @@
 package mariadb_start_manager
 
 import (
+	"../os_helper"
 	"fmt"
 	"regexp"
-	"../os_helper"
 )
 
 type MariaDBStartManager struct {
-	osHelper os_helper.OsHelper
-	logFileLocation string
-	username string
-	password string
+	osHelper          os_helper.OsHelper
+	logFileLocation   string
 	stateFileLocation string
-	jobIndex int
+	mysqlServerPath   string
+	username          string
+	password          string
+	jobIndex          int
 }
 
 func New(osHelper os_helper.OsHelper,
-	    logFileLocation string,
-		stateFileLocation string,
-	    username string,
-        password string,
-		jobIndex int) *MariaDBStartManager {
-	return &MariaDBStartManager {
-		osHelper: osHelper,
-		logFileLocation: logFileLocation,
+	logFileLocation string,
+	stateFileLocation string,
+	mysqlServerPath string,
+	username string,
+	password string,
+	jobIndex int) *MariaDBStartManager {
+	return &MariaDBStartManager{
+		osHelper:          osHelper,
+		logFileLocation:   logFileLocation,
 		stateFileLocation: stateFileLocation,
-		username: username,
-		password: password,
-		jobIndex: jobIndex,
+		username:          username,
+		password:          password,
+		jobIndex:          jobIndex,
+		mysqlServerPath:   mysqlServerPath,
 	}
 }
 
@@ -37,9 +40,12 @@ func (m *MariaDBStartManager) Execute() {
 			orig_contents, _ := m.osHelper.ReadFile(m.stateFileLocation)
 			fmt.Printf("file exists and contains: '%s'\n", orig_contents)
 
-			if (orig_contents == "BOOTSTRAP") {
+			if orig_contents == "BOOTSTRAP" {
 				fmt.Printf("starting in bootstrap")
-				m.osHelper.RunCommandPanicOnErr("bash", "mysql_bootstrap.sh", m.logFileLocation)
+				err := m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "bootstrap")
+				if err != nil {
+					panic(err)
+				}
 
 				m.osHelper.WriteStringToFile(m.stateFileLocation, "JOIN")
 			} else {
@@ -50,7 +56,10 @@ func (m *MariaDBStartManager) Execute() {
 			m.osHelper.WriteStringToFile(m.stateFileLocation, "BOOTSTRAP")
 
 			fmt.Printf("starting in bootstrap \n")
-			m.osHelper.RunCommandPanicOnErr("bash", "mysql_bootstrap.sh", m.logFileLocation)
+			err := m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "bootstrap")
+			if err != nil {
+				panic(err)
+			}
 
 			m.upgradeAndRestartIfNecessary()
 		}
@@ -61,7 +70,10 @@ func (m *MariaDBStartManager) Execute() {
 
 func (m *MariaDBStartManager) joinCluster() {
 	fmt.Printf("starting in join\n")
-	m.osHelper.RunCommandPanicOnErr("bash", "mysql_join.sh", m.logFileLocation)
+	err := m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "start")
+	if err != nil {
+		panic(err)
+	}
 
 	m.upgradeAndRestartIfNecessary()
 
@@ -78,9 +90,12 @@ func (m *MariaDBStartManager) upgradeAndRestartIfNecessary() {
 		m.password,
 		m.logFileLocation)
 
-	if (m.requiresRestart(output, err)) {
+	if m.requiresRestart(output, err) {
 		fmt.Printf("stopping mysql\n")
-		m.osHelper.RunCommandPanicOnErr("bash", "mysql_stop.sh", m.logFileLocation)
+		err := m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "stop")
+		if err != nil {
+			panic(err)
+		}
 	} else {
 		fmt.Printf("updating file with contents: JOIN\n")
 		m.osHelper.WriteStringToFile(m.stateFileLocation, "JOIN")
@@ -89,7 +104,7 @@ func (m *MariaDBStartManager) upgradeAndRestartIfNecessary() {
 
 func (m *MariaDBStartManager) requiresRestart(output string, err error) bool {
 	// No error indicates that the upgrade script performed an upgrade.
-	if (err == nil) {
+	if err == nil {
 		fmt.Printf("upgrade sucessful - restart required\n")
 		return true
 	}
@@ -97,7 +112,7 @@ func (m *MariaDBStartManager) requiresRestart(output string, err error) bool {
 
 	//known error messages where a restart should not occur, do not remove from
 	acceptableErrorsCompiled, _ := regexp.Compile("already upgraded|Unknown command|WSREP has not yet prepared node")
-	if (acceptableErrorsCompiled.MatchString(output)) {
+	if acceptableErrorsCompiled.MatchString(output) {
 		fmt.Printf("output string matches acceptable errors - skip restart\n")
 		return false
 	} else {

@@ -1,15 +1,21 @@
 package main
 
 import (
-	"flag"
-	"./os_helper"
 	manager "./mariadb_start_manager"
+	"./os_helper"
+	"flag"
 )
 
 var logFileLocation = flag.String(
 	"logFile",
 	"",
 	"Specifies the location of the log file mysql sends logs to",
+)
+
+var mysqlServerPath = flag.String(
+	"mysqlServer",
+	"",
+	"Specifies the location of the mysql.server file",
 )
 
 var stateFileLocation = flag.String(
@@ -42,6 +48,7 @@ func main() {
 	mgr := manager.New(os_helper.NewImpl(),
 		*logFileLocation,
 		*stateFileLocation,
+		*mysqlServerPath,
 		*mysqlUser,
 		*mysqlPassword,
 		*jobIndex)
