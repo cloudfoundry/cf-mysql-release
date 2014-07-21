@@ -34,12 +34,21 @@ Prerequisites:
 
 Steps:
 
+1. [Upload a supported stemcell](#upload_stemcell)
 1. [Upload a release to the BOSH director](#upload_release)
 1. [Create a CF MySQL deployment manifest](#create_manifest)
 1. [Deploy the CF MySQL release with BOSH](#deploy_release)
 1. [Register the service broker with Cloud Foundry](#register_broker)
 
 After installation, the MySQL service should be shown when running `gcf marketplace`
+
+### Upload Stemcell<a name="upload_stemcell"></a>
+
+The latest final release, v8 expects Ubuntu Lucid ruby_agent 2366 by default.
+
+Master currently expects Ubuntu Lucid go_agent 2611 by default.
+
+Stemcells can be downloaded from http://boshartifacts.cfapps.io/stemcells.
 
 ### Upload Release<a name="upload_release"></a>
 
