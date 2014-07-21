@@ -44,11 +44,11 @@ After installation, the MySQL service should be shown when running `gcf marketpl
 
 ### Upload Stemcell<a name="upload_stemcell"></a>
 
-The latest final release, v8 expects Ubuntu Lucid ruby_agent 2366 by default.
+The latest final release, v8, expects Ubuntu Lucid ruby_agent 2366 by default.
 
 Master currently expects Ubuntu Lucid go_agent 2611 by default.
 
-Stemcells can be downloaded from http://boshartifacts.cfapps.io/stemcells.
+Stemcells can be downloaded from http://boshartifacts.cfapps.io/file_collections?type=stemcells.
 
 ### Upload Release<a name="upload_release"></a>
 
