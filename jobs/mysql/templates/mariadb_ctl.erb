@@ -8,6 +8,7 @@ LOG_FILE=$LOG_DIR/maria-ctl.log
 CONFIG_DIR=/etc/mysql
 export JOB_INDEX=<%= index %>
 STATE_FILE=/var/vcap/store/mysql/state.txt
+MYSQL_SERVER_FILE=/var/vcap/packages/mariadb/support-files/mysql.server
 
 case $1 in
 
@@ -35,6 +36,7 @@ case $1 in
     /var/vcap/packages/golang/bin/go run runner.go \
              -logFile=$LOG_FILE \
              -stateFile=$STATE_FILE \
+             -mysqlServer=$MYSQL_SERVER_FILE \
              -mysqlUser=<%= p('admin_username')%> \
              -mysqlPassword=<%= p('admin_password')%> \
              -jobIndex=$JOB_INDEX >> $LOG_FILE 2>> $LOG_FILE

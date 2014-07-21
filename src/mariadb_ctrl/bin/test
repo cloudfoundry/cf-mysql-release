@@ -9,3 +9,4 @@ if ! which go 2>/dev/null; then
 fi
 
 go test -v ./mariadb_start_manager
+go test -v ./os_helper

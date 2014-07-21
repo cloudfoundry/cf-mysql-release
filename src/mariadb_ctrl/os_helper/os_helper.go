@@ -1,45 +1,61 @@
 package os_helper
 
-
 import (
-	"fmt"
+	"errors"
 	"io/ioutil"
 	"os"
 	"os/exec"
+	"time"
 )
 
 type OsHelper interface {
 	RunCommand(executable string, args ...string) (string, error)
-	RunCommandPanicOnErr(executable string, args ...string) string
+	RunCommandWithTimeout(timeout int, logFileName string, executable string, args ...string) error
 	FileExists(filename string) bool
 	ReadFile(filename string) (string, error)
-	WriteStringToFile(filename string, contents string) (error)
+	WriteStringToFile(filename string, contents string) error
 }
 
-type OsHelperImpl struct {}
+type OsHelperImpl struct{}
 
 func NewImpl() *OsHelperImpl {
-	return &OsHelperImpl {}
+	return &OsHelperImpl{}
 }
 
 // Runs command with stdout and stderr pipes connected to process
 func (h OsHelperImpl) RunCommand(executable string, args ...string) (string, error) {
 	cmd := exec.Command(executable, args...)
 	out, err := cmd.Output()
-	if (err != nil) {
+	if err != nil {
 		return string(out), err
 	}
 	return string(out), nil
 }
 
 // Runs command with stdout and stderr pipes connected to process
-func (h OsHelperImpl) RunCommandPanicOnErr(executable string, args ...string) string {
+func (h OsHelperImpl) RunCommandWithTimeout(timeout int, logFileName string, executable string, args ...string) error {
 	cmd := exec.Command(executable, args...)
-	out, err := cmd.Output()
-	if (err != nil) {
-		panic(fmt.Sprintf("Output: %s. Error: %v", string(out), err))
+	logFile, err := os.OpenFile(logFileName, os.O_CREATE | os.O_WRONLY, 0666)
+	if err != nil {
+		return err
 	}
-	return string(out)
+	cmd.Stdout = logFile
+	cmd.Stderr = logFile
+
+	maxRunTime := time.Duration(timeout) * time.Second
+	errChannel := make(chan error, 1)
+	go func() {
+		cmd.Start()
+		errChannel <- cmd.Wait()
+	}()
+	select {
+	case <-time.After(maxRunTime):
+		cmd.Process.Kill()
+		return errors.New("Command timed out")
+	case err := <-errChannel:
+		return err
+	}
+	return nil
 }
 
 func (h OsHelperImpl) FileExists(filename string) bool {
@@ -57,7 +73,7 @@ func (h OsHelperImpl) ReadFile(filename string) (string, error) {
 }
 
 // Overwrite the contents, creating if necessary. Panic on err
-func (h OsHelperImpl) WriteStringToFile(filename string, contents string) (error) {
+func (h OsHelperImpl) WriteStringToFile(filename string, contents string) error {
 	err := ioutil.WriteFile(filename, []byte(contents), 0644)
 	return err
 }
