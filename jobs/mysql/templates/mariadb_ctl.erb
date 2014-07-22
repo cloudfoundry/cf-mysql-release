@@ -39,7 +39,8 @@ case $1 in
              -mysqlServer=$MYSQL_SERVER_FILE \
              -mysqlUser=<%= p('admin_username')%> \
              -mysqlPassword=<%= p('admin_password')%> \
-             -jobIndex=$JOB_INDEX >> $LOG_FILE 2>> $LOG_FILE
+             -jobIndex=$JOB_INDEX >> $LOG_FILE 2>> $LOG_FILE \
+             -numberOfNodes=<%= p('cluster_ips').length %>
       ;;
 
   stop)
