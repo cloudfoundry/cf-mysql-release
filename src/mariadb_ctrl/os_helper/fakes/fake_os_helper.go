@@ -20,10 +20,10 @@ type FakeOsHelper struct {
 	RunCommandWithTimeoutStub        func(timeout int, logFileName string, executable string, args ...string) error
 	runCommandWithTimeoutMutex       sync.RWMutex
 	runCommandWithTimeoutArgsForCall []struct {
-		timeout    int
+		timeout     int
 		logFileName string
-		executable string
-		args       []string
+		executable  string
+		args        []string
 	}
 	runCommandWithTimeoutReturns struct {
 		result1 error
@@ -94,10 +94,10 @@ func (fake *FakeOsHelper) RunCommandWithTimeout(timeout int, logFileName string,
 	fake.runCommandWithTimeoutMutex.Lock()
 	defer fake.runCommandWithTimeoutMutex.Unlock()
 	fake.runCommandWithTimeoutArgsForCall = append(fake.runCommandWithTimeoutArgsForCall, struct {
-		timeout    int
+		timeout     int
 		logFileName string
-		executable string
-		args       []string
+		executable  string
+		args        []string
 	}{timeout, logFileName, executable, args})
 	if fake.RunCommandWithTimeoutStub != nil {
 		return fake.RunCommandWithTimeoutStub(timeout, logFileName, executable, args...)

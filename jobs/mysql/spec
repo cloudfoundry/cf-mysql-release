@@ -33,7 +33,7 @@ properties:
   innodb_buffer_pool_size:
     description: 'The size in bytes of the memory buffer InnoDB uses to cache data and indexes of its tables'
   cluster_ips:
-    description: 'List of nodes'
+    description: 'List of nodes.  Must have the same number of ips as there are nodes in the cluster'
   haproxy_mysql_user:
     description: 'A user for HAProxy health check'
   haproxy_ips:

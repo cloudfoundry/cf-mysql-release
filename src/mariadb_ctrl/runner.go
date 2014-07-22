@@ -42,6 +42,12 @@ var jobIndex = flag.Int(
 	"Specifies the job index of the MySQL node",
 )
 
+var numberOfNodes = flag.Int(
+	"numberOfNodes",
+	3,
+	"Number of nodes deployed in the galera cluster",
+)
+
 func main() {
 	flag.Parse()
 
@@ -51,6 +57,7 @@ func main() {
 		*mysqlServerPath,
 		*mysqlUser,
 		*mysqlPassword,
-		*jobIndex)
+		*jobIndex,
+		*numberOfNodes)
 	mgr.Execute()
 }

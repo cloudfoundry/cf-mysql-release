@@ -14,6 +14,7 @@ type MariaDBStartManager struct {
 	username          string
 	password          string
 	jobIndex          int
+	numberOfNodes     int
 }
 
 func New(osHelper os_helper.OsHelper,
@@ -22,7 +23,8 @@ func New(osHelper os_helper.OsHelper,
 	mysqlServerPath string,
 	username string,
 	password string,
-	jobIndex int) *MariaDBStartManager {
+	jobIndex int,
+	numberOfNodes int) *MariaDBStartManager {
 	return &MariaDBStartManager{
 		osHelper:          osHelper,
 		logFileLocation:   logFileLocation,
@@ -31,12 +33,24 @@ func New(osHelper os_helper.OsHelper,
 		password:          password,
 		jobIndex:          jobIndex,
 		mysqlServerPath:   mysqlServerPath,
+		numberOfNodes:     numberOfNodes,
 	}
 }
 
 func (m *MariaDBStartManager) Execute() {
 	if m.jobIndex == 0 {
-		if m.osHelper.FileExists(m.stateFileLocation) {
+		if m.numberOfNodes == 1 {
+			fmt.Printf("file does not exist, creating with contents: SINGLE_NODE\n")
+			m.osHelper.WriteStringToFile(m.stateFileLocation, "SINGLE_NODE")
+
+			fmt.Printf("starting in bootstrap \n")
+			err := m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "bootstrap")
+			if err != nil {
+				panic(err)
+			}
+
+			m.upgradeAndRestartIfNecessary()
+		} else if m.osHelper.FileExists(m.stateFileLocation) {
 			orig_contents, _ := m.osHelper.ReadFile(m.stateFileLocation)
 			fmt.Printf("file exists and contains: '%s'\n", orig_contents)
 
@@ -48,7 +62,19 @@ func (m *MariaDBStartManager) Execute() {
 				}
 
 				m.osHelper.WriteStringToFile(m.stateFileLocation, "JOIN")
+			} else if orig_contents == "SINGLE_NODE" {
+				fmt.Printf("file exists and contains: '%s'\n", orig_contents)
+				m.osHelper.WriteStringToFile(m.stateFileLocation, "BOOTSTRAP")
+
+				fmt.Printf("starting in bootstrap \n")
+				err := m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "bootstrap")
+				if err != nil {
+					panic(err)
+				}
+
+				m.upgradeAndRestartIfNecessary()
 			} else {
+				fmt.Printf("file exists and contains: '%s'\n", orig_contents)
 				m.joinCluster()
 			}
 		} else {
@@ -96,7 +122,7 @@ func (m *MariaDBStartManager) upgradeAndRestartIfNecessary() {
 		if err != nil {
 			panic(err)
 		}
-	} else {
+	} else if m.numberOfNodes != 1 {
 		fmt.Printf("updating file with contents: JOIN\n")
 		m.osHelper.WriteStringToFile(m.stateFileLocation, "JOIN")
 	}

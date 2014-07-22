@@ -13,8 +13,8 @@ var _ = Describe("OsHelper", func() {
 		var logFileName string
 		h := OsHelperImpl{}
 
-		AfterEach(func(){
-			if logFileName!="" && h.FileExists(logFileName) {
+		AfterEach(func() {
+			if logFileName != "" && h.FileExists(logFileName) {
 				os.Remove(logFileName)
 			}
 		})
