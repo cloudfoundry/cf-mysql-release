@@ -38,59 +38,57 @@ func New(osHelper os_helper.OsHelper,
 }
 
 func (m *MariaDBStartManager) Execute() {
+	//We should NEVER bootstrap unless we are Index 0
 	if m.jobIndex == 0 {
+
+		//single-node deploy
 		if m.numberOfNodes == 1 {
-			fmt.Printf("file does not exist, creating with contents: SINGLE_NODE\n")
-			m.osHelper.WriteStringToFile(m.stateFileLocation, "SINGLE_NODE")
-
-			fmt.Printf("starting in bootstrap \n")
-			err := m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "bootstrap")
-			if err != nil {
-				panic(err)
-			}
-
-			m.upgradeAndRestartIfNecessary()
-		} else if m.osHelper.FileExists(m.stateFileLocation) {
-			orig_contents, _ := m.osHelper.ReadFile(m.stateFileLocation)
-			fmt.Printf("file exists and contains: '%s'\n", orig_contents)
-
-			if orig_contents == "BOOTSTRAP" {
-				fmt.Printf("starting in bootstrap")
-				err := m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "bootstrap")
-				if err != nil {
-					panic(err)
-				}
-
-				m.osHelper.WriteStringToFile(m.stateFileLocation, "JOIN")
-			} else if orig_contents == "SINGLE_NODE" {
-				fmt.Printf("file exists and contains: '%s'\n", orig_contents)
-				m.osHelper.WriteStringToFile(m.stateFileLocation, "BOOTSTRAP")
-
-				fmt.Printf("starting in bootstrap \n")
-				err := m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "bootstrap")
-				if err != nil {
-					panic(err)
-				}
-
-				m.upgradeAndRestartIfNecessary()
-			} else {
-				fmt.Printf("file exists and contains: '%s'\n", orig_contents)
-				m.joinCluster()
-			}
-		} else {
-			fmt.Printf("file does not exist, creating with contents: BOOTSTRAP\n")
-			m.osHelper.WriteStringToFile(m.stateFileLocation, "BOOTSTRAP")
-
-			fmt.Printf("starting in bootstrap \n")
-			err := m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "bootstrap")
-			if err != nil {
-				panic(err)
-			}
-
-			m.upgradeAndRestartIfNecessary()
+			fmt.Printf("Single node deploy")
+			m.bootstrapUpgradeAndWriteState("SINGLE_NODE")
+			return
 		}
-	} else {
-		m.joinCluster()
+
+		//MULTI-NODE DEPLOYMENTS BELOW
+
+		//intial deploy, state file does not exists
+		if !m.osHelper.FileExists(m.stateFileLocation) {
+			fmt.Printf("state file does not exist, creating with contents: BOOTSTRAP\n")
+			m.bootstrapUpgradeAndWriteState("BOOTSTRAP")
+			return
+		}
+
+		//state file exists
+		orig_contents, _ := m.osHelper.ReadFile(m.stateFileLocation)
+		fmt.Printf("state file exists and contains: '%s'\n", orig_contents)
+
+		//already deployed and upgraded, ready to bootstrap a multi-node cluster
+		if orig_contents == "BOOTSTRAP" {
+			m.bootstrapAndWriteState("JOIN")
+			return
+		}
+
+		//scaling up from a single node cluster
+		if orig_contents == "SINGLE_NODE" {
+			m.bootstrapUpgradeAndWriteState("BOOTSTRAP")
+			return
+		}
+	}
+
+	m.joinCluster()
+}
+
+func (m *MariaDBStartManager) bootstrapUpgradeAndWriteState(state string) {
+	m.bootstrapAndWriteState(state)
+	m.upgradeAndRestartIfNecessary()
+}
+
+func (m *MariaDBStartManager) bootstrapAndWriteState (state string) {
+	m.osHelper.WriteStringToFile(m.stateFileLocation, state)
+
+	fmt.Printf("starting in bootstrap \n")
+	err := m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "bootstrap")
+	if err != nil {
+		panic(err)
 	}
 }
 
