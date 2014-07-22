@@ -15,6 +15,7 @@ type MariaDBStartManager struct {
 	password          string
 	jobIndex          int
 	numberOfNodes     int
+	loggingOn		  bool
 }
 
 func New(osHelper os_helper.OsHelper,
@@ -24,7 +25,8 @@ func New(osHelper os_helper.OsHelper,
 	username string,
 	password string,
 	jobIndex int,
-	numberOfNodes int) *MariaDBStartManager {
+	numberOfNodes int,
+	loggingOn bool) *MariaDBStartManager {
 	return &MariaDBStartManager{
 		osHelper:          osHelper,
 		logFileLocation:   logFileLocation,
@@ -34,6 +36,13 @@ func New(osHelper os_helper.OsHelper,
 		jobIndex:          jobIndex,
 		mysqlServerPath:   mysqlServerPath,
 		numberOfNodes:     numberOfNodes,
+		loggingOn:		   loggingOn,
+	}
+}
+
+func (m *MariaDBStartManager) log(info string){
+	if m.loggingOn {
+		fmt.Printf(info)
 	}
 }
 
@@ -43,7 +52,7 @@ func (m *MariaDBStartManager) Execute() {
 
 		//single-node deploy
 		if m.numberOfNodes == 1 {
-			fmt.Printf("Single node deploy")
+			m.log("Single node deploy")
 			m.bootstrapUpgradeAndWriteState("SINGLE_NODE")
 			return
 		}
@@ -52,14 +61,14 @@ func (m *MariaDBStartManager) Execute() {
 
 		//intial deploy, state file does not exists
 		if !m.osHelper.FileExists(m.stateFileLocation) {
-			fmt.Printf("state file does not exist, creating with contents: BOOTSTRAP\n")
+			m.log("state file does not exist, creating with contents: BOOTSTRAP\n")
 			m.bootstrapUpgradeAndWriteState("BOOTSTRAP")
 			return
 		}
 
 		//state file exists
 		orig_contents, _ := m.osHelper.ReadFile(m.stateFileLocation)
-		fmt.Printf("state file exists and contains: '%s'\n", orig_contents)
+		m.log(fmt.Sprintf("state file exists and contains: '%s'\n", orig_contents))
 
 		//already deployed and upgraded, ready to bootstrap a multi-node cluster
 		if orig_contents == "BOOTSTRAP" {
@@ -85,7 +94,7 @@ func (m *MariaDBStartManager) bootstrapUpgradeAndWriteState(state string) {
 func (m *MariaDBStartManager) bootstrapAndWriteState (state string) {
 	m.osHelper.WriteStringToFile(m.stateFileLocation, state)
 
-	fmt.Printf("starting in bootstrap \n")
+	m.log("starting in bootstrap \n")
 	err := m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "bootstrap")
 	if err != nil {
 		panic(err)
@@ -93,7 +102,7 @@ func (m *MariaDBStartManager) bootstrapAndWriteState (state string) {
 }
 
 func (m *MariaDBStartManager) joinCluster() {
-	fmt.Printf("starting in join\n")
+	m.log("starting in join\n")
 	err := m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "start")
 	if err != nil {
 		panic(err)
@@ -101,12 +110,12 @@ func (m *MariaDBStartManager) joinCluster() {
 
 	m.upgradeAndRestartIfNecessary()
 
-	fmt.Printf("updating file with contents: JOIN\n")
+	m.log("updating file with contents: JOIN\n")
 	m.osHelper.WriteStringToFile(m.stateFileLocation, "JOIN")
 }
 
 func (m *MariaDBStartManager) upgradeAndRestartIfNecessary() {
-	fmt.Printf("performing upgrade\n")
+	m.log("performing upgrade\n")
 	output, err := m.osHelper.RunCommand(
 		"bash",
 		"mysql_upgrade.sh",
@@ -115,13 +124,13 @@ func (m *MariaDBStartManager) upgradeAndRestartIfNecessary() {
 		m.logFileLocation)
 
 	if m.requiresRestart(output, err) {
-		fmt.Printf("stopping mysql\n")
+		m.log("stopping mysql\n")
 		err := m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "stop")
 		if err != nil {
 			panic(err)
 		}
 	} else if m.numberOfNodes != 1 {
-		fmt.Printf("updating file with contents: JOIN\n")
+		m.log("updating file with contents: JOIN\n")
 		m.osHelper.WriteStringToFile(m.stateFileLocation, "JOIN")
 	}
 }
@@ -129,18 +138,18 @@ func (m *MariaDBStartManager) upgradeAndRestartIfNecessary() {
 func (m *MariaDBStartManager) requiresRestart(output string, err error) bool {
 	// No error indicates that the upgrade script performed an upgrade.
 	if err == nil {
-		fmt.Printf("upgrade sucessful - restart required\n")
+		m.log("upgrade sucessful - restart required\n")
 		return true
 	}
-	fmt.Printf("upgrade output: %s\n", output)
+	m.log(fmt.Sprintf("upgrade output: %s\n", output))
 
 	//known error messages where a restart should not occur, do not remove from
 	acceptableErrorsCompiled, _ := regexp.Compile("already upgraded|Unknown command|WSREP has not yet prepared node")
 	if acceptableErrorsCompiled.MatchString(output) {
-		fmt.Printf("output string matches acceptable errors - skip restart\n")
+		m.log("output string matches acceptable errors - skip restart\n")
 		return false
 	} else {
-		fmt.Printf("output string does not match acceptable errors - restart required\n")
+		m.log("output string does not match acceptable errors - restart required\n")
 		return true
 	}
 }

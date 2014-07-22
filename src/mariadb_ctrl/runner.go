@@ -58,6 +58,8 @@ func main() {
 		*mysqlUser,
 		*mysqlPassword,
 		*jobIndex,
-		*numberOfNodes)
+		*numberOfNodes,
+		true,
+	)
 	mgr.Execute()
 }
