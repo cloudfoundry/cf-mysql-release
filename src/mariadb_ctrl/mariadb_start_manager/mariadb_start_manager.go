@@ -122,6 +122,7 @@ func (m *MariaDBStartManager) joinCluster() {
 func (m *MariaDBStartManager) seedDatabases() {
 	output, err := m.osHelper.RunCommand("bash", m.dbSeedScriptPath)
 	if err != nil {
+		m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "stop")
 		m.log("Seeding databases failed:\n")
 		m.log(output)
 		panic(err)
