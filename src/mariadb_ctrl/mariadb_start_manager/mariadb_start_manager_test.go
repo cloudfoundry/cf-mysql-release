@@ -102,10 +102,12 @@ var _ = Describe("MariadbStartManager", func() {
 			}
 		})
 
-		It("panics", func(){
-				Expect(func() {
-					mgr.Execute()
-				}).To(Panic())
+		It("panics and stops mysql (so the deploy fails)", func(){
+			Expect(func() {
+				mgr.Execute()
+			}).To(Panic())
+
+			ensureMySQLCommandsRanWithOptions([]string{"bootstrap", "stop"})
 		})
 	})
 
