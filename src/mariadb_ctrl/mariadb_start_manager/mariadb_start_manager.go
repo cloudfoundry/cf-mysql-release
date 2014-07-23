@@ -16,6 +16,7 @@ type MariaDBStartManager struct {
 	jobIndex          int
 	numberOfNodes     int
 	loggingOn		  bool
+	dbSeedScriptPath  string
 }
 
 func New(osHelper os_helper.OsHelper,
@@ -24,6 +25,7 @@ func New(osHelper os_helper.OsHelper,
 	mysqlServerPath string,
 	username string,
 	password string,
+	dbSeedScriptPath string,
 	jobIndex int,
 	numberOfNodes int,
 	loggingOn bool) *MariaDBStartManager {
@@ -37,6 +39,7 @@ func New(osHelper os_helper.OsHelper,
 		mysqlServerPath:   mysqlServerPath,
 		numberOfNodes:     numberOfNodes,
 		loggingOn:		   loggingOn,
+		dbSeedScriptPath:  dbSeedScriptPath,
 	}
 }
 
@@ -88,6 +91,7 @@ func (m *MariaDBStartManager) Execute() {
 
 func (m *MariaDBStartManager) bootstrapUpgradeAndWriteState(state string) {
 	m.bootstrapAndWriteState(state)
+	m.seedDatabases()
 	m.upgradeAndRestartIfNecessary()
 }
 
@@ -108,10 +112,20 @@ func (m *MariaDBStartManager) joinCluster() {
 		panic(err)
 	}
 
+	m.seedDatabases()
 	m.upgradeAndRestartIfNecessary()
 
 	m.log("updating file with contents: JOIN\n")
 	m.osHelper.WriteStringToFile(m.stateFileLocation, "JOIN")
+}
+
+func (m *MariaDBStartManager) seedDatabases() {
+	output, err := m.osHelper.RunCommand("bash", m.dbSeedScriptPath)
+	if err != nil {
+		m.log("Seeding databases failed:\n")
+		m.log(output)
+		panic(err)
+	}
 }
 
 func (m *MariaDBStartManager) upgradeAndRestartIfNecessary() {

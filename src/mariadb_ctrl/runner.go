@@ -18,6 +18,12 @@ var mysqlServerPath = flag.String(
 	"Specifies the location of the mysql.server file",
 )
 
+var dbSeedScriptPath = flag.String(
+	"dbSeedScript",
+	"",
+	"Specifies the location of the script that seeds the server with databases",
+)
+
 var stateFileLocation = flag.String(
 	"stateFile",
 	"",
@@ -57,6 +63,7 @@ func main() {
 		*mysqlServerPath,
 		*mysqlUser,
 		*mysqlPassword,
+		*dbSeedScriptPath,
 		*jobIndex,
 		*numberOfNodes,
 		true,

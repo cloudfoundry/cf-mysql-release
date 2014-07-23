@@ -9,6 +9,7 @@ CONFIG_DIR=/etc/mysql
 export JOB_INDEX=<%= index %>
 STATE_FILE=/var/vcap/store/mysql/state.txt
 MYSQL_SERVER_FILE=/var/vcap/packages/mariadb/support-files/mysql.server
+DB_SEED_SCRIPT_FILE=$MARIADB_JOB_DIR/bin/mysql_database_seed.sh
 
 # add mysql to path
 ln -s /var/vcap/packages/mariadb/bin/mysql /usr/local/bin | exit 0
@@ -43,6 +44,7 @@ case $1 in
              -mysqlUser=<%= p('admin_username')%> \
              -mysqlPassword=<%= p('admin_password')%> \
              -jobIndex=$JOB_INDEX \
+             -dbSeedScript=$DB_SEED_SCRIPT_FILE \
              -numberOfNodes=<%= p('cluster_ips').length %> >> $LOG_FILE 2>> $LOG_FILE
       ;;
 

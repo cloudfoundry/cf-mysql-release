@@ -25,7 +25,7 @@ func NewImpl() *OsHelperImpl {
 // Runs command with stdout and stderr pipes connected to process
 func (h OsHelperImpl) RunCommand(executable string, args ...string) (string, error) {
 	cmd := exec.Command(executable, args...)
-	out, err := cmd.Output()
+	out, err := cmd.CombinedOutput()
 	if err != nil {
 		return string(out), err
 	}
