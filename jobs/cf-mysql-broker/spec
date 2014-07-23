@@ -14,6 +14,7 @@ packages:
 - mysqlclient
 - cf-mysql-broker
 - common
+- mariadb
 
 properties:
   auth_username:
