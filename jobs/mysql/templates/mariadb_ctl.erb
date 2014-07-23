@@ -10,6 +10,9 @@ export JOB_INDEX=<%= index %>
 STATE_FILE=/var/vcap/store/mysql/state.txt
 MYSQL_SERVER_FILE=/var/vcap/packages/mariadb/support-files/mysql.server
 
+# add mysql to path
+ln -s /var/vcap/packages/mariadb/bin/mysql /usr/local/bin | exit 0
+
 case $1 in
 
   start)
