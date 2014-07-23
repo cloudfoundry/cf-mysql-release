@@ -102,7 +102,7 @@ var (
 				AssertAppIsRunning(appName)
 			}
 
-			AssertStorageQuotaBehavior := func(PlanName string, MaxStorageMb string) {
+			AssertStorageQuotaBehavior := func(PlanName string, MaxStorageMb int) {
 				It("enforces the storage quota for the plan", func() {
 					CreatesBindsAndStartsApp(PlanName)
 
@@ -119,7 +119,16 @@ var (
 					Eventually(Curl(uri), timeout, retryInterval).Should(Say(firstValue))
 
 					fmt.Println("*** Exceeding quota")
-					Eventually(Curl("-d", MaxStorageMb, writeUri), 5*60*time.Second, retryInterval).Should(Say("Database now contains"))
+
+					mbToWrite := 100
+					loopIterations := (MaxStorageMb / mbToWrite)
+					if MaxStorageMb%mbToWrite == 0 {
+						loopIterations += 1
+					}
+
+					for i := 0; i < loopIterations; i += 1 {
+						Eventually(Curl("-v", "-d", strconv.Itoa(mbToWrite), writeUri), 5*60*time.Second, retryInterval).Should(Say("Database now contains"))
+					}
 
 					fmt.Println("*** Sleeping to let quota enforcer run")
 					time.Sleep(quotaEnforcerSleepTime)
@@ -160,7 +169,7 @@ var (
 
 			Context("for each plan", func() {
 				for _, plan := range IntegrationConfig.Plans {
-					AssertStorageQuotaBehavior(plan.Name, strconv.Itoa(plan.MaxStorageMb))
+					AssertStorageQuotaBehavior(plan.Name, plan.MaxStorageMb)
 					AssertConnectionQuotaBehavior(plan.Name)
 				}
 			})
