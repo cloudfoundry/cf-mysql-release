@@ -6,6 +6,7 @@ templates:
   my.cnf.erb:     config/my.cnf
   mariadb_init.erb: config/mariadb_init
   galera-healthcheck_ctl.erb: bin/galera-healthcheck_ctl
+  mysql_database_seed.sh.erb: bin/mysql_database_seed.sh
 
 packages:
 - mariadb
@@ -46,3 +47,6 @@ properties:
   ib_log_file_size:
     description: 'Size of the ib_log_file used by innodb'
     default: 100
+  seeded_databases:
+    description: 'Set of databases to seed'
+    default: {}

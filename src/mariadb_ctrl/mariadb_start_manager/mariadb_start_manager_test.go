@@ -18,6 +18,7 @@ var _ = Describe("MariadbStartManager", func() {
 	stateFileLocation := "/another-unused-location"
 	username := "fake-username"
 	password := "fake-password"
+	dbSeedScriptPath := "/some-path"
 
 	ensureMySQLCommandsRanWithOptions := func (options []string) {
 		Expect(fake.RunCommandWithTimeoutCallCount()).To(Equal(len(options)))
@@ -31,12 +32,36 @@ var _ = Describe("MariadbStartManager", func() {
 	}
 
 	ensureUpgrade := func () {
-		executable, args := fake.RunCommandArgsForCall(0)
-		Expect(executable).To(Equal("bash"))
-		Expect(args[0]).To(Equal("mysql_upgrade.sh"))
-		Expect(args[1]).To(Equal(username))
-		Expect(args[2]).To(Equal(password))
-		Expect(args[3]).To(Equal(logFileLocation))
+		callCount := fake.RunCommandCallCount()
+		callExists := false
+		for i := 0; i < callCount; i++ {
+			executable, args := fake.RunCommandArgsForCall(i)
+
+			if executable == "bash" && len(args) > 0 && args[0] == "mysql_upgrade.sh" {
+				Expect(args[1]).To(Equal(username))
+				Expect(args[2]).To(Equal(password))
+				Expect(args[3]).To(Equal(logFileLocation))
+				callExists = true
+			}
+		}
+		Expect(callExists).To(BeTrue())
+	}
+
+	ensureSeedDatabases := func(){
+		callCount := fake.RunCommandCallCount()
+
+		callExists := false
+
+		for i := 0; i < callCount; i++ {
+			executable, args := fake.RunCommandArgsForCall(i)
+
+			if executable == "bash" && len(args) > 0 && args[0] == dbSeedScriptPath {
+				callExists = true
+				break
+			}
+		}
+
+		Expect(callExists).To(BeTrue())
 	}
 
 	ensureStateFileContentIs := func (expected string) {
@@ -47,12 +72,43 @@ var _ = Describe("MariadbStartManager", func() {
 	}
 
 	fakeRestartNOTNeededAfterUpgrade := func () {
-		fake.RunCommandStub = func(arg1 string, arg2 ...string) (string, error) {
-			return "This installation of MySQL is already upgraded to 10.0.12-MariaDB, use --force if you still need to run mysql_upgrade",
-			errors.New("unused error text")
+		fake.RunCommandStub = func(executable string, args ...string) (string, error) {
+			if (executable == "bash" && len(args) > 0 && args[0] == "mysql_upgrade.sh") {
+				return "This installation of MySQL is already upgraded to 10.0.12-MariaDB, use --force if you still need to run mysql_upgrade",
+				errors.New("unused error text")
+			} else {
+				return "", nil
+			}
 		}
 	}
-		
+
+	Context("when there's an error seeding the databases", func() {
+		BeforeEach(func() {
+			fake = new(fakes.FakeOsHelper)
+
+			mgr = manager.New(
+				fake,
+				logFileLocation,
+				stateFileLocation,
+				mysqlServerPath,
+				username,
+				password,
+				dbSeedScriptPath,
+				0, 1, false)
+
+			fake.RunCommandStub = func(arg1 string, arg2 ...string) (string, error) {
+				return "",
+				errors.New("seeding databases failed")
+			}
+		})
+
+		It("panics", func(){
+				Expect(func() {
+					mgr.Execute()
+				}).To(Panic())
+		})
+	})
+
 	Describe("When starting in single-node deployment", func() {
 
 		BeforeEach(func() {
@@ -65,6 +121,7 @@ var _ = Describe("MariadbStartManager", func() {
 				mysqlServerPath,
 				username,
 				password,
+				dbSeedScriptPath,
 				0, 1, false)
 		})
 
@@ -74,6 +131,7 @@ var _ = Describe("MariadbStartManager", func() {
 				ensureMySQLCommandsRanWithOptions([]string{"bootstrap","stop"})
 				ensureStateFileContentIs("SINGLE_NODE")
 				ensureUpgrade()
+				ensureSeedDatabases()
 			})
 		})
 
@@ -87,6 +145,7 @@ var _ = Describe("MariadbStartManager", func() {
 				ensureMySQLCommandsRanWithOptions([]string{"bootstrap"})
 				ensureStateFileContentIs("SINGLE_NODE")
 				ensureUpgrade()
+				ensureSeedDatabases()
 			})
 		})
 
@@ -100,6 +159,7 @@ var _ = Describe("MariadbStartManager", func() {
 				ensureMySQLCommandsRanWithOptions([]string{"bootstrap","stop"})
 				ensureStateFileContentIs("SINGLE_NODE")
 				ensureUpgrade()
+				ensureSeedDatabases()
 			})
 		})
 
@@ -118,6 +178,7 @@ var _ = Describe("MariadbStartManager", func() {
 				mysqlServerPath,
 				username,
 				password,
+				dbSeedScriptPath,
 				1, 3, false)
 		})
 
@@ -190,6 +251,7 @@ var _ = Describe("MariadbStartManager", func() {
 				mysqlServerPath,
 				username,
 				password,
+				dbSeedScriptPath,
 				0, 3, false)
 		})
 
@@ -202,7 +264,7 @@ var _ = Describe("MariadbStartManager", func() {
 				ensureStateFileContentIs("BOOTSTRAP")
 				ensureMySQLCommandsRanWithOptions([]string{"bootstrap","stop"})
 				ensureUpgrade()
-
+				ensureSeedDatabases()
 			})
 			Context("When starting mariadb causes an error", func() {
 				It("Panics", func() {
@@ -225,8 +287,9 @@ var _ = Describe("MariadbStartManager", func() {
 				mgr.Execute()
 				ensureMySQLCommandsRanWithOptions([]string{"bootstrap"})
 				ensureUpgrade()
+				ensureSeedDatabases()
 				ensureStateFileContentIs("JOIN")
-				})
+			})
 			Context("When starting mariadb causes an error", func() {
 				It("Panics", func() {
 					fake.RunCommandWithTimeoutStub = func(arg0 int, arg1 string, arg2 string, arg3 ...string) error {
@@ -270,6 +333,7 @@ var _ = Describe("MariadbStartManager", func() {
 			It("Should join, perform upgrade and not restart", func() {
 				mgr.Execute()
 				ensureMySQLCommandsRanWithOptions([]string{"start"})
+				ensureSeedDatabases()
 				ensureUpgrade()
 			})
 			Context("When starting mariadb causes an error", func() {
@@ -293,8 +357,8 @@ var _ = Describe("MariadbStartManager", func() {
 				mgr.Execute()
 				ensureMySQLCommandsRanWithOptions([]string{"start","stop"})
 				ensureStateFileContentIs("JOIN")
+				ensureSeedDatabases()
 				ensureUpgrade()
-
 			})
 			Context("When starting mariadb causes an error", func() {
 				It("Panics", func() {
@@ -324,6 +388,7 @@ var _ = Describe("MariadbStartManager", func() {
 					mysqlServerPath,
 					username,
 					password,
+					dbSeedScriptPath,
 					0, 1, false)
 
 				fake.FileExistsReturns(true)
@@ -334,6 +399,7 @@ var _ = Describe("MariadbStartManager", func() {
 					mgr.Execute()
 					ensureMySQLCommandsRanWithOptions([]string{"bootstrap","stop"})
 					ensureStateFileContentIs("SINGLE_NODE")
+					ensureSeedDatabases()
 					ensureUpgrade()
 				})
 			})
@@ -346,6 +412,7 @@ var _ = Describe("MariadbStartManager", func() {
 					mgr.Execute()
 					ensureMySQLCommandsRanWithOptions([]string{"bootstrap"})
 					ensureStateFileContentIs("SINGLE_NODE")
+					ensureSeedDatabases()
 					ensureUpgrade()
 				})
 			})
@@ -360,6 +427,7 @@ var _ = Describe("MariadbStartManager", func() {
 					mysqlServerPath,
 					username,
 					password,
+					dbSeedScriptPath,
 					0, 3, false)
 
 				fake.FileExistsReturns(true)
@@ -370,6 +438,7 @@ var _ = Describe("MariadbStartManager", func() {
 					mgr.Execute()
 					ensureMySQLCommandsRanWithOptions([]string{"bootstrap","stop"})
 					ensureStateFileContentIs("BOOTSTRAP")
+					ensureSeedDatabases()
 					ensureUpgrade()
 				})
 			})
@@ -382,6 +451,7 @@ var _ = Describe("MariadbStartManager", func() {
 					ensureMySQLCommandsRanWithOptions([]string{"bootstrap"})
 					ensureStateFileContentIs("JOIN")
 					ensureUpgrade()
+					ensureSeedDatabases()
 				})
 			})
 		})

@@ -61,6 +61,7 @@ jobs:
       - (( jobs.mysql.networks.services1.static_ips.[0] ))
       - (( jobs.mysql.networks.services1.static_ips.[1] ))
       - (( jobs.mysql.networks.services1.static_ips.[2] ))
+      seeded_databases: ~
   - name: haproxy
     release: cf-mysql
     template: haproxy
