@@ -7,6 +7,7 @@ templates:
   mariadb_init.erb: config/mariadb_init
   galera-healthcheck_ctl.erb: bin/galera-healthcheck_ctl
   mysql_database_seed.sh.erb: bin/mysql_database_seed.sh
+  syslog_forwarder.conf.erb: config/syslog_forwarder.conf
 
 packages:
 - mariadb
@@ -15,6 +16,7 @@ packages:
 - galera-healthcheck
 - golang
 - common
+- syslog_aggregator
 
 properties:
   admin_username:
@@ -50,3 +52,16 @@ properties:
   seeded_databases:
     description: 'Set of databases to seed'
     default: {}
+
+  network_name:
+    description: "The name of the network (needed for the syslog aggregator)"
+  syslog_aggregator.address:
+    description: "IP address for syslog aggregator"
+  syslog_aggregator.port:
+    description: "TCP port of syslog aggregator"
+  syslog_aggregator.all:
+    description: "Define whether forwarders should also send non-mysql syslog activity to the aggregator."
+    default: false
+  syslog_aggregator.transport:
+    description: "Transport to be used when forwarding logs (tcp|udp|relp)."
+    default: "tcp"

@@ -17,6 +17,9 @@ ln -s /var/vcap/packages/mariadb/bin/mysql /usr/local/bin | exit 0
 case $1 in
 
   start)
+    # Start syslog forwarding
+    /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $MARIADB_JOB_DIR/config
+
     mkdir -p $LOG_DIR
     date >> $LOG_FILE 2>> $LOG_FILE
 

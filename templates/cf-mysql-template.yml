@@ -9,6 +9,7 @@ meta:
   external_domain: (( merge ))
   apps_domain: (( merge ))
   nats: (( merge ))
+  syslog_aggregator: ~
 
 name: (( meta.environment "-mysql" ))
 director_uuid: (( merge ))
@@ -62,6 +63,8 @@ jobs:
       - (( jobs.mysql.networks.services1.static_ips.[1] ))
       - (( jobs.mysql.networks.services1.static_ips.[2] ))
       seeded_databases: ~
+      syslog_aggregator: (( meta.syslog_aggregator ))
+      network_name: services1
   - name: haproxy
     release: cf-mysql
     template: haproxy
@@ -76,6 +79,7 @@ jobs:
       mysql_node:
         ip: (( jobs.mysql.networks.services1.static_ips.[0] ))
       network_name: services1
+      syslog_aggregator: (( meta.syslog_aggregator ))
   - name: cf-mysql-broker
     release: cf-mysql
     template: cf-mysql-broker
