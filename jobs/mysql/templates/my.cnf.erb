@@ -2,12 +2,23 @@
 base_folder = '/var/vcap/sys/run/mysql'
 %>
 
+<%
+   def use_syslog
+     returnvalue = false
+     if_p("syslog_aggregator.address") do |_|
+       returnvalue = true
+     end
+     returnvalue
+   end
+%>
+
 [client]
 port      = <%= p('port') %>
 socket		= <%= "#{base_folder}/mysqld.sock" %>
 
 [mysqld_safe]
 nice      = 0
+<% if use_syslog%>syslog<%end%>
 
 [mysqld]
 # GALERA options:
@@ -29,7 +40,7 @@ basedir		= /var/vcap/packages/mariadb
 datadir		= /var/vcap/store/mysql
 language	= /var/vcap/packages/mariadb/share/english
 pid-file  = /var/vcap/sys/run/mysql/mysql.pid
-log-error = /var/vcap/sys/log/mysql/mysql.err.log
+<% unless use_syslog%>log-error = /var/vcap/sys/log/mysql/mysql.err.log<%end%>
 init-file = /var/vcap/jobs/mysql/config/mariadb_init
 skip-external-locking = TRUE
 max_allowed_packet = 256M
