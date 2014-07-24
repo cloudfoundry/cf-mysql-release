@@ -71,3 +71,7 @@ mariadb/mariadb-galera-10.0.12.tar.gz:
   object_id: 99e4b497-e0af-45b5-a9f8-9d229f3ab529
   sha: 6500c3055ba67956e0fd03a39e4da93901db96f0
   size: 51307785
+python/Python-2.7.8.tgz:
+  object_id: f9c52077-dfa2-4f9a-80d4-46e3b22adf51
+  sha: 511960dd78451a06c9df76509635aeec05b2051a
+  size: 14846119
