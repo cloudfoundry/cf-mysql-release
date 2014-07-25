@@ -23,22 +23,36 @@ case $1 in
     mkdir -p $RUN_DIR
     mkdir -p $LOG_DIR
 
+    # Start syslog forwarding
+    /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $JOB_DIR/config
+
     # Run the migrations only on the first node
     if [ $JOB_INDEX -eq 0 ]; then
-      date >>$LOG_DIR/db_migrate.stdout.log
-      echo "Running db:create and db:migrate" >>$LOG_DIR/db_migrate.stdout.log
+      echo "Running db:create and db:migrate at `date`" \
+          | tee -a $LOG_DIR/db_migrate.combined.log \
+          | logger -p local1.error -t mysql-broker-dbmigrate
       cd $PACKAGE_DIR
-      bundle exec rake db:create
-      bundle exec rake db:migrate >>$LOG_DIR/db_migrate.stdout.log 2>>$LOG_DIR/db_migrate.stderr.log
+
+      bundle exec rake db:create 2>&1 \
+          | tee -a $LOG_DIR/db_migrate.combined.log \
+          | logger -p local1.error -t mysql-broker-dbcreate
+
+      bundle exec rake db:migrate 2>&1 \
+          | tee -a $LOG_DIR/db_migrate.combined.log \
+          | logger -p local1.error -t mysql-broker-dbmigrate
 
       if [ $? != 0 ]; then
-        echo "Migrations failed" >>$LOG_DIR/db_migrate.stderr.log
+        echo "Migrations failed" \
+            | tee -a $LOG_DIR/db_migrate.combined.log \
+            | logger -p local1.error -t mysql-broker-dbmigrate
         exit 1
       fi
     fi
 
     cd -
-    bundle exec unicorn --daemonize -c $JOB_DIR/config/unicorn.conf.rb
+    bundle exec unicorn -c $JOB_DIR/config/unicorn.conf.rb 2>&1 \
+        | tee -a $LOG_DIR/cf-mysql-broker.log \
+        | logger -p local1.error -t mysql-broker &
     ;;
 
   stop)

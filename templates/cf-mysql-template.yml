@@ -88,6 +88,8 @@ jobs:
     networks:
     - name: services1
     properties:
+      syslog_aggregator: (( meta.syslog_aggregator ))
+      network_name: services1
       auth_username: (( merge ))
       auth_password: (( merge ))
       cookie_secret: (( merge ))
