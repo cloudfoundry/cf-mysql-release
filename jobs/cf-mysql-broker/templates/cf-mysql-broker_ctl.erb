@@ -15,7 +15,10 @@ export HOME=/home/vcap
 export JOB_INDEX=<%= index %>
 
 # add mysql to path
-ln -s /var/vcap/packages/mariadb/bin/mysql /usr/local/bin | exit 0
+if [ ! -f /usr/local/bin/mysql ]; then
+  echo "Adding mysql to path"
+  ln -s /var/vcap/packages/mariadb/bin/mysql /usr/local/bin
+fi
 
 case $1 in
 
