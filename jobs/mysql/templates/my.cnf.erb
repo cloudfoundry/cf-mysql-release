@@ -31,10 +31,11 @@ language	= /var/vcap/packages/mariadb/share/english
 pid-file  = /var/vcap/sys/run/mysql/mysql.pid
 log-error = /var/vcap/sys/log/mysql/mysql.err.log
 init-file = /var/vcap/jobs/mysql/config/mariadb_init
-skip-external-locking
+skip-external-locking = TRUE
 max_allowed_packet = 256M
 
-innodb_file_per_table
+innodb_file_per_table = ON
+innodb_file_format = Barracuda
 innodb_log_file_size = "<%= p('ib_log_file_size')%>MB"
 
 # These are mandatory MySQL settings for MariaDB Galera to work
