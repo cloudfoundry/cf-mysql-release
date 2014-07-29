@@ -1,9 +1,10 @@
 package mariadb_start_manager_test
 
 import (
+	"errors"
+
 	manager "."
 	"../os_helper/fakes"
-	"errors"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -20,9 +21,9 @@ var _ = Describe("MariadbStartManager", func() {
 	password := "fake-password"
 	dbSeedScriptPath := "/some-path"
 
-	ensureMySQLCommandsRanWithOptions := func (options []string) {
+	ensureMySQLCommandsRanWithOptions := func(options []string) {
 		Expect(fake.RunCommandWithTimeoutCallCount()).To(Equal(len(options)))
-		for i, option := range(options) {
+		for i, option := range options {
 			timeout, logFile, executable, args := fake.RunCommandWithTimeoutArgsForCall(i)
 			Expect(timeout).To(Equal(300))
 			Expect(logFile).To(Equal("/some-unused-location"))
@@ -31,7 +32,7 @@ var _ = Describe("MariadbStartManager", func() {
 		}
 	}
 
-	ensureUpgrade := func () {
+	ensureUpgrade := func() {
 		callCount := fake.RunCommandCallCount()
 		callExists := false
 		for i := 0; i < callCount; i++ {
@@ -47,7 +48,7 @@ var _ = Describe("MariadbStartManager", func() {
 		Expect(callExists).To(BeTrue())
 	}
 
-	ensureSeedDatabases := func(){
+	ensureSeedDatabases := func() {
 		callCount := fake.RunCommandCallCount()
 
 		callExists := false
@@ -64,18 +65,18 @@ var _ = Describe("MariadbStartManager", func() {
 		Expect(callExists).To(BeTrue())
 	}
 
-	ensureStateFileContentIs := func (expected string) {
+	ensureStateFileContentIs := func(expected string) {
 		count := fake.WriteStringToFileCallCount()
-		filename, contents := fake.WriteStringToFileArgsForCall(count-1)
+		filename, contents := fake.WriteStringToFileArgsForCall(count - 1)
 		Expect(filename).To(Equal(stateFileLocation))
 		Expect(contents).To(Equal(expected))
 	}
 
-	fakeRestartNOTNeededAfterUpgrade := func () {
+	fakeRestartNOTNeededAfterUpgrade := func() {
 		fake.RunCommandStub = func(executable string, args ...string) (string, error) {
-			if (executable == "bash" && len(args) > 0 && args[0] == "mysql_upgrade.sh") {
+			if executable == "bash" && len(args) > 0 && args[0] == "mysql_upgrade.sh" {
 				return "This installation of MySQL is already upgraded to 10.0.12-MariaDB, use --force if you still need to run mysql_upgrade",
-				errors.New("unused error text")
+					errors.New("unused error text")
 			} else {
 				return "", nil
 			}
@@ -98,11 +99,11 @@ var _ = Describe("MariadbStartManager", func() {
 
 			fake.RunCommandStub = func(arg1 string, arg2 ...string) (string, error) {
 				return "",
-				errors.New("seeding databases failed")
+					errors.New("seeding databases failed")
 			}
 		})
 
-		It("panics and stops mysql (so the deploy fails)", func(){
+		It("panics and stops mysql (so the deploy fails)", func() {
 			Expect(func() {
 				mgr.Execute()
 			}).To(Panic())
@@ -353,7 +354,7 @@ var _ = Describe("MariadbStartManager", func() {
 		})
 	})
 
-	Describe("When scaling the cluster", func(){
+	Describe("When scaling the cluster", func() {
 
 		BeforeEach(func() {
 			fake = new(fakes.FakeOsHelper)
@@ -374,8 +375,8 @@ var _ = Describe("MariadbStartManager", func() {
 				fake.FileExistsReturns(true)
 				fake.ReadFileReturns("JOIN", nil)
 			})
-			Context("When restart is needed after upgrade", func(){
-				It("Bootstraps node zero and writes SINGLE_NODE to file", func(){
+			Context("When restart is needed after upgrade", func() {
+				It("Bootstraps node zero and writes SINGLE_NODE to file", func() {
 					mgr.Execute()
 					ensureMySQLCommandsRanWithOptions([]string{"bootstrap", "stop", "bootstrap"})
 					ensureStateFileContentIs("SINGLE_NODE")
@@ -383,12 +384,12 @@ var _ = Describe("MariadbStartManager", func() {
 					ensureUpgrade()
 				})
 			})
-		    Context("When no restart is needed", func(){
+			Context("When no restart is needed", func() {
 				BeforeEach(func() {
 					fakeRestartNOTNeededAfterUpgrade()
 				})
 
-				It("Bootstraps node zero and writes SINGLE_NODE to file", func(){
+				It("Bootstraps node zero and writes SINGLE_NODE to file", func() {
 					mgr.Execute()
 					ensureMySQLCommandsRanWithOptions([]string{"bootstrap"})
 					ensureStateFileContentIs("SINGLE_NODE")
