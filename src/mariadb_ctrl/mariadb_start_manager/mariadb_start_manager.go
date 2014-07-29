@@ -64,8 +64,8 @@ func (m *MariaDBStartManager) Execute() {
 
 		//intial deploy, state file does not exists
 		if !m.osHelper.FileExists(m.stateFileLocation) {
-			m.log("state file does not exist, creating with contents: BOOTSTRAP\n")
-			m.bootstrapUpgradeAndWriteState("BOOTSTRAP")
+			m.log("state file does not exist, creating with contents: JOIN\n")
+			m.bootstrapUpgradeAndWriteState("JOIN")
 			return
 		}
 
@@ -73,15 +73,9 @@ func (m *MariaDBStartManager) Execute() {
 		orig_contents, _ := m.osHelper.ReadFile(m.stateFileLocation)
 		m.log(fmt.Sprintf("state file exists and contains: '%s'\n", orig_contents))
 
-		//already deployed and upgraded, ready to bootstrap a multi-node cluster
-		if orig_contents == "BOOTSTRAP" {
-			m.bootstrapAndWriteState("JOIN")
-			return
-		}
-
 		//scaling up from a single node cluster
 		if orig_contents == "SINGLE_NODE" {
-			m.bootstrapUpgradeAndWriteState("BOOTSTRAP")
+			m.bootstrapUpgradeAndWriteState("JOIN")
 			return
 		}
 	}
@@ -92,10 +86,10 @@ func (m *MariaDBStartManager) Execute() {
 func (m *MariaDBStartManager) bootstrapUpgradeAndWriteState(state string) {
 	m.bootstrapAndWriteState(state)
 	m.seedDatabases()
-	m.upgradeAndRestartIfNecessary()
+	m.upgradeAndRestartIfNecessary("bootstrap")
 }
 
-func (m *MariaDBStartManager) bootstrapAndWriteState (state string) {
+func (m *MariaDBStartManager) bootstrapAndWriteState(state string) {
 	m.osHelper.WriteStringToFile(m.stateFileLocation, state)
 
 	m.log("starting in bootstrap \n")
@@ -113,7 +107,7 @@ func (m *MariaDBStartManager) joinCluster() {
 	}
 
 	m.seedDatabases()
-	m.upgradeAndRestartIfNecessary()
+	m.upgradeAndRestartIfNecessary("start")
 
 	m.log("updating file with contents: JOIN\n")
 	m.osHelper.WriteStringToFile(m.stateFileLocation, "JOIN")
@@ -129,7 +123,7 @@ func (m *MariaDBStartManager) seedDatabases() {
 	}
 }
 
-func (m *MariaDBStartManager) upgradeAndRestartIfNecessary() {
+func (m *MariaDBStartManager) upgradeAndRestartIfNecessary(mode string) {
 	m.log("performing upgrade\n")
 	output, err := m.osHelper.RunCommand(
 		"bash",
@@ -140,7 +134,12 @@ func (m *MariaDBStartManager) upgradeAndRestartIfNecessary() {
 
 	if m.requiresRestart(output, err) {
 		m.log("stopping mysql\n")
-		err := m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "stop")
+		err = m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "stop")
+		if err != nil {
+			panic(err)
+		}
+		m.log("starting mysql\n")
+		err = m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, mode)
 		if err != nil {
 			panic(err)
 		}

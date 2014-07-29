@@ -130,7 +130,7 @@ var _ = Describe("MariadbStartManager", func() {
 		Context("On initial deploy, when it needs to be restarted after upgrade", func() {
 			It("Starts in bootstrap mode", func() {
 				mgr.Execute()
-				ensureMySQLCommandsRanWithOptions([]string{"bootstrap","stop"})
+				ensureMySQLCommandsRanWithOptions([]string{"bootstrap", "stop", "bootstrap"})
 				ensureStateFileContentIs("SINGLE_NODE")
 				ensureUpgrade()
 				ensureSeedDatabases()
@@ -158,7 +158,7 @@ var _ = Describe("MariadbStartManager", func() {
 			})
 			It("Starts in bootstrap mode", func() {
 				mgr.Execute()
-				ensureMySQLCommandsRanWithOptions([]string{"bootstrap","stop"})
+				ensureMySQLCommandsRanWithOptions([]string{"bootstrap", "stop", "bootstrap"})
 				ensureStateFileContentIs("SINGLE_NODE")
 				ensureUpgrade()
 				ensureSeedDatabases()
@@ -187,7 +187,7 @@ var _ = Describe("MariadbStartManager", func() {
 		Context("When the node needs to restart after upgrade", func() {
 			It("Should start up in join mode, writes JOIN to a file, runs upgrade, stops mysql", func() {
 				mgr.Execute()
-				ensureMySQLCommandsRanWithOptions([]string{"start","stop"})
+				ensureMySQLCommandsRanWithOptions([]string{"start", "stop", "start"})
 				ensureStateFileContentIs("JOIN")
 				ensureUpgrade()
 			})
@@ -263,8 +263,8 @@ var _ = Describe("MariadbStartManager", func() {
 			})
 			It("Should boostrap, upgrade and restart", func() {
 				mgr.Execute()
-				ensureStateFileContentIs("BOOTSTRAP")
-				ensureMySQLCommandsRanWithOptions([]string{"bootstrap","stop"})
+				ensureMySQLCommandsRanWithOptions([]string{"bootstrap", "stop", "bootstrap"})
+				ensureStateFileContentIs("JOIN")
 				ensureUpgrade()
 				ensureSeedDatabases()
 			})
@@ -285,33 +285,11 @@ var _ = Describe("MariadbStartManager", func() {
 				fake.FileExistsReturns(false)
 				fakeRestartNOTNeededAfterUpgrade()
 			})
-			It("Should boostrap, upgrade and write JOIN to file", func() {
+			It("Should bootstrap, upgrade and write JOIN to file", func() {
 				mgr.Execute()
 				ensureMySQLCommandsRanWithOptions([]string{"bootstrap"})
 				ensureUpgrade()
 				ensureSeedDatabases()
-				ensureStateFileContentIs("JOIN")
-			})
-			Context("When starting mariadb causes an error", func() {
-				It("Panics", func() {
-					fake.RunCommandWithTimeoutStub = func(arg0 int, arg1 string, arg2 string, arg3 ...string) error {
-						return errors.New("some error")
-					}
-					Expect(func() {
-						mgr.Execute()
-					}).To(Panic())
-				})
-			})
-		})
-
-		Context("When file is present and reads 'BOOTSTRAP'", func() {
-			BeforeEach(func() {
-				fake.FileExistsReturns(true)
-				fake.ReadFileReturns("BOOTSTRAP", nil)
-			})
-			It("Should bootstrap, and not upgrade", func() {
-				mgr.Execute()
-				ensureMySQLCommandsRanWithOptions([]string{"bootstrap"})
 				ensureStateFileContentIs("JOIN")
 			})
 			Context("When starting mariadb causes an error", func() {
@@ -357,7 +335,7 @@ var _ = Describe("MariadbStartManager", func() {
 			})
 			It("Should join, perform upgrade and restart", func() {
 				mgr.Execute()
-				ensureMySQLCommandsRanWithOptions([]string{"start","stop"})
+				ensureMySQLCommandsRanWithOptions([]string{"start", "stop", "start"})
 				ensureStateFileContentIs("JOIN")
 				ensureSeedDatabases()
 				ensureUpgrade()
@@ -399,7 +377,7 @@ var _ = Describe("MariadbStartManager", func() {
 			Context("When restart is needed after upgrade", func(){
 				It("Bootstraps node zero and writes SINGLE_NODE to file", func(){
 					mgr.Execute()
-					ensureMySQLCommandsRanWithOptions([]string{"bootstrap","stop"})
+					ensureMySQLCommandsRanWithOptions([]string{"bootstrap", "stop", "bootstrap"})
 					ensureStateFileContentIs("SINGLE_NODE")
 					ensureSeedDatabases()
 					ensureUpgrade()
@@ -436,10 +414,10 @@ var _ = Describe("MariadbStartManager", func() {
 				fake.ReadFileReturns("SINGLE_NODE", nil)
 			})
 			Context("When a restart after upgrade is necessary", func() {
-				It("bootstraps the first node and writes BOOTSTRAP to file", func() {
+				It("bootstraps the first node and writes JOIN to file", func() {
 					mgr.Execute()
-					ensureMySQLCommandsRanWithOptions([]string{"bootstrap","stop"})
-					ensureStateFileContentIs("BOOTSTRAP")
+					ensureMySQLCommandsRanWithOptions([]string{"bootstrap", "stop", "bootstrap"})
+					ensureStateFileContentIs("JOIN")
 					ensureSeedDatabases()
 					ensureUpgrade()
 				})
