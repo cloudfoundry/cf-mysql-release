@@ -1,9 +1,10 @@
 package mariadb_start_manager
 
 import (
-	"../os_helper"
 	"fmt"
 	"regexp"
+
+	"../os_helper"
 )
 
 type MariaDBStartManager struct {
@@ -15,7 +16,7 @@ type MariaDBStartManager struct {
 	password          string
 	jobIndex          int
 	numberOfNodes     int
-	loggingOn		  bool
+	loggingOn         bool
 	dbSeedScriptPath  string
 }
 
@@ -38,12 +39,12 @@ func New(osHelper os_helper.OsHelper,
 		jobIndex:          jobIndex,
 		mysqlServerPath:   mysqlServerPath,
 		numberOfNodes:     numberOfNodes,
-		loggingOn:		   loggingOn,
+		loggingOn:         loggingOn,
 		dbSeedScriptPath:  dbSeedScriptPath,
 	}
 }
 
-func (m *MariaDBStartManager) log(info string){
+func (m *MariaDBStartManager) log(info string) {
 	if m.loggingOn {
 		fmt.Printf(info)
 	}
