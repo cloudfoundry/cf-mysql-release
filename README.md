@@ -278,7 +278,6 @@ cat > integration_config.json <<EOF
   ],
   "skip_ssl_validation": true,
   "max_user_connections": 40,
-  "storage_capacity_mb": 100
 }
 EOF
 export CONFIG=$PWD/integration_config.json
