@@ -9,3 +9,4 @@ blobs
 .final_builds/packages/**/*.tgz
 bosh-lite/manifests/*
 bosh-lite/tmp/*
+.idea/
