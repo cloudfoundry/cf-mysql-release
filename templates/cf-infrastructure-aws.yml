@@ -27,7 +27,7 @@ networks:
 resource_pools:
   - name: services-small
     stemcell:
-      name: bosh-aws-xen-ubuntu-lucid-go_agent
+      name: bosh-aws-xen-ubuntu-trusty-go_agent
       version: (( merge || 2611 ))
     cloud_properties:
       instance_type: m1.small

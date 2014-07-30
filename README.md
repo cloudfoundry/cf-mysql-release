@@ -46,7 +46,7 @@ After installation, the MySQL service should be shown when running `gcf marketpl
 
 The latest final release, v8, [expects Ubuntu Lucid ruby_agent 2366 by default](https://github.com/cloudfoundry/cf-mysql-release/blob/v8/templates/cf-mysql-template.yml#L41). This final release may not work with newer stemcells as it has dependencies on libraries which have been removed from newer stemcells.
 
-Master currently expects Ubuntu Lucid go_agent 2611 by default ([aws](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/cf-infrastructure-aws.yml#L31) | [vsphere](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/cf-infrastructure-vsphere.yml#L15)).
+Master currently expects Ubuntu Trusty go_agent 2657 by default ([aws](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/cf-infrastructure-aws.yml#L31) | [vsphere](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/cf-infrastructure-vsphere.yml#L15)).
 
 Stemcells can be downloaded from http://boshartifacts.cfapps.io/file_collections?type=stemcells.
 
