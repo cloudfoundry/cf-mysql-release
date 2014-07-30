@@ -51,7 +51,7 @@ properties:
     default: 512
   ib_log_file_size:
     description: 'Size of the ib_log_file used by innodb'
-    default: 100
+    default: 1024
   seeded_databases:
     description: 'Set of databases to seed'
     default: {}
