@@ -33,3 +33,7 @@ properties:
   mysql.storage_capacity_mb:
     description: 'Maximimum storage capacity for all MySQL service instances'
     default: 80000
+
+  smoke_tests_only:
+    description: 'Instead of running the full acceptance test suite, only run a shorter smoke test'
+    default: false

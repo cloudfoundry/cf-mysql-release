@@ -15,6 +15,10 @@ import (
 )
 
 func TestServices(t *testing.T) {
+	if IntegrationConfig.SmokeTestsOnly {
+		ginkgoconfig.GinkgoConfig.FocusString = "Service instance lifecycle"
+	}
+
 	helpers.SetupEnvironment(helpers.NewContext(IntegrationConfig))
 	RegisterFailHandler(Fail)
 	RunSpecsWithDefaultAndCustomReporters(t, "P-MySQL Acceptance Tests", []Reporter{reporters.NewJUnitReporter(fmt.Sprintf("junit_%d.xml", ginkgoconfig.GinkgoConfig.ParallelNode))})
