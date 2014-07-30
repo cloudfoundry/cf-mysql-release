@@ -144,9 +144,6 @@ func (m *MariaDBStartManager) upgradeAndRestartIfNecessary(mode string) {
 		if err != nil {
 			panic(err)
 		}
-	} else if m.numberOfNodes != 1 {
-		m.log("updating file with contents: JOIN\n")
-		m.osHelper.WriteStringToFile(m.stateFileLocation, "JOIN")
 	}
 }
 
