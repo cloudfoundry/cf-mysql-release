@@ -1,0 +1,45 @@
+#!/bin/bash -e
+
+gra_log_dir=/var/vcap/store/mysql
+gra_log_days_to_keep=30
+
+run_dir=/var/vcap/sys/run/gra-log-purger
+log_dir=/var/vcap/sys/log/gra-log-purger
+package_dir=/var/vcap/packages/gra-log-purger
+pidfile=$run_dir/gra-log-purger.pid
+
+executable_name=gra-log-purger-executable
+
+source /var/vcap/packages/common/utils.sh
+
+case $1 in
+
+  start)
+    echo "Starting gra-log-purger..."
+    pid_guard $pidfile "GRA Log Purger"
+
+    mkdir -p $run_dir
+    mkdir -p $log_dir
+
+    cd $package_dir
+
+    $package_dir/$executable_name \
+        -graLogDir=$gra_log_dir \
+        -graLogDaysToKeep=$gra_log_days_to_keep \
+        >>$log_dir/gra-log-purger.stdout.log 2>>$log_dir/gra-log-purger.stderr.log &
+
+    pgrep -f $executable_name> $pidfile
+    echo "Starting gra-log-purger... done"
+    ;;
+
+  stop)
+    echo "Stopping gra-log-purger..."
+    kill_and_wait $pidfile
+    echo "Stopping gra-log-purger... done"
+    ;;
+
+  *)
+    echo "Usage: gra-log-purger_ctl {start|stop}"
+    ;;
+
+esac

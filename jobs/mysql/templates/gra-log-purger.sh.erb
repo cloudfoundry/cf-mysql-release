@@ -1,0 +1,15 @@
+#!/bin/sh
+
+if [ -z "$1" ]
+  then echo "No directory supplied"
+  exit 1
+fi
+
+if [ -z "$2" ]
+  then echo "Number of days to keep must be specified"
+  exit 1
+fi
+
+echo "Deleting GRA logs older than $2 days from: $1 "
+pattern=$1/GRA*.log
+find $pattern -mtime +$2 2>/dev/null | xargs rm -f

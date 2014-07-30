@@ -6,6 +6,8 @@ templates:
   my.cnf.erb:     config/my.cnf
   mariadb_init.erb: config/mariadb_init
   galera-healthcheck_ctl.erb: bin/galera-healthcheck_ctl
+  gra-log-purger_ctl.erb: bin/gra-log-purger_ctl
+  gra-log-purger.sh.erb: bin/gra-log-purger.sh
   mysql_database_seed.sh.erb: bin/mysql_database_seed.sh
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
 
@@ -14,6 +16,7 @@ packages:
 - mariadb_ctrl
 - galera
 - galera-healthcheck
+- gra-log-purger
 - golang
 - common
 - syslog_aggregator
