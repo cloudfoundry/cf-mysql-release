@@ -53,7 +53,6 @@ jobs:
       admin_password: (( merge ))
       max_connections: 1500
       max_user_connections: 40
-      # a reasonable value for storage_capacity_mb is 80% of persistent_disk
       persistent_disk: (( jobs.mysql.persistent_disk ))
       haproxy_mysql_user: haproxy_check
       haproxy_ips:
