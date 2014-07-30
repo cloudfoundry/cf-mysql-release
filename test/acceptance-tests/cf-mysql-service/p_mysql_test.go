@@ -120,7 +120,7 @@ var (
 
 					fmt.Println("*** Exceeding quota")
 
-					mbToWrite := 100
+					mbToWrite := 10
 					loopIterations := (MaxStorageMb / mbToWrite)
 					if MaxStorageMb%mbToWrite == 0 {
 						loopIterations += 1
