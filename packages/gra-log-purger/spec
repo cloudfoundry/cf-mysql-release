@@ -1,0 +1,6 @@
+---
+name: gra-log-purger
+dependencies:
+  - golang
+files:
+  - gra-log-purger/**/*
