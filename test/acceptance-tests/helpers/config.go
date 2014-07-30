@@ -21,6 +21,7 @@ type IntegrationConfig struct {
 	ServiceName				string `json:"service_name"`
 	Plans				    []Plan `json:"plans"`
 	MaxUserConnections		int `json:"max_user_connections"`
+	SmokeTestsOnly			bool `json:"smoke_tests_only"`
 }
 
 func LoadConfig() (config IntegrationConfig) {
