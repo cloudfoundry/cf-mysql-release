@@ -75,3 +75,8 @@ python/Python-2.7.8.tgz:
   object_id: f9c52077-dfa2-4f9a-80d4-46e3b22adf51
   sha: 511960dd78451a06c9df76509635aeec05b2051a
   size: 14846119
+ruby/ruby-2.0.0-p481.tar.gz:
+  object_id: 55939f92-95bb-4d4d-8b36-80f6a0c2805b
+  sha: !binary |-
+    ZGRlZDdiNzM0OWQ1OWZlYjgzZDRmNzc0YjJkZGVjMjNlZWFiNzk3OA==
+  size: 13586757
