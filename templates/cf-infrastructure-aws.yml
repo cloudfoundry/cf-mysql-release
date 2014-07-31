@@ -5,24 +5,7 @@ compilation:
     instance_type: c1.medium
     availability_zone: (( properties.template_only.aws.availability_zone ))
 
-networks:
-  - name: services1
-    type: manual
-    subnets:
-    - name: default_unused
-      range: 10.10.32.0/20
-      reserved:
-        - 10.10.32.2 - 10.10.33.255
-        - 10.10.36.1 - 10.10.47.254
-      static:
-        - 10.10.34.1 - 10.10.34.255
-      gateway: 10.10.32.1
-      dns:
-        - 10.10.0.2
-      cloud_properties:
-        security_groups:
-        - cf
-        subnet: (( properties.template_only.aws.subnet_ids.services1 ))
+networks: (( merge ))
 
 resource_pools:
   - name: services-small
