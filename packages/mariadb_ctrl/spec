@@ -1,4 +1,6 @@
 ---
 name: mariadb_ctrl
+dependencies:
+  - golang
 files:
   - mariadb_ctrl/**/*

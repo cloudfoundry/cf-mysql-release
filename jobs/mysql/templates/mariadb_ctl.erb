@@ -10,6 +10,8 @@ export JOB_INDEX=<%= index %>
 STATE_FILE=/var/vcap/store/mysql/state.txt
 MYSQL_SERVER_FILE=/var/vcap/packages/mariadb/support-files/mysql.server
 DB_SEED_SCRIPT_FILE=$MARIADB_JOB_DIR/bin/mysql_database_seed.sh
+package_dir=/var/vcap/packages/mariadb_ctrl
+executable_name=mariadb_ctrl-executable
 
 # add mysql to path
 if [ ! -f /usr/local/bin/mysql ]; then
@@ -21,6 +23,7 @@ case $1 in
 
   start)
     # Start syslog forwarding
+    echo "Starting mariadb_ctrl..."
     /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $MARIADB_JOB_DIR/config
 
     mkdir -p $LOG_DIR
@@ -41,9 +44,9 @@ case $1 in
     fi
     chown -R vcap:vcap ${datadir}
 
-    export GOROOT=/var/vcap/packages/golang
-    cd /var/vcap/packages/mariadb_ctrl
-    /var/vcap/packages/golang/bin/go run runner.go \
+    cd $package_dir
+
+    $package_dir/$executable_name \
              -logFile=$LOG_FILE \
              -stateFile=$STATE_FILE \
              -mysqlServer=$MYSQL_SERVER_FILE \
@@ -52,13 +55,18 @@ case $1 in
              -jobIndex=$JOB_INDEX \
              -dbSeedScript=$DB_SEED_SCRIPT_FILE \
              -numberOfNodes=<%= p('cluster_ips').length %> >> $LOG_FILE 2>> $LOG_FILE
-      ;;
+
+    echo "Starting mariadb_ctrl... done"
+    ;;
 
   stop)
+    echo "Stopping mariadb_ctrl..."
     mkdir -p $LOG_DIR
     date >> $LOG_FILE 2>> $LOG_FILE
     echo "Stopping node $JOB_INDEX" >> $LOG_FILE
     /var/vcap/packages/mariadb/support-files/mysql.server stop >> $LOG_FILE 2>> $LOG_FILE
+
+    echo "Stopping mariadb_ctrl... done"
     ;;
 
   *)
