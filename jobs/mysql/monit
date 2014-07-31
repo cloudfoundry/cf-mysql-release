@@ -1,10 +1,10 @@
-check process mariadb
+check process mariadb_ctrl-executable
   with pidfile /var/vcap/sys/run/mysql/mysql.pid
   start program "/var/vcap/jobs/mysql/bin/mariadb_ctl start" with timeout 300 seconds
   stop program "/var/vcap/jobs/mysql/bin/mariadb_ctl stop"
   group vcap
 
-check process galera-healthcheck
+check process galera-healthcheck-executable
   with pidfile /var/vcap/sys/run/galera-healthcheck/galera-healthcheck.pid
   start program "/var/vcap/jobs/mysql/bin/galera-healthcheck_ctl start" with timeout 60 seconds
   stop program "/var/vcap/jobs/mysql/bin/galera-healthcheck_ctl stop" with timeout 60 seconds

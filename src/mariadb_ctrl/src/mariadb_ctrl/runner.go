@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 
-	manager "./mariadb_start_manager"
-	"./os_helper"
+	manager "mariadb_ctrl/mariadb_start_manager"
+	"mariadb_ctrl/os_helper"
 )
 
 var logFileLocation = flag.String(

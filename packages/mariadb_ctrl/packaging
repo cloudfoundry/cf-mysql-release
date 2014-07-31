@@ -1,3 +1,19 @@
-set -e -x
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
 
-cp -a mariadb_ctrl/* ${BOSH_INSTALL_TARGET}
+#compile
+export GOROOT=$(readlink -nf /var/vcap/packages/golang)
+export PATH=$GOROOT/bin:$PATH
+
+export GOPATH=$PWD/mariadb_ctrl
+
+echo "PWD:" $PWD
+echo "GOPATH:" $GOPATH
+echo "ls:" `ls`
+
+echo "ls - inside:" `ls mariadb_ctrl`
+
+go install mariadb_ctrl
+
+cp mariadb_ctrl/bin/mariadb_ctrl $BOSH_INSTALL_TARGET/mariadb_ctrl-executable
+
