@@ -79,6 +79,8 @@ jobs:
         ip: (( jobs.mysql.networks.services1.static_ips.[0] ))
       network_name: services1
       syslog_aggregator: (( meta.syslog_aggregator ))
+      nats: (( meta.nats ))
+      external_domain: (( meta.external_domain ))
   - name: cf-mysql-broker
     release: cf-mysql
     template: cf-mysql-broker
