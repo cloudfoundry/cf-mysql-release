@@ -33,3 +33,6 @@ properties:
   mysql_node.ip:
     default:
     description: "IP of the primary MySQL node"
+
+  haproxy_stats_password:
+    description: "Password for the HA Proxy stats interface"

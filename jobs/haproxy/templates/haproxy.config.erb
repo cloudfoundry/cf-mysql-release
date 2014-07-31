@@ -18,3 +18,8 @@ listen mysql-cluster
     option tcplog
     server mysql-0 <%= p('mysql_node.ip')%>:3306 check port 9200 inter 5000 rise 2 fall 1
 
+listen stats :1936
+    mode http
+    stats enable
+    stats uri /
+    stats auth admin:<%= p("haproxy_stats_password") %>
