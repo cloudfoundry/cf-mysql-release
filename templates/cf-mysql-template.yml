@@ -81,6 +81,7 @@ jobs:
       syslog_aggregator: (( meta.syslog_aggregator ))
       nats: (( meta.nats ))
       external_domain: (( meta.external_domain ))
+      haproxy_stats_password: (( merge ))
   - name: cf-mysql-broker
     release: cf-mysql
     template: cf-mysql-broker
