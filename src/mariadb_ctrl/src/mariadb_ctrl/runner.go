@@ -25,6 +25,12 @@ var dbSeedScriptPath = flag.String(
 	"Specifies the location of the script that seeds the server with databases",
 )
 
+var upgradeScriptPath = flag.String(
+	"upgradeScriptPath",
+	"",
+	"Specifies the location of the script that performs the MySQL upgrade",
+)
+
 var stateFileLocation = flag.String(
 	"stateFile",
 	"",
@@ -68,6 +74,7 @@ func main() {
 		*jobIndex,
 		*numberOfNodes,
 		true,
+		*upgradeScriptPath,
 	)
 	mgr.Execute()
 }

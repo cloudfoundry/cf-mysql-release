@@ -17,6 +17,7 @@ type MariaDBStartManager struct {
 	numberOfNodes     int
 	loggingOn         bool
 	dbSeedScriptPath  string
+	upgradeScriptPath string
 }
 
 func New(osHelper os_helper.OsHelper,
@@ -28,7 +29,8 @@ func New(osHelper os_helper.OsHelper,
 	dbSeedScriptPath string,
 	jobIndex int,
 	numberOfNodes int,
-	loggingOn bool) *MariaDBStartManager {
+	loggingOn bool,
+	upgradeScriptPath string) *MariaDBStartManager {
 	return &MariaDBStartManager{
 		osHelper:          osHelper,
 		logFileLocation:   logFileLocation,
@@ -40,6 +42,7 @@ func New(osHelper os_helper.OsHelper,
 		numberOfNodes:     numberOfNodes,
 		loggingOn:         loggingOn,
 		dbSeedScriptPath:  dbSeedScriptPath,
+		upgradeScriptPath: upgradeScriptPath,
 	}
 }
 
@@ -127,7 +130,7 @@ func (m *MariaDBStartManager) upgradeAndRestartIfNecessary(mode string) {
 	m.log("performing upgrade\n")
 	output, err := m.osHelper.RunCommand(
 		"bash",
-		"mysql_upgrade.sh",
+		m.upgradeScriptPath,
 		m.username,
 		m.password,
 		m.logFileLocation)
