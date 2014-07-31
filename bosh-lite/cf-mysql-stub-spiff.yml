@@ -26,6 +26,9 @@ jobs:
           max_storage_mb: 10
         - name: 1gb-dev
           max_storage_mb: 20
+  - name: haproxy
+    properties:
+      haproxy_stats_password: password
   - name: broker-registrar
     properties:
       cf:
