@@ -13,3 +13,6 @@
 [submodule "src/galera-healthcheck/src/github.com/cloudfoundry-incubator/galera-healthcheck"]
 	path = src/galera-healthcheck/src/github.com/cloudfoundry-incubator/galera-healthcheck
 	url = https://github.com/cloudfoundry-incubator/galera-healthcheck.git
+[submodule "src/route-registrar/src/github.com/cloudfoundry-incubator/route-registrar"]
+	path = src/route-registrar/src/github.com/cloudfoundry-incubator/route-registrar
+	url = git@github.com:cloudfoundry-incubator/route-registrar.git

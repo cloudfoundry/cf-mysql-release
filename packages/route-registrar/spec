@@ -1,0 +1,6 @@
+---
+name: route-registrar
+dependencies:
+- golang
+files:
+- route-registrar/**/*

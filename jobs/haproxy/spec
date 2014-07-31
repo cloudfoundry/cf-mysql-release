@@ -3,11 +3,17 @@ name: haproxy
 packages:
 - haproxy
 - syslog_aggregator
+- route-registrar
+- common
+
 templates:
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
   haproxy.config.erb:        config/haproxy.config
   haproxy_ctl:               bin/haproxy_ctl
   cert.pem.erb:              config/cert.pem
+  route-registrar_ctl.erb:    bin/route-registrar_ctl
+  registrar_settings.yml.erb: config/registrar_settings.yml
+
 properties:
   network_name:
     description: "The name of the network (needed for the syslog aggregator)"
@@ -36,3 +42,15 @@ properties:
 
   haproxy_stats_password:
     description: "Password for the HA Proxy stats interface"
+
+  nats.user:
+    description: 'Username for broker to connect to NATS'
+  nats.password:
+    description: 'Password for broker to connect to NATS'
+  nats.port:
+    description: 'IP port of Cloud Foundry NATS server'
+  nats.machines:
+    description: 'IP of each NATS cluster member'
+
+  external_domain:
+    description: 'The CF system domain for creating a url'
