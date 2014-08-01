@@ -3,8 +3,9 @@ package mariadb_start_manager_test
 import (
 	"errors"
 
+	"mariadb_ctrl/os_helper/fakes"
+
 	manager "."
-	"../os_helper/fakes"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -20,6 +21,7 @@ var _ = Describe("MariadbStartManager", func() {
 	username := "fake-username"
 	password := "fake-password"
 	dbSeedScriptPath := "/some-path"
+	upgradeScriptPath := "/some-upgrade-path"
 
 	ensureMySQLCommandsRanWithOptions := func(options []string) {
 		Expect(fake.RunCommandWithTimeoutCallCount()).To(Equal(len(options)))
@@ -38,7 +40,7 @@ var _ = Describe("MariadbStartManager", func() {
 		for i := 0; i < callCount; i++ {
 			executable, args := fake.RunCommandArgsForCall(i)
 
-			if executable == "bash" && len(args) > 0 && args[0] == "mysql_upgrade.sh" {
+			if executable == "bash" && len(args) > 0 && args[0] == upgradeScriptPath {
 				Expect(args[1]).To(Equal(username))
 				Expect(args[2]).To(Equal(password))
 				Expect(args[3]).To(Equal(logFileLocation))
@@ -74,7 +76,7 @@ var _ = Describe("MariadbStartManager", func() {
 
 	fakeRestartNOTNeededAfterUpgrade := func() {
 		fake.RunCommandStub = func(executable string, args ...string) (string, error) {
-			if executable == "bash" && len(args) > 0 && args[0] == "mysql_upgrade.sh" {
+			if executable == "bash" && len(args) > 0 && args[0] == upgradeScriptPath {
 				return "This installation of MySQL is already upgraded to 10.0.12-MariaDB, use --force if you still need to run mysql_upgrade",
 					errors.New("unused error text")
 			} else {
@@ -95,7 +97,8 @@ var _ = Describe("MariadbStartManager", func() {
 				username,
 				password,
 				dbSeedScriptPath,
-				0, 1, false)
+				0, 1, false,
+				upgradeScriptPath)
 
 			fake.RunCommandStub = func(arg1 string, arg2 ...string) (string, error) {
 				return "",
@@ -125,7 +128,8 @@ var _ = Describe("MariadbStartManager", func() {
 				username,
 				password,
 				dbSeedScriptPath,
-				0, 1, false)
+				0, 1, false,
+				upgradeScriptPath)
 		})
 
 		Context("On initial deploy, when it needs to be restarted after upgrade", func() {
@@ -182,7 +186,8 @@ var _ = Describe("MariadbStartManager", func() {
 				username,
 				password,
 				dbSeedScriptPath,
-				1, 3, false)
+				1, 3, false,
+				upgradeScriptPath)
 		})
 
 		Context("When the node needs to restart after upgrade", func() {
@@ -255,7 +260,8 @@ var _ = Describe("MariadbStartManager", func() {
 				username,
 				password,
 				dbSeedScriptPath,
-				0, 3, false)
+				0, 3, false,
+				upgradeScriptPath)
 		})
 
 		Context("When file is not present on node 0 and upgrade requires restart", func() {
@@ -370,7 +376,8 @@ var _ = Describe("MariadbStartManager", func() {
 					username,
 					password,
 					dbSeedScriptPath,
-					0, 1, false)
+					0, 1, false,
+					upgradeScriptPath)
 
 				fake.FileExistsReturns(true)
 				fake.ReadFileReturns("JOIN", nil)
@@ -409,7 +416,8 @@ var _ = Describe("MariadbStartManager", func() {
 					username,
 					password,
 					dbSeedScriptPath,
-					0, 3, false)
+					0, 3, false,
+					upgradeScriptPath)
 
 				fake.FileExistsReturns(true)
 				fake.ReadFileReturns("SINGLE_NODE", nil)
