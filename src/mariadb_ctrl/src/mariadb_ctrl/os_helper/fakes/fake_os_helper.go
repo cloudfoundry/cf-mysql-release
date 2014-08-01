@@ -2,7 +2,7 @@
 package fakes
 
 import (
-	"../../os_helper"
+	"mariadb_ctrl/os_helper"
 	"sync"
 )
 

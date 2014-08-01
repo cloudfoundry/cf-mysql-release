@@ -1,7 +1,8 @@
 package os_helper_test
 
 import (
-	. "../os_helper"
+	. "mariadb_ctrl/os_helper"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 

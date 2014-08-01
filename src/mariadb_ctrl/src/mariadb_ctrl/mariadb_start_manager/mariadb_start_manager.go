@@ -2,8 +2,8 @@ package mariadb_start_manager
 
 import (
 	"fmt"
-	"regexp"
 	"mariadb_ctrl/os_helper"
+	"regexp"
 )
 
 type MariaDBStartManager struct {
