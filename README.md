@@ -95,107 +95,35 @@ You can use a pre-built final release or build a release from HEAD. Final releas
 1. Run the script [`bosh-lite/make_manifest`](bosh-lite/make_manifest) to generate your manifest for bosh-lite. This script uses a stub provided for you, `bosh-lite/stub.yml`. For a description of the parameters in this stub, see <a href="#manifest-stub-parameters">Manifest Stub Parameters</a> below.
 
     ```
-    $ ./bosh-lite/make_manifest
+    $ ./bosh-lite/make_manifest_spiff_mysql
     ```
-    The manifest will be written to `bosh-lite/manifests/cf-riak-cs-manifest.yml`, which can be modified to change deployment settings.
+    The manifest will be written to `bosh-lite/manifests/cf-mysql-manifest.yml`, which can be modified to change deployment settings.
 
-1. The `make_manifest` script will set the deployment to `bosh-lite/manifests/cf-riak-cs-manifest.yml` for you, so to deploy you only need to run `bosh deploy`.
+1. The `make_manifest` script will set the deployment to `bosh-lite/manifests/cf-mysql-manifest.yml` for you, so to deploy you only need to run `bosh deploy`.
 
 #### vSphere<a name="vsphere"></a>
 
-1. Create a stub file called `cf-riak-cs-vsphere-stub.yml` that contains the properties in the example below. For a description of these and other manifest properties, see <a href="#manifest-stub-parameters">Manifest Stub Parameters</a> below.
+1. Create a stub file called `cf-mysql-vsphere-stub.yml` by copying and modifying the [sample_vsphere_stub.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/sample_stubs/sample_vsphere_stub.yml)  in `templates/sample_stubs`.
 
-    This stub differs from the bosh-lite stub in that it requires:
+2. Generate the manifest: `./generate_deployment_manifest vsphere cf-mysql-vsphere-stub.yml > cf-riak-cs-vsphere.yml`
+To tweak the deployment settings, you can modify the resulting file `cf-mysql-vsphere.yml`.
 
-    * Username and password for admin user to support errands
-    * Network settings, with 6 static IPs and 6+ dynamic IPs
-
-  ```
-  director_uuid: YOUR-DIRECTOR-GUID
-  networks:
-  - name: riak-cs-network
-    subnets:
-    - cloud_properties:
-        name: YOUR-VSPHERE-NETWORK-NAME
-      dns:
-      - 8.8.8.8
-      gateway: 10.0.0.1
-      range: 10.0.0.0/24
-      reserved:           # IPs that bosh should not use inside your subnet range
-      - 10.0.0.2-10.0.0.99
-      - 10.0.0.115-10.0.0.254
-      static:
-      - 10.0.0.100
-      - 10.0.0.101
-      - 10.0.0.102
-      - 10.0.0.103
-      - 10.0.0.104
-      - 10.0.0.105
-  properties:
-    domain: YOUR-CF-SYSTEM-DOMAIN
-    nats:
-      machines:
-      - 10.0.0.15   # IP of nats server
-      user: NATS-USERNAME
-      password: NATS-PASSWORD
-      port: 4222
-    cf:
-      api_url: https://api.YOUR-CF-SYSTEM-DOMAIN
-      apps_domain: YOUR-CF-APP-DOMAIN
-      admin_username: CF-ADMIN-USERNAME
-      admin_password: CF-ADMIN-PASSWORD
-  ```
-
-2. Generate the manifest: `./generate_deployment_manifest vsphere cf-riak-cs-vsphere-stub.yml > cf-riak-cs-vsphere.yml`
-To tweak the deployment settings, you can modify the resulting file `cf-riak-cs-vsphere.yml`.
-
-3. To deploy: `bosh deployment cf-riak-cs-vsphere.yml && bosh deploy`
+3. To deploy: `bosh deployment cf-mysql-vsphere.yml && bosh deploy`
 
 #### AWS<a name="aws"></a>
 
-1. Create a stub file called `cf-riak-cs-aws-stub.yml` that contains the parameters in the example below. For a description of these and other manifest properties, see <a href="#manifest-stub-parameters">Manifest Stub Parameters</a> below.
+1. Create a stub file called `cf-mysql-aws-stub.yml` by copying and modifying the [sample_aws_stub.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/sample_stubs/sample_aws_stub.yml) in `templates/sample_stubs`.
 
-    This stub differs from the bosh-lite stub in that it requires:
+1. Generate the manifest: `./generate_deployment_manifest aws cf-mysql-aws-stub.yml > cf-mysql-aws.yml`
+To tweak the deployment settings, you can modify the resulting file `cf-mysql-aws.yml`.
 
-    * Username and password for admin user to support errands
-    * Network and resource pool settings
-
-  ```
-  director_uuid: YOUR-DIRECTOR-GUID
-  networks:
-  - name: riak-cs-network
-    subnets:
-    - name: riak-cs-subnet
-      cloud_properties:
-        subnet: YOUR-AWS-SERVICES-SUBNET-ID
-  resource_pools:
-  - name: riak-pool
-    cloud_properties:
-      availability_zone: YOUR-PRIMARY-AZ-NAME
-  - name: broker-pool
-    cloud_properties:
-      availability_zone: YOUR-PRIMARY-AZ-NAME
-  properties:
-    domain: YOUR-CF-SYSTEM-DOMAIN
-    nats:
-      machines:
-      - IP-OF-NATS-SERVER
-      user: NATS-USERNAME
-      password: NATS-PASSWORD
-      port: 4222
-    cf:
-      api_url: https://api.YOUR-CF-SYSTEM-DOMAIN
-      apps_domain: YOUR-CF-APP-DOMAIN
-      admin_username: CF-ADMIN-USERNAME
-      admin_password: CF-ADMIN-PASSWORD
-  ```
-
-1. Generate the manifest: `./generate_deployment_manifest aws cf-riak-cs-aws-stub.yml > cf-riak-cs-aws.yml`
-To tweak the deployment settings, you can modify the resulting file `cf-riak-cs-aws.yml`.
-
-1. To deploy: `bosh deployment cf-riak-cs-aws.yml && bosh deploy`
+1. To deploy: `bosh deployment cf-mysql-aws.yml && bosh deploy`
 
 #### Deployment Manifest Stub Parameters<a name="stub-properties"></a>
+
+Manifest properties for job JOB are described in `jobs/JOB/spec`.
+
+You can find your director_uuid by running `bosh status`.
 
 ### Deploy Using BOSH<a name="deploy_release"></a>
 
