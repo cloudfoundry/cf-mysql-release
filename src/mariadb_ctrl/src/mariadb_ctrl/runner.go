@@ -31,6 +31,12 @@ var upgradeScriptPath = flag.String(
 	"Specifies the location of the script that performs the MySQL upgrade",
 )
 
+var mysqlCommandScriptPath = flag.String(
+	"mysqlCommandScriptPath",
+	"",
+	"Specifies the location of the script that executes the given MySQL command",
+)
+
 var stateFileLocation = flag.String(
 	"stateFile",
 	"",
@@ -75,6 +81,7 @@ func main() {
 		*numberOfNodes,
 		true,
 		*upgradeScriptPath,
+		*mysqlCommandScriptPath,
 	)
 	mgr.Execute()
 }

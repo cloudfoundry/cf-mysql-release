@@ -11,4 +11,4 @@ go install mariadb_ctrl
 
 cp mariadb_ctrl/bin/mariadb_ctrl $BOSH_INSTALL_TARGET/mariadb_ctrl-executable
 cp mariadb_ctrl/src/mariadb_ctrl/mysql_upgrade.sh $BOSH_INSTALL_TARGET/mysql_upgrade.sh
-
+cp mariadb_ctrl/src/mariadb_ctrl/execute_mysql_command.sh $BOSH_INSTALL_TARGET/execute_mysql_command.sh
