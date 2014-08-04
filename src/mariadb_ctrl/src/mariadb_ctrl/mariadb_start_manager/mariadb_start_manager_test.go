@@ -22,6 +22,7 @@ var _ = Describe("MariadbStartManager", func() {
 	password := "fake-password"
 	dbSeedScriptPath := "/some-path"
 	upgradeScriptPath := "/some-upgrade-path"
+	mysqlCommandScriptPath := "/some-mysql-command-path"
 
 	ensureMySQLCommandsRanWithOptions := func(options []string) {
 		Expect(fake.RunCommandWithTimeoutCallCount()).To(Equal(len(options)))
@@ -36,18 +37,35 @@ var _ = Describe("MariadbStartManager", func() {
 
 	ensureUpgrade := func() {
 		callCount := fake.RunCommandCallCount()
-		callExists := false
+		var lastCommand string
+
 		for i := 0; i < callCount; i++ {
 			executable, args := fake.RunCommandArgsForCall(i)
 
-			if executable == "bash" && len(args) > 0 && args[0] == upgradeScriptPath {
+			if lastCommand == "" && executable == "bash" && len(args) > 0 && args[0] == mysqlCommandScriptPath {
+				Expect(args[1]).To(Equal("SET global wsrep_on='OFF'"))
+				Expect(args[2]).To(Equal(username))
+				Expect(args[3]).To(Equal(password))
+				Expect(args[4]).To(Equal(logFileLocation))
+				lastCommand = "disable replication"
+			}
+
+			if lastCommand == "disable replication" && executable == "bash" && len(args) > 0 && args[0] == upgradeScriptPath {
 				Expect(args[1]).To(Equal(username))
 				Expect(args[2]).To(Equal(password))
 				Expect(args[3]).To(Equal(logFileLocation))
-				callExists = true
+				lastCommand = "upgrade"
+			}
+
+			if lastCommand == "upgrade" && executable == "bash" && len(args) > 0 && args[0] == mysqlCommandScriptPath {
+				Expect(args[1]).To(Equal("SET global wsrep_on='ON'"))
+				Expect(args[2]).To(Equal(username))
+				Expect(args[3]).To(Equal(password))
+				Expect(args[4]).To(Equal(logFileLocation))
+				lastCommand = "enable replication"
 			}
 		}
-		Expect(callExists).To(BeTrue())
+		Expect(lastCommand).To(Equal("enable replication"))
 	}
 
 	ensureSeedDatabases := func() {
@@ -98,7 +116,8 @@ var _ = Describe("MariadbStartManager", func() {
 				password,
 				dbSeedScriptPath,
 				0, 1, false,
-				upgradeScriptPath)
+				upgradeScriptPath,
+				mysqlCommandScriptPath)
 
 			fake.RunCommandStub = func(arg1 string, arg2 ...string) (string, error) {
 				return "",
@@ -129,7 +148,8 @@ var _ = Describe("MariadbStartManager", func() {
 				password,
 				dbSeedScriptPath,
 				0, 1, false,
-				upgradeScriptPath)
+				upgradeScriptPath,
+				mysqlCommandScriptPath)
 		})
 
 		Context("On initial deploy, when it needs to be restarted after upgrade", func() {
@@ -187,7 +207,8 @@ var _ = Describe("MariadbStartManager", func() {
 				password,
 				dbSeedScriptPath,
 				1, 3, false,
-				upgradeScriptPath)
+				upgradeScriptPath,
+				mysqlCommandScriptPath)
 		})
 
 		Context("When the node needs to restart after upgrade", func() {
@@ -261,7 +282,8 @@ var _ = Describe("MariadbStartManager", func() {
 				password,
 				dbSeedScriptPath,
 				0, 3, false,
-				upgradeScriptPath)
+				upgradeScriptPath,
+				mysqlCommandScriptPath)
 		})
 
 		Context("When file is not present on node 0 and upgrade requires restart", func() {
@@ -377,7 +399,8 @@ var _ = Describe("MariadbStartManager", func() {
 					password,
 					dbSeedScriptPath,
 					0, 1, false,
-					upgradeScriptPath)
+					upgradeScriptPath,
+					mysqlCommandScriptPath)
 
 				fake.FileExistsReturns(true)
 				fake.ReadFileReturns("JOIN", nil)
@@ -417,7 +440,8 @@ var _ = Describe("MariadbStartManager", func() {
 					password,
 					dbSeedScriptPath,
 					0, 3, false,
-					upgradeScriptPath)
+					upgradeScriptPath,
+					mysqlCommandScriptPath)
 
 				fake.FileExistsReturns(true)
 				fake.ReadFileReturns("SINGLE_NODE", nil)

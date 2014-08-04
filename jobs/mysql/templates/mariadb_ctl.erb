@@ -13,6 +13,7 @@ DB_SEED_SCRIPT_FILE=$MARIADB_JOB_DIR/bin/mysql_database_seed.sh
 package_dir=/var/vcap/packages/mariadb_ctrl
 executable_name=mariadb_ctrl-executable
 MYSQL_UPGRADE_SCRIPT_FILE=$package_dir/mysql_upgrade.sh
+MYSQL_COMMAND_SCRIPT_FILE=$package_dir/execute_mysql_command.sh
 
 # add mysql to path
 if [ ! -f /usr/local/bin/mysql ]; then
@@ -56,6 +57,7 @@ case $1 in
              -jobIndex=$JOB_INDEX \
              -dbSeedScript=$DB_SEED_SCRIPT_FILE \
              -upgradeScriptPath=$MYSQL_UPGRADE_SCRIPT_FILE \
+             -mysqlCommandScriptPath=$MYSQL_COMMAND_SCRIPT_FILE \
              -numberOfNodes=<%= p('cluster_ips').length %> >> $LOG_FILE 2>> $LOG_FILE
 
     echo "Starting mariadb_ctrl... done"

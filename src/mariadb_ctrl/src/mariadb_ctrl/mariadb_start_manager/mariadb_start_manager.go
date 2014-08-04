@@ -18,6 +18,7 @@ type MariaDBStartManager struct {
 	loggingOn         bool
 	dbSeedScriptPath  string
 	upgradeScriptPath string
+	mysqlCommandScriptPath string
 }
 
 func New(osHelper os_helper.OsHelper,
@@ -30,7 +31,8 @@ func New(osHelper os_helper.OsHelper,
 	jobIndex int,
 	numberOfNodes int,
 	loggingOn bool,
-	upgradeScriptPath string) *MariaDBStartManager {
+	upgradeScriptPath string,
+	mysqlCommandScriptPath string) *MariaDBStartManager {
 	return &MariaDBStartManager{
 		osHelper:          osHelper,
 		logFileLocation:   logFileLocation,
@@ -43,6 +45,7 @@ func New(osHelper os_helper.OsHelper,
 		loggingOn:         loggingOn,
 		dbSeedScriptPath:  dbSeedScriptPath,
 		upgradeScriptPath: upgradeScriptPath,
+		mysqlCommandScriptPath: mysqlCommandScriptPath,
 	}
 }
 
@@ -128,16 +131,65 @@ func (m *MariaDBStartManager) seedDatabases() {
 
 func (m *MariaDBStartManager) upgradeAndRestartIfNecessary(mode string) {
 	m.log("performing upgrade\n")
-	output, err := m.osHelper.RunCommand(
+
+	_, disableReplicationErr := m.osHelper.RunCommand(
+		"bash",
+		m.mysqlCommandScriptPath,
+		"SET global wsrep_on='OFF'",
+		m.username,
+		m.password,
+		m.logFileLocation)
+
+	if disableReplicationErr != nil {
+		panic(disableReplicationErr)
+	}
+
+	_, checkReplicationEnabledErr := m.osHelper.RunCommand(
+		"bash",
+		m.mysqlCommandScriptPath,
+		"SHOW variables LIKE 'wsrep_on'",
+		m.username,
+		m.password,
+		m.logFileLocation)
+
+	if checkReplicationEnabledErr != nil {
+		panic(checkReplicationEnabledErr)
+	}
+
+	upgradeOutput, upgradeErr := m.osHelper.RunCommand(
 		"bash",
 		m.upgradeScriptPath,
 		m.username,
 		m.password,
 		m.logFileLocation)
 
-	if m.requiresRestart(output, err) {
+	_, enableReplicationErr := m.osHelper.RunCommand(
+		"bash",
+		m.mysqlCommandScriptPath,
+		"SET global wsrep_on='ON'",
+		m.username,
+		m.password,
+		m.logFileLocation)
+
+	if enableReplicationErr != nil {
+		panic(enableReplicationErr)
+	}
+
+	_, checkReplicationDisabledErr := m.osHelper.RunCommand(
+		"bash",
+		m.mysqlCommandScriptPath,
+		"SHOW variables LIKE 'wsrep_on'",
+		m.username,
+		m.password,
+		m.logFileLocation)
+
+	if checkReplicationDisabledErr != nil {
+		panic(checkReplicationDisabledErr)
+	}
+
+	if m.requiresRestart(upgradeOutput, upgradeErr) {
 		m.log("stopping mysql\n")
-		err = m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "stop")
+		err := m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "stop")
 		if err != nil {
 			panic(err)
 		}
