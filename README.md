@@ -88,85 +88,114 @@ You can use a pre-built final release or build a release from HEAD. Final releas
   bosh upload release
   ```
 
-### Generating a Deployment Manifest<a name="create_manifest"></a>
+### Create a Manifest and Deploy<a name="create_manifest"></a>
 
-We have provided scripts to help you generate a deployment manifest.  These scripts currently support AWS, vSphere, and [bosh-lite](https://github.com/cloudfoundry/bosh-lite) deployments.
+#### BOSH-lite<a name="bosh-lite"></a>
 
-The scripts we provide require [Spiff](https://github.com/cloudfoundry-incubator/spiff) to be installed on the local workstation.  Spiff is a tool we use to help generate a deployment manifest from "stubs", YAML files with values unique to the deployment environment (two identical deployments of Cloud Foundry will have stubs with the same keys but some unique values).  Stub files make it easier to consider only the keys/values that are important to you without having to comb through an entire deployment manifest file, which can be quite large.
+1. Run the script [`bosh-lite/make_manifest`](bosh-lite/make_manifest) to generate your manifest for bosh-lite. This script uses a stub provided for you, `bosh-lite/stub.yml`. For a description of the parameters in this stub, see <a href="#manifest-stub-parameters">Manifest Stub Parameters</a> below.
 
-To generate a deployment manifest for bosh-lite, follow the instructions [here](#using-bosh-lite).
+    ```
+    $ ./bosh-lite/make_manifest
+    ```
+    The manifest will be written to `bosh-lite/manifests/cf-riak-cs-manifest.yml`, which can be modified to change deployment settings.
 
-To generate a deployment manifest for AWS or vSphere, use the [generate_deployment_manifest](generate_deployment_manifest) script.  We recommend the following workflow:
+1. The `make_manifest` script will set the deployment to `bosh-lite/manifests/cf-riak-cs-manifest.yml` for you, so to deploy you only need to run `bosh deploy`.
 
-1. Run the `generate_deployment_manifest` script.
-1. If you're missing manifest parameters in your stub, you'll get a list of missing manifest parameters. Check the `spec` file for each job in `jobs/#{job_name}/spec`. These spec files contain all the required parameters you will need to supply.
-1. Add those paramaters and values into the stub.  See [Hints for missing parameters in your deployment manifest stub](#hints-for-missing-parameters-in-your-deployment-manifest-stub) below.
-1. When all necessary stub parameters are present, the script will output the deployment manifest to stdout. Pipe this output to a file in your environment directory that indicates the environment and the release, e.g. `~/workspace/deployments/mydevenv/cf-mysql-mydevenv.yml`.
+#### vSphere<a name="vsphere"></a>
 
-#### Example using AWS:
+1. Create a stub file called `cf-riak-cs-vsphere-stub.yml` that contains the properties in the example below. For a description of these and other manifest properties, see <a href="#manifest-stub-parameters">Manifest Stub Parameters</a> below.
 
-```bash
-./generate_deployment_manifest aws ~/workspace/deployments/mydevenv/stub.yml
+    This stub differs from the bosh-lite stub in that it requires:
 
-2013/12/16 09:57:18 error generating manifest: unresolved nodes:
-    dynaml.MergeExpr{[jobs mysql properties admin_password]}
-    dynaml.MergeExpr{[jobs cf-mysql-broker properties auth_username]}
-    dynaml.MergeExpr{[jobs cf-mysql-broker properties auth_password]}
-    dynaml.ReferenceExpr{[jobs mysql properties admin_password]}
-```
+    * Username and password for admin user to support errands
+    * Network settings, with 6 static IPs and 6+ dynamic IPs
 
-These errors indicate that the deployment manifest stub is missing the following fields:
+  ```
+  director_uuid: YOUR-DIRECTOR-GUID
+  networks:
+  - name: riak-cs-network
+    subnets:
+    - cloud_properties:
+        name: YOUR-VSPHERE-NETWORK-NAME
+      dns:
+      - 8.8.8.8
+      gateway: 10.0.0.1
+      range: 10.0.0.0/24
+      reserved:           # IPs that bosh should not use inside your subnet range
+      - 10.0.0.2-10.0.0.99
+      - 10.0.0.115-10.0.0.254
+      static:
+      - 10.0.0.100
+      - 10.0.0.101
+      - 10.0.0.102
+      - 10.0.0.103
+      - 10.0.0.104
+      - 10.0.0.105
+  properties:
+    domain: YOUR-CF-SYSTEM-DOMAIN
+    nats:
+      machines:
+      - 10.0.0.15   # IP of nats server
+      user: NATS-USERNAME
+      password: NATS-PASSWORD
+      port: 4222
+    cf:
+      api_url: https://api.YOUR-CF-SYSTEM-DOMAIN
+      apps_domain: YOUR-CF-APP-DOMAIN
+      admin_username: CF-ADMIN-USERNAME
+      admin_password: CF-ADMIN-PASSWORD
+  ```
 
-    ---
-    jobs:
-      mysql:
-        properties:
-          admin_password: <choose_admin_password>
-      cf-mysql-broker:
-        properties:
-          auth_username:
-          auth_password:
+2. Generate the manifest: `./generate_deployment_manifest vsphere cf-riak-cs-vsphere-stub.yml > cf-riak-cs-vsphere.yml`
+To tweak the deployment settings, you can modify the resulting file `cf-riak-cs-vsphere.yml`.
 
+3. To deploy: `bosh deployment cf-riak-cs-vsphere.yml && bosh deploy`
 
-#### Hints for missing parameters in your deployment manifest stub:
+#### AWS<a name="aws"></a>
 
-Properties you will need to edit:
+1. Create a stub file called `cf-riak-cs-aws-stub.yml` that contains the parameters in the example below. For a description of these and other manifest properties, see <a href="#manifest-stub-parameters">Manifest Stub Parameters</a> below.
 
-- `director_uuid`: Shown by running `bosh status`
-- `admin_password`: The admin password for the MySQL server process. You should generate a secure password and configure it using this parameter.
-- `auth_username`: The username cloud controller will use to authenticate with the service broker.
-- `auth_password`: The password cloud controller will use to authenticate with the service broker.
+    This stub differs from the bosh-lite stub in that it requires:
 
-#### For AWS:
+    * Username and password for admin user to support errands
+    * Network and resource pool settings
 
-You need to know the AZ and subnet id, and you will need to configure them in the stub:
+  ```
+  director_uuid: YOUR-DIRECTOR-GUID
+  networks:
+  - name: riak-cs-network
+    subnets:
+    - name: riak-cs-subnet
+      cloud_properties:
+        subnet: YOUR-AWS-SERVICES-SUBNET-ID
+  resource_pools:
+  - name: riak-pool
+    cloud_properties:
+      availability_zone: YOUR-PRIMARY-AZ-NAME
+  - name: broker-pool
+    cloud_properties:
+      availability_zone: YOUR-PRIMARY-AZ-NAME
+  properties:
+    domain: YOUR-CF-SYSTEM-DOMAIN
+    nats:
+      machines:
+      - IP-OF-NATS-SERVER
+      user: NATS-USERNAME
+      password: NATS-PASSWORD
+      port: 4222
+    cf:
+      api_url: https://api.YOUR-CF-SYSTEM-DOMAIN
+      apps_domain: YOUR-CF-APP-DOMAIN
+      admin_username: CF-ADMIN-USERNAME
+      admin_password: CF-ADMIN-PASSWORD
+  ```
 
-- `availability_zone`: From the EC2 page of the AWS console, like `us-east-1a`.
-- `subnet_id`:  From VPC/Subnets page of AWS console.  Availability zone must match the value set above.  
+1. Generate the manifest: `./generate_deployment_manifest aws cf-riak-cs-aws-stub.yml > cf-riak-cs-aws.yml`
+To tweak the deployment settings, you can modify the resulting file `cf-riak-cs-aws.yml`.
 
-#### For vSphere:
+1. To deploy: `bosh deployment cf-riak-cs-aws.yml && bosh deploy`
 
-You need the available IP address range and the IP address of the DNS server and should configure these in the stub:
-
-- `networks`: Follow example from `templates/cf-infrastructure-aws.yml`.  Set IP addresses.  The `networks.subnets.cloud_properties` field requires only a sub-field called `name`.  This should match your vSphere network name, e.g. "VM Network".
-
-#### Using bosh-lite
-
-Running the [make_manifest_spiff_mysql](bosh-lite/make_manifest_spiff_mysql) script requires that you have bosh-lite installed and running on your local workstation.  Instructions for doing that can be found on the [bosh-lite README](https://github.com/cloudfoundry/bosh-lite).
-
-For bosh-lite we provide a fully configured stub, including some default values you will need later:
-
-- `admin_password` defaults to password.
-- `auth_username` defaults to admin.
-- `auth_password` defaults to password.
-
-Run the `make_manifest_spiff_mysql` script to generate your manifest, which you can find in [cf-mysql-release/bosh-lite/](bosh-lite/).
-
-Example:
-```bash
-./bosh-lite/make_manifest_spiff_mysql
-# This step would have also set your deployment to ./bosh-lite/manifests/cf-mysql-manifest.yml
-```
+#### Deployment Manifest Stub Parameters<a name="stub-properties"></a>
 
 ### Deploy Using BOSH<a name="deploy_release"></a>
 

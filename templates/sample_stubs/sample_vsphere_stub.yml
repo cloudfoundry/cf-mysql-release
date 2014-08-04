@@ -1,0 +1,79 @@
+director_uuid: YOUR_DIRECTOR_UUID
+
+networks:
+- name: services1 # mysql release uses this
+  subnets:
+  - range: 10.0.0.0/24
+    gateway: 10.0.0.1
+    reserved:
+    - 10.0.0.2-10.0.0.109
+    - 10.0.0.130-10.0.0.254
+    static:
+    - 10.0.0.120
+    - 10.0.0.121
+    - 10.0.0.122
+    - 10.0.0.123
+    - 10.0.0.124
+    dns:
+    - 10.0.0.3
+    - 8.8.8.8
+    cloud_properties:
+      name: YOUR_SUBNET_NAME #This should match your vSphere network name, e.g. "VM Network".
+
+properties:
+  cf:
+    apps_domain: YOUR_APPS_DOMAIN
+    api_url: YOUR_CF_API_URL
+    admin_username: YOUR_USERNAME
+    admin_password: A_PASSWORD_YOU_MAKE_UP
+    skip_ssl_validation: true
+
+meta:
+  external_domain: YOUR_DOMAIN
+  nats:
+    machines:
+      - 10.0.0.5
+    password: A_PASSWORD_YOU_MAKE_UP
+    user: nats
+    port: 4222
+  environment: YOUR_ENVIRONMENT_NAME
+
+jobs:
+- name: haproxy
+  properties:
+    haproxy_stats_password: A_PASSWORD_YOU_MAKE_UP
+- name: mysql
+  properties:
+    admin_password: A_PASSWORD_YOU_MAKE_UP #The admin password for the MySQL server process
+    # storage_capacity_mb should be > max_storage_mb of your largest plan
+    storage_capacity_mb: 400
+- name: cf-mysql-broker
+  properties:
+    # The username & password cloud controller will use to authenticate with the service broker.
+    auth_username: YOUR_USERNAME
+    auth_password: A_PASSWORD_YOU_MAKE_UP
+    cc_api_uri: (( .properties.cf.api_url ))
+    cookie_secret: A_PASSWORD_YOU_MAKE_UP
+    services:
+    - name: mysql
+      dashboard_client:
+        secret: A_PASSWORD_YOU_MAKE_UP
+      plans:
+      - name: YOUR_PLAN_NAME
+        max_storage_mb: PLAN_SIZE_IN_MB
+- name: broker-registrar
+  properties:
+    cf:
+      admin_username: (( .properties.cf.admin_username ))
+      admin_password: (( .properties.cf.admin_password ))
+- name: broker-deregistrar
+  properties:
+    cf:
+      admin_username: (( .properties.cf.admin_username ))
+      admin_password: (( .properties.cf.admin_password ))
+- name: acceptance-tests
+  properties:
+    cf:
+      admin_username: (( .properties.cf.admin_username ))
+      admin_password: (( .properties.cf.admin_password ))
+      skip_ssl_validation: (( .properties.cf.skip_ssl_validation ))
