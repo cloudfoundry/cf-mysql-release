@@ -44,9 +44,9 @@ After installation, the MySQL service should be shown when running `gcf marketpl
 
 ### Upload Stemcell<a name="upload_stemcell"></a>
 
-The latest final release, v8, [expects Ubuntu Lucid ruby_agent 2366 by default](https://github.com/cloudfoundry/cf-mysql-release/blob/v8/templates/cf-mysql-template.yml#L41). This final release may not work with newer stemcells as it has dependencies on libraries which have been removed from newer stemcells.
+The latest final release, v10, expects Ubuntu Trusty go_agent 2652 by default. This final release may not work with newer stemcells as it has dependencies on libraries which have been removed from newer stemcells.
 
-Master currently expects Ubuntu Trusty go_agent 2657 by default ([aws](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/cf-infrastructure-aws.yml#L31) | [vsphere](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/cf-infrastructure-vsphere.yml#L15)).
+Master currently expects Ubuntu Trusty go_agent 2657 by default ([aws](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/cf-infrastructure-aws.yml#L14) | [vsphere](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/cf-infrastructure-vsphere.yml#L15)).
 
 Stemcells can be downloaded from http://boshartifacts.cfapps.io/file_collections?type=stemcells.
 
@@ -61,13 +61,13 @@ You can use a pre-built final release or build a release from HEAD. Final releas
   ```bash
   cd ~/workspace/cf-mysql-release
   ./update
-  git checkout v8
+  git checkout v10
   ```
 
 1. Run the upload command, referencing one of the config files in the `releases` directory.
 
   ```bash
-  bosh upload release releases/cf-mysql-8.yml
+  bosh upload release releases/cf-mysql-10.yml
   ```
 
 #### Create a BOSH Release from HEAD and Upload:
