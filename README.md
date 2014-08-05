@@ -58,6 +58,7 @@ You can use a pre-built final release or build a release from HEAD. Final releas
   $ cd ~/workspace/cf-mysql-release
   $ ./update
   $ git checkout v10
+  $ git submodule update --recursive
   ```
 
 1. Run the upload command, referencing one of the config files in the `releases` directory.
