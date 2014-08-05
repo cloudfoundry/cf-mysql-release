@@ -43,7 +43,7 @@ After installation, the MySQL service will be visible in the Services Marketplac
 
 The latest final release, v10, expects the Ubuntu Trusty (14.04) go_agent stemcell version 2652 by default. This release may not work with newer stemcells it may have dependencies on libraries which have been removed from newer stemcells. Stemcells can be downloaded from http://boshartifacts.cfapps.io/file_collections?type=stemcells; choose the ubuntu trusty go_agent stemcell 2652 for your infrastructure ([vsphere esxi](https://s3.amazonaws.com/bosh-jenkins-artifacts/bosh-stemcell/vsphere/bosh-stemcell-2652-vsphere-esxi-ubuntu-trusty-go_agent.tgz) or [aws xen](https://s3.amazonaws.com/bosh-jenkins-artifacts/bosh-stemcell/aws/bosh-stemcell-2652-aws-xen-ubuntu-trusty-go_agent.tgz)).
 
-Master currently expects Ubuntu Trusty go_agent 2671 by default ([aws](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/cf-infrastructure-aws.yml#L14) | [vsphere](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/cf-infrastructure-vsphere.yml#L15)).
+Master currently expects Ubuntu Trusty go_agent 2671 by default.
 
 Stemcells can be downloaded from http://boshartifacts.cfapps.io/file_collections?type=stemcells.
 
