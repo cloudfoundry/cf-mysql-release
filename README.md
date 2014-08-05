@@ -23,7 +23,7 @@ This project contains a BOSH release of a MySQL service for Cloud Foundry. It ut
  	 </tr>
 </table>
 
-## Installation
+## Deployment
 
 Prerequisites:
 
@@ -126,9 +126,9 @@ Manifest properties for job JOB are described in `jobs/JOB/spec`.
 
 You can find your director_uuid by running `bosh status`.
 
-### Register the Service Broker<a name="register_broker"></a>
+## Register the Service Broker<a name="register_broker"></a>
 
-#### BOSH errand
+### BOSH errand
 
 BOSH errands were introduced in version 2366 of the BOSH CLI, BOSH Director, and stemcells.
 
@@ -138,7 +138,7 @@ bosh run errand broker-registrar
 
 Note: the broker-registrar errand will fail if the broker has already been registered, and the broker name does not match the manifest property `jobs.broker-registrar.properties.broker.name`. Use the `cf rename-service-broker` CLI command to change the broker name to match the manifest property then this errand will succeed.
 
-#### Manually
+### Manually
 
 1. First register the broker using the `cf` CLI.  You must be logged in as an admin.
 
@@ -154,7 +154,7 @@ Note: the broker-registrar errand will fail if the broker has already been regis
 
 2. Then [make the service plan public](http://docs.cloudfoundry.org/services/managing-service-brokers.html#make-plans-public).
 
-### Acceptance Tests<a name="acceptance_tests"></a>
+## Acceptance Tests<a name="acceptance_tests"></a>
 
 To run the MySQL Release Acceptance tests, you will need:
 - a running CF instance
@@ -162,7 +162,7 @@ To run the MySQL Release Acceptance tests, you will need:
 - a deployed MySQL Release with the broker registered and the plan made public
 - an environment variable `$CONFIG` which points to a `.json` file that contains the application domain
 
-#### BOSH errand
+### BOSH errand
 
 BOSH errands were introduced in version 2366 of the BOSH CLI, BOSH Director, and stemcells.
 
@@ -189,7 +189,7 @@ To run the errand:
 bosh run errand acceptance-tests
 ```
 
-#### Manually
+### Manually
 
 1. Install **Go** by following the directions found [here](http://golang.org/doc/install)
 2. `cd` into `cf-mysql-release/test/acceptance-tests/`
@@ -234,11 +234,11 @@ export CONFIG=$PWD/integration_config.json
 ./bin/test
 ```
 
-### De-register the Service Broker<a name="deregister_broker"></a>
+## De-register the Service Broker<a name="deregister_broker"></a>
 
 The following commands are destructive and are intended to be run in conjuction with deleting your BOSH deployment.
 
-#### BOSH errand
+### BOSH errand
 
 BOSH errands were introduced in version 2366 of the BOSH CLI, BOSH Director, and stemcells.
 
@@ -248,7 +248,7 @@ This errand runs the two commands listed in the manual section below from a BOSH
 bosh run errand broker-deregistrar
 ```
 
-#### Manually
+### Manually
 
 Run the following:
 
@@ -257,7 +257,7 @@ cf purge-service-offering p-mysql
 cf delete-service-broker p-mysql
 ```
 
-### Dashboard <a name="dashboard"></a>
+## Dashboard <a name="dashboard"></a>
 
 The service broker implements a user-facing UI which users can access via Single Sign-On (SSO) once authenticated with Cloud Foundry. SSO was implemented in build 169 of cf-release, so CF 169 is a minimum requirement for the SSO feature. If you encounter an error when you register the service broker, try removing the following lines from your manifest and redeploy.
 
@@ -269,7 +269,7 @@ Services wanting to implement such a UI and integrate with the Cloud Foundry Web
 
 The broker displays usage information on a per instance basis.
 
-#### SSL
+### SSL
 
 The dashboard URL defaults to using the `https` scheme. To override this, you can change `properties.ssl_enabled` to `false` in the `cf-mysql-broker` job.
 
@@ -278,7 +278,7 @@ Visiting the old URL may fail if you are using the [SSO integration](http://docs
 because the OAuth2 client registered with UAA will expect users to both come from and return to a URI using the scheme
 implied by the `ssl_enabled` setting.
 
-#### Implementation Details
+### Implementation Details
 
 1. Update the broker catalog with the dashboard client [properties](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/config/settings.yml#L26)
 2. Implement oauth [workflow](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/config/initializers/omniauth.rb) with the [omniauth-uaa-oauth2 gem](https://github.com/cloudfoundry/omniauth-uaa-oauth2)
