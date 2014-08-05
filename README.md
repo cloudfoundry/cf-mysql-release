@@ -97,25 +97,40 @@ You can use a pre-built final release or build a release from HEAD. Final releas
     ```
     The manifest will be written to `bosh-lite/manifests/cf-mysql-manifest.yml`, which can be modified to change deployment settings.
 
-1. The `make_manifest` script will set the deployment to `bosh-lite/manifests/cf-mysql-manifest.yml` for you, so to deploy you only need to run `bosh deploy`.
+1. The `make_manifest` script will set the deployment to `bosh-lite/manifests/cf-mysql-manifest.yml` for you, so to deploy you only need to run:
+  ```
+  $ bosh deploy
+  ```
 
 #### vSphere<a name="vsphere"></a>
 
 1. Create a stub file called `cf-mysql-vsphere-stub.yml` by copying and modifying the [sample_vsphere_stub.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/sample_stubs/sample_vsphere_stub.yml)  in `templates/sample_stubs`.
 
-2. Generate the manifest: `./generate_deployment_manifest vsphere cf-mysql-vsphere-stub.yml > cf-riak-cs-vsphere.yml`
+2. Generate the manifest:
+  ```
+  $ ./generate_deployment_manifest vsphere cf-mysql-vsphere-stub.yml > cf-riak-cs-vsphere.yml
+  ```
 To tweak the deployment settings, you can modify the resulting file `cf-mysql-vsphere.yml`.
 
-3. To deploy: `bosh deployment cf-mysql-vsphere.yml && bosh deploy`
+3. To deploy:
+  ```
+  $ bosh deployment cf-mysql-vsphere.yml && bosh deploy
+  ```
 
 #### AWS<a name="aws"></a>
 
 1. Create a stub file called `cf-mysql-aws-stub.yml` by copying and modifying the [sample_aws_stub.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/sample_stubs/sample_aws_stub.yml) in `templates/sample_stubs`.
 
-1. Generate the manifest: `./generate_deployment_manifest aws cf-mysql-aws-stub.yml > cf-mysql-aws.yml`
+1. Generate the manifest:
+  ```
+  $ /generate_deployment_manifest aws cf-mysql-aws-stub.yml > cf-mysql-aws.yml
+  ```
 To tweak the deployment settings, you can modify the resulting file `cf-mysql-aws.yml`.
 
-1. To deploy: `bosh deployment cf-mysql-aws.yml && bosh deploy`
+1. To deploy:
+  ```
+  $ bosh deployment cf-mysql-aws.yml && bosh deploy
+  ```
 
 #### Deployment Manifest Stub Parameters<a name="stub-properties"></a>
 
@@ -129,8 +144,8 @@ You can find your director_uuid by running `bosh status`.
 
 BOSH errands were introduced in version 2366 of the BOSH CLI, BOSH Director, and stemcells.
 
-```bash
-bosh run errand broker-registrar
+```
+$ bosh run errand broker-registrar
 ```
 
 Note: the broker-registrar errand will fail if the broker has already been registered, and the broker name does not match the manifest property `jobs.broker-registrar.properties.broker.name`. Use the `cf rename-service-broker` CLI command to change the broker name to match the manifest property then this errand will succeed.
@@ -139,8 +154,8 @@ Note: the broker-registrar errand will fail if the broker has already been regis
 
 1. First register the broker using the `cf` CLI.  You must be logged in as an admin.
 
-    ```bash
-    cf create-service-broker p-mysql BROKER_USERNAME BROKER_PASSWORD URL
+    ```
+    $ cf create-service-broker p-mysql BROKER_USERNAME BROKER_PASSWORD URL
     ```
 
     `BROKER_USERNAME` and `BROKER_PASSWORD` are the credentials Cloud Foundry will use to authenticate when making API calls to the service broker. Use the values for manifest properties `jobs.cf-mysql-broker.properties.auth_username` and `jobs.cf-mysql-broker.properties.auth_password`.
@@ -182,8 +197,8 @@ To customize the following values add them to the manifest:
 
 To run the errand:
 
-```bash
-bosh run errand acceptance-tests
+```
+$ bosh run errand acceptance-tests
 ```
 
 ### Manually
@@ -195,41 +210,41 @@ bosh run errand acceptance-tests
     The following script will configure these prerequisites for a [bosh-lite](https://github.com/cloudfoundry/bosh-lite)
 installation. Replace credentials and URLs as appropriate for your environment.
 
-```bash
-#! /bin/bash
+  ```bash
+  #! /bin/bash
 
-cat > integration_config.json <<EOF
-{
-  "api_url": "http://api.10.244.0.34.xip.io",
-  "apps_domain": "10.244.0.34.xip.io",
-  "admin_user": "admin",
-  "admin_password": "admin",
-  "broker_host": "p-mysql.10.244.0.34.xip.io",
-  "service_name": "p-mysql",
-  "plans" : [
-    {
-      "plan_name": "100mb-dev",
-      "max_storage_mb": 10
-    },
-    {
-      "plan_name": "1gb-dev",
-      "max_storage_mb": 20
-    }
-  ],
-  "skip_ssl_validation": true,
-  "max_user_connections": 40
-}
-EOF
-export CONFIG=$PWD/integration_config.json
-```
+  cat > integration_config.json <<EOF
+  {
+    "api_url": "http://api.10.244.0.34.xip.io",
+    "apps_domain": "10.244.0.34.xip.io",
+    "admin_user": "admin",
+    "admin_password": "admin",
+    "broker_host": "p-mysql.10.244.0.34.xip.io",
+    "service_name": "p-mysql",
+    "plans" : [
+      {
+        "plan_name": "100mb-dev",
+        "max_storage_mb": 10
+      },
+      {
+        "plan_name": "1gb-dev",
+        "max_storage_mb": 20
+      }
+    ],
+    "skip_ssl_validation": true,
+    "max_user_connections": 40
+  }
+  EOF
+  export CONFIG=$PWD/integration_config.json
+  ```
 
-    When `skip_ssl_validation: true`, commands run by the tests will accept self-signed certificates from Cloud Foundry. This option requires v6.0.2 or newer of the CLI.
+  When `skip_ssl_validation: true`, commands run by the tests will accept self-signed certificates from Cloud Foundry. This option requires v6.0.2 or newer of the CLI.
 
 4. Run  the tests
 
-```bash
-./bin/test
-```
+  ```
+  $ ./bin/test
+  ```
 
 ## De-register the Service Broker<a name="deregister_broker"></a>
 
@@ -241,26 +256,28 @@ BOSH errands were introduced in version 2366 of the BOSH CLI, BOSH Director, and
 
 This errand runs the two commands listed in the manual section below from a BOSH-deployed VM. This errand should be run before deleting your BOSH deployment. If you have already deleted your deployment follow the manual instructions below.
 
-```bash
-bosh run errand broker-deregistrar
+```
+$ bosh run errand broker-deregistrar
 ```
 
 ### Manually
 
 Run the following:
 
-```bash
-cf purge-service-offering p-mysql
-cf delete-service-broker p-mysql
+```
+$ cf purge-service-offering p-mysql
+$ cf delete-service-broker p-mysql
 ```
 
 ## Dashboard <a name="dashboard"></a>
 
 The service broker implements a user-facing UI which users can access via Single Sign-On (SSO) once authenticated with Cloud Foundry. SSO was implemented in build 169 of cf-release, so CF 169 is a minimum requirement for the SSO feature. If you encounter an error when you register the service broker, try removing the following lines from your manifest and redeploy.
 
-        dashboard_client:
-          id: p-mysql
-          secret: yoursecret
+  ```bash
+  dashboard_client:
+    id: p-mysql
+    secret: yoursecret
+  ```
 
 Services wanting to implement such a UI and integrate with the Cloud Foundry Web UI should try something similar. Instructions to implement this feature can be found [here](http://docs.cloudfoundry.org/services/dashboard-sso.html).
 
