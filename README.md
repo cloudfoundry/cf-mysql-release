@@ -2,8 +2,6 @@
 
 This project contains a BOSH release of a MySQL service for Cloud Foundry. It utilizes the [v2 broker API](http://docs.cloudfoundry.org/services/api.html).
 
-## MySQL Service Components
-
 <table>
   <tr>
      	<th>Component</th><th>Description</th><th>Build Status</th>
@@ -25,14 +23,13 @@ This project contains a BOSH release of a MySQL service for Cloud Foundry. It ut
 
 ## Deployment
 
-Prerequisites:
+### Prerequisites
 
-- The MySQL service requires a deployment of Cloud Foundry ([cf-release](https://github.com/cloudfoundry/cf-release)) and has been supported since [final release 155](https://github.com/cloudfoundry/cf-release/blob/master/releases/cf-155.yml) ([tag v155](https://github.com/cloudfoundry/cf-release/tree/v155)).
-  - Dashboard SSO depends on having at least [version 169 of cf-release](https://github.com/cloudfoundry/cf-release/tree/v169). See the [Dashboard](#dashboard) section at the end of this doc for details.
-- Installing the CF MySQL service requires BOSH.
-- Instructions on installing BOSH as well as Cloud Foundry (runtime) are located in the [Cloud Foundry documentation](http://docs.cloudfoundry.org/).
+- A deployment of [BOSH](https://github.com/cloudfoundry/bosh)
+- A deployment of [Cloud Foundry](https://github.com/cloudfoundry/cf-release), [final release 169](https://github.com/cloudfoundry/cf-release/tree/v169) or greater
+- Instructions for installing BOSH and Cloud Foundry can be found at http://docs.cloudfoundry.org/.
 
-Steps:
+### Overview
 
 1. [Upload a supported stemcell](#upload_stemcell)
 1. [Upload a release to the BOSH director](#upload_release)
