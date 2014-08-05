@@ -44,11 +44,7 @@ After installation, the MySQL service will be visible in the Services Marketplac
 
 ### Upload Stemcell<a name="upload_stemcell"></a>
 
-The latest final release, v10, expects Ubuntu Trusty go_agent 2652 by default. This final release may not work with newer stemcells as it has dependencies on libraries which have been removed from newer stemcells.
-
-Master currently expects Ubuntu Trusty go_agent 2657 by default ([aws](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/cf-infrastructure-aws.yml#L14) | [vsphere](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/cf-infrastructure-vsphere.yml#L15)).
-
-Stemcells can be downloaded from http://boshartifacts.cfapps.io/file_collections?type=stemcells.
+The latest final release, v10, expects the Ubuntu Trusty (14.04) go_agent stemcell version 2652 by default. This release may not work with newer stemcells it may have dependencies on libraries which have been removed from newer stemcells. Stemcells can be downloaded from http://boshartifacts.cfapps.io/file_collections?type=stemcells.
 
 ### Upload Release<a name="upload_release"></a>
 
