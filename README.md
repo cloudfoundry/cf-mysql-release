@@ -122,21 +122,6 @@ Manifest properties for job JOB are described in `jobs/JOB/spec`.
 
 You can find your director_uuid by running `bosh status`.
 
-### Deploy Using BOSH<a name="deploy_release"></a>
-
-Set your deployment using the deployment manifest you generated above.
-
-```bash
-bosh deployment ~/workspace/deployments/mydevenv/cf-mysql-mydevenv.yml
-bosh deploy
-```
-
-If you followed the instructions for bosh-lite above, your manifest is in the `cf-mysql-release/bosh-lite/manifests` directory. The make\_manifest\_spiff\_mysql script should have already set the deployment to the manifest, so you just have to run:
-
-```bash
-bosh deploy
-```
-
 ### Register the Service Broker<a name="register_broker"></a>
 
 #### BOSH errand
