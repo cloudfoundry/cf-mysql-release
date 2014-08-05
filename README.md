@@ -40,7 +40,7 @@ Steps:
 1. [Deploy the CF MySQL release with BOSH](#deploy_release)
 1. [Register the service broker with Cloud Foundry](#register_broker)
 
-After installation, the MySQL service should be shown when running `gcf marketplace`
+After installation, the MySQL service will be visible in the Services Marketplace; using [the CLI](https://github.com/cloudfoundry/cli) run `cf marketplace`.
 
 ### Upload Stemcell<a name="upload_stemcell"></a>
 
