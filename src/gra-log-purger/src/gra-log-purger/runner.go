@@ -7,6 +7,7 @@ import (
 	"os/exec"
 	"strconv"
 	"time"
+	"io/ioutil"
 )
 
 var graLogDir = flag.String(
@@ -21,8 +22,18 @@ var graLogDaysToKeep = flag.Int(
 	"Specifies the maximum age of the GRA log files allowed.",
 )
 
+var pidfile = flag.String(
+	"pidfile",
+	"",
+	"The location for the pidfile",
+)
+
 func main() {
 	flag.Parse()
+
+	err := ioutil.WriteFile(*pidfile, []byte(strconv.Itoa(os.Getpid())), 0644)
+	if err != nil { panic(err) }
+
 	for {
 		out, err := runCommand("sh", "/var/vcap/jobs/mysql/bin/gra-log-purger.sh", *graLogDir, strconv.Itoa(*graLogDaysToKeep))
 		if err != nil {
