@@ -123,7 +123,7 @@ To tweak the deployment settings, you can modify the resulting file `cf-mysql-vs
 
 1. Generate the manifest:
   ```
-  $ /generate_deployment_manifest aws cf-mysql-aws-stub.yml > cf-mysql-aws.yml
+  $ ./generate_deployment_manifest aws cf-mysql-aws-stub.yml > cf-mysql-aws.yml
   ```
 To tweak the deployment settings, you can modify the resulting file `cf-mysql-aws.yml`.
 
