@@ -5,6 +5,7 @@ import (
 
 	manager "mariadb_ctrl/mariadb_start_manager"
 	"mariadb_ctrl/os_helper"
+	"mariadb_ctrl/galera_helper"
 )
 
 var logFileLocation = flag.String(
@@ -67,6 +68,12 @@ var numberOfNodes = flag.Int(
 	"Number of nodes deployed in the galera cluster",
 )
 
+var clusterIps = flag.String(
+	"clusterIps",
+	"",
+	"Comma-delimited list of IPs in the galera cluster",
+)
+
 func main() {
 	flag.Parse()
 
@@ -82,6 +89,8 @@ func main() {
 		true,
 		*upgradeScriptPath,
 		*mysqlCommandScriptPath,
+		nil,
 	)
+	mgr.ClusterReachabilityChecker = galera_helper.NewClusterReachabilityChecker(*clusterIps, mgr)
 	mgr.Execute()
 }
