@@ -29,16 +29,19 @@ if [ -z "$4" ]
     exit 1
 fi
 
+log(){
+  message=$1
+  echo "$(date +"%Y-%m-%d %H:%M:%S") ----- $message" >> ${LOG_FILE} 2>> ${LOG_FILE}
+}
+
 
 set +e
 COMMAND_OUTPUT=$(/var/vcap/packages/mariadb/bin/mysql -e "${COMMAND}" -u${USER} -p${PASSWORD})
 COMMAND_EXIT_CODE=$?
 set -e
 
-echo "COMMAND: /var/vcap/packages/mariadb/bin/mysql -e \"${COMMAND}\" -u${USER} -p${PASSWORD}" >> ${LOG_FILE} 2>> ${LOG_FILE}
-echo "COMMAND_EXIT_CODE: ${COMMAND_EXIT_CODE}" >> ${LOG_FILE} 2>> ${LOG_FILE}
-echo "COMMAND_OUTPUT: ${COMMAND_OUTPUT}" >> ${LOG_FILE} 2>> ${LOG_FILE}
-
-echo ${COMMAND_OUTPUT}
+log "COMMAND: /var/vcap/packages/mariadb/bin/mysql -e \"${COMMAND}\" -u${USER} -p${PASSWORD}"
+log "COMMAND_EXIT_CODE: ${COMMAND_EXIT_CODE}"
+log "COMMAND_OUTPUT: ${COMMAND_OUTPUT}"
 
 exit ${COMMAND_EXIT_CODE}
