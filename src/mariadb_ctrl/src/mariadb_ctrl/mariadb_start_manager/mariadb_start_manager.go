@@ -4,20 +4,21 @@ import (
 	"fmt"
 	"mariadb_ctrl/os_helper"
 	"regexp"
+	"time"
 )
 
 type MariaDBStartManager struct {
-	osHelper          os_helper.OsHelper
-	logFileLocation   string
-	stateFileLocation string
-	mysqlServerPath   string
-	username          string
-	password          string
-	jobIndex          int
-	numberOfNodes     int
-	loggingOn         bool
-	dbSeedScriptPath  string
-	upgradeScriptPath string
+	osHelper               os_helper.OsHelper
+	logFileLocation        string
+	stateFileLocation      string
+	mysqlServerPath        string
+	username               string
+	password               string
+	jobIndex               int
+	numberOfNodes          int
+	loggingOn              bool
+	dbSeedScriptPath       string
+	upgradeScriptPath      string
 	mysqlCommandScriptPath string
 }
 
@@ -34,24 +35,24 @@ func New(osHelper os_helper.OsHelper,
 	upgradeScriptPath string,
 	mysqlCommandScriptPath string) *MariaDBStartManager {
 	return &MariaDBStartManager{
-		osHelper:          osHelper,
-		logFileLocation:   logFileLocation,
-		stateFileLocation: stateFileLocation,
-		username:          username,
-		password:          password,
-		jobIndex:          jobIndex,
-		mysqlServerPath:   mysqlServerPath,
-		numberOfNodes:     numberOfNodes,
-		loggingOn:         loggingOn,
-		dbSeedScriptPath:  dbSeedScriptPath,
-		upgradeScriptPath: upgradeScriptPath,
+		osHelper:               osHelper,
+		logFileLocation:        logFileLocation,
+		stateFileLocation:      stateFileLocation,
+		username:               username,
+		password:               password,
+		jobIndex:               jobIndex,
+		mysqlServerPath:        mysqlServerPath,
+		numberOfNodes:          numberOfNodes,
+		loggingOn:              loggingOn,
+		dbSeedScriptPath:       dbSeedScriptPath,
+		upgradeScriptPath:      upgradeScriptPath,
 		mysqlCommandScriptPath: mysqlCommandScriptPath,
 	}
 }
 
 func (m *MariaDBStartManager) log(info string) {
 	if m.loggingOn {
-		fmt.Printf(info)
+		fmt.Printf("%v ----- %v", time.Now().Local(), info)
 	}
 }
 
