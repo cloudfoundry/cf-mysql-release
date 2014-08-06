@@ -3,6 +3,7 @@ package mariadb_start_manager
 import (
 	"fmt"
 	"mariadb_ctrl/os_helper"
+	"mariadb_ctrl/galera_helper"
 	"regexp"
 	"time"
 )
@@ -20,6 +21,7 @@ type MariaDBStartManager struct {
 	dbSeedScriptPath       string
 	upgradeScriptPath      string
 	mysqlCommandScriptPath string
+	ClusterReachabilityChecker galera_helper.ClusterReachabilityChecker
 }
 
 func New(osHelper os_helper.OsHelper,
@@ -33,7 +35,9 @@ func New(osHelper os_helper.OsHelper,
 	numberOfNodes int,
 	loggingOn bool,
 	upgradeScriptPath string,
-	mysqlCommandScriptPath string) *MariaDBStartManager {
+	mysqlCommandScriptPath string,
+	clusterReachabilityChecker galera_helper.ClusterReachabilityChecker,
+) *MariaDBStartManager {
 	return &MariaDBStartManager{
 		osHelper:               osHelper,
 		logFileLocation:        logFileLocation,
@@ -47,10 +51,11 @@ func New(osHelper os_helper.OsHelper,
 		dbSeedScriptPath:       dbSeedScriptPath,
 		upgradeScriptPath:      upgradeScriptPath,
 		mysqlCommandScriptPath: mysqlCommandScriptPath,
+		ClusterReachabilityChecker: clusterReachabilityChecker,
 	}
 }
 
-func (m *MariaDBStartManager) log(info string) {
+func (m *MariaDBStartManager) Log(info string) {
 	if m.loggingOn {
 		fmt.Printf("%v ----- %v", time.Now().Local(), info)
 	}
@@ -62,7 +67,7 @@ func (m *MariaDBStartManager) Execute() {
 
 		//single-node deploy
 		if m.numberOfNodes == 1 {
-			m.log("Single node deploy")
+			m.Log("Single node deploy")
 			m.bootstrapUpgradeAndWriteState("SINGLE_NODE")
 			return
 		}
@@ -71,14 +76,14 @@ func (m *MariaDBStartManager) Execute() {
 
 		//intial deploy, state file does not exists
 		if !m.osHelper.FileExists(m.stateFileLocation) {
-			m.log("state file does not exist, creating with contents: JOIN\n")
+			m.Log("state file does not exist, creating with contents: JOIN\n")
 			m.bootstrapUpgradeAndWriteState("JOIN")
 			return
 		}
 
 		//state file exists
 		orig_contents, _ := m.osHelper.ReadFile(m.stateFileLocation)
-		m.log(fmt.Sprintf("state file exists and contains: '%s'\n", orig_contents))
+		m.Log(fmt.Sprintf("state file exists and contains: '%s'\n", orig_contents))
 
 		//scaling up from a single node cluster
 		if orig_contents == "SINGLE_NODE" {
@@ -97,17 +102,28 @@ func (m *MariaDBStartManager) bootstrapUpgradeAndWriteState(state string) {
 }
 
 func (m *MariaDBStartManager) bootstrapAndWriteState(state string) {
+	m.Log("updating file with contents: " + state + "\n")
 	m.osHelper.WriteStringToFile(m.stateFileLocation, state)
 
-	m.log("starting in bootstrap \n")
-	err := m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "bootstrap")
+	var mode string
+
+	if m.ClusterReachabilityChecker.AnyNodesReachable() {
+		mode = "start"
+		m.Log("STARTING NODE IN JOIN MODE.\n")
+	} else {
+		mode = "bootstrap"
+		m.Log("STARTING NODE IN BOOTSTRAPPING MODE.\n")
+	}
+
+	err := m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, mode)
+
 	if err != nil {
 		panic(err)
 	}
 }
 
 func (m *MariaDBStartManager) joinCluster() {
-	m.log("starting in join\n")
+	m.Log("STARTING NODE IN JOIN MODE.\n")
 	err := m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "start")
 	if err != nil {
 		panic(err)
@@ -116,22 +132,25 @@ func (m *MariaDBStartManager) joinCluster() {
 	m.seedDatabases()
 	m.upgradeAndRestartIfNecessary("start")
 
-	m.log("updating file with contents: JOIN\n")
+	m.Log("updating file with contents: JOIN\n")
 	m.osHelper.WriteStringToFile(m.stateFileLocation, "JOIN")
 }
 
 func (m *MariaDBStartManager) seedDatabases() {
 	output, err := m.osHelper.RunCommand("bash", m.dbSeedScriptPath)
 	if err != nil {
+		m.Log("Seeding databases failed:\n")
+		m.Log(output + "\n")
+
+		m.Log("STOPPING NODE.\n")
 		m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "stop")
-		m.log("Seeding databases failed:\n")
-		m.log(output)
+
 		panic(err)
 	}
 }
 
 func (m *MariaDBStartManager) upgradeAndRestartIfNecessary(mode string) {
-	m.log("performing upgrade\n")
+	m.Log("performing upgrade\n")
 
 	_, disableReplicationErr := m.osHelper.RunCommand(
 		"bash",
@@ -189,12 +208,17 @@ func (m *MariaDBStartManager) upgradeAndRestartIfNecessary(mode string) {
 	}
 
 	if m.requiresRestart(upgradeOutput, upgradeErr) {
-		m.log("stopping mysql\n")
+		m.Log("STOPPING NODE.\n")
 		err := m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, "stop")
 		if err != nil {
 			panic(err)
 		}
-		m.log("starting mysql\n")
+
+		if mode == "bootstrap" && m.ClusterReachabilityChecker.AnyNodesReachable() {
+			mode = "start"
+		}
+
+		m.Log("STARTING NODE IN" + mode + " MODE.\n")
 		err = m.osHelper.RunCommandWithTimeout(300, m.logFileLocation, "bash", m.mysqlServerPath, mode)
 		if err != nil {
 			panic(err)
@@ -205,18 +229,18 @@ func (m *MariaDBStartManager) upgradeAndRestartIfNecessary(mode string) {
 func (m *MariaDBStartManager) requiresRestart(output string, err error) bool {
 	// No error indicates that the upgrade script performed an upgrade.
 	if err == nil {
-		m.log("upgrade sucessful - restart required\n")
+		m.Log("upgrade sucessful - restart required\n")
 		return true
 	}
-	m.log(fmt.Sprintf("upgrade output: %s\n", output))
+	m.Log(fmt.Sprintf("upgrade output: %s\n", output))
 
 	//known error messages where a restart should not occur, do not remove from
 	acceptableErrorsCompiled, _ := regexp.Compile("already upgraded|Unknown command|WSREP has not yet prepared node")
 	if acceptableErrorsCompiled.MatchString(output) {
-		m.log("output string matches acceptable errors - skip restart\n")
+		m.Log("output string matches acceptable errors - skip restart\n")
 		return false
 	} else {
-		m.log("output string does not match acceptable errors - restart required\n")
+		m.Log("output string does not match acceptable errors - restart required\n")
 		return true
 	}
 }
