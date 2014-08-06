@@ -45,7 +45,7 @@ case $1 in
           | logger -p local1.error -t mysql-broker-dbmigrate
 
       if [ $? != 0 ]; then
-        echo "Migrations failed" \
+        echo "Migrations failed at `date`" \
             | tee -a $LOG_DIR/db_migrate.combined.log \
             | logger -p local1.error -t mysql-broker-dbmigrate
         exit 1

@@ -1,5 +1,4 @@
-#!/bin/sh
-#
+#!/bin/bash
 
 set -e
 
@@ -15,6 +14,8 @@ JOB_DIR=/var/vcap/jobs/$NAME
 PID_FILE=/var/vcap/sys/run/haproxy/pid
 
 TIMESTAMP=$(which date)
+
+source /var/vcap/packages/common/utils.sh
 
 test -x "${DAEMON}"
 test -f "${CONFIG}"
@@ -42,25 +43,25 @@ remove_pid() {
 start_haproxy() {
     status_haproxy
     if [ "${RETVAL}" = 0 ]; then
-        echo "HAProxy is currently running"
+        log "HAProxy is currently running"
     else
         RETVAL=0
         ensure_dirs
-        echo "$("${TIMESTAMP}"): Starting HAProxy"
+        log "Starting HAProxy"
         set +e
         "${DAEMON}" -f "${CONFIG}" -D -p "${PID_FILE}" 0<&-
         RETVAL=$?
         set -e
         case "${RETVAL}" in
             0)
-                echo "$("${TIMESTAMP}"): Finished starting HAProxy"
-                echo "SUCCESS"
+                log "Finished starting HAProxy"
+                log "SUCCESS"
                 ;;
             *)
-                echo "$("${TIMESTAMP}"): Errored starting HAProxy"
-                echo "$("${TIMESTAMP}"): Errored starting HAProxy" >&2
+                log "Errored starting HAProxy"
+                log "Errored starting HAProxy" >&2
                 remove_pid
-                echo "FAILED - check logs"
+                log "FAILED - check logs"
                 RETVAL=1
                 ;;
         esac
@@ -78,10 +79,10 @@ stop_haproxy() {
         if [ "${RETVAL}" = 0 ]; then
             remove_pid
         else
-            echo "FAILED - check logs"
+            log "FAILED - check logs"
         fi
     else
-        echo "HAProxy not running"
+        log "HAProxy not running"
     fi
 }
 
@@ -112,22 +113,22 @@ case "$1" in
     start)
         # Start syslog forwarding
         /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $JOB_DIR/config
-        echo -n "Starting ${DESC}: "
+        log "Starting ${DESC}: "
         start_haproxy
-        echo "${NAME}."
+        log "${NAME}."
         ;;
     stop)
-        echo -n "Stopping ${DESC}: "
+        log "Stopping ${DESC}: "
         stop_haproxy
-        echo "${NAME}."
+        log "${NAME}."
         ;;
     status)
         status_haproxy
         ;;
     force-reload|reload|restart)
-        echo -n "Restarting ${DESC}: "
+        log "Restarting ${DESC}: "
         restart_haproxy
-        echo "${NAME}."
+        log "${NAME}."
         ;;
     *)
         echo "Usage: $0 {start|stop|restart|reload|force-reload}" >&2
