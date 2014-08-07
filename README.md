@@ -1,6 +1,6 @@
 # Cloud Foundry MySQL Service
 
-This project contains a BOSH release of a MySQL service for Cloud Foundry. It utilizes the [v2 broker API](http://docs.cloudfoundry.org/services/api.html).
+A BOSH release of a MySQL database-as-a-service for Cloud Foundry using MariaDB Galera Cluster and a [v2 Service Broker](http://docs.cloudfoundry.org/services/).
 
 <table>
   <tr>
