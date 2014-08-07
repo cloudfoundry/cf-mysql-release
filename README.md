@@ -132,9 +132,9 @@ To tweak the deployment settings, you can modify the resulting file `cf-mysql-aw
   $ bosh deployment cf-mysql-aws.yml && bosh deploy
   ```
 
-#### Deployment Manifest Stub Parameters<a name="stub-properties"></a>
+#### Deployment Manifest Properties<a name="manifest-properties"></a>
 
-Manifest properties for job JOB are described in `jobs/JOB/spec`.
+Manifest properties are described in the `spec` file for each job; see [jobs](jobs). 
 
 You can find your director_uuid by running `bosh status`.
 
