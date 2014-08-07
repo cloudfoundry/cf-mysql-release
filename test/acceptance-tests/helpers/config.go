@@ -2,26 +2,27 @@ package helpers
 
 import (
 	"encoding/json"
-	"os"
 	"fmt"
+	"os"
 )
 
 type Plan struct {
-	Name					string `json:"plan_name"`
-    MaxStorageMb	        int `json:"max_storage_mb"`
+	Name         string `json:"plan_name"`
+	MaxStorageMb int    `json:"max_storage_mb"`
 }
 
 type IntegrationConfig struct {
-	AppsDomain        		string `json:"apps_domain"`
-	ApiEndpoint       		string `json:"api_url"`
-	AdminUser         		string `json:"admin_user"`
-	AdminPassword     		string `json:"admin_password"`
-	SkipSSLValidation 		bool   `json:"skip_ssl_validation"`
-	BrokerHost 				string `json:"broker_host"`
-	ServiceName				string `json:"service_name"`
-	Plans				    []Plan `json:"plans"`
-	MaxUserConnections		int `json:"max_user_connections"`
-	SmokeTestsOnly			bool `json:"smoke_tests_only"`
+	AppsDomain         string  `json:"apps_domain"`
+	ApiEndpoint        string  `json:"api_url"`
+	AdminUser          string  `json:"admin_user"`
+	AdminPassword      string  `json:"admin_password"`
+	SkipSSLValidation  bool    `json:"skip_ssl_validation"`
+	BrokerHost         string  `json:"broker_host"`
+	ServiceName        string  `json:"service_name"`
+	Plans              []Plan  `json:"plans"`
+	MaxUserConnections int     `json:"max_user_connections"`
+	SmokeTestsOnly     bool    `json:"smoke_tests_only"`
+	TimeoutScale       float64 `json:"timeout_scale"`
 }
 
 func LoadConfig() (config IntegrationConfig) {
@@ -81,6 +82,10 @@ func LoadPath(path string) (config IntegrationConfig) {
 
 	if config.MaxUserConnections == 0 {
 		panic("invalid configuration: 'max_user_connections' must be > 0")
+	}
+
+	if config.TimeoutScale <= 0 {
+		config.TimeoutScale = 1
 	}
 
 	return

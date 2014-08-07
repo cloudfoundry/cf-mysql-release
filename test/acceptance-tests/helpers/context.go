@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/cloudfoundry-incubator/cf-test-helpers/cf"
 	. "github.com/onsi/ginkgo"
 	ginkgoconfig "github.com/onsi/ginkgo/config"
 	. "github.com/onsi/gomega"
 	. "github.com/onsi/gomega/gexec"
-	"github.com/cloudfoundry-incubator/cf-test-helpers/cf"
 )
 
 type ConfiguredContext struct {
@@ -63,7 +63,7 @@ func (context *ConfiguredContext) Setup() {
 		select {
 		case <-channel.Out.Detect("OK"):
 		case <-channel.Out.Detect("scim_resource_already_exists"):
-		case <-time.After(10 * time.Second):
+		case <-time.After(ScaledTimeout(10 * time.Second)):
 			Fail("failed to create user")
 		}
 
@@ -87,17 +87,17 @@ func (context *ConfiguredContext) Setup() {
 
 		context.quotaDefinitionGUID = response.Metadata.Guid
 
-		Eventually(cf.Cf("create-org", context.organizationName), 60*time.Second).Should(Exit(0))
-		Eventually(cf.Cf("set-quota", context.organizationName, definition.Name), 60*time.Second).Should(Exit(0))
+		Eventually(cf.Cf("create-org", context.organizationName), ScaledTimeout(60*time.Second)).Should(Exit(0))
+		Eventually(cf.Cf("set-quota", context.organizationName, definition.Name), ScaledTimeout(60*time.Second)).Should(Exit(0))
 	})
 }
 
 func (context *ConfiguredContext) Teardown() {
 	cf.AsUser(context.AdminUserContext(), func() {
-		Eventually(cf.Cf("delete-user", "-f", context.regularUserUsername), 60*time.Second).Should(Exit(0))
+		Eventually(cf.Cf("delete-user", "-f", context.regularUserUsername), ScaledTimeout(60*time.Second)).Should(Exit(0))
 
 		if !context.isPersistent {
-			Eventually(cf.Cf("delete-org", "-f", context.organizationName), 60*time.Second).Should(Exit(0))
+			Eventually(cf.Cf("delete-org", "-f", context.organizationName), ScaledTimeout(60*time.Second)).Should(Exit(0))
 
 			cf.ApiRequest(
 				"DELETE",

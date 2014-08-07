@@ -1,10 +1,11 @@
 package helpers
 
 import (
+	"time"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	. "github.com/onsi/gomega/gexec"
-	"time"
 
 	"github.com/cloudfoundry-incubator/cf-test-helpers/cf"
 )
@@ -46,8 +47,8 @@ func SetupEnvironment(context SuiteContext) {
 }
 
 func setUpSpaceWithUserAccess(uc cf.UserContext) {
-	Eventually(cf.Cf("create-space", "-o", uc.Org, uc.Space), 60*time.Second).Should(Exit(0))
-	Eventually(cf.Cf("set-space-role", uc.Username, uc.Org, uc.Space, "SpaceManager"), 60*time.Second).Should(Exit(0))
-	Eventually(cf.Cf("set-space-role", uc.Username, uc.Org, uc.Space, "SpaceDeveloper"), 60*time.Second).Should(Exit(0))
-	Eventually(cf.Cf("set-space-role", uc.Username, uc.Org, uc.Space, "SpaceAuditor"), 60*time.Second).Should(Exit(0))
+	Eventually(cf.Cf("create-space", "-o", uc.Org, uc.Space), ScaledTimeout(60*time.Second)).Should(Exit(0))
+	Eventually(cf.Cf("set-space-role", uc.Username, uc.Org, uc.Space, "SpaceManager"), ScaledTimeout(60*time.Second)).Should(Exit(0))
+	Eventually(cf.Cf("set-space-role", uc.Username, uc.Org, uc.Space, "SpaceDeveloper"), ScaledTimeout(60*time.Second)).Should(Exit(0))
+	Eventually(cf.Cf("set-space-role", uc.Username, uc.Org, uc.Space, "SpaceAuditor"), ScaledTimeout(60*time.Second)).Should(Exit(0))
 }
