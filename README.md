@@ -90,7 +90,7 @@ You can use a pre-built final release or build a release from HEAD. Final releas
 
 #### BOSH-lite<a name="bosh-lite"></a>
 
-1. Run the script [`bosh-lite/make_manifest_spiff_mysql`](bosh-lite/make_manifest_spiff_mysql) to generate your manifest for bosh-lite. This script uses a stub provided for you, `bosh-lite/stub.yml`.
+1. Generate the manifest using a bosh-lite specific script and a stub provided for you, `bosh-lite/cf-mysql-stub-spiff.yml`.
 
     ```
     $ ./bosh-lite/make_manifest_spiff_mysql
