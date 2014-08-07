@@ -15,7 +15,7 @@ A BOSH release of a MySQL database-as-a-service for Cloud Foundry using [MariaDB
  	 </tr>
  	 <tr>
  	   <td>MySQL Server</td>
- 	   <td>MySQL 5.6 Server managed by the broker.  Database instances are hosted on this server.
+ 	   <td>MariaDB 10.0.12; database instances are hosted on the servers.
  	   </td>
  	   <td> n/a </td>
  	 </tr>
