@@ -1,6 +1,6 @@
 # Cloud Foundry MySQL Service
 
-A BOSH release of a MySQL database-as-a-service for Cloud Foundry using MariaDB Galera Cluster and a [v2 Service Broker](http://docs.cloudfoundry.org/services/).
+A BOSH release of a MySQL database-as-a-service for Cloud Foundry using [MariaDB Galera Cluster](https://mariadb.com/kb/en/mariadb/documentation/replication-cluster-multi-master/galera/what-is-mariadb-galera-cluster/) and a [v2 Service Broker](http://docs.cloudfoundry.org/services/).
 
 <table>
   <tr>
