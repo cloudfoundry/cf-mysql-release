@@ -233,13 +233,16 @@ installation. Replace credentials and URLs as appropriate for your environment.
       }
     ],
     "skip_ssl_validation": true,
-    "max_user_connections": 40
+    "max_user_connections": 40,
+    "timeout_scale": 1.0
   }
   EOF
   export CONFIG=$PWD/integration_config.json
   ```
 
   When `skip_ssl_validation: true`, commands run by the tests will accept self-signed certificates from Cloud Foundry. This option requires v6.0.2 or newer of the CLI.
+
+  All timeouts in the test suite can be scaled proportionally by changing the `timeout_scale` factor.
 
 4. Run  the tests
 
