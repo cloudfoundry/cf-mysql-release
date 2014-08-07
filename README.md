@@ -31,11 +31,10 @@ This project contains a BOSH release of a MySQL service for Cloud Foundry. It ut
 
 ### Overview
 
-1. [Upload a supported stemcell](#upload_stemcell)
-1. [Upload a release to the BOSH director](#upload_release)
-1. [Create a CF MySQL deployment manifest](#create_manifest)
-1. [Deploy the CF MySQL release with BOSH](#deploy_release)
-1. [Register the service broker with Cloud Foundry](#register_broker)
+1. [Upload Stemcell](#upload_stemcell)
+1. [Upload Release](#upload_release)
+1. [Create Manifest and Deploy](#create_manifest)
+1. [Register the Service Broker](#register_broker)
 
 After installation, the MySQL service will be visible in the Services Marketplace; using [the CLI](https://github.com/cloudfoundry/cli) run `cf marketplace`.
 
@@ -86,7 +85,7 @@ You can use a pre-built final release or build a release from HEAD. Final releas
   $ bosh upload release
   ```
 
-### Create a Manifest and Deploy<a name="create_manifest"></a>
+### Create Manifest and Deploy<a name="create_manifest"></a>
 
 #### BOSH-lite<a name="bosh-lite"></a>
 
