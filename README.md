@@ -138,6 +138,8 @@ Manifest properties for job JOB are described in `jobs/JOB/spec`.
 
 You can find your director_uuid by running `bosh status`.
 
+The MariaDB cluster nodes are configured by default with 100GB of persistent disk. This can be configured in your stub or manifest using `jobs.mysql.persistent_disk`, however your deployment will fail if this is less than 3GB; we recommend allocating 10GB at a minimum. 
+
 ## Register the Service Broker<a name="register_broker"></a>
 
 ### BOSH errand
