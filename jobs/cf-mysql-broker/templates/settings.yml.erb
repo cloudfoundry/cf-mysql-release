@@ -54,7 +54,7 @@ production:
         bullets: <% (plan.metadata.bullets || []).each do |bullet| %>
           - <%= bullet %>
         <% end %>
-        displayName: <%= plan.metadata.displayName %>
+        displayName: <%= plan.displayName || plan.metadata.displayName %>
     <% end %>
     dashboard_client:
       id: <%= service.dashboard_client.id %>
