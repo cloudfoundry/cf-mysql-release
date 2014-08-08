@@ -21,7 +21,6 @@ type IntegrationConfig struct {
 	BrokerHost         string  `json:"broker_host"`
 	ServiceName        string  `json:"service_name"`
 	Plans              []Plan  `json:"plans"`
-	MaxUserConnections int     `json:"max_user_connections"`
 	SmokeTestsOnly     bool    `json:"smoke_tests_only"`
 	TimeoutScale       float64 `json:"timeout_scale"`
 }
