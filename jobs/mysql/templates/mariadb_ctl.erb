@@ -50,6 +50,8 @@ case $1 in
 
     cd $package_dir
 
+    <% node_ip = spec.networks.send(p('network_name')).ip %>
+
     $package_dir/$executable_name \
              -logFile=$LOG_FILE \
              -stateFile=$STATE_FILE \
@@ -61,7 +63,7 @@ case $1 in
              -upgradeScriptPath=$MYSQL_UPGRADE_SCRIPT_FILE \
              -mysqlCommandScriptPath=$MYSQL_COMMAND_SCRIPT_FILE \
              -numberOfNodes=<%= p('cluster_ips').length %> \
-             -clusterIps=<%= p('cluster_ips').join(',') %> \
+             -clusterIps=<%= (p('cluster_ips') - [node_ip]).join(',') %> \
              >> $LOG_FILE 2>> $LOG_FILE
 
 
