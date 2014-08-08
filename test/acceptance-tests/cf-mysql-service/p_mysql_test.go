@@ -154,16 +154,16 @@ var (
 				})
 			}
 
-			AssertConnectionQuotaBehavior := func(PlanName string) {
+			AssertConnectionQuotaBehavior := func(PlanName string, MaxUserConnections int) {
 				It("enforces the connection quota for the plan", func() {
 					CreatesBindsAndStartsApp(PlanName)
 
 					uri := AppUri(appName) + "/connections/mysql/" + serviceInstanceName + "/"
-					allowable_connection_num := IntegrationConfig.MaxUserConnections
-					over_maximum_connection_num := allowable_connection_num + 1
+					over_maximum_connection_num := MaxUserConnections + 1
 
 					fmt.Println("*** Proving we can use the max num of connections")
-					Eventually(Curl(uri+strconv.Itoa(allowable_connection_num)), helpers.ScaledTimeout(timeout), retryInterval).Should(Say("success"))
+
+					Eventually(Curl(uri+strconv.Itoa(MaxUserConnections)), helpers.ScaledTimeout(timeout), retryInterval).Should(Say("success"))
 
 					fmt.Println("*** Proving the connection quota is enforced")
 					Eventually(Curl(uri+strconv.Itoa(over_maximum_connection_num)), helpers.ScaledTimeout(timeout), retryInterval).Should(Say("Error"))
@@ -173,7 +173,7 @@ var (
 			Context("for each plan", func() {
 				for _, plan := range IntegrationConfig.Plans {
 					AssertStorageQuotaBehavior(plan.Name, plan.MaxStorageMb)
-					AssertConnectionQuotaBehavior(plan.Name)
+					AssertConnectionQuotaBehavior(plan.Name, plan.MaxUserConnections)
 				}
 			})
 		})

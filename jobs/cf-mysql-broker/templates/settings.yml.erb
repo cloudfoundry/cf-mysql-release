@@ -43,6 +43,7 @@ production:
       name: <%= plan.name %>
       description: <%= plan.description %>
       max_storage_mb: <%= plan.max_storage_mb %>
+      max_user_connections: <%= plan.max_user_connections %>
       metadata:
         costs:
         <% (plan.metadata.costs || []).each do |cost| %>
