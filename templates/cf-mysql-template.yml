@@ -52,7 +52,6 @@ jobs:
     properties:
       admin_password: (( merge ))
       max_connections: 1500
-      max_user_connections: 40
       haproxy_mysql_user: haproxy_check
       haproxy_ips:
       - (( jobs.haproxy.networks.services1.static_ips.[0] ))
@@ -89,6 +88,7 @@ jobs:
     networks:
     - name: services1
     properties:
+      max_user_connections_default: ~
       syslog_aggregator: (( meta.syslog_aggregator ))
       network_name: services1
       auth_username: (( merge ))
@@ -208,6 +208,7 @@ jobs:
       broker:
         host: (( jobs.cf-mysql-broker.properties.external_host ))
       service:
+        max_user_connections_default: (( jobs.cf-mysql-broker.properties.max_user_connections_default ))
         name: (( jobs.cf-mysql-broker.properties.services.[0].name ))
         plans:
           - plan_name: (( jobs.cf-mysql-broker.properties.services.[0].plans.[0].name ))
