@@ -45,6 +45,10 @@ properties:
     description: 'Size of the ib_log_file used by innodb'
     default: 1000
 
+  max_user_connections_default:
+    description: 'number of user connections to allow in a plan if not specified'
+    default: 40
+
   services:
     description: 'Services and plans offered by the broker'
 

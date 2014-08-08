@@ -64,10 +64,6 @@ innodb_stats_persistent = OFF
 innodb_buffer_pool_size = <%= innodb_buffer_pool_size %>
 <% end %>
 
-<% if_p('max_user_connections') do |max_user_connections| %>
-max_user_connections = <%= max_user_connections %>
-<% end %>
-
 <% if_p('max_connections') do |max_connections| %>
 max_connections = <%= max_connections %>
 <% end %>
