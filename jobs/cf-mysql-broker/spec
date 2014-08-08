@@ -27,7 +27,7 @@ properties:
   cookie_secret: 'A unique secret key, used to sign sessions'
 
   mysql_node.host:
-    description: 'Host or IP address of the MySQL server'
+    description: 'Host (DNS) or IP address of the MySQL server or the proxy if using one'
   mysql_node.port:
     description: 'Port of the MySQL server'
     default: 3306

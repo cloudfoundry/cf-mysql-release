@@ -151,7 +151,7 @@ jobs:
                 - 40 concurrent connections
               displayName: (( merge || "1 GB Dev" ))
       mysql_node:
-        host: (( jobs.haproxy.networks.services1.static_ips.[0] )) # HAProxy IP
+        host: (( merge || jobs.haproxy.networks.services1.static_ips.[0] )) # HAProxy IP
         admin_password: (( jobs.mysql.properties.admin_password ))
         persistent_disk: (( jobs.mysql.persistent_disk))
   - name: broker-registrar
