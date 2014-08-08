@@ -27,10 +27,6 @@ properties:
   service.plans:
     description: 'Array of MySQL plans'
 
-  mysql.max_user_connections:
-    description: 'Max # of connections allowed for each user (binding)'
-    default: 40
-
   smoke_tests_only:
     description: 'Instead of running the full acceptance test suite, only run a shorter smoke test'
     default: false
