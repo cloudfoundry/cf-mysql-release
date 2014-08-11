@@ -35,6 +35,7 @@ networks: (( merge ))
 resource_pools:
   - name: services-small
     network: services1
+    size: (( auto ))
     stemcell: (( merge ))
     cloud_properties: (( merge ))
 
