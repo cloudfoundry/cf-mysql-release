@@ -15,7 +15,7 @@ source /var/vcap/packages/common/utils.sh
 case $1 in
 
   start)
-    echo "Starting galera-healthcheck..."
+    log "Starting galera-healthcheck..."
     pid_guard $pidfile "Galera Healthcheck"
 
     mkdir -p $run_dir
@@ -30,13 +30,13 @@ case $1 in
       -pidfile=$pidfile \
       >>$log_dir/galera-healthcheck.stdout.log 2>>$log_dir/galera-healthcheck.stderr.log &
 
-    echo "Starting galera-healthcheck... done"
+    log "Starting galera-healthcheck... done"
     ;;
 
   stop)
-    echo "Stopping galera-healthcheck..."
+    log "Stopping galera-healthcheck..."
     kill_and_wait $pidfile
-    echo "Stopping galera-healthcheck... done"
+    log "Stopping galera-healthcheck... done"
     ;;
 
   *)
