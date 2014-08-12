@@ -308,3 +308,9 @@ implied by the `ssl_enabled` setting.
 Traffic to the MySQL cluster is routed through an HAProxy node. The intention is to use this proxy for fail-over and load balancing traffic.
 
 The HAProxy node runs a thin web server to display traffic stats. This dashboard can be reached at `haproxy-1.p-mysql.<system domain>`. Log in as user `admin` with the password configured by the `haproxy_stats_password` property in the deployment manifest.
+
+## Known Limitations
+
+###MyISAM Tables
+This release does not support replication of MyISAM Tables. While we do not allow the creation of MyISAM tables, any previously existing ones will only exist on the primary node. To change a table from MyISAM to InnoDB, please follow this [guide](http://dev.mysql.com/doc/refman/5.5/en/converting-tables-to-innodb.html).
+
