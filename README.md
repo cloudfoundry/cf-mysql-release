@@ -312,5 +312,5 @@ The HAProxy node runs a thin web server to display traffic stats. This dashboard
 ## Known Limitations
 
 ###MyISAM Tables
-This release does not support replication of MyISAM Tables. While we do not allow the creation of MyISAM tables, any previously existing ones will only exist on the primary node. To change a table from MyISAM to InnoDB, please follow this [guide](http://dev.mysql.com/doc/refman/5.5/en/converting-tables-to-innodb.html).
+This release does not support replication of MyISAM Tables. However, the service does not prevent the creation of MyISAM tables. When MyISAM tables are created, the tables will be created on every node (DDL statements are replicated), but data written to the node won't be replicated. If the persistent disk is lost, data will be lost. To change a table from MyISAM to InnoDB, please follow this [guide](http://dev.mysql.com/doc/refman/5.5/en/converting-tables-to-innodb.html).
 
