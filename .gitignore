@@ -10,3 +10,10 @@ blobs
 bosh-lite/manifests/*
 bosh-lite/tmp/*
 .idea/
+releases/**/*.tgz
+.idea
+.DS_Store
+*.swp
+*~
+*#
+#*
