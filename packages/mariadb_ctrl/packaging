@@ -7,8 +7,8 @@ export PATH=$GOROOT/bin:$PATH
 
 export GOPATH=$PWD/mariadb_ctrl
 
-go install github.com/pivotal-cf-experimental/mariadb_ctrl
+go install github.com/cloudfoundry/mariadb_ctrl
 
 cp mariadb_ctrl/bin/mariadb_ctrl $BOSH_INSTALL_TARGET/mariadb_ctrl-executable
-cp mariadb_ctrl/src/github.com/pivotal-cf-experimental/mariadb_ctrl/mysql_upgrade.sh $BOSH_INSTALL_TARGET/mysql_upgrade.sh
-cp mariadb_ctrl/src/github.com/pivotal-cf-experimental/mariadb_ctrl/execute_mysql_command.sh $BOSH_INSTALL_TARGET/execute_mysql_command.sh
+cp mariadb_ctrl/src/github.com/cloudfoundry/mariadb_ctrl/mysql_upgrade.sh $BOSH_INSTALL_TARGET/mysql_upgrade.sh
+cp mariadb_ctrl/src/github.com/cloudfoundry/mariadb_ctrl/execute_mysql_command.sh $BOSH_INSTALL_TARGET/execute_mysql_command.sh
