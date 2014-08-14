@@ -2,7 +2,7 @@
 name: cf-warden-mysql
 director_uuid: PLACEHOLDER-DIRECTOR-UUID
 releases:
-  - name: cf
+  - name: cf-mysql
     version: latest
 
 jobs:
