@@ -133,11 +133,11 @@ To tweak the deployment settings, you can modify the resulting file `cf-mysql-aw
 
 #### Deployment Manifest Properties<a name="manifest-properties"></a>
 
-Manifest properties are described in the `spec` file for each job; see [jobs](jobs). 
+Manifest properties are described in the `spec` file for each job; see [jobs](jobs).
 
 You can find your director_uuid by running `bosh status`.
 
-The MariaDB cluster nodes are configured by default with 100GB of persistent disk. This can be configured in your stub or manifest using `jobs.mysql.persistent_disk`, however your deployment will fail if this is less than 3GB; we recommend allocating 10GB at a minimum. 
+The MariaDB cluster nodes are configured by default with 100GB of persistent disk. This can be configured in your stub or manifest using `jobs.mysql.persistent_disk`, however your deployment will fail if this is less than 3GB; we recommend allocating 10GB at a minimum.
 
 ## Register the Service Broker<a name="register_broker"></a>
 
@@ -247,6 +247,31 @@ installation. Copy and paste this into your terminal, then open the resulting `i
   ```
   $ ./bin/test
   ```
+
+## Security Groups
+
+Since [cf-release](https://github.com/cloudfoundry/cf-release) v175, applications by default cannot to connect to IP addresses on the private network. This prevents applications from connecting to the MySQL service. To enable access to the service, create a new security group for the IP configured in your manifest for the property `jobs.mysql_broker.mysql_node.host`.
+
+1. Add the rule to a file in the following json format; multiple rules are supported.
+
+  ```
+  [
+      {
+        "destination": "10.44.1.18",
+        "protocol": "all"
+      }
+  ]
+  ```
+- Create a security group from the rule file.
+  <pre class="terminal">
+  $ cf create-security-group p-mysql rule.json
+  </pre>
+- Enable the rule for all apps
+  <pre class="terminal">
+  $ cf bind-running-security-group p-mysql
+  </pre>
+
+Changes are only applied to new application containers; in order for an existing app to receive security group changes it must be restarted.
 
 ## De-register the Service Broker<a name="deregister_broker"></a>
 
