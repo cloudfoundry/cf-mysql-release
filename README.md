@@ -107,7 +107,7 @@ You can use a pre-built final release or build a release from HEAD. Final releas
 
 2. Generate the manifest:
   ```
-  $ ./generate_deployment_manifest vsphere cf-mysql-vsphere-stub.yml > cf-riak-cs-vsphere.yml
+  $ ./generate_deployment_manifest vsphere cf-mysql-vsphere-stub.yml > cf-mysql-vsphere.yml
   ```
 To tweak the deployment settings, you can modify the resulting file `cf-mysql-vsphere.yml`.
 
