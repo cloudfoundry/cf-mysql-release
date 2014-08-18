@@ -39,11 +39,11 @@ properties:
   mysql_node.persistent_disk:
     description: 'Size of the persistent disk allocated to the MySQL node for storage'
   mysql_node.gcache_size:
-    description: 'Cache size used by galera (maximum amount of data possible in an IST)'
+    description: 'Cache size used by galera (maximum amount of data possible in an IST), in MB'
     default: 512
   mysql_node.ib_log_file_size:
-    description: 'Size of the ib_log_file used by innodb'
-    default: 1000
+    description: 'Size of the ib_log_file used by innodb, in MB'
+    default: 1024
 
   max_user_connections_default:
     description: 'number of user connections to allow in a plan if not specified'

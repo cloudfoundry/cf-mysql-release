@@ -44,10 +44,10 @@ properties:
 
   #these two properties are also used by the Broker
   gcache_size:
-    description: 'Cache size used by galera (maximum amount of data possible in an IST)'
+    description: 'Cache size used by galera (maximum amount of data possible in an IST), in MB'
     default: 512
   ib_log_file_size:
-    description: 'Size of the ib_log_file used by innodb'
+    description: 'Size of the ib_log_file used by innodb, in MB'
     default: 1024
   seeded_databases:
     description: 'Set of databases to seed'
