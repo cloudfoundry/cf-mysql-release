@@ -223,15 +223,16 @@ deployment. Copy and paste this into your terminal, then open the resulting `int
     "plans" : [
       {
         "plan_name": "100mb-dev",
+        "max_user_connections": 20,
         "max_storage_mb": 10
       },
       {
         "plan_name": "1gb-dev",
+        "max_user_connections": 40,
         "max_storage_mb": 20
       }
     ],
     "skip_ssl_validation": true,
-    "max_user_connections": 40,
     "timeout_scale": 1.0
   }
   EOF
