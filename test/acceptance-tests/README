@@ -4,7 +4,7 @@ Updating Dependencies
 
     - Use Linux 64bit version of binary
     - See https://github.com/cloudfoundry/cli/releases
-    - Name must be gcf (required by https://github.com/cloudfoundry-incubator/cf-test-helpers)
+    - Name must be cf
 
 - Go Libraries
 
