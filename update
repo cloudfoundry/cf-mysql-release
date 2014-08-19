@@ -1,4 +1,10 @@
 #!/bin/bash -x
 
-git pull && git submodule foreach --recursive git submodule sync && git submodule update --init --recursive
+function has_upstream() {
+  git rev-parse @{u} > /dev/null 2>&1
+}
+
+has_upstream && git pull
+
+git submodule foreach --recursive git submodule sync && git submodule update --init --recursive
 
