@@ -29,11 +29,11 @@ properties:
     skip_ssl_validation: true
 
 meta:
-  external_domain: YOUR_DOMAIN
+  external_domain: YOUR_CF_DOMAIN # This will probably come from the system_domain of cf-release. The broker registers a route at p-msyql.YOUR_CF_DOMAIN.
   nats:
     machines:
       - 10.0.0.5
-    password: A_PASSWORD_YOU_MAKE_UP
+    password: NATS_PASSWORD_FROM_CF_RELEASE
     user: nats
     port: 4222
   environment: YOUR_ENVIRONMENT_NAME
@@ -45,8 +45,6 @@ jobs:
 - name: mysql
   properties:
     admin_password: A_PASSWORD_YOU_MAKE_UP #The admin password for the MySQL server process
-    # storage_capacity_mb should be > max_storage_mb of your largest plan
-    storage_capacity_mb: 400
 - name: cf-mysql-broker
   properties:
     # The username & password cloud controller will use to authenticate with the service broker.
