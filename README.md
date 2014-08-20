@@ -94,9 +94,9 @@ You can use a pre-built final release or build a release from HEAD. Final releas
     ```
     $ ./bosh-lite/make_manifest_spiff_mysql
     ```
-    The manifest will be written to `bosh-lite/manifests/cf-mysql-manifest.yml`, which can be modified to change deployment settings.
+    The resulting file, `bosh-lite/manifests/cf-mysql-manifest.yml` is your deployment manifest. To modify the deployment configuration, you can edit the stub and regenerate the manifest or edit the manifest directly.
 
-1. The `make_manifest` script will set the deployment to `bosh-lite/manifests/cf-mysql-manifest.yml` for you, so to deploy you only need to run:
+1. The `make_manifest_spiff_mysql` script will set the deployment to `bosh-lite/manifests/cf-mysql-manifest.yml` for you, so to deploy you only need to run:
   ```
   $ bosh deploy
   ```
@@ -109,7 +109,7 @@ You can use a pre-built final release or build a release from HEAD. Final releas
   ```
   $ ./generate_deployment_manifest vsphere cf-mysql-vsphere-stub.yml > cf-mysql-vsphere.yml
   ```
-To tweak the deployment settings, you can modify the resulting file `cf-mysql-vsphere.yml`.
+  The resulting file, `cf-mysql-vsphere.yml` is your deployment manifest. To modify the deployment configuration, you can edit the stub and regenerate the manifest or edit the manifest directly.
 
 3. To deploy:
   ```
@@ -124,7 +124,7 @@ To tweak the deployment settings, you can modify the resulting file `cf-mysql-vs
   ```
   $ ./generate_deployment_manifest aws cf-mysql-aws-stub.yml > cf-mysql-aws.yml
   ```
-To tweak the deployment settings, you can modify the resulting file `cf-mysql-aws.yml`.
+  The resulting file, `cf-mysql-aws.yml` is your deployment manifest. To modify the deployment configuration, you can edit the stub and regenerate the manifest or edit the manifest directly.
 
 1. To deploy:
   ```
