@@ -34,10 +34,10 @@ meta:
   environment: YOUR_ENVIRONMENT_NAME
   stemcell:
     name: bosh-aws-xen-ubuntu-trusty-go_agent
-    version: 2671
+    version: 2682
   external_domain: YOUR_EXTERNAL_DOMAIN
-  apps_domain: YOUR_APPS_DOMAIN
-  system_domain: YOUR_SYSTEM_DOMAIAN
+  apps_domain: YOUR_CF_APPS_DOMAIN
+  system_domain: YOUR_CF_SYSTEM_DOMAIN
   nats:
     user: nats
     password: A_PASSWORD_YOU_MAKE_UP
@@ -67,14 +67,14 @@ jobs:
     services:
       - name: p-mysql
         dashboard_client:
-          secret: A_PASSWORD_YOU_MAKE_UP
+          secret: A_PASSWORD_YOU_MAKE_UP #Secret used by MySQL dashboard to fetch an OAuth token from UAA
         plans:
         - name: YOUR_PLAN_NAME
           max_storage_mb: PLAN_SIZE_IN_MB
 - name: haproxy
   release: cf-mysql
   properties:
-    haproxy_stats_password: A_PASSWORD_YOU_MAKE_UP
+    haproxy_stats_password: A_PASSWORD_YOU_MAKE_UP #Admin password for logging into the HAProxy Stats web UI
 - name: broker-registrar
   properties:
     cf:
