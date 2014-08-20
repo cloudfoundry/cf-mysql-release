@@ -32,15 +32,12 @@ properties:
 
 meta:
   environment: YOUR_ENVIRONMENT_NAME
-  stemcell:
-    name: bosh-aws-xen-ubuntu-trusty-go_agent
-    version: 2682
-  external_domain: YOUR_EXTERNAL_DOMAIN
-  apps_domain: YOUR_CF_APPS_DOMAIN
-  system_domain: YOUR_CF_SYSTEM_DOMAIN
+  external_domain: YOUR_CF_DOMAIN # This will probably come from the system_domain of cf-release. The broker registers a route at p-msyql.YOUR_CF_DOMAIN.
+  apps_domain: YOUR_APPS_DOMAIN
+  system_domain: YOUR_SYSTEM_DOMAIAN
   nats:
     user: nats
-    password: A_PASSWORD_YOU_MAKE_UP
+    password: NATS_PASSWORD_FROM_CF_RELEASE
     machines:
       - 10.10.80.11
     port: 4222
@@ -51,8 +48,6 @@ jobs:
 - name: mysql
   properties:
     admin_password: A_PASSWORD_YOU_MAKE_UP #The admin password for the MySQL server process
-    # storage_capacity_mb should be > max_storage_mb of your largest plan
-    storage_capacity_mb: 400
 
 - name: cf-mysql-broker
   properties:
