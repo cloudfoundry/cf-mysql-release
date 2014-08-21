@@ -1,0 +1,144 @@
+---
+packages:
+- name: acceptance-tests
+  version: 6c5651be8fc3feef23fd67c5832bc02904f22358
+  sha1: cea2e7e518d20609d10a8d7e75a7264f94303ab0
+  fingerprint: 6c5651be8fc3feef23fd67c5832bc02904f22358
+  dependencies:
+  - golang
+  - cli
+- name: boost
+  version: 3eb8bdb1abb7eff5b63c4c5bdb41c0a778925c31
+  sha1: 904f90543f9c2a09175d93e88152936e78d03e80
+  fingerprint: 3eb8bdb1abb7eff5b63c4c5bdb41c0a778925c31
+  dependencies: []
+- name: broker-registrar
+  version: 5528ca7f79a00cfeeab70bb98c7914cd3ab72596
+  sha1: 9a32ea77ede4720a29a1d5fa20582b535f54356a
+  fingerprint: 5528ca7f79a00cfeeab70bb98c7914cd3ab72596
+  dependencies:
+  - ruby
+- name: cf-mysql-broker
+  version: 8ac3af65ebd1b17363d1846838c1593de345fdc1
+  sha1: 461c676f82ec014c7300683418936eedc6a3b56c
+  fingerprint: 8ac3af65ebd1b17363d1846838c1593de345fdc1
+  dependencies:
+  - ruby
+  - mysqlclient
+- name: check
+  version: d6811f25e9d56428a9b942631c27c9b24f5064dc
+  sha1: db828c3f72f85b98b5afd511b1627b6f4fe16d2c
+  fingerprint: d6811f25e9d56428a9b942631c27c9b24f5064dc
+  dependencies: []
+- name: cli
+  version: 4bb5c60db940b97d34d4a916497f9c6c558be14f
+  sha1: 66b197a18ab400e2e79ddb75ce15495c2f4f8f66
+  fingerprint: 4bb5c60db940b97d34d4a916497f9c6c558be14f
+  dependencies: []
+- name: common
+  version: ba480a46c4b2aa9484fb24ed01a8649453573e6f
+  sha1: a1a8e14c99bfb8fd80ed207cd74351854c66605c
+  fingerprint: ba480a46c4b2aa9484fb24ed01a8649453573e6f
+  dependencies: []
+- name: galera
+  version: 3bc4780edb4c44e53c124ca5e055df2e6aeea840
+  sha1: 5beb9fcbf9c89b3b66ebbc2eb79830f982255180
+  fingerprint: 3bc4780edb4c44e53c124ca5e055df2e6aeea840
+  dependencies:
+  - scons
+  - boost
+  - check
+- name: galera-healthcheck
+  version: 61529acb47ab47433f62cec4ea444c36821e9dbe
+  sha1: 15a375655f9dedfcf76b5bfb7de04b48602694e5
+  fingerprint: 61529acb47ab47433f62cec4ea444c36821e9dbe
+  dependencies:
+  - golang
+- name: golang
+  version: aa5f90f06ada376085414bfc0c56c8cd67abba9c
+  sha1: 8e0b39557d859666bb129cdd2822f72a7d592338
+  fingerprint: aa5f90f06ada376085414bfc0c56c8cd67abba9c
+  dependencies: []
+- name: gra-log-purger
+  version: c8bc8915c96549b69ec39d468bf93f386cdda62c
+  sha1: 63a645e8117772f7661a96cfc656b08a386e3d2e
+  fingerprint: c8bc8915c96549b69ec39d468bf93f386cdda62c
+  dependencies:
+  - golang
+- name: haproxy
+  version: 766f9a611031869414e9a49b7727df2c0cb4f420
+  sha1: cd375d69ce18e36b6a7e54b96eec4417cb5986b8
+  fingerprint: 766f9a611031869414e9a49b7727df2c0cb4f420
+  dependencies: []
+- name: mariadb
+  version: 5a20fa04bb1244eb06c479b77e469e672d868ea5
+  sha1: cb5bad750421613a046cf3ab3b29e6bdc3a03019
+  fingerprint: 5a20fa04bb1244eb06c479b77e469e672d868ea5
+  dependencies:
+  - galera
+- name: mariadb_ctrl
+  version: 1d8876430b87eb9bd60fbb5d4753e5e72b61544c
+  sha1: 61c702d1f2414184ba1a597d8a65773488ef4576
+  fingerprint: 1d8876430b87eb9bd60fbb5d4753e5e72b61544c
+  dependencies:
+  - golang
+- name: mysql
+  version: 9f1baf97b20cb0193d2b7f05c6439317d46ead84
+  sha1: 678ca80c3456b7b568aacc5c2d599bb33b3640cf
+  fingerprint: 9f1baf97b20cb0193d2b7f05c6439317d46ead84
+  dependencies: []
+- name: mysqlclient
+  version: 463569504a957e41eddd83123bff12cc418cbb54
+  sha1: cef532e595754346af80ddeb74bdf04ea90b6988
+  fingerprint: 463569504a957e41eddd83123bff12cc418cbb54
+  dependencies: []
+- name: route-registrar
+  version: 69c1b463046c4b1fe44c679b134a09dbf5a3b460
+  sha1: 48bd72184bc3cc90ffba3001f3e8144a5a8d8fe4
+  fingerprint: 69c1b463046c4b1fe44c679b134a09dbf5a3b460
+  dependencies:
+  - golang
+- name: ruby
+  version: cd4d8494a137e228e6358eb18eee7528e371a0a0
+  sha1: 19f6ae73a654af3522e0bf956a29e9eb48684599
+  fingerprint: cd4d8494a137e228e6358eb18eee7528e371a0a0
+  dependencies: []
+- name: scons
+  version: 1dec335e3e83d11156204f7a3cdcc452d8a3fffe
+  sha1: 975a10550d242072c41f54d3fc7fb7cfc2fa1f85
+  fingerprint: 1dec335e3e83d11156204f7a3cdcc452d8a3fffe
+  dependencies: []
+- name: syslog_aggregator
+  version: 078da6dcb999c1e6f5398a6eb739182ccb4aba25
+  sha1: 4b02feea39050742b30a487c32debc33fbb341a3
+  fingerprint: 078da6dcb999c1e6f5398a6eb739182ccb4aba25
+  dependencies: []
+jobs:
+- name: acceptance-tests
+  version: 9bc9c786217d902a4f06969a514a6653a77db1e5
+  fingerprint: 9bc9c786217d902a4f06969a514a6653a77db1e5
+  sha1: 2f25bf2198457375cd9d7943f690dc31eed2d948
+- name: broker-deregistrar
+  version: 6cdbf26246d18b4cdabe260ddaddce7aa5b1517a
+  fingerprint: 6cdbf26246d18b4cdabe260ddaddce7aa5b1517a
+  sha1: 41ccb2ff3c8ff94e12b27ffa461c914e3abd501c
+- name: broker-registrar
+  version: 854e93507ea5db0dfcdb746280c3731be2cbb607
+  fingerprint: 854e93507ea5db0dfcdb746280c3731be2cbb607
+  sha1: 5029590280b4d8f3aaad38db460a095eae09912e
+- name: cf-mysql-broker
+  version: ac15b1fa5859bd8245bbdbde218113f897f22a3e
+  fingerprint: ac15b1fa5859bd8245bbdbde218113f897f22a3e
+  sha1: ead0eed5be19567011e0d164c264738998ed1bd1
+- name: haproxy
+  version: f1c481c37d6ec0172d82b2fbe3a315a34b1dcfc3
+  fingerprint: f1c481c37d6ec0172d82b2fbe3a315a34b1dcfc3
+  sha1: f71d2c8c3f2266867278156381811c1d08dd140f
+- name: mysql
+  version: 418ca625cc2308c8e7b3a9403084993a301eb9bd
+  fingerprint: 418ca625cc2308c8e7b3a9403084993a301eb9bd
+  sha1: 5bdb83eb601cfd33d7a3951397105b26e2e0a1d5
+commit_hash: 5d6c3e68
+uncommitted_changes: true
+name: cf-mysql
+version: '11'
