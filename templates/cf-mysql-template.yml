@@ -88,7 +88,7 @@ jobs:
     networks:
     - name: services1
     properties:
-      max_user_connections_default: ~
+      max_user_connections_default: (( merge || 40 ))
       syslog_aggregator: (( meta.syslog_aggregator ))
       network_name: services1
       auth_username: (( merge ))
