@@ -40,9 +40,9 @@ After installation, the MySQL service will be visible in the Services Marketplac
 
 ### Upload Stemcell<a name="upload_stemcell"></a>
 
-The latest final release, v10, expects the Ubuntu Trusty (14.04) go_agent stemcell version 2652 by default. This release may not work with newer stemcells it may have dependencies on libraries which have been removed from newer stemcells. Stemcells can be downloaded from http://boshartifacts.cfapps.io/file_collections?type=stemcells; choose the ubuntu trusty go_agent stemcell 2652 for your infrastructure ([vsphere esxi](https://s3.amazonaws.com/bosh-jenkins-artifacts/bosh-stemcell/vsphere/bosh-stemcell-2652-vsphere-esxi-ubuntu-trusty-go_agent.tgz) or [aws xen](https://s3.amazonaws.com/bosh-jenkins-artifacts/bosh-stemcell/aws/bosh-stemcell-2652-aws-xen-ubuntu-trusty-go_agent.tgz)).
+The latest final release, v11, expects the Ubuntu Trusty (14.04) go_agent stemcell version 2682 by default. This release may not work with newer stemcells it may have dependencies on libraries which have been removed from newer stemcells. Stemcells can be downloaded from http://boshartifacts.cfapps.io/file_collections?type=stemcells; choose the ubuntu trusty go_agent stemcell 2682 for your infrastructure ([vsphere esxi](https://s3.amazonaws.com/bosh-jenkins-artifacts/bosh-stemcell/vsphere/bosh-stemcell-2682-vsphere-esxi-ubuntu-trusty-go_agent.tgz) or [aws xen](https://s3.amazonaws.com/bosh-jenkins-artifacts/bosh-stemcell/aws/bosh-stemcell-2682-aws-xen-ubuntu-trusty-go_agent.tgz)).
 
-Master currently expects Ubuntu Trusty go_agent 2671 by default.
+Master expects Ubuntu Trusty go_agent by default, but the version changes frequently.
 
 Stemcells can be downloaded from http://boshartifacts.cfapps.io/file_collections?type=stemcells.
 
@@ -57,14 +57,14 @@ You can use a pre-built final release or build a release from HEAD. Final releas
   ```
   $ cd ~/workspace/cf-mysql-release
   $ ./update
-  $ git checkout v10
+  $ git checkout v11
   $ git submodule update --recursive
   ```
 
 1. Run the upload command, referencing one of the config files in the `releases` directory.
 
   ```
-  $ bosh upload release releases/cf-mysql-10.yml
+  $ bosh upload release releases/cf-mysql-11.yml
   ```
 
 #### Create a BOSH Release from HEAD and Upload:
