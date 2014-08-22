@@ -22,7 +22,6 @@ networks:
 
 properties:
   cf:
-    apps_domain: YOUR_CF_APPS_DOMAIN
     api_url: YOUR_CF_API_URL
     admin_username: YOUR_CF_ADMIN_USERNAME
     admin_password: YOUR_CF_ADMIN_PASSWORD
@@ -30,6 +29,7 @@ properties:
 
 meta:
   external_domain: YOUR_CF_SYSTEM_DOMAIN # This will probably come from the system_domain of cf-release. The broker registers a route at p-msyql.YOUR_CF_DOMAIN.
+  apps_domain: YOUR_CF_APPS_DOMAIN
   nats:
     machines:
       - 10.0.0.5
@@ -53,7 +53,7 @@ jobs:
     cc_api_uri: (( .properties.cf.api_url ))
     cookie_secret: A_PASSWORD_YOU_MAKE_UP
     services:
-    - name: mysql
+    - name: p-mysql
       dashboard_client:
         secret: A_PASSWORD_YOU_MAKE_UP #Secret used by MySQL dashboard to fetch an OAuth token from UAA
       plans:
