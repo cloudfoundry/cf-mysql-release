@@ -23,7 +23,7 @@ A BOSH release of a MySQL database-as-a-service for Cloud Foundry using [MariaDB
 
 ## Release Notes
 
-[Release Notes](https://github.com/cloudfoundry/cf-mysql-release/wiki/Release-Notes)
+For release notes and other documentation, see [the release wiki](https://github.com/cloudfoundry/cf-mysql-release/wiki/).
 
 ## Deployment
 
