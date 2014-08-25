@@ -22,13 +22,13 @@ networks:
 
 properties:
   cf:
-    api_url: YOUR_CF_API_URL
+    api_url: https://api.YOUR_CF_SYSTEM_DOMAIN
     admin_username: YOUR_CF_ADMIN_USERNAME
     admin_password: YOUR_CF_ADMIN_PASSWORD
     skip_ssl_validation: true
 
 meta:
-  external_domain: YOUR_CF_SYSTEM_DOMAIN # This will probably come from the system_domain of cf-release. The broker registers a route at p-msyql.YOUR_CF_DOMAIN.
+  external_domain: YOUR_CF_SYSTEM_DOMAIN # The broker registers a route at p-mysql.external_domain
   apps_domain: YOUR_CF_APPS_DOMAIN
   nats:
     machines:
