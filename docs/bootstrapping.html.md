@@ -13,7 +13,7 @@ Bootstrapping from scenario #1 is automated during the initial deployment of cf-
 
 ## Determining Cluster State
 
-See [Determining Cluster State](cluster-state.html)
+See [Determining Cluster State](cluster-state.html.md)
 
 **Important:** You should only bootstrap the cluster if all nodes report a `Non-Primary` value for `wsrep_cluster_status`.
 
