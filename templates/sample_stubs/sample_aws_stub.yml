@@ -32,7 +32,7 @@ properties:
 
 meta:
   environment: YOUR_ENVIRONMENT_NAME
-  external_domain: YOUR_CF_SYSTEM_DOMAIN # This will probably come from the system_domain of cf-release. The broker registers a route at p-msyql.YOUR_CF_DOMAIN.
+  external_domain: YOUR_CF_SYSTEM_DOMAIN # The broker registers a route at p-msyql.external_domain.
   apps_domain: YOUR_CF_APPS_DOMAIN
   system_domain: YOUR_CF_SYSTEM_DOMAIN
   nats:
