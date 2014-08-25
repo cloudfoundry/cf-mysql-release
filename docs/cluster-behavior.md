@@ -21,7 +21,7 @@ Documented here are scenarios in which the size of a cluster may change, how the
   - To fix this cluster you must bring down the last node, bootstrap the node with the latest data, then have the other nodes join the bootstrapped node.
 
 ### Re-bootstrapping the cluster after quorum is lost
-  - The start script will currently bootstrap node 0 only on initial deploy. Re-bootstrapping requires a manual bootstrap. For more information on manually bootstrapping a cluster, see [Bootstrapping Galera](bootstrapping.html.md).
+  - The start script will currently bootstrap node 0 only on initial deploy. Re-bootstrapping requires a manual bootstrap. For more information on manually bootstrapping a cluster, see [Bootstrapping Galera](bootstrapping.md).
   - The node with the most up-to-date information should be bootstrapped.
   - Currently, only node 0 receives connections, so it should always have the most up-to-date information. Therefore, until the service supports writes to other nodes, a user can re-bootstrap from this node.
 

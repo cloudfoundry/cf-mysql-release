@@ -20,7 +20,7 @@ Note:
 
 ## Recovery
 
-The first thing to is determine the state of the Galera cluster; see [Determining Cluster State](cluster-state.html.md).
+The first thing to is determine the state of the Galera cluster; see [Determining Cluster State](cluster-state.md).
 
 If clustering is intact (no network partitions) and most of the nodes are functioning normally, an administrator only needs to recover the persistent disk for the node with disk issues. When the node with the detached or lost disk is recovered, it should successfully rejoin the cluster and Galera's replication should bring the node up-to-date. See [When all nodes are still in the primary component](#cluster-intact) below for recovery instructions.
 
@@ -110,7 +110,7 @@ When the disk is detached, monit considers the process stopped and BOSH will con
   <pre class="terminal">
   $ bosh deploy
   </pre>
-- ssh into any one of the nodes and verify that all nodes have joined the cluster; for instructions, see [Determining Cluster State](cluster-state.html.md).
+- ssh into any one of the nodes and verify that all nodes have joined the cluster; for instructions, see [Determining Cluster State](cluster-state.md).
 - Only after all nodes have joined the cluster should you edit the deployment manifest, setting the number of instances for cf-mysql-broker and haproxy back to 1 and restoring the static ip for haproxy. Then deploy the release.
   <pre class="terminal">
   $ bosh deploy
