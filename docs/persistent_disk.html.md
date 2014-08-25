@@ -112,7 +112,7 @@ When the disk is detached, monit considers the process stopped and BOSH will con
   <pre class="terminal">
   $ bosh deploy
   </pre>
-- ssh into any one of the nodes and verify that all nodes have joined the cluster; for instructions, see [Determining Cluster State](cluster-state.html).
+- ssh into any one of the nodes and verify that all nodes have joined the cluster; for instructions, see [Determining Cluster State](cluster-state.html.md).
 - Only after all nodes have joined the cluster should you edit the deployment manifest, setting the number of instances for cf-mysql-broker and haproxy back to 1 and restoring the static ip for haproxy. Then deploy the release.
   <pre class="terminal">
   $ bosh deploy
