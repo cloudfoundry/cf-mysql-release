@@ -26,12 +26,11 @@ If clustering is intact (no network partitions) and most of the nodes are functi
 
 On the other hand, if the cluster has lost quorum or most of the nodes are not running, the administrator must recreate/restart nodes in a particular order to preserve the cluster's data. This ensures that the node(s) that have the most up-to-date data don't try to join a cluster without that data. See [When cluster has lost quorum](#quorum-lost) below for recovery instructions.
 
-<a id="cluster-intact"/>
+<a name="cluster-intact"/>
 ### When all nodes are still in the primary component
 
 This only requires that the operator recreate the one node with disk issues. The process to recover depends on the the nature of the disk failure.
 
-<a id="detachedDisk"/>
 #### When persistent disk is detached and can be re-attached
 
 When the disk is detached, monit considers the process stopped and BOSH will consider the job as failing. However currently BOSH cloud check will not recognize the disk is unattached without a little kick.
@@ -58,7 +57,6 @@ When the disk is detached, monit considers the process stopped and BOSH will con
   $ bosh restart mysql 0
   </pre>
 
-<a id="lostDisk"/>
 #### When persistent disk is lost and needs to be re-created
 
 ##### If node 0 has lost its persistent disk:
@@ -128,7 +126,7 @@ Since all connections are routed to Node 0, we don't need to worry about new dat
   $ bosh recreate mysql 1
   </pre>
 
-<a id="quorum-lost"/>
+<a name="quorum-lost"/>
 ### When cluster has lost quorum
 
 1. ssh into all nodes and use monit to stop the MariaDB process.
