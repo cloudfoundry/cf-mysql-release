@@ -36,6 +36,10 @@ listen stats :1936
     stats auth admin:password
 ```
 
+## Connection handling with Healthcheck
+
+HAProxy does not exclusively use the healthcheck when determing where to route traffic. If HAProxy attempts to establish a connection to a node where the healthcheck returns true, and that connection attempt fails, HAProxy will ignore the healthcheck and failover to a new node.
+
 ## Connection handling on MariaDB failure ##
 
 The observations below are verifications of uses cases only where connections are dropped due to the MariaDB process dying.
