@@ -1,4 +1,4 @@
-# MariaDB / Galera Cluster Configuration Settings
+# Cluster Configuration
 
 This page documents the various configuration decisions that have been made in relation to MariaDB and Galera in cf-mysql-release.
 

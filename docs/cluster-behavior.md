@@ -1,4 +1,4 @@
-# Galera Cluster Behavior
+# Cluster scaling, node failure, and quorum
 
 Documented here are scenarios in which the size of a cluster may change, how the cluster behaves, and how to restore service function when impacted.
 
