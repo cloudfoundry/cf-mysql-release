@@ -1,8 +1,8 @@
----
-title: HAProxy
----
+# HAProxy and failover
 
-HAProxy is an application which provides load-balancing and high-availability. We use it to route connections between multiple MariaDB nodes. The high-availability feature of HAProxy is used to failover between nodes, but the load-balance feature is not used, as we want to ensure that all connections (read and write) go to a single node. To achieve this, we use the HAProxy config as follows:
+## All new connections are routed to the same node ##
+
+HAProxy is an application which provides load-balancing and high-availability. We use it to route connections to nodes of the MariaDB Galera Cluster. The high-availability feature of HAProxy is used to failover between nodes, but the load-balance feature is not used, as we want to ensure that all connections (read and write) go to a single node. To achieve this, we use an HAProxy config as follows:
 
 ```
 global
@@ -36,37 +36,51 @@ listen stats :1936
     stats auth admin:password
 ```
 
-## Experiments and Results ##
+## Connection handling on MariaDB failure ##
 
-For the purpose of this section, all failures are MariaDB failures, not galera-healthcheck failures (see known issues below)
-
-### Spawning new connections ###
-
-No matter the number of healthy nodes, all connections go to the same node.
+The observations below are verifications of uses cases only where connections are dropped due to the MariaDB process dying.
 
 ### MariaDB on a node dies with no existing connections ###
 
-The node is removed from the pool of healthy nodes. New connections route to another healthy node.
-
-### MariaDB on a node dies with existing connections ###
-
-Existing connections are cut, and on the next connection attempt they are routed to the same healthy node as all other connections.
+The node is removed from the pool of healthy nodes. All new connections are routed to another healthy node.
 
 ### MariaDB node is resurrected with no connections on other nodes ###
 
-HAProxy has already failed-over to a new node, so all connections will go to that.
+HAProxy has already failed-over to a new node. All connections will go to that node; the resurrected node will not receive connections.
+
+### MariaDB on a node dies with existing connections ###
+
+Existing connections are dropped; all new connections (and reconnections) are routed to another healthy node.
 
 ### MariaDB node is resurrected with existing connections on other nodes ###
 
-As above, all connections are already routed to another node so this doesn't affect the routing of new or existing connections.
+As above, HAProxy has already failed-over to a new node. All connections will go to that node; the resurrected node will not receive connections.
 
-## Untested ##
+### Untested ###
 
-* What happens if a node dies and is resurrected between ping intervals? Perhaps HAProxy routes traffic to bad nodes and application see multiple connection failures before node becomes alive again. Mitigated if we reduce ping interval (see further discussion below).
+What happens if a node dies and is resurrected between ping intervals? Perhaps HAProxy routes traffic to bad nodes and application see multiple connection failures before node becomes alive again. Mitigated if we reduce ping interval (see further discussion below).
+
+## Connection handling during State Snapshot Transfer (SST)
+
+When a new node is added to the cluster it gets its state from an existing node via a process called SST.  During this process, the donor node suspends writes but allows reads. MariaDB holds open existing connections and also allows new connections. It doesn't return an error on write; instead writes hang until the SST is completed.
+
+### Untested ###
+
+As writes to DONOR node are suspended during SST, it is conceivable that the connection may time out if the SST takes a long time. We have not managed to reproduce this, but it might be possible to observe this behavior if the cluster is running for a long time before adding a new node. This will not be an issue when we implement a proxy on the node, as this will sever the connection as soon as MariaDB enters DONOR mode.
+
+## Connection handling for non-primary components ##
+
+If a cluster loses n/2 + 1 nodes (i.e. greater than half) then the remaining nodes form a non-primary component. In this state it is impossible to perform any meaningful operations - reads and writes are met with an error - `WSREP has not yet prepared this node for application use`. It is possible to perform some admin tasks e.g. `show databases`. Even `use database xyz` failed. Existing connections behave the same as new connections - everything is met with the same error.
 
 ## Known Issues ##
 
-* HAProxy only checks port 9200 (galera-healthcheck) when considering new connections - existing connections will continue to be routed to the MariaDB node if it is alive. This may cause an issue if the node goes into DONOR mode as HAProxy will not automatically reroute existing connections. This issue will likely be resolved when we rewrite the galera-healthcheck to be a proxy for the connection, as it will be responsible for severing the connection for all states and HAProxy will not have to perform a healthcheck on a separate port.
+In states such as SST and Non-primary Components (see above), MariaDB is operational, disallows writes, but does not terminate connections.
+
+HAProxy only considers the galera-healthcheck (available on port 9200 of each node) in determining where to route new connections. In the aforementioned states, the healthcheck will report a node as unhealthy, so new connections will be routed to a healthy node, but it is not a feature of HAProxy to terminate existing connections.
+
+This results in connections on multiple nodes, which is undesireable due to the possibility for deadlocks. As we assume most appliations have not been designed to tolerate deadlocking, we will attempt to prevent this from happening.
+
+The current plan is to implement a mechanism on each node responsible for severing existing connections when the healthcheck reports a node as unhealthy.
 
 ## Further Discussion ##
 
