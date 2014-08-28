@@ -26,11 +26,26 @@ Documented here are scenarios in which the size of a cluster may change, how the
   - Currently, only node 0 receives connections, so it should always have the most up-to-date information. Therefore, until the service supports writes to other nodes, a user can re-bootstrap from this node.
 
 ### One node partitioned from the other two
-  - This can be simulated by adding iptables rules to the VM of node 0 preventing it from communicating with the other two VMs.
-  - The two node side of the partition constitute a healthy cluster because they have quorum (greater than half).
-  - The single node is part of a "non-primary component" (meaning an unhealthy subset of the cluster) until it can rejoin the other two nodes. Most SQL commands to nodes in a non-primary component will fail with an `unknown command` error.
+  - This can be simulated by adding iptables rules (see below) to the VM of node 0 preventing it from communicating with the other two VMs.
+  - The two-node side of the partition constitutes a healthy cluster because the two nodes have quorum (greater than half).
+  - The single node is part of a "non-primary component" (meaning an unhealthy subset of the cluster) until it can rejoin the other two nodes. Most SQL commands to nodes in a non-primary component will fail with an error as follows: `WSREP has not yet prepared this node for application use`. In some clients this may manifest itself as `unknown error`.
+  - All nodes suspend connections once they notice something is wrong with the cluster. After the 6 second grace period the primary component resumed accepting connections - the non-primary refused connections with the error above.
   - If the partition is dropped, the single node will rejoin the healthy cluster as long as no nodes were bootstrapped while the partition was up.
   - If the single node is bootstrapped, it will create a new one-node cluster. The result:
     - There are now two clusters, one cluster with a single node and another cluster with two nodes.
     - This split-brain scenario will not be healed even if the network partition is removed.
     - Both clusters will consider themselves healthy, and the single-node cluster will accept new data even though it cannot perform any kind of replication. Currently this is not a danger because only one node in the cluster receives connections.
+
+#### iptables rules for simulating partition
+On the node you wish to partition, execute the following:
+```
+iptables -F && \ # optional - flush existing rules
+iptables -A INPUT -p tcp --destination-port 4567 -j DROP && \
+iptables -A INPUT -p tcp --destination-port 4568 -j DROP && \
+iptables -A INPUT -p tcp --destination-port 4444 -j DROP && \
+iptables -A INPUT -p tcp --destination-port 3306 && \
+iptables -A OUTPUT -p tcp --destination-port 4567 -j DROP && \
+iptables -A OUTPUT -p tcp --destination-port 4568 -j DROP && \
+iptables -A OUTPUT -p tcp --destination-port 4444 -j DROP && \
+iptables -A OUTPUT -p tcp --destination-port 3306
+```
