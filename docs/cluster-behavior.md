@@ -27,9 +27,8 @@ Documented here are scenarios in which the size of a cluster may change, how the
 
 ### One node partitioned from the other two
   - This can be simulated by adding iptables rules (see below) to the VM of node 0 preventing it from communicating with the other two VMs.
-  - The two-node side of the partition constitutes a healthy cluster because the two nodes have quorum (greater than half).
-  - The single node is part of a "non-primary component" (meaning an unhealthy subset of the cluster) until it can rejoin the other two nodes. Most SQL commands to nodes in a non-primary component will fail with an error as follows: `WSREP has not yet prepared this node for application use`. In some clients this may manifest itself as `unknown error`.
-  - All nodes suspend connections once they notice something is wrong with the cluster. After the 6 second grace period the primary component resumed accepting connections - the non-primary refused connections with the error above.
+  - The two-node side of the partition constitutes a healthy cluster because the two nodes have quorum (greater than half). The single node is part of a "non-primary component" (meaning an unhealthy subset of the cluster) until it can rejoin the other two nodes.
+  - All nodes suspend writes once they notice something is wrong with the cluster (write requests hang). After the six second grace period nearly all requests to nodes in a non-primary component will fail with the error `WSREP has not yet prepared this node for application use`. In some clients this may manifest itself as `unknown error`. Nodes in the primary component will resume fulfilling write requests.
   - If the partition is dropped, the single node will rejoin the healthy cluster as long as no nodes were bootstrapped while the partition was up.
   - If the single node is bootstrapped, it will create a new one-node cluster. The result:
     - There are now two clusters, one cluster with a single node and another cluster with two nodes.
