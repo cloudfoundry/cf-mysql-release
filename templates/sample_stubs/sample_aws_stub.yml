@@ -34,7 +34,6 @@ meta:
   environment: YOUR_ENVIRONMENT_NAME
   external_domain: YOUR_CF_SYSTEM_DOMAIN # The broker registers a route at p-msyql.external_domain.
   apps_domain: YOUR_CF_APPS_DOMAIN
-  system_domain: YOUR_CF_SYSTEM_DOMAIN
   nats:
     user: nats
     password: NATS_PASSWORD_FROM_CF_RELEASE
