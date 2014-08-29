@@ -74,7 +74,13 @@ As writes to DONOR node are suspended during SST, it is conceivable that the con
 
 ## Connection handling for non-primary components ##
 
-If a cluster loses n/2 + 1 nodes (i.e. greater than half) then the remaining nodes form a non-primary component. In this state it is impossible to perform any meaningful operations - reads and writes are met with an error - `WSREP has not yet prepared this node for application use`. It is possible to perform some admin tasks e.g. `show databases`. Even `use database xyz` failed. Existing connections behave the same as new connections - everything is met with the same error.
+If a cluster loses more than than half its nodes then the remaining nodes form a non-primary component. There is a currently a six second grace period during which the cluster acknowledges something is wrong and gives missing nodes a chance to rejoin.
+
+During the grace period, existing connections are maintained and new connections can be established. Read requests are fulfilled but write requests are suspended (requests hang).
+
+Once the 6 second grace period expires, nodes in primary component will return to normal function, fulfilling write requests.
+
+Upon expiry of the grace period, nodes in a non-primary component will maintain existing connections and new connections can be established, but nearly all requests will receive the error `WSREP has not yet prepared this node for application use`, prompting the client to close the connection. Clients with open connections and hung writes will immediately receive this error and are expected to close the connection once the nodes enter a non-primary component.
 
 ## Known Issues ##
 
