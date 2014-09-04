@@ -19,7 +19,7 @@ listen mysql-cluster
     mode tcp
     option tcplog
 <% p('mysql_ips').each_with_index do |ip, idx| %>
-    server mysql-<%= idx %> <%= ip %>:3306 check port 9200 inter 5000 rise 2 fall 1
+    server mysql-<%= idx %> <%= ip %>:3306 check port 9200 inter 1000 rise 2 fall 1
 <% end %>
 
 listen stats :1936
