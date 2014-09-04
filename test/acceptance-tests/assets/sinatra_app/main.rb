@@ -45,7 +45,7 @@ post '/service/mysql/:service_name/write-bulk-data' do
   max_errors = 10
   current_errors = 0
   client_closed = false
-  while client_closed && current_errors < max_errors
+  while !client_closed && current_errors < max_errors
     begin
       client.close
       client_closed = true
