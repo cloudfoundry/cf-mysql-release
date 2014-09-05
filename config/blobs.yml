@@ -77,6 +77,9 @@ python/Python-2.7.8.tgz:
   size: 14846119
 ruby/ruby-2.0.0-p481.tar.gz:
   object_id: 55939f92-95bb-4d4d-8b36-80f6a0c2805b
-  sha: !binary |-
-    ZGRlZDdiNzM0OWQ1OWZlYjgzZDRmNzc0YjJkZGVjMjNlZWFiNzk3OA==
+  sha: dded7b7349d59feb83d4f774b2ddec23eeab7978
   size: 13586757
+mariadb/mariadb-galera-10.0.13.tar.gz:
+  object_id: 4d0c54a0-e224-4d4f-aee7-9be78264fee2
+  sha: 48870d34ed3bf3a38f4a7b8dea8d474039da5cf5
+  size: 51542182
