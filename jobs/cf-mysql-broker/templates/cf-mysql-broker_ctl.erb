@@ -50,9 +50,10 @@ case $1 in
             | logger -p local1.error -t mysql-broker-dbmigrate
         exit 1
       fi
+
+      cd -
     fi
 
-    cd -
     bundle exec unicorn -c $JOB_DIR/config/unicorn.conf.rb 2>&1 \
         | tee -a $LOG_DIR/cf-mysql-broker.log \
         | logger -p local1.error -t mysql-broker &
