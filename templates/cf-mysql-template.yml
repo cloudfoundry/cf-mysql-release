@@ -82,7 +82,7 @@ jobs:
   - name: cf-mysql-broker
     release: cf-mysql
     template: cf-mysql-broker
-    instances: 1
+    instances: 2
     resource_pool: services-small
     networks:
     - name: services1

@@ -10,7 +10,7 @@ jobs:
     properties:
       admin_password: password
   - name: cf-mysql-broker
-    instances: 1
+    instances: 2
     properties:
       auth_password: password
       auth_username: admin
