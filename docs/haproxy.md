@@ -82,7 +82,22 @@ Once the 6 second grace period expires, nodes in primary component will return t
 
 Upon expiry of the grace period, nodes in a non-primary component will maintain existing connections and new connections can be established, but nearly all requests will receive the error `WSREP has not yet prepared this node for application use`, prompting the client to close the connection. Clients with open connections and hung writes will immediately receive this error and are expected to close the connection once the nodes enter a non-primary component.
 
-## Known Issues ##
+# Setting up Round Robin DNS with HAProxy
+
+## AWS Route 53
+
+To set up a Round Robin DNS across multiple HAProxy IPs using AWS Route 53,
+follow the following instructions:
+
+1. Log in to AWS.
+2. Click Route 53.
+3. Click Hosted Zones.
+4. Select the hosted zone that contains the domain name to apply round robin routing to.
+5. Click 'Go to Record Sets'.
+6. Select the record set containing the desired domain name.
+7. In the value input, enter the IP addresses of each HAProxy VM, separated by a newline.
+
+# Known Issues #
 
 In states such as SST and Non-primary Components (see above), MariaDB is operational, disallows writes, but does not terminate connections.
 
