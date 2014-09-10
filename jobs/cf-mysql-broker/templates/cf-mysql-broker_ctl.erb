@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+set -e
+
 JOB_DIR=/var/vcap/jobs/cf-mysql-broker
 PACKAGE_DIR=/var/vcap/packages/cf-mysql-broker
 RUN_DIR=/var/vcap/sys/run/cf-mysql-broker
@@ -36,6 +38,7 @@ case $1 in
           | logger -p local1.error -t mysql-broker-dbmigrate
       cd $PACKAGE_DIR
 
+      set +e
       bundle exec rake db:create 2>&1 \
           | tee -a $LOG_DIR/db_migrate.combined.log \
           | logger -p local1.error -t mysql-broker-dbcreate
@@ -44,7 +47,10 @@ case $1 in
           | tee -a $LOG_DIR/db_migrate.combined.log \
           | logger -p local1.error -t mysql-broker-dbmigrate
 
-      if [ $? != 0 ]; then
+      EXIT_STATUS=$?
+      set -e
+
+      if [ $EXIT_STATUS != 0 ]; then
         echo "Migrations failed at `date`" \
             | tee -a $LOG_DIR/db_migrate.combined.log \
             | logger -p local1.error -t mysql-broker-dbmigrate
