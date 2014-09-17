@@ -10,11 +10,11 @@ import (
 	"strconv"
 	"time"
 
-	"../helpers"
-
 	. "github.com/cloudfoundry-incubator/cf-test-helpers/cf"
 	. "github.com/cloudfoundry-incubator/cf-test-helpers/generator"
 	. "github.com/cloudfoundry-incubator/cf-test-helpers/runner"
+
+	context_setup "github.com/cloudfoundry-incubator/cf-test-helpers/services/context_setup"
 )
 
 var (
@@ -25,7 +25,7 @@ var (
 		AssertAppIsRunning := func(appName string) {
 			pingUri := AppUri(appName) + "/ping"
 			fmt.Println("Checking that the app is responding at url: ", pingUri)
-			Eventually(Curl(pingUri), helpers.ScaledTimeout(timeout), retryInterval).Should(Say("OK"))
+			Eventually(Curl(pingUri), context_setup.ScaledTimeout(timeout), retryInterval).Should(Say("OK"))
 			fmt.Println("\n")
 		}
 
@@ -33,7 +33,7 @@ var (
 			uri := "http://" + IntegrationConfig.BrokerHost + "/v2/catalog"
 
 			fmt.Println("Curling url: ", uri)
-			Eventually(Curl(uri), helpers.ScaledTimeout(timeout), retryInterval).Should(Say("HTTP Basic: Access denied."))
+			Eventually(Curl(uri), context_setup.ScaledTimeout(timeout), retryInterval).Should(Say("HTTP Basic: Access denied."))
 		})
 
 		Describe("Service instance lifecycle", func() {
@@ -41,11 +41,11 @@ var (
 
 			BeforeEach(func() {
 				appName = RandomName()
-				Eventually(Cf("push", appName, "-m", "256M", "-p", sinatraPath, "-no-start"), helpers.ScaledTimeout(60*time.Second)).Should(Exit(0))
+				Eventually(Cf("push", appName, "-m", "256M", "-p", sinatraPath, "-no-start"), context_setup.ScaledTimeout(60*time.Second)).Should(Exit(0))
 			})
 
 			AfterEach(func() {
-				Eventually(Cf("delete", appName, "-f"), helpers.ScaledTimeout(20*time.Second)).Should(Exit(0))
+				Eventually(Cf("delete", appName, "-f"), context_setup.ScaledTimeout(20*time.Second)).Should(Exit(0))
 			})
 
 			AssertLifeCycleBehavior := func(PlanName string) {
@@ -54,22 +54,22 @@ var (
 					uri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/mykey"
 
 					Eventually(Cf("create-service", IntegrationConfig.ServiceName, PlanName, serviceInstanceName),
-						helpers.ScaledTimeout(60*time.Second)).Should(Exit(0))
+						context_setup.ScaledTimeout(60*time.Second)).Should(Exit(0))
 
-					Eventually(Cf("bind-service", appName, serviceInstanceName), helpers.ScaledTimeout(60*time.Second)).Should(Exit(0))
-					Eventually(Cf("start", appName), helpers.ScaledTimeout(5*time.Minute)).Should(Exit(0))
+					Eventually(Cf("bind-service", appName, serviceInstanceName), context_setup.ScaledTimeout(60*time.Second)).Should(Exit(0))
+					Eventually(Cf("start", appName), context_setup.ScaledTimeout(5*time.Minute)).Should(Exit(0))
 					AssertAppIsRunning(appName)
 
 					fmt.Println("Posting to url: ", uri)
-					Eventually(Curl("-d", "myvalue", uri), helpers.ScaledTimeout(timeout), retryInterval).Should(Say("myvalue"))
+					Eventually(Curl("-d", "myvalue", uri), context_setup.ScaledTimeout(timeout), retryInterval).Should(Say("myvalue"))
 					fmt.Println("\n")
 
 					fmt.Println("Curling url: ", uri)
-					Eventually(Curl(uri), helpers.ScaledTimeout(timeout), retryInterval).Should(Say("myvalue"))
+					Eventually(Curl(uri), context_setup.ScaledTimeout(timeout), retryInterval).Should(Say("myvalue"))
 					fmt.Println("\n")
 
-					Eventually(Cf("unbind-service", appName, serviceInstanceName), helpers.ScaledTimeout(20*time.Second)).Should(Exit(0))
-					Eventually(Cf("delete-service", "-f", serviceInstanceName), helpers.ScaledTimeout(20*time.Second)).Should(Exit(0))
+					Eventually(Cf("unbind-service", appName, serviceInstanceName), context_setup.ScaledTimeout(20*time.Second)).Should(Exit(0))
+					Eventually(Cf("delete-service", "-f", serviceInstanceName), context_setup.ScaledTimeout(20*time.Second)).Should(Exit(0))
 				})
 			}
 
@@ -88,20 +88,20 @@ var (
 				appName = RandomName()
 				serviceInstanceName = RandomName()
 
-				Eventually(Cf("push", appName, "-m", "256M", "-p", sinatraPath, "-no-start"), helpers.ScaledTimeout(60*time.Second)).Should(Exit(0))
+				Eventually(Cf("push", appName, "-m", "256M", "-p", sinatraPath, "-no-start"), context_setup.ScaledTimeout(60*time.Second)).Should(Exit(0))
 			})
 
 			AfterEach(func() {
-				Eventually(Cf("unbind-service", appName, serviceInstanceName), helpers.ScaledTimeout(20*time.Second)).Should(Exit(0))
-				Eventually(Cf("delete-service", "-f", serviceInstanceName), helpers.ScaledTimeout(20*time.Second)).Should(Exit(0))
-				Eventually(Cf("delete", appName, "-f"), helpers.ScaledTimeout(20*time.Second)).Should(Exit(0))
+				Eventually(Cf("unbind-service", appName, serviceInstanceName), context_setup.ScaledTimeout(20*time.Second)).Should(Exit(0))
+				Eventually(Cf("delete-service", "-f", serviceInstanceName), context_setup.ScaledTimeout(20*time.Second)).Should(Exit(0))
+				Eventually(Cf("delete", appName, "-f"), context_setup.ScaledTimeout(20*time.Second)).Should(Exit(0))
 			})
 
 			CreatesBindsAndStartsApp := func(PlanName string) {
 				Eventually(Cf("create-service", IntegrationConfig.ServiceName, PlanName, serviceInstanceName),
-					helpers.ScaledTimeout(60*time.Second)).Should(Exit(0))
-				Eventually(Cf("bind-service", appName, serviceInstanceName), helpers.ScaledTimeout(60*time.Second)).Should(Exit(0))
-				Eventually(Cf("start", appName), helpers.ScaledTimeout(5*time.Minute)).Should(Exit(0))
+					context_setup.ScaledTimeout(60*time.Second)).Should(Exit(0))
+				Eventually(Cf("bind-service", appName, serviceInstanceName), context_setup.ScaledTimeout(60*time.Second)).Should(Exit(0))
+				Eventually(Cf("start", appName), context_setup.ScaledTimeout(5*time.Minute)).Should(Exit(0))
 				AssertAppIsRunning(appName)
 			}
 
@@ -117,9 +117,9 @@ var (
 					secondValue := RandomName()[:20]
 
 					fmt.Println("*** Proving we can write")
-					Eventually(Curl("-d", firstValue, uri), helpers.ScaledTimeout(timeout), retryInterval).Should(Say(firstValue))
+					Eventually(Curl("-d", firstValue, uri), context_setup.ScaledTimeout(timeout), retryInterval).Should(Say(firstValue))
 					fmt.Println("*** Proving we can read")
-					Eventually(Curl(uri), helpers.ScaledTimeout(timeout), retryInterval).Should(Say(firstValue))
+					Eventually(Curl(uri), context_setup.ScaledTimeout(timeout), retryInterval).Should(Say(firstValue))
 
 					fmt.Println("*** Exceeding quota")
 
@@ -130,27 +130,27 @@ var (
 					}
 
 					for i := 0; i < loopIterations; i += 1 {
-						Eventually(Curl("-v", "-d", strconv.Itoa(mbToWrite), writeUri), helpers.ScaledTimeout(5*time.Minute), retryInterval).Should(Say("Database now contains"))
+						Eventually(Curl("-v", "-d", strconv.Itoa(mbToWrite), writeUri), context_setup.ScaledTimeout(5*time.Minute), retryInterval).Should(Say("Database now contains"))
 					}
 
 					fmt.Println("*** Sleeping to let quota enforcer run")
 					time.Sleep(quotaEnforcerSleepTime)
 
 					fmt.Println("*** Proving we cannot write")
-					Eventually(Curl("-d", firstValue, uri), helpers.ScaledTimeout(timeout), retryInterval).Should(Say("Error: (INSERT|UPDATE) command denied .* for table 'data_values'"))
+					Eventually(Curl("-d", firstValue, uri), context_setup.ScaledTimeout(timeout), retryInterval).Should(Say("Error: (INSERT|UPDATE) command denied .* for table 'data_values'"))
 					fmt.Println("*** Proving we can read")
-					Eventually(Curl(uri), helpers.ScaledTimeout(timeout), retryInterval).Should(Say(firstValue))
+					Eventually(Curl(uri), context_setup.ScaledTimeout(timeout), retryInterval).Should(Say(firstValue))
 
 					fmt.Println("*** Deleting below quota")
-					Eventually(Curl("-d", "20", deleteUri), helpers.ScaledTimeout(timeout), retryInterval).Should(Say("Database now contains"))
+					Eventually(Curl("-d", "20", deleteUri), context_setup.ScaledTimeout(timeout), retryInterval).Should(Say("Database now contains"))
 
 					fmt.Println("*** Sleeping to let quota enforcer run")
 					time.Sleep(quotaEnforcerSleepTime)
 
 					fmt.Println("*** Proving we can write")
-					Eventually(Curl("-d", secondValue, uri), helpers.ScaledTimeout(timeout), retryInterval).Should(Say(secondValue))
+					Eventually(Curl("-d", secondValue, uri), context_setup.ScaledTimeout(timeout), retryInterval).Should(Say(secondValue))
 					fmt.Println("*** Proving we can read")
-					Eventually(Curl(uri), helpers.ScaledTimeout(timeout), retryInterval).Should(Say(secondValue))
+					Eventually(Curl(uri), context_setup.ScaledTimeout(timeout), retryInterval).Should(Say(secondValue))
 				})
 			}
 
@@ -163,10 +163,10 @@ var (
 
 					fmt.Println("*** Proving we can use the max num of connections")
 
-					Eventually(Curl(uri+strconv.Itoa(MaxUserConnections)), helpers.ScaledTimeout(timeout), retryInterval).Should(Say("success"))
+					Eventually(Curl(uri+strconv.Itoa(MaxUserConnections)), context_setup.ScaledTimeout(timeout), retryInterval).Should(Say("success"))
 
 					fmt.Println("*** Proving the connection quota is enforced")
-					Eventually(Curl(uri+strconv.Itoa(over_maximum_connection_num)), helpers.ScaledTimeout(timeout), retryInterval).Should(Say("Error"))
+					Eventually(Curl(uri+strconv.Itoa(over_maximum_connection_num)), context_setup.ScaledTimeout(timeout), retryInterval).Should(Say("Error"))
 				})
 			}
 
