@@ -12,6 +12,8 @@ import (
 
 	"../helpers"
 	. "github.com/cloudfoundry-incubator/cf-test-helpers/runner"
+
+	context_setup "github.com/cloudfoundry-incubator/cf-test-helpers/services/context_setup"
 )
 
 func TestServices(t *testing.T) {
@@ -19,9 +21,9 @@ func TestServices(t *testing.T) {
 		ginkgoconfig.GinkgoConfig.FocusString = "Service instance lifecycle"
 	}
 
-	helpers.TimeoutScale = IntegrationConfig.TimeoutScale
+	context_setup.TimeoutScale = IntegrationConfig.TimeoutScale
 
-	helpers.SetupEnvironment(helpers.NewContext(IntegrationConfig))
+	context_setup.SetupEnvironment(context_setup.NewContext(IntegrationConfig.IntegrationConfig, "MySQLATS"))
 	RegisterFailHandler(Fail)
 	RunSpecsWithDefaultAndCustomReporters(t, "P-MySQL Acceptance Tests", []Reporter{reporters.NewJUnitReporter(fmt.Sprintf("junit_%d.xml", ginkgoconfig.GinkgoConfig.ParallelNode))})
 }

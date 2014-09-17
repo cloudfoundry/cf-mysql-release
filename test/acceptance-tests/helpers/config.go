@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+
+	. "github.com/cloudfoundry-incubator/cf-test-helpers/services/context_setup"
 )
 
 type Plan struct {
@@ -12,20 +14,15 @@ type Plan struct {
     MaxUserConnections		int `json:"max_user_connections"`
 }
 
-type IntegrationConfig struct {
-	AppsDomain         string  `json:"apps_domain"`
-	ApiEndpoint        string  `json:"api_url"`
-	AdminUser          string  `json:"admin_user"`
-	AdminPassword      string  `json:"admin_password"`
-	SkipSSLValidation  bool    `json:"skip_ssl_validation"`
+type MysqlIntegrationConfig struct {
+	IntegrationConfig
+	SmokeTestsOnly     bool    `json:"smoke_tests_only"`
 	BrokerHost         string  `json:"broker_host"`
 	ServiceName        string  `json:"service_name"`
 	Plans              []Plan  `json:"plans"`
-	SmokeTestsOnly     bool    `json:"smoke_tests_only"`
-	TimeoutScale       float64 `json:"timeout_scale"`
 }
 
-func LoadConfig() (config IntegrationConfig) {
+func LoadConfig() (config MysqlIntegrationConfig) {
 	path := os.Getenv("CONFIG")
 	if path == "" {
 		panic("Must set $CONFIG to point to an integration config .json file.")
@@ -34,7 +31,7 @@ func LoadConfig() (config IntegrationConfig) {
 	return LoadPath(path)
 }
 
-func LoadPath(path string) (config IntegrationConfig) {
+func LoadPath(path string) (config MysqlIntegrationConfig) {
 	configFile, err := os.Open(path)
 	if err != nil {
 		panic(err)

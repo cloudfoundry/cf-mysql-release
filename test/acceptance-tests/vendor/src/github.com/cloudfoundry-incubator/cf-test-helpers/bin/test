@@ -1,1 +1,0 @@
-ginkgo -r
