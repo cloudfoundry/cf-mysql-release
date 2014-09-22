@@ -9,7 +9,7 @@ export CONFIG=$PWD/integration_config.json
 
 cat > integration_config.json <<EOF
 {
-  "api_url":       "<%= p('cf.api_url') %>",
+  "api":           "<%= p('cf.api_url') %>",
   "apps_domain":   "<%= p('cf.apps_domain') %>",
   "admin_user":    "<%= p('cf.admin_username') %>",
   "broker_host":   "<%= p('broker.host') %>",
