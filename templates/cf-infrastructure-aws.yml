@@ -2,7 +2,7 @@ meta: ~
 
 compilation:
   cloud_properties:
-    instance_type: c1.medium
+    instance_type: t2.medium
     availability_zone: (( properties.template_only.aws.availability_zone ))
 
 networks: (( merge ))
@@ -13,7 +13,7 @@ resource_pools:
       name: bosh-aws-xen-ubuntu-trusty-go_agent
       version: (( merge || 2682 ))
     cloud_properties:
-      instance_type: m1.small
+      instance_type: t2.small
       availability_zone: (( properties.template_only.aws.availability_zone ))
 
 properties:
