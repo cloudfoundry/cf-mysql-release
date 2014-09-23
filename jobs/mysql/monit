@@ -1,6 +1,6 @@
 check process mariadb_ctrl-executable
   with pidfile /var/vcap/sys/run/mysql/mysql.pid
-  start program "/var/vcap/jobs/mysql/bin/mariadb_ctl start" with timeout 60 seconds
+  start program "/var/vcap/jobs/mysql/bin/mariadb_ctl start" with timeout 30 seconds
   stop program "/var/vcap/jobs/mysql/bin/mariadb_ctl stop" with timeout 10 seconds
   group vcap
 
