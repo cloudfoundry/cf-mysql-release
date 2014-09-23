@@ -21,9 +21,9 @@ A BOSH release of a MySQL database-as-a-service for Cloud Foundry using [MariaDB
  	 </tr>
 </table>
 
-## Release Notes
+## Release Notes & Known Issues
 
-For release notes and other documentation, see [the release wiki](https://github.com/cloudfoundry/cf-mysql-release/wiki/).
+For release notes and known issues, see [the release wiki](https://github.com/cloudfoundry/cf-mysql-release/wiki/).
 
 ## Getting the code
 
@@ -344,10 +344,3 @@ Traffic to the MySQL cluster is routed through an HAProxy node. The intention is
 
 The HAProxy node runs a thin web server to display traffic stats. This dashboard can be reached at `haproxy-1.p-mysql.<system domain>`. Log in as user `admin` with the password configured by the `haproxy_stats_password` property in the deployment manifest.
 
-## Known Limitations
-
-###MyISAM Tables
-This release does not support replication of MyISAM Tables. However, the service does not prevent the creation of MyISAM tables. When MyISAM tables are created, the tables will be created on every node (DDL statements are replicated), but data written to the node won't be replicated. If the persistent disk is lost, data will be lost. To change a table from MyISAM to InnoDB, please follow this [guide](http://dev.mysql.com/doc/refman/5.5/en/converting-tables-to-innodb.html).
-
-###Max User Connections
-When updating the max_user_connections property for an existing plan, the connections currently open will not be affected (ie if you have decreased from 20 to 40, users with 40 open connections will keep them open). To force the changes upon users with open connections, an operator can restart the haproxy job as this will cause the connections to reconnect and stay within the limit.  Otherwise, if any connection above the limit is reset it won't be able to reconnect, so the number of connections will eventually converge on the new limit.
