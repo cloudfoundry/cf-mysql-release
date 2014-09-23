@@ -11,12 +11,18 @@ CONFIG_DIR=/etc/mysql
 export JOB_INDEX=<%= index %>
 STATE_FILE=/var/vcap/store/mysql/state.txt
 MYSQL_DAEMON_FILE=/var/vcap/packages/mariadb_ctrl/mysql_daemon.sh
+MYSQL_CLIENT_FILE=/var/vcap/packages/mariadb/bin/mysql
 MYSQL_SERVER_FILE=/var/vcap/packages/mariadb/support-files/mysql.server
 DB_SEED_SCRIPT_FILE=$MARIADB_JOB_DIR/bin/mysql_database_seed.sh
 package_dir=/var/vcap/packages/mariadb_ctrl
 executable_name=mariadb_ctrl-executable
 MYSQL_UPGRADE_SCRIPT_FILE=$package_dir/mysql_upgrade.sh
-MYSQL_COMMAND_SCRIPT_FILE=$package_dir/execute_mysql_command.sh
+MYSQL_SHOW_DATABASES_SCRIPT_FILE=$package_dir/show_databases.sh
+
+MY_NAME=mariadb_ctl
+RUN_DIR=/var/vcap/sys/run/$MY_NAME
+PIDFILE=$RUN_DIR/$MY_NAME.pid
+
 DATABASE_SEED_ATTEMPTS=30
 
 source /var/vcap/packages/common/utils.sh
@@ -30,11 +36,34 @@ fi
 case $1 in
 
   start)
+
+    log "Making '$RUN_DIR'"
+    mkdir -p $RUN_DIR
+    log "Checking for existing instance of $MY_NAME"
+    pid_guard $PIDFILE $MY_NAME
+    log "Writing current pid ($$) to $PIDFILE"
+    echo $$ > $PIDFILE
+
+    # Check to see if mysqld_safe is already running.
+    set +e
+    pgrep -f /var/vcap/packages/mariadb/bin/mysqld_safe
+    result_code=$?
+    set -e
+    # Exit code of 0 means we did find a process, so we should exit.
+    if [ $result_code -eq 0 ]; then
+      log "start script: mysqld_safe already running - exiting"
+      exit 1
+    else
+      log "start script: mysqld_safe not already running - continue"
+    fi
+
     # Start syslog forwarding
     log "Starting mariadb_ctrl..."
     /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $MARIADB_JOB_DIR/config
 
     mkdir -p $LOG_DIR
+    touch $LOG_FILE
+    chown vcap:vcap $LOG_FILE
     date >> $LOG_FILE 2>> $LOG_FILE
 
     # It is surprisingly hard to get the config file location passed in
@@ -45,6 +74,7 @@ case $1 in
     ln -sf $MARIADB_JOB_DIR/config/my.cnf $CONFIG_DIR/my.cnf
 
     if ! test -d ${datadir}; then
+      log "start script: making ${datadir} and running /var/vcap/packages/mariadb/scripts/mysql_install_db"
       mkdir -p ${datadir}
       /var/vcap/packages/mariadb/scripts/mysql_install_db \
              --basedir=/var/vcap/packages/mariadb --user=vcap \
@@ -60,18 +90,20 @@ case $1 in
              -logFile=$LOG_FILE \
              -stateFile=$STATE_FILE \
              -mysqlDaemon=$MYSQL_DAEMON_FILE \
+             -mysqlClient=$MYSQL_CLIENT_FILE \
              -mysqlUser=<%= p('admin_username')%> \
              -mysqlPassword=<%= p('admin_password')%> \
              -jobIndex=$JOB_INDEX \
              -dbSeedScript=$DB_SEED_SCRIPT_FILE \
              -upgradeScriptPath=$MYSQL_UPGRADE_SCRIPT_FILE \
+             -showDatabasesScriptPath=$MYSQL_SHOW_DATABASES_SCRIPT_FILE \
              -numberOfNodes=<%= p('cluster_ips').length %> \
              -clusterIps=<%= (p('cluster_ips') - [node_ip]).join(',') %> \
              -maxDatabaseSeedTries=$DATABASE_SEED_ATTEMPTS
              >> $LOG_FILE 2>> $LOG_FILE
 
 
-    log "Starting mariadb_ctrl... done"
+    log "Completed starting mariadb_ctrl."
     ;;
 
   stop)
@@ -81,7 +113,7 @@ case $1 in
     log "Stopping node $JOB_INDEX" >> $LOG_FILE
     /var/vcap/packages/mariadb/support-files/mysql.server stop >> $LOG_FILE 2>> $LOG_FILE
 
-    log "Stopping mariadb_ctrl... done"
+    log "Completed stopping mariadb_ctrl"
     ;;
 
   *)
