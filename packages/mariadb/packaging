@@ -36,6 +36,7 @@ tar xzf mariadb/mariadb-galera-${MARIADB_VERSION}.tar.gz
   fi
   tail -n 1000 build.out
 
+  echo -n "${MARIADB_VERSION}-MariaDB" > ${BOSH_INSTALL_TARGET}/VERSION
   cp /var/vcap/packages/galera/garbd ${BOSH_INSTALL_TARGET}/bin/
   cp /var/vcap/packages/galera/libgalera_smm.so ${BOSH_INSTALL_TARGET}/lib/plugin/
 )

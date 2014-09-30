@@ -19,9 +19,9 @@ executable_name=mariadb_ctrl-executable
 MYSQL_UPGRADE_SCRIPT_FILE=$package_dir/mysql_upgrade.sh
 MYSQL_SHOW_DATABASES_SCRIPT_FILE=$package_dir/show_databases.sh
 
-MY_NAME=mariadb_ctl
-RUN_DIR=/var/vcap/sys/run/$MY_NAME
-PIDFILE=$RUN_DIR/$MY_NAME.pid
+export MY_NAME=mariadb_ctl
+export RUN_DIR=/var/vcap/sys/run/$MY_NAME
+export PIDFILE=$RUN_DIR/$MY_NAME.pid
 
 DATABASE_SEED_ATTEMPTS=30
 
@@ -35,30 +35,47 @@ fi
 
 case $1 in
 
+  # The start script must always exit 0 if there's a chance Maria could start successfully,
+  # as if monit sees a pid for Maria but this script exited with error, it will assume
+  # someone else started the process in the background.
+  # This will latch the status to "Execution failed" until someone manually calls
+  # monit unmonitor && monit monitor, at which point monit would find the pid and reset the status to 'running'
+
   start)
 
-    log "Making '$RUN_DIR'"
-    mkdir -p $RUN_DIR
-    log "Checking for existing instance of $MY_NAME"
-    pid_guard $PIDFILE $MY_NAME
-    log "Writing current pid ($$) to $PIDFILE"
+    if [[ ! -d "$RUN_DIR" ]]; then
+      log "start script: directory $RUN_DIR does not exist, creating it now"
+      mkdir -p $RUN_DIR
+    fi
+
+    log "start script: checking for existing instance of $MY_NAME"
+    set +e
+    $(source /var/vcap/packages/common/utils.sh; pid_guard $PIDFILE $MY_NAME)
+    pg_exit_code=$?
+    log "start script: pg_exit_code: $pg_exit_code"
+    if [ $pg_exit_code -eq 1 ]; then
+      log "start script: $MY_NAME already running. Exiting 0 so that monit doesn't think that execution failed"
+      exit 0
+    fi
+    set -e
+
+    log "start script: writing pid $$ for $MY_NAME to $PIDFILE"
     echo $$ > $PIDFILE
 
-    # Check to see if mysqld_safe is already running.
+    log "start script: checking if mysqld_safe is already running... "
     set +e
     pgrep -f /var/vcap/packages/mariadb/bin/mysqld_safe
     result_code=$?
     set -e
     # Exit code of 0 means we did find a process, so we should exit.
     if [ $result_code -eq 0 ]; then
-      log "start script: mysqld_safe already running - exiting"
-      exit 1
+      log "start script: mysqld_safe already running - exiting with 0 so that monit doesn't think that execution failed"
+      exit 0
     else
       log "start script: mysqld_safe not already running - continue"
     fi
 
     # Start syslog forwarding
-    log "Starting mariadb_ctrl..."
     /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $MARIADB_JOB_DIR/config
 
     mkdir -p $LOG_DIR
@@ -86,6 +103,7 @@ case $1 in
 
     <% node_ip = spec.networks.send(p('network_name')).ip %>
 
+    log "start script: starting mariadb_ctrl..."
     $package_dir/$executable_name \
              -logFile=$LOG_FILE \
              -stateFile=$STATE_FILE \
@@ -103,17 +121,17 @@ case $1 in
              >> $LOG_FILE 2>> $LOG_FILE
 
 
-    log "Completed starting mariadb_ctrl."
+    log "start script: completed starting mariadb_ctrl."
     ;;
 
   stop)
-    log "Stopping mariadb_ctrl..."
+    log "stop script: stopping mariadb_ctrl..."
     mkdir -p $LOG_DIR
     date >> $LOG_FILE 2>> $LOG_FILE
-    log "Stopping node $JOB_INDEX" >> $LOG_FILE
+    log "stop script: stopping node $JOB_INDEX" >> $LOG_FILE
     /var/vcap/packages/mariadb/support-files/mysql.server stop >> $LOG_FILE 2>> $LOG_FILE
 
-    log "Completed stopping mariadb_ctrl"
+    log "stop script: completed stopping mariadb_ctrl"
     ;;
 
   *)
