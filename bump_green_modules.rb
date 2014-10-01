@@ -35,7 +35,7 @@ def uncomitted_changes?
   !system('git diff --cached --exit-code')
 end
 
-SUBMODULES = ["src/cf-mysql-broker", "src/mariadb_ctrl", "src/galera-healthcheck", "broker-registrar"]
+SUBMODULES = ["src/cf-mysql-broker", "src/mariadb_ctrl/src/github.com/cloudfoundry/mariadb_ctrl", "src/galera-healthcheck", "broker-registrar"]
 
 SUBMODULES.each do |sub|
   last_green_broker = last_green_build(sub)
