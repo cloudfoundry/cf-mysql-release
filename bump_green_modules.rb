@@ -35,10 +35,12 @@ def uncomitted_changes?
   !system('git diff --cached --exit-code')
 end
 
-SUBMODULE = "src/cf-mysql-broker"
+SUBMODULES = ["src/cf-mysql-broker", "src/mariadb_ctrl", "src/galera-healthcheck", "broker-registrar"]
 
-last_green_broker = last_green_build(SUBMODULE)
-bump_submodule_code(SUBMODULE, last_green_broker)
+SUBMODULES.each do |sub|
+  last_green_broker = last_green_build(sub)
+  bump_submodule_code(sub, last_green_broker)
+end
 
 run "git status"
 
