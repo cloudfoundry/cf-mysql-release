@@ -39,7 +39,7 @@ SUBMODULES = [
   "src/cf-mysql-broker",
   "src/mariadb_ctrl/src/github.com/cloudfoundry/mariadb_ctrl",
   "src/galera-healthcheck/src/github.com/cloudfoundry-incubator/galera-healthcheck",
-  "broker-registrar"
+  "src/broker-registrar"
 ]
 
 SUBMODULES.each do |sub|
