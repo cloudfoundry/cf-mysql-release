@@ -8,10 +8,24 @@ if [[ ! -d $MYSQL_RELEASE_DIR ]]; then
   exit 1
 fi
 
+# By default use 3 node stub
+mysql_stub="cf-mysql-stub-spiff-3-node.yml"
+# otherwise look for a stub with the number of nodes provided
+if [ ! -z $1 ]; then
+  mysql_stub="cf-mysql-stub-spiff-$1-node.yml"
+fi
+
 cd $MYSQL_RELEASE_DIR
+
+# If the requested stub doesn't exist there's nothing more we can do, so fail.
+if [ ! -f bosh-lite/$mysql_stub ]; then
+  echo "stub not found: $mysql_stub"
+  exit 1
+fi
+
 mkdir -p bosh-lite/tmp
 mkdir -p bosh-lite/manifests
-cp bosh-lite/cf-mysql-stub-spiff.yml bosh-lite/tmp/cf-mysql-stub-with-uuid.yml
+cp bosh-lite/$mysql_stub bosh-lite/tmp/cf-mysql-stub-with-uuid.yml
 DIRECTOR_UUID=$(bosh status | grep UUID | awk '{print $2}')
 echo $DIRECTOR_UUID
 perl -pi -e "s/PLACEHOLDER-DIRECTOR-UUID/$DIRECTOR_UUID/g" bosh-lite/tmp/cf-mysql-stub-with-uuid.yml
