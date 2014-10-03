@@ -43,22 +43,19 @@ jobs:
   - name: mysql
     release: cf-mysql
     template: mysql
-    instances: 3
+    instances: (( merge || 3 ))
     resource_pool: services-small
     persistent_disk: 100000
     networks:
     - name: services1
-      static_ips: (( static_ips(0, 1, 2) ))
+      static_ips: (( merge || static_ips(0, 1, 2) ))
     properties:
       admin_password: (( merge ))
       max_connections: 1500
       haproxy_mysql_user: haproxy_check
       haproxy_ips:
       - (( jobs.haproxy.networks.services1.static_ips.[0] ))
-      cluster_ips:
-      - (( jobs.mysql.networks.services1.static_ips.[0] ))
-      - (( jobs.mysql.networks.services1.static_ips.[1] ))
-      - (( jobs.mysql.networks.services1.static_ips.[2] ))
+      cluster_ips: (( jobs.mysql.networks.services1.static_ips ))
       seeded_databases: ~
       syslog_aggregator: (( meta.syslog_aggregator ))
       network_name: services1
