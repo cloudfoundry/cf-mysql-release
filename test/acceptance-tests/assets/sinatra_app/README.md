@@ -1,4 +1,4 @@
-### Custom startup command
+## Pushing the app to Cloud Foundry
 <pre class="terminal">
-Custom startup command> bundle exec ruby main.rb -p $PORT 
+$ cf push mysqltest
 </pre>
