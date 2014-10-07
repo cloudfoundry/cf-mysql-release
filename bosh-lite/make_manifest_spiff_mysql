@@ -30,5 +30,7 @@ DIRECTOR_UUID=$(bosh status | grep UUID | awk '{print $2}')
 echo $DIRECTOR_UUID
 perl -pi -e "s/PLACEHOLDER-DIRECTOR-UUID/$DIRECTOR_UUID/g" bosh-lite/tmp/cf-mysql-stub-with-uuid.yml
 
-$MYSQL_RELEASE_DIR/generate_deployment_manifest warden bosh-lite/tmp/cf-mysql-stub-with-uuid.yml > bosh-lite/manifests/cf-mysql-manifest.yml
+# The first argument is used above - pass the remaining arguments to the spiff script
+shift
+$MYSQL_RELEASE_DIR/generate_deployment_manifest warden bosh-lite/tmp/cf-mysql-stub-with-uuid.yml $* > bosh-lite/manifests/cf-mysql-manifest.yml
 bosh deployment bosh-lite/manifests/cf-mysql-manifest.yml
