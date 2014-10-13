@@ -1,4 +1,8 @@
 <% if_p("syslog_aggregator.address", "syslog_aggregator.port", "syslog_aggregator.transport") do |address, port, transport| %>
+  $ModLoad imudp
+  $UDPServerAddress 127.0.0.1
+  $UDPServerRun 514
+
   $PrivDropToUser vcap
   $PrivDropToGroup vcap
   $ModLoad imuxsock                       # local message reception (rsyslog uses a datagram socket)
@@ -30,11 +34,11 @@
 
   <% if transport == "relp" %>
     $ModLoad omrelp
-    *.* :omrelp:<%= address %>:<%= port %>;HaproxyLogTemplate
+    local1.* :omrelp:<%= address %>:<%= port %>;HaproxyLogTemplate
   <% elsif transport == "udp" %>
-    *.* @<%= address %>:<%= port %>;HaproxyLogTemplate
+    local1.* @<%= address %>:<%= port %>;HaproxyLogTemplate
   <% elsif transport == "tcp" %>
-    *.* @@<%= address %>:<%= port %>;HaproxyLogTemplate
+    local1.* @@<%= address %>:<%= port %>;HaproxyLogTemplate
   <% else %>
     #only RELP, UDP, and TCP are supported
   <% end %>
