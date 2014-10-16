@@ -1,0 +1,8 @@
+---
+name: xtrabackup
+
+dependencies:
+  - mariadb
+
+files:
+  - xtrabackup/**/*

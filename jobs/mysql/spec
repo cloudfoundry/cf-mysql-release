@@ -20,6 +20,7 @@ packages:
 - golang
 - common
 - syslog_aggregator
+- xtrabackup
 
 properties:
   admin_username:

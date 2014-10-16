@@ -83,3 +83,35 @@ mariadb/mariadb-galera-10.0.13.tar.gz:
   object_id: 4d0c54a0-e224-4d4f-aee7-9be78264fee2
   sha: 48870d34ed3bf3a38f4a7b8dea8d474039da5cf5
   size: 51542182
+xtrabackup/autoconf-2.65.tar.gz:
+  object_id: 12402e0c-14bd-4a31-8344-858c09639f67
+  sha: ae9e1ab046822007f25c88e1d8f2166e065da8c2
+  size: 1738880
+xtrabackup/automake-1.14.1.tar.gz:
+  object_id: 22110fae-0404-48d2-a2a0-869b40172c09
+  sha: 0bb1714b78d70cab9907d2013082978a28f48a46
+  size: 2240681
+xtrabackup/libaio_0.3.110.orig.tar.gz:
+  object_id: 10d3be70-6c51-4220-9d46-8de75281fd3d
+  sha: f8f6ed15f22e528f6f415939b07854539e3360e4
+  size: 42270
+xtrabackup/libdbd-mysql-perl_4.025.orig.tar.gz:
+  object_id: 4013014b-5261-4fea-915f-d7f08c3b3733
+  sha: 7c148d347988785239973835f8b5a8b78677ae47
+  size: 135538
+xtrabackup/libdbi-perl_1.630.orig.tar.gz:
+  object_id: 2c9e9439-ef0d-400e-a79c-d608c04ef8c3
+  sha: 8e8ca6484a3e0c7f4e268e46101faed576e072fc
+  size: 588554
+xtrabackup/libtool-2.4.2.tar.gz:
+  object_id: 958f3335-2373-4c4f-9db1-7391a9a7e6f2
+  sha: 22b71a8b5ce3ad86e1094e7285981cae10e6ff88
+  size: 2632347
+xtrabackup/percona-xtrabackup_2.2.5-5027.orig.tar.gz:
+  object_id: 2bf128a2-a18a-4259-b9cc-efeb859a9155
+  sha: 6b4e3fa0ab963db780170784549422ee8032292c
+  size: 34654767
+xtrabackup/socat-1.7.2.4.tar.gz:
+  object_id: cd877813-c9ac-4596-b4e4-d361fe5bbdb6
+  sha: c33904b83295accef2aaff8adf7eedd3310f9777
+  size: 583762
