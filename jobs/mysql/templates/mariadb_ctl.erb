@@ -33,6 +33,12 @@ if [ ! -f /usr/local/bin/mysql ]; then
   ln -s /var/vcap/packages/mariadb/bin/mysql /usr/local/bin
 fi
 
+# add xtrabackup to path
+export PATH=$PATH:/var/vcap/packages/xtrabackup/bin
+
+# add perl libraries to perl env
+export PERL5LIB=$PERL5LIB:/var/vcap/packages/xtrabackup/lib/perl/5.18.2
+
 case $1 in
 
   # The start script must always exit 0 if there's a chance Maria could start successfully,
