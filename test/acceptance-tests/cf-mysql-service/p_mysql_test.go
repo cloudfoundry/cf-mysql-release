@@ -19,6 +19,8 @@ import (
 
 var (
 	_ = Describe("P-MySQL Service", func() {
+		var sinatraPath = "../assets/sinatra_app"
+
 		timeout := 120 * time.Second
 		retryInterval := 1.0
 
