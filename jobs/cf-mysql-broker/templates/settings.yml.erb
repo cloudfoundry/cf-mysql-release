@@ -25,6 +25,7 @@ production:
   <% (properties.services || []).each do |service| %>
   - id: <%= service.id %>
     name: <%= service.name %>
+    plan_updateable: <%= service.plan_updateable %>
     description: <%= service.description %>
     tags:
     <% (service.tags || []).each do |tag| %>
