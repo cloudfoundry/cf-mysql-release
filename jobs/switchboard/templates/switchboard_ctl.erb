@@ -1,0 +1,47 @@
+#!/bin/bash -e
+
+job_dir=/var/vcap/jobs/switchboard
+run_dir=/var/vcap/sys/run/switchboard
+log_dir=/var/vcap/sys/log/switchboard
+package_dir=/var/vcap/packages/switchboard
+pidfile=$run_dir/switchboard.pid
+executable_name=switchboard
+
+export GOROOT=/var/vcap/packages/golang
+export PATH=$GOROOT/bin:$PWD/bin:$PATH
+
+source /var/vcap/packages/common/utils.sh
+
+case $1 in
+
+  start)
+    log "Starting switchboard..."
+    pid_guard $pidfile "Switchboard"
+
+    mkdir -p $run_dir
+    mkdir -p $log_dir
+
+    cd $package_dir
+
+    $package_dir/$executable_name \
+      -port=3306 \
+      -pidfile=$pidfile \
+      -backendIp=<%= p('mysql_ips')[0] %> \
+      -backendPort=3306 \
+      -healthcheckPort=9200 \
+      >>$log_dir/switchboard.stdout.log 2>>$log_dir/switchboard.stderr.log &
+
+    log "Starting switchboard... done"
+    ;;
+
+  stop)
+    log "Stopping switchboard..."
+    kill_and_wait $pidfile
+    log "Stopping switchboard... done"
+    ;;
+
+  *)
+    echo "Usage: switchboard_ctl {start|stop}"
+    ;;
+
+esac

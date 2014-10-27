@@ -19,3 +19,6 @@
 [submodule "src/mariadb_ctrl/src/github.com/cloudfoundry/mariadb_ctrl"]
 	path = src/mariadb_ctrl/src/github.com/cloudfoundry/mariadb_ctrl
 	url = https://github.com/cloudfoundry/mariadb_ctrl.git
+[submodule "src/switchboard/src/github.com/pivotal-cf-experimental/switchboard"]
+	path = src/switchboard/src/github.com/pivotal-cf-experimental/switchboard
+	url = https://github.com/pivotal-cf-experimental/switchboard

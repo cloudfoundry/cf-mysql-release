@@ -1,0 +1,212 @@
+---
+meta:
+  # override this in your stub to set the environment name,
+  # which is used for the deployment name
+  #
+  # i.e. cf-tabasco
+  environment: ~
+
+  external_domain: (( merge ))
+  apps_domain: (( merge ))
+  nats: (( merge ))
+  syslog_aggregator: ~
+
+name: (( meta.environment "-mysql" ))
+director_uuid: (( merge ))
+
+releases:
+- name: cf-mysql
+  version: latest
+
+compilation:
+  workers: 3
+  network: services1
+  reuse_compilation_vms: true
+  cloud_properties: (( merge ))
+
+update:
+  canaries: 1
+  canary_watch_time: 30000-600000
+  update_watch_time: 30000-600000
+  max_in_flight: 1
+
+networks: (( merge ))
+
+resource_pools:
+  - name: services-small
+    network: services1
+    size: (( auto ))
+    stemcell: (( merge ))
+    cloud_properties: (( merge ))
+
+jobs:
+  - name: mysql
+    release: cf-mysql
+    template: mysql
+    instances: (( merge || 3 ))
+    resource_pool: services-small
+    persistent_disk: 100000
+    networks:
+    - name: services1
+      static_ips: (( merge || static_ips(0, 1, 2) ))
+    properties:
+      admin_password: (( merge ))
+      max_connections: 1500
+      haproxy_mysql_user: haproxy_check
+      haproxy_ips:
+      - (( jobs.switchboard.networks.services1.static_ips.[0] ))
+      cluster_ips: (( jobs.mysql.networks.services1.static_ips ))
+      seeded_databases: ~
+      syslog_aggregator: (( meta.syslog_aggregator ))
+      network_name: services1
+  - name: switchboard
+    release: cf-mysql
+    template: switchboard
+    instances: 1
+    resource_pool: services-small
+    networks:
+    - name: services1
+      static_ips: (( static_ips(4) ))
+    properties:
+      <<: (( merge || nil ))
+      mysql_ips: (( jobs.mysql.properties.cluster_ips ))
+      network_name: services1
+  - name: cf-mysql-broker
+    release: cf-mysql
+    template: cf-mysql-broker
+    instances: 2
+    resource_pool: services-small
+    networks:
+    - name: services1
+    properties:
+      max_user_connections_default: (( merge || 40 ))
+      syslog_aggregator: (( meta.syslog_aggregator ))
+      network_name: services1
+      auth_username: (( merge ))
+      auth_password: (( merge ))
+      cookie_secret: (( merge ))
+      external_host: (( "p-mysql." meta.external_domain ))
+      ssl_enabled: (( merge || true ))
+      skip_ssl_validation: (( merge || false ))
+      cc_api_uri: (( merge ))
+      nats: (( meta.nats ))
+      networks:
+        broker_network: services1
+      services:
+      - name: p-mysql
+        id: 44b26033-1f54-4087-b7bc-da9652c2a539
+        description: A MySQL service for application development and testing
+        tags:
+          - mysql
+        metadata:
+          displayName: "MySQL for Pivotal CF"
+          imageUrl: "data:image/png;base64,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"
+          longDescription: "Provisioning a service instance creates a MySQL database. Binding applications to the instance creates unique credentials for each application to access the database."
+          providerDisplayName: "Pivotal Software"
+          documentationUrl: "http://docs.pivotal.io/p-mysql/"
+          supportUrl: "https://support.pivotal.io"
+        dashboard_client:
+          id: p-mysql
+          secret: (( merge ))
+        plans:
+          - name: 100mb-dev
+            id: ab08f1bc-e6fc-4b56-a767-ee0fea6e3f20
+            description: Shared MySQL Server
+            max_storage_mb: (( merge || 100 ))
+            max_user_connections: (( merge || 20 ))
+            metadata:
+              costs:
+              - amount:
+                  usd: 0.0
+                unit: MONTH
+              bullets:
+                - Not for production use - server is not replicated
+                - Shared MySQL server
+                - 100 MB storage
+                - 40 concurrent connections
+              displayName: (( merge || "100 MB Dev" ))
+          - name: 1gb-dev
+            id: 11d0aa36-dcec-4021-85f5-ea4d9a5c8342
+            description: Shared MySQL Server
+            max_storage_mb: (( merge || 1000 ))
+            max_user_connections: (( merge || 40 ))
+            metadata:
+              costs:
+              - amount:
+                  usd: 0.0
+                unit: MONTH
+              bullets:
+                - Not for production use - server is not replicated
+                - Shared MySQL server
+                - 1000 MB storage
+                - 40 concurrent connections
+              displayName: (( merge || "1 GB Dev" ))
+      mysql_node:
+        host: (( merge || jobs.switchboard.networks.services1.static_ips.[0] )) # HAProxy IP
+        admin_password: (( jobs.mysql.properties.admin_password ))
+        persistent_disk: (( jobs.mysql.persistent_disk))
+  - name: broker-registrar
+    template: broker-registrar
+    release: cf-mysql
+    instances: 1
+    resource_pool: services-small
+    lifecycle: errand
+    networks:
+    - name: services1
+    properties:
+      cf:
+        api_url: (( jobs.cf-mysql-broker.properties.cc_api_uri ))
+        admin_username: (( merge ))
+        admin_password: (( merge ))
+      broker:
+        name: p-mysql
+        host: (( jobs.cf-mysql-broker.properties.external_host ))
+        username: (( jobs.cf-mysql-broker.properties.auth_username ))
+        password: (( jobs.cf-mysql-broker.properties.auth_password ))
+  - name: broker-deregistrar
+    template: broker-deregistrar
+    release: cf-mysql
+    instances: 1
+    resource_pool: services-small
+    lifecycle: errand
+    networks:
+    - name: services1
+    properties:
+      cf:
+        api_url: (( jobs.cf-mysql-broker.properties.cc_api_uri ))
+        admin_username: (( merge ))
+        admin_password: (( merge ))
+      broker:
+        name: p-mysql
+        host: (( jobs.cf-mysql-broker.properties.external_host ))
+        username: (( jobs.cf-mysql-broker.properties.auth_username ))
+        password: (( jobs.cf-mysql-broker.properties.auth_password ))
+  - name: acceptance-tests
+    template: acceptance-tests
+    release: cf-mysql
+    instances: 1
+    resource_pool: services-small
+    lifecycle: errand
+    networks:
+    - name: services1
+    properties:
+      cf:
+        api_url: (( jobs.cf-mysql-broker.properties.cc_api_uri ))
+        admin_username: (( merge ))
+        admin_password: (( merge ))
+        apps_domain: (( meta.apps_domain ))
+        skip_ssl_validation: (( merge || false ))
+      broker:
+        host: (( jobs.cf-mysql-broker.properties.external_host ))
+      service:
+        max_user_connections_default: (( jobs.cf-mysql-broker.properties.max_user_connections_default ))
+        name: (( jobs.cf-mysql-broker.properties.services.[0].name ))
+        plans:
+          - plan_name: (( jobs.cf-mysql-broker.properties.services.[0].plans.[0].name ))
+            max_storage_mb: (( jobs.cf-mysql-broker.properties.services.[0].plans.[0].max_storage_mb ))
+            max_user_connections: (( jobs.cf-mysql-broker.properties.services.[0].plans.[0].max_user_connections ))
+          - plan_name: (( jobs.cf-mysql-broker.properties.services.[0].plans.[1].name ))
+            max_storage_mb: (( jobs.cf-mysql-broker.properties.services.[0].plans.[1].max_storage_mb ))
+            max_user_connections: (( jobs.cf-mysql-broker.properties.services.[0].plans.[1].max_user_connections ))
+
+properties: {}  # Pivotal CF cannot generate global properties

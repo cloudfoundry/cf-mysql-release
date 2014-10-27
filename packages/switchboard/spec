@@ -1,0 +1,6 @@
+---
+name: switchboard
+dependencies:
+  - golang
+files:
+  - switchboard/**/*

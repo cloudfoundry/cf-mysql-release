@@ -1,0 +1,5 @@
+check process switchboard
+  with pidfile /var/vcap/sys/run/switchboard/switchboard.pid
+  start program "/var/vcap/jobs/switchboard/bin/switchboard_ctl start" with timeout 10 seconds
+  stop program "/var/vcap/jobs/switchboard/bin/switchboard_ctl stop" with timeout 10 seconds
+  group vcap

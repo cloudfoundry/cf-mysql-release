@@ -1,0 +1,10 @@
+---
+name: switchboard
+
+templates:
+  switchboard_ctl.erb: bin/switchboard_ctl
+
+packages:
+- switchboard
+- golang
+- common
