@@ -31,8 +31,8 @@ func SetupEnvironment(context SuiteContext) {
 		context.Setup()
 
 		cf.AsUser(AdminUserContext, func() {
-				setUpSpaceWithUserAccess(RegularUserContext)
-			})
+			setUpSpaceWithUserAccess(RegularUserContext)
+		})
 
 		originalCfHomeDir, currentCfHomeDir = cf.InitiateUserContext(RegularUserContext)
 		cf.TargetSpace(RegularUserContext)

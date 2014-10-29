@@ -1,15 +1,15 @@
 package context_setup
 
 import (
-"encoding/json"
-"fmt"
-"time"
+	"encoding/json"
+	"fmt"
+	"time"
 
-"github.com/cloudfoundry-incubator/cf-test-helpers/cf"
-. "github.com/onsi/ginkgo"
-ginkgoconfig "github.com/onsi/ginkgo/config"
-. "github.com/onsi/gomega"
-. "github.com/onsi/gomega/gexec"
+	"github.com/cloudfoundry-incubator/cf-test-helpers/cf"
+	. "github.com/onsi/ginkgo"
+	ginkgoconfig "github.com/onsi/ginkgo/config"
+	. "github.com/onsi/gomega"
+	. "github.com/onsi/gomega/gexec"
 )
 
 type ConfiguredContext struct {
@@ -59,15 +59,15 @@ func NewContext(config IntegrationConfig, prefix string) *ConfiguredContext {
 
 func (context *ConfiguredContext) Setup() {
 	cf.AsUser(context.AdminUserContext(), func() {
-			channel := cf.Cf("create-user", context.regularUserUsername, context.regularUserPassword)
-			select {
-			case <-channel.Out.Detect("OK"):
-			case <-channel.Out.Detect("scim_resource_already_exists"):
-			case <-time.After(ScaledTimeout(10 * time.Second)):
-				Fail("failed to create user")
-			}
+		channel := cf.Cf("create-user", context.regularUserUsername, context.regularUserPassword)
+		select {
+		case <-channel.Out.Detect("OK"):
+		case <-channel.Out.Detect("scim_resource_already_exists"):
+		case <-time.After(ScaledTimeout(10 * time.Second)):
+			Fail("failed to create user")
+		}
 
-			definition := quotaDefinition{
+		definition := quotaDefinition{
 			Name: context.quotaDefinitionName,
 
 			TotalServices: 100,
@@ -78,34 +78,34 @@ func (context *ConfiguredContext) Setup() {
 			NonBasicServicesAllowed: true,
 		}
 
-			definitionPayload, err := json.Marshal(definition)
-			Expect(err).ToNot(HaveOccurred())
+		definitionPayload, err := json.Marshal(definition)
+		Expect(err).ToNot(HaveOccurred())
 
-			var response cf.GenericResource
+		var response cf.GenericResource
 
-			cf.ApiRequest("POST", "/v2/quota_definitions", &response, string(definitionPayload))
+		cf.ApiRequest("POST", "/v2/quota_definitions", &response, string(definitionPayload))
 
-			context.quotaDefinitionGUID = response.Metadata.Guid
+		context.quotaDefinitionGUID = response.Metadata.Guid
 
-			Eventually(cf.Cf("create-org", context.organizationName), ScaledTimeout(60*time.Second)).Should(Exit(0))
-			Eventually(cf.Cf("set-quota", context.organizationName, definition.Name), ScaledTimeout(60*time.Second)).Should(Exit(0))
-		})
+		Eventually(cf.Cf("create-org", context.organizationName), ScaledTimeout(60*time.Second)).Should(Exit(0))
+		Eventually(cf.Cf("set-quota", context.organizationName, definition.Name), ScaledTimeout(60*time.Second)).Should(Exit(0))
+	})
 }
 
 func (context *ConfiguredContext) Teardown() {
 	cf.AsUser(context.AdminUserContext(), func() {
-			Eventually(cf.Cf("delete-user", "-f", context.regularUserUsername), ScaledTimeout(60*time.Second)).Should(Exit(0))
+		Eventually(cf.Cf("delete-user", "-f", context.regularUserUsername), ScaledTimeout(60*time.Second)).Should(Exit(0))
 
-			if !context.isPersistent {
-				Eventually(cf.Cf("delete-org", "-f", context.organizationName), ScaledTimeout(60*time.Second)).Should(Exit(0))
+		if !context.isPersistent {
+			Eventually(cf.Cf("delete-org", "-f", context.organizationName), ScaledTimeout(60*time.Second)).Should(Exit(0))
 
-				cf.ApiRequest(
-					"DELETE",
-							"/v2/quota_definitions/"+context.quotaDefinitionGUID+"?recursive=true",
-					nil,
-				)
-			}
-		})
+			cf.ApiRequest(
+				"DELETE",
+				"/v2/quota_definitions/"+context.quotaDefinitionGUID+"?recursive=true",
+				nil,
+			)
+		}
+	})
 }
 
 func (context *ConfiguredContext) AdminUserContext() cf.UserContext {
