@@ -17,7 +17,7 @@ import (
 	context_setup "github.com/cloudfoundry-incubator/cf-test-helpers/services/context_setup"
 )
 
-var _ = Describe("CF Mysql Service", func() {
+var _ = Describe("P-MySQL Service", func() {
 	var sinatraPath = "../assets/sinatra_app"
 
 	timeout := 120 * time.Second
@@ -84,10 +84,12 @@ var _ = Describe("CF Mysql Service", func() {
 	Describe("Enforcing MySQL storage and connection quota", func() {
 		var appName string
 		var serviceInstanceName string
+		var quotaEnforcerSleepTime time.Duration
 
 		BeforeEach(func() {
 			appName = RandomName()
 			serviceInstanceName = RandomName()
+			quotaEnforcerSleepTime = 10 * time.Second
 
 			Eventually(Cf("push", appName, "-m", "256M", "-p", sinatraPath, "-no-start"), context_setup.ScaledTimeout(60*time.Second)).Should(Exit(0))
 		})
@@ -106,13 +108,35 @@ var _ = Describe("CF Mysql Service", func() {
 			AssertAppIsRunning(appName)
 		}
 
+		ExceedQuota := func(MaxStorageMb int, appName, serviceInstanceName string) {
+			uri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/mykey"
+			writeUri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/write-bulk-data"
+
+			fmt.Println("*** Exceeding quota")
+
+			mbToWrite := 10
+			loopIterations := (MaxStorageMb / mbToWrite)
+			if MaxStorageMb%mbToWrite == 0 {
+				loopIterations += 1
+			}
+
+			for i := 0; i < loopIterations; i += 1 {
+				Eventually(Curl("-v", "-d", strconv.Itoa(mbToWrite), writeUri), context_setup.ScaledTimeout(5*time.Minute), retryInterval).Should(Say("Database now contains"))
+			}
+
+			fmt.Println("*** Sleeping to let quota enforcer run")
+			time.Sleep(quotaEnforcerSleepTime)
+
+			value := RandomName()[:20]
+			fmt.Println("*** Proving we cannot write")
+			Eventually(Curl("-d", value, uri), context_setup.ScaledTimeout(timeout), retryInterval).Should(Say("Error: (INSERT|UPDATE) command denied .* for table 'data_values'"))
+		}
+
 		AssertStorageQuotaBehavior := func(PlanName string, MaxStorageMb int) {
 			It("enforces the storage quota for the plan", func() {
 				CreatesBindsAndStartsApp(PlanName)
 
-				quotaEnforcerSleepTime := 10 * time.Second
 				uri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/mykey"
-				writeUri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/write-bulk-data"
 				deleteUri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/delete-bulk-data"
 				firstValue := RandomName()[:20]
 				secondValue := RandomName()[:20]
@@ -122,23 +146,8 @@ var _ = Describe("CF Mysql Service", func() {
 				fmt.Println("*** Proving we can read")
 				Eventually(Curl(uri), context_setup.ScaledTimeout(timeout), retryInterval).Should(Say(firstValue))
 
-				fmt.Println("*** Exceeding quota")
+				ExceedQuota(MaxStorageMb, appName, serviceInstanceName)
 
-				mbToWrite := 10
-				loopIterations := (MaxStorageMb / mbToWrite)
-				if MaxStorageMb%mbToWrite == 0 {
-					loopIterations += 1
-				}
-
-				for i := 0; i < loopIterations; i += 1 {
-					Eventually(Curl("-v", "-d", strconv.Itoa(mbToWrite), writeUri), context_setup.ScaledTimeout(5*time.Minute), retryInterval).Should(Say("Database now contains"))
-				}
-
-				fmt.Println("*** Sleeping to let quota enforcer run")
-				time.Sleep(quotaEnforcerSleepTime)
-
-				fmt.Println("*** Proving we cannot write")
-				Eventually(Curl("-d", firstValue, uri), context_setup.ScaledTimeout(timeout), retryInterval).Should(Say("Error: (INSERT|UPDATE) command denied .* for table 'data_values'"))
 				fmt.Println("*** Proving we can read")
 				Eventually(Curl(uri), context_setup.ScaledTimeout(timeout), retryInterval).Should(Say(firstValue))
 
@@ -176,6 +185,25 @@ var _ = Describe("CF Mysql Service", func() {
 				AssertStorageQuotaBehavior(plan.Name, plan.MaxStorageMb)
 				AssertConnectionQuotaBehavior(plan.Name, plan.MaxUserConnections)
 			}
+		})
+
+		Describe("Upgrading a service instance", func() {
+			It("upgrades the instance and enforces the new quota", func() {
+				plan := IntegrationConfig.Plans[0]
+				newPlan := IntegrationConfig.Plans[1]
+				CreatesBindsAndStartsApp(plan.Name)
+				ExceedQuota(plan.MaxStorageMb, appName, serviceInstanceName)
+
+				fmt.Println("*** Upgrading service instance")
+				Eventually(Cf("update-service", serviceInstanceName, "-p", newPlan.Name)).Should(Say("OK"))
+
+				fmt.Println("*** Proving we can write")
+				uri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/mykey"
+				value := RandomName()[:20]
+				Eventually(Curl("-d", value, uri), context_setup.ScaledTimeout(timeout), retryInterval).Should(Say(value))
+
+				ExceedQuota(newPlan.MaxStorageMb, appName, serviceInstanceName)
+			})
 		})
 	})
 })
