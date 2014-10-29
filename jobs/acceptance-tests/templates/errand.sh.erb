@@ -30,6 +30,7 @@ cat > integration_config.json <<EOF
   ],
   "skip_ssl_validation": <%= p('cf.skip_ssl_validation') %>,
   "smoke_tests_only": <%= p('smoke_tests_only') %>,
+  "exclude_dashboard_tests": <%= p('exclude_dashboard_tests') %>,
 EOF
 
 # don't expose passwords

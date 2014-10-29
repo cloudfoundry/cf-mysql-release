@@ -244,7 +244,8 @@ deployment. Copy and paste this into your terminal, then open the resulting `int
       }
     ],
     "skip_ssl_validation": true,
-    "timeout_scale": 1.0
+    "timeout_scale": 1.0,
+    "exclude_dashboard_tests": true
   }
   EOF
   export CONFIG=$PWD/integration_config.json

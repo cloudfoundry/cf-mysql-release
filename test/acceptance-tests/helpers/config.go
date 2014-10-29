@@ -9,17 +9,18 @@ import (
 )
 
 type Plan struct {
-	Name         string `json:"plan_name"`
-	MaxStorageMb int    `json:"max_storage_mb"`
-    MaxUserConnections		int `json:"max_user_connections"`
+	Name               string `json:"plan_name"`
+	MaxStorageMb       int    `json:"max_storage_mb"`
+	MaxUserConnections int    `json:"max_user_connections"`
 }
 
 type MysqlIntegrationConfig struct {
 	IntegrationConfig
-	SmokeTestsOnly     bool    `json:"smoke_tests_only"`
-	BrokerHost         string  `json:"broker_host"`
-	ServiceName        string  `json:"service_name"`
-	Plans              []Plan  `json:"plans"`
+	SmokeTestsOnly        bool   `json:"smoke_tests_only"`
+	ExcludeDashboardTests bool   `json:"exclude_dashboard_tests"`
+	BrokerHost            string `json:"broker_host"`
+	ServiceName           string `json:"service_name"`
+	Plans                 []Plan `json:"plans"`
 }
 
 func LoadConfig() (config MysqlIntegrationConfig) {

@@ -34,3 +34,6 @@ properties:
   smoke_tests_only:
     description: 'Instead of running the full acceptance test suite, only run a shorter smoke test'
     default: false
+  exclude_dashboard_tests:
+    description: 'Exclude browser-automated dashboard tests'
+    default: true
