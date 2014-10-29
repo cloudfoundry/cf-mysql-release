@@ -26,11 +26,8 @@ start)
   cd /var/vcap/packages/route-registrar
 
   /var/vcap/packages/route-registrar/route-registrar \
+  -pidfile=$PIDFILE \
   >>$LOG_DIR/route-registrar.stdout.log 2>>$LOG_DIR/route-registrar.stderr.log&
-
-  log "pid is: `pgrep -f 'route-registrar'`"
-
-  pgrep -f 'route-registrar'> $PIDFILE
 ;;
 
 stop)
