@@ -17,3 +17,4 @@ releases/**/*.tgz
 *~
 *#
 #*
+src/acceptance-tests/integration_config.json

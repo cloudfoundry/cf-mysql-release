@@ -216,8 +216,8 @@ $ bosh run errand acceptance-tests
 ### Manually
 
 1. Install **Go** by following the directions found [here](http://golang.org/doc/install)
-2. `cd` into `cf-mysql-release/test/acceptance-tests/`
-3. Update `cf-mysql-release/test/acceptance-tests/integration_config.json`
+2. `cd` into `cf-mysql-release/src/acceptance-tests/`
+3. Update `cf-mysql-release/src/acceptance-tests/integration_config.json`
 
     The following commands provide a shortcut to configuring `integration_config.json` with values for a [bosh-lite](https://github.com/cloudfoundry/bosh-lite)
 deployment. Copy and paste this into your terminal, then open the resulting `integration_config.json` in an editor to replace values as appropriate for your environment.
