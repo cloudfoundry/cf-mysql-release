@@ -3,8 +3,26 @@ name: switchboard
 
 templates:
   switchboard_ctl.erb: bin/switchboard_ctl
+  syslog_forwarder.conf.erb: config/syslog_forwarder.conf
 
 packages:
 - switchboard
 - golang
 - common
+- syslog_aggregator
+
+properties:
+  network_name:
+    description: "The name of the network (needed for the syslog aggregator)"
+  syslog_aggregator.address:
+    description: "IP address for syslog aggregator"
+  syslog_aggregator.port:
+    description: "TCP port of syslog aggregator"
+  syslog_aggregator.all:
+    description: "Define whether forwarders should also send non-mysql syslog activity to the aggregator."
+    default: false
+  syslog_aggregator.transport:
+    description: "Transport to be used when forwarding logs (tcp|udp|relp)."
+    default: "tcp"
+  cluster_ips:
+    description: 'List of nodes.  Must have the same number of ips as there are nodes in the cluster'

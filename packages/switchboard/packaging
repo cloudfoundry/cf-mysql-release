@@ -3,8 +3,9 @@ set -u
 
 export GOROOT=$(readlink -nf /var/vcap/packages/golang)
 export PATH=$GOROOT/bin:$PATH
+export REPO=switchboard/src/github.com/pivotal-cf-experimental/switchboard
 
-export GOPATH=$PWD/switchboard
+export GOPATH=$PWD/$REPO/Godeps/_workspace:$PWD/switchboard
 
 go install github.com/pivotal-cf-experimental/switchboard/cmd/switchboard
 
