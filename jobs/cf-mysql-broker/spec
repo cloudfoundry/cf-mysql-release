@@ -24,7 +24,8 @@ properties:
   auth_password:
     description: "Broker's basic auth password"
 
-  cookie_secret: 'A unique secret key, used to sign sessions'
+  cookie_secret:
+    description: 'A unique secret key, used to sign sessions'
 
   mysql_node.host:
     description: 'Host (DNS) or IP address of the MySQL server or the proxy if using one'
