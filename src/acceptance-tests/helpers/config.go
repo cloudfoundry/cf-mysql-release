@@ -8,6 +8,11 @@ import (
 	. "github.com/cloudfoundry-incubator/cf-test-helpers/services/context_setup"
 )
 
+type Broker struct {
+	Ip        string `json:"ip"`
+	SshTunnel string `json:"ssh_tunnel"`
+}
+
 type Plan struct {
 	Name               string `json:"plan_name"`
 	MaxStorageMb       int    `json:"max_storage_mb"`
@@ -16,11 +21,12 @@ type Plan struct {
 
 type MysqlIntegrationConfig struct {
 	IntegrationConfig
-	SmokeTestsOnly        bool   `json:"smoke_tests_only"`
-	ExcludeDashboardTests bool   `json:"exclude_dashboard_tests"`
-	BrokerHost            string `json:"broker_host"`
-	ServiceName           string `json:"service_name"`
-	Plans                 []Plan `json:"plans"`
+	SmokeTestsOnly        bool     `json:"smoke_tests_only"`
+	ExcludeDashboardTests bool     `json:"exclude_dashboard_tests"`
+	BrokerHost            string   `json:"broker_host"`
+	ServiceName           string   `json:"service_name"`
+	Plans                 []Plan   `json:"plans"`
+	Brokers               []Broker `json:"brokers"`
 }
 
 func LoadConfig() (config MysqlIntegrationConfig) {

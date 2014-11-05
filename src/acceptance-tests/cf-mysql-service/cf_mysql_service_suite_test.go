@@ -18,6 +18,8 @@ import (
 	context_setup "github.com/cloudfoundry-incubator/cf-test-helpers/services/context_setup"
 )
 
+var IntegrationConfig = helpers.LoadConfig()
+
 func TestCfMysqlService(t *testing.T) {
 	if IntegrationConfig.SmokeTestsOnly {
 		ginkgoconfig.GinkgoConfig.FocusString = "Service instance lifecycle"
@@ -56,5 +58,3 @@ func Curling(args ...string) func() *gexec.Session {
 		return Curl(args...)
 	}
 }
-
-var IntegrationConfig = helpers.LoadConfig()
