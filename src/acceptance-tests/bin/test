@@ -14,10 +14,5 @@ GOPATH=$PWD/vendor \
 
 go fmt ./cf-mysql-service/...
 
-suites=( dashboard failover service )
-for i in "${suites[@]}"
-do
-  echo "Running $i tests ..."
-  GOPATH=$PWD/vendor CF_COLOR=false CF_VERBOSE_OUTPUT=true \
-    vendor/bin/ginkgo -v -trace=true -slowSpecThreshold=300 "$@" ./cf-mysql-service/$i
-done
+GOPATH=$PWD/vendor CF_COLOR=false CF_VERBOSE_OUTPUT=true \
+  vendor/bin/ginkgo -r -v -keepGoing=true -trace=true -slowSpecThreshold=300 "$@" ./cf-mysql-service/

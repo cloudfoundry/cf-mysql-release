@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 
 	. "github.com/onsi/ginkgo"
@@ -17,8 +18,22 @@ func PrepareAndRunTests(packageName string, integrationConfig *MysqlIntegrationC
 		ginkgoconfig.GinkgoConfig.FocusString = "Service instance lifecycle"
 	}
 
-	if integrationConfig.ExcludeDashboardTests {
-		ginkgoconfig.GinkgoConfig.SkipString = "CF Mysql Dashboard"
+	var skipStrings []string
+
+	if ginkgoconfig.GinkgoConfig.SkipString != "" {
+		skipStrings = append(skipStrings, ginkgoconfig.GinkgoConfig.SkipString)
+	}
+
+	if !integrationConfig.IncludeDashboardTests {
+		skipStrings = append(skipStrings, "CF Mysql Dashboard")
+	}
+
+	if !integrationConfig.IncludeFailoverTests {
+		skipStrings = append(skipStrings, "CF MySQL Failover")
+	}
+
+	if len(skipStrings) > 0 {
+		ginkgoconfig.GinkgoConfig.SkipString = strings.Join(skipStrings, "|")
 	}
 
 	context_setup.TimeoutScale = integrationConfig.TimeoutScale

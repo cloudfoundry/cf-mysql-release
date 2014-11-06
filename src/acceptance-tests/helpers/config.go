@@ -22,7 +22,8 @@ type Plan struct {
 type MysqlIntegrationConfig struct {
 	IntegrationConfig
 	SmokeTestsOnly        bool     `json:"smoke_tests_only"`
-	ExcludeDashboardTests bool     `json:"exclude_dashboard_tests"`
+	IncludeDashboardTests bool     `json:"include_dashboard_tests"`
+	IncludeFailoverTests  bool     `json:"include_failover_tests"`
 	BrokerHost            string   `json:"broker_host"`
 	ServiceName           string   `json:"service_name"`
 	Plans                 []Plan   `json:"plans"`
@@ -68,10 +69,6 @@ func LoadPath(path string) (config MysqlIntegrationConfig) {
 
 	if config.Plans == nil {
 		panic("missing configuration 'plans'")
-	}
-
-	if config.Brokers == nil {
-		panic("missing configuration 'brokers'")
 	}
 
 	for index, plan := range config.Plans {

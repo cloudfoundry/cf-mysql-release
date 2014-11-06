@@ -33,6 +33,8 @@ var _ = Feature("CF Mysql Dashboard", func() {
 	}
 
 	Background(func() {
+		StartChrome()
+
 		serviceInstanceName = RandomName()
 		planName := IntegrationConfig.Plans[0].Name
 
@@ -59,6 +61,7 @@ var _ = Feature("CF Mysql Dashboard", func() {
 
 		deleteServiceCmd := Cf("delete-service", "-f", serviceInstanceName)
 		Eventually(deleteServiceCmd, context_setup.ScaledTimeout(20*time.Second)).Should(Exit(0))
+		StopWebdriver()
 	})
 
 	Scenario("Login via dashboard url", func() {
