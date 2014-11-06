@@ -70,6 +70,10 @@ func LoadPath(path string) (config MysqlIntegrationConfig) {
 		panic("missing configuration 'plans'")
 	}
 
+	if config.Brokers == nil {
+		panic("missing configuration 'brokers'")
+	}
+
 	for index, plan := range config.Plans {
 		if plan.Name == "" {
 			panic(fmt.Sprintf("missing configuration 'plans.name' for plan %d", index))

@@ -1,4 +1,4 @@
-package cf_mysql_service
+package dashboard_test
 
 import (
 	"encoding/json"

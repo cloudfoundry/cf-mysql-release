@@ -1,4 +1,4 @@
-package cf_mysql_service
+package failover_test
 
 import (
 	"time"
@@ -12,7 +12,7 @@ import (
 
 	"github.com/cloudfoundry-incubator/cf-test-helpers/generator"
 
-	"../partition"
+	"../../partition"
 
 	context_setup "github.com/cloudfoundry-incubator/cf-test-helpers/services/context_setup"
 )
@@ -25,7 +25,7 @@ var _ = Feature("CF MySQL Failover", func() {
 	var broker_1_local_ip = IntegrationConfig.Brokers[1].Ip
 
 	Background(func() {
-		const sinatraPath = "../assets/sinatra_app"
+		const sinatraPath = "../../assets/sinatra_app"
 		appName = generator.RandomName()
 
 		Step("Push an app", func() {

@@ -1,4 +1,4 @@
-package cf_mysql_service
+package service_test
 
 import (
 	"fmt"
@@ -18,7 +18,7 @@ import (
 )
 
 var _ = Describe("P-MySQL Service", func() {
-	var sinatraPath = "../assets/sinatra_app"
+	var sinatraPath = "../../assets/sinatra_app"
 
 	timeout := 120 * time.Second
 	retryInterval := 1.0
