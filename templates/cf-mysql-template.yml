@@ -99,6 +99,7 @@ jobs:
         broker_network: services1
       services:
       - name: p-mysql
+        plan_updateable: (( merge || false ))
         id: 44b26033-1f54-4087-b7bc-da9652c2a539
         description: A MySQL service for application development and testing
         tags:
