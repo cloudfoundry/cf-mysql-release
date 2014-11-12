@@ -312,17 +312,34 @@ $ cf delete-service-broker p-mysql
 
 ## Dashboard <a name="dashboard"></a>
 
-The service broker implements a user-facing UI which users can access via Single Sign-On (SSO) once authenticated with Cloud Foundry. SSO was implemented in build 169 of cf-release, so CF 169 is a minimum requirement for the SSO feature. If you encounter an error when you register the service broker, try removing the following lines from your manifest and redeploy.
+A user-facing service dashboard is provided by the service broker that displays storage utilization information for each service instance. The dashboard is accessible by users via Single Sign-On (SSO) once authenticated with Cloud Foundry. 
 
-  ```bash
-  dashboard_client:
-    id: p-mysql
-    secret: yoursecret
-  ```
+Service authors interested in implementing a service dashboard accessible via SSO can follow documentation for [Dashboard SSO](http://docs.cloudfoundry.org/services/dashboard-sso.html).
 
-Services wanting to implement such a UI and integrate with the Cloud Foundry Web UI should try something similar. Instructions to implement this feature can be found [here](http://docs.cloudfoundry.org/services/dashboard-sso.html).
+### Prerequisites
 
-The broker displays usage information on a per instance basis.
+1. SSO is initiated when a user navigates to the URL found in the `dashboard_url` field. This value is returned to cloud controller by the broker in response to a provision request, and is exposed in the cloud controller API for the service instance. A users client must expose this field as a link, or it can be obtained via curl (`cf curl /v2/service_instances/:guid`) and copied into a browser. 
+
+2. SSO requires the following OAuth client to be configured in cf-release. This client is responsible for creating the OAuth client for the MySQL dashboard. Without this client configured in cf-release, the MySQL dashboard will not be accessible but the service will be otherwise functional. Registering the broker will display a warning to this effect.
+
+    ```
+    properties:
+        uaa:
+          clients:
+            cc-service-dashboards:
+              secret: cc-broker-secret
+              scope: cloud_controller.write,openid,cloud_controller.read,cloud_controller_service_permissions.read
+              authorities: clients.read,clients.write,clients.admin
+              authorized-grant-types: client_credentials
+    ```
+
+3. SSO was implemented in v169 of cf-release; if you are on an older version of cf-release you'll encounter an error when you register the service broker. If upgradiing cf-release is not an option, try removing the following lines from the cf-mysql-release manifest and redeploy.
+
+    ```bash
+    dashboard_client:
+      id: p-mysql
+      secret: yoursecret
+    ```
 
 ### SSL
 
@@ -333,7 +350,9 @@ Visiting the old URL may fail if you are using the [SSO integration](http://docs
 because the OAuth2 client registered with UAA will expect users to both come from and return to a URI using the scheme
 implied by the `ssl_enabled` setting.
 
-### Implementation Details
+### Implementation Notes
+
+The following links show how this release implements [Dashboard SSO](http://docs.cloudfoundry.org/services/dashboard-sso.html) integration.
 
 1. Update the broker catalog with the dashboard client [properties](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/config/settings.yml#L26)
 2. Implement oauth [workflow](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/config/initializers/omniauth.rb) with the [omniauth-uaa-oauth2 gem](https://github.com/cloudfoundry/omniauth-uaa-oauth2)
