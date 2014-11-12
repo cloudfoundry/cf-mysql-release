@@ -12,6 +12,7 @@ templates:
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
 
 packages:
+- xtrabackup
 - mariadb
 - mariadb_ctrl
 - galera
@@ -20,7 +21,6 @@ packages:
 - golang
 - common
 - syslog_aggregator
-- xtrabackup
 
 properties:
   admin_username:

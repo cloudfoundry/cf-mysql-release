@@ -14,5 +14,8 @@ GOPATH=$PWD/vendor \
 
 go fmt ./cf-mysql-service/...
 
+
+: "${FOCUS_DIR:=""}"
+
 GOPATH=$PWD/vendor CF_COLOR=false CF_VERBOSE_OUTPUT=true \
-  vendor/bin/ginkgo -r -v -keepGoing=true -trace=true -slowSpecThreshold=300 "$@" ./cf-mysql-service/
+  vendor/bin/ginkgo -r -v -keepGoing=true -trace=true -slowSpecThreshold=300 "$@" ./cf-mysql-service/$FOCUS_DIR

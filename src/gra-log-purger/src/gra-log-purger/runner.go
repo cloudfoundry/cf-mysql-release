@@ -3,11 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"os/exec"
 	"strconv"
 	"time"
-	"io/ioutil"
 )
 
 var graLogDir = flag.String(
@@ -32,7 +32,9 @@ func main() {
 	flag.Parse()
 
 	err := ioutil.WriteFile(*pidfile, []byte(strconv.Itoa(os.Getpid())), 0644)
-	if err != nil { panic(err) }
+	if err != nil {
+		panic(err)
+	}
 
 	for {
 		out, err := runCommand("sh", "/var/vcap/jobs/mysql/bin/gra-log-purger.sh", *graLogDir, strconv.Itoa(*graLogDaysToKeep))
@@ -66,5 +68,5 @@ func LogWithTimestamp(format string, args ...interface{}) {
 
 func LogErrorWithTimestamp(err error) {
 	fmt.Fprintf(os.Stderr, "[%s] - ", time.Now().Local())
-	fmt.Fprintf(os.Stderr, err.Error() + "\n")
+	fmt.Fprintf(os.Stderr, err.Error()+"\n")
 }

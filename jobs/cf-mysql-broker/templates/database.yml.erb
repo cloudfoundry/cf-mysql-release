@@ -14,6 +14,9 @@ production:
   encoding: utf8
   database: mysql_broker
   pool: 5
+  connect_timeout: 20
+  read_timeout: 20
+  reconnect: true
   host: <%= p('mysql_node.host') %>
   port: <%= p('mysql_node.port') %>
   username: <%= p('mysql_node.admin_username') %>
