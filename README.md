@@ -310,7 +310,7 @@ $ cf purge-service-offering p-mysql
 $ cf delete-service-broker p-mysql
 ```
 
-## Dashboard <a name="dashboard"></a>
+## Dashboard<a name="dashboard"></a>
 
 A user-facing service dashboard is provided by the service broker that displays storage utilization information for each service instance. The dashboard is accessible by users via Single Sign-On (SSO) once authenticated with Cloud Foundry. 
 
