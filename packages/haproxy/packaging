@@ -11,5 +11,5 @@ cd ..
 
 tar xzf haproxy/haproxy-1.5.0.tar.gz
 cd haproxy-1.5.0
-make TARGET=linux2628 CPU=native USE_OPENSSL=1 USE_STATIC_PCRE=1 USE_ZLIB=1
+make TARGET=linux2628 USE_OPENSSL=1 USE_STATIC_PCRE=1 USE_ZLIB=1
 make install-bin PREFIX='${BOSH_INSTALL_TARGET}' SBINDIR='$(PREFIX)/bin'
