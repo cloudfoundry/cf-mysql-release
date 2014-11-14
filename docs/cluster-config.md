@@ -5,10 +5,10 @@ This page documents the various configuration decisions that have been made in r
 ###SST method
 
 Galera supports multiple methods for [State Snapshot Transfer](http://www.percona.com/doc/percona-xtradb-cluster/5.5/manual/state_snapshot_transfer.html).
-The `rsync` method is usually fastest. The `xtrabackup` method has the advantage of keeping the donor node writeable during SST. We have chosen to use `rsync`
+The `rsync` method is usually fastest. The `xtrabackup` method has the advantage of keeping the donor node writeable during SST. We have chosen to use `xtrabackup`.
 
 ###InnoDB Log Files
-To Be Determined (EITHER kept logs small to reduce SST time OR used 1G log file size to support larger blobs)
+Our cluster defaults to 1GB for log file size to support larger blob.
 
 ###Max User Connections
 To ensure all users get fair access to system resources, we have capped each user's number of connections to 40.

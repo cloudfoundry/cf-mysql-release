@@ -19,38 +19,44 @@ See [Determining Cluster State](cluster-state.md)
 
 ## Bootstrapping
 
-The start control script used by monit abstracts the complexity of bootstrapping a Galera cluster; this makes bootstrapping as simple as using monit to first start node 0, then the other nodes. As the cluster is currently configured to only accept connections on node 0, it is safe to assume that node 0 has the most recent data. For this reason, the monit control script is hardcoded to only bootstrap node 0.
-
 If you have determined that it is necessary to bootstrap:
 
-1. Shut down the mariadb process on each node in the cluster:
+1. Find a new bootstrap node. Connect to each node and run the following mysql query:
 
     <pre class="terminal">
-    $ monit stop mariadb
+    mysql> show status like 'wsrep_last_committed';
     </pre>
 
-- On Node 0, delete the file which records that the node has been bootstrapped:
+    Use the node with the highest `wsrep_last_committed` value as the new bootstrap node.
+
+- SSH to each node in the cluster and shut down the mariadb process:
 
     <pre class="terminal">
-    $ rm /var/vcap/store/mysql/state.txt
+    $ monit stop mariadb_ctrl-executable
     </pre>
 
-- On Node 0, restart the mariadb process:
+- On the new bootstrap node, restart the mariadb process:
 
     <pre class="terminal">
-    $ monit start mariadb
+    $ /var/vcap/packages/mariadb/bin/mysqld_safe --wsrep-new-cluster &
     </pre>
 
-    The control script will start the node in bootstrap mode because the `state.txt` file will be absent.
 
-- On Node 0, wait for the following to show that mariadb is running:
+- In a new terminal, start the mariadb process on the remaining nodes one by one via monit.
 
     <pre class="terminal">
-    $ watch monit status
+    $ monit start mariadb_ctrl-executable
     </pre>
 
-- Start the mariadb process on the remaining nodes one by one.
+- Verify that the new nodes have successfully joined the cluster. The following command should output the total number of nodes in the cluster:
 
     <pre class="terminal">
+    mysql> show status like 'wsrep_cluster_size';
+    </pre>
+
+- Because we started the bootstrap node without monit, we now need to restart the node using the normal monit script. On the bootstrap node, run:
+
+    <pre class="terminal">
+    $ /var/vcap/packages/mariadb/support-files/mysql.server stop
     $ monit start mariadb
     </pre>

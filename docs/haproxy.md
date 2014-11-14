@@ -2,7 +2,7 @@
 
 ## All new connections are routed to the same node ##
 
-HAProxy is an application which provides load-balancing and high-availability. We use it to route connections to nodes of the MariaDB Galera Cluster. The high-availability feature of HAProxy is used to failover between nodes, but the load-balance feature is not used, as we want to ensure that all connections (read and write) go to a single node. To achieve this, we use an HAProxy config as follows:
+HAProxy is an application which proxies tcp connections and http requests. We use it to route connections to nodes of the MariaDB Galera Cluster. Preferably, all connections should be routed to a single node; when that node fails, the proxy should fail over to a different node. HAProxy supports this fail-over behavior with the following configuration:
 
 ```
 global
@@ -36,29 +36,23 @@ listen stats :1936
     stats auth admin:password
 ```
 
+It should be noted that this configuration only guarantees that a **single** HAProxy node will behave this way. When we deploy multiple HAProxy nodes, there is a small probably that the two proxies will fail-over to different nodes and violate the desired invariant that all connections are routed to the same Mariadb node. This is a known issue, and we are currently exploring methods to circumvent it.
+
 ## Connection handling with Healthcheck
 
-HAProxy does not exclusively use the healthcheck when determing where to route traffic. If HAProxy attempts to establish a connection to a node where the healthcheck returns true, and that connection attempt fails, HAProxy will ignore the healthcheck and failover to a new node.
+HAProxy does not exclusively use the healthcheck when determining where to route traffic. If HAProxy attempts to establish a connection to a node where the healthcheck returns true, and that connection attempt fails, HAProxy will ignore the healthcheck and failover to a new node.
 
 ## Connection handling on MariaDB failure ##
 
-The observations below are verifications of uses cases only where connections are dropped due to the MariaDB process dying.
+The observations below are verifications of use cases only where connections are dropped due to the MariaDB process dying.
 
-### MariaDB on a node dies with no existing connections ###
+### MariaDB process on a node dies ###
 
-The node is removed from the pool of healthy nodes. All new connections are routed to another healthy node.
+The node is removed from the pool of healthy nodes. Any existing connections are dropped; all new connections (and reconnections) are routed to another healthy node.
 
-### MariaDB node is resurrected with no connections on other nodes ###
+### A previously dead MariaDB node is resurrected ###
 
-HAProxy has already failed-over to a new node. All connections will go to that node; the resurrected node will not receive connections.
-
-### MariaDB on a node dies with existing connections ###
-
-Existing connections are dropped; all new connections (and reconnections) are routed to another healthy node.
-
-### MariaDB node is resurrected with existing connections on other nodes ###
-
-As above, HAProxy has already failed-over to a new node. All connections will go to that node; the resurrected node will not receive connections.
+The resurrected node will not receive connections. HAProxy has already failed-over to a new node; all connections, new or existing, will go to that node instead.
 
 ### Untested ###
 
@@ -66,11 +60,7 @@ What happens if a node dies and is resurrected between ping intervals? Perhaps H
 
 ## Connection handling during State Snapshot Transfer (SST)
 
-When a new node is added to the cluster it gets its state from an existing node via a process called SST.  During this process, the donor node suspends writes but allows reads. MariaDB holds open existing connections and also allows new connections. It doesn't return an error on write; instead writes hang until the SST is completed.
-
-### Untested ###
-
-As writes to DONOR node are suspended during SST, it is conceivable that the connection may time out if the SST takes a long time. We have not managed to reproduce this, but it might be possible to observe this behavior if the cluster is running for a long time before adding a new node. This will not be an issue when we implement a proxy on the node, as this will sever the connection as soon as MariaDB enters DONOR mode.
+When a new node is added to the cluster it gets its state from an existing node via a process called SST. Because SST is performed by xtrabackup, the donor node continues to allow both reads and writes during this process.
 
 ## Connection handling for non-primary components ##
 
@@ -101,11 +91,9 @@ follow the following instructions:
 
 In states such as SST and Non-primary Components (see above), MariaDB is operational, disallows writes, but does not terminate connections.
 
-HAProxy only considers the galera-healthcheck (available on port 9200 of each node) in determining where to route new connections. In the aforementioned states, the healthcheck will report a node as unhealthy, so new connections will be routed to a healthy node, but it is not a feature of HAProxy to terminate existing connections.
+HAProxy only considers the galera-healthcheck (available on port 9200 of each node) in determining where to route **new** (as opposed to existing) connections. In the aforementioned states, the healthcheck will report a node as unhealthy, so new connections will be routed to a healthy node, but it is not a feature of HAProxy to terminate existing connections.
 
-This results in connections on multiple nodes, which is undesireable due to the possibility for deadlocks. As we assume most appliations have not been designed to tolerate deadlocking, we will attempt to prevent this from happening.
-
-The current plan is to implement a mechanism on each node responsible for severing existing connections when the healthcheck reports a node as unhealthy.
+Depending on the timeout configured by the client, HAProxy's failure to server existing connections could cause long wait times for clients connected to unhealthy nodes. The team is currently working on solutions to the problem.
 
 ## Further Discussion ##
 

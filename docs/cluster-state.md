@@ -3,7 +3,7 @@
 Connect to each MySQL node using a mysql client and check its status.
 
 <pre class="terminal">
-$ mysql -u root -pPASSWORD -e 'show status like "wsrep_cluster_status";'
+$ mysql -h NODE_IP -u root -pPASSWORD -e 'show status like "wsrep_cluster_status";'
 +----------------------+---------+
 | Variable_name        | Value   |
 +----------------------+---------+
@@ -16,7 +16,7 @@ If all nodes are in the `Primary` component, you have a healthy cluster. If some
 See how many nodes are in the cluster. 
 
 <pre class="terminal">
-$ mysql -u root -pPASSWORD -e 'show status like "wsrep_cluster_size";'
+$ mysql -h NODE_IP -u root -pPASSWORD -e 'show status like "wsrep_cluster_size";'
 +--------------------+-------+
 | Variable_name      | Value |
 +--------------------+-------+

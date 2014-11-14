@@ -23,7 +23,6 @@ Documented here are scenarios in which the size of a cluster may change, how the
 ### Re-bootstrapping the cluster after quorum is lost
   - The start script will currently bootstrap node 0 only on initial deploy. Re-bootstrapping requires a manual bootstrap. For more information on manually bootstrapping a cluster, see [Bootstrapping Galera](bootstrapping.md).
   - The node with the most up-to-date information should be bootstrapped.
-  - Currently, only node 0 receives connections, so it should always have the most up-to-date information. Therefore, until the service supports writes to other nodes, a user can re-bootstrap from this node.
 
 ### One node partitioned from the other two
   - This can be simulated by adding iptables rules (see below) to the VM of node 0 preventing it from communicating with the other two VMs.
@@ -33,7 +32,8 @@ Documented here are scenarios in which the size of a cluster may change, how the
   - If the single node is bootstrapped, it will create a new one-node cluster. The result:
     - There are now two clusters, one cluster with a single node and another cluster with two nodes.
     - This split-brain scenario will not be healed even if the network partition is removed.
-    - Both clusters will consider themselves healthy, and the single-node cluster will accept new data even though it cannot perform any kind of replication. Currently this is not a danger because only one node in the cluster receives connections.
+    - Both clusters will consider themselves healthy, and the single-node cluster will accept new data even though it cannot perform any kind of replication.
+    - The monit control scripts will never attempt to bootstrap after the first bosh deploy, so the danger here is limited to operator actions.
 
 #### iptables rules for simulating partition
 On the node you wish to partition, execute the following:

@@ -35,9 +35,9 @@ This only requires that the operator recreate the one node with disk issues. The
 
 When the disk is detached, monit considers the process stopped and BOSH will consider the job as failing. However currently BOSH cloud check will not recognize the disk is unattached without a little kick.
 
-1. Attempt to recreate Node 0 using BOSH. This will alert BOSH to the missing disk.
+1. Attempt to recreate the broken node using BOSH. This will alert BOSH to the missing disk.
   <pre class="terminal">
-  $ bosh recreate mysql 0
+  $ bosh recreate mysql INDEX
   </pre>
   You should see an error that looks like this:
   <pre class="terminal">
@@ -45,7 +45,7 @@ When the disk is detached, monit considers the process stopped and BOSH will con
   </pre>
   If recreate fails with the following error, wait until monit times out and all jobs are stopped then try again.
   <pre class="terminal">
-  Failed updating job mysql: mysql/0 (canary) (00:00:22): Action Failed get_task: Task 8ace0778-c5aa-4a2f-55a0-42443452adb1 result: Stopping Monitored Services: Stopping service gra-log-purger-executable: Stopping Monit service gra-log-purger-executable: Request failed with 503 Service Unavailable:
+  Failed updating job mysql: mysql/INDEX (canary) (00:00:22): Action Failed get_task: Task 8ace0778-c5aa-4a2f-55a0-42443452adb1 result: Stopping Monitored Services: Stopping service gra-log-purger-executable: Stopping Monit service gra-log-purger-executable: Request failed with 503 Service Unavailable:
   </pre>
 - Use BOSH cloud check to reattach the disk.
   <pre class="terminal">
@@ -54,23 +54,22 @@ When the disk is detached, monit considers the process stopped and BOSH will con
   When prompted, choose `3. Reattach disk and reboot instance`; this should succeed. As BOSH recreate failed after stopping the jobs, BOSH believes the jobs should stay stopped on reboot.
 - Upon restarting the node again, it will join the cluster.
   <pre class="terminal">
-  $ bosh restart mysql 0
+  $ bosh restart mysql INDEX
   </pre>
 
 #### When persistent disk is lost and needs to be re-created
 
-##### If node 0 has lost its persistent disk:
-1. ssh into cf-mysql-broker and stop the processes. This will prevent creation and deletion of instances when we attempt to recreate Node 0 to get its disk id.
+1. ssh into cf-mysql-broker instances and stop the processes. This will prevent creation and deletion of instances when we attempt to recreate the broken node to get its disk id.
   <pre class="terminal">
   $ sudo monit stop all
   </pre>
-- ssh into haproxy and stop the processes. This will prevent data from changing on Node 0 when we attempt to recreate id to get its disk id.
+- ssh into haproxy instances and stop the processes. This will prevent data from changing on the broken node when we attempt to recreate it to get its disk id.
   <pre class="terminal">
   $ sudo monit stop all
   </pre>
-- Attempt to recreate Node 0 using BOSH in order to obtain the disk id.
+- Attempt to recreate the node using BOSH in order to obtain the disk id.
   <pre class="terminal">
-  $ bosh recreate mysql 0
+  $ bosh recreate mysql INDEX
   </pre>
   You should see an error that looks like this:
   <pre class="terminal">
@@ -99,14 +98,14 @@ When the disk is detached, monit considers the process stopped and BOSH will con
   </pre>
 
   This will delete the reference to the lost disk, and cause BOSH to recreate a fresh disk for this VM on the next deploy.
-- Through the infrastructure interface (e.g., vCenter client or AWS console), power off and delete the VM corresponding to `mysql/0`.
+- Through the infrastructure interface (e.g., vCenter client or AWS console), power off and delete the VM corresponding to `mysql/INDEX`.
 - Use BOSH cloud check to remove reference to the VM.
   <pre class="terminal">
   $ bosh cck
   </pre>
   When prompted, choose `3. Delete VM reference (DANGEROUS!)`.
-- Edit the deployment manifest and reduce the number of instances of both cf-mysql-broker and haproxy to 0 (also remove the static ip for haproxy). This will prevent new connections from being made to Node 0 after it is recreated but before it joins the cluster.
-- Deploy the release to recreate Node 0 and remove the broker and haproxy.
+- Edit the deployment manifest and reduce the number of instances of both cf-mysql-broker and haproxy to 0 (also remove the static ip for haproxy). This will prevent new connections from being made to the node after it is recreated but before it joins the cluster.
+- Deploy the release to recreate the node and remove the broker and haproxy.
   <pre class="terminal">
   $ bosh deploy
   </pre>
@@ -116,29 +115,19 @@ When the disk is detached, monit considers the process stopped and BOSH will con
   $ bosh deploy
   </pre>
 
-##### If nodes 1 or 2 have lost their persistent disk:
-
-Since all connections are routed to Node 0, we don't need to worry about new data being written to these nodes while they are not a member of the cluster.
-
-1. Follow steps 3, 4, 5, and 6 above for the node that has lost its disk.
-- Recreate the node. BOSH will create a new VM and attach a new disk. The node will join the cluster on startup.
-  <pre class="terminal">
-  $ bosh recreate mysql 1
-  </pre>
-
 <a name="quorum-lost"/>
 ### When cluster has lost quorum
 
 1. ssh into all nodes and use monit to stop the MariaDB process.
   <pre class="terminal">
-  $ sudo monit stop mariadb
+  $ sudo monit stop mariadb_ctrl-executable
   </pre>
 - For each node with detached or lost disk:
   - Follow the instructions above for [When all nodes are still in the primary component](#cluster-intact) to reattach or recreating the disk.
   - If the disk for Node 0 has been recreated, the MariaDB process will bootstrap
   and write its state.txt file to persistent disk. All future attempts to restart this node will cause the node to JOIN rather than BOOTSTRAP.
-  - ssh into the node and wait for `watch monit status` to show that the `mariadb` process is `running`
-  - Once the process is running, stop it with `sudo monit stop mariadb`
+  - ssh into the node and wait for `watch monit status` to show that the `mariadb_ctrl-executable` process is `running`
+  - Once the process is running, stop it with `sudo monit stop mariadb_ctrl-executable`
 - Choose the node with the data you want to restart your cluster with. We will call this the BOOTSTRAP node.
 ssh into the BOOTSTRAP node and start it in bootstrap mode manually.
   <pre class="terminal">
@@ -146,12 +135,12 @@ ssh into the BOOTSTRAP node and start it in bootstrap mode manually.
   </pre>
 - Restart the `mariadb` process on all nodes except for the BOOTSTRAP node:
   <pre class="terminal">
-  $ sudo monit start mariadb
+  $ sudo monit start mariadb_ctrl-executable
   </pre>
 - Wait for all remaining nodes to join and sync with the cluster.
 - Finally, ssh into the BOOTSTRAP node, stop MariaDB manually, and start it with monit:
   <pre class="terminal">
   $ /var/vcap/packages/mariadb/support-files/mysql.server stop
-  $ monit start mariadb
+  $ monit start mariadb_ctrl-executable
   </pre>
 - Now the BOOTSTRAP node will rejoin the cluster under monit's supervision.
