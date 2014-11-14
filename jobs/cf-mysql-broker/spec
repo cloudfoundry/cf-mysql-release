@@ -9,6 +9,10 @@ templates:
   database.yml.erb: config/database.yml
   cf-mysql-quota-enforcer_ctl.erb: bin/cf-mysql-quota-enforcer_ctl
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
+  healthcheck.sh.erb: bin/healthcheck.sh
+  registrar_settings.yml.erb: config/registrar_settings.yml
+  route-registrar_ctl.erb: bin/route-registrar_ctl
+
 
 packages:
 - ruby
@@ -17,6 +21,7 @@ packages:
 - common
 - mariadb
 - syslog_aggregator
+- route-registrar
 
 properties:
   auth_username:
