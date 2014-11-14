@@ -28,7 +28,6 @@ type MysqlIntegrationConfig struct {
 	ServiceName           string      `json:"service_name"`
 	Plans                 []Plan      `json:"plans"`
 	Brokers               []Component `json:"brokers"`
-	Proxies               []Component `json:"proxies"`
 	MysqlNodes            []Component `json:"mysql_nodes"`
 }
 
