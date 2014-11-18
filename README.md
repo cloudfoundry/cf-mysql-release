@@ -224,7 +224,7 @@ deployment. Copy and paste this into your terminal, then open the resulting `int
   ```bash
   cat > integration_config.json <<EOF
   {
-    "api_url": "http://api.10.244.0.34.xip.io",
+    "api": "http://api.10.244.0.34.xip.io",
     "apps_domain": "10.244.0.34.xip.io",
     "admin_user": "admin",
     "admin_password": "admin",
