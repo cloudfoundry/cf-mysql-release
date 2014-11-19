@@ -22,7 +22,9 @@ A BOSH release of a MySQL database-as-a-service for Cloud Foundry using [MariaDB
 </table>
 
 
-## About Branches
+## Getting the code
+
+Final releases are designed for public use, and are tagged with a version number e.g. [**v14**](https://github.com/cloudfoundry/cf-mysql-release/tree/v14).
 
 The [**develop**](https://github.com/cloudfoundry/cf-mysql-release/tree/develop) branch is where we do active development. Although we endeavor to keep the [**develop**](https://github.com/cloudfoundry/cf-mysql-release/tree/develop) branch stable, we do not guarantee that any given commit will deploy cleanly.
 
@@ -34,17 +36,9 @@ At semi-regular intervals a final release is created from the [**release-candida
 
 Pushing to any branch other than [**develop**](https://github.com/cloudfoundry/cf-mysql-release/tree/develop) will create problems for the CI pipeline, which relies on fast forward merges. To recover from this condition follow the instructions [here](https://github.com/cloudfoundry/cf-release/blob/master/docs/fix_commit_to_master.md).
 
-
 ## Release Notes & Known Issues
 
 For release notes and known issues, see [the release wiki](https://github.com/cloudfoundry/cf-mysql-release/wiki/).
-
-## Getting the code
-
-There are multiple branches, representing code in different stages of development.
-* master is the latest and greatest (untested) code - the bleeding-edge. Use at your own risk.
-* release-candidate has passed both automated and manual acceptance. This branch should be suitable for most use cases.
-* Final releases are tagged with the version number e.g. v12.
 
 ## Deployment
 
