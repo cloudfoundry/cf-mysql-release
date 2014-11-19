@@ -5,7 +5,6 @@ run_dir=/var/vcap/sys/run/switchboard
 log_dir=/var/vcap/sys/log/switchboard
 package_dir=/var/vcap/packages/switchboard
 pidfile=$run_dir/switchboard.pid
-executable_name=switchboard
 
 export GOROOT=/var/vcap/packages/golang
 export PATH=$GOROOT/bin:$PWD/bin:$PATH
@@ -24,14 +23,15 @@ case $1 in
     cd $package_dir
 
     # Start syslog forwarding
-    /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $job_dir/config 
+    /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $job_dir/config
 
-    $package_dir/$executable_name \
+    $package_dir/switchboard \
       -port=3306 \
       -pidfile=$pidfile \
-      -backendIp=<%= p('cluster_ips')[0] %> \
-      -backendPort=3306 \
-      -healthcheckPort=9200 2>&1 \
+      -backendIPs=<%= p('cluster_ips').join(',') %> \
+      -backendPorts=<%= p('cluster_ips').map { 3306 }.join(',') %> \
+      -healthcheckPorts=<%= p('cluster_ips').map { 9200 }.join(',') %> \
+      2>&1 \
       | tee -a $log_dir/switchboard.combined.log \
       | logger -p local1.error -t switchboard
 

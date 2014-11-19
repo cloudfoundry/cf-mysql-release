@@ -69,7 +69,7 @@ jobs:
       static_ips: (( static_ips(4) ))
     properties:
       <<: (( merge || nil ))
-      mysql_ips: (( jobs.mysql.properties.cluster_ips ))
+      cluster_ips: (( jobs.mysql.properties.cluster_ips ))
       network_name: services1
   - name: cf-mysql-broker
     release: cf-mysql
