@@ -32,7 +32,7 @@ The [**master**](https://github.com/cloudfoundry/cf-mysql-release/tree/master) b
 
 At semi-regular intervals a final release is created from the [**release-candidate**](https://github.com/cloudfoundry/cf-mysql-release/tree/release-candidate) branch. This final release is tagged and pushed to the [**master**](https://github.com/cloudfoundry/cf-mysql-release/tree/master) branch.
 
-Pushing to any branch other than [**develop**](https://github.com/cloudfoundry/cf-mysql-release/tree/develop) will create problems for the CI pipeline, which relies on fast forward merges. To recover from this condition follow the instructions [here](https://github.com/cloudfoundry/cf-release/docs/fix_commit_to_master.md).
+Pushing to any branch other than [**develop**](https://github.com/cloudfoundry/cf-mysql-release/tree/develop) will create problems for the CI pipeline, which relies on fast forward merges. To recover from this condition follow the instructions [here](https://github.com/cloudfoundry/cf-release/blob/master/docs/fix_commit_to_master.md).
 
 
 ## Release Notes & Known Issues
