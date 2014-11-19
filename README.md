@@ -21,6 +21,20 @@ A BOSH release of a MySQL database-as-a-service for Cloud Foundry using [MariaDB
  	 </tr>
 </table>
 
+
+## About Branches
+
+The [**develop**](https://github.com/cloudfoundry/cf-mysql-release/tree/develop) branch is where we do active development. Although we endeavor to keep the [**develop**](https://github.com/cloudfoundry/cf-mysql-release/tree/develop) branch stable, we do not guarantee that any given commit will deploy cleanly.
+
+The [**release-candidate**](https://github.com/cloudfoundry/cf-mysql-release/tree/release-candidate) branch has passed all of our unit, integration, smoke, & acceptance tests, but has not been used in a final release yet. This branch should be fairly stable.
+
+The [**master**](https://github.com/cloudfoundry/cf-mysql-release/tree/master) branch points to the most recent stable final release.
+
+At semi-regular intervals a final release is created from the [**release-candidate**](https://github.com/cloudfoundry/cf-mysql-release/tree/release-candidate) branch. This final release is tagged and pushed to the [**master**](https://github.com/cloudfoundry/cf-mysql-release/tree/master) branch.
+
+Pushing to any branch other than [**develop**](https://github.com/cloudfoundry/cf-mysql-release/tree/develop) will create problems for the CI pipeline, which relies on fast forward merges. To recover from this condition follow the instructions [here](https://github.com/cloudfoundry/cf-release/docs/fix_commit_to_master.md).
+
+
 ## Release Notes & Known Issues
 
 For release notes and known issues, see [the release wiki](https://github.com/cloudfoundry/cf-mysql-release/wiki/).
@@ -311,13 +325,13 @@ $ cf delete-service-broker p-mysql
 
 ## Dashboard<a name="dashboard"></a>
 
-A user-facing service dashboard is provided by the service broker that displays storage utilization information for each service instance. The dashboard is accessible by users via Single Sign-On (SSO) once authenticated with Cloud Foundry. 
+A user-facing service dashboard is provided by the service broker that displays storage utilization information for each service instance. The dashboard is accessible by users via Single Sign-On (SSO) once authenticated with Cloud Foundry.
 
 Service authors interested in implementing a service dashboard accessible via SSO can follow documentation for [Dashboard SSO](http://docs.cloudfoundry.org/services/dashboard-sso.html).
 
 ### Prerequisites
 
-1. SSO is initiated when a user navigates to the URL found in the `dashboard_url` field. This value is returned to cloud controller by the broker in response to a provision request, and is exposed in the cloud controller API for the service instance. A users client must expose this field as a link, or it can be obtained via curl (`cf curl /v2/service_instances/:guid`) and copied into a browser. 
+1. SSO is initiated when a user navigates to the URL found in the `dashboard_url` field. This value is returned to cloud controller by the broker in response to a provision request, and is exposed in the cloud controller API for the service instance. A users client must expose this field as a link, or it can be obtained via curl (`cf curl /v2/service_instances/:guid`) and copied into a browser.
 
 2. SSO requires the following OAuth client to be configured in cf-release. This client is responsible for creating the OAuth client for the MySQL dashboard. Without this client configured in cf-release, the MySQL dashboard will not be accessible but the service will be otherwise functional. Registering the broker will display a warning to this effect.
 
@@ -363,4 +377,3 @@ The following links show how this release implements [Dashboard SSO](http://docs
 Traffic to the MySQL cluster is routed through one or more HAProxy nodes. The intention is to use these proxies for fail-over and load balancing traffic. The number of nodes is configured by the job instance count in the deployment manifest.
 
 Each HAProxy node runs a thin web server to display traffic stats. These dashboards can be reached at `haproxy-<job index>.p-mysql.<system domain>`. Log in as user `admin` with the password configured by the `haproxy_stats_password` property in the deployment manifest.
-
