@@ -187,23 +187,26 @@ var _ = Describe("P-MySQL Service", func() {
 			}
 		})
 
-		//Describe("Upgrading a service instance", func() {
-		//	It("upgrades the instance and enforces the new quota", func() {
-		//		plan := IntegrationConfig.Plans[0]
-		//		newPlan := IntegrationConfig.Plans[1]
-		//		CreatesBindsAndStartsApp(plan.Name)
-		//		ExceedQuota(plan.MaxStorageMb, appName, serviceInstanceName)
+		Describe("Upgrading a service instance", func() {
+			It("upgrades the instance and enforces the new quota", func() {
+				plan := IntegrationConfig.Plans[0]
+				newPlan := IntegrationConfig.Plans[1]
+				CreatesBindsAndStartsApp(plan.Name)
+				ExceedQuota(plan.MaxStorageMb, appName, serviceInstanceName)
 
-		//		fmt.Println("*** Upgrading service instance")
-		//		Eventually(Cf("update-service", serviceInstanceName, "-p", newPlan.Name)).Should(Say("OK"))
+				fmt.Println("*** Upgrading service instance")
+				Eventually(Cf("update-service", serviceInstanceName, "-p", newPlan.Name)).Should(Say("OK"))
 
-		//		fmt.Println("*** Proving we can write")
-		//		uri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/mykey"
-		//		value := RandomName()[:20]
-		//		Eventually(Curl("-d", value, uri), context_setup.ScaledTimeout(timeout), retryInterval).Should(Say(value))
+				fmt.Println("*** Sleeping to let quota enforcer run")
+				time.Sleep(quotaEnforcerSleepTime)
 
-		//		ExceedQuota(newPlan.MaxStorageMb, appName, serviceInstanceName)
-		//	})
-		//})
+				fmt.Println("*** Proving we can write")
+				uri := AppUri(appName) + "/service/mysql/" + serviceInstanceName + "/mykey"
+				value := RandomName()[:20]
+				Eventually(Curl("-d", value, uri), context_setup.ScaledTimeout(timeout), retryInterval).Should(Say(value))
+
+				ExceedQuota(newPlan.MaxStorageMb, appName, serviceInstanceName)
+			})
+		})
 	})
 })
