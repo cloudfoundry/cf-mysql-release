@@ -5,7 +5,7 @@ cd cli
 if uname | grep Darwin; then
   cli=cf-darwin-amd64.tgz
 else
-  cli=cf-linux-amd64.tgz
+  cli=cf-linux-amd64-6.7.0-c38c991.tgz
 fi
 
 tar xzf $cli

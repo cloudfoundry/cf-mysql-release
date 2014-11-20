@@ -23,10 +23,6 @@ cli/cf-darwin-amd64.tgz:
   object_id: d1ba938a-f1fe-4ad0-8ae8-f7259af4d602
   sha: 19df87677b92129f01e339e1f8f043831b6168d3
   size: 3849482
-cli/cf-linux-amd64.tgz:
-  object_id: 6998881f-c91e-4a66-a72e-9fe968aa64ad
-  sha: 2da718e8e33105ff5884f1e834b79650ab330803
-  size: 3886903
 boost/boost_1_55_0.tar.gz:
   object_id: 52348346-ba79-41e1-9c71-74ee464570d6
   sha: 61ed0e57d3c7c8985805bb0682de3f4c65f4b6e5
@@ -111,3 +107,7 @@ golang/go1.3.3.linux-amd64.tar.gz:
   object_id: 36e4a9ae-f861-43e5-8bac-ea8bce44a7fa
   sha: 14068fbe349db34b838853a7878621bbd2b24646
   size: 53204098
+cli/cf-linux-amd64-6.7.0-c38c991.tgz:
+  object_id: b55f539b-1e42-49f8-b973-a9ba4bcc70d5
+  sha: 4e979e37bd1781f155970994d0949dbd7637bbfc
+  size: 4661436
