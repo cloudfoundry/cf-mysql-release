@@ -53,4 +53,4 @@ properties:
     description: 'IP of each NATS cluster member'
 
   external_domain:
-    description: 'The CF system domain for creating a url'
+    description: 'Domain of the route registered for the Stats UI; typically the CF system domain'
