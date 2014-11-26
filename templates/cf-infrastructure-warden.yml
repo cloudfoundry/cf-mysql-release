@@ -10,6 +10,13 @@ compilation:
   cloud_properties:
     name: random
 
+jobs:
+- name: cf-mysql-broker
+  properties:
+    services:
+    - name: p-mysql
+      plan_updateable: true
+
 resource_pools:
   - name: services-small
     network: services1
