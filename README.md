@@ -4,27 +4,27 @@ A BOSH release of a MySQL database-as-a-service for Cloud Foundry using [MariaDB
 
 <table>
   <tr>
-     	<th>Component</th><th>Description</th><th>Build Status</th>
- 	</tr>
- 	<tr>
- 	  <td>CF MySQL Broker</td>
- 	  <td>Advertises the MySQL service and plans.  Creates and deletes MySQL databases and
- 	  credentials (bindings) at the request of Cloud Foundry's Cloud Controller.
- 	  </td>
- 	  <td><a href="https://travis-ci.org/cloudfoundry/cf-mysql-broker"><img src="https://travis-ci.org/cloudfoundry/cf-mysql-broker.png" alt="Build Status"></a></td>
- 	 </tr>
- 	 <tr>
- 	   <td>MySQL Server</td>
- 	   <td>MariaDB 10.0.12; database instances are hosted on the servers.
- 	   </td>
- 	   <td> n/a </td>
- 	 </tr>
+      <th>Component</th><th>Description</th><th>Build Status</th>
+  </tr>
+  <tr>
+    <td>CF MySQL Broker</td>
+    <td>Advertises the MySQL service and plans.  Creates and deletes MySQL databases and
+    credentials (bindings) at the request of Cloud Foundry's Cloud Controller.
+    </td>
+    <td><a href="https://travis-ci.org/cloudfoundry/cf-mysql-broker"><img src="https://travis-ci.org/cloudfoundry/cf-mysql-broker.png" alt="Build Status"></a></td>
+   </tr>
+   <tr>
+     <td>MySQL Server</td>
+     <td>MariaDB 10.0.12; database instances are hosted on the servers.
+     </td>
+     <td> n/a </td>
+   </tr>
 </table>
 
 
 ## Getting the code
 
-Final releases are designed for public use, and are tagged with a version number e.g. [**v14**](https://github.com/cloudfoundry/cf-mysql-release/tree/v14).
+Final releases are designed for public use, and are tagged with a version number of the form "v<N>".
 
 The [**develop**](https://github.com/cloudfoundry/cf-mysql-release/tree/develop) branch is where we do active development. Although we endeavor to keep the [**develop**](https://github.com/cloudfoundry/cf-mysql-release/tree/develop) branch stable, we do not guarantee that any given commit will deploy cleanly.
 
@@ -59,7 +59,7 @@ After installation, the MySQL service will be visible in the Services Marketplac
 
 ### Upload Stemcell<a name="upload_stemcell"></a>
 
-The latest final release, v12, expects the Ubuntu Trusty (14.04) go_agent stemcell version 2682 by default (Note: there are important security fixes not in this stemcell.  We recommend using stmcell 2719.3 or later). This release may not work with newer stemcells it may have dependencies on libraries which have been removed from newer stemcells. Stemcells can be downloaded from http://boshartifacts.cfapps.io/file_collections?type=stemcells; choose the ubuntu trusty go_agent stemcell 2682 for your infrastructure ([vsphere esxi](https://s3.amazonaws.com/bosh-jenkins-artifacts/bosh-stemcell/vsphere/bosh-stemcell-2682-vsphere-esxi-ubuntu-trusty-go_agent.tgz) or [aws xen](https://s3.amazonaws.com/bosh-jenkins-artifacts/bosh-stemcell/aws/bosh-stemcell-2682-aws-xen-ubuntu-trusty-go_agent.tgz)).
+The latest final release expects the Ubuntu Trusty (14.04) go_agent stemcell version 2682 by default (Note: there are important security fixes not in this stemcell. We recommend using stemcell 2719.3 or later). This release may not work with newer stemcells it may have dependencies on libraries which have been removed from newer stemcells. Stemcells can be downloaded from http://boshartifacts.cfapps.io/file_collections?type=stemcells; choose the ubuntu trusty go_agent stemcell 2682 for your infrastructure ([vsphere esxi](https://s3.amazonaws.com/bosh-jenkins-artifacts/bosh-stemcell/vsphere/bosh-stemcell-2682-vsphere-esxi-ubuntu-trusty-go_agent.tgz) or [aws xen](https://s3.amazonaws.com/bosh-jenkins-artifacts/bosh-stemcell/aws/bosh-stemcell-2682-aws-xen-ubuntu-trusty-go_agent.tgz)).
 
 Master expects Ubuntu Trusty go_agent by default, but the version changes frequently.
 
@@ -67,22 +67,28 @@ Stemcells can be downloaded from http://boshartifacts.cfapps.io/file_collections
 
 ### Upload Release<a name="upload_release"></a>
 
-You can use a pre-built final release or build a release from HEAD. Final releases contain pre-compiled packages, making deployment much faster. However, these are created manually and infrequently. To be sure you're deploying the latest code, build a release yourself.
+You can use a pre-built final release or build a dev release from HEAD. Final releases contain pre-compiled packages, making deployment much faster. These stable releases are created periodically and contain completed features. To deploy the latest final release, simply check out the **master** branch. This will contain the latest release and accompanying materials to generate a manifest. If you would like to deploy an earlier final release, use `git checkout <tag>` to obtain both the release and corresponding manifest generation materials. It's important that the manifest generation materials are consistent with the release.
+
+If you'd like to deploy the latest code, build a release yourself from the **develop** branch.
 
 #### Upload a pre-built final BOSH release
-
-1. Check out the tag for the desired version. This is necessary for generating a manifest that matches the code you're deploying.
-
-  ```
-  $ cd ~/workspace/cf-mysql-release
-  $ git checkout v12
-  $ ./update
-  ```
 
 1. Run the upload command, referencing one of the config files in the `releases` directory.
 
   ```
-  $ bosh upload release releases/cf-mysql-12.yml
+  $ cd ~/workspace/cf-mysql-release
+  $ git checkout master
+  $ ./update
+  $ bosh upload release releases/cf-mysql-<N>.yml
+  ```
+
+2. If deploying an **older** final release than the latest, check out the tag for the desired version. This is necessary for generating a manifest that matches the code you're deploying.
+
+  ```
+  $ cd ~/workspace/cf-mysql-release
+  $ git checkout v<N>
+  $ ./update
+  $ bosh upload release releases/cf-mysql-<N>.yml
   ```
 
 #### Create a BOSH Release from HEAD and Upload:
