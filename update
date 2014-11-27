@@ -1,10 +1,10 @@
 #!/bin/bash -x
 
-function has_upstream() {
+function has_remote_branch() {
   git rev-parse @{u} > /dev/null 2>&1
 }
 
-has_upstream && git pull
+has_remote_branch && git pull
 
 git submodule foreach --recursive git submodule sync && git submodule update --init --recursive
 
