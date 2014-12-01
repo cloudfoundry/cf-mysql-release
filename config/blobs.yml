@@ -111,3 +111,7 @@ cli/cf-linux-amd64-6.7.0-c38c991.tgz:
   object_id: b55f539b-1e42-49f8-b973-a9ba4bcc70d5
   sha: 4e979e37bd1781f155970994d0949dbd7637bbfc
   size: 4661436
+ruby/ruby-2.1.5.tar.gz:
+  object_id: fe2793ce-982c-4934-8e72-144236f2824b
+  sha: 9c0a238bd7839a4b51871641945a3da90997b8c2
+  size: 15127433
