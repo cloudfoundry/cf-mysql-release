@@ -67,12 +67,8 @@ jobs:
       static_ips: (( merge || static_ips(4, 5) ))
     properties:
       <<: (( merge || nil ))
-      mysql_ips: (( jobs.mysql.properties.cluster_ips ))
+      cluster_ips: (( jobs.mysql.properties.cluster_ips ))
       network_name: services1
-      syslog_aggregator: (( meta.syslog_aggregator ))
-      nats: (( meta.nats ))
-      external_domain: (( meta.external_domain ))
-      haproxy_stats_password: (( merge ))
   - name: cf-mysql-broker
     release: cf-mysql
     template: cf-mysql-broker
@@ -145,7 +141,7 @@ jobs:
                 - 40 concurrent connections
               displayName: (( merge || "1 GB Dev" ))
       mysql_node:
-        host: (( merge || jobs.proxy.networks.services1.static_ips.[0] )) # HAProxy IP
+        host: (( merge || jobs.proxy.networks.services1.static_ips.[0] ))
         admin_password: (( jobs.mysql.properties.admin_password ))
         persistent_disk: (( jobs.mysql.persistent_disk))
   - name: broker-registrar

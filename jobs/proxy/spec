@@ -1,18 +1,15 @@
 ---
 name: proxy
-packages:
-- haproxy
-- syslog_aggregator
-- route-registrar
-- common
 
 templates:
+  switchboard_ctl.erb: bin/switchboard_ctl
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
-  haproxy.config.erb:        config/haproxy.config
-  haproxy_ctl:               bin/haproxy_ctl
-  cert.pem.erb:              config/cert.pem
-  route-registrar_ctl.erb:    bin/route-registrar_ctl
-  registrar_settings.yml.erb: config/registrar_settings.yml
+
+packages:
+- switchboard
+- golang
+- common
+- syslog_aggregator
 
 properties:
   network_name:
@@ -22,33 +19,10 @@ properties:
   syslog_aggregator.port:
     description: "TCP port of syslog aggregator"
   syslog_aggregator.all:
-    description: "Define whether forwarders should send all their syslog data to our aggregator."
+    description: "Define whether forwarders should also send non-mysql syslog activity to the aggregator."
     default: false
   syslog_aggregator.transport:
     description: "Transport to be used when forwarding logs (tcp|udp|relp)."
     default: "tcp"
-
-  haproxy.ssl_pem:
-    default:
-    description: "SSL certificate (PEM file)"
-  request_timeout_in_seconds:
-    default: 300
-    description: "Server and client timeouts in seconds"
-  mysql_ips:
-    default:
-    description: "IPs of all MySQL nodes"
-
-  haproxy_stats_password:
-    description: "Password for the HA Proxy stats interface"
-
-  nats.user:
-    description: 'Username for broker to connect to NATS'
-  nats.password:
-    description: 'Password for broker to connect to NATS'
-  nats.port:
-    description: 'IP port of Cloud Foundry NATS server'
-  nats.machines:
-    description: 'IP of each NATS cluster member'
-
-  external_domain:
-    description: 'Domain of the route registered for the Stats UI; typically the CF system domain'
+  cluster_ips:
+    description: "List of nodes.  Must have the same number of ips as there are nodes in the cluster"

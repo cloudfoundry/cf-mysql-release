@@ -1,9 +1,0 @@
-message_bus_servers:
-<% p('nats.machines').each do |ip| %>
-    - host: <%= ip %>:<%= p('nats.port') %>
-      user: <%= p('nats.user') %>
-      password: <%= p('nats.password') %>
-<% end %>
-external_host: haproxy-<%= index %>.p-mysql.<%= p('external_domain') %>
-external_ip: <%= spec.networks.send(p('network_name')).ip %>
-port: 1936

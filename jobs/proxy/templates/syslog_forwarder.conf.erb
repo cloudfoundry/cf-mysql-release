@@ -21,7 +21,7 @@
   $ActionQueueSaveOnShutdown on           # Save in-memory data to disk if rsyslog shuts down
 
   <% ip = spec.networks.send(p('network_name')).ip %>
-  template(name="HaproxyLogTemplate" type="list") {
+  template(name="SwitchboardLogTemplate" type="list") {
   constant(value="<")
   property(name="pri")
   constant(value=">")
@@ -34,11 +34,11 @@
 
   <% if transport == "relp" %>
     $ModLoad omrelp
-    local1.* :omrelp:<%= address %>:<%= port %>;HaproxyLogTemplate
+    local1.* :omrelp:<%= address %>:<%= port %>;SwitchboardLogTemplate
   <% elsif transport == "udp" %>
-    local1.* @<%= address %>:<%= port %>;HaproxyLogTemplate
+    local1.* @<%= address %>:<%= port %>;SwitchboardLogTemplate
   <% elsif transport == "tcp" %>
-    local1.* @@<%= address %>:<%= port %>;HaproxyLogTemplate
+    local1.* @@<%= address %>:<%= port %>;SwitchboardLogTemplate
   <% else %>
     #only RELP, UDP, and TCP are supported
   <% end %>

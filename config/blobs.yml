@@ -39,18 +39,6 @@ check/check-0.9.13.tar.gz:
   object_id: d6c51160-8a67-4290-a337-dbc9d515d08a
   sha: 09f682d2239b1353818b74d06099a17460450240
   size: 752880
-haproxy/haproxy-1.5.0.tar.gz:
-  object_id: 5179767e-9db0-48a0-81b8-cdcde4b6fe9f
-  sha: dc957d93871e4543d1850a144543bcaa26df37a0
-  size: 1329040
-haproxy/pcre-8.35.tar.gz:
-  object_id: 222a24cc-4993-4fa4-902f-ba240afffecd
-  sha: 5a0efc7332c6741114372020a60acfed22befcb9
-  size: 1996552
-haproxy-1.5.0.tar.gz:
-  object_id: 02bd8dfb-4310-4834-9b77-0e0bb3ad79ab
-  sha: dc957d93871e4543d1850a144543bcaa26df37a0
-  size: 1329040
 pcre-8.35.tar.gz:
   object_id: 34f25eac-2566-45c5-afee-babae9b83f63
   sha: 5a0efc7332c6741114372020a60acfed22befcb9
