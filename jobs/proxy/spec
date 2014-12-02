@@ -1,5 +1,5 @@
 ---
-name: haproxy
+name: proxy
 packages:
 - haproxy
 - syslog_aggregator

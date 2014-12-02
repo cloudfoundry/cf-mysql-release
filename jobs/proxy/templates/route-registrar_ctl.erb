@@ -19,7 +19,7 @@ start)
   mkdir -p $LOG_DIR
 
   #Copy the config file to right folder
-  cp /var/vcap/jobs/haproxy/config/registrar_settings.yml /var/vcap/packages/route-registrar/registrar_settings.yml
+  cp /var/vcap/jobs/proxy/config/registrar_settings.yml /var/vcap/packages/route-registrar/registrar_settings.yml
 
   pid_guard $PIDFILE $JOB_NAME
 

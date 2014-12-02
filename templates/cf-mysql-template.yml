@@ -61,7 +61,7 @@ jobs:
       network_name: services1
   - name: haproxy
     release: cf-mysql
-    template: haproxy
+    template: proxy
     instances: (( merge || 2 ))
     resource_pool: services-small
     networks:

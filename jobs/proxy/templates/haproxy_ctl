@@ -4,12 +4,12 @@ set -e
 
 PATH=/var/vcap/packages/haproxy/bin:$PATH
 
-NAME=haproxy
+JOB_NAME=proxy
+JOB_DIR=/var/vcap/jobs/$JOB_NAME
 DAEMON=$(which haproxy)
-CONFIG=/var/vcap/jobs/haproxy/config/haproxy.config
+CONFIG=${JOB_DIR}/config/haproxy.config
 DESC="HAProxy"
 USER=vcap
-JOB_DIR=/var/vcap/jobs/$NAME
 
 PID_FILE=/var/vcap/sys/run/haproxy/pid
 
@@ -115,12 +115,12 @@ case "$1" in
         /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $JOB_DIR/config
         log "Starting ${DESC}: "
         start_haproxy
-        log "${NAME}."
+        log "${JOB_NAME}."
         ;;
     stop)
         log "Stopping ${DESC}: "
         stop_haproxy
-        log "${NAME}."
+        log "${JOB_NAME}."
         ;;
     status)
         status_haproxy
@@ -128,7 +128,7 @@ case "$1" in
     force-reload|reload|restart)
         log "Restarting ${DESC}: "
         restart_haproxy
-        log "${NAME}."
+        log "${JOB_NAME}."
         ;;
     *)
         echo "Usage: $0 {start|stop|restart|reload|force-reload}" >&2
