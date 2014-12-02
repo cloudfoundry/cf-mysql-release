@@ -2,9 +2,9 @@ GRANT ALL PRIVILEGES ON *.* TO '<%= properties.admin_username %>'@'%' WITH GRANT
 UPDATE mysql.user SET Password=PASSWORD('<%= properties.admin_password %>') WHERE User='<%= properties.admin_username %>';
 DELETE FROM mysql.user WHERE User='';
 
-<% if properties.haproxy_ips %>
-  <% properties.haproxy_ips.each do |haproxy_ip| %>
-INSERT IGNORE INTO mysql.user SET Host='<%= haproxy_ip %>', User='<%= properties.haproxy_mysql_user %>';
+<% if properties.proxy_ips %>
+  <% properties.proxy_ips.each do |proxy_ip| %>
+INSERT IGNORE INTO mysql.user SET Host='<%= proxy_ip %>', User='<%= properties.haproxy_mysql_user %>';
   <% end %>
 <% end %>
 
