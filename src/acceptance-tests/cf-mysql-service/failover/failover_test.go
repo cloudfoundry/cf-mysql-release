@@ -94,7 +94,9 @@ var _ = Feature("CF MySQL Failover", func() {
 		})
 
 		AfterEach(func() {
-			partition.Off(IntegrationConfig.MysqlNodes[0].SshTunnel)
+			// Re-introducing a mariadb node once partitioned is unsafe
+			// See https://www.pivotaltracker.com/story/show/81974864
+			// partition.Off(IntegrationConfig.MysqlNodes[0].SshTunnel)
 		})
 
 		Scenario("write/read data before the partition and successfully writes and read it after", func() {
