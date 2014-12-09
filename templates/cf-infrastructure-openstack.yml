@@ -1,0 +1,20 @@
+meta:
+  resource_pools:
+    medium:
+      cloud_properties:
+        instance_type: m1.medium
+    large:
+      cloud_properties:
+        instance_type: m1.large
+
+compilation:
+  cloud_properties: (( merge || meta.resource_pools.large.cloud_properties ))
+
+networks: (( merge ))
+
+resource_pools:
+  - name: services-small
+    stemcell:
+      name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+      version: (( merge || "2719.3" ))
+    cloud_properties: (( merge || meta.resource_pools.medium.cloud_properties ))
