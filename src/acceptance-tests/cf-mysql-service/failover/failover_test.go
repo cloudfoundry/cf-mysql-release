@@ -1,7 +1,6 @@
 package failover_test
 
 import (
-	"errors"
 	"fmt"
 	"time"
 
@@ -16,7 +15,6 @@ import (
 	"github.com/cloudfoundry-incubator/cf-test-helpers/generator"
 	. "github.com/cloudfoundry-incubator/cf-test-helpers/runner"
 
-	"../../helpers"
 	"../../partition"
 
 	context_setup "github.com/cloudfoundry-incubator/cf-test-helpers/services/context_setup"
@@ -77,62 +75,6 @@ func assertReadFromDB(key, value, uri string) {
 	Eventually(Curl(curlURI), readTimeout, retryInterval).Should(Say(value))
 }
 
-func readWriteAndPartition(components []helpers.Component, component_name string) {
-
-	serviceInstanceName := generator.RandomName()
-	instanceURI := AppUri(appName) + "/service/mysql/" + serviceInstanceName
-
-	ssh_tunnel0 := components[0].SshTunnel
-	ssh_tunnel1 := components[1].SshTunnel
-	local_ip0 := components[0].Ip
-	local_ip1 := components[1].Ip
-
-	partition.Off(ssh_tunnel0)
-	partition.Off(ssh_tunnel1)
-
-	Step(fmt.Sprintf("Take down first %s instance", component_name), func() {
-		partition.On(ssh_tunnel0, local_ip0)
-	})
-
-	Step("Create & bind a DB", func() {
-		createAndBindService(IntegrationConfig.ServiceName, serviceInstanceName, planName)
-	})
-
-	Step("Write a key-value pair to DB", func() {
-		assertWriteToDB(firstKey, firstValue, instanceURI)
-	})
-
-	Step("Read valuefrom DB", func() {
-		assertReadFromDB(firstKey, firstValue, instanceURI)
-	})
-
-	Step(fmt.Sprintf("Bring back first %s instance", component_name), func() {
-		partition.Off(ssh_tunnel0)
-	})
-
-	Step(fmt.Sprintf("Take down second %s instance", component_name), func() {
-		partition.On(ssh_tunnel1, local_ip1)
-	})
-
-	Step("Create & bind a DB again", func() {
-		serviceInstanceName := generator.RandomName()
-		createAndBindService(IntegrationConfig.ServiceName, serviceInstanceName, planName)
-	})
-
-	Step("Write a second key-value pair to DB", func() {
-		assertWriteToDB(secondKey, secondValue, instanceURI)
-	})
-
-	Step("Read both values from DB", func() {
-		assertReadFromDB(firstKey, firstValue, instanceURI)
-		assertReadFromDB(secondKey, secondValue, instanceURI)
-	})
-
-	Step(fmt.Sprintf("Bring back second %s instance", component_name), func() {
-		partition.Off(ssh_tunnel1)
-	})
-}
-
 var _ = Feature("CF MySQL Failover", func() {
 	BeforeEach(func() {
 		appName = generator.RandomName()
@@ -143,19 +85,16 @@ var _ = Feature("CF MySQL Failover", func() {
 		Step("Push an app", func() {
 			Eventually(Cf("push", appName, "-m", "256M", "-p", sinatraPath, "-no-start"), minuteTimeout, retryInterval).Should(Exit(0))
 		})
-
 	})
 
 	Context("when the mysql node is partitioned", func() {
-		var node_0_ssh_tunnel, node_0_local_ip string
-
 		BeforeEach(func() {
-			if IntegrationConfig.MysqlNodes == nil || len(IntegrationConfig.MysqlNodes) < 1 {
-				panic(errors.New("Mysql nodes not configured"))
-			}
+			Expect(IntegrationConfig.MysqlNodes).NotTo(BeNil())
+			Expect(len(IntegrationConfig.MysqlNodes)).To(BeNumerically(">=", 1))
+		})
 
-			node_0_ssh_tunnel = IntegrationConfig.MysqlNodes[0].SshTunnel
-			node_0_local_ip = IntegrationConfig.MysqlNodes[0].Ip
+		AfterEach(func() {
+			partition.Off(IntegrationConfig.MysqlNodes[0].SshTunnel)
 		})
 
 		Scenario("write/read data before the partition and successfully writes and read it after", func() {
@@ -181,8 +120,11 @@ var _ = Feature("CF MySQL Failover", func() {
 				assertReadFromDB(firstKey, firstValue, instanceURI)
 			})
 
-			Step("BRING DOWN MYSQL NODE", func() {
-				partition.On(node_0_ssh_tunnel, node_0_local_ip)
+			Step("Take down mysql node", func() {
+				partition.On(
+					IntegrationConfig.MysqlNodes[0].SshTunnel,
+					IntegrationConfig.MysqlNodes[0].Ip,
+				)
 			})
 
 			Step("Restart sinatra app to reset connections", func() {
@@ -208,23 +150,77 @@ var _ = Feature("CF MySQL Failover", func() {
 			})
 
 			Step("Read both values from DB", func() {
-
 				assertReadFromDB(firstKey, firstValue, instanceURI)
 				assertReadFromDB(secondKey, secondValue, instanceURI)
 			})
-
 		})
 	})
 
 	Context("Broker failure", func() {
+		var broker0SshTunnel, broker1SshTunnel string
+
 		BeforeEach(func() {
-			if IntegrationConfig.Brokers == nil || len(IntegrationConfig.Brokers) < 2 {
-				panic(errors.New("Brokers not configured"))
-			}
+			Expect(IntegrationConfig.Brokers).NotTo(BeNil())
+			Expect(len(IntegrationConfig.Brokers)).To(BeNumerically(">=", 2))
+
+			broker0SshTunnel = IntegrationConfig.Brokers[0].SshTunnel
+			broker1SshTunnel = IntegrationConfig.Brokers[1].SshTunnel
+		})
+
+		AfterEach(func() {
+			partition.Off(broker0SshTunnel)
+			partition.Off(broker1SshTunnel)
 		})
 
 		Scenario("Broker failure", func() {
-			readWriteAndPartition(IntegrationConfig.Brokers, "broker")
+			serviceInstanceName := generator.RandomName()
+			instanceURI := AppUri(appName) + "/service/mysql/" + serviceInstanceName
+
+			// Remove partitions in case previous test did not cleanup correctly
+			partition.Off(broker0SshTunnel)
+			partition.Off(broker1SshTunnel)
+
+			Step("Take down first broker instance", func() {
+				partition.On(broker0SshTunnel, IntegrationConfig.Brokers[0].Ip)
+			})
+
+			Step("Create & bind a DB", func() {
+				createAndBindService(IntegrationConfig.ServiceName, serviceInstanceName, planName)
+			})
+
+			Step("Write a key-value pair to DB", func() {
+				assertWriteToDB(firstKey, firstValue, instanceURI)
+			})
+
+			Step("Read valuefrom DB", func() {
+				assertReadFromDB(firstKey, firstValue, instanceURI)
+			})
+
+			Step("Bring back first broker instance", func() {
+				partition.Off(broker0SshTunnel)
+			})
+
+			Step("Take down second broker instance", func() {
+				partition.On(broker1SshTunnel, IntegrationConfig.Brokers[1].Ip)
+			})
+
+			Step("Create & bind a DB again", func() {
+				serviceInstanceName := generator.RandomName()
+				createAndBindService(IntegrationConfig.ServiceName, serviceInstanceName, planName)
+			})
+
+			Step("Write a second key-value pair to DB", func() {
+				assertWriteToDB(secondKey, secondValue, instanceURI)
+			})
+
+			Step("Read both values from DB", func() {
+				assertReadFromDB(firstKey, firstValue, instanceURI)
+				assertReadFromDB(secondKey, secondValue, instanceURI)
+			})
+
+			Step("Bring back second broker instance", func() {
+				partition.Off(broker1SshTunnel)
+			})
 		})
 	})
 })
