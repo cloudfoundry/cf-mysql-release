@@ -15,7 +15,13 @@ A BOSH release of a MySQL database-as-a-service for Cloud Foundry using [MariaDB
    </tr>
    <tr>
      <td>MySQL Server</td>
-     <td>MariaDB 10.0.12; database instances are hosted on the servers.
+     <td>MariaDB 10.0.13; database instances are hosted on the servers.
+     </td>
+     <td> n/a </td>
+   </tr>
+      <tr>
+     <td>Proxy</td>
+     <td>HA Proxy; proxies to MySQL nodes for failover only
      </td>
      <td> n/a </td>
    </tr>
@@ -55,7 +61,7 @@ For release notes and known issues, see [the release wiki](https://github.com/cl
 1. [Create Manifest and Deploy](#create_manifest)
 1. [Register the Service Broker](#register_broker)
 
-After installation, the MySQL service will be visible in the Services Marketplace; using [the CLI](https://github.com/cloudfoundry/cli) run `cf marketplace`.
+After installation, the MySQL service will be visible in the Services Marketplace; using the [CLI](https://github.com/cloudfoundry/cli), run `cf marketplace`.
 
 ### Upload Stemcell<a name="upload_stemcell"></a>
 
