@@ -4,6 +4,7 @@ name: proxy
 templates:
   switchboard_ctl.erb: bin/switchboard_ctl
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
+  switchboard.yml.erb: config/switchboard.yml
 
 packages:
 - switchboard
@@ -12,6 +13,12 @@ packages:
 - syslog_aggregator
 
 properties:
+  proxy.port:
+    description: "Port for the proxy to listen on"
+    default: 3306
+  proxy.healthcheck_timeout_millis:
+    description: "Timeout (milliseconds) before assuming a backend is unhealthy"
+    default: 5000
   network_name:
     description: "The name of the network (needed for the syslog aggregator)"
   syslog_aggregator.address:

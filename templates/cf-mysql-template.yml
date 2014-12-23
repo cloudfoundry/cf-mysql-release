@@ -67,6 +67,9 @@ jobs:
       static_ips: (( merge || static_ips(4, 5) ))
     properties:
       <<: (( merge || nil ))
+      proxy:
+        port: (( merge || 3306 ))
+        healthcheck_timeout_millis: (( merge || 5000 ))
       cluster_ips: (( jobs.mysql.properties.cluster_ips ))
       network_name: services1
   - name: cf-mysql-broker

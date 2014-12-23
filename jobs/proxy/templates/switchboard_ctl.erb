@@ -26,11 +26,8 @@ case $1 in
     /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $job_dir/config
 
     $package_dir/switchboard \
-      -port=3306 \
-      -pidfile=$pidfile \
-      -backendIPs=<%= p('cluster_ips').join(',') %> \
-      -backendPorts=<%= p('cluster_ips').map { 3306 }.join(',') %> \
-      -healthcheckPorts=<%= p('cluster_ips').map { 9200 }.join(',') %> \
+      -pidFile=$pidfile \
+      -config=$job_dir/config/switchboard.yml \
       2>&1 \
       | tee -a $log_dir/switchboard.combined.log \
       | logger -p local1.error -t switchboard
