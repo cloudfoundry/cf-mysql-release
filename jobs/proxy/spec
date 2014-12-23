@@ -34,8 +34,6 @@ properties:
   request_timeout_in_seconds:
     default: 300
     description: "Server and client timeouts in seconds"
-  haproxy_mysql_user:
-    description: "A user for HAProxy health check"
   mysql_ips:
     default:
     description: "IPs of all MySQL nodes"

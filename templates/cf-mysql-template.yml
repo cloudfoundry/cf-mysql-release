@@ -51,7 +51,6 @@ jobs:
     properties:
       admin_password: (( merge ))
       max_connections: 1500
-      haproxy_mysql_user: haproxy_check
       proxy_ips:
       - (( jobs.proxy.networks.services1.static_ips.[0] ))
       cluster_ips: (( jobs.mysql.networks.services1.static_ips ))
@@ -68,7 +67,6 @@ jobs:
       static_ips: (( merge || static_ips(4, 5) ))
     properties:
       <<: (( merge || nil ))
-      haproxy_mysql_user: (( jobs.mysql.properties.haproxy_mysql_user ))
       mysql_ips: (( jobs.mysql.properties.cluster_ips ))
       network_name: services1
       syslog_aggregator: (( meta.syslog_aggregator ))
