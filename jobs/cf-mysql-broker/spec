@@ -33,9 +33,9 @@ properties:
     description: 'A unique secret key, used to sign sessions'
 
   mysql_node.host:
-    description: 'Host (DNS) or IP address of the MySQL server or the proxy if using one'
+    description: 'Host (DNS) or IP address used by the broker and bound applications to reach the service'
   mysql_node.port:
-    description: 'Port of the MySQL server'
+    description: 'Port used by the broker and bound applications to reach the service'
     default: 3306
   mysql_node.admin_username:
     description: 'Username for the admin MySQL account'
@@ -62,7 +62,7 @@ properties:
     description: 'URL of the CloudFoundry Cloud Controller'
 
   external_host:
-    description: 'Host used to register the broker. Domain is often the same as system domain.'
+    description: 'Host used to register a route for the broker with the router in cf-release via NATS. By registering the broker with Cloud Foundry using this route, and using the router for load balancing, the broker can be horizontally scaled. Domain is typically the same as system domain in cf-release.'
 
   ssl_enabled:
     description: 'Determines use of https in dashboard url and in callback uri for calls to UAA'
@@ -73,9 +73,9 @@ properties:
     default: false
 
   nats.user:
-    description: 'Username for broker to connect to NATS'
+    description: 'Username for broker to register a route with NATS'
   nats.password:
-    description: 'Password for broker to connect to NATS'
+    description: 'Password for broker to register a route with NATS'
   nats.port:
     description: 'IP port of Cloud Foundry NATS server'
   nats.machines:
