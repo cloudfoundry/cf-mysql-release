@@ -123,7 +123,7 @@ jobs:
                   usd: 0.0
                 unit: MONTH
               bullets:
-                - Not for production use - server is not replicated
+                - Not for production use
                 - Shared MySQL server
                 - 100 MB storage
                 - 40 concurrent connections
@@ -139,7 +139,7 @@ jobs:
                   usd: 0.0
                 unit: MONTH
               bullets:
-                - Not for production use - server is not replicated
+                - Not for production use
                 - Shared MySQL server
                 - 1000 MB storage
                 - 40 concurrent connections
