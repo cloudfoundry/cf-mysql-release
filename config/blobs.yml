@@ -91,10 +91,6 @@ ruby/ruby-2.1.4.tar.gz:
   object_id: 487424bc-4b2f-4474-8eb3-dfe8c62f57f2
   sha: 29e9cfdd9e989b7621d7696ef3f970262a08dbc3
   size: 15127418
-golang/go1.3.3.linux-amd64.tar.gz:
-  object_id: 36e4a9ae-f861-43e5-8bac-ea8bce44a7fa
-  sha: 14068fbe349db34b838853a7878621bbd2b24646
-  size: 53204098
 cli/cf-linux-amd64-6.7.0-c38c991.tgz:
   object_id: b55f539b-1e42-49f8-b973-a9ba4bcc70d5
   sha: 4e979e37bd1781f155970994d0949dbd7637bbfc
