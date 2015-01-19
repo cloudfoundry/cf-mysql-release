@@ -1,8 +1,10 @@
-"Port": <%= p("proxy.port") %>
+"Port": 3306
+"APIPort": 80
 "HealthcheckTimeoutMillis": <%= p("proxy.healthcheck_timeout_millis") %>
 "Backends":
-<% p('cluster_ips').each do |ip| %>
-- "BackendIP": <%= ip %>
+<% p('cluster_ips').each_with_index do |ip, n| %>
+- "BackendHost": <%= ip %>
   "BackendPort": 3306
   "HealthcheckPort": 9200
+  "BackendName": "backend-<%= n %> (<%= ip %>)"
 <% end %>
