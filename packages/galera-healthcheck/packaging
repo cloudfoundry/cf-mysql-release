@@ -11,4 +11,3 @@ export GOPATH=$PWD/$REPO/Godeps/_workspace:$PWD/galera-healthcheck
 go install github.com/cloudfoundry-incubator/galera-healthcheck
 
 cp galera-healthcheck/bin/galera-healthcheck $BOSH_INSTALL_TARGET/galera-healthcheck-executable
-cp galera-healthcheck/src/github.com/cloudfoundry-incubator/galera-healthcheck/execute.sh $BOSH_INSTALL_TARGET/execute.sh
