@@ -47,7 +47,6 @@ jobs:
       proxy:
         api_username: username
         api_password: password
-      haproxy_stats_password: password
   - name: broker-registrar
     properties:
       cf:

@@ -377,8 +377,7 @@ The following links show how this release implements [Dashboard SSO](http://docs
 3. [Use](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/lib/uaa_session.rb) the [cf-uaa-lib gem](https://github.com/cloudfoundry/cf-uaa-lib) to get a valid access token and request permissions on the instance
 4. Before showing the user the dashboard, [the broker checks](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/app/controllers/manage/instances_controller.rb#L7) to see if the user is logged-in and has permissions to view the usage details of the instance.
 
-## HAProxy
+## Proxy
 
-Traffic to the MySQL cluster is routed through one or more HAProxy nodes. The intention is to use these proxies for fail-over and load balancing traffic. The number of nodes is configured by the job instance count in the deployment manifest.
+Traffic to the MySQL cluster is routed through one or more Proxy nodes. The intention is to use these proxies for fail-over and load balancing traffic. The number of nodes is configured by the job instance count in the deployment manifest.
 
-Each HAProxy node runs a thin web server to display traffic stats. These dashboards can be reached at `haproxy-<job index>.p-mysql.<system domain>`. Log in as user `admin` with the password configured by the `haproxy_stats_password` property in the deployment manifest.

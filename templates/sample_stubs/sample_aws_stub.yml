@@ -67,8 +67,6 @@ jobs:
           max_storage_mb: PLAN_SIZE_IN_MB
 - name: haproxy
   release: cf-mysql
-  properties:
-    haproxy_stats_password: A_PASSWORD_YOU_MAKE_UP #Admin password for logging into the HAProxy Stats web UI
 - name: broker-registrar
   properties:
     cf:

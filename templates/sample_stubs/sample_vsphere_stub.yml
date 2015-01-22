@@ -40,8 +40,6 @@ meta:
 
 jobs:
 - name: haproxy
-  properties:
-    haproxy_stats_password: A_PASSWORD_YOU_MAKE_UP #Admin password for logging into the HAProxy Stats web UI 
 - name: mysql
   properties:
     admin_password: A_PASSWORD_YOU_MAKE_UP #The admin password for the MySQL server process
