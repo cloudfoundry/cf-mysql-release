@@ -1,9 +1,9 @@
 "API":
-  "Port": 80
+  "Port": <%= p('proxy.api_port') %>
   "Username": <%= p('proxy.api_username') %>
   "Password": <%= p('proxy.api_password') %>
 "Proxy":
-  "Port": 3306
+  "Port": <%= p('proxy.port') %>
   "HealthcheckTimeoutMillis": <%= p("proxy.healthcheck_timeout_millis") %>
   "Backends":
   <% p('cluster_ips').each_with_index do |ip, n| %>
