@@ -51,7 +51,7 @@ For release notes and known issues, see [the release wiki](https://github.com/cl
 ### Prerequisites
 
 - A deployment of [BOSH](https://github.com/cloudfoundry/bosh)
-- A deployment of [Cloud Foundry](https://github.com/cloudfoundry/cf-release), [final release 169](https://github.com/cloudfoundry/cf-release/tree/v169) or greater
+- A deployment of [Cloud Foundry](https://github.com/cloudfoundry/cf-release), [final release 193](https://github.com/cloudfoundry/cf-release/tree/v193) or greater
 - Instructions for installing BOSH and Cloud Foundry can be found at http://docs.cloudfoundry.org/.
 
 ### Overview
