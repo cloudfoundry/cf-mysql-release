@@ -19,6 +19,13 @@ properties:
   proxy.healthcheck_timeout_millis:
     description: "Timeout (milliseconds) before assuming a backend is unhealthy"
     default: 5000
+  proxy.api_port:
+    description: "Port for the proxy API to listen on"
+    default: 80
+  proxy.api_username:
+    description: "Username for Basic Auth used to secure API"
+  proxy.api_password:
+    description: "Password for Basic Auth used to secure API"
   network_name:
     description: "The name of the network (needed for the syslog aggregator)"
   syslog_aggregator.address:

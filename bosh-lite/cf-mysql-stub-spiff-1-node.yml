@@ -43,6 +43,9 @@ jobs:
           max_storage_mb: 20
   - name: proxy
     properties:
+      proxy:
+        api_username: username
+        api_password: password
       haproxy_stats_password: password
   - name: broker-registrar
     properties:

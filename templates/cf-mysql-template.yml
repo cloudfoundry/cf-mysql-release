@@ -37,7 +37,6 @@ resource_pools:
     network: services1
     stemcell: (( merge ))
     cloud_properties: (( merge ))
-
 jobs:
   - name: mysql
     release: cf-mysql
@@ -70,6 +69,9 @@ jobs:
       proxy:
         port: (( merge || 3306 ))
         healthcheck_timeout_millis: (( merge || 5000 ))
+        api_port: (( merge || 80 ))
+        api_username: (( merge ))
+        api_password: (( merge ))
       cluster_ips: (( jobs.mysql.properties.cluster_ips ))
       network_name: services1
   - name: cf-mysql-broker

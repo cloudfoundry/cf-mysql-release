@@ -1,10 +1,14 @@
-"Port": 3306
-"APIPort": 80
-"HealthcheckTimeoutMillis": <%= p("proxy.healthcheck_timeout_millis") %>
-"Backends":
-<% p('cluster_ips').each_with_index do |ip, n| %>
-- "BackendHost": <%= ip %>
-  "BackendPort": 3306
-  "HealthcheckPort": 9200
-  "BackendName": "backend-<%= n %> (<%= ip %>)"
-<% end %>
+"API":
+  "Port": 80
+  "Username": <%= p('proxy.api_username') %>
+  "Password": <%= p('proxy.api_password') %>
+"Proxy":
+  "Port": 3306
+  "HealthcheckTimeoutMillis": <%= p("proxy.healthcheck_timeout_millis") %>
+  "Backends":
+  <% p('cluster_ips').each_with_index do |ip, n| %>
+  - "Host": <%= ip %>
+    "Port": 3306
+    "HealthcheckPort": 9200
+    "Name": "backend-<%= n %> (<%= ip %>)"
+  <% end %>
