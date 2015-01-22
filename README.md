@@ -121,11 +121,11 @@ If deploying an **older** final release than the latest, check out the tag for t
 1. Generate the manifest using a bosh-lite specific script and a stub provided for you, `bosh-lite/cf-mysql-stub-spiff.yml`.
 
     ```
-    $ ./bosh-lite/make_manifest_spiff_mysql
+    $ ./bosh-lite/make_manifest
     ```
     The resulting file, `bosh-lite/manifests/cf-mysql-manifest.yml` is your deployment manifest. To modify the deployment configuration, you can edit the stub and regenerate the manifest or edit the manifest directly.
 
-1. The `make_manifest_spiff_mysql` script will set the deployment to `bosh-lite/manifests/cf-mysql-manifest.yml` for you, so to deploy you only need to run:
+1. The `make_manifest` script will set the deployment to `bosh-lite/manifests/cf-mysql-manifest.yml` for you, so to deploy you only need to run:
   ```
   $ bosh deploy
   ```
