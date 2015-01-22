@@ -15,3 +15,4 @@ check process cf-mysql-quota-enforcer
   start program "/var/vcap/jobs/cf-mysql-broker/bin/cf-mysql-quota-enforcer_ctl start" with timeout 60 seconds
   stop program "/var/vcap/jobs/cf-mysql-broker/bin/cf-mysql-quota-enforcer_ctl stop" with timeout 60 seconds
   group vcap
+  depends on cf-mysql-broker
