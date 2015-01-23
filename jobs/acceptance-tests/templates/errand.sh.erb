@@ -32,6 +32,10 @@ cat > integration_config.json <<EOF
   "smoke_tests_only": <%= p('smoke_tests_only') %>,
   "include_dashboard_tests": <%= p('include_dashboard_tests') %>,
   "include_failover_tests": <%= p('include_failover_tests') %>,
+  "proxy": {
+    "domain":"<%= p('proxy.domain') %>",
+    "password":"<%= p('proxy.password') %>"
+  },
 EOF
 
 # don't expose passwords
