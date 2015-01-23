@@ -19,9 +19,6 @@
 [submodule "src/mariadb_ctrl/src/github.com/cloudfoundry/mariadb_ctrl"]
 	path = src/mariadb_ctrl/src/github.com/cloudfoundry/mariadb_ctrl
 	url = https://github.com/cloudfoundry/mariadb_ctrl.git
-[submodule "src/github.com/cloudfoundry-incubator/cf-mysql-release-acceptance-tests"]
-	path = src/github.com/cloudfoundry-incubator/cf-mysql-release-acceptance-tests
-	url = git@github.com:cloudfoundry-incubator/cf-mysql-acceptance-tests
 [submodule "src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests"]
 	path = src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests
 	url = git@github.com:cloudfoundry-incubator/cf-mysql-acceptance-tests
