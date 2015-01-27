@@ -7,23 +7,21 @@ A BOSH release of a MySQL database-as-a-service for Cloud Foundry using [MariaDB
       <th>Component</th><th>Description</th><th>Build Status</th>
   </tr>
   <tr>
-    <td>CF MySQL Broker</td>
+    <td><a href="https://github.com/cloudfoundry/cf-mysql-broker">CF MySQL Broker</a></td>
     <td>Advertises the MySQL service and plans.  Creates and deletes MySQL databases and
     credentials (bindings) at the request of Cloud Foundry's Cloud Controller.
     </td>
-    <td><a href="https://travis-ci.org/cloudfoundry/cf-mysql-broker"><img src="https://travis-ci.org/cloudfoundry/cf-mysql-broker.png" alt="Build Status"></a></td>
+    <td><a href="https://travis-ci.org/cloudfoundry/cf-mysql-broker"><img src="https://travis-ci.org/cloudfoundry/cf-mysql-broker.svg" alt="Build Status"></a></td>
    </tr>
    <tr>
      <td>MySQL Server</td>
-     <td>MariaDB 10.0.13; database instances are hosted on the servers.
-     </td>
+     <td>MariaDB 10.0.13; database instances are hosted on the servers.</td>
      <td> n/a </td>
    </tr>
       <tr>
      <td>Proxy</td>
-     <td>HA Proxy; proxies to MySQL nodes for failover only
-     </td>
-     <td> n/a </td>
+     <td><a href="https://github.com/pivotal-cf-experimental/switchboard">Switchboard</a>; proxies to MySQL, severing connections on MySQL node failure.</td>
+     <td><a href="https://travis-ci.org/pivotal-cf-experimental/switchboard"><img src="https://travis-ci.org/pivotal-cf-experimental/switchboard.svg" alt="Build Status"></a></td>
    </tr>
 </table>
 
@@ -69,7 +67,7 @@ The latest final release expects the Ubuntu Trusty (14.04) go_agent stemcell ver
 
 ### Upload Release<a name="upload_release"></a>
 
-You can use a pre-built final release or build a dev release from any of the branches described in <a href="#branches">Getting the Code</a>. 
+You can use a pre-built final release or build a dev release from any of the branches described in <a href="#branches">Getting the Code</a>.
 
 Final releases are stable releases created periodically for completed features. They also contain pre-compiled packages, which makes deployment much faster. To deploy the latest final release, simply check out the **master** branch. This will contain the latest final release and accompanying materials to generate a manifest. If you would like to deploy an earlier final release, use `git checkout <tag>` to obtain both the release and corresponding manifest generation materials. It's important that the manifest generation materials are consistent with the release.
 
@@ -77,7 +75,7 @@ If you'd like to deploy the latest code, build a release yourself from the **dev
 
 #### Upload a pre-built final BOSH release
 
-Run the upload command, referencing the latest config file in the `releases` directory. 
+Run the upload command, referencing the latest config file in the `releases` directory.
 
   ```
   $ cd ~/workspace/cf-mysql-release
@@ -97,7 +95,7 @@ If deploying an **older** final release than the latest, check out the tag for t
 
 #### Create and upload a BOSH Release:
 
-1. Checkout one of the branches described in <a href="#branches">Getting the Code</a>. Build a BOSH development release. 
+1. Checkout one of the branches described in <a href="#branches">Getting the Code</a>. Build a BOSH development release.
 
   ```
   $ cd ~/workspace/cf-mysql-release
@@ -381,8 +379,6 @@ The following links show how this release implements [Dashboard SSO](http://docs
 3. [Use](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/lib/uaa_session.rb) the [cf-uaa-lib gem](https://github.com/cloudfoundry/cf-uaa-lib) to get a valid access token and request permissions on the instance
 4. Before showing the user the dashboard, [the broker checks](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/app/controllers/manage/instances_controller.rb#L7) to see if the user is logged-in and has permissions to view the usage details of the instance.
 
-## HAProxy
+## Proxy
 
-Traffic to the MySQL cluster is routed through one or more HAProxy nodes. The intention is to use these proxies for fail-over and load balancing traffic. The number of nodes is configured by the job instance count in the deployment manifest.
-
-Each HAProxy node runs a thin web server to display traffic stats. These dashboards can be reached at `haproxy-<job index>.p-mysql.<system domain>`. Log in as user `admin` with the password configured by the `haproxy_stats_password` property in the deployment manifest.
+Traffic to the MySQL cluster is routed through one or more proxy nodes. The current proxy implementation is [Switchboard](https://github.com/pivotal-cf-experimental/switchboard). This proxy acts as an intermediary between the client and the MySQL server - providing failover between MySQL nodes. The number of nodes is configured by the job instance count in the deployment manifest.
