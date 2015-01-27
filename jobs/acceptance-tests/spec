@@ -40,3 +40,10 @@ properties:
   include_failover_tests:
     description: 'Include failover tests'
     default: false
+
+  proxy.domain:
+    description: 'Location of proxy dashboard domain'
+
+  proxy.password:
+    description: 'Password of proxy dashboard'
+

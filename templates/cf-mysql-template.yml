@@ -194,6 +194,9 @@ jobs:
     networks:
     - name: services1
     properties:
+      proxy:
+        domain: (( jobs.proxy.properties.external_domain ))
+        password: (( jobs.proxy.properties.haproxy_stats_password ))
       cf:
         api_url: (( jobs.cf-mysql-broker.properties.cc_api_uri ))
         admin_username: (( merge ))

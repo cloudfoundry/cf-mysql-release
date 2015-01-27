@@ -264,7 +264,11 @@ deployment. Copy and paste this into your terminal, then open the resulting `int
     "skip_ssl_validation": true,
     "timeout_scale": 1.0,
     "include_dashboard_tests": false,
-    "include_failover_tests": false
+    "include_failover_tests": false,
+    "proxy": {
+      "domain":"10.244.0.34.xip.io",
+      "password":"password"
+    }
   }
   EOF
   export CONFIG=$PWD/integration_config.json
