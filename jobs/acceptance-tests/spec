@@ -41,9 +41,10 @@ properties:
     description: 'Include failover tests'
     default: false
 
-  proxy.domain:
-    description: 'Location of proxy dashboard domain'
-
-  proxy.password:
-    description: 'Password of proxy dashboard'
+  proxy.external_host:
+    description: 'Proxy external host (e.g. p-mysql.example.com => proxy-0.p-mysql.example.com)'
+  proxy.api_username:
+    description: 'Proxy API username'
+  proxy.api_password:
+    description: 'Proxy API password'
 

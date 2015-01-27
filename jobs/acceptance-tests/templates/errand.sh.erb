@@ -33,8 +33,9 @@ cat > integration_config.json <<EOF
   "include_dashboard_tests": <%= p('include_dashboard_tests') %>,
   "include_failover_tests": <%= p('include_failover_tests') %>,
   "proxy": {
-    "domain":"<%= p('proxy.domain') %>",
-    "password":"<%= p('proxy.password') %>"
+    "external_host":"<%= p('proxy.external_host') %>",
+    "api_username":"<%= p('proxy.api_username') %>",
+    "api_password":"<%= p('proxy.api_password') %>"
   },
 EOF
 

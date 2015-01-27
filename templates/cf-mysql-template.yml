@@ -74,6 +74,8 @@ jobs:
         api_password: (( merge ))
       cluster_ips: (( jobs.mysql.properties.cluster_ips ))
       network_name: services1
+      external_host: (( "p-mysql." meta.external_domain ))
+      nats: (( meta.nats ))
   - name: cf-mysql-broker
     release: cf-mysql
     template: cf-mysql-broker
@@ -195,8 +197,9 @@ jobs:
     - name: services1
     properties:
       proxy:
-        domain: (( jobs.proxy.properties.external_domain ))
-        password: (( jobs.proxy.properties.haproxy_stats_password ))
+        external_host: (( jobs.proxy.properties.external_host ))
+        api_username: (( jobs.proxy.properties.proxy.api_username ))
+        api_password: (( jobs.proxy.properties.proxy.api_password ))
       cf:
         api_url: (( jobs.cf-mysql-broker.properties.cc_api_uri ))
         admin_username: (( merge ))
