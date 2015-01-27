@@ -266,8 +266,9 @@ deployment. Copy and paste this into your terminal, then open the resulting `int
     "include_dashboard_tests": false,
     "include_failover_tests": false,
     "proxy": {
-      "domain":"10.244.0.34.xip.io",
-      "password":"password"
+      "external_host":"p-mysql.10.244.0.34.xip.io",
+      "api_username":"username",
+      "api_password":"password"
     }
   }
   EOF
