@@ -1,4 +1,4 @@
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 
-rsync -a acceptance-tests/* ${BOSH_INSTALL_TARGET}
+rsync -a github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/* ${BOSH_INSTALL_TARGET}

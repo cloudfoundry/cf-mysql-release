@@ -4,4 +4,4 @@ dependencies:
   - golang
   - cli
 files:
-  - acceptance-tests/**/*
+  - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/**/*

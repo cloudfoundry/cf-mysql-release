@@ -51,7 +51,7 @@ For release notes and known issues, see [the release wiki](https://github.com/cl
 ### Prerequisites
 
 - A deployment of [BOSH](https://github.com/cloudfoundry/bosh)
-- A deployment of [Cloud Foundry](https://github.com/cloudfoundry/cf-release), [final release 169](https://github.com/cloudfoundry/cf-release/tree/v169) or greater
+- A deployment of [Cloud Foundry](https://github.com/cloudfoundry/cf-release), [final release 193](https://github.com/cloudfoundry/cf-release/tree/v193) or greater
 - Instructions for installing BOSH and Cloud Foundry can be found at http://docs.cloudfoundry.org/.
 
 ### Overview
@@ -121,11 +121,11 @@ If deploying an **older** final release than the latest, check out the tag for t
 1. Generate the manifest using a bosh-lite specific script and a stub provided for you, `bosh-lite/cf-mysql-stub-spiff.yml`.
 
     ```
-    $ ./bosh-lite/make_manifest_spiff_mysql
+    $ ./bosh-lite/make_manifest
     ```
     The resulting file, `bosh-lite/manifests/cf-mysql-manifest.yml` is your deployment manifest. To modify the deployment configuration, you can edit the stub and regenerate the manifest or edit the manifest directly.
 
-1. The `make_manifest_spiff_mysql` script will set the deployment to `bosh-lite/manifests/cf-mysql-manifest.yml` for you, so to deploy you only need to run:
+1. The `make_manifest` script will set the deployment to `bosh-lite/manifests/cf-mysql-manifest.yml` for you, so to deploy you only need to run:
   ```
   $ bosh deploy
   ```
@@ -235,7 +235,7 @@ $ bosh run errand acceptance-tests
 
 1. Install **Go** by following the directions found [here](http://golang.org/doc/install)
 2. `cd` into `cf-mysql-release/src/acceptance-tests/`
-3. Update `cf-mysql-release/src/acceptance-tests/integration_config.json`
+3. Update `cf-mysql-release/src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/integration_config.json`
 
     The following commands provide a shortcut to configuring `integration_config.json` with values for a [bosh-lite](https://github.com/cloudfoundry/bosh-lite)
 deployment. Copy and paste this into your terminal, then open the resulting `integration_config.json` in an editor to replace values as appropriate for your environment.

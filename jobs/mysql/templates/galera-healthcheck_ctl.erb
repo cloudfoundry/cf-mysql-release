@@ -28,8 +28,6 @@ case $1 in
       -user=<%= p('admin_username')%> \
       -password=<%= p('admin_password')%> \
       -pidfile=$pidfile \
-      -haproxyIp=<%= p('proxy_ips')[0] %> \
-      -connectionCutterPath=/var/vcap/packages/galera-healthcheck/execute.sh \
       >>$log_dir/galera-healthcheck.stdout.log 2>>$log_dir/galera-healthcheck.stderr.log &
 
     log "Starting galera-healthcheck... done"
