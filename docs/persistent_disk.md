@@ -63,7 +63,7 @@ When the disk is detached, monit considers the process stopped and BOSH will con
   <pre class="terminal">
   $ sudo monit stop all
   </pre>
-- ssh into haproxy instances and stop the processes. This will prevent data from changing on the broken node when we attempt to recreate it to get its disk id.
+- ssh into proxy instances and stop the processes. This will prevent data from changing on the broken node when we attempt to recreate it to get its disk id.
   <pre class="terminal">
   $ sudo monit stop all
   </pre>
@@ -104,13 +104,13 @@ When the disk is detached, monit considers the process stopped and BOSH will con
   $ bosh cck
   </pre>
   When prompted, choose `3. Delete VM reference (DANGEROUS!)`.
-- Edit the deployment manifest and reduce the number of instances of both cf-mysql-broker and haproxy to 0 (also remove the static ip for haproxy). This will prevent new connections from being made to the node after it is recreated but before it joins the cluster.
-- Deploy the release to recreate the node and remove the broker and haproxy.
+- Edit the deployment manifest and reduce the number of instances of both cf-mysql-broker and proxy to 0 (also remove the static ip for proxy). This will prevent new connections from being made to the node after it is recreated but before it joins the cluster.
+- Deploy the release to recreate the node and remove the broker and proxy.
   <pre class="terminal">
   $ bosh deploy
   </pre>
 - ssh into any one of the nodes and verify that all nodes have joined the cluster; for instructions, see [Determining Cluster State](cluster-state.md).
-- Only after all nodes have joined the cluster should you edit the deployment manifest, setting the number of instances for cf-mysql-broker and haproxy back to 1 and restoring the static ip for haproxy. Then deploy the release.
+- Only after all nodes have joined the cluster should you edit the deployment manifest, setting the number of instances for cf-mysql-broker and proxy back to 1 and restoring the static ip for proxy. Then deploy the release.
   <pre class="terminal">
   $ bosh deploy
   </pre>
