@@ -65,8 +65,12 @@ jobs:
         plans:
         - name: YOUR_PLAN_NAME
           max_storage_mb: PLAN_SIZE_IN_MB
-- name: haproxy
+- name: proxy
   release: cf-mysql
+  properties:
+    proxy:
+      api_username: A_USERNAME_YOU_MAKE_UP
+      api_password: A_PASSWORD_YOU_MAKE_UP
 - name: broker-registrar
   properties:
     cf:
