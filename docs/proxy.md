@@ -40,6 +40,47 @@ Once the 6 second grace period expires, nodes in primary component will return t
 
 Upon expiry of the grace period, nodes in a non-primary component will maintain existing connections and new connections can be established, but nearly all requests will receive the error `WSREP has not yet prepared this node for application use`, prompting the client to close the connection. Clients with open connections and hung writes will immediately receive this error and are expected to close the connection once the nodes enter a non-primary component.
 
+# Proxy API
+
+
+### Proxy API
+
+The proxy hosts a json api at `proxy-<bosh job index>.p-mysql.<system domain>:80/v0/`
+
+Request:
+*  Method: GET
+*  Path: `/v0/backends`
+*  Params: ~
+*  Headers: Basic Auth
+
+Response:
+
+```
+[
+  {
+    "name": "mysql-0",
+    "ip": "1.2.3.4",
+    "healthy": true,
+    "active": true,
+    "currentSessionCount": 2
+  },
+  {
+    "name": "mysql-1",
+    "ip": "5.6.7.8",
+    "healthy": false,
+    "active": false,
+    "currentSessionCount": 0
+  },
+  {
+    "name": "mysql-2",
+    "ip": "9.9.9.9",
+    "healthy": true,
+    "active": false,
+    "currentSessionCount": 0
+  }
+]
+```
+
 # Setting up Round Robin DNS with the proxy
 
 ## AWS Route 53
