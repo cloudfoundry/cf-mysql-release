@@ -4,11 +4,11 @@
 
 The current proxy implementation is [Switchboard](https://github.com/pivotal-cf-experimental/switchboard). It proxies TCP connections between the client and nodes of the MariaDB Galera Cluster. Preferably, all connections should be routed to a single node; when that node fails the proxy should fail over to a different node. The proxy is configured to behave in this manner out of the box.
 
-It should be noted that in the current configuration, it is only guaranteed that a **single** proxy node will behave this way. When we deploy multiple proxy nodes, there is a small probably that the two proxies will fail-over to different nodes and violate the desired invariant that all connections are routed to the same MariaDB node. This is a known issue, and we are currently exploring methods to circumvent it.
+It should be noted that in the current configuration, it is only guaranteed that a **single** proxy node will behave this way. When we deploy multiple proxy nodes, there is a small probability that multiple proxy instances will route connections to different nodes and violate the desired invariant that all connections are routed to the same MariaDB node. This is a known issue, and we are currently exploring methods to circumvent it.
 
 ## Connection handling with Healthcheck
 
-The proxy queries an http healthcheck process co-located on the database node when determining where to route traffic. If the healthcheck process returns http status code 200 the node is considered healthy and the proxy will route traffic to it. If the healthcheck returns http status code 503 the node is considered unhealthy and the proxy will not route new connections to it. Clients with existing connections to the newly-unhealthy database node will find the connection severed, and are expected to make a reconnect attempt. At this point the proxy will route this new connection to a healthy node, assuming such a node exists.
+The proxy queries an http healthcheck process co-located on the database node when determining where to route traffic. If the healthcheck process returns http status code 200 the node is considered healthy and will be considered as a candidate for new connections if the proxy fails over. If the healthcheck returns http status code 503 the node is considered unhealthy and will not be considered for new connections if the proxy fails over. Clients with existing connections to the newly-unhealthy database node will find the connection severed, and are expected to make a reconnect attempt. At this point the proxy will route this new connection to a healthy node, assuming such a node exists.
 
 ## Connection handling on MariaDB failure ##
 
@@ -20,7 +20,7 @@ The node is removed from the pool of healthy nodes. Any existing connections are
 
 ### A previously dead MariaDB node is resurrected ###
 
-The resurrected node will not receive connections. The proxy has already failed-over to a new node; all connections, new or existing, will go to that node instead.
+The resurrected node will not receive connections. The proxy has already failed-over to a new node; all connections, new or existing, will go to that node instead. If the node now receiving connections fails, the resurrected node will be considered a candidate for connections if it is still healthy.
 
 ### Untested ###
 
@@ -32,7 +32,7 @@ When a new node is added to the cluster it gets its state from an existing node 
 
 ## Connection handling for non-primary components ##
 
-If a cluster loses more than than half its nodes then the remaining nodes form a non-primary component. There is a currently a six second grace period during which the cluster acknowledges something is wrong and gives missing nodes a chance to rejoin.
+If a cluster loses more than than half its nodes then the remaining nodes form a non-primary component. There is currently a six second grace period during which the cluster acknowledges something is wrong and gives missing nodes a chance to rejoin.
 
 During the grace period, existing connections are maintained and new connections can be established. Read requests are fulfilled but write requests are suspended (requests hang).
 
