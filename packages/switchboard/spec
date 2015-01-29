@@ -3,4 +3,4 @@ name: switchboard
 dependencies:
   - golang
 files:
-  - switchboard/**/*
+  - github.com/pivotal-cf-experimental/switchboard/**/*

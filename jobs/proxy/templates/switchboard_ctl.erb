@@ -25,7 +25,7 @@ case $1 in
     # Start syslog forwarding
     /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $job_dir/config
 
-    $package_dir/switchboard \
+    $package_dir/bin/switchboard \
       -pidFile=$pidfile \
       -configFile=$job_dir/config/switchboard.yml \
       2>&1 \

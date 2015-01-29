@@ -3,4 +3,4 @@ name: galera-healthcheck
 dependencies:
   - golang
 files:
-  - galera-healthcheck/**/*
+  - github.com/cloudfoundry-incubator/galera-healthcheck/**/*

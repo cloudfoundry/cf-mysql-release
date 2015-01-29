@@ -1,15 +1,22 @@
-set -e # exit immediately if a simple command exits with a non-zero status
-set -u # report the usage of uninitialized variables
+#!/usr/bin/env bash
 
-#compile
+set -e
+set -u
+
+mkdir -p ${BOSH_INSTALL_TARGET}/src
+cp -a . ${BOSH_INSTALL_TARGET}/src
+export GOPATH=$BOSH_INSTALL_TARGET
+export REPO=$GOPATH/src/github.com/cloudfoundry/mariadb_ctrl
+
 export GOROOT=$(readlink -nf /var/vcap/packages/golang)
 export PATH=$GOROOT/bin:$PATH
 
-export GOPATH=$PWD/mariadb_ctrl
-
 go install github.com/cloudfoundry/mariadb_ctrl
 
-cp mariadb_ctrl/bin/mariadb_ctrl $BOSH_INSTALL_TARGET/mariadb_ctrl-executable
-cp mariadb_ctrl/src/github.com/cloudfoundry/mariadb_ctrl/mysql_upgrade.sh $BOSH_INSTALL_TARGET/mysql_upgrade.sh
-cp mariadb_ctrl/src/github.com/cloudfoundry/mariadb_ctrl/mysql_daemon.sh $BOSH_INSTALL_TARGET/mysql_daemon.sh
-cp mariadb_ctrl/src/github.com/cloudfoundry/mariadb_ctrl/show_databases.sh $BOSH_INSTALL_TARGET/show_databases.sh
+cp $BOSH_INSTALL_TARGET/src/github.com/cloudfoundry/mariadb_ctrl/mysql_upgrade.sh  $BOSH_INSTALL_TARGET/bin/mysql_upgrade.sh
+cp $BOSH_INSTALL_TARGET/src/github.com/cloudfoundry/mariadb_ctrl/mysql_daemon.sh   $BOSH_INSTALL_TARGET/bin/mysql_daemon.sh
+cp $BOSH_INSTALL_TARGET/src/github.com/cloudfoundry/mariadb_ctrl/show_databases.sh $BOSH_INSTALL_TARGET/bin/show_databases.sh
+
+# clean up source artifacts
+rm -rf ${BOSH_INSTALL_TARGET}/src ${BOSH_INSTALL_TARGET}/pkg
+

@@ -32,7 +32,7 @@ If you have determined that it is necessary to bootstrap:
 - SSH to each node in the cluster and shut down the mariadb process:
 
     <pre class="terminal">
-    $ monit stop mariadb_ctrl-executable
+    $ monit stop mariadb_ctrl
     </pre>
 
 - On the new bootstrap node, restart the mariadb process:
@@ -45,7 +45,7 @@ If you have determined that it is necessary to bootstrap:
 - In a new terminal, start the mariadb process on the remaining nodes one by one via monit.
 
     <pre class="terminal">
-    $ monit start mariadb_ctrl-executable
+    $ monit start mariadb_ctrl
     </pre>
 
 - Verify that the new nodes have successfully joined the cluster. The following command should output the total number of nodes in the cluster:

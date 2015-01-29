@@ -5,7 +5,6 @@ run_dir=/var/vcap/sys/run/galera-healthcheck
 log_dir=/var/vcap/sys/log/galera-healthcheck
 package_dir=/var/vcap/packages/galera-healthcheck
 pidfile=$run_dir/galera-healthcheck.pid
-executable_name=galera-healthcheck-executable
 
 export GOROOT=/var/vcap/packages/golang
 export PATH=$GOROOT/bin:$PWD/bin:$PATH
@@ -23,7 +22,7 @@ case $1 in
 
     cd $package_dir
 
-    $package_dir/$executable_name \
+    $package_dir/bin/galera-healthcheck \
       -port=9200 \
       -user=<%= p('admin_username')%> \
       -password=<%= p('admin_password')%> \

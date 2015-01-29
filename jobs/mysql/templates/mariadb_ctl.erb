@@ -10,14 +10,14 @@ LOG_FILE=$LOG_DIR/maria-ctl.log
 CONFIG_DIR=/etc/mysql
 export JOB_INDEX=<%= index %>
 STATE_FILE=/var/vcap/store/mysql/state.txt
-MYSQL_DAEMON_FILE=/var/vcap/packages/mariadb_ctrl/mysql_daemon.sh
 MYSQL_CLIENT_FILE=/var/vcap/packages/mariadb/bin/mysql
 MYSQL_SERVER_FILE=/var/vcap/packages/mariadb/support-files/mysql.server
 DB_SEED_SCRIPT_FILE=$MARIADB_JOB_DIR/bin/mysql_database_seed.sh
-package_dir=/var/vcap/packages/mariadb_ctrl
-executable_name=mariadb_ctrl-executable
-MYSQL_UPGRADE_SCRIPT_FILE=$package_dir/mysql_upgrade.sh
-MYSQL_SHOW_DATABASES_SCRIPT_FILE=$package_dir/show_databases.sh
+
+mariadb_ctrl_pkg=/var/vcap/packages/mariadb_ctrl
+MYSQL_UPGRADE_SCRIPT_FILE=$mariadb_ctrl_pkg/bin/mysql_upgrade.sh
+MYSQL_DAEMON_FILE=$mariadb_ctrl_pkg/bin/mysql_daemon.sh
+MYSQL_SHOW_DATABASES_SCRIPT_FILE=$mariadb_ctrl_pkg/bin/show_databases.sh
 
 export MY_NAME=mariadb_ctl
 export RUN_DIR=/var/vcap/sys/run/$MY_NAME
@@ -105,12 +105,12 @@ case $1 in
     fi
     chown -R vcap:vcap ${datadir}
 
-    cd $package_dir
+    cd $mariadb_ctrl_pkg
 
     <% node_ip = spec.networks.send(p('network_name')).ip %>
 
     log "start script: starting mariadb_ctrl..."
-    $package_dir/$executable_name \
+    $mariadb_ctrl_pkg/bin/mariadb_ctrl \
              -logFile=$LOG_FILE \
              -stateFile=$STATE_FILE \
              -mysqlDaemon=$MYSQL_DAEMON_FILE \

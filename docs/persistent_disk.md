@@ -120,14 +120,14 @@ When the disk is detached, monit considers the process stopped and BOSH will con
 
 1. ssh into all nodes and use monit to stop the MariaDB process.
   <pre class="terminal">
-  $ sudo monit stop mariadb_ctrl-executable
+  $ sudo monit stop mariadb_ctrl
   </pre>
 - For each node with detached or lost disk:
   - Follow the instructions above for [When all nodes are still in the primary component](#cluster-intact) to reattach or recreating the disk.
   - If the disk for Node 0 has been recreated, the MariaDB process will bootstrap
   and write its state.txt file to persistent disk. All future attempts to restart this node will cause the node to JOIN rather than BOOTSTRAP.
-  - ssh into the node and wait for `watch monit status` to show that the `mariadb_ctrl-executable` process is `running`
-  - Once the process is running, stop it with `sudo monit stop mariadb_ctrl-executable`
+  - ssh into the node and wait for `watch monit status` to show that the `mariadb_ctrl` process is `running`
+  - Once the process is running, stop it with `sudo monit stop mariadb_ctrl`
 - Choose the node with the data you want to restart your cluster with. We will call this the BOOTSTRAP node.
 ssh into the BOOTSTRAP node and start it in bootstrap mode manually.
   <pre class="terminal">
@@ -135,12 +135,12 @@ ssh into the BOOTSTRAP node and start it in bootstrap mode manually.
   </pre>
 - Restart the `mariadb` process on all nodes except for the BOOTSTRAP node:
   <pre class="terminal">
-  $ sudo monit start mariadb_ctrl-executable
+  $ sudo monit start mariadb_ctrl
   </pre>
 - Wait for all remaining nodes to join and sync with the cluster.
 - Finally, ssh into the BOOTSTRAP node, stop MariaDB manually, and start it with monit:
   <pre class="terminal">
   $ /var/vcap/packages/mariadb/support-files/mysql.server stop
-  $ monit start mariadb_ctrl-executable
+  $ monit start mariadb_ctrl
   </pre>
 - Now the BOOTSTRAP node will rejoin the cluster under monit's supervision.

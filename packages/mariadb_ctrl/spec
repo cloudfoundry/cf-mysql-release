@@ -3,4 +3,4 @@ name: mariadb_ctrl
 dependencies:
   - golang
 files:
-  - mariadb_ctrl/**/*
+  - github.com/cloudfoundry/mariadb_ctrl/**/*
