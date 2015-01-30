@@ -1,11 +1,7 @@
 #!/bin/bash
 set -e -x
 
-cd /var/vcap/packages/acceptance-tests
-
-export GOROOT=/var/vcap/packages/golang
-export PATH=/var/vcap/packages/cli/bin:$GOROOT/bin:$PWD/bin:$PATH
-export CONFIG=$PWD/integration_config.json
+cd /var/vcap/packages/acceptance-tests/src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests
 
 cat > integration_config.json <<EOF
 {
@@ -47,6 +43,11 @@ cat >> integration_config.json <<EOF
 }
 EOF
 
-set -x
+# set -x
 
+export GOPATH=/var/vcap/packages/acceptance-tests
+export GOROOT=/var/vcap/packages/golang
+export PATH=/var/vcap/packages/cli/bin:$GOPATH/bin:$GOROOT/bin:$PWD/bin:$PATH
+
+CONFIG=$PWD/integration_config.json \
 bin/test
