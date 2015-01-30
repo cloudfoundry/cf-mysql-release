@@ -3,4 +3,33 @@ name: switchboard
 dependencies:
   - golang
 files:
-  - github.com/pivotal-cf-experimental/switchboard/**/*
+  - github.com/pivotal-cf-experimental/switchboard/api/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/api/fakes/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/api/middleware/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/cmd/switchboard/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/cmd/switchboard/dummies/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/config/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/domain/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/domain/fakes/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/proxy/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/github.com/fraenkel/candiedyaml/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/github.com/pivotal-golang/lager/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/gopkg.in/validator.v2/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/github.com/tedsuo/ifrit/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/github.com/tedsuo/ifrit/grouper/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/github.com/onsi/ginkgo/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/github.com/onsi/ginkgo/config/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/github.com/onsi/ginkgo/internal/codelocation/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/github.com/onsi/ginkgo/internal/containernode/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/github.com/onsi/ginkgo/internal/failer/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/github.com/onsi/ginkgo/internal/leafnodes/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/github.com/onsi/ginkgo/internal/remote/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/github.com/onsi/ginkgo/internal/spec/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/github.com/onsi/ginkgo/internal/specrunner/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/github.com/onsi/ginkgo/internal/suite/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/github.com/onsi/ginkgo/internal/testingtproxy/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/github.com/onsi/ginkgo/internal/writer/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/github.com/onsi/ginkgo/reporters/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/github.com/onsi/ginkgo/reporters/stenographer/*.go # gosub
+  - github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace/src/github.com/onsi/ginkgo/types/*.go # gosub

@@ -3,4 +3,14 @@ name: route-registrar
 dependencies:
 - golang
 files:
-- github.com/cloudfoundry-incubator/route-registrar/**/*
+  - github.com/cloudfoundry-incubator/route-registrar/*.go # gosub
+  - github.com/cloudfoundry-incubator/route-registrar/config/*.go # gosub
+  - github.com/cloudfoundry-incubator/route-registrar/healthchecker/*.go # gosub
+  - github.com/cloudfoundry-incubator/route-registrar/healthchecker/fakes/*.go # gosub
+  - github.com/cloudfoundry-incubator/route-registrar/logger/*.go # gosub
+  - github.com/cloudfoundry-incubator/route-registrar/registrar/*.go # gosub
+  - github.com/cloudfoundry-incubator/route-registrar/test_helpers/*.go # gosub
+  - github.com/cloudfoundry-incubator/route-registrar/Godeps/_workspace/src/github.com/cloudfoundry/gibson/*.go # gosub
+  - github.com/cloudfoundry-incubator/route-registrar/Godeps/_workspace/src/github.com/cloudfoundry/yagnats/*.go # gosub
+  - github.com/cloudfoundry-incubator/route-registrar/Godeps/_workspace/src/github.com/fraenkel/candiedyaml/*.go # gosub
+  - github.com/cloudfoundry-incubator/route-registrar/Godeps/_workspace/src/github.com/nu7hatch/gouuid/*.go # gosub

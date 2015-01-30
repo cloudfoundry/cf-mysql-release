@@ -3,4 +3,7 @@ name: galera-healthcheck
 dependencies:
   - golang
 files:
-  - github.com/cloudfoundry-incubator/galera-healthcheck/**/*
+  - github.com/cloudfoundry-incubator/galera-healthcheck/*.go # gosub
+  - github.com/cloudfoundry-incubator/galera-healthcheck/healthcheck/*.go # gosub
+  - github.com/cloudfoundry-incubator/galera-healthcheck/logger/*.go # gosub
+  - github.com/cloudfoundry-incubator/galera-healthcheck/Godeps/_workspace/src/github.com/go-sql-driver/mysql/*.go # gosub

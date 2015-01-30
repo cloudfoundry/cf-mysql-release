@@ -1,0 +1,53 @@
+#!/bin/bash
+
+set -e
+
+# ensure gosub is installed (this will recompile it only if necessary)
+go get github.com/vito/gosub
+go install github.com/vito/gosub
+
+function sync_package() {
+  bosh_pkg=${1}
+
+  shift
+
+  (
+    set -e
+
+    cd packages/${bosh_pkg}
+
+    {
+      cat spec | grep -v '# gosub'
+
+      for package in $(gosub list "$@"); do
+        repo=$(echo ${2} | cut -f1-3 -d/)
+        if [ -d "../../src/${repo}/Godeps/_workspace/src/${package}" ]; then
+          package="${repo}/Godeps/_workspace/src/${package}"
+        fi
+        echo ${package} | sed -e 's/\(.*\)/  - \1\/*.go # gosub/g'
+      done
+    } > spec.new
+
+    mv spec.new spec
+  )
+}
+
+sync_package mariadb_ctrl -app github.com/cloudfoundry/mariadb_ctrl/... &
+sync_package gra-log-purger -app gra-log-purger/... &
+
+GOPATH=$GOPATH/src/github.com/cloudfoundry-incubator/route-registrar/Godeps/_workspace:$GOPATH \
+sync_package route-registrar -app github.com/cloudfoundry-incubator/route-registrar/... &
+
+GOPATH=$GOPATH/src/github.com/cloudfoundry-incubator/galera-healthcheck/Godeps/_workspace:$GOPATH \
+sync_package galera-healthcheck -app github.com/cloudfoundry-incubator/galera-healthcheck/... &
+
+GOPATH=$GOPATH/src/github.com/pivotal-cf-experimental/switchboard/Godeps/_workspace:$GOPATH \
+sync_package switchboard -app github.com/pivotal-cf-experimental/switchboard/... &
+
+sync_package acceptance-tests \
+    -test github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/... \
+    -app github.com/onsi/ginkgo/ginkgo &
+
+wait
+
+git diff --name-only packages/*/spec

@@ -4,6 +4,8 @@ function has_remote_branch() {
   git rev-parse @{u} > /dev/null 2>&1
 }
 
+$(dirname $0)/scripts/install-git-hooks
+
 has_remote_branch && git pull
 
 git submodule foreach --recursive git submodule sync && git submodule update --init --recursive
