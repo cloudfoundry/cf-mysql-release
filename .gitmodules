@@ -27,6 +27,7 @@
 [submodule "src/github.com/pivotal-cf-experimental/switchboard"]
 	path = src/github.com/pivotal-cf-experimental/switchboard
 	url = https://github.com/pivotal-cf-experimental/switchboard
+	branch = master
 [submodule "src/github.com/onsi/ginkgo"]
 	path = src/github.com/onsi/ginkgo
 	url = https://github.com/onsi/ginkgo
@@ -58,4 +59,24 @@
 [submodule "src/github.com/erikstmartin/go-testdb"]
 	path = src/github.com/erikstmartin/go-testdb
 	url = https://github.com/erikstmartin/go-testdb
+	branch = master
+[submodule "src/github.com/cloudfoundry-incubator/cf-lager"]
+	path = src/github.com/cloudfoundry-incubator/cf-lager
+	url = https://github.com/cloudfoundry-incubator/cf-lager
+	branch = master
+[submodule "src/gopkg.in/validator.v2"]
+	path = src/gopkg.in/validator.v2
+	url = https://gopkg.in/validator.v2
+	branch = master
+[submodule "src/github.com/pivotal-golang/lager"]
+	path = src/github.com/pivotal-golang/lager
+	url = https://github.com/pivotal-golang/lager
+	branch = master
+[submodule "src/github.com/tedsuo/ifrit"]
+	path = src/github.com/tedsuo/ifrit
+	url = https://github.com/tedsuo/ifrit
+	branch = master
+[submodule "src/github.com/fraenkel/candiedyaml"]
+	path = src/github.com/fraenkel/candiedyaml
+	url = https://github.com/fraenkel/candiedyaml
 	branch = master

@@ -12,11 +12,12 @@ go install github.com/vito/gosub
     -test github.com/cloudfoundry/mariadb_ctrl/... \
     -app  github.com/cloudfoundry-incubator/galera-healthcheck/... \
     -test github.com/cloudfoundry-incubator/galera-healthcheck/... \
+    -app  github.com/pivotal-cf-experimental/switchboard/... \
+    -test github.com/pivotal-cf-experimental/switchboard/... \
 
   # exclude these otherwise `gosub sync` will delete them
   echo gra-log-purger # not yet a submodule
   echo github.com/cloudfoundry-incubator/route-registrar # uses Godeps
-  echo github.com/pivotal-cf-experimental/switchboard # uses Godeps
   echo broker-registrar  # non-go project
   echo cf-mysql-broker   # non-go project
   echo common            # non-go project
