@@ -10,10 +10,6 @@
 [submodule "src/broker-registrar"]
 	path = src/broker-registrar
 	url = https://github.com/pivotal-cf/broker-registrar.git
-[submodule "src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests"]
-	path = src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests
-	url = git@github.com:cloudfoundry-incubator/cf-mysql-acceptance-tests
-	branch = master
 [submodule "src/github.com/cloudfoundry-incubator/galera-healthcheck"]
 	path = src/github.com/cloudfoundry-incubator/galera-healthcheck
 	url = https://github.com/cloudfoundry-incubator/galera-healthcheck.git
@@ -79,4 +75,8 @@
 [submodule "src/github.com/fraenkel/candiedyaml"]
 	path = src/github.com/fraenkel/candiedyaml
 	url = https://github.com/fraenkel/candiedyaml
+	branch = master
+[submodule "src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests"]
+	path = src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests
+	url = https://github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests.git
 	branch = master
