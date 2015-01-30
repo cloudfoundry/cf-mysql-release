@@ -2,17 +2,15 @@
 
 ## All new connections are routed to the same node ##
 
-The current proxy implementation is [Switchboard](https://github.com/pivotal-cf-experimental/switchboard). It proxies TCP connections between the client and nodes of the MariaDB Galera Cluster. Preferably, all connections should be routed to a single node; when that node fails the proxy should fail over to a different node. The proxy is configured to behave in this manner out of the box.
+The current proxy implementation is [Switchboard](https://github.com/pivotal-cf-experimental/switchboard). It proxies TCP connections between the client and nodes of the MariaDB Galera Cluster. All connections will be routed to a single active node; when that node fails the proxy should fail over to a different node. The proxy is configured to behave in this manner out of the box.
 
 It should be noted that in the current configuration, it is only guaranteed that a **single** proxy node will behave this way. When we deploy multiple proxy nodes, there is a small probability that multiple proxy instances will route connections to different nodes and violate the desired invariant that all connections are routed to the same MariaDB node. This is a known issue, and we are currently exploring methods to circumvent it.
 
 ## Connection handling with Healthcheck
 
-The proxy queries an http healthcheck process co-located on the database node when determining where to route traffic. If the healthcheck process returns http status code 200 the node is considered healthy and will be considered as a candidate for new connections if the proxy fails over. If the healthcheck returns http status code 503 the node is considered unhealthy and will not be considered for new connections if the proxy fails over. Clients with existing connections to the newly-unhealthy database node will find the connection severed, and are expected to make a reconnect attempt. At this point the proxy will route this new connection to a healthy node, assuming such a node exists.
+The proxy queries an HTTP healthcheck process, co-located on the database node, when determining where to route traffic. If the healthcheck process returns HTTP status code of 200, the node is considered healthy. In the case of failover, it will be considered as a candidate for new connections. If the healthcheck returns HTTP status code 503, the node is considered unhealthy. Clients with existing connections to a newly-unhealthy database node will find the connection severed, and are expected to make a reconnect attempt. At this point the proxy will route this new connection to a healthy node, assuming such a node exists.
 
 ## Connection handling on MariaDB failure ##
-
-The observations below are verifications of use cases only where connections are dropped due to the MariaDB process dying.
 
 ### MariaDB process on a node dies ###
 
@@ -20,11 +18,7 @@ The node is removed from the pool of healthy nodes. Any existing connections are
 
 ### A previously dead MariaDB node is resurrected ###
 
-The resurrected node will not receive connections. The proxy has already failed-over to a new node; all connections, new or existing, will go to that node instead. If the node now receiving connections fails, the resurrected node will be considered a candidate for connections if it is still healthy.
-
-### Untested ###
-
-What happens if a node dies and is resurrected between ping intervals? Perhaps the proxy routes traffic to bad nodes and applications see multiple connection failures before node becomes alive again. The ping interval is reasonably short so it's unlikely a node could fail and come back online before the proxy has severed connections and chosen a new healthy node (see further discussion below).
+The resurrected node will not immediately receive connections, but is added to the pool of healthy nodes after it has reached a **synced** state. The proxy will continue to route all connections, new or existing, to the currently active node.
 
 ## Connection handling during State Snapshot Transfer (SST)
 
@@ -32,20 +26,18 @@ When a new node is added to the cluster it gets its state from an existing node 
 
 ## Connection handling for non-primary components ##
 
-If a cluster loses more than than half its nodes then the remaining nodes form a non-primary component. There is currently a six second grace period during which the cluster acknowledges something is wrong and gives missing nodes a chance to rejoin.
+If a cluster loses more than than half its nodes, the remaining nodes lose quorum and form a **non-primary component**. It is also possible an individual node to become non-primary if it is unable to connect to greater than half of the cluster due to a network partition. In all cases, there is a six second grace period during which the cluster acknowledges something is wrong and gives missing nodes a chance to rejoin.
 
 During the grace period, existing connections are maintained and new connections can be established. Read requests are fulfilled but write requests are suspended (requests hang).
 
-Once the 6 second grace period expires, nodes in primary component will return to normal function, fulfilling write requests.
-
-Upon expiry of the grace period, nodes in a non-primary component will maintain existing connections and new connections can be established, but nearly all requests will receive the error `WSREP has not yet prepared this node for application use`, prompting the client to close the connection. Clients with open connections and hung writes will immediately receive this error and are expected to close the connection once the nodes enter a non-primary component.
+Once the 6 second grace period expires, nodes found in a **primary component** will return to normal function, fulfilling write requests. Nodes found in a **non-primary component** at this time will close all existing connections and new connections will not be established.
 
 # Proxy API
 
 
 ### Proxy API
 
-The proxy hosts a json api at `proxy-<bosh job index>.p-mysql.<system domain>:80/v0/`
+The proxy hosts a JSON API at `proxy-<bosh job index>.p-mysql.<system domain>:80/v0/`
 
 Request:
 *  Method: GET
@@ -95,11 +87,3 @@ follow the following instructions:
 5. Click 'Go to Record Sets'.
 6. Select the record set containing the desired domain name.
 7. In the value input, enter the IP addresses of each proxy VM, separated by a newline.
-
-# Known Issues #
-
-In states such as SST and Non-primary Components (see above), MariaDB is operational, disallows writes, but does not terminate connections.
-
-## Further Discussion ##
-
-* Pinging interval - should it be faster? Currently the frequency at which the proxy polls the healthcheck is configurable via the manifest property `proxy.healthcheck_timeout_millis` as the polling frequency is a fixed fraction of the timeout.
