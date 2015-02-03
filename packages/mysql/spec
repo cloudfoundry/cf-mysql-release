@@ -1,8 +1,0 @@
----
-name: mysql
-
-
-dependencies:
-
-files:
-- mysql/**/*
