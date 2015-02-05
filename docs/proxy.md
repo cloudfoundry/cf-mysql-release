@@ -2,7 +2,7 @@
 
 ## All new connections are routed to the same node ##
 
-The current proxy implementation is [Switchboard](https://github.com/pivotal-cf-experimental/switchboard). It proxies TCP connections between the client and nodes of the MariaDB Galera Cluster. All connections will be routed to a single active node; when that node fails the proxy should fail over to a different node. The proxy is configured to behave in this manner out of the box.
+The current proxy implementation is [Switchboard](https://github.com/cloudfoundry-incubator/switchboard). It proxies TCP connections between the client and nodes of the MariaDB Galera Cluster. All connections will be routed to a single active node; when that node fails the proxy should fail over to a different node. The proxy is configured to behave in this manner out of the box.
 
 It should be noted that in the current configuration, it is only guaranteed that a **single** proxy node will behave this way. When we deploy multiple proxy nodes, there is a small probability that multiple proxy instances will route connections to different nodes and violate the desired invariant that all connections are routed to the same MariaDB node. This is a known issue, and we are currently exploring methods to circumvent it.
 

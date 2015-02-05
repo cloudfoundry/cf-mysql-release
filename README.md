@@ -20,8 +20,8 @@ A BOSH release of a MySQL database-as-a-service for Cloud Foundry using [MariaDB
    </tr>
       <tr>
      <td>Proxy</td>
-     <td><a href="https://github.com/pivotal-cf-experimental/switchboard">Switchboard</a>; proxies to MySQL, severing connections on MySQL node failure.</td>
-     <td><a href="https://travis-ci.org/pivotal-cf-experimental/switchboard"><img src="https://travis-ci.org/pivotal-cf-experimental/switchboard.svg" alt="Build Status"></a></td>
+     <td><a href="https://github.com/cloudfoundry-incubator/switchboard">Switchboard</a>; proxies to MySQL, severing connections on MySQL node failure.</td>
+     <td><a href="https://travis-ci.org/cloudfoundry-incubator/switchboard"><img src="https://travis-ci.org/cloudfoundry-incubator/switchboard.svg" alt="Build Status"></a></td>
    </tr>
 </table>
 
@@ -406,4 +406,4 @@ The following links show how this release implements [Dashboard SSO](http://docs
 
 ## Proxy
 
-Traffic to the MySQL cluster is routed through one or more proxy nodes. The current proxy implementation is [Switchboard](https://github.com/pivotal-cf-experimental/switchboard). This proxy acts as an intermediary between the client and the MySQL server - providing failover between MySQL nodes. The number of nodes is configured by the job instance count in the deployment manifest.
+Traffic to the MySQL cluster is routed through one or more proxy nodes. The current proxy implementation is [Switchboard](https://github.com/cloudfoundry-incubator/switchboard). This proxy acts as an intermediary between the client and the MySQL server - providing failover between MySQL nodes. The number of nodes is configured by the job instance count in the deployment manifest.

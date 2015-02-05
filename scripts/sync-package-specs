@@ -35,7 +35,7 @@ function sync_package() {
 sync_package mariadb_ctrl -app github.com/cloudfoundry/mariadb_ctrl/... &
 sync_package gra-log-purger -app gra-log-purger/... &
 sync_package galera-healthcheck -app github.com/cloudfoundry-incubator/galera-healthcheck/... &
-sync_package switchboard -app github.com/pivotal-cf-experimental/switchboard/... &
+sync_package switchboard -app github.com/cloudfoundry-incubator/switchboard/... &
 
 GOPATH=$GOPATH/src/github.com/cloudfoundry-incubator/route-registrar/Godeps/_workspace:$GOPATH \
 sync_package route-registrar -app github.com/cloudfoundry-incubator/route-registrar/... &
