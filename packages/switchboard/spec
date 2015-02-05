@@ -6,6 +6,7 @@ files:
   - github.com/cloudfoundry-incubator/switchboard/api/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/api/fakes/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/api/middleware/*.go # gosub
+  - github.com/cloudfoundry-incubator/switchboard/api/middleware/fakes/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/cmd/switchboard/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/cmd/switchboard/dummies/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/config/*.go # gosub
