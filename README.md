@@ -273,12 +273,12 @@ deployment. Copy and paste this into your terminal, then open the resulting `int
     "service_name": "p-mysql",
     "plans" : [
       {
-        "plan_name": "100mb-dev",
+        "plan_name": "100mb",
         "max_user_connections": 20,
         "max_storage_mb": 10
       },
       {
-        "plan_name": "1gb-dev",
+        "plan_name": "1gb",
         "max_user_connections": 40,
         "max_storage_mb": 20
       }

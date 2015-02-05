@@ -38,9 +38,9 @@ jobs:
         dashboard_client:
           secret: p-mysql-secret
         plans:
-        - name: 100mb-dev
+        - name: 100mb
           max_storage_mb: 10
-        - name: 1gb-dev
+        - name: 1gb
           max_storage_mb: 20
   - name: proxy
     properties:
