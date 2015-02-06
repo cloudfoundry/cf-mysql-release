@@ -30,7 +30,7 @@ If a cluster loses more than than half its nodes, the remaining nodes lose quoru
 
 During the grace period, existing connections are maintained and new connections can be established. Read requests are fulfilled but write requests are suspended (requests hang).
 
-Once the 6 second grace period expires, nodes found in a **primary component** will return to normal function, fulfilling write requests. Nodes found in a **non-primary component** at this time will close all existing connections and new connections will not be established.
+Once the 6 second grace period expires, nodes found in a **primary component** will return to normal function, fulfilling write requests. Connections to nodes found in a **non-primary component** will be severed; new connections will routed to a healthy node.
 
 # Proxy API
 
