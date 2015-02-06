@@ -87,7 +87,7 @@ After installation, the MySQL service will be visible in the Services Marketplac
 
 ### Upload Stemcell<a name="upload_stemcell"></a>
 
-The latest final release expects the Ubuntu Trusty (14.04) go_agent stemcell version 2719.3 by default. Note: there are important security fixes in this version of the stemcell; we recommend updating if your are using an older stemcell. This release may not work with newer stemcells as it may have dependencies on libraries which have been removed from newer stemcells. Stemcells can be downloaded from http://boshartifacts.cfapps.io/file_collections?type=stemcells; choose the ubuntu trusty go_agent stemcell 2719.3 for your infrastructure ([vsphere esxi](https://s3.amazonaws.com/bosh-jenkins-artifacts/bosh-stemcell/vsphere/bosh-stemcell-2719.3-vsphere-esxi-ubuntu-trusty-go_agent.tgz) or [aws xen](https://s3.amazonaws.com/bosh-jenkins-artifacts/bosh-stemcell/aws/bosh-stemcell-2719.3-aws-xen-ubuntu-trusty-go_agent.tgz)).
+The latest final release expects the Ubuntu Trusty (14.04) go_agent stemcell version 2831 by default. Older stemcells are not recommended. Stemcells can be downloaded from http://bosh.io/stemcells; choose the appropriate stemcell for your infrastructure ([vsphere esxi](https://d26ekeud912fhb.cloudfront.net/bosh-stemcell/aws/light-bosh-stemcell-2831-aws-xen-hvm-ubuntu-trusty-go_agent.tgz) or [aws hvm](https://d26ekeud912fhb.cloudfront.net/bosh-stemcell/aws/light-bosh-stemcell-2831-aws-xen-hvm-ubuntu-trusty-go_agent.tgz)).
 
 ### Upload Release<a name="upload_release"></a>
 

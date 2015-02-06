@@ -10,8 +10,8 @@ networks: (( merge ))
 resource_pools:
   - name: services-small
     stemcell:
-      name: bosh-aws-xen-ubuntu-trusty-go_agent
-      version: (( merge || "2719.3" ))
+      name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
+      version: (( merge || "2831" ))
     cloud_properties:
       instance_type: m3.large
       availability_zone: (( properties.template_only.aws.availability_zone ))
