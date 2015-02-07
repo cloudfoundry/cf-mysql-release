@@ -1,0 +1,6 @@
+#!/bin/bash
+
+ginkgo -r -p -race \
+        src/github.com/cloudfoundry-incubator/switchboard \
+#        src/github.com/cloudfoundry-incubator/galera-healthcheck \
+#        src/github.com/cloudfoundry/mariadb_ctrl/
