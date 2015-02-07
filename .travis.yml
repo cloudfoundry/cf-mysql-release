@@ -6,6 +6,8 @@ go:
 before_install:
   - export GOPATH=$PWD
   - export PATH=$GOPATH/bin:$PATH
+
+install:
   - git submodule update --init --recursive
 
 script:
