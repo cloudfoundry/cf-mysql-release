@@ -1,5 +1,7 @@
 #!/bin/bash
 
+go install github.com/onsi/ginkgo/ginkgo
+
 ginkgo -r -p -race \
         src/github.com/cloudfoundry-incubator/switchboard \
 #        src/github.com/cloudfoundry-incubator/galera-healthcheck \
