@@ -3,22 +3,22 @@ name: switchboard
 dependencies:
   - golang
 files:
+  - github.com/cloudfoundry-incubator/switchboard/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/api/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/api/fakes/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/api/middleware/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/api/middleware/fakes/*.go # gosub
-  - github.com/cloudfoundry-incubator/switchboard/cmd/switchboard/*.go # gosub
-  - github.com/cloudfoundry-incubator/switchboard/cmd/switchboard/dummies/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/config/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/domain/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/domain/fakes/*.go # gosub
+  - github.com/cloudfoundry-incubator/switchboard/dummies/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/proxy/*.go # gosub
+  - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
   - github.com/fraenkel/candiedyaml/*.go # gosub
   - github.com/pivotal-golang/lager/*.go # gosub
-  - gopkg.in/validator.v2/*.go # gosub
-  - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
   - github.com/tedsuo/ifrit/*.go # gosub
   - github.com/tedsuo/ifrit/grouper/*.go # gosub
+  - gopkg.in/validator.v2/*.go # gosub
   - github.com/onsi/ginkgo/*.go # gosub
   - github.com/onsi/ginkgo/config/*.go # gosub
   - github.com/onsi/ginkgo/internal/codelocation/*.go # gosub
