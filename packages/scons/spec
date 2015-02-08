@@ -2,7 +2,7 @@
 name: scons
 
 dependencies:
+- python
 
 files:
 - scons/**/*
-- python/**/*

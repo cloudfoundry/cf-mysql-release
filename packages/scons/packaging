@@ -1,20 +1,7 @@
 # abort script on any command that exits with a non zero value
 set -e
 
-PACKAGING_ROOT=`pwd`
-
-# All the packages that use python use it to work with scons,
-# so we want to include it as a sub-dependency of scons, rather than
-# a dependency of the parent package (for example, Galera)
-PYTHON_VERSION=2.7.8
-cd ${PACKAGING_ROOT}/python
-tar xfz Python-${PYTHON_VERSION}.tgz
-cd Python-${PYTHON_VERSION}
-./configure  --prefix=${BOSH_INSTALL_TARGET}/python
-make
-make install
-
-cd ${PACKAGING_ROOT}/scons
+cd scons
 tar xfz scons-2.3.1.tar.gz
 cd scons-2.3.1
-${BOSH_INSTALL_TARGET}/python/bin/python setup.py install --prefix=${BOSH_INSTALL_TARGET}
+/var/vcap/packages/python/bin/python setup.py install --prefix=${BOSH_INSTALL_TARGET}

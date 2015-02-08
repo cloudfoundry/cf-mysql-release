@@ -16,7 +16,7 @@ cp -R /var/vcap/packages/boost/include/* /usr/include/
 cp -R /var/vcap/packages/check/lib/* /usr/lib/
 cp -R /var/vcap/packages/check/include/* /usr/include/
 
-PATH=/var/vcap/packages/scons/python/bin:$PATH
+PATH=$PATH:/var/vcap/packages/python/bin
 
 #
 # Go Agent cannot handle more than 10MB output, so trim it

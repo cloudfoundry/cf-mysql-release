@@ -1,0 +1,11 @@
+# abort script on any command that exits with a non zero value
+set -e
+
+PYTHON_VERSION=2.7.8
+
+cd python
+tar xfz Python-${PYTHON_VERSION}.tgz
+cd Python-${PYTHON_VERSION}
+./configure  --prefix=${BOSH_INSTALL_TARGET}
+make
+make install
