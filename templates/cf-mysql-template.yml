@@ -76,6 +76,7 @@ jobs:
       network_name: services1
       external_host: (( "p-mysql." meta.external_domain ))
       nats: (( meta.nats ))
+      syslog_aggregator: (( meta.syslog_aggregator ))
   - name: cf-mysql-broker
     release: cf-mysql
     template: cf-mysql-broker
