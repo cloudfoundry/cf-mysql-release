@@ -2,7 +2,7 @@
 
 go install github.com/onsi/ginkgo/ginkgo
 
-ginkgo -r -p -race \
+ginkgo -r -p -race -randomizeAllSpecs \
         src/github.com/cloudfoundry-incubator/switchboard \
         src/github.com/cloudfoundry-incubator/galera-healthcheck \
         src/github.com/cloudfoundry/mariadb_ctrl/
