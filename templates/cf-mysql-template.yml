@@ -128,7 +128,7 @@ jobs:
               bullets:
                 - Shared MySQL server
                 - 100 MB storage
-                - 40 concurrent connections
+                - 20 concurrent connections
               displayName: (( merge || "100 MB" ))
           - name: 1gb
             id: 11d0aa36-dcec-4021-85f5-ea4d9a5c8342
