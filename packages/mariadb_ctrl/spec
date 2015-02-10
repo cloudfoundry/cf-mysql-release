@@ -5,14 +5,13 @@ dependencies:
 files:
   - github.com/cloudfoundry/mariadb_ctrl/*.sh
   - github.com/cloudfoundry/mariadb_ctrl/*.go # gosub
-  - github.com/cloudfoundry/mariadb_ctrl/galera_helper/*.go # gosub
-  - github.com/cloudfoundry/mariadb_ctrl/galera_helper/fakes/*.go # gosub
-  - github.com/cloudfoundry/mariadb_ctrl/logger/*.go # gosub
-  - github.com/cloudfoundry/mariadb_ctrl/logger/fakes/*.go # gosub
+  - github.com/cloudfoundry/mariadb_ctrl/cluster_health_checker/*.go # gosub
+  - github.com/cloudfoundry/mariadb_ctrl/cluster_health_checker/fakes/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/mariadb_helper/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/mariadb_helper/fakes/*.go # gosub
-  - github.com/cloudfoundry/mariadb_ctrl/mariadb_start_manager/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/os_helper/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/os_helper/fakes/*.go # gosub
+  - github.com/cloudfoundry/mariadb_ctrl/start_manager/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/upgrader/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/upgrader/fakes/*.go # gosub
+  - github.com/pivotal-golang/lager/*.go # gosub
