@@ -6,7 +6,7 @@ export MARIADB_JOB_DIR=/var/vcap/jobs/mysql
 RUN_DIR=/var/vcap/sys/run/mysql
 datadir=/var/vcap/store/mysql
 LOG_DIR=/var/vcap/sys/log/mysql
-LOG_FILE=$LOG_DIR/maria-ctl.log
+LOG_FILE=$LOG_DIR/mariadb_ctrl.combined.log
 CONFIG_DIR=/etc/mysql
 export JOB_INDEX=<%= index %>
 STATE_FILE=/var/vcap/store/mysql/state.txt
@@ -125,7 +125,7 @@ case $1 in
              -clusterIps=<%= (p('cluster_ips') - [node_ip]).join(',') %> \
              -maxDatabaseSeedTries=$DATABASE_SEED_ATTEMPTS \
              2>&1 \
-             | tee -a $LOG_DIR/maria_ctrl.combined.log \
+             | tee -a $LOG_FILE \
              | logger -p local1.error -t mariadb_ctrl
 
     log "start script: completed starting mariadb_ctrl."
