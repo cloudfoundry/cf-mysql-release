@@ -27,18 +27,21 @@ If you have determined that it is necessary to bootstrap:
     mysql> show status like 'wsrep_last_committed';
     </pre>
 
-    Use the node with the highest `wsrep_last_committed` value as the new bootstrap node.
+  Use the node with the highest `wsrep_last_committed` value as the new bootstrap node.
 
-- SSH to each node in the cluster and shut down the mariadb process:
+- SSH to each node in the cluster and shut down the mariadb process.
 
     <pre class="terminal">
     $ monit stop mariadb_ctrl
     </pre>
 
-- On the new bootstrap node, restart the mariadb process:
+  Rebootstrapping the cluster will not be successful unless all other nodes have been shut down.
+
+- On the new bootstrap node, update state file and restart the mariadb process:
 
     <pre class="terminal">
-    $ /var/vcap/packages/mariadb/bin/mysqld_safe --wsrep-new-cluster &
+    $ echo -n "NEEDS_BOOTSTRAP" > /var/vcap/store/mysql/state.txt
+    $ monit start mariadb_ctrl
     </pre>
 
 
@@ -54,9 +57,3 @@ If you have determined that it is necessary to bootstrap:
     mysql> show status like 'wsrep_cluster_size';
     </pre>
 
-- Because we started the bootstrap node without monit, we now need to restart the node using the normal monit script. On the bootstrap node, run:
-
-    <pre class="terminal">
-    $ /var/vcap/packages/mariadb/support-files/mysql.server stop
-    $ monit start mariadb
-    </pre>
