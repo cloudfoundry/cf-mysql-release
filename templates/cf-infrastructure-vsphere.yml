@@ -2,7 +2,7 @@ meta: ~
 
 compilation:
   cloud_properties:
-    ram: 1024
+    ram: 4096
     disk: 10240
     cpu: 2
 
@@ -14,7 +14,7 @@ resource_pools:
       name: bosh-vsphere-esxi-ubuntu-trusty-go_agent
       version: (( merge || "2831" ))
     cloud_properties:
-      ram: 1024
+      ram: 4096
       # enough for extracting mysql
       disk: 10480
-      cpu: 1
+      cpu: 2
