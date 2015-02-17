@@ -1,11 +1,10 @@
 # abort script on any command that exits with a non zero value
 set -e
 
-GALERA_VERSION=galera-3-25.3.9
 export HOME=/var/vcap/data
 cd galera
-tar xfz $GALERA_VERSION.tar.gz
-cd $GALERA_VERSION
+tar xfz galera-25.3.5-src.tar.gz
+cd galera-25.3.5-src
 
 #
 # Scons build system cannot be easily configured to use
