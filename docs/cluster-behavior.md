@@ -48,3 +48,8 @@ iptables -A OUTPUT -p tcp --destination-port 4568 -j DROP && \
 iptables -A OUTPUT -p tcp --destination-port 4444 -j DROP && \
 iptables -A OUTPUT -p tcp --destination-port 3306
 ```
+
+To recover from this, drop the partition by flushing all rules:
+```
+iptables -F 
+```
