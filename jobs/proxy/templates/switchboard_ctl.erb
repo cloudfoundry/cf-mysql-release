@@ -28,6 +28,7 @@ case $1 in
     $package_dir/bin/switchboard \
       -pidFile=$pidfile \
       -configFile=$job_dir/config/switchboard.yml \
+      -staticDir=$package_dir/static \
       2>&1 \
       | tee -a $log_dir/switchboard.combined.log \
       | logger -p local1.error -t switchboard

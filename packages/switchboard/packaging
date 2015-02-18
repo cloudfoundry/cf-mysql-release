@@ -14,6 +14,8 @@ export PATH=$GOROOT/bin:$PATH
 
 go install github.com/cloudfoundry-incubator/switchboard
 
+cp -r $BOSH_INSTALL_TARGET/src/github.com/cloudfoundry-incubator/switchboard/static  $BOSH_INSTALL_TARGET/static
+
 # clean up source artifacts
 rm -rf ${BOSH_INSTALL_TARGET}/src ${BOSH_INSTALL_TARGET}/pkg
 
