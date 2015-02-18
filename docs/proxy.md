@@ -37,7 +37,7 @@ Once the 6 second grace period expires, nodes found in a **primary component** w
 
 ### Proxy API
 
-The proxy hosts a JSON API at `proxy-<bosh job index>.p-mysql.<system domain>:80/v0/`
+The proxy hosts a JSON API at `proxy-<bosh job index>.p-mysql.<system domain>:<api_port>/v0/`. By default, this API is available on port 80.
 
 Request:
 *  Method: GET
@@ -87,3 +87,27 @@ follow the following instructions:
 5. Click 'Go to Record Sets'.
 6. Select the record set containing the desired domain name.
 7. In the value input, enter the IP addresses of each proxy VM, separated by a newline.
+
+# Setting up a Load Balancer with multiple proxies
+
+The proxy tier is responsible for routing connections from applications to healthy MariaDB cluster nodes, even in the event of node failure.
+
+Bound applications are provided with a hostname or IP address to reach a database managed by the service. By default, the MySQL service will provide bound applications with the IP of the first instance in the proxy tier. Even if additional proxy instances are deployed, client connections will not be routed through them. This means the first proxy instance is a single point of failure.
+
+**In order to eliminate the first proxy instance as a single point of failure, operators must configure a load balancer to route client connections to all proxy IPs, and configure the MySQL service to give bound applications a hostname or IP address that resolves to the load balancer.**
+
+#### Configuring load balancer
+
+To load balance across the proxies, configure the load balancer with each of the proxy IPs, and direct traffic to port 3306. To use a health checker or monitor to test the health of each proxy, configure your load balancer to try TCP against the proxy API port (default is 80).
+
+
+#### Configuring cf-mysql-release to use load balancer
+To ensure that bound applications will use the load balancer, the cf-mysql-broker job in the BOSH manifest must be changed:
+
+```
+jobs:
+- name: cf-mysql-broker
+  properties:
+    mysql_node:
+      host: <load balancer address>
+```
