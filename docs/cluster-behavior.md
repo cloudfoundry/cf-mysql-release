@@ -38,7 +38,7 @@ Documented here are scenarios in which the size of a cluster may change, how the
 #### iptables rules for simulating partition
 On the node you wish to partition, execute the following:
 ```
-iptables -F && \ # optional - flush existing rules
+iptables -F && # optional - flush existing rules \
 iptables -A INPUT -p tcp --destination-port 4567 -j DROP && \
 iptables -A INPUT -p tcp --destination-port 4568 -j DROP && \
 iptables -A INPUT -p tcp --destination-port 4444 -j DROP && \
@@ -47,4 +47,9 @@ iptables -A OUTPUT -p tcp --destination-port 4567 -j DROP && \
 iptables -A OUTPUT -p tcp --destination-port 4568 -j DROP && \
 iptables -A OUTPUT -p tcp --destination-port 4444 -j DROP && \
 iptables -A OUTPUT -p tcp --destination-port 3306
+```
+
+To recover from this, drop the partition by flushing all rules:
+```
+iptables -F 
 ```

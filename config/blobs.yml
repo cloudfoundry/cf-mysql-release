@@ -23,6 +23,10 @@ boost/boost_1_55_0.tar.gz:
   object_id: 52348346-ba79-41e1-9c71-74ee464570d6
   sha: 61ed0e57d3c7c8985805bb0682de3f4c65f4b6e5
   size: 69481257
+galera/galera-25.3.5-src.tar.gz:
+  object_id: 137c19a6-59c1-455c-bba8-073fac54792c
+  sha: 05988bb4449048140c6df8e4b3c64750833139db
+  size: 3820268
 scons/scons-2.3.1.tar.gz:
   object_id: e3136aa7-9bf6-4c49-a26d-9ebe85665818
   sha: 775e715e49fe5fd8e1d29551a296fdc9267509e7
@@ -91,7 +95,3 @@ mariadb/mariadb-galera-10.0.16.tar.gz:
   object_id: 5f58a054-7b9e-4b5f-9b3e-a79406b9fb01
   sha: 2782d493f3a3210caf2ed76fdac38bf81734c43c
   size: 55886236
-galera/galera-3-25.3.9.tar.gz:
-  object_id: 5936e49c-bf1c-40b6-ac45-f850f0fec5de
-  sha: 3085eebe8cadc44a4b7a80aa4cb23b4eb94c375f
-  size: 2989064
