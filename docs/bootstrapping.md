@@ -60,12 +60,12 @@ Bootstrapping is the process of (re)starting a Galera cluster.
   You can check that the mariadb process has started successfully by running:
 
   ```sh
-  $ monit summary
+  $ watch monit summary
   ```
 
   It can take up to 10 minutes for monit to start the mariadb process.
 
-1. Once the bootstraped node is running, start the mariadb process on the remaining nodes via monit.
+1. Once the bootstrapped node is running, start the mariadb process on the remaining nodes via monit.
 
   ```sh
   $ monit start mariadb_ctrl
