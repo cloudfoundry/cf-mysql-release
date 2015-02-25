@@ -4,22 +4,12 @@ Bootstrapping is the process of (re)starting a Galera cluster.
 
 ## When to Bootstrap
 
-This is typically necessary in two scenarios:
-
-1. No cluster exists yet and you wish to create one.
-- A cluster loses quorum. Quorum is defined as greater than half the nodes in the last cluster with quorum. Quorum is lost when enough nodes die or become inaccessible such that no remaining subset of nodes has quorum. Once lost, quorum can only ever be regained via bootstrapping.
-
-Bootstrapping from scenario #1 is automated during the initial deployment of cf-mysql-release. However, bootstrapping from scenario #2 requires manual intervention. The manual procedure for recovering from scenario #2 is documented below.
-
-## Determining Cluster State
-
-See [Determining Cluster State](cluster-state.md)
-
-**Important:** You should only bootstrap the cluster if all nodes report a `Non-Primary` value for `wsrep_cluster_status`.
+- Manual bootstrapping should only be required if all nodes have died. The cluster is bootstrapped automatically the first time the cluster is deployed. 
+- Nodes that are no longer a part of the quorum will report `Non-Primary` when queried with `SHOW VARIABLES LIKE 'wsrep_cluster_status'`. See [Determining Cluster State](cluster-state.md) for more information.
+- Cluster failure will occur if the cluster loses quorum (less than half of the nodes can communicate with each other). Once quorum is lost, the nodes will stop responding to write queries.  See [Cluster Behavior](cluster-behavior.md) for more details.
+- Once lost, quorum can only be regained via bootstrapping. Even if monit restarts the node processes or the vms are recreated by bosh, the nodes will not become responsive until the cluster is manually repaired.
 
 ## Bootstrapping
-
-If you have determined that it is necessary to bootstrap:
 
 1. SSH to each node in the cluster and shut down the mariadb process.
 
