@@ -9,47 +9,49 @@ Documented here are scenarios in which the size of a cluster may change, how the
 ### Adding and rejoining nodes
 - A node started with monit (or added by increasing cluster size) will automatically join the cluster.
 
-### Unexpected shutdown of a node in three node cluster
-  - Use `kill -9` to simulate an unexpected shutdown of a node in a three node cluster.
-  - Initially, the cluster understands that the node did not exit gracefully and that the intended cluster size is 3.
-  - After a timeout (5 seconds by default), the two remaining nodes "clean" any memory of the missing node and *form a 2-node cluster* with the same cluster id.
-  - Because the cluster id and gcomm address have not changed, the node will join the cluster when restarted with monit.
+### Quorum
+  - In order for the cluster to continue accepting requests, a quorum must be reached by peer-to-peer communication. At least half of the nodes must be responsive to each other to maintain a quorum.
+  - If more than half of the nodes are unresponsive for a period of time the nodes will stop responding to queries, the cluster will fail, and bootstrapping will be required to re-enable functionality.
 
-### Unexpected shutdown of a node in a two node cluster
-  - Use `kill -9` to simulate an unexpected shutdown of a node when only two of three nodes are healthy.
-  - The remaining node does not have quorum and will not accept connections.
-  - To fix this cluster you must bring down the last node, bootstrap the node with the latest data, then have the other nodes join the bootstrapped node.
+### Avoid an even number of nodes
+  - It is generally recommended to avoid an even number of nodes, because it can lead to two quorums being established, each with exactly half the nodes. 
 
-### Bootstrapping the cluster after quorum is lost
-  - For more information on manually bootstrapping a cluster, see [Bootstrapping Galera](bootstrapping.md).
-  - The node with the most up-to-date information should be bootstrapped.
+### Unresponsive node(s)
+  - A node can become unresponsive for a number of reasons:
+    - network latency
+    - mysql process failure
+    - firewall rule changes
+    - vm failure
+  - Unresponsive nodes will stop responding to queries and, after timeout, leave the cluster. 
+  - Nodes will be marked as unresponsive (innactive) either:
+    - If they fail to respond to one node within 15 seconds
+    - OR If they fail to respond to all other nodes within 5 seconds
+  - Unresponsive nodes that become responsive again will rejoin the cluster, as long as they are on the same IP which is pre-configured in the gcomm address on all the other running nodes, and a quorum was held by the remaining nodes.
+  - All nodes suspend writes once they notice something is wrong with the cluster (write requests hang). After a timeout period of 5 seconds, requests to non-quorum nodes will fail. Most clients return the error: `WSREP has not yet prepared this node for application use`. Some clients may instead return `unknown error`. Nodes who have reached quorum will continue fulfilling write requests.
+  - If deployed using a proxy, a continually inactive node will cause the proxy to fail over, selecting a different mysql node to route new queries to.
 
-### One node partitioned from the other two
-  - This can be simulated by adding iptables rules (see below) to the VM of node 0 preventing it from communicating with the other two VMs.
-  - The two-node side of the partition constitutes a healthy cluster because the two nodes have quorum (greater than half). The single node is part of a "non-primary component" (meaning an unhealthy subset of the cluster) until it can rejoin the other two nodes.
-  - All nodes suspend writes once they notice something is wrong with the cluster (write requests hang). After a timeout period (5s by default) all requests to nodes in a non-primary component will fail. Most clients will expose the error `WSREP has not yet prepared this node for application use`. Some clients will return `unknown error`. Nodes in the primary component will resume fulfilling write requests.
-  - If the partition is dropped, the single node will rejoin the healthy cluster as long as no nodes were bootstrapped while the partition was up.
-  - If the single node is bootstrapped, it will create a new one-node cluster. The result:
-    - There are now two clusters, one cluster with a single node and another cluster with two nodes.
-    - This split-brain scenario will not be healed even if the network partition is removed.
-    - Both clusters will consider themselves healthy, and the single-node cluster will accept new data even though it cannot perform any kind of replication.
-    - The monit control scripts will never attempt to bootstrap after the first bosh deploy, so the danger here is limited to operator actions.
+### Re-bootstrapping the cluster after quorum is lost
+  - The start script will currently bootstrap node 0 only on initial deploy. Re-bootstrapping requires a manually inducing bootstrap. For more information on manually bootstrapping a cluster, see [Bootstrapping Galera](bootstrapping.md).
+  - If the single node is bootstrapped, it will create a new one-node cluster that other nodes can join.
 
-#### iptables rules for simulating partition
-On the node you wish to partition, execute the following:
-```
-iptables -F && # optional - flush existing rules \
-iptables -A INPUT -p tcp --destination-port 4567 -j DROP && \
-iptables -A INPUT -p tcp --destination-port 4568 -j DROP && \
-iptables -A INPUT -p tcp --destination-port 4444 -j DROP && \
-iptables -A INPUT -p tcp --destination-port 3306 && \
-iptables -A OUTPUT -p tcp --destination-port 4567 -j DROP && \
-iptables -A OUTPUT -p tcp --destination-port 4568 -j DROP && \
-iptables -A OUTPUT -p tcp --destination-port 4444 -j DROP && \
-iptables -A OUTPUT -p tcp --destination-port 3306
-```
+### Simulating node failure
+  - To simulate a temporary single node failure, use `kill -9` on the pid of the mysql process. This will only temporarily disable the node because the process is being monitored by monit, which will restart the process if it is not running.
+  - To more permenantly disable the process, execute `monit unmonitor mariadb_ctrl` before `kill -9`.
+  - To simulate multi-node failure without killing a node process, communication can be severed by changing the iptables config to dissallow communication:
 
-To recover from this, drop the partition by flushing all rules:
-```
-iptables -F 
-```
+    ```
+    iptables -F && # optional - flush existing rules \
+    iptables -A INPUT -p tcp --destination-port 4567 -j DROP && \
+    iptables -A INPUT -p tcp --destination-port 4568 -j DROP && \
+    iptables -A INPUT -p tcp --destination-port 4444 -j DROP && \
+    iptables -A INPUT -p tcp --destination-port 3306 && \
+    iptables -A OUTPUT -p tcp --destination-port 4567 -j DROP && \
+    iptables -A OUTPUT -p tcp --destination-port 4568 -j DROP && \
+    iptables -A OUTPUT -p tcp --destination-port 4444 -j DROP && \
+    iptables -A OUTPUT -p tcp --destination-port 3306
+    ```
+    
+    To recover from this, drop the partition by flushing all rules:
+    ```
+    iptables -F 
+    ```
