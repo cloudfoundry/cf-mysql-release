@@ -7,7 +7,11 @@ Documented here are scenarios in which the size of a cluster may change, how the
   - Cluster size is reduced by one and maintains healthy state. Cluster will continue to operate, even with a single node, as long as other nodes left gracefully.
 
 ### Adding and rejoining nodes
-- A node started with monit (or added by increasing cluster size) will automatically join the cluster.
+- A new or existing node started with monit (or added by increasing cluster size) should automatically join the cluster.
+- An existing node may fail to rejoin the cluster if its transaction records are either too far ahead or behind the other nodes. This should be apparent from the process logs in `/var/vcap/sys/log/mysql/mysql.err.log`. If this happens, follow the following steps to abandon the data and restart the node:
+  - Stop the process with `monit stop mariadb_ctrl`.
+  - Delete the galera state (`/var/vcap/store/mysql/grastate.dat`) and cache (`/var/vcap/store/mysql/galera.cache`) files from the persistent disk.
+  - Restarting the node with `monit start mariadb_ctrl`.
 
 ### Quorum
   - In order for the cluster to continue accepting requests, a quorum must be reached by peer-to-peer communication. At least half of the nodes must be responsive to each other to maintain a quorum.
