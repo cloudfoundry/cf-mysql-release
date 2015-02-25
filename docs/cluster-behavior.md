@@ -6,12 +6,20 @@ Documented here are scenarios in which the size of a cluster may change, how the
   - Shutting down a node with monit (or decreasing cluster size by one) will cause the node to gracefully leave the cluster.
   - Cluster size is reduced by one and maintains healthy state. Cluster will continue to operate, even with a single node, as long as other nodes left gracefully.
 
-### Adding and rejoining nodes
-- A new or existing node started with monit (or added by increasing cluster size) should automatically join the cluster.
-- An existing node may fail to rejoin the cluster if its transaction records are either too far ahead or behind the other nodes. This should be apparent from the process logs in `/var/vcap/sys/log/mysql/mysql.err.log`. If this happens, follow the following steps to abandon the data and restart the node:
-  - Stop the process with `monit stop mariadb_ctrl`.
-  - Delete the galera state (`/var/vcap/store/mysql/grastate.dat`) and cache (`/var/vcap/store/mysql/galera.cache`) files from the persistent disk.
-  - Restarting the node with `monit start mariadb_ctrl`.
+### Adding new nodes
+- A new node started with monit (or added by increasing cluster size) should automatically join the cluster.
+- All the other nodes will have been reconfigured and restarted by BOSH to know about the new node IP.
+
+### Rejoining the cluster (existing nodes)
+- Existing nodes restarted with monit should automatically join the cluster.
+- If an existing node fails to join the cluster, it may be because its transaction records (`seqno`) are considerably out of sync with the cluster quorum. 
+  - If the node is out of sync, it should be apparent from the error log in `/var/vcap/sys/log/mysql/mysql.err.log`. 
+  - If the running cluster has a lower transaction record number than the failing node, it might be desirable to shut down the cluster and bootstrap from the node with the most transaction records. See the [bootstraping docs](bootstrapping.md) for more details.
+  - Manual recovery may be possible, but is error-prone and involves dumping transactions and applying them to the running cluster (out of scope for this doc).
+  - Abandoning the data is also an option, if you're ok with losing the desynced transactions. Follow the following steps to abandon the data:
+    - Stop the process with `monit stop mariadb_ctrl`.
+    - Delete the galera state (`/var/vcap/store/mysql/grastate.dat`) and cache (`/var/vcap/store/mysql/galera.cache`) files from the persistent disk.
+    - Restarting the node with `monit start mariadb_ctrl`.
 
 ### Quorum
   - In order for the cluster to continue accepting requests, a quorum must be reached by peer-to-peer communication. At least half of the nodes must be responsive to each other to maintain a quorum.
