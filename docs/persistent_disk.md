@@ -1,37 +1,31 @@
-# Recovering from issues with persistent disk
+# Recovering from issues with persistent disk(s)
 
-This section explains how to recover from problems with a node's persistent disk. These problems typically happen when there is an infrastructure failure
-(for example, an administrator disables a disk), or hardware failure (for example, a disk physically breaks). The Mariadb nodes store their data on the
-persistent disk, so it's important to be able to reliably re-attach the persistent disk (via BOSH) or to re-create it and immediately populate it with its
-original data (via BOSH and Galera).
+Problems with persistent disks typically are caused by infrastructure failure (ex: an administrator disables/deletes/detaches a disk) or hardware failure (ex: a disk physically breaks). The MariaDB nodes store their data on the persistent disk, so it is neccessary to either re-attach or re-create the disk before restarting the node.
 
-## Simulating disk failure
+In order to determine what recovery is required, first determine the state of the Galera cluster; see [Determining Cluster State](cluster-state.md).
 
-To simulate a disk issues in vCenter, follow these steps:
+### If cluster has failed
 
-1. Log in to vCenter client
-- Locate the vm that correlates to `mysql/0`. You can do this most easily by running `bosh vms` and identifying the IP address of the VM. The vCenter client will match VMs to IP addresses.
-- Navigate to the VM detail view, then click Edit.
-- Locate the entry for the persistent disk and delete it. You will have the option to detach the disk or delete it from the datastore.
+If the cluster has lost quorum (less than half of the nodes can communicate), the rest of the nodes should automatically shut down. 
 
-Note:
-- It may take a few minutes for MariaDB to fail. Attempting to write to a database will trigger this immediately.
-- `bosh recreate mysql 0` should reveal that the disk has been detached. `bosh cck` will not report any issues until an operator has first attempted to recreate the VM with `bosh recreate`.
+1. Any corrupted or lost persistent disks must be repaired or replaced. 
+1. The cluster must be bootstrapped to restart it. See the [bootstrapping docs](bootstrapping.md) for more details.
 
-## Recovery
+### If the cluster is still running
 
-The first thing to is determine the state of the Galera cluster; see [Determining Cluster State](cluster-state.md).
+If clustering has quorum (at least half of the nodes can communicate), an administrator only needs to recover the failing nodes. 
 
-If clustering is intact (no network partitions) and most of the nodes are functioning normally, an administrator only needs to recover the persistent disk for the node with disk issues. When the node with the detached or lost disk is recovered, it should successfully rejoin the cluster and Galera's replication should bring the node up-to-date. See [When all nodes are still in the primary component](#cluster-intact) below for recovery instructions.
+1. Any corrupted or lost persistent disks must be repaired or replaced. 
+2. Recovered nodes must be restarted.
+3. The recovered node should automatically rejoin the cluster and be updated with the current data.
 
-On the other hand, if the cluster has lost quorum or most of the nodes are not running, the administrator must recreate/restart nodes in a particular order to preserve the cluster's data. This ensures that the node(s) that have the most up-to-date data don't try to join a cluster without that data. See [When cluster has lost quorum](#quorum-lost) below for recovery instructions.
+See below for recovery instructions.
 
-<a name="cluster-intact"/>
-### When all nodes are still in the primary component
+## Disk Recovery
 
-This only requires that the operator recreate the one node with disk issues. The process to recover depends on the the nature of the disk failure.
+The process to recover depends on the the nature of the disk failure.
 
-#### When persistent disk is detached and can be re-attached
+### When persistent disk is detached and can be re-attached
 
 When the disk is detached, monit considers the process stopped and BOSH will consider the job as failing. However currently BOSH cloud check will not recognize the disk is unattached without a little kick.
 
@@ -57,7 +51,7 @@ When the disk is detached, monit considers the process stopped and BOSH will con
   $ bosh restart mysql INDEX
   </pre>
 
-#### When persistent disk is lost and needs to be re-created
+### When persistent disk is lost and needs to be re-created
 
 1. ssh into cf-mysql-broker instances and stop the processes. This will prevent creation and deletion of instances when we attempt to recreate the broken node to get its disk id.
   <pre class="terminal">
@@ -115,32 +109,15 @@ When the disk is detached, monit considers the process stopped and BOSH will con
   $ bosh deploy
   </pre>
 
-<a name="quorum-lost"/>
-### When cluster has lost quorum
+## Simulating disk failure
 
-1. ssh into all nodes and use monit to stop the MariaDB process.
-  <pre class="terminal">
-  $ sudo monit stop mariadb_ctrl
-  </pre>
-- For each node with detached or lost disk:
-  - Follow the instructions above for [When all nodes are still in the primary component](#cluster-intact) to reattach or recreating the disk.
-  - If the disk for Node 0 has been recreated, the MariaDB process will bootstrap
-  and write its state.txt file to persistent disk. All future attempts to restart this node will cause the node to JOIN rather than BOOTSTRAP.
-  - ssh into the node and wait for `watch monit status` to show that the `mariadb_ctrl` process is `running`
-  - Once the process is running, stop it with `sudo monit stop mariadb_ctrl`
-- Choose the node with the data you want to restart your cluster with. We will call this the BOOTSTRAP node.
-ssh into the BOOTSTRAP node and start it in bootstrap mode manually.
-  <pre class="terminal">
-  $ /var/vcap/packages/mariadb/support-files/mysql.server bootstrap
-  </pre>
-- Restart the `mariadb` process on all nodes except for the BOOTSTRAP node:
-  <pre class="terminal">
-  $ sudo monit start mariadb_ctrl
-  </pre>
-- Wait for all remaining nodes to join and sync with the cluster.
-- Finally, ssh into the BOOTSTRAP node, stop MariaDB manually, and start it with monit:
-  <pre class="terminal">
-  $ /var/vcap/packages/mariadb/support-files/mysql.server stop
-  $ monit start mariadb_ctrl
-  </pre>
-- Now the BOOTSTRAP node will rejoin the cluster under monit's supervision.
+To simulate a disk issues in vCenter, follow these steps:
+
+1. Log in to vCenter client
+- Locate the vm that correlates to `mysql/0`. You can do this most easily by running `bosh vms` and identifying the IP address of the VM. The vCenter client will match VMs to IP addresses.
+- Navigate to the VM detail view, then click Edit.
+- Locate the entry for the persistent disk and delete it. You will have the option to detach the disk or delete it from the datastore.
+
+Note:
+- It may take a few minutes for MariaDB to fail. Attempting to write to a database will trigger this immediately.
+- `bosh recreate mysql 0` should reveal that the disk has been detached. `bosh cck` will not report any issues until an operator has first attempted to recreate the VM with `bosh recreate`.
