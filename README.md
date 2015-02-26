@@ -26,7 +26,8 @@ A BOSH release of a MySQL database-as-a-service for Cloud Foundry using [MariaDB
 </table>
 
 
-## <a id='branches'></a>Getting the code
+<a name='branches'></a>
+## Getting the code
 
 Final releases are designed for public use, and are tagged with a version number of the form "v<N>".
 
@@ -136,9 +137,11 @@ If deploying an **older** final release than the latest, check out the tag for t
   $ bosh upload release
   ```
 
-### Create Manifest and Deploy<a name="create_manifest"></a>
+<a name="create_manifest"></a>
+### Create Manifest and Deploy
 
-#### BOSH-lite<a name="bosh-lite"></a>
+<a name="bosh-lite"></a>
+#### BOSH-lite
 
 1. Generate the manifest using a bosh-lite specific script and a stub provided for you, `bosh-lite/cf-mysql-stub-spiff.yml`.
 
@@ -152,7 +155,8 @@ If deploying an **older** final release than the latest, check out the tag for t
   $ bosh deploy
   ```
 
-#### vSphere<a name="vsphere"></a>
+<a name="vsphere"></a>
+#### vSphere
 
 1. Create a stub file called `cf-mysql-vsphere-stub.yml` by copying and modifying the [sample_vsphere_stub.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/sample_stubs/sample_vsphere_stub.yml)  in `templates/sample_stubs`.
 
@@ -167,7 +171,8 @@ If deploying an **older** final release than the latest, check out the tag for t
   $ bosh deployment cf-mysql-vsphere.yml && bosh deploy
   ```
 
-#### AWS<a name="aws"></a>
+<a name="aws"></a>
+#### AWS
 
 1. Create a stub file called `cf-mysql-aws-stub.yml` by copying and modifying the [sample_aws_stub.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/sample_stubs/sample_aws_stub.yml) in `templates/sample_stubs`.
 
@@ -182,7 +187,8 @@ If deploying an **older** final release than the latest, check out the tag for t
   $ bosh deployment cf-mysql-aws.yml && bosh deploy
   ```
 
-#### Deployment Manifest Properties<a name="manifest-properties"></a>
+<a name="manifest-properties"></a>
+#### Deployment Manifest Properties
 
 Manifest properties are described in the `spec` file for each job; see [jobs](jobs).
 
@@ -190,7 +196,8 @@ You can find your director_uuid by running `bosh status`.
 
 The MariaDB cluster nodes are configured by default with 100GB of persistent disk. This can be configured in your stub or manifest using `jobs.mysql.persistent_disk`, however your deployment will fail if this is less than 3GB; we recommend allocating 10GB at a minimum.
 
-## Register the Service Broker<a name="register_broker"></a>
+<a name="register_broker"></a>
+## Register the Service Broker
 
 ### BOSH errand
 
@@ -218,7 +225,8 @@ Note: the broker-registrar errand will fail if the broker has already been regis
 
 2. Then [make the service plan public](http://docs.cloudfoundry.org/services/managing-service-brokers.html#make-plans-public).
 
-## Smoke & Acceptance Tests<a name="tests"></a>
+<a name="tests"></a>
+## Smoke & Acceptance Tests
 
 The MySQL Release contains an "acceptance-tests" job which can be deployed as a bosh errand. The errand can then be run to verify the deployment.
 
@@ -293,7 +301,8 @@ Since [cf-release](https://github.com/cloudfoundry/cf-release) v175, application
 
 Changes are only applied to new application containers; in order for an existing app to receive security group changes it must be restarted.
 
-## De-register the Service Broker<a name="deregister_broker"></a>
+<a name="deregister_broker"></a>
+## De-register the Service Broker
 
 The following commands are destructive and are intended to be run in conjuction with deleting your BOSH deployment.
 
@@ -316,7 +325,8 @@ $ cf purge-service-offering p-mysql
 $ cf delete-service-broker p-mysql
 ```
 
-## Dashboard<a name="dashboard"></a>
+<a name="dashboard"></a>
+## Dashboard
 
 A user-facing service dashboard is provided by the service broker that displays storage utilization information for each service instance. The dashboard is accessible by users via Single Sign-On (SSO) once authenticated with Cloud Foundry.
 
