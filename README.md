@@ -218,19 +218,26 @@ Note: the broker-registrar errand will fail if the broker has already been regis
 
 2. Then [make the service plan public](http://docs.cloudfoundry.org/services/managing-service-brokers.html#make-plans-public).
 
-## Acceptance Tests<a name="acceptance_tests"></a>
+## Smoke & Acceptance Tests<a name="tests"></a>
 
-To run the MySQL Release Acceptance tests, you will need:
+The MySQL Release contains an "acceptance-tests" job which can be deployed as a bosh errand. The errand can then be run to verify the deployment.
+
+A deployment manifest [generated with the provided spiff templates](#create_manifest) will include such an errand.
+
+This errand can be configured to run either the smoke tests (default) or the acceptance tests.
+
+### Smoke Tests<a name="smoke_tests">
+
+The smoke tests are a subset of the acceptance tests, useful for verifying a deployment.
+
+To run the MySQL Release Smoke tests, you will need:
+
 - a running CF instance
 - credentials for a CF Admin user
 - a deployed MySQL Release with the broker registered and the plan made public
-- an environment variable `$CONFIG` which points to a `.json` file that contains the application domain
 
-### BOSH errand
+The following properties must be included in the deployment manifest (most will be there by default):
 
-BOSH errands were introduced in version 2366 of the BOSH CLI, BOSH Director, and stemcells.
-
-The following properties must be included in the manifest (most will be there by default):
 - cf.api_url:
 - cf.admin_username:
 - cf.admin_password:
@@ -241,71 +248,25 @@ The following properties must be included in the manifest (most will be there by
 - service.plans:
 
 The service.plans array must include the following properties for each plan:
+
 - plan_name:
 - max_storage_mb:
 
 To customize the following values add them to the manifest:
+
 - mysql.max_user_connections: (default: 40)
 
-To run the errand:
+To run the smoke tests via bosh errand:
 
 ```
 $ bosh run errand acceptance-tests
 ```
 
-### Manually
+### Acceptance Tests
 
-1. Install **Go** by following the directions found [here](http://golang.org/doc/install)
-2. `cd` into `cf-mysql-release/src/acceptance-tests/`
-3. Update `cf-mysql-release/src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/integration_config.json`
+The acceptance tests are for developers to validate changes to the MySQL Release.
 
-    The following commands provide a shortcut to configuring `integration_config.json` with values for a [bosh-lite](https://github.com/cloudfoundry/bosh-lite)
-deployment. Copy and paste this into your terminal, then open the resulting `integration_config.json` in an editor to replace values as appropriate for your environment.
-
-  ```bash
-  cat > integration_config.json <<EOF
-  {
-    "api": "http://api.10.244.0.34.xip.io",
-    "apps_domain": "10.244.0.34.xip.io",
-    "admin_user": "admin",
-    "admin_password": "admin",
-    "broker_host": "p-mysql.10.244.0.34.xip.io",
-    "service_name": "p-mysql",
-    "plans" : [
-      {
-        "plan_name": "100mb",
-        "max_user_connections": 20,
-        "max_storage_mb": 10
-      },
-      {
-        "plan_name": "1gb",
-        "max_user_connections": 40,
-        "max_storage_mb": 20
-      }
-    ],
-    "skip_ssl_validation": true,
-    "timeout_scale": 1.0,
-    "include_dashboard_tests": false,
-    "include_failover_tests": false,
-    "proxy": {
-      "external_host":"p-mysql.10.244.0.34.xip.io",
-      "api_username":"username",
-      "api_password":"password"
-    }
-  }
-  EOF
-  export CONFIG=$PWD/integration_config.json
-  ```
-
-  When `skip_ssl_validation: true`, commands run by the tests will accept self-signed certificates from Cloud Foundry. This option requires v6.0.2 or newer of the CLI.
-
-  All timeouts in the test suite can be scaled proportionally by changing the `timeout_scale` factor.
-
-4. Run  the tests
-
-  ```
-  $ ./bin/test
-  ```
+For details on running the acceptance tests see the [Acceptance Tests docs](docs/acceptance-tests.md).
 
 ## Security Groups
 
