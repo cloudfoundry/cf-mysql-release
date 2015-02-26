@@ -195,6 +195,7 @@ jobs:
     networks:
     - name: services1
     properties:
+      smoke_tests_only: (( merge || true ))
       proxy:
         external_host: (( jobs.proxy.properties.external_host ))
         api_username: (( jobs.proxy.properties.proxy.api_username ))
