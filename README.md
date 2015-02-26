@@ -86,11 +86,13 @@ For release notes and known issues, see [the release wiki](https://github.com/cl
 
 After installation, the MySQL service will be visible in the Services Marketplace; using the [CLI](https://github.com/cloudfoundry/cli), run `cf marketplace`.
 
-### Upload Stemcell<a name="upload_stemcell"></a>
+<a name="upload_stemcell"></a>
+### Upload Stemcell
 
 The latest final release expects the Ubuntu Trusty (14.04) go_agent stemcell version 2831 by default. Older stemcells are not recommended. Stemcells can be downloaded from http://bosh.io/stemcells; choose the appropriate stemcell for your infrastructure ([vsphere esxi](https://d26ekeud912fhb.cloudfront.net/bosh-stemcell/aws/light-bosh-stemcell-2831-aws-xen-hvm-ubuntu-trusty-go_agent.tgz) or [aws hvm](https://d26ekeud912fhb.cloudfront.net/bosh-stemcell/aws/light-bosh-stemcell-2831-aws-xen-hvm-ubuntu-trusty-go_agent.tgz)).
 
-### Upload Release<a name="upload_release"></a>
+<a name="upload_release"></a>
+### Upload Release
 
 You can use a pre-built final release or build a dev release from any of the branches described in <a href="#branches">Getting the Code</a>.
 
@@ -234,7 +236,8 @@ A deployment manifest [generated with the provided spiff templates](#create_mani
 
 This errand can be configured to run either the smoke tests (default) or the acceptance tests.
 
-### Smoke Tests<a name="smoke_tests">
+<a name="smoke_tests"></a>
+### Smoke Tests
 
 The smoke tests are a subset of the acceptance tests, useful for verifying a deployment.
 
