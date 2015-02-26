@@ -241,6 +241,9 @@ This errand can be configured to run either the smoke tests (default) or the acc
 
 The smoke tests are a subset of the acceptance tests, useful for verifying a deployment.
 
+<a name="smoke_tests_properties"></a>
+#### Manifest Properties
+
 To run the MySQL Release Smoke tests, you will need:
 
 - a running CF instance
@@ -266,6 +269,8 @@ The service.plans array must include the following properties for each plan:
 To customize the following values add them to the manifest:
 
 - mysql.max_user_connections: (default: 40)
+
+#### Errand
 
 To run the smoke tests via bosh errand:
 
