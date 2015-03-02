@@ -29,10 +29,11 @@ cat > integration_config.json <<EOF
   "include_dashboard_tests": <%= p('include_dashboard_tests') %>,
   "include_failover_tests": <%= p('include_failover_tests') %>,
   "proxy": {
-    "external_host":"<%= p('proxy.external_host') %>",
-    "api_username":"<%= p('proxy.api_username') %>",
-    "api_password":"<%= p('proxy.api_password') %>"
+    "external_host": "<%= p('proxy.external_host') %>",
+    "api_username": "<%= p('proxy.api_username') %>",
+    "api_password": "<%= p('proxy.api_password') %>"
   },
+  "timeout_scale": <%= p('timeout_scale') %>,
 EOF
 
 # don't expose passwords

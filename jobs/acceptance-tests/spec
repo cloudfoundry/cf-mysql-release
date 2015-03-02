@@ -47,4 +47,6 @@ properties:
     description: 'Proxy API username'
   proxy.api_password:
     description: 'Proxy API password'
-
+  timeout_scale:
+    description: 'scaling multiplier used to determine command timeouts'
+    default: 1
