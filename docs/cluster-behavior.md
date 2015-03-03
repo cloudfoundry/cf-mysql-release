@@ -12,8 +12,8 @@ Documented here are scenarios in which the size of a cluster may change, how the
 
 ### Rejoining the cluster (existing nodes)
 - Existing nodes restarted with monit should automatically join the cluster.
-- If an existing node fails to join the cluster, it may be because its transaction records (`seqno`) are considerably out of sync with the cluster quorum. 
-  - If the node is out of sync, it should be apparent from the error log in `/var/vcap/sys/log/mysql/mysql.err.log`. 
+- If an existing node fails to join the cluster, it may be because its transaction records (`seqno`) are considerably out of sync with the cluster quorum.
+  - If the node is out of sync, it should be apparent from the error log in `/var/vcap/sys/log/mysql/mysql.err.log`.
   - If the running cluster has a lower transaction record number than the failing node, it might be desirable to shut down the cluster and bootstrap from the node with the most transaction records. See the [bootstraping docs](bootstrapping.md) for more details.
   - Manual recovery may be possible, but is error-prone and involves dumping transactions and applying them to the running cluster (out of scope for this doc).
   - Abandoning the data is also an option, if you're ok with losing the desynced transactions. Follow the following steps to abandon the data:
@@ -22,11 +22,11 @@ Documented here are scenarios in which the size of a cluster may change, how the
     - Restarting the node with `monit start mariadb_ctrl`.
 
 ### Quorum
-  - In order for the cluster to continue accepting requests, a quorum must be reached by peer-to-peer communication. At least half of the nodes must be responsive to each other to maintain a quorum.
+  - In order for the cluster to continue accepting requests, a quorum must be reached by peer-to-peer communication. More than half of the nodes must be responsive to each other to maintain a quorum.
   - If more than half of the nodes are unresponsive for a period of time the nodes will stop responding to queries, the cluster will fail, and bootstrapping will be required to re-enable functionality.
 
 ### Avoid an even number of nodes
-  - It is generally recommended to avoid an even number of nodes, because it can lead to two quorums being established, each with exactly half the nodes. 
+  - It is generally recommended to avoid an even number of nodes. This is because a partition could cause the entire cluster to lose quorum, as neither remaining component has more than half of the total nodes.
 
 ### Unresponsive node(s)
   - A node can become unresponsive for a number of reasons:
@@ -34,7 +34,7 @@ Documented here are scenarios in which the size of a cluster may change, how the
     - mysql process failure
     - firewall rule changes
     - vm failure
-  - Unresponsive nodes will stop responding to queries and, after timeout, leave the cluster. 
+  - Unresponsive nodes will stop responding to queries and, after timeout, leave the cluster.
   - Nodes will be marked as unresponsive (innactive) either:
     - If they fail to respond to one node within 15 seconds
     - OR If they fail to respond to all other nodes within 5 seconds
@@ -43,7 +43,7 @@ Documented here are scenarios in which the size of a cluster may change, how the
   - If deployed using a proxy, a continually inactive node will cause the proxy to fail over, selecting a different mysql node to route new queries to.
 
 ### Re-bootstrapping the cluster after quorum is lost
-  - The start script will currently bootstrap node 0 only on initial deploy. Re-bootstrapping requires a manually inducing bootstrap. For more information on manually bootstrapping a cluster, see [Bootstrapping Galera](bootstrapping.md).
+  - The start script will currently bootstrap node 0 only on initial deploy. If the cluster fails or all nodes are shut down, bootstrapping must be done manually. For more information on manually bootstrapping a cluster, see [Bootstrapping Galera](bootstrapping.md).
   - If the single node is bootstrapped, it will create a new one-node cluster that other nodes can join.
 
 ### Simulating node failure
