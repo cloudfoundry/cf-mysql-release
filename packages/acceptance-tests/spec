@@ -23,7 +23,6 @@ files:
   - github.com/sclevine/agouti/dsl/*.go # gosub
   - github.com/sclevine/agouti/matchers/*.go # gosub
   - github.com/onsi/gomega/gbytes/*.go # gosub
-  - github.com/onsi/gomega/gexec/*.go # gosub
   - github.com/onsi/ginkgo/config/*.go # gosub
   - github.com/onsi/ginkgo/ginkgo/convert/*.go # gosub
   - github.com/onsi/ginkgo/ginkgo/interrupthandler/*.go # gosub
@@ -45,6 +44,7 @@ files:
   - github.com/onsi/ginkgo/internal/testingtproxy/*.go # gosub
   - github.com/onsi/ginkgo/internal/writer/*.go # gosub
   - github.com/onsi/gomega/format/*.go # gosub
+  - github.com/onsi/gomega/gexec/*.go # gosub
   - github.com/onsi/gomega/internal/assertion/*.go # gosub
   - github.com/onsi/gomega/internal/asyncassertion/*.go # gosub
   - github.com/onsi/gomega/internal/testingtsupport/*.go # gosub
