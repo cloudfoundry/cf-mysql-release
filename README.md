@@ -228,20 +228,16 @@ Note: the broker-registrar errand will fail if the broker has already been regis
 2. Then [make the service plan public](http://docs.cloudfoundry.org/services/managing-service-brokers.html#make-plans-public).
 
 <a name="tests"></a>
-## Smoke & Acceptance Tests
+## Smoke Tests & Acceptance Tests
 
-The MySQL Release contains an "acceptance-tests" job which can be deployed as a bosh errand. The errand can then be run to verify the deployment.
+The smoke tests are a subset of the acceptance tests, useful for verifying a deployment. The acceptance tests are for developers to validate changes to the MySQL Release. These tests can be run manually or from a BOSH errand. For details on running these tests manually, see [Acceptance Tests](docs/acceptance-tests.md).
 
-A deployment manifest [generated with the provided spiff templates](#create_manifest) will include such an errand.
-
-This errand can be configured to run either the smoke tests (default) or the acceptance tests.
+The MySQL Release contains an "acceptance-tests" job which is deployed as a BOSH errand. The errand can then be run to verify the deployment. A deployment manifest [generated with the provided spiff templates](#create_manifest) will include this job. The errand can be configured to run either the smoke tests (default) or the acceptance tests.
 
 <a name="smoke_tests"></a>
 ### Running Smoke Tests via BOSH errand
 
-The smoke tests are a subset of the acceptance tests, useful for verifying a deployment.
-
-To run the MySQL Release Smoke tests, you will need:
+To run the MySQL Release Smoke tests you will need:
 
 - a running CF instance
 - credentials for a CF Admin user
@@ -272,12 +268,6 @@ To run the smoke tests via bosh errand:
 ```
 $ bosh run errand acceptance-tests
 ```
-
-### Acceptance Tests
-
-The acceptance tests are for developers to validate changes to the MySQL Release.
-
-For details on running the acceptance tests see the [Acceptance Tests docs](docs/acceptance-tests.md).
 
 ## Security Groups
 
