@@ -237,12 +237,9 @@ A deployment manifest [generated with the provided spiff templates](#create_mani
 This errand can be configured to run either the smoke tests (default) or the acceptance tests.
 
 <a name="smoke_tests"></a>
-### Smoke Tests
+### Running Smoke Tests via BOSH errand
 
 The smoke tests are a subset of the acceptance tests, useful for verifying a deployment.
-
-<a name="smoke_tests_properties"></a>
-#### Manifest Properties
 
 To run the MySQL Release Smoke tests, you will need:
 
@@ -250,27 +247,25 @@ To run the MySQL Release Smoke tests, you will need:
 - credentials for a CF Admin user
 - a deployed MySQL Release with the broker registered and the plan made public
 
-The following properties must be included in the deployment manifest (most will be there by default):
+The following properties must be included in the deployment manifest under the `acceptance-tests` job (most will be there by default):
 
-- cf.api_url:
-- cf.admin_username:
-- cf.admin_password:
-- cf.apps_domain:
-- cf.skip_ssl_validation:
-- broker.host:
-- service.name:
-- service.plans:
+- `cf.api_url`
+- `cf.admin_username`
+- `cf.admin_password`
+- `cf.apps_domain`
+- `cf.skip_ssl_validation`
+- `broker.host`
+- `service.name`
+- `service.plans`
 
-The service.plans array must include the following properties for each plan:
+The `service.plans` array must include the following properties for each plan:
 
-- plan_name:
-- max_storage_mb:
+- `plan_name`
+- `max_storage_mb`
 
-To customize the following values add them to the manifest:
+The following property is optional:
 
-- mysql.max_user_connections: (default: 40)
-
-#### Errand
+- `mysql.max_user_connections` (default: 40)
 
 To run the smoke tests via bosh errand:
 
