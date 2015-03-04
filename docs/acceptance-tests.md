@@ -12,15 +12,11 @@ To run the MySQL Release Acceptance tests, you will need:
 
 BOSH errands were introduced in version 2366 of the BOSH CLI, BOSH Director, and stemcells.
 
-#### Manifest Properties
-
-The acceptance tests requires the same deployment manifest properties as the [smoke tests](/README.md#smoke_tests_properties).
+The acceptance tests requires the same deployment manifest properties as the [smoke tests](/README.md#running-smoke-tests-via-bosh-errand).
 
 By default, the acceptance-tests errand only runs the smoke tests. To enable the full acceptance test suite, set the following property:
 
-- smoke_tests_only: false
-
-#### Errand
+- `smoke_tests_only: false`
 
 To run the acceptance tests via bosh errand:
 
