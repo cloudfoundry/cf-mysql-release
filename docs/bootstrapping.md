@@ -1,13 +1,14 @@
 # Bootstrapping a Galera Cluster
 
-Bootstrapping is the process of (re)starting a Galera cluster.  
+Bootstrapping is the process of (re)starting a Galera cluster. Before evaluating whether manual bootstrapping is necessary, ensure the nodes are able to communicate with each other i.e. there are no network partitions. Once network partitions have been resolved, reevaluate the cluster state.
 
 ## When to Bootstrap
 
-- Manual bootstrapping should only be required if all nodes have died. The cluster is bootstrapped automatically the first time the cluster is deployed. 
+
+- Manual bootstrapping should only be required if all nodes have died. The cluster is bootstrapped automatically the first time the cluster is deployed.
 - Nodes that are no longer a part of the quorum will report `Non-Primary` when queried with `SHOW VARIABLES LIKE 'wsrep_cluster_status'`. See [Determining Cluster State](cluster-state.md) for more information.
 - Cluster failure will occur if the cluster loses quorum (less than half of the nodes can communicate with each other). Once quorum is lost, the nodes will stop responding to write queries.  See [Cluster Behavior](cluster-behavior.md) for more details.
-- Once lost, quorum can only be regained via bootstrapping. Even if monit restarts the node processes or the vms are recreated by bosh, the nodes will not become responsive until the cluster is manually repaired.
+- If the cluster does not have quorum and the network is healthy, then manual is necessary.
 
 ## Bootstrapping
 
@@ -22,28 +23,28 @@ Bootstrapping is the process of (re)starting a Galera cluster.
 1. Choose a node to bootstrap.
 
     Find the node with the highest transaction sequence number (seqno):
-    
-    - If a node shutdown gracefully, the seqno should be in the galera state file. 
-        
+
+    - If a node shutdown gracefully, the seqno should be in the galera state file.
+
         ```sh
         $ cat /var/vcap/store/mysql/grastate.dat | grep 'seqno:'
         ```
-        
-    - If the node crashed or was killed, the seqno in the galera state file should be `-1`. In this case, the seqno may be recoverable from the database. The following command will cause the database to start up, log the recovered sequence number, and then exit. 
-        
+
+    - If the node crashed or was killed, the seqno in the galera state file should be `-1`. In this case, the seqno may be recoverable from the database. The following command will cause the database to start up, log the recovered sequence number, and then exit.
+
         ```sh
         $ /var/vcap/packages/mariadb/bin/mysqld --wsrep-recover
         ```
-        
+
         Scan the error log for the recovered sequence number (the last number after the group id (uuid) is the recovered seqno):
-        
+
         ```sh
         $ grep "Recovered position" /var/vcap/sys/log/mysql/mysql.err.log | tail -1
         150225 18:09:42 mysqld_safe WSREP: Recovered position e93955c7-b797-11e4-9faa-9a6f0b73eb46:15
         ```
-        
+
         Note: The galera state file will still say `seqno: -1` afterward.
-        
+
     - If the node never connected to the cluster before crashing, it may not even have a group id (uuid in grastate.dat). In this case there's nothing to recover. Unless all nodes crashed this way, don't choose this node for bootstrapping.
 
     Use the node with the highest `seqno` value as the new bootstrap node. If all nodes have the same `seqno`, you can choose any node as the new bootstrap node.
