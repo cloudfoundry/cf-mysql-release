@@ -12,11 +12,11 @@ Documented here are scenarios in which the size of a cluster may change, how the
 
 ### Rejoining the cluster (existing nodes)
 - Existing nodes restarted with monit should automatically join the cluster.
-- If an existing node fails to join the cluster, it may be because its transaction records (`seqno`) are considerably out of sync with the cluster quorum.
-  - If the node is out of sync, it should be apparent from the error log in `/var/vcap/sys/log/mysql/mysql.err.log`.
-  - If the running cluster has a lower transaction record number than the failing node, it might be desirable to shut down the cluster and bootstrap from the node with the most transaction records. See the [bootstraping docs](bootstrapping.md) for more details.
+- If an existing node fails to join the cluster, it may be because its transaction records (`seqno`) is newer than the nodes in the cluster with quorum (aka the primary component).
+  - If the node has a newer `seqno` it will be apparent in the error log `/var/vcap/sys/log/mysql/mysql.err.log`.
+  - If the healthy nodes of a cluster have a lower transaction record number than the failing node, it might be desirable to shut down the healthy nodes and bootstrap from the node with the more recent transaction record number. See the [bootstraping docs](bootstrapping.md) for more details.
   - Manual recovery may be possible, but is error-prone and involves dumping transactions and applying them to the running cluster (out of scope for this doc).
-  - Abandoning the data is also an option, if you're ok with losing the desynced transactions. Follow the following steps to abandon the data:
+  - Abandoning the data is also an option, if you're ok with losing the unsynced transactions. Follow the following steps to abandon the data:
     - Stop the process with `monit stop mariadb_ctrl`.
     - Delete the galera state (`/var/vcap/store/mysql/grastate.dat`) and cache (`/var/vcap/store/mysql/galera.cache`) files from the persistent disk.
     - Restarting the node with `monit start mariadb_ctrl`.
