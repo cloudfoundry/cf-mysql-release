@@ -30,7 +30,7 @@ properties:
   proxy.api_password:
     description: "Password for Basic Auth used to secure API"
   external_host:
-    description: 'Host to register a route via NATS (with the router in cf-release)'
+    description: 'Domain of the route registered for the UI via NATS (with the router in cf-release)'
   nats.user:
     description: 'Username to register a route via NATS'
   nats.password:
