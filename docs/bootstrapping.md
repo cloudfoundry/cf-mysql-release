@@ -8,7 +8,7 @@ Bootstrapping is the process of (re)starting a Galera cluster. Before evaluating
 - Manual bootstrapping should only be required if all nodes have died. The cluster is bootstrapped automatically the first time the cluster is deployed.
 - Nodes that are no longer a part of the quorum will report `Non-Primary` when queried with `SHOW VARIABLES LIKE 'wsrep_cluster_status'`. See [Determining Cluster State](cluster-state.md) for more information.
 - Cluster failure will occur if the cluster loses quorum (less than half of the nodes can communicate with each other). Once quorum is lost, the nodes will stop responding to write queries.  See [Cluster Behavior](cluster-behavior.md) for more details.
-- If the cluster does not have quorum and the network is healthy, then manual is necessary.
+- If the cluster does not have quorum and the network is healthy (partitioning or latency are not to blame), then manual bootstrapping is necessary.
 
 ## Bootstrapping
 
