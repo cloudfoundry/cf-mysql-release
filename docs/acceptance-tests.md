@@ -6,7 +6,6 @@ To run the MySQL Release Acceptance tests, you will need:
 - a running CF instance
 - credentials for a CF Admin user
 - a deployed MySQL Release with the broker registered and the plan made public
-- an environment variable `$CONFIG` which points to a `.json` file that contains the application domain
 
 ### BOSH errand
 
@@ -14,7 +13,7 @@ BOSH errands were introduced in version 2366 of the BOSH CLI, BOSH Director, and
 
 The acceptance tests requires the same deployment manifest properties as the [smoke tests](/README.md#running-smoke-tests-via-bosh-errand).
 
-By default, the acceptance-tests errand only runs the smoke tests. To enable the full acceptance test suite, set the following property:
+By default, the acceptance-tests errand only runs the smoke tests. To enable the full acceptance test suite, set the following property in the BOSH manifest:
 
 - `smoke_tests_only: false`
 
@@ -26,19 +25,25 @@ $ bosh run errand acceptance-tests
 
 ### Manually
 
-The acceptance tests can also be run manually.
-
-Reasons to run tests manually:
-
-1. Output will be streamed (bosh errand output is printed all at once when they finish running)
+The acceptance tests can also be run manually. An advantage to doing this is that output will be streamed in real-time (bosh errand output is printed all at once when they finish running).
 
 Instructions:
 
 1. Install **Go** by following the directions found [here](http://golang.org/doc/install)
-2. `cd` into `cf-mysql-release/src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/`
-3. Create file `integration_config.json`
+1. Export the environment variable `$GOPATH` set to the `cf-mysql-release` directory to manage Golang dependencies. For more information, see [here](https://github.com/cloudfoundry/cf-mysql-release/tree/release-candidate#development).
+1. Change to the acceptance-tests directory:
 
-    The following commands provide a shortcut to configuring `integration_config.json` with values for a [bosh-lite](https://github.com/cloudfoundry/bosh-lite)
+    ```
+    $ cd cf-mysql-release/src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/
+    ```
+
+1. Install [Ginkgo](http://onsi.github.io/ginkgo/):
+
+    ```
+    $ go get github.com/onsi/ginkgo/ginkgo
+    ```
+
+1. Configure the tests by creating `integration_config.json` and setting the environment variable `$CONFIG` to point to it. The following commands provide a shortcut to configuring `integration_config.json` with values for a [bosh-lite](https://github.com/cloudfoundry/bosh-lite)
 deployment. Copy and paste this into your terminal, then open the resulting `integration_config.json` in an editor to replace values as appropriate for your environment.
 
   ```bash
