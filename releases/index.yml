@@ -32,4 +32,6 @@ builds:
     version: '15'
   f02e5c59-55f4-4655-ac0c-f51bcd8f6b97:
     version: '16'
+  0a13aa4c-fc3a-4907-bcbc-27734554d962:
+    version: '17'
 format-version: '2'
