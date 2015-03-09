@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -ex
+
+MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# This script assumes that it lives two directories below the release directory.
+RELEASE_DIR="$( cd $MY_DIR/../.. && pwd )"
+
+$MY_DIR/with_docker_cleanup docker run --privileged \
+  -v $RELEASE_DIR:/workspace/cf-mysql-release \
+  -w "/workspace/cf-mysql-release" \
+  cloudfoundry/cf-mysql-ci $@
