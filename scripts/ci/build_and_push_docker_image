@@ -4,8 +4,6 @@ set -ex
 
 MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-set -u
-
 docker login \
   -e $DOCKERHUB_EMAIL \
   -p $DOCKERHUB_PASSWORD \
