@@ -54,6 +54,7 @@ jobs:
     auth_username: A_USERNAME_YOU_MAKE_UP #eg. cc
     auth_password: A_PASSWORD_YOU_MAKE_UP
     cc_api_uri: (( .properties.cf.api_url ))
+    skip_ssl_validation: (( .properties.cf.skip_ssl_validation ))
     cookie_secret: A_PASSWORD_YOU_MAKE_UP
     services:
     - name: p-mysql
