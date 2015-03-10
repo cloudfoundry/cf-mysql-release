@@ -18,7 +18,7 @@ RUN curl https://codeload.github.com/postmodern/ruby-install/tar.gz/v0.5.0 | tar
           make install
 
 # Install Ruby
-RUN ruby-install ruby 2.2.0
+RUN ruby-install ruby 2.2.0 -- --disable-install-rdoc
 
 # Add ruby to PATH
 ENV PATH $PATH:/home/root/.gem/ruby/2.2.0/bin:/opt/rubies/ruby-2.2.0/lib/ruby/gems/2.2.0/bin:/opt/rubies/ruby-2.2.0/bin
