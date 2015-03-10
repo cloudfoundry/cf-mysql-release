@@ -21,7 +21,7 @@ RUN curl https://codeload.github.com/postmodern/ruby-install/tar.gz/v0.5.0 | tar
 RUN ruby-install ruby 2.2.0
 
 # Add ruby to PATH
-ENV PATH=$PATH:/home/root/.gem/ruby/2.2.0/bin:/opt/rubies/ruby-2.2.0/lib/ruby/gems/2.2.0/bin:/opt/rubies/ruby-2.2.0/bin
+ENV PATH $PATH:/home/root/.gem/ruby/2.2.0/bin:/opt/rubies/ruby-2.2.0/lib/ruby/gems/2.2.0/bin:/opt/rubies/ruby-2.2.0/bin
 
 # Install gems
 RUN /opt/rubies/ruby-2.2.0/bin/gem install bosh_cli --no-rdoc --no-ri && \
@@ -34,7 +34,8 @@ RUN curl http://go-cli.s3-website-us-east-1.amazonaws.com/releases/v6.10.0/cf-li
 RUN curl https://storage.googleapis.com/golang/go1.4.2.linux-amd64.tar.gz | tar xvz -C /usr/local/
 
 # Add golang environment variables
-ENV GOPATH=/root/go PATH=$PATH:/usr/local/go/bin:/root/go/bin
+ENV GOPATH /root/go
+ENV PATH $PATH:/usr/local/go/bin:/root/go/bin
 
 # Create GOPATH
 RUN mkdir -p $GOPATH
