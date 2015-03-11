@@ -2,7 +2,7 @@ sudo: false
 language: go
 
 go:
-  - 1.4.1
+  - 1.4.2
 
 before_install:
   - export GOPATH=$PWD

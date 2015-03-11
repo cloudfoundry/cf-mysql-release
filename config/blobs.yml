@@ -87,11 +87,11 @@ ruby/ruby-2.1.5.tar.gz:
   object_id: fe2793ce-982c-4934-8e72-144236f2824b
   sha: 9c0a238bd7839a4b51871641945a3da90997b8c2
   size: 15127433
-golang/go1.4.1.linux-amd64.tar.gz:
-  object_id: 4253aec7-a6bf-48b6-9570-b4eaffcdd7d8
-  sha: 3e871200e13c0b059b14866d428910de0a4c51ed
-  size: 62402109
 mariadb/mariadb-galera-10.0.16.tar.gz:
   object_id: 5f58a054-7b9e-4b5f-9b3e-a79406b9fb01
   sha: 2782d493f3a3210caf2ed76fdac38bf81734c43c
   size: 55886236
+golang/go1.4.2.linux-amd64.tar.gz:
+  object_id: 2f024dbf-1a20-4bec-a62a-adaf5e202459
+  sha: 5020af94b52b65cc9b6f11d50a67e4bae07b0aff
+  size: 62442704

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -ex
+
+MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+docker login \
+  -e $DOCKERHUB_EMAIL \
+  -p $DOCKERHUB_PASSWORD \
+  -u $DOCKERHUB_USERNAME
+
+pushd $MY_DIR
+  docker build -t cloudfoundry/cf-mysql-ci .
+  docker push cloudfoundry/cf-mysql-ci
+popd
