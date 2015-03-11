@@ -4,11 +4,12 @@ networks:
   - name: services1
     type: manual
     subnets:
-      - range: 10.10.32.0/20
+      - range: 10.10.32.0/24
         reserved:
           - 10.10.32.2 - 10.10.32.9
+          - 10.10.32.130 - 10.10.32.254
         static:
-          - 10.10.32.10 - 10.10.32.255
+          - 10.10.32.10 - 10.10.32.25
         gateway: 10.10.32.1
         dns:
           - 10.10.0.2 # amazon has only 1 DNS server for the whole VPC at x.x.0.2
@@ -21,7 +22,7 @@ properties:
     admin_username: YOUR_CF_ADMIN_USERNAME
     admin_password: YOUR_CF_ADMIN_PASSWORD
     skip_ssl_validation: false
-    api_url: YOUR_CF_API_URI
+    api_url: https://api.YOUR_CF_SYSTEM_DOMAIN  # full uri to the CF API (Cloud Controller), including scheme
 
   template_only:
     aws:

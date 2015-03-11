@@ -23,7 +23,7 @@ networks:
 
 properties:
   cf:
-    api_url: https://api.YOUR_CF_SYSTEM_DOMAIN
+    api_url: https://api.YOUR_CF_SYSTEM_DOMAIN # full uri to the CF API (Cloud Controller), including scheme
     admin_username: YOUR_CF_ADMIN_USERNAME
     admin_password: YOUR_CF_ADMIN_PASSWORD
     skip_ssl_validation: true
