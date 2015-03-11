@@ -67,9 +67,7 @@ jobs:
     properties:
       <<: (( merge || nil ))
       proxy:
-        port: (( merge || 3306 ))
-        healthcheck_timeout_millis: (( merge || 5000 ))
-        api_port: (( merge || 80 ))
+        <<: (( merge || nil ))
         api_username: (( merge ))
         api_password: (( merge ))
       cluster_ips: (( jobs.mysql.properties.cluster_ips ))

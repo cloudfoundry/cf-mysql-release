@@ -29,6 +29,9 @@ properties:
     description: "Username for Basic Auth used to secure API"
   proxy.api_password:
     description: "Password for Basic Auth used to secure API"
+  proxy.health_port:
+    description: "Port for checking the health of the proxy process"
+    default: 1936
   external_host:
     description: 'Domain of the route registered for the UI via NATS (with the router in cf-release)'
   nats.user:

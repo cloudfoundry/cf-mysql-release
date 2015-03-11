@@ -98,7 +98,7 @@ Bound applications are provided with a hostname or IP address to reach a databas
 
 #### Configuring load balancer
 
-To load balance across the proxies, configure the load balancer with each of the proxy IPs, and direct traffic to port 3306. To use a health checker or monitor to test the health of each proxy, configure your load balancer to try TCP against the proxy API port (default is 80).
+To load balance across the proxies, configure the load balancer with each of the proxy IPs, and direct MySQL TCP traffic to port 3306. To use a health checker or monitor to test the health of each proxy, configure your load balancer to try TCP against the proxy health port (default is 1936).
 
 
 #### Configuring cf-mysql-release to use load balancer

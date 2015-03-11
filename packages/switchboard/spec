@@ -13,6 +13,7 @@ files:
   - github.com/cloudfoundry-incubator/switchboard/domain/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/domain/fakes/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/dummies/*.go # gosub
+  - github.com/cloudfoundry-incubator/switchboard/health/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/proxy/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
   - github.com/fraenkel/candiedyaml/*.go # gosub
