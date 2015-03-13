@@ -49,7 +49,7 @@ you if you have [direnv](http://direnv.net) installed.
     # fetch release repo
     mkdir -p ~/workspace
     cd ~/workspace
-    git clone https://github.com/cloudfoundry-incubator/cf-mysql-release.git
+    git clone https://github.com/cloudfoundry/cf-mysql-release.git
     cd cf-mysql-release/
 
     # switch to develop branch (not master!)
