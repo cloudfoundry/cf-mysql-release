@@ -48,10 +48,8 @@ jobs:
     - name: services1
       static_ips: (( merge || static_ips(0, 1, 2) ))
     properties:
+      <<: (( merge || nil ))
       admin_password: (( merge ))
-      max_connections: 1500
-      proxy_ips:
-      - (( jobs.proxy.networks.services1.static_ips.[0] ))
       cluster_ips: (( jobs.mysql.networks.services1.static_ips ))
       seeded_databases: ~
       syslog_aggregator: (( meta.syslog_aggregator ))
@@ -83,6 +81,7 @@ jobs:
     networks:
     - name: services1
     properties:
+      <<: (( merge || nil ))
       max_user_connections_default: (( merge || 40 ))
       syslog_aggregator: (( meta.syslog_aggregator ))
       network_name: services1
@@ -90,8 +89,6 @@ jobs:
       auth_password: (( merge ))
       cookie_secret: (( merge ))
       external_host: (( "p-mysql." meta.external_domain ))
-      ssl_enabled: (( merge || true ))
-      skip_ssl_validation: (( merge || false ))
       cc_api_uri: (( merge ))
       nats: (( meta.nats ))
       networks:
@@ -193,17 +190,17 @@ jobs:
     networks:
     - name: services1
     properties:
-      smoke_tests_only: (( merge || true ))
+      <<: (( merge || nil ))
       proxy:
         external_host: (( jobs.proxy.properties.external_host ))
         api_username: (( jobs.proxy.properties.proxy.api_username ))
         api_password: (( jobs.proxy.properties.proxy.api_password ))
       cf:
+        <<: (( merge || nil ))
         api_url: (( jobs.cf-mysql-broker.properties.cc_api_uri ))
         admin_username: (( merge ))
         admin_password: (( merge ))
         apps_domain: (( meta.apps_domain ))
-        skip_ssl_validation: (( merge || false ))
       broker:
         host: (( jobs.cf-mysql-broker.properties.external_host ))
       service:
