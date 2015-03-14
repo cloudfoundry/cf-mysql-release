@@ -28,7 +28,7 @@ When a new node is added to the cluster it gets its state from an existing node 
 
 ### Connection handling for non-primary components ##
 
-If a cluster loses more than than half its nodes, the remaining nodes lose quorum and form a **non-primary component**. It is also possible an individual node to become non-primary if it is unable to connect to greater than half of the cluster due to a network partition. In all cases, there is a six second grace period during which the cluster acknowledges something is wrong and gives missing nodes a chance to rejoin.
+If a cluster loses more than half of its nodes, the remaining nodes lose quorum and form a **non-primary component**. It is also possible an individual node to become non-primary if it is unable to connect to greater than half of the cluster due to a network partition. In all cases, there is a six second grace period during which the cluster acknowledges something is wrong and gives missing nodes a chance to rejoin.
 
 During the grace period, existing connections are maintained and new connections can be established. Read requests are fulfilled but write requests are suspended (requests hang).
 
