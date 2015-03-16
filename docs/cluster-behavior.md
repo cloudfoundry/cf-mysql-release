@@ -1,6 +1,14 @@
 # Cluster scaling, node failure, and quorum
 
-Documented here are scenarios in which the size of a cluster may change, how the cluster behaves, and how to restore service function when impacted.
+Documented here are scenarios in which the size of a cluster may change, how the cluster behaves, and how to restore service function when impacted. [Galera Cluster](http://galeracluster.com) is used to manage the [MariaDB](https://mariadb.com/kb/en/mariadb/what-is-mariadb-galera-cluster/) cluster in our release.
+
+### Healthy Cluster
+
+Galera documentation refers to nodes in a healthy cluster as being part of a [primary component](http://galeracluster.com/documentation-webpages/glossary.html#term-primary-component). These nodes will respond normally to all queries, reads, writes and database modifications.
+
+If an individual node is unable to connect to the rest of the cluster (ex: network partition) it becomes non-primary (stops accepting writes and database modifications). In this case, the rest of the cluster should continue to function normally. A non-primary node may eventually regain connectivity and rejoin the primary component. 
+
+If more than half of the nodes in a cluster are no longer able to connect to each other, all of the remaining nodes lose quorum and become non-primary. In this case, the cluster must be manually restarted, as documented in the [bootstrapping docs](bootstrapping.md).
 
 ### Graceful removal of a node
   - Shutting down a node with monit (or decreasing cluster size by one) will cause the node to gracefully leave the cluster.
