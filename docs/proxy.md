@@ -6,7 +6,7 @@ In cf-mysql-release, [Switchboard](https://github.com/cloudfoundry-incubator/swi
 
 At any given time, Switchboard will only route to one active node. That node will continue to be the only active node until it becomes unhealthy. 
 
-If multiple Switchboard proxies are used in parallel (ex: behind a load-balancer) there is no guarantee that the proxies will choose the same active node. There is a small probability that multiple proxy instances will route connections to different nodes and violate the desired invariant that all connections are routed to the same MariaDB node. This is a known issue, and we are currently exploring methods to circumvent it. If this is a problem and using a single proxy node is unacceptable, a failover mechanism could be used instead to establish high availibility (provided the failover itself was highly available).
+If multiple Switchboard proxies are used in parallel (ex: behind a load-balancer) there is no guarantee that the proxies will choose the same active node. There is a small probability that multiple proxy instances will route connections to different nodes, which can cause race conditions on writes, leading to desycnhronized states and lost data. This is a known issue, with exploration of mitigation options on the roadmap. To completely avoid this problem, use a single proxy instance or an external failover system to switch between multiple switchboard instances.
 
 ## Node Health
 
