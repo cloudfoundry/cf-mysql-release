@@ -28,11 +28,15 @@ When a new node is added to the cluster it gets its state from an existing node 
 
 ### Connection handling for non-primary components ##
 
-If a cluster loses more than than half its nodes, the remaining nodes lose quorum and form a **non-primary component**. It is also possible an individual node to become non-primary if it is unable to connect to greater than half of the cluster due to a network partition. In all cases, there is a six second grace period during which the cluster acknowledges something is wrong and gives missing nodes a chance to rejoin.
+Galera documentation refers to nodes in a healthy cluster as being part of a [primary component](http://galeracluster.com/documentation-webpages/glossary.html#term-primary-component). These nodes will respond to all queries, reads, writes and database modifications.
 
-During the grace period, existing connections are maintained and new connections can be established. Read requests are fulfilled but write requests are suspended (requests hang).
+If an individual node is unable to connect to the rest of the cluster (ex: network partition) it becomes non-primary (stops accepting writes and database modifications). In this case, the rest of the cluster should continue to function noramlly. A non-primary node may eventually regain connectivity and rejoin the primary component. 
 
-Once the 6 second grace period expires, nodes found in a **primary component** will return to normal function, fulfilling write requests. Connections to nodes found in a **non-primary component** will be severed; new connections will routed to a healthy node.
+If more than half of the nodes in a cluster are no longer able to connect to each other, all of the remaining nodes lose quorum and become non-primary. In this case, the cluster must be manually restarted, as documented in the [bootstrapping docs](bootstrapping.md).
+
+In all cases, there is a 6 second grace period during which nodes in the cluster acknowledge something is wrong and give missing nodes a chance to rejoin. During the grace period, existing connections are maintained and new connections can be established. Read requests are fulfilled but write requests are suspended (requests hang).
+
+Once the 6 second grace period expires, nodes in the primary component will resume normal functionality, fulfilling write requests. The proxy will sever existing connections to any remaining non-primary nodes, and new connections will be routed to a healthy node.
 
 ## Removing the proxy as a SPOF
 
