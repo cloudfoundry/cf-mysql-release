@@ -1,42 +1,40 @@
 # Proxy
 
-## Connection Handling
+In cf-mysql-release, [Switchboard](https://github.com/cloudfoundry-incubator/switchboard) is used to proxy TCP connections to healthy MariaDB nodes.
 
-### All new connections are routed to the same node ##
+## Consistent Routing
 
-The current proxy implementation is [Switchboard](https://github.com/cloudfoundry-incubator/switchboard). It proxies TCP connections between the client and nodes of the MariaDB Galera Cluster. All connections will be routed to a single active node; when that node fails the proxy should fail over to a different node. The proxy is configured to behave in this manner out of the box.
+At any given time, Switchboard will only route to one active node. That node will continue to be the only active node until it becomes unhealthy. 
 
-It should be noted that in the current configuration, it is only guaranteed that a **single** proxy node will behave this way. When we deploy multiple proxy nodes, there is a small probability that multiple proxy instances will route connections to different nodes and violate the desired invariant that all connections are routed to the same MariaDB node. This is a known issue, and we are currently exploring methods to circumvent it.
+If multiple Switchboard proxies are used in parallel (ex: behind a load-balancer) there is no guarantee that the proxies will choose the same active node. There is a small probability that multiple proxy instances will route connections to different nodes and violate the desired invariant that all connections are routed to the same MariaDB node. This is a known issue, and we are currently exploring methods to circumvent it. If this is a problem and using a single proxy node is unacceptable, a failover mechanism could be used instead to establish high availibility (provided the failover itself was highly available).
 
-### Connection handling with Healthcheck
+## Node Health
 
-The proxy queries an HTTP healthcheck process, co-located on the database node, when determining where to route traffic. If the healthcheck process returns HTTP status code of 200, the node is considered healthy. In the case of failover, it will be considered as a candidate for new connections. If the healthcheck returns HTTP status code 503, the node is considered unhealthy. Clients with existing connections to a newly-unhealthy database node will find the connection severed, and are expected to make a reconnect attempt. At this point the proxy will route this new connection to a healthy node, assuming such a node exists.
+### Healthy
 
-### Connection handling on MariaDB failure ##
+The proxy queries an HTTP healthcheck process, co-located on the database node, when determining where to route traffic. 
 
-#### MariaDB process on a node dies ###
+If the healthcheck process returns HTTP status code of 200, the node is added to the pool of healthy nodes. 
 
-The node is removed from the pool of healthy nodes. Any existing connections are severed; all new connections (and reconnections) are routed to another healthy node.
+A resurrected node will not immediately receive connections. The proxy will continue to route all connections, new or existing, to the currently active node. In the case of failover, all healthy nodes will be considered as candidates for new connections. 
 
-#### A previously dead MariaDB node is resurrected ###
+### Unhealthy
 
-The resurrected node will not immediately receive connections, but is added to the pool of healthy nodes after it has reached a **synced** state. The proxy will continue to route all connections, new or existing, to the currently active node.
+If the healthcheck returns HTTP status code 503, the node is considered unhealthy. 
 
-### Connection handling during State Snapshot Transfer (SST)
+This happens when a node becomes non-primary, as specified by the [cluster-behavior docs](cluster-behavior.md).
 
-When a new node is added to the cluster it gets its state from an existing node via a process called SST. Because SST is performed by xtrabackup, the donor node continues to allow both reads and writes during this process.
+The proxy will sever all existing connections to newly unhealthy nodes. Clients are expected to handle reconnecting on connection failure. The proxy will route new connections to a healthy node, assuming such a node exists.
 
-### Connection handling for non-primary components ##
+### Unresponsive
 
-Galera documentation refers to nodes in a healthy cluster as being part of a [primary component](http://galeracluster.com/documentation-webpages/glossary.html#term-primary-component). These nodes will respond to all queries, reads, writes and database modifications.
+If node health cannot be determined due to an unreachable or unresponsive healthcheck endpoint, the proxy will consider the node unhealthy. This may happen if there is a network partition or if the VM containing the healthcheck and MariaDB node died.
 
-If an individual node is unable to connect to the rest of the cluster (ex: network partition) it becomes non-primary (stops accepting writes and database modifications). In this case, the rest of the cluster should continue to function noramlly. A non-primary node may eventually regain connectivity and rejoin the primary component. 
 
-If more than half of the nodes in a cluster are no longer able to connect to each other, all of the remaining nodes lose quorum and become non-primary. In this case, the cluster must be manually restarted, as documented in the [bootstrapping docs](bootstrapping.md).
+## State Snapshot Transfer (SST)
 
-In all cases, there is a 6 second grace period during which nodes in the cluster acknowledge something is wrong and give missing nodes a chance to rejoin. During the grace period, existing connections are maintained and new connections can be established. Read requests are fulfilled but write requests are suspended (requests hang).
+When a new node is added to the cluster or rejoins the cluster, it synchronizes state with the primary component via a process called SST. A single node from the primary component is chosen to act as a state donor. By default Galera uses rsync to perform SST, which blocks for the duration of the transfer. However, cf-mysql-release is configured to use [Xtrabackup](http://www.percona.com/doc/percona-xtrabackup), which allows the donor node to continue to accept reads and writes.
 
-Once the 6 second grace period expires, nodes in the primary component will resume normal functionality, fulfilling write requests. The proxy will sever existing connections to any remaining non-primary nodes, and new connections will be routed to a healthy node.
 
 ## Removing the proxy as a SPOF
 
