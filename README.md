@@ -227,6 +227,31 @@ Note: the broker-registrar errand will fail if the broker has already been regis
 
 2. Then [make the service plan public](http://docs.cloudfoundry.org/services/managing-service-brokers.html#make-plans-public).
 
+## Security Groups
+
+Since [cf-release](https://github.com/cloudfoundry/cf-release) v175, applications by default cannot to connect to IP addresses on the private network. This prevents applications from connecting to the MySQL service. To enable access to the service, create a new security group for the IP configured in your manifest for the property `jobs.mysql_broker.mysql_node.host`.
+
+1. Add the rule to a file in the following json format; multiple rules are supported.
+
+  ```
+  [
+      {
+        "destination": "10.244.1.18",
+        "protocol": "all"
+      }
+  ]
+  ```
+- Create a security group from the rule file.
+  <pre class="terminal">
+  $ cf create-security-group p-mysql rule.json
+  </pre>
+- Enable the rule for all apps
+  <pre class="terminal">
+  $ cf bind-running-security-group p-mysql
+  </pre>
+
+Changes are only applied to new application containers; in order for an existing app to receive security group changes it must be restarted.
+
 <a name="tests"></a>
 ## Smoke Tests & Acceptance Tests
 
@@ -269,30 +294,6 @@ To run the smoke tests via bosh errand:
 $ bosh run errand acceptance-tests
 ```
 
-## Security Groups
-
-Since [cf-release](https://github.com/cloudfoundry/cf-release) v175, applications by default cannot to connect to IP addresses on the private network. This prevents applications from connecting to the MySQL service. To enable access to the service, create a new security group for the IP configured in your manifest for the property `jobs.mysql_broker.mysql_node.host`.
-
-1. Add the rule to a file in the following json format; multiple rules are supported.
-
-  ```
-  [
-      {
-        "destination": "10.244.1.18",
-        "protocol": "all"
-      }
-  ]
-  ```
-- Create a security group from the rule file.
-  <pre class="terminal">
-  $ cf create-security-group p-mysql rule.json
-  </pre>
-- Enable the rule for all apps
-  <pre class="terminal">
-  $ cf bind-running-security-group p-mysql
-  </pre>
-
-Changes are only applied to new application containers; in order for an existing app to receive security group changes it must be restarted.
 
 <a name="deregister_broker"></a>
 ## De-register the Service Broker
