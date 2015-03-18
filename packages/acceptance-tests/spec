@@ -16,7 +16,6 @@ files:
   - github.com/cloudfoundry-incubator/cf-test-helpers/cf/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-test-helpers/generator/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-test-helpers/runner/*.go # gosub
-  - github.com/cloudfoundry-incubator/cf-test-helpers/services/context_setup/*.go # gosub
   - github.com/onsi/ginkgo/*.go # gosub
   - github.com/onsi/gomega/*.go # gosub
   - github.com/sclevine/agouti/core/*.go # gosub
@@ -34,6 +33,7 @@ files:
   - github.com/onsi/ginkgo/reporters/*.go # gosub
   - github.com/onsi/ginkgo/reporters/stenographer/*.go # gosub
   - github.com/onsi/ginkgo/types/*.go # gosub
+  - github.com/cloudfoundry-incubator/cf-test-helpers/services/*.go # gosub
   - github.com/onsi/ginkgo/internal/codelocation/*.go # gosub
   - github.com/onsi/ginkgo/internal/containernode/*.go # gosub
   - github.com/onsi/ginkgo/internal/failer/*.go # gosub
