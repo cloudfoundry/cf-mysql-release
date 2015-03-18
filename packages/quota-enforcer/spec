@@ -4,3 +4,7 @@ dependencies:
 - golang
 files:
 - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/*.go
+  - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/*.go # gosub
+  - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/database/*.go # gosub
+  - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/database/fakes/*.go # gosub
+  - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/enforcer/*.go # gosub
