@@ -15,10 +15,6 @@ ruby/yaml-0.1.5.tar.gz:
   object_id: da3ee2c1-11f0-4969-a37f-0298f8bf8987
   sha: 8b78cb9f759c7d80db8a7328c0ebecfe34fde737
   size: 504897
-cli/cf-darwin-amd64.tgz:
-  object_id: d1ba938a-f1fe-4ad0-8ae8-f7259af4d602
-  sha: 19df87677b92129f01e339e1f8f043831b6168d3
-  size: 3849482
 boost/boost_1_55_0.tar.gz:
   object_id: 52348346-ba79-41e1-9c71-74ee464570d6
   sha: 61ed0e57d3c7c8985805bb0682de3f4c65f4b6e5
@@ -79,10 +75,6 @@ ruby/ruby-2.1.4.tar.gz:
   object_id: 487424bc-4b2f-4474-8eb3-dfe8c62f57f2
   sha: 29e9cfdd9e989b7621d7696ef3f970262a08dbc3
   size: 15127418
-cli/cf-linux-amd64-6.7.0-c38c991.tgz:
-  object_id: b55f539b-1e42-49f8-b973-a9ba4bcc70d5
-  sha: 4e979e37bd1781f155970994d0949dbd7637bbfc
-  size: 4661436
 ruby/ruby-2.1.5.tar.gz:
   object_id: fe2793ce-982c-4934-8e72-144236f2824b
   sha: 9c0a238bd7839a4b51871641945a3da90997b8c2
@@ -95,3 +87,7 @@ golang/go1.4.2.linux-amd64.tar.gz:
   object_id: 2f024dbf-1a20-4bec-a62a-adaf5e202459
   sha: 5020af94b52b65cc9b6f11d50a67e4bae07b0aff
   size: 62442704
+cli/cf-linux-amd64-6.10.0.tgz:
+  object_id: adb9d3ea-3582-4ff3-a3b4-eab569915e16
+  sha: f845800310e4b702a39a2f1191e3d71862630103
+  size: 4803309
