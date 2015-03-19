@@ -22,3 +22,4 @@ bin/
 pkg/
 src/github.com/vito/gosub/
 src/github.com/codegangsta/cli/
+*.iml
