@@ -46,7 +46,15 @@ Bound applications are provided with a hostname or IP address to reach a databas
 
 ### Configuring load balancer
 
-Configure the load balancer to route traffic for port 3306 to the IPs of all proxy instances on port 3306. Configure a healthcheck to use TCP on port 1936. The port proxy instances listen for healthcheck is configurable with manifest property `properties.proxy.health_port` for the proxy job.
+Configure the load balancer to route traffic for TCP port 3306 to the IPs of all proxy instances on TCP port 3306. Next, configure the load balancer's healthcheck to use the proxy health port. This is TCP port 1936 by default to maintain backwards compatibility with previous releases, but this port can be configured by changing the following manifest property:
+
+```
+jobs:
+- name: proxy
+  properties:
+    proxy:
+      health_port: <port>
+```
 
 ### Configuring cf-mysql-release to give applications the address of the load balancer
 To ensure that bound applications will use the load balancer to reach bound databases, the manifest property `properties.mysql_node.host` must be updated for the cf-mysql-broker job:
@@ -76,7 +84,9 @@ Finally, update the manifest property `properties.mysql_node.host` for the cf-my
 
 ## API
 
-The proxy hosts a JSON API at `proxy-<bosh job index>.p-mysql.<system domain>:<api_port>/v0/`. By default, this API is available on port 80.
+The proxy hosts a JSON API at `proxy-<bosh job index>.p-mysql.<system domain>/v0/`.
+
+The API provides the following route:
 
 Request:
 *  Method: GET
@@ -112,3 +122,6 @@ Response:
 ]
 ```
 
+## Dashboard
+
+The proxy also provides a Dashboard UI to view the current status of the database nodes. This is hosted at `proxy-<bosh job index>.p-mysql.<system domain>`.
