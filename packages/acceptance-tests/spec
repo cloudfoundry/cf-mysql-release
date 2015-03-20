@@ -7,21 +7,23 @@ files:
   - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/bin/*
   - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/assets/**/*
   - github.com/onsi/ginkgo/ginkgo/*.go # gosub
+  - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/cf-mysql-service/broker/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/cf-mysql-service/dashboard/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/cf-mysql-service/failover/*.go # gosub
+  - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/cf-mysql-service/lifecycle/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/cf-mysql-service/proxy/*.go # gosub
-  - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/cf-mysql-service/service/*.go # gosub
+  - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/cf-mysql-service/quota/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/helpers/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/partition/*.go # gosub
-  - github.com/cloudfoundry-incubator/cf-test-helpers/cf/*.go # gosub
-  - github.com/cloudfoundry-incubator/cf-test-helpers/generator/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-test-helpers/runner/*.go # gosub
   - github.com/onsi/ginkgo/*.go # gosub
   - github.com/onsi/gomega/*.go # gosub
+  - github.com/onsi/gomega/gbytes/*.go # gosub
+  - github.com/cloudfoundry-incubator/cf-test-helpers/cf/*.go # gosub
+  - github.com/cloudfoundry-incubator/cf-test-helpers/generator/*.go # gosub
   - github.com/sclevine/agouti/core/*.go # gosub
   - github.com/sclevine/agouti/dsl/*.go # gosub
   - github.com/sclevine/agouti/matchers/*.go # gosub
-  - github.com/onsi/gomega/gbytes/*.go # gosub
   - github.com/onsi/ginkgo/config/*.go # gosub
   - github.com/onsi/ginkgo/ginkgo/convert/*.go # gosub
   - github.com/onsi/ginkgo/ginkgo/interrupthandler/*.go # gosub
