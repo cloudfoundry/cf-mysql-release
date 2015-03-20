@@ -49,19 +49,10 @@ export PATH=/var/vcap/packages/cli/bin:$GOPATH/bin:$GOROOT/bin:$PWD/bin:$PATH
 
 export CONFIG=$PWD/integration_config.json
 
-SMOKE_TEST_DIRECTORIES="./cf-mysql-service/proxy ./cf-mysql-service/broker ./cf-mysql-service/lifecycle" 
-DIRECTORIES=$SMOKE_TEST_DIRECTORIES
-
-<% if !p('smoke_tests_only') %>
-DIRECTORIES="$DIRECTORIES ./cf-mysql-service/quota"
+<% if p('smoke_tests_only') %>
+  bin/smoke-tests
+<% else %>
+  # Failover and Dashboard tests can not be run as an errand
+  export BLACKLIST_DIRS="cf-mysql-service/failover cf-mysql-service/dashboard"
+  bin/test
 <% end %>
-
-<% if p('include_failover_tests') %>
-DIRECTORIES="$DIRECTORIES ./cf-mysql-service/failover"
-<% end %>
-
-<% if p('include_dashboard_tests') %>
-DIRECTORIES="$DIRECTORIES ./cf-mysql-service/dashboard"
-<% end %>
-
-bin/test $DIRECTORIES

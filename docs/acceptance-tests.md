@@ -69,9 +69,6 @@ deployment. Copy and paste this into your terminal, then open the resulting `int
     ],
     "skip_ssl_validation": true,
     "timeout_scale": 1.0,
-    "smoke_tests_only": false,
-    "include_dashboard_tests": false,
-    "include_failover_tests": false,
     "proxy": {
       "external_host":"p-mysql.10.244.0.34.xip.io",
       "api_username":"username",
@@ -86,10 +83,15 @@ deployment. Copy and paste this into your terminal, then open the resulting `int
 
   All timeouts in the test suite can be scaled proportionally by changing the `timeout_scale` factor.
 
-  To run only the smoke tests, use `"smoke_tests_only": true` in the above config.
-
-4. Run  the tests
+4. Run the smoke tests
 
   ```
+  $ ./bin/smoke-tests
+  ```
+
+5. Run the full suite of acceptance tests
+
+  ```
+  $ export BLACKLIST_DIRS="cf-mysql-service/failover cf-mysql-service/dashboard"
   $ ./bin/test
   ```
