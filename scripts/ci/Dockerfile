@@ -1,6 +1,7 @@
 FROM ubuntu:trusty
 MAINTAINER https://github.com/cloudfoundry/cf-mysql-release
 
+# xvfb and chromedriver are for dashboard sso tests
 RUN \
       apt-get update && \
       apt-get -y install --fix-missing \
@@ -9,6 +10,8 @@ RUN \
             git \
             libreadline6 \
             libreadline6-dev\
+            xvfb \
+            chromium-chromedriver \
       && \
       apt-get clean
 
