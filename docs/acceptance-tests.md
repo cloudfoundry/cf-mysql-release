@@ -15,7 +15,12 @@ The acceptance tests requires the same deployment manifest properties as the [sm
 
 By default, the acceptance-tests errand only runs the smoke tests. To enable the full acceptance test suite, set the following property in the BOSH manifest:
 
-- `smoke_tests_only: false`
+```
+jobs:
+- name: acceptance-tests
+  properties:
+    smoke_tests_only: false
+```
 
 To run the acceptance tests via bosh errand:
 
@@ -25,7 +30,7 @@ $ bosh run errand acceptance-tests
 
 ### Manually
 
-The acceptance tests can also be run manually. An advantage to doing this is that output will be streamed in real-time (bosh errand output is printed all at once when they finish running).
+The acceptance tests can also be run manually. One advantage to doing this is that output will be streamed in real-time, as opposed to the output from a bosh errand output which is printed all at once when it finishes running.
 
 Instructions:
 
@@ -83,15 +88,26 @@ deployment. Copy and paste this into your terminal, then open the resulting `int
 
   All timeouts in the test suite can be scaled proportionally by changing the `timeout_scale` factor.
 
-4. Run the smoke tests
+1. Run the smoke tests:
 
   ```
-  $ ./bin/smoke-tests
+  ./bin/smoke-tests
   ```
 
-5. Run the full suite of acceptance tests
+1. Run the full suite of acceptance tests:
 
   ```
-  $ export BLACKLIST_DIRS="cf-mysql-service/failover cf-mysql-service/dashboard"
-  $ ./bin/test
+  export BLACKLIST_DIRS="cf-mysql-service/failover cf-mysql-service/dashboard"
+  ./bin/test
+  ```
+
+### Dashboard SSO tests
+
+The dashboard SSO tests are most easily run from within the [cf-mysql-ci docker container](https://registry.hub.docker.com/u/cloudfoundry/cf-mysql-ci/), using the provided scripts. It is expected that the `integration_config.json` is already present in the `cf-mysql-release/src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/` directory.
+
+1. From the `cf-mysql-release` directory, run the dashboard tests inside the docker container:
+
+  ```
+  cd ~/workspace/cf-mysql-release
+  ./scripts/ci/run_in_docker ./scripts/test_dashboard_sso
   ```
