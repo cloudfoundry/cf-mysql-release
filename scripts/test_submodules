@@ -7,8 +7,6 @@ MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # This script expects to live one directory below the release directory.
 RELEASE_DIR=$( cd $MY_DIR/.. && pwd )
 
-$RELEASE_DIR/src/github.com/cloudfoundry-incubator/switchboard/bin/test-ui
-
 pushd $RELEASE_DIR
         go install github.com/onsi/ginkgo/ginkgo
 
