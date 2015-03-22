@@ -1,8 +1,14 @@
 #!/bin/bash
 
-export GOPATH=/workspace/cf-mysql-release/
-export PATH=$GOPATH/bin:$PATH
+set -eux
 
-go get github.com/onsi/ginkgo/ginkgo
+MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-./scripts/test_submodules "$@"
+# This script expects to live two directories below the release directory.
+RELEASE_DIR=$( cd $MY_DIR/../.. && pwd )
+
+pushd $RELEASE_DIR
+        source .envrc
+
+        ./scripts/test_submodules "$@"
+popd
