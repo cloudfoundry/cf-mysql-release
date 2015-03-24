@@ -14,9 +14,23 @@ Note: The cluster is automatically bootstrapped the first time the cluster is de
 
 ### Symptoms of Lost Quorum
 
-- All nodes will appear "Unhealthy" on the proxy dashboard.
-- All responsive nodes will report `Non-Primary` when queried with `SHOW VARIABLES LIKE 'wsrep_cluster_status'`.
-- All responsive nodes will error `ERROR 1047 (08S01) at line 1: WSREP has not yet prepared node for application use` when queried with most statement types (e.g. select, update, etc).
+- [All nodes appear "Unhealthy" on the proxy dashboard.](quorum-lost.png)
+- All responsive nodes report the value of `wsrep_cluster_status` as `non-Primary`.
+    
+    ```sh
+    mysql> SHOW GLOBAL STATUS LIKE 'wsrep_cluster_status';
+    +----------------------+-------------+
+    | Variable_name        | Value       |
+    +----------------------+-------------+
+    | wsrep_cluster_status | non-Primary |
+    +----------------------+-------------+
+    ```
+- All responsive nodes respond with `ERROR 1047` when queried with most statement types.
+    
+    ```sh
+    mysql> select * from mysql.user;
+    ERROR 1047 (08S01) at line 1: WSREP has not yet prepared node for application use
+    ```
 
 See [Cluster Behavior](cluster-behavior.md) for more details about determining cluster state.
 
