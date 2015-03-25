@@ -43,6 +43,8 @@ Pushing to any branch other than [**develop**](https://github.com/cloudfoundry/c
 
 ## Development
 
+See our [contributing docs](CONTRIBUTING.md) for instructions on how to make a pull request.
+
 This BOSH release doubles as a `$GOPATH`. It will automatically be set up for
 you if you have [direnv](http://direnv.net) installed.
 
