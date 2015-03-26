@@ -373,7 +373,6 @@ The following links show how this release implements [Dashboard SSO](http://docs
 
 ## Proxy
 
-More extensive proxy documentation can be found [here](https://github.com/cloudfoundry/cf-mysql-release/docs/proxy.md)
+Traffic to the MySQL cluster is routed through one or more proxy nodes. The current proxy implementation is [Switchboard](https://github.com/cloudfoundry-incubator/switchboard). This proxy acts as an intermediary between the client and the MySQL server - providing failover between MySQL nodes. The number of nodes is configured by the proxy job instance count in the deployment manifest.
 
-
-Traffic to the MySQL cluster is routed through one or more proxy nodes. The current proxy implementation is [Switchboard](https://github.com/cloudfoundry-incubator/switchboard). This proxy acts as an intermediary between the client and the MySQL server - providing failover between MySQL nodes. The number of nodes is configured by the job instance count in the deployment manifest.
+For more details see the [proxy documentation](docs/proxy.md).
