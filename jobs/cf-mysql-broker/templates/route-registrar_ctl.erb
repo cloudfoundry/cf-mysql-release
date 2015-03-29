@@ -25,7 +25,7 @@ start)
 
   /var/vcap/packages/route-registrar/bin/route-registrar \
   -pidfile=$PIDFILE \
-  -configFile=$CONFIG_FILE
+  -configFile=$CONFIG_FILE \
   >>$LOG_DIR/route-registrar.stdout.log 2>>$LOG_DIR/route-registrar.stderr.log&
 ;;
 
