@@ -6,7 +6,10 @@ JOB_NAME=route-registrar
 
 RUN_DIR=/var/vcap/sys/run/route-registrar
 LOG_DIR=/var/vcap/sys/log/route-registrar
+
 PIDFILE=$RUN_DIR/route-registrar.pid
+CONFIG_FILE=/var/vcap/jobs/cf-mysql-broker/config/registrar_settings.yml
+
 source /var/vcap/packages/common/utils.sh
 
 export HOME=/var/vcap
@@ -18,15 +21,11 @@ start)
   mkdir -p $RUN_DIR
   mkdir -p $LOG_DIR
 
-  #Copy the config file to right folder
-  cp /var/vcap/jobs/cf-mysql-broker/config/registrar_settings.yml /var/vcap/packages/route-registrar/registrar_settings.yml
-
   pid_guard $PIDFILE $JOB_NAME
-
-  cd /var/vcap/packages/route-registrar
 
   /var/vcap/packages/route-registrar/bin/route-registrar \
   -pidfile=$PIDFILE \
+  -configFile=$CONFIG_FILE
   >>$LOG_DIR/route-registrar.stdout.log 2>>$LOG_DIR/route-registrar.stderr.log&
 ;;
 
