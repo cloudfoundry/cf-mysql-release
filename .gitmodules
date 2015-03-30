@@ -83,4 +83,4 @@
 	branch = master
 [submodule "src/github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer"]
 	path = src/github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer
-	url = https://github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/
+	url = https://github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer.git
