@@ -12,7 +12,7 @@ export PATH=/var/vcap/packages/cli/bin
 
 API_COMMAND="cf api ${CF_API_URL}"
 
-<% if_p("cf.skip_ssl_validation") do %>
+<% if p("cf.skip_ssl_validation") %>
     API_COMMAND="${API_COMMAND} --skip-ssl-validation"
 <% end %>
 
