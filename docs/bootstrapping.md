@@ -18,7 +18,7 @@ Note: The cluster is automatically bootstrapped the first time the cluster is de
 - All responsive nodes report the value of `wsrep_cluster_status` as `non-Primary`.
 
     ```sh
-    mysql> SHOW GLOBAL VARIABLES LIKE 'wsrep_cluster_status';
+    mysql> SHOW STATUS LIKE 'wsrep_cluster_status';
     +----------------------+-------------+
     | Variable_name        | Value       |
     +----------------------+-------------+
@@ -101,5 +101,5 @@ Once it has been determined that bootstrapping is required, follow the following
 1. Verify that the new nodes have successfully joined the cluster. The following command should output the total number of nodes in the cluster:
 
   ```sh
-  mysql> SHOW GLOBAL VARIABLES LIKE 'wsrep_cluster_size';
+  mysql> SHOW STATUS LIKE 'wsrep_cluster_size';
   ```
