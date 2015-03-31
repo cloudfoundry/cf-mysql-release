@@ -7,6 +7,9 @@ CF_ADMIN_USERNAME='<%= p("cf.admin_username") %>'
 CF_ADMIN_PASSWORD='<%= p("cf.admin_password") %>'
 
 BROKER_NAME='<%= p("broker.name") %>'
+BROKER_URL='<%= p("broker.protocol") %>://<%= p("broker.host") %>:<%= p("broker.port") %>'
+BROKER_USERNAME='<%= p("broker.username") %>'
+BROKER_PASSWORD='<%= p("broker.password") %>'
 
 export PATH=/var/vcap/packages/cli/bin
 
@@ -22,10 +25,11 @@ cf auth \
   ${CF_ADMIN_USERNAME} \
   ${CF_ADMIN_PASSWORD}
 
-cf purge-service-offering \
+cf create-service-broker \
   ${BROKER_NAME} \
-  -f
+  ${BROKER_USERNAME} \
+  ${BROKER_PASSWORD} \
+  ${BROKER_URL}
 
-cf delete-service-broker \
-  ${BROKER_NAME} \
-  -f
+cf enable-service-access \
+  ${BROKER_NAME}

@@ -51,11 +51,13 @@ jobs:
       cf:
         admin_username: admin
         admin_password: admin
+        skip_ssl_validation: true
   - name: broker-deregistrar
     properties:
       cf:
         admin_username: admin
         admin_password: admin
+        skip_ssl_validation: true
   - name: acceptance-tests
     properties:
       cf:

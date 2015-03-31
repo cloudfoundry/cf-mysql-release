@@ -155,6 +155,7 @@ jobs:
     - name: services1
     properties:
       cf:
+        <<: (( merge || nil ))
         api_url: (( jobs.cf-mysql-broker.properties.cc_api_uri ))
         admin_username: (( merge ))
         admin_password: (( merge ))
@@ -173,14 +174,12 @@ jobs:
     - name: services1
     properties:
       cf:
+        <<: (( merge || nil ))
         api_url: (( jobs.cf-mysql-broker.properties.cc_api_uri ))
         admin_username: (( merge ))
         admin_password: (( merge ))
       broker:
         name: p-mysql
-        host: (( jobs.cf-mysql-broker.properties.external_host ))
-        username: (( jobs.cf-mysql-broker.properties.auth_username ))
-        password: (( jobs.cf-mysql-broker.properties.auth_password ))
   - name: acceptance-tests
     template: acceptance-tests
     release: cf-mysql
