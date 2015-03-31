@@ -4,7 +4,7 @@ Bootstrapping is the process of (re)starting a Galera cluster. Before evaluating
 
 ## When to Bootstrap
 
-Manual bootstrapping should only be required when the cluster has lost quorum. 
+Manual bootstrapping should only be required when the cluster has lost quorum.
 
 Quorum is lost when less than half of the nodes can communicate with each other (for longer than the configured grace period).
 
@@ -16,9 +16,9 @@ Note: The cluster is automatically bootstrapped the first time the cluster is de
 
 - [All nodes appear "Unhealthy" on the proxy dashboard.](quorum-lost.png)
 - All responsive nodes report the value of `wsrep_cluster_status` as `non-Primary`.
-    
+
     ```sh
-    mysql> SHOW GLOBAL STATUS LIKE 'wsrep_cluster_status';
+    mysql> SHOW GLOBAL VARIABLES LIKE 'wsrep_cluster_status';
     +----------------------+-------------+
     | Variable_name        | Value       |
     +----------------------+-------------+
@@ -26,7 +26,7 @@ Note: The cluster is automatically bootstrapped the first time the cluster is de
     +----------------------+-------------+
     ```
 - All responsive nodes respond with `ERROR 1047` when queried with most statement types.
-    
+
     ```sh
     mysql> select * from mysql.user;
     ERROR 1047 (08S01) at line 1: WSREP has not yet prepared node for application use
@@ -38,7 +38,7 @@ See [Cluster Behavior](cluster-behavior.md) for more details about determining c
 
 Once it has been determined that bootstrapping is required, follow the following steps to shut down the cluster and bootstrap from the nodes with the most transactions.
 
-1. SSH to each node in the cluster and shut down the mariadb process.
+1. SSH to each node in the cluster and, as root, shut down the mariadb process.
 
   ```sh
   $ monit stop mariadb_ctrl
@@ -101,5 +101,5 @@ Once it has been determined that bootstrapping is required, follow the following
 1. Verify that the new nodes have successfully joined the cluster. The following command should output the total number of nodes in the cluster:
 
   ```sh
-  mysql> show status like 'wsrep_cluster_size';
+  mysql> SHOW GLOBAL VARIABLES LIKE 'wsrep_cluster_size';
   ```
