@@ -10,6 +10,7 @@ blobs
 bosh-lite/manifests/*
 bosh-lite/tmp/*
 .idea/
+*.iml
 releases/**/*.tgz
 .idea
 .DS_Store
