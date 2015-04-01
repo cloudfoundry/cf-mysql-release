@@ -10,3 +10,4 @@ files:
   - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/enforcer/*.go # gosub
   - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/sql/*.go # gosub
   - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/sql/fakes/*.go # gosub
+  - github.com/pivotal-golang/lager/*.go # gosub

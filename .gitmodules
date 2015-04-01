@@ -84,3 +84,6 @@
 [submodule "src/github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer"]
 	path = src/github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer
 	url = https://github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer.git
+[submodule "src/github.com/DATA-DOG/go-sqlmock"]
+	path = src/github.com/DATA-DOG/go-sqlmock
+	url = https://github.com/DATA-DOG/go-sqlmock
