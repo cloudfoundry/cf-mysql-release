@@ -37,13 +37,20 @@ resource_pools:
     network: services1
     stemcell: (( merge ))
     cloud_properties: (( merge ))
+
+disk_pools:
+- name: 100GB
+  disk_size: 100000
+  cloud_properties:
+    <<: (( merge || nil ))
+
 jobs:
   - name: mysql
     release: cf-mysql
     template: mysql
     instances: (( merge || 3 ))
     resource_pool: services-small
-    persistent_disk: 100000
+    persistent_disk_pool: (( disk_pools.[0].name ))
     networks:
     - name: services1
       static_ips: (( merge || static_ips(0, 1, 2) ))
@@ -144,7 +151,7 @@ jobs:
       mysql_node:
         host: (( merge || jobs.proxy.networks.services1.static_ips.[0] ))
         admin_password: (( jobs.mysql.properties.admin_password ))
-        persistent_disk: (( jobs.mysql.persistent_disk))
+        persistent_disk: (( disk_pools.[0].disk_size ))
   - name: broker-registrar
     template: broker-registrar
     release: cf-mysql

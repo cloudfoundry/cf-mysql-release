@@ -16,5 +16,10 @@ resource_pools:
       instance_type: m3.large
       availability_zone: (( properties.template_only.aws.availability_zone ))
 
+disk_pools:
+- name: 100GB-SSD
+  cloud_properties:
+    type: gp2
+
 properties:
   template_only: (( merge ))
