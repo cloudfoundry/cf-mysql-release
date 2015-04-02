@@ -10,5 +10,6 @@ RELEASE_DIR=$( cd $MY_DIR/../.. && pwd )
 pushd $RELEASE_DIR
         source .envrc
 
-        ./scripts/test_submodules "$@"
+        # GoCD does not print color, so do not attempt to do so
+        ./scripts/test_submodules --noColor "$@"
 popd
