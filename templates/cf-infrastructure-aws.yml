@@ -17,7 +17,7 @@ resource_pools:
       availability_zone: (( properties.template_only.aws.availability_zone ))
 
 disk_pools:
-- name: 100GB-SSD
+- name: mysql-persistent-disk
   cloud_properties:
     type: gp2
 

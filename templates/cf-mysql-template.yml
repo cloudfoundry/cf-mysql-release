@@ -39,7 +39,7 @@ resource_pools:
     cloud_properties: (( merge ))
 
 disk_pools:
-- name: 100GB
+- name: mysql-persistent-disk
   disk_size: 100000
   cloud_properties:
     <<: (( merge || nil ))
