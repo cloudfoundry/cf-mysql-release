@@ -16,7 +16,7 @@ director_uuid: (( merge ))
 
 releases:
 - name: cf-mysql
-  version: latest
+  version: (( merge || latest ))
 
 compilation:
   workers: 3
