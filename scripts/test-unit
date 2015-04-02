@@ -2,6 +2,8 @@
 
 set -eux
 
+go install -v github.com/onsi/ginkgo/ginkgo
+
 MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 SRC_DIR=$MY_DIR/../src
