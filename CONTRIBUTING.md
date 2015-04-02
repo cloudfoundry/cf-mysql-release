@@ -19,7 +19,7 @@ Follow these steps to make a contribution to any of CF open source repositories:
     1. Update submodules (`./update`)
 
     1. Create a feature branch (`git checkout -b awesome_sauce`)
-        * Run the tests to ensure that your local environment is working `./scripts/test_submodules`
+        * Run the unit tests to ensure that your local environment is working `./scripts/test-unit`
 
     1. Make changes on the branch:
         * Adding a feature

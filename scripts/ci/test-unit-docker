@@ -8,8 +8,8 @@ MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 RELEASE_DIR=$( cd $MY_DIR/../.. && pwd )
 
 pushd $RELEASE_DIR
-        source .envrc
+    source .envrc
 
-        # GoCD does not print color, so do not attempt to do so
-        ./scripts/test_submodules --noColor "$@"
+    # GoCD does not print color, so do not attempt to do so
+    ./scripts/test-unit --noColor "$@"
 popd

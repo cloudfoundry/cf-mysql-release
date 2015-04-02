@@ -91,23 +91,26 @@ deployment. Copy and paste this into your terminal, then open the resulting `int
 1. Run the smoke tests:
 
   ```
-  ./bin/smoke-tests
+  ./bin/test-smoke
   ```
 
-1. Run the full suite of acceptance tests:
+1. Run the acceptance tests:
 
   ```
-  export BLACKLIST_DIRS="cf-mysql-service/failover cf-mysql-service/dashboard"
-  ./bin/test
+  ./bin/test-acceptance
   ```
 
-### Dashboard SSO tests
+### Dashboard Tests
 
-The dashboard SSO tests are most easily run from within the [cf-mysql-ci docker container](https://registry.hub.docker.com/u/cloudfoundry/cf-mysql-ci/), using the provided scripts. It is expected that the `integration_config.json` is already present in the `cf-mysql-release/src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/` directory.
+The dashboard tests mostly test authentication through single sign on (SSO).
+
+They are most easily run from within the [cf-mysql-ci docker container](https://registry.hub.docker.com/u/cloudfoundry/cf-mysql-ci/), using the provided scripts.
+
+It is expected that the `integration_config.json` is already present in the `cf-mysql-release/src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/` directory.
 
 1. From the `cf-mysql-release` directory, run the dashboard tests inside the docker container:
 
   ```
   cd ~/workspace/cf-mysql-release
-  ./scripts/ci/run_in_docker ./scripts/test_dashboard_sso
+  ./scripts/ci/run_in_docker ./scripts/test-dashboard
   ```

@@ -14,5 +14,5 @@ export LD_LIBRARY_PATH=/usr/lib/chromium-browser/libs
 
 pushd $RELEASE_DIR/src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/
   export CONFIG=$PWD/integration_config.json
-  xvfb-run ./bin/test ./cf-mysql-service/dashboard
+  xvfb-run ./bin/test-dashboard
 popd

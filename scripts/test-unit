@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -eux
+
+MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+SRC_DIR=$MY_DIR/../src
+
+pushd $SRC_DIR
+    echo -e "\nTesting Switchboard..."
+    ./github.com/cloudfoundry-incubator/switchboard/bin/test "$@"
+
+    echo -e "\nTesting Galera Healthcheck..."
+    ./github.com/cloudfoundry-incubator/galera-healthcheck/bin/test "$@"
+
+    echo -e "\nTesting MariaDB Control..."
+    ./github.com/cloudfoundry/mariadb_ctrl/bin/test "$@"
+popd

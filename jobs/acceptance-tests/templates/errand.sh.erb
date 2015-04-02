@@ -50,9 +50,7 @@ export PATH=/var/vcap/packages/cli/bin:$GOPATH/bin:$GOROOT/bin:$PWD/bin:$PATH
 export CONFIG=$PWD/integration_config.json
 
 <% if p('smoke_tests_only') %>
-  bin/smoke-tests
+  bin/test-smoke --noColor
 <% else %>
-  # Failover and Dashboard tests can not be run as an errand
-  export BLACKLIST_DIRS="cf-mysql-service/failover cf-mysql-service/dashboard"
-  bin/test
+  bin/test-acceptance --noColor
 <% end %>
