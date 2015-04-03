@@ -9,7 +9,7 @@ networks:
           - 10.10.32.2 - 10.10.32.9
           - 10.10.32.130 - 10.10.32.254
         static:
-          - 10.10.32.10 - 10.10.32.25
+          - 10.10.32.10 - 10.10.32.14
         gateway: 10.10.32.1
         dns:
           - 10.10.0.2 # amazon has only 1 DNS server for the whole VPC at x.x.0.2

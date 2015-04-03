@@ -68,7 +68,7 @@ jobs:
     resource_pool: services-small
     networks:
     - name: services1
-      static_ips: (( merge || static_ips(4, 5) ))
+      static_ips: (( merge || static_ips(4, 3) ))
     properties:
       <<: (( merge || nil ))
       proxy:
