@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -eux
+
+MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# This script expects to live one directory below the release directory.
+RELEASE_DIR=$( cd $MY_DIR/.. && pwd )
+# And that the release directory lives one directory below the workspace directory.
+WORKSPACE_DIR="$( cd ${RELEASE_DIR}/.. && pwd )"
+
+BOSH_LITE_IP=192.168.50.4
+
+# If a file exists with an api-address, use that instead
+if [ -f ${WORKSPACE_DIR}/api-address ]; then
+  BOSH_LITE_IP=$(cat ${WORKSPACE_DIR}/api-address)
+fi
+
+export BOSH_USER=admin
+export BOSH_PASSWORD=admin
+export BOSH_RELEASES_DIR=${WORKSPACE_DIR}
+
+bosh -n target ${BOSH_LITE_IP}
+
+pushd ${RELEASE_DIR}
+  set +e # Bosh will exit with error if the deployment is not found
+  bosh -n delete deployment cf-warden-mysql --force
+  set -e
+popd
