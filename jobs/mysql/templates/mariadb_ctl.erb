@@ -17,7 +17,6 @@ DB_SEED_SCRIPT_FILE=$MARIADB_JOB_DIR/bin/mysql_database_seed.sh
 mariadb_ctrl_pkg=/var/vcap/packages/mariadb_ctrl
 MYSQL_UPGRADE_SCRIPT_FILE=$mariadb_ctrl_pkg/bin/mysql_upgrade.sh
 MYSQL_DAEMON_FILE=$mariadb_ctrl_pkg/bin/mysql_daemon.sh
-MYSQL_SHOW_DATABASES_SCRIPT_FILE=$mariadb_ctrl_pkg/bin/show_databases.sh
 
 export MY_NAME=mariadb_ctl
 export RUN_DIR=/var/vcap/sys/run/$MY_NAME
@@ -120,7 +119,6 @@ case $1 in
              -jobIndex=$JOB_INDEX \
              -dbSeedScript=$DB_SEED_SCRIPT_FILE \
              -upgradeScriptPath=$MYSQL_UPGRADE_SCRIPT_FILE \
-             -showDatabasesScriptPath=$MYSQL_SHOW_DATABASES_SCRIPT_FILE \
              -numberOfNodes=<%= p('cluster_ips').length %> \
              -clusterIps=<%= (p('cluster_ips') - [node_ip]).join(',') %> \
              -maxDatabaseSeedTries=$DATABASE_SEED_ATTEMPTS \
