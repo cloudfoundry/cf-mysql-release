@@ -18,10 +18,12 @@ meta:
 jobs:
   - name: mysql
     properties:
+      <<: (( merge || nil ))
       admin_password: password
   - name: cf-mysql-broker
     instances: 2
     properties:
+      <<: (( merge || nil ))
       auth_password: password
       auth_username: admin
       cookie_secret: 94046872-2602-4ca6-8d07-8b0da9762477
@@ -38,24 +40,32 @@ jobs:
           max_storage_mb: 20
   - name: proxy
     properties:
+      <<: (( merge || nil ))
       proxy:
+        <<: (( merge || nil ))
         api_username: username
         api_password: password
   - name: broker-registrar
     properties:
+      <<: (( merge || nil ))
       cf:
+        <<: (( merge || nil ))
         admin_username: admin
         admin_password: admin
         skip_ssl_validation: true
   - name: broker-deregistrar
     properties:
+      <<: (( merge || nil ))
       cf:
+        <<: (( merge || nil ))
         admin_username: admin
         admin_password: admin
         skip_ssl_validation: true
   - name: acceptance-tests
     properties:
+      <<: (( merge || nil ))
       cf:
+        <<: (( merge || nil ))
         admin_username: admin
         admin_password: admin
         skip_ssl_validation: true
