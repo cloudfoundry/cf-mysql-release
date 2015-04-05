@@ -13,9 +13,9 @@ STATE_FILE=/var/vcap/store/mysql/state.txt
 MYSQL_CLIENT_FILE=/var/vcap/packages/mariadb/bin/mysql
 MYSQL_SERVER_FILE=/var/vcap/packages/mariadb/support-files/mysql.server
 DB_SEED_SCRIPT_FILE=$MARIADB_JOB_DIR/bin/mysql_database_seed.sh
+MYSQL_UPGRADE_PATH=/var/vcap/packages/mariadb/bin/mysql_upgrade
 
 mariadb_ctrl_pkg=/var/vcap/packages/mariadb_ctrl
-MYSQL_UPGRADE_SCRIPT_FILE=$mariadb_ctrl_pkg/bin/mysql_upgrade.sh
 MYSQL_DAEMON_FILE=$mariadb_ctrl_pkg/bin/mysql_daemon.sh
 
 export MY_NAME=mariadb_ctl
@@ -23,6 +23,9 @@ export RUN_DIR=/var/vcap/sys/run/$MY_NAME
 export PIDFILE=$RUN_DIR/$MY_NAME.pid
 
 DATABASE_SEED_ATTEMPTS=30
+
+PACKAGING_VERSION_FILE=/var/vcap/packages/mariadb/VERSION
+LAST_UPGRADED_VERSION_FILE=/var/vcap/store/mysql/mysql_upgrade_info
 
 source /var/vcap/packages/common/utils.sh
 
@@ -114,11 +117,13 @@ case $1 in
              -stateFile=$STATE_FILE \
              -mysqlDaemon=$MYSQL_DAEMON_FILE \
              -mysqlClient=$MYSQL_CLIENT_FILE \
+             -packagingVersionFile=$PACKAGING_VERSION_FILE \
+             -lastUpgradedVersionFile=$LAST_UPGRADED_VERSION_FILE \
              -mysqlUser=<%= p('admin_username')%> \
              -mysqlPassword=<%= p('admin_password')%> \
              -jobIndex=$JOB_INDEX \
              -dbSeedScript=$DB_SEED_SCRIPT_FILE \
-             -upgradeScriptPath=$MYSQL_UPGRADE_SCRIPT_FILE \
+             -mysqlUpgradePath=$MYSQL_UPGRADE_PATH \
              -numberOfNodes=<%= p('cluster_ips').length %> \
              -clusterIps=<%= (p('cluster_ips') - [node_ip]).join(',') %> \
              -maxDatabaseSeedTries=$DATABASE_SEED_ATTEMPTS \
