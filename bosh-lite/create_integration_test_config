@@ -14,7 +14,7 @@ ACTION_COLOR='\033[1;33m'
 INFO_COLOR='\033[1;36m'
 NO_COLOR='\033[0m'
 
-CONFIG_LOCATION=${CONFIG_LOCATION:-${WORKSPACE_DIR}/cf-mysql-acceptance-tests-integration-config.json}
+CONFIG_LOCATION=${CONFIG_LOCATION:-${RELEASE_DIR}/integration-config.json}
 echo -e "Creating config file at ${INFO_COLOR}${CONFIG_LOCATION}${NO_COLOR}..."
 
 DOMAIN=${DOMAIN:-10.244.0.34}

@@ -50,7 +50,7 @@ $ go get github.com/onsi/ginkgo/ginkgo
 
 1. Configure the tests.
 
-  Create a config file set the environment variable `$CONFIG` to point to it. For bosh-lite, this can easily be achieved by executing the following command and following the instructions on screen:
+  Create a config file and set the environment variable `$CONFIG` to point to it. For bosh-lite, this can easily be achieved by executing the following command and following the instructions on screen:
 
     ```bash
 $ ~/workspace/cf-mysql-release/bosh-lite/create_integration_test_config

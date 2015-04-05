@@ -5,14 +5,14 @@ set -eux
 MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # This script expects to live one directory below the release directory.
-RELEASE_DIR=$( cd $MY_DIR/.. && pwd )
+RELEASE_DIR=$( cd ${MY_DIR}/.. && pwd )
 
-source $RELEASE_DIR/.envrc
+source ${RELEASE_DIR}/.envrc
 
 export PATH=$PATH:/usr/lib/chromium-browser/
 export LD_LIBRARY_PATH=/usr/lib/chromium-browser/libs
 
-pushd $RELEASE_DIR/src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/
-  export CONFIG=$PWD/integration_config.json
-  xvfb-run ./bin/test-dashboard
-popd
+CONFIG=${CONFIG:?}
+
+TEST_DIR=${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/
+xvfb-run ${TEST_DIR}/bin/test-dashboard

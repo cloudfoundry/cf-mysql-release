@@ -19,7 +19,7 @@ releases/**/*.tgz
 *~
 *#
 #*
-src/acceptance-tests/integration_config.json
+*config.json
 bin/
 pkg/
 src/github.com/vito/gosub/
