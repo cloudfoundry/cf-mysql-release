@@ -26,7 +26,6 @@ if [ -f ${WORKSPACE_DIR}/api-address ]; then
   DOMAIN=${API_ADDRESS}
 fi
 
-
 cat > ${CONFIG_LOCATION} <<EOF
 {
   "api": "http://api.${DOMAIN}.xip.io",

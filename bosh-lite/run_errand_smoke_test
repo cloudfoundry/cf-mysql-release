@@ -9,12 +9,9 @@ RELEASE_DIR=$( cd ${MY_DIR}/.. && pwd )
 # And that the release directory lives one directory below the workspace directory.
 WORKSPACE_DIR="$( cd ${RELEASE_DIR}/.. && pwd )"
 
-OK_COLOR='\033[1;32m'
-ACTION_COLOR='\033[1;33m'
 INFO_COLOR='\033[1;36m'
 NO_COLOR='\033[0m'
 
-DEPLOYMENT_NAME=${DEPLOYMENT_NAME:-cf-warden-mysql}
 DIRECTOR_IP=${DIRECTOR_IP:-192.168.50.4}
 
 # If a file exists with an api-address, use that instead
@@ -24,22 +21,14 @@ if [ -f ${WORKSPACE_DIR}/api-address ]; then
   DIRECTOR_IP=${API_ADDRESS}
 fi
 
-export BOSH_USER=admin
-export BOSH_PASSWORD=admin
+MANIFEST_LOCATION="/tmp/cf-warden-mysql.yml"
+rm -rf ${MANIFEST_LOCATION}
 
 bosh -n target ${DIRECTOR_IP}
+bosh login admin admin
 
-DEPLOYMENTS_OUTPUT=$( bosh deployments )
+bosh download manifest cf-warden-mysql ${MANIFEST_LOCATION}
+bosh deployment ${MANIFEST_LOCATION}
 
-set +e
-echo ${DEPLOYMENTS_OUTPUT} | grep ${DEPLOYMENT_NAME}
-DEPLOYMENT_GREP_RESULT=$?
-set -e
-
-# A value of 0 indicates grep matched successfully,
-# and hence the deployment exists and we should delete it.
-if [ ${DEPLOYMENT_GREP_RESULT} -eq 0 ]; then
-  bosh -n delete deployment ${DEPLOYMENT_NAME} --force
-else
-  echo "deployment ${DEPLOYMENT_NAME} not found - nothing to delete"
-fi
+bosh run errand acceptance-tests
+rm -rf ${MANIFEST_LOCATION}
