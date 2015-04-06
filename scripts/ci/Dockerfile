@@ -29,14 +29,14 @@ RUN curl https://codeload.github.com/postmodern/ruby-install/tar.gz/v0.5.0 | tar
           make install
 
 # Install Ruby
-RUN ruby-install ruby 2.2.0 -- --disable-install-rdoc
+RUN ruby-install ruby 2.1.5 -- --disable-install-rdoc
 
 # Add ruby to PATH
-ENV PATH $PATH:/home/root/.gem/ruby/2.2.0/bin:/opt/rubies/ruby-2.2.0/lib/ruby/gems/2.2.0/bin:/opt/rubies/ruby-2.2.0/bin
+ENV PATH $PATH:/home/root/.gem/ruby/2.1.5/bin:/opt/rubies/ruby-2.1.5/lib/ruby/gems/2.1.5/bin:/opt/rubies/ruby-2.1.5/bin
 
 # Install gems
-RUN /opt/rubies/ruby-2.2.0/bin/gem install bosh_cli --no-rdoc --no-ri && \
-          /opt/rubies/ruby-2.2.0/bin/gem install bundler --no-rdoc --no-ri
+RUN /opt/rubies/ruby-2.1.5/bin/gem install bosh_cli --no-rdoc --no-ri && \
+          /opt/rubies/ruby-2.1.5/bin/gem install bundler --no-rdoc --no-ri
 
 # Phantomjs is used by switchboard ui tests
 RUN wget https://github.com/Pyppe/phantomjs2.0-ubuntu14.04x64/raw/master/bin/phantomjs && \
