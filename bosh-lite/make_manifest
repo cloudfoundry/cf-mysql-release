@@ -30,8 +30,9 @@ mysql_stub="cf-mysql-stub-spiff-3-node.yml"
 # If any arguments were provided,
 # see if there is a stub with the number of nodes provided.
 # If not, assume the argument is not the number of nodes and continue.
-if [[ $# -ne 0 ]] && [[ -f "cf-mysql-stub-spiff-$1-node.yml" ]] ; then
+if [[ $# -ne 0 ]] && [[ -f "${RELEASE_DIR}/bosh-lite/cf-mysql-stub-spiff-$1-node.yml" ]] ; then
   mysql_stub="cf-mysql-stub-spiff-$1-node.yml"
+  echo -e "Using stub ${INFO_COLOR}${RELEASE_DIR}/bosh-lite/${mysql_stub}${NO_COLOR}"
   shift
 fi
 
