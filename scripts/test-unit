@@ -2,19 +2,22 @@
 
 set -eux
 
-go install -v github.com/onsi/ginkgo/ginkgo
-
 MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-SRC_DIR=$MY_DIR/../src
+# This script assumes that it lives one directory below the release directory.
+RELEASE_DIR="$( cd $MY_DIR/.. && pwd )"
 
-pushd $SRC_DIR
-    echo -e "\nTesting Switchboard..."
-    ./github.com/cloudfoundry-incubator/switchboard/bin/test "$@"
+source ${RELEASE_DIR}/.envrc
 
-    echo -e "\nTesting Galera Healthcheck..."
-    ./github.com/cloudfoundry-incubator/galera-healthcheck/bin/test "$@"
+# Remove and reinstall the ginkgo binary as it might be from the wrong target architecture
+rm -rf ${RELEASE_DIR}/bin/ginkgo
+go install -v github.com/onsi/ginkgo/ginkgo
 
-    echo -e "\nTesting MariaDB Control..."
-    ./github.com/cloudfoundry/mariadb_ctrl/bin/test "$@"
-popd
+echo -e "\nTesting Switchboard..."
+${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/switchboard/bin/test "$@"
+
+echo -e "\nTesting Galera Healthcheck..."
+${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/galera-healthcheck/bin/test "$@"
+
+echo -e "\nTesting MariaDB Control..."
+${RELEASE_DIR}/src/github.com/cloudfoundry/mariadb_ctrl/bin/test "$@"
