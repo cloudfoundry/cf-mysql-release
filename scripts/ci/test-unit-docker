@@ -9,3 +9,8 @@ RELEASE_DIR=$( cd ${MY_DIR}/../.. && pwd )
 
 # GoCD does not print color, so do not attempt to do so
 ${RELEASE_DIR}/scripts/test-unit --noColor "$@"
+
+# Remove existing compiled packages and binaries
+# GoCD isn't always good about cleaning up after itself
+rm -rf ${RELEASE_DIR}/bin/*
+rm -rf ${RELEASE_DIR}/pkg/*
