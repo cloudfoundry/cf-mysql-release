@@ -7,12 +7,12 @@ templates:
   cf-mysql-broker_ctl.erb: bin/cf-mysql-broker_ctl
   unicorn.conf.rb.erb: config/unicorn.conf.rb
   database.yml.erb: config/database.yml
-  cf-mysql-quota-enforcer_ctl.erb: bin/cf-mysql-quota-enforcer_ctl
+  quota-enforcer_ctl.erb: bin/quota-enforcer_ctl
+  quota_enforcer_config.yml.erb: bin/quota_enforcer_config.yml
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
   healthcheck.sh.erb: bin/healthcheck.sh
   registrar_settings.yml.erb: config/registrar_settings.yml
   route-registrar_ctl.erb: bin/route-registrar_ctl
-
 
 packages:
 - ruby
@@ -22,6 +22,7 @@ packages:
 - mariadb
 - syslog_aggregator
 - route-registrar
+- quota-enforcer
 
 properties:
   auth_username:

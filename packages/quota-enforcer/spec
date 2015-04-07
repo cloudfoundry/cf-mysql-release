@@ -3,11 +3,13 @@ name: quota-enforcer
 dependencies:
 - golang
 files:
-- github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/*.go
   - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/*.go # gosub
+  - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/config/*.go # gosub
   - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/database/*.go # gosub
   - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/database/fakes/*.go # gosub
   - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/enforcer/*.go # gosub
-  - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/sql/*.go # gosub
-  - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/sql/fakes/*.go # gosub
+  - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/integration/*.go # gosub
+  - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
+  - github.com/fraenkel/candiedyaml/*.go # gosub
+  - github.com/go-sql-driver/mysql/*.go # gosub
   - github.com/pivotal-golang/lager/*.go # gosub
