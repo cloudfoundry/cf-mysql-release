@@ -7,6 +7,9 @@ MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # This script expects to live one directory below the release directory.
 RELEASE_DIR=$( cd ${MY_DIR}/.. && pwd )
 
+# Use make-manifest script to handle targetting and logging in to the director
+${MY_DIR}/make_manifest
+
 function assert_rebase_attempted_without_changes() {
   ACCEPTABLE_ERROR_SEARCH_RESULT=$(echo $REBASE_OUTPUT | grep -i rebase.*attempted.*without.*changes)
   if [ $ACCEPTABLE_ERROR_SEARCH_RESULT -ne 0 ]; then
