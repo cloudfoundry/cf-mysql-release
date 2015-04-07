@@ -21,3 +21,6 @@ ${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/galera-healthcheck/bin/test
 
 echo -e "\nTesting MariaDB Control..."
 ${RELEASE_DIR}/src/github.com/cloudfoundry/mariadb_ctrl/bin/test "$@"
+
+echo -e "\nTesting Quota Enforcer..."
+${RELEASE_DIR}/src/github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/bin/test-unit "$@"
