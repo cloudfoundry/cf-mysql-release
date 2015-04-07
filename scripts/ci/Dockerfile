@@ -1,6 +1,7 @@
 FROM ubuntu:trusty
 MAINTAINER https://github.com/cloudfoundry/cf-mysql-release
 
+# libmysqlclient-dev is used for pre-packaging cf-mysql-broker
 # xvfb and chromedriver are for dashboard sso tests
 # nodejs, npm and libicu52 are for switchboard ui
 RUN \
@@ -12,6 +13,7 @@ RUN \
             libreadline6 \
             libreadline6-dev\
             wget \
+            libmysqlclient-dev \
             xvfb \
             chromium-chromedriver \
             nodejs \
