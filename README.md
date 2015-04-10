@@ -10,7 +10,17 @@
 
 [Release notes & known issues](#release-notes)
 
-[Deployment](#deployment)
+[Deploying](#deploying)
+
+[Registering the Service Broker](#registering-broker)
+
+[Security Groups](#security-groups)
+
+[Smoke Tests and Acceptance Tests](#smoke-acceptance-tests)
+
+[Deregistering the Service Broker](#deregistering-broker)
+
+[Updating service instances](#updating-service-instances)
 
 <a name='components'></a>
 ## Components
@@ -144,8 +154,8 @@ as you switch in and out of the directory.
 
 For release notes and known issues, see [the release wiki](https://github.com/cloudfoundry/cf-mysql-release/wiki/).
 
-<a name='deployment'></a>
-## Deployment
+<a name='deploying'></a>
+## Deploying
 
 ### Prerequisites
 
@@ -158,7 +168,6 @@ For release notes and known issues, see [the release wiki](https://github.com/cl
 1. [Upload Stemcell](#upload_stemcell)
 1. [Upload Release](#upload_release)
 1. [Create Manifest and Deploy](#create_manifest)
-1. [Register the Service Broker](#register_broker)
 
 After installation, the MySQL service will be visible in the Services Marketplace; using the [CLI](https://github.com/cloudfoundry/cli), run `cf marketplace`.
 
@@ -270,12 +279,12 @@ If deploying an **older** final release than the latest, check out the tag for t
 
 Manifest properties are described in the `spec` file for each job; see [jobs](jobs).
 
-You can find your director_uuid by running `bosh status`.
+You can find your `director_uuid` by running `bosh status`.
 
 The MariaDB cluster nodes are configured by default with 100GB of persistent disk. This can be configured in your stub or manifest using `jobs.mysql.persistent_disk`, however your deployment will fail if this is less than 3GB; we recommend allocating 10GB at a minimum.
 
-<a name="register_broker"></a>
-## Register the Service Broker
+<a name="registering-broker"></a>
+## Registering the Service Broker
 
 ### BOSH errand
 
@@ -305,6 +314,8 @@ Note: the broker-registrar errand will fail if the broker has already been regis
 
 ## Security Groups
 
+Note: this section does not apply to bosh-lite deployments.
+
 Since [cf-release](https://github.com/cloudfoundry/cf-release) v175, applications by default cannot to connect to IP addresses on the private network. This prevents applications from connecting to the MySQL service. To enable access to the service, create a new security group for the IP configured in your manifest for the property `jobs.mysql_broker.mysql_node.host`.
 
 1. Add the rule to a file in the following json format; multiple rules are supported.
@@ -318,18 +329,19 @@ Since [cf-release](https://github.com/cloudfoundry/cf-release) v175, application
   ]
   ```
 - Create a security group from the rule file.
-  <pre class="terminal">
+  ```shell
   $ cf create-security-group p-mysql rule.json
-  </pre>
+  ```
+
 - Enable the rule for all apps
-  <pre class="terminal">
+  ```
   $ cf bind-running-security-group p-mysql
-  </pre>
+  ```
 
-Changes are only applied to new application containers; in order for an existing app to receive security group changes it must be restarted.
+Security group changes are only applied to new application containers; existing apps must be restarted.
 
-<a name="tests"></a>
-## Smoke Tests & Acceptance Tests
+<a name="smoke-acceptance-tests"></a>
+## Smoke Tests and Acceptance Tests
 
 The smoke tests are a subset of the acceptance tests, useful for verifying a deployment. The acceptance tests are for developers to validate changes to the MySQL Release. These tests can be run manually or from a BOSH errand. For details on running these tests manually, see [Acceptance Tests](docs/acceptance-tests.md).
 
@@ -361,8 +373,8 @@ Run the smoke tests via bosh errand as follows:
 $ bosh run errand acceptance-tests
 ```
 
-<a name="deregister_broker"></a>
-## De-register the Service Broker
+<a name="deregistering-broker"></a>
+## De-registering the Service Broker
 
 The following commands are destructive and are intended to be run in conjuction with deleting your BOSH deployment.
 
@@ -385,6 +397,7 @@ $ cf purge-service-offering p-mysql
 $ cf delete-service-broker p-mysql
 ```
 
-### Updating service instances
+<a name="updating-service-instances"></a>
+## Updating service instances
 
 Updating service instances is supported; see [Service plans and instances](docs/service-plans-instances.md) for details.
