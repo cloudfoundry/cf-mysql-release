@@ -401,3 +401,8 @@ $ cf delete-service-broker p-mysql
 ## Updating service instances
 
 Updating service instances is supported; see [Service plans and instances](docs/service-plans-instances.md) for details.
+
+<a name="deployment-resources"></a>
+## Deployment Resources
+
+The service is configured to have a small footprint out of the box. These resources are sufficient for development, but may be under-resourced for production workloads. If the service appears to be performing poorly, redeploying with increased resources may improve performance. See [deployment resources](docs/deployment-resources.md) for further details.

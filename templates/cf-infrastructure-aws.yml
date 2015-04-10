@@ -2,7 +2,7 @@ meta: ~
 
 compilation:
   cloud_properties:
-    instance_type: c3.large
+    instance_type: ((merge || "c3.large" ))
     availability_zone: (( properties.template_only.aws.availability_zone ))
 
 networks: (( merge ))
@@ -13,7 +13,7 @@ resource_pools:
       name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
       version: (( merge || "2859" ))
     cloud_properties:
-      instance_type: m3.large
+      instance_type: (( merge || "m3.large" ))
       availability_zone: (( properties.template_only.aws.availability_zone ))
 
 disk_pools:
