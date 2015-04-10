@@ -17,7 +17,7 @@ echo -e "\nTesting Switchboard..."
 ${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/switchboard/bin/test "$@"
 
 echo -e "\nTesting Galera Healthcheck..."
-${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/galera-healthcheck/bin/test "$@"
+${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/galera-healthcheck/bin/test-unit "$@"
 
 echo -e "\nTesting MariaDB Control..."
 ${RELEASE_DIR}/src/github.com/cloudfoundry/mariadb_ctrl/bin/test "$@"
