@@ -4,8 +4,10 @@ packages:
 - golang
 - acceptance-tests
 - cli
+
 templates:
   errand.sh.erb: bin/run
+
 properties:
   cf.api_url:
     description: 'Full URL of Cloud Foundry API'
