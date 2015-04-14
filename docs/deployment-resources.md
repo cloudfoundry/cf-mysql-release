@@ -1,6 +1,6 @@
 # Deployment resources
 
-By default, the service is configured with a small footprint, suitable for development but possibly under-resourced for production workloads. This document describes symptoms of an under-resourced deployment, and steps that may be taken to reconfigure the service to increase available resources.
+By default, the service is configured with a small footprint, suitable for development but possibly insufficient for production workloads. This document describes symptoms of an under-resourced deployment, and steps that may be taken to reconfigure the service to increase available resources.
 
 ## Symptoms
 
