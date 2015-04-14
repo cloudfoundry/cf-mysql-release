@@ -6,10 +6,13 @@ meta:
   # i.e. cf-tabasco
   environment: ~
 
-  external_domain: (( merge ))
-  apps_domain: (( merge ))
   nats: (( merge ))
   syslog_aggregator: ~
+
+properties:
+  <<: (( merge || nil ))
+  app_domains: (( merge ))
+  domain: (( merge ))
 
 name: (( meta.environment "-mysql" ))
 director_uuid: (( merge ))
@@ -77,7 +80,7 @@ jobs:
         api_password: (( merge ))
       cluster_ips: (( jobs.mysql.properties.cluster_ips ))
       network_name: services1
-      external_host: (( "p-mysql." meta.external_domain ))
+      external_host: (( "p-mysql." .properties.domain ))
       nats: (( meta.nats ))
       syslog_aggregator: (( meta.syslog_aggregator ))
   - name: cf-mysql-broker
@@ -95,7 +98,7 @@ jobs:
       auth_username: (( merge ))
       auth_password: (( merge ))
       cookie_secret: (( merge ))
-      external_host: (( "p-mysql." meta.external_domain ))
+      external_host: (( "p-mysql." .properties.domain ))
       cc_api_uri: (( merge ))
       nats: (( meta.nats ))
       networks:
@@ -206,7 +209,7 @@ jobs:
         api_url: (( jobs.cf-mysql-broker.properties.cc_api_uri ))
         admin_username: (( merge ))
         admin_password: (( merge ))
-        apps_domain: (( meta.apps_domain ))
+        apps_domain: (( .properties.app_domains.[0] ))
       broker:
         host: (( jobs.cf-mysql-broker.properties.external_host ))
       service:
@@ -220,4 +223,3 @@ jobs:
             max_storage_mb: (( jobs.cf-mysql-broker.properties.services.[0].plans.[1].max_storage_mb ))
             max_user_connections: (( jobs.cf-mysql-broker.properties.services.[0].plans.[1].max_user_connections ))
 
-properties: {}  # Pivotal CF cannot generate global properties
