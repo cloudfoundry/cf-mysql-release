@@ -16,6 +16,12 @@ properties:
     password: (( merge ))
     port: (( merge ))
     machines: (( merge ))
+  cf:
+    api_url: (( "https://api." .properties.domain ))
+    admin_username: (( merge ))
+    admin_password: (( merge ))
+    apps_domain: (( .properties.app_domains.[0] ))
+    skip_ssl_validation: (( merge || nil ))
 
 name: (( meta.environment "-mysql" ))
 director_uuid: (( merge ))
@@ -102,7 +108,7 @@ jobs:
       auth_password: (( merge ))
       cookie_secret: (( merge ))
       external_host: (( "p-mysql." .properties.domain ))
-      cc_api_uri: (( merge ))
+      cc_api_uri: (( .properties.cf.api_url ))
       nats: (( .properties.nats ))
       networks:
         broker_network: services1
@@ -167,11 +173,7 @@ jobs:
     networks:
     - name: services1
     properties:
-      cf:
-        <<: (( merge || nil ))
-        api_url: (( jobs.cf-mysql-broker.properties.cc_api_uri ))
-        admin_username: (( merge ))
-        admin_password: (( merge ))
+      cf: (( .properties.cf ))
       broker:
         name: p-mysql
         host: (( jobs.cf-mysql-broker.properties.external_host ))
@@ -186,11 +188,7 @@ jobs:
     networks:
     - name: services1
     properties:
-      cf:
-        <<: (( merge || nil ))
-        api_url: (( jobs.cf-mysql-broker.properties.cc_api_uri ))
-        admin_username: (( merge ))
-        admin_password: (( merge ))
+      cf: (( .properties.cf ))
       broker:
         name: p-mysql
   - name: acceptance-tests
@@ -207,12 +205,7 @@ jobs:
         external_host: (( jobs.proxy.properties.external_host ))
         api_username: (( jobs.proxy.properties.proxy.api_username ))
         api_password: (( jobs.proxy.properties.proxy.api_password ))
-      cf:
-        <<: (( merge || nil ))
-        api_url: (( jobs.cf-mysql-broker.properties.cc_api_uri ))
-        admin_username: (( merge ))
-        admin_password: (( merge ))
-        apps_domain: (( .properties.app_domains.[0] ))
+      cf: (( .properties.cf ))
       broker:
         host: (( jobs.cf-mysql-broker.properties.external_host ))
       service:
