@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-job_dir=/var/vcap/jobs/galera-healthcheck
+job_dir=/var/vcap/jobs/mysql
 run_dir=/var/vcap/sys/run/galera-healthcheck
 log_dir=/var/vcap/sys/log/galera-healthcheck
 package_dir=/var/vcap/packages/galera-healthcheck
@@ -23,9 +23,7 @@ case $1 in
     cd $package_dir
 
     $package_dir/bin/galera-healthcheck \
-      -port=9200 \
-      -dbUser=<%= p('admin_username')%> \
-      -dbPassword=<%= p('admin_password')%> \
+      -configPath=$job_dir/config/galera_healthcheck_config.yaml
       -pidFile=$pidfile \
       >>$log_dir/galera-healthcheck.stdout.log 2>>$log_dir/galera-healthcheck.stderr.log &
 
