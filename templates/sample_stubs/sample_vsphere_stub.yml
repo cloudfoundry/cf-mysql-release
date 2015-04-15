@@ -26,16 +26,17 @@ properties:
     admin_username: YOUR_CF_ADMIN_USERNAME
     admin_password: YOUR_CF_ADMIN_PASSWORD
     skip_ssl_validation: true
-
-meta:
-  external_domain: YOUR_CF_SYSTEM_DOMAIN # The broker registers a route at p-mysql.external_domain
-  apps_domain: YOUR_CF_APPS_DOMAIN
+  domain: YOUR_CF_SYSTEM_DOMAIN # The broker registers a route at p-mysql.external_domain
+  app_domains:
+  - YOUR_CF_APPS_DOMAIN
   nats:
     machines:
       - 10.0.0.5
     password: NATS_PASSWORD_FROM_CF_RELEASE
     user: nats
     port: 4222
+
+meta:
   environment: YOUR_ENVIRONMENT_NAME
 
 jobs:

@@ -24,6 +24,16 @@ properties:
     skip_ssl_validation: false
     api_url: https://api.YOUR_CF_SYSTEM_DOMAIN  # full uri to the CF API (Cloud Controller), including scheme
 
+  domain: YOUR_CF_SYSTEM_DOMAIN # The broker registers a route at p-msyql.external_domain.
+  app_domains:
+  - YOUR_CF_APPS_DOMAIN
+  nats:
+    user: nats
+    password: NATS_PASSWORD_FROM_CF_RELEASE
+    machines:
+      - 10.10.80.11
+    port: 4222
+
   template_only:
     aws:
       availability_zone: YOUR_AWS_AVAILABILITY_ZONE #From the EC2 page of the AWS console, like us-east-1a
@@ -33,15 +43,6 @@ properties:
 
 meta:
   environment: YOUR_ENVIRONMENT_NAME
-  external_domain: YOUR_CF_SYSTEM_DOMAIN # The broker registers a route at p-msyql.external_domain.
-  apps_domain: YOUR_CF_APPS_DOMAIN
-  nats:
-    user: nats
-    password: NATS_PASSWORD_FROM_CF_RELEASE
-    machines:
-      - 10.10.80.11
-    port: 4222
-
 
 jobs:
 # Jobs for cf-mysql-release are below
