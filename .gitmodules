@@ -84,3 +84,10 @@
 [submodule "src/github.com/DATA-DOG/go-sqlmock"]
 	path = src/github.com/DATA-DOG/go-sqlmock
 	url = https://github.com/DATA-DOG/go-sqlmock
+[submodule "src/github.com/pivotal-cf-experimental/service-config"]
+	path = src/github.com/pivotal-cf-experimental/service-config
+	url = https://github.com/pivotal-cf-experimental/service-config
+	branch = master
+[submodule "src/github.com/cloudfoundry-incubator/candiedyaml"]
+	path = src/github.com/cloudfoundry-incubator/candiedyaml
+	url = https://github.com/cloudfoundry-incubator/candiedyaml
