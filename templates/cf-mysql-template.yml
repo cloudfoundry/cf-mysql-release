@@ -6,13 +6,12 @@ meta:
   # i.e. cf-tabasco
   environment: ~
 
-  nats: (( merge ))
   syslog_aggregator: ~
 
 properties:
-  <<: (( merge || nil ))
   app_domains: (( merge ))
   domain: (( merge ))
+  nats: (( merge ))
 
 name: (( meta.environment "-mysql" ))
 director_uuid: (( merge ))
@@ -81,7 +80,7 @@ jobs:
       cluster_ips: (( jobs.mysql.properties.cluster_ips ))
       network_name: services1
       external_host: (( "p-mysql." .properties.domain ))
-      nats: (( meta.nats ))
+      nats: (( .properties.nats ))
       syslog_aggregator: (( meta.syslog_aggregator ))
   - name: cf-mysql-broker
     release: cf-mysql
@@ -100,7 +99,7 @@ jobs:
       cookie_secret: (( merge ))
       external_host: (( "p-mysql." .properties.domain ))
       cc_api_uri: (( merge ))
-      nats: (( meta.nats ))
+      nats: (( .properties.nats ))
       networks:
         broker_network: services1
       services:
