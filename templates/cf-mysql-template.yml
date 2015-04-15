@@ -11,7 +11,11 @@ meta:
 properties:
   app_domains: (( merge ))
   domain: (( merge ))
-  nats: (( merge ))
+  nats:
+    user: (( merge ))
+    password: (( merge ))
+    port: (( merge ))
+    machines: (( merge ))
 
 name: (( meta.environment "-mysql" ))
 director_uuid: (( merge ))
