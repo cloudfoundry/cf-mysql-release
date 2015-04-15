@@ -5,9 +5,9 @@ releases:
   - name: cf-mysql
     version: latest
 
-meta:
-  apps_domain: (( merge || "10.244.0.34.xip.io" ))
-  external_domain: (( merge || "10.244.0.34.xip.io" ))
+properties:
+  app_domains: (( merge || ["10.244.0.34.xip.io"] ))
+  domain: (( merge || "10.244.0.34.xip.io" ))
   nats:
     machines:
       - 10.244.0.6
@@ -27,7 +27,7 @@ jobs:
       auth_password: password
       auth_username: admin
       cookie_secret: 94046872-2602-4ca6-8d07-8b0da9762477
-      cc_api_uri: (( "https://api." meta.external_domain ))
+      cc_api_uri: (( "https://api." .properties.domain ))
       skip_ssl_validation: true
       services:
       - name: p-mysql
