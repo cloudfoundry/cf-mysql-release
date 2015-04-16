@@ -78,9 +78,9 @@ jobs:
     <<: (( merge || nil ))
     admin_password: (( merge ))
     cluster_ips:
-    - (( jobs.mysql_z1.networks.mysql1.static_ips.[0] ))
-    - (( jobs.mysql_z2.networks.mysql2.static_ips.[0] ))
-    - (( jobs.mysql_z3.networks.mysql3.static_ips.[0] ))
+    - (( jobs.mysql_z1.networks.mysql1.static_ips.[0] || nil ))
+    - (( jobs.mysql_z2.networks.mysql2.static_ips.[0] || nil ))
+    - (( jobs.mysql_z3.networks.mysql3.static_ips.[0] || nil ))
     seeded_databases: ~
     syslog_aggregator: (( meta.syslog_aggregator ))
     network_name: mysql1
