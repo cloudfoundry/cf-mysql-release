@@ -22,10 +22,6 @@ properties:
 jobs:
   - name: mysql_z1
     instances: 1
-    networks:
-    - name: mysql1
-      static_ips:
-      - 10.244.1.2
     properties:
       <<: (( merge || nil ))
       admin_password: password
