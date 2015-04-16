@@ -3,14 +3,14 @@ check process mariadb_ctrl
   start program "/var/vcap/jobs/mysql/bin/mariadb_ctl start" with timeout 300 seconds
   stop program "/var/vcap/jobs/mysql/bin/mariadb_ctl stop" with timeout 10 seconds
   group vcap
-  depends on galera-healthcheck
+  depends on gra-log-purger-executable
 
 check process galera-healthcheck
   with pidfile /var/vcap/sys/run/galera-healthcheck/galera-healthcheck.pid
   start program "/var/vcap/jobs/mysql/bin/galera-healthcheck_ctl start" with timeout 10 seconds
   stop program "/var/vcap/jobs/mysql/bin/galera-healthcheck_ctl stop" with timeout 10 seconds
   group vcap
-  depends on gra-log-purger-executable
+  depends on mariadb_ctrl
 
 check process gra-log-purger-executable
   with pidfile /var/vcap/sys/run/gra-log-purger/gra-log-purger.pid
