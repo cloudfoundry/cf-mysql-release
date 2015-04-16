@@ -171,6 +171,7 @@ jobs:
     max_user_connections_default: (( merge || 40 ))
     syslog_aggregator: (( meta.syslog_aggregator ))
     network_name: mysql1
+    skip_ssl_validation: (( merge || nil ))
     auth_username: (( merge ))
     auth_password: (( merge ))
     cookie_secret: (( merge ))
@@ -247,6 +248,7 @@ jobs:
     auth_username: (( jobs.cf-mysql-broker_z1.properties.auth_username ))
     auth_password: (( jobs.cf-mysql-broker_z1.properties.auth_password ))
     cookie_secret: (( jobs.cf-mysql-broker_z1.properties.cookie_secret ))
+    skip_ssl_validation: (( jobs.cf-mysql-broker_z1.properties.skip_ssl_validation || nil ))
     external_host: (( "p-mysql." .properties.domain ))
     cc_api_uri: (( .properties.cf.api_url ))
     nats: (( .properties.nats ))
