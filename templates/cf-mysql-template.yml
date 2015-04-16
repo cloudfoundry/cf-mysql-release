@@ -22,6 +22,10 @@ properties:
     admin_password: (( merge ))
     apps_domain: (( .properties.app_domains.[0] ))
     skip_ssl_validation: (( merge || nil ))
+  default_mysql_cluster_ips:
+  - (( jobs.mysql_z1.networks.mysql1.static_ips.[0] || nil ))
+  - (( jobs.mysql_z2.networks.mysql2.static_ips.[0] || nil ))
+  - (( jobs.mysql_z3.networks.mysql3.static_ips.[0] || nil ))
 
 name: (( meta.environment "-mysql" ))
 director_uuid: (( merge ))
@@ -73,14 +77,11 @@ jobs:
   persistent_disk_pool: (( disk_pools.[0].name ))
   networks:
   - name: mysql1
-    static_ips: (( merge || static_ips(0) ))
+    static_ips: (( static_ips(0) ))
   properties:
     <<: (( merge || nil ))
     admin_password: (( merge ))
-    cluster_ips:
-    - (( jobs.mysql_z1.networks.mysql1.static_ips.[0] || nil ))
-    - (( jobs.mysql_z2.networks.mysql2.static_ips.[0] || nil ))
-    - (( jobs.mysql_z3.networks.mysql3.static_ips.[0] || nil ))
+    cluster_ips: (( merge || .properties.default_mysql_cluster_ips ))
     seeded_databases: ~
     syslog_aggregator: (( meta.syslog_aggregator ))
     network_name: mysql1
