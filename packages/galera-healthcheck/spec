@@ -6,8 +6,8 @@ files:
   - github.com/cloudfoundry-incubator/galera-healthcheck/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/healthcheck/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/integration/*.go # gosub
-  - github.com/cloudfoundry-incubator/candiedyaml/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
+  - github.com/fraenkel/candiedyaml/*.go # gosub
   - github.com/go-sql-driver/mysql/*.go # gosub
   - github.com/imdario/mergo/*.go # gosub
   - github.com/pivotal-cf-experimental/service-config/*.go # gosub
