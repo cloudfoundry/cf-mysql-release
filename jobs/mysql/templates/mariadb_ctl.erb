@@ -3,7 +3,6 @@
 set -e
 
 export MARIADB_JOB_DIR=/var/vcap/jobs/mysql
-RUN_DIR=/var/vcap/sys/run/mysql
 datadir=/var/vcap/store/mysql
 LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/mariadb_ctrl.combined.log
@@ -18,11 +17,11 @@ MYSQL_UPGRADE_PATH=/var/vcap/packages/mariadb/bin/mysql_upgrade
 mariadb_ctrl_pkg=/var/vcap/packages/mariadb_ctrl
 MYSQL_DAEMON_FILE=$mariadb_ctrl_pkg/bin/mysql_daemon.sh
 
-CONFIG_FILE=$RUN_DIR/config.yml
-
 export MY_NAME=mariadb_ctl
 export RUN_DIR=/var/vcap/sys/run/$MY_NAME
 export PIDFILE=$RUN_DIR/$MY_NAME.pid
+
+CONFIG_FILE=$RUN_DIR/config.yml
 
 DATABASE_SEED_ATTEMPTS=30
 
