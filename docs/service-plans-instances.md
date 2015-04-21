@@ -5,7 +5,7 @@ Service plans are defined in the manifest via properties on the `cf-mysql-broker
 ```yml
 ---
 jobs:
-- cf-mysql-broker:
+- cf-mysql-broker_z1:
   properties:
     plans:
     - id: unique-id

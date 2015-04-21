@@ -64,7 +64,7 @@ resource_pools:
 
 disk_pools:
 - name: mysql-persistent-disk
-  disk_size: 100000
+  disk_size: (( merge || 100000 ))
   cloud_properties:
     <<: (( merge || nil ))
 
@@ -132,6 +132,7 @@ jobs:
     <<: (( merge || nil ))
     proxy:
       <<: (( merge || nil ))
+      health_port: (( merge || nil ))
       api_username: (( merge ))
       api_password: (( merge ))
     cluster_ips: (( jobs.mysql_z1.properties.cluster_ips ))
@@ -152,6 +153,7 @@ jobs:
     <<: (( merge || nil ))
     proxy:
       <<: (( merge || nil ))
+      health_port: (( jobs.proxy_z1.properties.proxy.health_port ))
       api_username: (( jobs.proxy_z1.properties.proxy.api_username ))
       api_password: (( jobs.proxy_z1.properties.proxy.api_password ))
     cluster_ips: (( jobs.mysql_z1.properties.cluster_ips ))
@@ -172,11 +174,12 @@ jobs:
     max_user_connections_default: (( merge || 40 ))
     syslog_aggregator: (( meta.syslog_aggregator ))
     network_name: mysql1
+    ssl_enabled: (( merge || nil ))
     skip_ssl_validation: (( merge || nil ))
     auth_username: (( merge ))
     auth_password: (( merge ))
     cookie_secret: (( merge ))
-    external_host: (( "p-mysql." .properties.domain ))
+    external_host: (( merge || "p-mysql." .properties.domain ))
     cc_api_uri: (( .properties.cf.api_url ))
     nats: (( .properties.nats ))
     networks:
@@ -249,6 +252,7 @@ jobs:
     auth_username: (( jobs.cf-mysql-broker_z1.properties.auth_username ))
     auth_password: (( jobs.cf-mysql-broker_z1.properties.auth_password ))
     cookie_secret: (( jobs.cf-mysql-broker_z1.properties.cookie_secret ))
+    ssl_enabled: (( jobs.cf-mysql-broker_z1.properties.ssl_enabled || nil ))
     skip_ssl_validation: (( jobs.cf-mysql-broker_z1.properties.skip_ssl_validation || nil ))
     external_host: (( "p-mysql." .properties.domain ))
     cc_api_uri: (( .properties.cf.api_url ))
@@ -297,6 +301,7 @@ jobs:
   - name: mysql1
   properties:
     <<: (( merge || nil ))
+    smoke_tests_only: (( merge || nil ))
     proxy:
       external_host: (( jobs.proxy_z1.properties.external_host ))
       api_username: (( jobs.proxy_z1.properties.proxy.api_username ))

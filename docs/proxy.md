@@ -50,7 +50,7 @@ Configure the load balancer to route traffic for TCP port 3306 to the IPs of all
 
 ```
 jobs:
-- name: proxy
+- name: proxy_z1
   properties:
     proxy:
       health_port: <port>
@@ -61,7 +61,7 @@ To ensure that bound applications will use the load balancer to reach bound data
 
 ```
 jobs:
-- name: cf-mysql-broker
+- name: cf-mysql-broker_z1
   properties:
     mysql_node:
       host: <load balancer address>

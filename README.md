@@ -91,7 +91,7 @@ Service authors interested in implementing a service dashboard accessible via SS
 
 #### SSL
 
-The dashboard URL defaults to using the `https` scheme. To override this, you can change `properties.ssl_enabled` to `false` in the `cf-mysql-broker` job.
+The dashboard URL defaults to using the `https` scheme. To override this, you can change `jobs.cf-mysql-broker_z1.ssl_enabled` to `false`. To trust self-signed SSL certificates, you can change `jobs.cf-mysql-broker_z1.skip_ssl_validation` to `true`.
 
 Keep in mind that changing the `ssl_enabled` setting for an existing broker will not update previously advertised dashboard URLs.
 Visiting the old URL may fail if you are using the [SSO integration](http://docs.cloudfoundry.org/services/dashboard-sso.html),
@@ -281,7 +281,7 @@ Manifest properties are described in the `spec` file for each job; see [jobs](jo
 
 You can find your `director_uuid` by running `bosh status`.
 
-The MariaDB cluster nodes are configured by default with 100GB of persistent disk. This can be configured in your stub or manifest using `jobs.mysql.persistent_disk`, however your deployment will fail if this is less than 3GB; we recommend allocating 10GB at a minimum.
+The MariaDB cluster nodes are configured by default with 100GB of persistent disk. This can be configured in your stub or manifest using `disk_pools.mysql-persistent-disk.disk_size`, however your deployment will fail if this is less than 3GB; we recommend allocating 10GB at a minimum.
 
 <a name="registering-broker"></a>
 ## Registering the Service Broker
@@ -304,9 +304,9 @@ Note: the broker-registrar errand will fail if the broker has already been regis
     $ cf create-service-broker p-mysql BROKER_USERNAME BROKER_PASSWORD URL
     ```
 
-    `BROKER_USERNAME` and `BROKER_PASSWORD` are the credentials Cloud Foundry will use to authenticate when making API calls to the service broker. Use the values for manifest properties `jobs.cf-mysql-broker.properties.auth_username` and `jobs.cf-mysql-broker.properties.auth_password`.
+    `BROKER_USERNAME` and `BROKER_PASSWORD` are the credentials Cloud Foundry will use to authenticate when making API calls to the service broker. Use the values for manifest properties `jobs.cf-mysql-broker_z1.properties.auth_username` and `jobs.cf-mysql-broker_z1.properties.auth_password`.
 
-    `URL` specifies where the Cloud Controller will access the MySQL broker. Use the value of the manifest property `jobs.cf-mysql-broker.properties.external_host`.
+    `URL` specifies where the Cloud Controller will access the MySQL broker. Use the value of the manifest property `jobs.cf-mysql-broker_z1.properties.external_host`. By default, this value is set to `p-mysql.<properties.domain>` (in spiff: `"p-mysql." .properties.domain`).
 
     For more information, see [Managing Service Brokers](http://docs.cloudfoundry.org/services/managing-service-brokers.html).
 
@@ -316,17 +316,25 @@ Note: the broker-registrar errand will fail if the broker has already been regis
 
 Note: this section does not apply to bosh-lite deployments.
 
-Since [cf-release](https://github.com/cloudfoundry/cf-release) v175, applications by default cannot to connect to IP addresses on the private network. This prevents applications from connecting to the MySQL service. To enable access to the service, create a new security group for the IP configured in your manifest for the property `jobs.mysql_broker.mysql_node.host`.
+Since [cf-release](https://github.com/cloudfoundry/cf-release) v175, applications by default cannot to connect to IP addresses on the private network. This prevents applications from connecting to the MySQL service. To enable access to the service, create a new security group for the IP configured in your manifest for the property `jobs.cf-mysql-broker_z1.mysql_node.host`.
 
 1. Add the rule to a file in the following json format; multiple rules are supported.
 
   ```
   [
-      {
-        "destination": "10.244.1.18",
-        "protocol": "all"
-      }
-  ]
+		{
+			"destination": "10.10.163.1-10.10.163.255",
+			"protocol": "all"
+		},
+		{
+			"destination": "10.10.164.1-10.10.164.255",
+			"protocol": "all"
+		},
+		{
+			"destination": "10.10.165.1-10.10.165.255",
+			"protocol": "all"
+		}
+	]
   ```
 - Create a security group from the rule file.
   ```shell
@@ -350,17 +358,6 @@ The MySQL Release contains an "acceptance-tests" job which is deployed as a BOSH
 <a name="smoke_tests"></a>
 ### Running Smoke Tests via BOSH errand
 
-Running the acceptance tests as an errand can be achieved by defining an errand in the manifest as follows:
-
-```yml
----
-jobs:
-- acceptance-tests:
-  lifecycle: errand
-```
-
-Additional fields are required; refer to the [spec](jobs/acceptance-tests/spec) for more details.
-
 To run the MySQL Release Smoke tests you will need:
 
 - a running CF instance
@@ -372,6 +369,8 @@ Run the smoke tests via bosh errand as follows:
 ```
 $ bosh run errand acceptance-tests
 ```
+
+Modifying values under `jobs.acceptance-tests.properties` may be required. Configuration options can be found in the [job spec](jobs/acceptance-tests/spec).
 
 <a name="deregistering-broker"></a>
 ## De-registering the Service Broker
