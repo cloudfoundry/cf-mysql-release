@@ -39,6 +39,7 @@ resource_pools:
   cloud_properties:
     instance_type: (( merge || "m3.large" ))
     availability_zone: (( properties.template_only.aws.availability_zone ))
+    elbs: (( merge || nil ))
 
 - name: proxy_z2
   stemcell:
@@ -47,6 +48,7 @@ resource_pools:
   cloud_properties:
     instance_type: (( merge || "m3.large" ))
     availability_zone: (( properties.template_only.aws.availability_zone2 ))
+    elbs: (( merge || nil ))
 
 - name: cf-mysql-broker_z1
   stemcell:
