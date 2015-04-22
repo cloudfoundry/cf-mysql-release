@@ -61,6 +61,26 @@ resource_pools:
   network: mysql3
   stemcell: (( merge ))
   cloud_properties: (( merge ))
+- name: proxy_z1
+  network: mysql1
+  stemcell: (( merge || resource_pools.mysql_z1.stemcell ))
+  cloud_properties: (( merge || resource_pools.mysql_z1.cloud_properties ))
+- name: proxy_z2
+  network: mysql2
+  stemcell: (( merge || resource_pools.mysql_z2.stemcell ))
+  cloud_properties: (( merge || resource_pools.mysql_z2.cloud_properties ))
+- name: cf-mysql-broker_z1
+  network: mysql1
+  stemcell: (( merge || resource_pools.mysql_z1.stemcell ))
+  cloud_properties: (( merge || resource_pools.mysql_z1.cloud_properties ))
+- name: cf-mysql-broker_z2
+  network: mysql2
+  stemcell: (( merge || resource_pools.mysql_z2.stemcell ))
+  cloud_properties: (( merge || resource_pools.mysql_z2.cloud_properties ))
+- name: errands_z1
+  network: mysql1
+  stemcell: (( merge || resource_pools.mysql_z1.stemcell ))
+  cloud_properties: (( merge || resource_pools.mysql_z1.cloud_properties ))
 
 disk_pools:
 - name: mysql-persistent-disk
@@ -124,7 +144,7 @@ jobs:
   release: cf-mysql
   template: proxy
   instances: (( merge || 1 ))
-  resource_pool: mysql_z1
+  resource_pool: proxy_z1
   networks:
   - name: mysql1
     static_ips: (( merge || static_ips(1) ))
@@ -145,7 +165,7 @@ jobs:
   release: cf-mysql
   template: proxy
   instances: (( merge || 1 ))
-  resource_pool: mysql_z2
+  resource_pool: proxy_z2
   networks:
   - name: mysql2
     static_ips: (( merge || static_ips(1) ))
@@ -166,7 +186,7 @@ jobs:
   release: cf-mysql
   template: cf-mysql-broker
   instances: (( merge || 1 ))
-  resource_pool: mysql_z1
+  resource_pool: cf-mysql-broker_z1
   networks:
   - name: mysql1
   properties:
@@ -241,7 +261,7 @@ jobs:
   release: cf-mysql
   template: cf-mysql-broker
   instances: (( merge || 1 ))
-  resource_pool: mysql_z2
+  resource_pool: cf-mysql-broker_z2
   networks:
   - name: mysql2
   properties:
@@ -266,7 +286,7 @@ jobs:
   template: broker-registrar
   release: cf-mysql
   instances: 1
-  resource_pool: mysql_z1
+  resource_pool: errands_z1
   lifecycle: errand
   networks:
   - name: mysql1
@@ -282,7 +302,7 @@ jobs:
   template: broker-deregistrar
   release: cf-mysql
   instances: 1
-  resource_pool: mysql_z1
+  resource_pool: errands_z1
   lifecycle: errand
   networks:
   - name: mysql1
@@ -295,7 +315,7 @@ jobs:
   template: acceptance-tests
   release: cf-mysql
   instances: 1
-  resource_pool: mysql_z1
+  resource_pool: errands_z1
   lifecycle: errand
   networks:
   - name: mysql1
