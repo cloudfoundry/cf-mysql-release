@@ -22,6 +22,8 @@
 
 [Updating service instances](#updating-service-instances)
 
+[Configuring a High Availability deployment](#configuring-ha-deployment)
+
 <a name='components'></a>
 ## Components
 
@@ -405,3 +407,40 @@ Updating service instances is supported; see [Service plans and instances](docs/
 ## Deployment Resources
 
 The service is configured to have a small footprint out of the box. These resources are sufficient for development, but may be insufficient for production workloads. If the service appears to be performing poorly, redeploying with increased resources may improve performance. See [deployment resources](docs/deployment-resources.md) for further details.
+
+<a name="configuring-ha-deployment"></a>
+## Configuring an HA deployment
+
+The service can be configured to be highly available. The following describes the recommended deployment configuration, including the number of instances of each job as well as the network topology.
+This is also the default configuration provided by the templates. In this configuration, the service can tolerate the failure of a single Availability Zone (AZ) without impacting availability.
+
+### Networks
+
+An HA deployment requires the operator to create three subnets. Each of these subnets should reside in a different AZ. This ensures that the failure of a single AZ does not impact the availability of the service.
+The [sample_aws_stub.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/sample_stubs/sample_aws_stub.yml) demonstrates how these subnets can be configured.
+
+### DB nodes
+
+There are three mysql jobs (mysql\_z1, mysql\_z2, mysql\_z3) which should be deployed with one instance each.
+Each of these instances will reside in separate subnets as described in the previous section.
+The number of mysql nodes should always be odd, with a minimum count of three, to avoid [split-brain](http://en.wikipedia.org/wiki/Split-brain\_\(computing\)).
+When the failed node comes back online, it will automatically rejoin the cluster and sync data from one of the healthy nodes.
+
+### Proxy nodes
+
+There are two proxy jobs (proxy\_z1, proxy\_z2), which should be deployed with one instance each to different subnets.
+The second proxy is intended to be used in a failover capacity. In the event the first proxy fails, the second proxy will still be able to route requests to the mysql nodes.
+
+### Broker nodes
+
+There are also two broker jobs (cf-mysql-broker\_z1, cf-mysql-broker\_z2) which should be deployed with one instance each to different subnets.
+The brokers each register a route with CF, which load balances requests across the brokers.
+
+### Load balancer
+
+In order to route requests to both proxies, the operator should create a load balancer.
+Manifest changes required to configure a load balancer can be found in the
+[proxy](https://github.com/cloudfoundry/cf-mysql-release/blob/master/docs/proxy.md#configuring-load-balancer) documentation.
+Once a load balancer is configured, the brokers will hand out the address of the load balancer rather than the IP of the first proxy.
+Currently, load balancing requests across both proxies can increase the possibility of deadlocks. See the [routing](https://github.com/cloudfoundry/cf-mysql-release/blob/master/docs/proxy.md#consistent-routing) documentation for more information.
+To avoid this problem, configure the load balancer to route requests to the second proxy only in the event of a failover.
