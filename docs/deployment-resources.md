@@ -13,14 +13,14 @@ The resource configuration is defined in the manifest under `resource_pools`. Cu
 
 ### AWS
 
-AWS provides instance types which map to specific values of CPU,RAM and ephemeral disk; they are not independently configurable. The instance type is set via the property `cloud_properties.instance_type`
+AWS provides instance types which map to specific values of CPU,RAM and ephemeral disk; they are not independently configurable. The instance type is set via the property `cloud_properties.instance_type`.
 
 If the manifest is being generated using spiff and merging the provided templates and stubs, a stub can be provided with the following structure:
 
 ```yml
 ---
 resource_pools:
-- name: services-small
+- name: <job-name e.g. mysql_z1>
   cloud_properties:
     instance_type: <some-value>
 ```
@@ -34,7 +34,7 @@ If the manifest is generated using spiff, merging the provided templates and stu
 ```yml
 ---
 resource_pools:
-- name: services-small
+- name: <job-name e.g. mysql_z1>
   cloud_properties:
     cpu: <some-value>
     ram: <some-value>
