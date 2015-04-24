@@ -35,7 +35,7 @@ releases:
   version: (( merge || "latest" ))
 
 compilation:
-  workers: 3
+  workers: 4
   network: services1
   reuse_compilation_vms: true
   cloud_properties: (( merge ))
