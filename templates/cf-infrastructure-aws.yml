@@ -2,8 +2,11 @@ meta: ~
 
 compilation:
   cloud_properties:
-    instance_type: ((merge || "c3.large" ))
+    instance_type: (( merge || "c4.large" ))
     availability_zone: (( properties.template_only.aws.availability_zone ))
+    ephemeral_disk:
+      size: 30000 # in MB
+      type: gp2
 
 networks: (( merge ))
 
