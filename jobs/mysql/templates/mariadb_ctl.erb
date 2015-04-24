@@ -8,6 +8,11 @@ LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/mariadb_ctrl.combined.log
 CONFIG_DIR=/etc/mysql
 export JOB_INDEX=<%= index %>
+
+# Get job AZ from job name. Zones start with index 1.
+<% az_index = /mysql\_z(\d)$/.match(name).captures[0] %>
+AZ_INDEX=<%= az_index.to_i - 1 %>
+
 STATE_FILE=/var/vcap/store/mysql/state.txt
 MYSQL_CLIENT_FILE=/var/vcap/packages/mariadb/bin/mysql
 MYSQL_SERVER_FILE=/var/vcap/packages/mariadb/support-files/mysql.server
@@ -127,6 +132,7 @@ Upgrader:
 Manager:
   StateFileLocation: $STATE_FILE
   DbSeedScriptPath: $DB_SEED_SCRIPT_FILE
+  AzIndex: $AZ_INDEX
   JobIndex: $JOB_INDEX
   ClusterIps:
   <% (p('cluster_ips') - [node_ip]).each do |ip| %>
