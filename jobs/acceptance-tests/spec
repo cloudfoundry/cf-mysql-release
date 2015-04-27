@@ -33,6 +33,10 @@ properties:
     description: 'number of user connections to allow in a plan if not specified'
     default: 40
 
+  org_name:
+    description: 'The name of the Org to run acceptance tests against'
+    default: ''
+
   smoke_tests_only:
     description: 'Instead of running the full acceptance test suite, only run a shorter smoke test'
     default: true

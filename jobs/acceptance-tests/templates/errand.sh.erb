@@ -10,6 +10,9 @@ cat > integration_config.json <<EOF
   "admin_user":    "<%= p('cf.admin_username') %>",
   "broker_host":   "<%= p('broker.host') %>",
   "service_name":  "<%= p('service.name') %>",
+  <% if p('org_name') %>
+  "org_name": "<%= p('org_name') %>",
+  <% end %>
   "plans": [
   <% plans = p('service.plans')
   plans.each do |plan| %>

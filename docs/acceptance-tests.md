@@ -22,6 +22,23 @@ jobs:
     smoke_tests_only: false
 ```
 
+By default, the acceptance tests will create a random organization and delete it after each test run.
+The tests assume that all plans are public, and will fail if any plans are private.
+To run the tests against private plans, create an organization to be used by the acceptance tests which has access to all plans.
+
+```
+cf create-org MY_TEST_ORG
+cf enable-service-access p-mysql -o MY_TEST_ORG
+```
+
+Then add the following property to the deployment manifest:
+```yml
+jobs:
+- name: acceptance-tests
+  properties:
+    org_name: MY_TEST_ORG
+```
+
 To run the acceptance tests via bosh errand:
 
 ```bash
