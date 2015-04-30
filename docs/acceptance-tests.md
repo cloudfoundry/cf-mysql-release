@@ -24,14 +24,14 @@ jobs:
 
 By default, the acceptance tests will create a random organization and delete it after each test run.
 The tests assume that all plans are public, and will fail if any plans are private.
-To run the tests against private plans, create an organization to be used by the acceptance tests which has access to all plans.
+To run the tests against private plans, create an organization to be used by the acceptance tests which has access to all plans. Ensure the organization has a correctly configured quota; see [quota documentation](http://docs.cloudfoundry.org/running/managing-cf/quota-plans.html) for more details.
 
 ```
 cf create-org MY_TEST_ORG
 cf enable-service-access p-mysql -o MY_TEST_ORG
 ```
 
-Then add the following property to the deployment manifest:
+Then add the following property to the deployment manifest and (re)deploy:
 ```yml
 jobs:
 - name: acceptance-tests
