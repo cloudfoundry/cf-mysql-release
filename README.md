@@ -93,7 +93,12 @@ Service authors interested in implementing a service dashboard accessible via SS
 
 #### SSL
 
-The dashboard URL defaults to using the `https` scheme. To override this, you can change `jobs.cf-mysql-broker_z1.ssl_enabled` to `false`. To trust self-signed SSL certificates, you can change `jobs.cf-mysql-broker_z1.skip_ssl_validation` to `true`.
+The dashboard URL defaults to using the `https` scheme. This means any requests using `http` will automatically be redirected to `https` instead.
+To override this, you can change `jobs.cf-mysql-broker_z1.ssl_enabled` to `false`.
+To trust self-signed SSL certificates, you can change `jobs.cf-mysql-broker_z1.skip_ssl_validation` to `true`.
+
+If using `https`, the broker must be reached through an SSL termination proxy.
+Connecting to the broker directly on `https` will result in a `port 443: Connection refused` error.
 
 Keep in mind that changing the `ssl_enabled` setting for an existing broker will not update previously advertised dashboard URLs.
 Visiting the old URL may fail if you are using the [SSO integration](http://docs.cloudfoundry.org/services/dashboard-sso.html),
