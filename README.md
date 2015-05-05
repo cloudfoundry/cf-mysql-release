@@ -256,7 +256,7 @@ To avoid this problem, configure the load balancer to route requests to the seco
 There are three mysql jobs (mysql\_z1, mysql\_z2, mysql\_z3) which should be deployed with one instance each.
 Each of these instances will reside in separate subnets as described in the previous section.
 The number of mysql nodes should always be odd, with a minimum count of three, to avoid [split-brain](http://en.wikipedia.org/wiki/Split-brain\_\(computing\)).
-When the failed node comes back online, it will automatically rejoin the cluster and sync data from one of the healthy nodes.
+When the failed node comes back online, it will automatically rejoin the cluster and sync data from one of the healthy nodes. Note: Due to our bootstrapping procedure, if you are bringing up a cluster for the first time, there must be a database node in the first subnet.
 
 #### Proxy nodes
 
@@ -266,7 +266,7 @@ The second proxy is intended to be used in a failover capacity. In the event the
 #### Broker nodes
 
 There are also two broker jobs (cf-mysql-broker\_z1, cf-mysql-broker\_z2) which should be deployed with one instance each to different subnets.
-The brokers each register a route with , which load balances requests across the brokers.
+The brokers each register a route with the router, which load balances requests across the brokers.
 
 <a name="create_manifest"></a>
 ### Create Manifest and Deploy
