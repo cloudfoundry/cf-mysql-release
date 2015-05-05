@@ -12,7 +12,7 @@ install:
   - git submodule update --init --recursive
 
 script:
-  - ./scripts/test-unit
+  - ./scripts/test-unit -nodes=2
 
 branches:
   only:
