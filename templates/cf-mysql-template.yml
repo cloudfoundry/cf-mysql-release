@@ -195,7 +195,7 @@ jobs:
     syslog_aggregator: (( meta.syslog_aggregator ))
     network_name: mysql1
     ssl_enabled: (( merge || nil ))
-    skip_ssl_validation: (( merge || nil ))
+    skip_ssl_validation: (( .properties.cf.skip_ssl_validation ))
     auth_username: (( merge ))
     auth_password: (( merge ))
     cookie_secret: (( merge ))
@@ -273,7 +273,7 @@ jobs:
     auth_password: (( jobs.cf-mysql-broker_z1.properties.auth_password ))
     cookie_secret: (( jobs.cf-mysql-broker_z1.properties.cookie_secret ))
     ssl_enabled: (( jobs.cf-mysql-broker_z1.properties.ssl_enabled || nil ))
-    skip_ssl_validation: (( jobs.cf-mysql-broker_z1.properties.skip_ssl_validation || nil ))
+    skip_ssl_validation: (( jobs.cf-mysql-broker_z1.properties.skip_ssl_validation ))
     external_host: (( "p-mysql." .properties.domain ))
     cc_api_uri: (( .properties.cf.api_url ))
     nats: (( .properties.nats ))
