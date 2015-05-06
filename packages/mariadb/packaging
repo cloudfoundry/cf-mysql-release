@@ -1,7 +1,7 @@
 # abort script on any command that exits with a non zero value
 set -e
 
-MARIADB_VERSION=10.0.16
+MARIADB_VERSION=10.0.17
 
 tar xzf mariadb/mariadb-galera-${MARIADB_VERSION}.tar.gz
 (
@@ -10,7 +10,11 @@ tar xzf mariadb/mariadb-galera-${MARIADB_VERSION}.tar.gz
   mkdir bld
   cd bld
 
-  cmake .. -DCMAKE_INSTALL_PREFIX=${BOSH_INSTALL_TARGET} -DWITH_WSREP=ON -DWITH_INNODB_DISALLOW_WRITES=1 -DWITH_PCRE=bundled
+  cmake .. \
+      -DCMAKE_INSTALL_PREFIX=${BOSH_INSTALL_TARGET} \
+      -DWITH_WSREP=ON \
+      -DWITH_INNODB_DISALLOW_WRITES=1 \
+      -DWITH_PCRE=bundled
 
   #
   # Go Agent cannot handle more than 10MB output, so trim it

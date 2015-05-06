@@ -19,10 +19,6 @@ boost/boost_1_55_0.tar.gz:
   object_id: 52348346-ba79-41e1-9c71-74ee464570d6
   sha: 61ed0e57d3c7c8985805bb0682de3f4c65f4b6e5
   size: 69481257
-galera/galera-25.3.5-src.tar.gz:
-  object_id: 137c19a6-59c1-455c-bba8-073fac54792c
-  sha: 05988bb4449048140c6df8e4b3c64750833139db
-  size: 3820268
 scons/scons-2.3.1.tar.gz:
   object_id: e3136aa7-9bf6-4c49-a26d-9ebe85665818
   sha: 775e715e49fe5fd8e1d29551a296fdc9267509e7
@@ -79,10 +75,6 @@ ruby/ruby-2.1.5.tar.gz:
   object_id: fe2793ce-982c-4934-8e72-144236f2824b
   sha: 9c0a238bd7839a4b51871641945a3da90997b8c2
   size: 15127433
-mariadb/mariadb-galera-10.0.16.tar.gz:
-  object_id: 5f58a054-7b9e-4b5f-9b3e-a79406b9fb01
-  sha: 2782d493f3a3210caf2ed76fdac38bf81734c43c
-  size: 55886236
 golang/go1.4.2.linux-amd64.tar.gz:
   object_id: 2f024dbf-1a20-4bec-a62a-adaf5e202459
   sha: 5020af94b52b65cc9b6f11d50a67e4bae07b0aff
@@ -91,3 +83,11 @@ cli/cf-linux-amd64-6.10.0.tgz:
   object_id: adb9d3ea-3582-4ff3-a3b4-eab569915e16
   sha: f845800310e4b702a39a2f1191e3d71862630103
   size: 4803309
+mariadb/mariadb-galera-10.0.17.tar.gz:
+  object_id: 8457808c-bfb7-455f-93ce-f2a8ac7becc4
+  sha: 91b70d19fb687a58f0e40f50608071489743e54e
+  size: 56229230
+galera/galera-25.3.9-src.tar.gz:
+  object_id: 9f0e7032-1b75-4794-bf8c-e31863a82120
+  sha: 896c7ea57781e70a5cf02c919dc3dd93968cb488
+  size: 2949775
