@@ -2,8 +2,7 @@
 set -e
 set -x
 
-XTRABACKUP_VERSION=2.2.5-5027
-XTRABACKUP_VERSION_SHORT=2.2.5
+XTRABACKUP_VERSION=2.2.10
 PREFIX=${BOSH_INSTALL_TARGET}
 
 export PATH=$PATH:${BOSH_INSTALL_TARGET}/bin:/var/vcap/packages/mariadb/bin
@@ -81,12 +80,15 @@ tar xzf xtrabackup/libaio_0.3.110.orig.tar.gz
 
 )
 
-tar xzf xtrabackup/percona-xtrabackup_${XTRABACKUP_VERSION}.orig.tar.gz
+tar xzf xtrabackup/percona-xtrabackup-percona-xtrabackup-${XTRABACKUP_VERSION}.tar.gz
 (
   set -e
-  cd percona-xtrabackup-${XTRABACKUP_VERSION_SHORT}
+  cd percona-xtrabackup-percona-xtrabackup-${XTRABACKUP_VERSION}
 
-  cmake -DBUILD_CONFIG=xtrabackup_release -DCMAKE_INSTALL_PREFIX=${BOSH_INSTALL_TARGET}
+  cmake \
+      -DBUILD_CONFIG=xtrabackup_release \
+      -DCMAKE_INSTALL_PREFIX=${BOSH_INSTALL_TARGET} \
+      -DWITH_MAN_PAGES=OFF
   make -j4
   make install
 )
