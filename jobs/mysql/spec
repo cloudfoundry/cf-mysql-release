@@ -39,6 +39,12 @@ properties:
     description: 'The size in bytes of the memory buffer InnoDB uses to cache data and indexes of its tables'
   cluster_ips:
     description: 'List of nodes.  Must have the same number of ips as there are nodes in the cluster'
+  max_heap_table_size:
+    description: 'The maximum size (in rows) to which user-created MEMORY tables are permitted to grow'
+    default: 16777216
+  tmp_table_size:
+    description: 'The maximum size (in bytes) of internal in-memory temporary tables'
+    default: 33554432
 
   #these two properties are also used by the Broker
   gcache_size:

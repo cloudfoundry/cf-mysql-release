@@ -53,6 +53,9 @@ innodb_file_per_table = ON
 innodb_file_format = Barracuda
 innodb_log_file_size = "<%= p('ib_log_file_size')%>MB"
 
+max_heap_table_size = <%= p('max_heap_table_size') %>
+tmp_table_size = <%= p('tmp_table_size') %>
+
 # These are mandatory MySQL settings for MariaDB Galera to work
 binlog_format = ROW
 default_storage_engine = InnoDB
