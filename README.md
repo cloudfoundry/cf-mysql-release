@@ -62,7 +62,9 @@ For more details see the [proxy documentation](/docs/proxy.md).
 <a name="dashboard"></a>
 ### Dashboard
 
-A user-facing service dashboard is provided by the service broker that displays storage utilization information for each service instance. The dashboard is accessible by users via Single Sign-On (SSO) once authenticated with Cloud Foundry.
+A user-facing service dashboard is provided by the service broker that displays storage utilization information for each service instance.
+The dashboard is accessible by users via Single Sign-On (SSO) once authenticated with Cloud Foundry.
+The dashboard URL can be found by running `cf service MY_SERVICE_INSTANCE`.
 
 Service authors interested in implementing a service dashboard accessible via SSO can follow documentation for [Dashboard SSO](http://docs.cloudfoundry.org/services/dashboard-sso.html).
 
@@ -91,19 +93,27 @@ Service authors interested in implementing a service dashboard accessible via SS
       secret: yoursecret
     ```
 
-#### SSL
+#### Broker Configuration
+
+##### Require HTTPS when visiting Dashboard
 
 The dashboard URL defaults to using the `https` scheme. This means any requests using `http` will automatically be redirected to `https` instead.
 To override this, you can change `jobs.cf-mysql-broker_z1.ssl_enabled` to `false`.
-To trust self-signed SSL certificates, you can change `jobs.cf-mysql-broker_z1.skip_ssl_validation` to `true`.
-
-If using `https`, the broker must be reached through an SSL termination proxy.
-Connecting to the broker directly on `https` will result in a `port 443: Connection refused` error.
 
 Keep in mind that changing the `ssl_enabled` setting for an existing broker will not update previously advertised dashboard URLs.
 Visiting the old URL may fail if you are using the [SSO integration](http://docs.cloudfoundry.org/services/dashboard-sso.html),
 because the OAuth2 client registered with UAA will expect users to both come from and return to a URI using the scheme
 implied by the `ssl_enabled` setting.
+
+Note:
+If using `https`, the broker must be reached through an SSL termination proxy.
+Connecting to the broker directly on `https` will result in a `port 443: Connection refused` error.
+
+##### Trust Self-Signed SSL Certificates
+
+By default, the broker will not trust a self-signed SSL certificate when communicating with cf-release.
+To trust self-signed SSL certificates, you can change `jobs.cf-mysql-broker_z1.skip_ssl_validation` to `true`.
+
 
 #### Implementation Notes
 
