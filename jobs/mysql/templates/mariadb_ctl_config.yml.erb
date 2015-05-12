@@ -1,0 +1,28 @@
+---
+LogFileLocation: /var/vcap/sys/log/mysql/mariadb_ctrl.combined.log
+Db:
+  DaemonPath: /var/vcap/packages/mariadb_ctrl/bin/mysql_daemon.sh
+  UpgradePath: /var/vcap/packages/mariadb/bin/mysql_upgrade
+  User: <%= p('admin_username')%>
+  Password: <%= p('admin_password')%>
+  PreseededDatabases:
+  <% p("seeded_databases").each do |seed| %>
+  - DBName: <%= seed["name"] %>
+    User: <%= seed["username"]%>
+    Password: <%= seed["password"] %>
+  <% end %>
+Upgrader:
+  PackageVersionFile: /var/vcap/packages/mariadb/VERSION
+  LastUpgradedVersionFile: /var/vcap/store/mysql/mysql_upgrade_info
+Manager:
+  StateFileLocation: /var/vcap/store/mysql/state.txt
+  # Get job AZ from job name. Zones start with index 1.
+  <% az_index = /mysql\_z(\d)$/.match(name).captures[0] %>
+  AzIndex: <%= az_index.to_i - 1 %>
+  JobIndex: <%= index %>
+  ClusterIps:
+  <% node_ip = spec.networks.send(p('network_name')).ip %>
+  <% (p('cluster_ips') - [node_ip]).each do |ip| %>
+  - <%= ip %>
+  <% end %>
+  MaxDatabaseSeedTries: 30

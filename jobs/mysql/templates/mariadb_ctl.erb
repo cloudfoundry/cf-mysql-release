@@ -4,34 +4,16 @@ set -e
 
 export MARIADB_JOB_DIR=/var/vcap/jobs/mysql
 datadir=/var/vcap/store/mysql
+CONFIG_DIR=/etc/mysql
 LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/mariadb_ctrl.combined.log
-CONFIG_DIR=/etc/mysql
-export JOB_INDEX=<%= index %>
+JOB_INDEX=<%= index %>
+CONFIG_FILE=$MARIADB_JOB_DIR/config/mariadb_ctl_config.yml
+MARIADB_CTRL_PACKAGE=/var/vcap/packages/mariadb_ctrl
 
-# Get job AZ from job name. Zones start with index 1.
-<% az_index = /mysql\_z(\d)$/.match(name).captures[0] %>
-AZ_INDEX=<%= az_index.to_i - 1 %>
-
-STATE_FILE=/var/vcap/store/mysql/state.txt
-MYSQL_CLIENT_FILE=/var/vcap/packages/mariadb/bin/mysql
-MYSQL_SERVER_FILE=/var/vcap/packages/mariadb/support-files/mysql.server
-DB_SEED_SCRIPT_FILE=$MARIADB_JOB_DIR/bin/mysql_database_seed.sh
-MYSQL_UPGRADE_PATH=/var/vcap/packages/mariadb/bin/mysql_upgrade
-
-mariadb_ctrl_pkg=/var/vcap/packages/mariadb_ctrl
-MYSQL_DAEMON_FILE=$mariadb_ctrl_pkg/bin/mysql_daemon.sh
-
-export MY_NAME=mariadb_ctl
-export RUN_DIR=/var/vcap/sys/run/$MY_NAME
-export PIDFILE=$RUN_DIR/$MY_NAME.pid
-
-CONFIG_FILE=$RUN_DIR/config.yml
-
-DATABASE_SEED_ATTEMPTS=30
-
-PACKAGING_VERSION_FILE=/var/vcap/packages/mariadb/VERSION
-LAST_UPGRADED_VERSION_FILE=/var/vcap/store/mysql/mysql_upgrade_info
+MY_NAME=mariadb_ctl
+RUN_DIR=/var/vcap/sys/run/$MY_NAME
+PIDFILE=$RUN_DIR/$MY_NAME.pid
 
 source /var/vcap/packages/common/utils.sh
 
@@ -113,36 +95,10 @@ case $1 in
     fi
     chown -R vcap:vcap ${datadir}
 
-    cd $mariadb_ctrl_pkg
-
-    <% node_ip = spec.networks.send(p('network_name')).ip %>
-
-    tee $CONFIG_FILE <<EOF
----
-LogFileLocation: $LOG_FILE
-Db:
-  DaemonPath: $MYSQL_DAEMON_FILE
-  ClientPath: $MYSQL_CLIENT_FILE
-  UpgradePath: $MYSQL_UPGRADE_PATH
-  User: <%= p('admin_username')%>
-  Password: <%= p('admin_password')%>
-Upgrader:
-  PackageVersionFile: $PACKAGING_VERSION_FILE
-  LastUpgradedVersionFile: $LAST_UPGRADED_VERSION_FILE
-Manager:
-  StateFileLocation: $STATE_FILE
-  DbSeedScriptPath: $DB_SEED_SCRIPT_FILE
-  AzIndex: $AZ_INDEX
-  JobIndex: $JOB_INDEX
-  ClusterIps:
-  <% (p('cluster_ips') - [node_ip]).each do |ip| %>
-  - <%= ip %>
-  <% end %>
-  MaxDatabaseSeedTries: $DATABASE_SEED_ATTEMPTS
-EOF
+    cd $MARIADB_CTRL_PACKAGE
 
     log "start script: starting mariadb_ctrl..."
-    $mariadb_ctrl_pkg/bin/mariadb_ctrl \
+    $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
              -configPath=$CONFIG_FILE \
              2>&1 \
              | tee -a $LOG_FILE \

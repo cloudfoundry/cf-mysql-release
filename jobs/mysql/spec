@@ -2,14 +2,14 @@
 name: mysql
 
 templates:
-  mariadb_ctl.erb:  bin/mariadb_ctl
-  my.cnf.erb:     config/my.cnf
+  mariadb_ctl.erb: bin/mariadb_ctl
+  my.cnf.erb: config/my.cnf
+  mariadb_ctl_config.yml.erb: config/mariadb_ctl_config.yml
   mariadb_init.erb: config/mariadb_init
   galera-healthcheck_ctl.erb: bin/galera-healthcheck_ctl
   galera_healthcheck_config.yaml.erb: config/galera_healthcheck_config.yaml
   gra-log-purger_ctl.erb: bin/gra-log-purger_ctl
   gra-log-purger.sh.erb: bin/gra-log-purger.sh
-  mysql_database_seed.sh.erb: bin/mysql_database_seed.sh
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
 
 packages:
