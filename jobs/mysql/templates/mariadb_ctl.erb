@@ -55,8 +55,10 @@ case $1 in
     fi
     set -e
 
-    log "start script: writing pid $$ for $MY_NAME to $PIDFILE"
-    echo $$ > $PIDFILE
+    if [ ! -e "$PIDFILE" ] && [ -L "$PIDFILE" ]; then
+      log "removing stale symlink pidfile: $PIDFILE"
+      rm "$PIDFILE"
+    fi
 
     log "start script: checking if mysqld_safe is already running... "
     set +e
