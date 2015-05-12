@@ -20,9 +20,9 @@
 
 [Deregistering the Service Broker](#deregistering-broker)
 
-[Updating service instances](#updating-service-instances)
-
 [Configuring a High Availability deployment](#configuring-ha-deployment)
+
+[Additional Configuration Options](#additional-configuration-options)
 
 <a name='components'></a>
 ## Components
@@ -93,9 +93,18 @@ Service authors interested in implementing a service dashboard accessible via SS
       secret: yoursecret
     ```
 
-#### Broker Configuration
+#### Implementation Notes
 
-##### Require HTTPS when visiting Dashboard
+The following links show how this release implements [Dashboard SSO](http://docs.cloudfoundry.org/services/dashboard-sso.html) integration.
+
+1. Update the broker catalog with the dashboard client [properties](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/config/settings.yml#L26)
+2. Implement oauth [workflow](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/config/initializers/omniauth.rb) with the [omniauth-uaa-oauth2 gem](https://github.com/cloudfoundry/omniauth-uaa-oauth2)
+3. [Use](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/lib/uaa_session.rb) the [cf-uaa-lib gem](https://github.com/cloudfoundry/cf-uaa-lib) to get a valid access token and request permissions on the instance
+4. Before showing the user the dashboard, [the broker checks](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/app/controllers/manage/instances_controller.rb#L7) to see if the user is logged-in and has permissions to view the usage details of the instance.
+
+### Broker Configuration
+
+#### Require HTTPS when visiting Dashboard
 
 The dashboard URL defaults to using the `https` scheme. This means any requests using `http` will automatically be redirected to `https` instead.
 To override this, you can change `jobs.cf-mysql-broker_z1.ssl_enabled` to `false`.
@@ -109,20 +118,10 @@ Note:
 If using `https`, the broker must be reached through an SSL termination proxy.
 Connecting to the broker directly on `https` will result in a `port 443: Connection refused` error.
 
-##### Trust Self-Signed SSL Certificates
+#### Trust Self-Signed SSL Certificates
 
 By default, the broker will not trust a self-signed SSL certificate when communicating with cf-release.
 To trust self-signed SSL certificates, you can change `jobs.cf-mysql-broker_z1.skip_ssl_validation` to `true`.
-
-
-#### Implementation Notes
-
-The following links show how this release implements [Dashboard SSO](http://docs.cloudfoundry.org/services/dashboard-sso.html) integration.
-
-1. Update the broker catalog with the dashboard client [properties](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/config/settings.yml#L26)
-2. Implement oauth [workflow](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/config/initializers/omniauth.rb) with the [omniauth-uaa-oauth2 gem](https://github.com/cloudfoundry/omniauth-uaa-oauth2)
-3. [Use](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/lib/uaa_session.rb) the [cf-uaa-lib gem](https://github.com/cloudfoundry/cf-uaa-lib) to get a valid access token and request permissions on the instance
-4. Before showing the user the dashboard, [the broker checks](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/app/controllers/manage/instances_controller.rb#L7) to see if the user is logged-in and has permissions to view the usage details of the instance.
 
 <a name='getting-the-code'></a>
 ## Getting the code
@@ -455,13 +454,37 @@ $ cf purge-service-offering p-mysql
 $ cf delete-service-broker p-mysql
 ```
 
-<a name="updating-service-instances"></a>
-## Updating service instances
-
-Updating service instances is supported; see [Service plans and instances](docs/service-plans-instances.md) for details.
-
 <a name="deployment-resources"></a>
 ## Deployment Resources
 
 The service is configured to have a small footprint out of the box. These resources are sufficient for development, but may be insufficient for production workloads. If the service appears to be performing poorly, redeploying with increased resources may improve performance. See [deployment resources](docs/deployment-resources.md) for further details.
 
+<a name="additional-configuration-options"></a>
+## Additional Configuration Options
+
+### Updating Service Plans
+
+Updating the service instances is supported; see [Service plans and instances](docs/service-plans-instances.md) for details.
+
+### Pre-seeding Databases
+
+Normally databases are created via the `cf create-service` command, and
+a MySQL user is created and given access to that database when an app is bound to that service instance.
+However, it is sometimes useful to have databases and users already available when the service is deployed,
+without having to run `cf create-service` or bind an app.
+To specify any preseeded databases, add the following to the deployment manifest:
+
+```
+jobs:
+- name: mysql_z1
+  properties:
+    seeded_databases:
+    - name: db1
+      username: user1
+      password: pw1
+    - name: db2
+      username: user2
+      password: pw2
+```
+
+Note: The service currently does not support DB names containing hyphens.
