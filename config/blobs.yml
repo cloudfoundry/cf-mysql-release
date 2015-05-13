@@ -7,10 +7,6 @@ ruby/rubygems-2.1.11.tgz:
   object_id: 05612435-f24d-4416-9c49-3897c4d5fa0b
   sha: ca3033432cae28deb7ced79cda271cb292b70e59
   size: 367166
-mysqlclient/mysql-connector-c-6.1.2-src.tar.gz:
-  object_id: 8fd8e233-2e59-4fb1-817c-6299f4f5729a
-  sha: 96b35019d4fe083cf23bd37144a1e21a5d438614
-  size: 3036739
 ruby/yaml-0.1.5.tar.gz:
   object_id: da3ee2c1-11f0-4969-a37f-0298f8bf8987
   sha: 8b78cb9f759c7d80db8a7328c0ebecfe34fde737
@@ -91,3 +87,7 @@ xtrabackup/percona-xtrabackup-percona-xtrabackup-2.2.10.tar.gz:
   object_id: a195ae63-042e-448d-9020-b2dc1bd5b661
   sha: e93d34bc0ef6bc06bf356523c11c9906a079fd8f
   size: 33248338
+mysqlclient/mariadb-connector-c-2.1.0-src.tar.gz:
+  object_id: e1e0446a-8cbd-4b8e-b496-fc20f530fd7c
+  sha: 2fea886fd8ddf3e17d6228d282828afeaee0a317
+  size: 1912888

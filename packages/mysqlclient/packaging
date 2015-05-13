@@ -1,12 +1,12 @@
 # abort script on any command that exits with a non zero value
 set -e
 
-MYSQL_CLIENT_VERSION=6.1.2
+VERSION=2.1.0
 
-tar xzf mysqlclient/mysql-connector-c-${MYSQL_CLIENT_VERSION}-src.tar.gz
+tar xzf mysqlclient/mariadb-connector-c-${VERSION}-src.tar.gz
 (
   set -e
-  cd mysql-connector-c-${MYSQL_CLIENT_VERSION}-src
+  cd mariadb-connector-c-${VERSION}-src
   mkdir bld
   cd bld
   cmake .. -DCMAKE_INSTALL_PREFIX=${BOSH_INSTALL_TARGET}
