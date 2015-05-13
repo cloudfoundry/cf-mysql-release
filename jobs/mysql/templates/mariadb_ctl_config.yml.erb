@@ -1,6 +1,5 @@
 ---
 LogFileLocation: /var/vcap/sys/log/mysql/mariadb_ctrl.combined.log
-MariaPidFile: /var/vcap/sys/run/mysql/mysql.pid
 PidFile: /var/vcap/sys/run/mariadb_ctl/mariadb_ctl.pid
 Db:
   DaemonPath: /var/vcap/packages/mariadb_ctrl/bin/mysql_daemon.sh
@@ -17,6 +16,7 @@ Upgrader:
   PackageVersionFile: /var/vcap/packages/mariadb/VERSION
   LastUpgradedVersionFile: /var/vcap/store/mysql/mysql_upgrade_info
 Manager:
+  MariaPidFile: /var/vcap/sys/run/mysql/mysql.pid
   StateFileLocation: /var/vcap/store/mysql/state.txt
   # Get job AZ from job name. Zones start with index 1.
   <% az_index = /mysql\_z(\d)$/.match(name).captures[0] %>

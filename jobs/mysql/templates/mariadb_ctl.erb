@@ -55,11 +55,6 @@ case $1 in
     fi
     set -e
 
-    if [ ! -e "$PIDFILE" ] && [ -L "$PIDFILE" ]; then
-      log "removing stale symlink pidfile: $PIDFILE"
-      rm "$PIDFILE"
-    fi
-
     log "start script: checking if mysqld_safe is already running... "
     set +e
     pgrep -f /var/vcap/packages/mariadb/bin/mysqld_safe
@@ -113,9 +108,9 @@ case $1 in
     log "stop script: stopping mariadb_ctrl..."
     mkdir -p $LOG_DIR
     date >> $LOG_FILE 2>> $LOG_FILE
-    log "stop script: stopping node $JOB_INDEX" >> $LOG_FILE
-    /var/vcap/packages/mariadb/support-files/mysql.server stop >> $LOG_FILE 2>> $LOG_FILE
 
+    log "stop script: stopping node $JOB_INDEX" >> $LOG_FILE
+    kill_and_wait $PIDFILE
     log "stop script: completed stopping mariadb_ctrl"
     ;;
 
