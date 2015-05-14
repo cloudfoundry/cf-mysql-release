@@ -87,7 +87,8 @@ case $1 in
       log "start script: making ${datadir} and running /var/vcap/packages/mariadb/scripts/mysql_install_db"
       mkdir -p ${datadir}
       /var/vcap/packages/mariadb/scripts/mysql_install_db \
-             --basedir=/var/vcap/packages/mariadb --user=vcap \
+             --basedir=/var/vcap/packages/mariadb \
+             --user=vcap \
              --datadir=${datadir} >> $LOG_FILE 2>> $LOG_FILE
     fi
     chown -R vcap:vcap ${datadir}
@@ -99,7 +100,7 @@ case $1 in
              -configPath=$CONFIG_FILE \
              2>&1 \
              | tee -a $LOG_FILE \
-             | logger -p local1.error -t mariadb_ctrl
+             | logger -p local1.error -t mariadb_ctrl &
 
     log "start script: completed starting mariadb_ctrl."
     ;;
