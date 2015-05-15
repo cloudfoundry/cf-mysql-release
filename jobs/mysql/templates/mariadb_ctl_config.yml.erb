@@ -17,13 +17,9 @@ Upgrader:
   LastUpgradedVersionFile: /var/vcap/store/mysql/mysql_upgrade_info
 Manager:
   StateFileLocation: /var/vcap/store/mysql/state.txt
-  # Get job AZ from job name. Zones start with index 1.
-  <% az_index = /mysql\_z(\d)$/.match(name).captures[0] %>
-  AzIndex: <%= az_index.to_i - 1 %>
-  JobIndex: <%= index %>
   ClusterIps:
-  <% node_ip = spec.networks.send(p('network_name')).ip %>
-  <% (p('cluster_ips') - [node_ip]).each do |ip| %>
+  <% p('cluster_ips').each do |ip| %>
   - <%= ip %>
   <% end %>
+  MyIP: <%= spec.networks.send(p('network_name')).ip %>
   MaxDatabaseSeedTries: 30
