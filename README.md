@@ -486,5 +486,3 @@ jobs:
       username: user2
       password: pw2
 ```
-
-Note: The service currently does not support DB names containing hyphens.
