@@ -9,8 +9,7 @@ properties:
   app_domains: (( merge || ["10.244.0.34.xip.io"] ))
   domain: (( merge || "10.244.0.34.xip.io" ))
   nats:
-    machines:
-      - 10.244.0.6
+    machines: [10.244.0.6]
     password: nats
     port: 4222
     user: nats

@@ -10,28 +10,39 @@ compilation:
   cloud_properties:
     name: random
 
+stemcell: &stemcell
+  name: bosh-warden-boshlite-ubuntu-trusty-go_agent
+  version: latest
+
 resource_pools:
 - name: mysql_z1
   network: mysql1
-  stemcell:
-    name: bosh-warden-boshlite-ubuntu-trusty-go_agent
-    version: latest
-  cloud_properties:
-    name: random
+  stemcell: *stemcell
+  cloud_properties: {name: random}
 - name: mysql_z2
   network: mysql1
-  stemcell:
-    name: bosh-warden-boshlite-ubuntu-trusty-go_agent
-    version: latest
-  cloud_properties:
-    name: random
+  stemcell: *stemcell
+  cloud_properties: {name: random}
 - name: mysql_z3
   network: mysql1
-  stemcell:
-    name: bosh-warden-boshlite-ubuntu-trusty-go_agent
-    version: latest
-  cloud_properties:
-    name: random
+  stemcell: *stemcell
+  cloud_properties: {name: random}
+- name: proxy_z1
+  network: mysql1
+  stemcell: *stemcell
+  cloud_properties: {name: random}
+- name: proxy_z2
+  network: mysql2
+  stemcell: *stemcell
+  cloud_properties: {name: random}
+- name: cf-mysql-broker_z1
+  network: mysql1
+  stemcell: *stemcell
+  cloud_properties: {name: random}
+- name: cf-mysql-broker_z2
+  network: mysql2
+  stemcell: *stemcell
+  cloud_properties: {name: random}
 
 networks:
 - name: services1

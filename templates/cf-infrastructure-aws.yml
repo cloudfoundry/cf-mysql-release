@@ -1,5 +1,9 @@
 meta: ~
 
+stemcell: &stemcell
+  name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
+  version: latest
+
 compilation:
   cloud_properties:
     instance_type: (( merge || "c4.large" ))
@@ -12,67 +16,51 @@ networks: (( merge ))
 
 resource_pools:
 - name: mysql_z1
-  stemcell:
-    name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-    version: latest
+  stemcell: *stemcell
   cloud_properties:
     instance_type: (( merge || "m3.large" ))
     availability_zone: (( properties.template_only.aws.availability_zone ))
 
 - name: mysql_z2
-  stemcell:
-    name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-    version: latest
+  stemcell: *stemcell
   cloud_properties:
     instance_type: (( merge || "m3.large" ))
     availability_zone: (( properties.template_only.aws.availability_zone2 ))
 
 - name: mysql_z3
-  stemcell:
-    name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-    version: latest
+  stemcell: *stemcell
   cloud_properties:
     instance_type: (( merge || "m3.large" ))
     availability_zone: (( properties.template_only.aws.availability_zone3 ))
 
 - name: proxy_z1
-  stemcell:
-    name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-    version: latest
+  stemcell: *stemcell
   cloud_properties:
     instance_type: (( merge || "m3.medium" ))
     availability_zone: (( properties.template_only.aws.availability_zone ))
     elbs: (( merge || nil ))
 
 - name: proxy_z2
-  stemcell:
-    name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-    version: latest
+  stemcell: *stemcell
   cloud_properties:
     instance_type: (( merge || "m3.medium" ))
     availability_zone: (( properties.template_only.aws.availability_zone2 ))
     elbs: (( merge || nil ))
 
 - name: cf-mysql-broker_z1
-  stemcell:
-    name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-    version: latest
+  stemcell: *stemcell
   cloud_properties:
     instance_type: (( merge || "m3.medium" ))
     availability_zone: (( properties.template_only.aws.availability_zone ))
 
 - name: cf-mysql-broker_z2
-  stemcell:
-    name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-    version: latest
+  stemcell: *stemcell
   cloud_properties:
     instance_type: (( merge || "m3.medium" ))
     availability_zone: (( properties.template_only.aws.availability_zone2 ))
 
 - name: errands_z1
-  stemcell:
-    name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-    version: latest
+  stemcell: *stemcell
   cloud_properties:
     instance_type: (( merge || "m3.medium" ))
     availability_zone: (( properties.template_only.aws.availability_zone ))
