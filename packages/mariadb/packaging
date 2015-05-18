@@ -1,7 +1,7 @@
 # abort script on any command that exits with a non zero value
 set -e
 
-MARIADB_VERSION=10.0.17
+MARIADB_VERSION=10.0.19
 
 tar xzf mariadb/mariadb-galera-${MARIADB_VERSION}.tar.gz
 (
