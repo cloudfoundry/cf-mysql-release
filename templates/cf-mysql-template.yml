@@ -281,7 +281,7 @@ jobs:
     ssl_enabled: (( jobs.cf-mysql-broker_z1.properties.ssl_enabled || nil ))
     skip_ssl_validation: (( jobs.cf-mysql-broker_z1.properties.skip_ssl_validation ))
     external_host: (( "p-mysql." .properties.domain ))
-    cc_api_uri: (( .properties.cf.api_url ))
+    cc_api_uri: (( jobs.cf-mysql-broker_z1.properties.cc_api_url ))
     nats: (( .properties.nats ))
     networks:
       broker_network: mysql2

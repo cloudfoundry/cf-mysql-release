@@ -43,18 +43,18 @@ if [ -f ${WORKSPACE_DIR}/api-address ]; then
     - using ${INFO_COLOR}${API_ADDRESS}${NO_COLOR} instead of ${INFO_COLOR}${DIRECTOR_IP}${NO_COLOR} for director IP
     - and ${INFO_COLOR}${API_ADDRESS}.xip.io${NO_COLOR} instead of ${INFO_COLOR}10.244.0.34.xip.io${NO_COLOR} for API address"
   DIRECTOR_IP=${API_ADDRESS}
-  perl -pi -e "s/10.244.0.34.xip.io/${API_ADDRESS}.xip.io/g" bosh-lite/tmp/cf-mysql-stub-with-uuid.yml
+  perl -pi -e "s/10.244.0.34.xip.io/${API_ADDRESS}.xip.io/g" $RELEASE_DIR/bosh-lite/tmp/cf-mysql-stub-with-uuid.yml
 fi
 
 bosh -n target ${DIRECTOR_IP}
 bosh login admin admin
 DIRECTOR_UUID=$(bosh status | grep UUID | awk '{print $2}')
 echo $DIRECTOR_UUID
-perl -pi -e "s/PLACEHOLDER-DIRECTOR-UUID/$DIRECTOR_UUID/g" bosh-lite/tmp/cf-mysql-stub-with-uuid.yml
+perl -pi -e "s/PLACEHOLDER-DIRECTOR-UUID/$DIRECTOR_UUID/g" $RELEASE_DIR/bosh-lite/tmp/cf-mysql-stub-with-uuid.yml
 
 ${RELEASE_DIR}/generate_deployment_manifest \
   warden \
   ${RELEASE_DIR}/bosh-lite/tmp/cf-mysql-stub-with-uuid.yml \
   "$@" > ${RELEASE_DIR}/bosh-lite/manifests/cf-mysql-manifest.yml
 
-bosh deployment bosh-lite/manifests/cf-mysql-manifest.yml
+bosh deployment $RELEASE_DIR/bosh-lite/manifests/cf-mysql-manifest.yml

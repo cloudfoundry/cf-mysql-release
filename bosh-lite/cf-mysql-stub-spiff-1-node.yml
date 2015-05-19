@@ -35,7 +35,7 @@ jobs:
   - name: mysql_z3
     instances: 0
   - name: cf-mysql-broker_z1
-    instances: 2
+    instances: 1
     properties:
       <<: (( merge || nil ))
       auth_password: password
