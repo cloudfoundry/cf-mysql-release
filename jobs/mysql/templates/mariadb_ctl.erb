@@ -14,6 +14,7 @@ MARIADB_CTRL_PACKAGE=/var/vcap/packages/mariadb_ctrl
 MY_NAME=mariadb_ctl
 RUN_DIR=/var/vcap/sys/run/$MY_NAME
 PIDFILE=$RUN_DIR/$MY_NAME.pid
+TMP_DIR=/var/vcap/data/mysql/tmp
 
 source /var/vcap/packages/common/utils.sh
 
@@ -42,6 +43,12 @@ case $1 in
     if [[ ! -d "$RUN_DIR" ]]; then
       log "start script: directory $RUN_DIR does not exist, creating it now"
       mkdir -p $RUN_DIR
+    fi
+
+    if [[ ! -d "$TMP_DIR" ]]; then
+      log "start script: directory $TMP_DIR does not exist, creating it now"
+      mkdir -p $TMP_DIR
+      chown -R vcap:vcap $TMP_DIR
     fi
 
     log "start script: checking for existing instance of $MY_NAME"

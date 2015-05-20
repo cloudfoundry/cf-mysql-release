@@ -42,6 +42,7 @@ socket		= <%= "#{base_folder}/mysqld.sock" %>
 port      = <%= p('port') %>
 basedir		= /var/vcap/packages/mariadb
 datadir		= /var/vcap/store/mysql
+tmpdir		= /var/vcap/data/mysql/tmp
 language	= /var/vcap/packages/mariadb/share/english
 pid-file  = /var/vcap/sys/run/mysql/mysql.pid
 <% unless use_syslog%>log-error = /var/vcap/sys/log/mysql/mysql.err.log<%end%>
