@@ -22,6 +22,9 @@ properties:
   proxy.healthcheck_timeout_millis:
     description: "Timeout (milliseconds) before assuming a backend is unhealthy"
     default: 5000
+  proxy.api_force_https:
+    description: "Redirect all HTTP requests to the API to HTTPS"
+    default: true
   proxy.api_port:
     description: "Port for the proxy API to listen on"
     default: 80

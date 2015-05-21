@@ -47,6 +47,13 @@ properties:
     description: 'Proxy API username'
   proxy.api_password:
     description: 'Proxy API password'
+  proxy.api_force_https:
+    description: 'Expect proxy to force redirect to HTTPS'
+    default: true
+  proxy.skip_ssl_validation:
+    description: 'Tests will skip validation of SSL certificates'
+    default: false
+
 
   timeout_scale:
     description: 'scaling multiplier used to determine command timeouts'

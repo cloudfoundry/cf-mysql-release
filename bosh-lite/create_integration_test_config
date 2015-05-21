@@ -51,7 +51,9 @@ cat > ${CONFIG_LOCATION} <<EOF
   "proxy": {
     "external_host":"p-mysql.${DOMAIN}.xip.io",
     "api_username":"username",
-    "api_password":"password"
+    "api_password":"password",
+    "api_force_https": true,
+    "skip_ssl_validation": true
   }
 }
 EOF

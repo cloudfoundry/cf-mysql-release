@@ -159,6 +159,7 @@ jobs:
     proxy:
       <<: (( merge || nil ))
       health_port: (( merge || nil ))
+      api_force_https: (( merge || nil ))
       api_username: (( merge ))
       api_password: (( merge ))
     cluster_ips: (( jobs.mysql_z1.properties.cluster_ips ))
@@ -180,6 +181,7 @@ jobs:
     proxy:
       <<: (( merge || nil ))
       health_port: (( jobs.proxy_z1.properties.proxy.health_port ))
+      api_force_https: (( jobs.proxy_z1.properties.proxy.api_force_https ))
       api_username: (( jobs.proxy_z1.properties.proxy.api_username ))
       api_password: (( jobs.proxy_z1.properties.proxy.api_password ))
     cluster_ips: (( jobs.mysql_z1.properties.cluster_ips ))
@@ -332,6 +334,8 @@ jobs:
       external_host: (( jobs.proxy_z1.properties.external_host ))
       api_username: (( jobs.proxy_z1.properties.proxy.api_username ))
       api_password: (( jobs.proxy_z1.properties.proxy.api_password ))
+      api_force_https: (( jobs.proxy_z1.properties.proxy.api_force_https ))
+      skip_ssl_validation: (( .properties.cf.skip_ssl_validation ))
     cf: (( .properties.cf ))
     broker:
       host: (( jobs.cf-mysql-broker_z1.properties.external_host ))
