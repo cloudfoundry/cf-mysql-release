@@ -85,7 +85,7 @@ Service authors interested in implementing a service dashboard accessible via SS
               authorized-grant-types: client_credentials
     ```
 
-3. SSO was implemented in v169 of cf-release; if you are on an older version of cf-release you'll encounter an error when you register the service broker. If upgradiing cf-release is not an option, try removing the following lines from the cf-mysql-release manifest and redeploy.
+3. SSO was implemented in v169 of cf-release; if you are on an older version of cf-release you'll encounter an error when you register the service broker. If upgrading cf-release is not an option, try removing the following lines from the cf-mysql-release manifest and redeploy.
 
     ```bash
     dashboard_client:
