@@ -4,7 +4,7 @@
 
 [Components](#components)
 
-[Getting the code](#getting-the-code)
+[Downloading a Stable Release](#downloading-a-stable-release)
 
 [Development](#development)
 
@@ -123,20 +123,11 @@ Connecting to the broker directly on `https` will result in a `port 443: Connect
 By default, the broker will not trust a self-signed SSL certificate when communicating with cf-release.
 To trust self-signed SSL certificates, you can change `jobs.cf-mysql-broker_z1.skip_ssl_validation` to `true`.
 
-<a name='getting-the-code'></a>
-## Getting the code
+<a name='downloading-a-stable-release'></a>
+## Downloading a Stable Release
 
 Final releases are designed for public use, and are tagged with a version number of the form "v<N>".
-
-The [**develop**](https://github.com/cloudfoundry/cf-mysql-release/tree/develop) branch is where we do active development. Although we endeavor to keep the [**develop**](https://github.com/cloudfoundry/cf-mysql-release/tree/develop) branch stable, we do not guarantee that any given commit will deploy cleanly.
-
-The [**release-candidate**](https://github.com/cloudfoundry/cf-mysql-release/tree/release-candidate) branch has passed all of our unit, integration, smoke, & acceptance tests, but has not been used in a final release yet. This branch should be fairly stable.
-
-The [**master**](https://github.com/cloudfoundry/cf-mysql-release/tree/master) branch points to the most recent stable final release.
-
-At semi-regular intervals a final release is created from the [**release-candidate**](https://github.com/cloudfoundry/cf-mysql-release/tree/release-candidate) branch. This final release is tagged and pushed to the [**master**](https://github.com/cloudfoundry/cf-mysql-release/tree/master) branch.
-
-Pushing to any branch other than [**develop**](https://github.com/cloudfoundry/cf-mysql-release/tree/develop) will create problems for the CI pipeline, which relies on fast forward merges. To recover from this condition follow the instructions [here](https://github.com/cloudfoundry/cf-release/blob/master/docs/fix_commit_to_master.md).
+The releases and corresponding release notes can be found on [github](https://github.com/cloudfoundry/cf-mysql-release/releases).
 
 <a name='development'></a>
 ## Development
