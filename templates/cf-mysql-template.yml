@@ -335,7 +335,7 @@ jobs:
       api_username: (( jobs.proxy_z1.properties.proxy.api_username ))
       api_password: (( jobs.proxy_z1.properties.proxy.api_password ))
       api_force_https: (( jobs.proxy_z1.properties.proxy.api_force_https ))
-      skip_ssl_validation: (( .properties.cf.skip_ssl_validation ))
+      skip_ssl_validation: (( merge || nil ))
     cf: (( .properties.cf ))
     broker:
       host: (( jobs.cf-mysql-broker_z1.properties.external_host ))
