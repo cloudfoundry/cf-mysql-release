@@ -52,7 +52,7 @@ properties:
     default: true
   proxy.skip_ssl_validation:
     description: 'Tests will skip validation of SSL certificates'
-    default: false
+    default: true
 
 
   timeout_scale:
