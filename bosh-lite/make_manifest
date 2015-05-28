@@ -54,6 +54,7 @@ perl -pi -e "s/PLACEHOLDER-DIRECTOR-UUID/$DIRECTOR_UUID/g" $RELEASE_DIR/bosh-lit
 
 ${RELEASE_DIR}/generate_deployment_manifest \
   warden \
+  ${RELEASE_DIR}/templates/sample_stubs/sample_plans_stub.yml \
   ${RELEASE_DIR}/bosh-lite/tmp/cf-mysql-stub-with-uuid.yml \
   "$@" > ${RELEASE_DIR}/bosh-lite/manifests/cf-mysql-manifest.yml
 

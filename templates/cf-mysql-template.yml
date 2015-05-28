@@ -229,37 +229,7 @@ jobs:
       dashboard_client:
         id: p-mysql
         secret: (( merge ))
-      plans:
-        - name: 100mb
-          id: ab08f1bc-e6fc-4b56-a767-ee0fea6e3f20
-          description: Shared MySQL Server
-          max_storage_mb: (( merge || 100 ))
-          max_user_connections: (( merge || 20 ))
-          metadata:
-            costs:
-            - amount:
-                usd: 0.0
-              unit: MONTH
-            bullets:
-              - Shared MySQL server
-              - 100 MB storage
-              - 20 concurrent connections
-            displayName: (( merge || "100 MB" ))
-        - name: 1gb
-          id: 11d0aa36-dcec-4021-85f5-ea4d9a5c8342
-          description: Shared MySQL Server
-          max_storage_mb: (( merge || 1000 ))
-          max_user_connections: (( merge || 40 ))
-          metadata:
-            costs:
-            - amount:
-                usd: 0.0
-              unit: MONTH
-            bullets:
-              - Shared MySQL server
-              - 1000 MB storage
-              - 40 concurrent connections
-            displayName: (( merge || "1 GB" ))
+      plans: (( merge ))
     mysql_node:
       host: (( merge || jobs.proxy_z1.networks.mysql1.static_ips.[0] ))
       admin_password: (( jobs.mysql_z1.properties.admin_password ))

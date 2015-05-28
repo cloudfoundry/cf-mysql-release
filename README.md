@@ -294,11 +294,14 @@ The brokers each register a route with the router, which load balances requests 
 <a name="vsphere"></a>
 #### vSphere
 
-1. Create a stub file called `cf-mysql-vsphere-stub.yml` by copying and modifying the [sample_vsphere_stub.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/sample_stubs/sample_vsphere_stub.yml)  in `templates/sample_stubs`.
+1. Create a stub file called `cf-mysql-vsphere-stub.yml` by copying and modifying the [sample_vsphere_stub.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/sample_stubs/sample_vsphere_stub.yml)  in `templates/sample_stubs`. The `sample_plans_stub.yml` can also be copied if values need changing.
 
 2. Generate the manifest:
   ```
-  $ ./generate_deployment_manifest vsphere cf-mysql-vsphere-stub.yml > cf-mysql-vsphere.yml
+  $ ./generate_deployment_manifest \
+    vsphere \
+    plans_stub.yml \
+    cf-mysql-vsphere-stub.yml > cf-mysql-vsphere.yml
   ```
   The resulting file, `cf-mysql-vsphere.yml` is your deployment manifest. To modify the deployment configuration, you can edit the stub and regenerate the manifest or edit the manifest directly.
 
@@ -310,11 +313,14 @@ The brokers each register a route with the router, which load balances requests 
 <a name="aws"></a>
 #### AWS
 
-1. Create a stub file called `cf-mysql-aws-stub.yml` by copying and modifying the [sample_aws_stub.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/sample_stubs/sample_aws_stub.yml) in `templates/sample_stubs`.
+1. Create a stub file called `cf-mysql-aws-stub.yml` by copying and modifying the [sample_aws_stub.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/sample_stubs/sample_aws_stub.yml) in `templates/sample_stubs`. The `sample_plans_stub.yml` can also be copied if values need changing.
 
 1. Generate the manifest:
   ```
-  $ ./generate_deployment_manifest aws cf-mysql-aws-stub.yml > cf-mysql-aws.yml
+  $ ./generate_deployment_manifest \
+    aws \
+    plans_stub.yml \
+    cf-mysql-aws-stub.yml > cf-mysql-aws.yml
   ```
   The resulting file, `cf-mysql-aws.yml` is your deployment manifest. To modify the deployment configuration, you can edit the stub and regenerate the manifest or edit the manifest directly.
 
