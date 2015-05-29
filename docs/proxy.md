@@ -2,9 +2,13 @@
 
 In cf-mysql-release, [Switchboard](https://github.com/cloudfoundry-incubator/switchboard) is used to proxy TCP connections to healthy MariaDB nodes.
 
+A proxy is used to gracefully handle failure of MariaDB nodes. Use of a proxy permits transparent failover to other nodes within the cluster in the event of a node failure.
+
+When a node becomes unhealthy, the proxy re-routes all subsequent connections to a healthy node. All existing connections to the unhealthy node are closed.
+
 ## Consistent Routing
 
-At any given time, Switchboard will only route to one active node. That node will continue to be the only active node until it becomes unhealthy. 
+At any given time, Switchboard will only route to one active node. That node will continue to be the only active node until it becomes unhealthy.
 
 If multiple Switchboard proxies are used in parallel (ex: behind a load-balancer) there is no guarantee that the proxies will choose the same active node. This can result in deadlocks, wherein attempts to update the same row by multiple clients will result one commit succeeding and the other fails. This is a known issue, with exploration of mitigation options on the roadmap for this product. To avoid this problem, use a single proxy instance or an external failover system to direct traffic to one proxy instance at a time.
 
@@ -35,6 +39,11 @@ If node health cannot be determined due to an unreachable or unresponsive health
 
 When a new node is added to the cluster or rejoins the cluster, it synchronizes state with the primary component via a process called SST. A single node from the primary component is chosen to act as a state donor. By default Galera uses rsync to perform SST, which blocks for the duration of the transfer. However, cf-mysql-release is configured to use [Xtrabackup](http://www.percona.com/doc/percona-xtrabackup), which allows the donor node to continue to accept reads and writes.
 
+## Proxy count
+
+If the operator sets the total number of proxies to 0 hosts in their manifest, then applications will start routing connections directly to one healthy MariaDB node making that node a single point of failure for the cluster.
+
+The recommended number of proxies are 2; this provides redundancy should one of the proxies fail.
 
 ## Removing the proxy as a SPOF
 

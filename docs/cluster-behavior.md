@@ -15,13 +15,25 @@ If more than half of the nodes in a cluster are no longer able to connect to eac
   - Cluster size is reduced by one and maintains healthy state. Cluster will continue to operate, even with a single node, as long as other nodes left gracefully.
 
 ### Adding new nodes
-- A new node started with monit (or added by increasing cluster size) should automatically join the cluster.
+- A new node started via BOSH should automatically join the cluster.
 - All the other nodes will have been reconfigured and restarted by BOSH to know about the new node IP.
+
+### Scaling the cluster
+
+#### Scaling up from 1 to N nodes
+When a new MariaDb node comes online, it replicates data from the existing node in the cluster. Once replication is complete, the node will join the cluster. The proxy will continue to route all incoming connections to the primary node while it remains healthy.
+
+If the proxy detects that this node becomes unhealthy, it will sever existing connections, and route all new connections to a different, healthy node. If there are no healthy MariaDb nodes, the proxy will reject all subsequent connections.
+
+Note: If you are planning to scale up MariaDb nodes, it is recommended to do so in different Availability Zones to maximize cluster availability. It is noteworthy that an Availability Zone is a network-distinct section of a given Region. Further details are available in [Amazon's documentation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html).
+
+#### Scaling down from N to 1 node
+When scaling from multiple nodes to a single MariaDb node, the proxy will determine that the sole remaining node is the primary node (provided it remains healthy). The proxy routes incoming connections to the remaining MariaDb node.
 
 ### Rejoining the cluster (existing nodes)
 - Existing nodes restarted with monit should automatically join the cluster.
-- If an existing node fails to join the cluster, it may be because its transaction records (`seqno`) is newer than the nodes in the cluster with quorum (aka the primary component).
-  - If the node has a newer `seqno` it will be apparent in the error log `/var/vcap/sys/log/mysql/mysql.err.log`.
+- If an existing node fails to join the cluster, it may be because its transaction record's (`seqno`) is higher than the nodes in the cluster with quorum (aka the primary component).
+  - If the node has a higher `seqno` it will be apparent in the error log `/var/vcap/sys/log/mysql/mysql.err.log`.
   - If the healthy nodes of a cluster have a lower transaction record number than the failing node, it might be desirable to shut down the healthy nodes and bootstrap from the node with the more recent transaction record number. See the [bootstraping docs](bootstrapping.md) for more details.
   - Manual recovery may be possible, but is error-prone and involves dumping transactions and applying them to the running cluster (out of scope for this doc).
   - Abandoning the data is also an option, if you're ok with losing the unsynced transactions. Follow the following steps to abandon the data (as root):
@@ -35,6 +47,7 @@ If more than half of the nodes in a cluster are no longer able to connect to eac
 
 ### Avoid an even number of nodes
   - It is generally recommended to avoid an even number of nodes. This is because a partition could cause the entire cluster to lose quorum, as neither remaining component has more than half of the total nodes.
+  - A 2 node cluster cannot tolerate the failure of single node failure as this would cause loss of quorum. As such, the minimum number of nodes required to tolerate single node failure is 3.
 
 ### Unresponsive node(s)
   - A node can become unresponsive for a number of reasons:
