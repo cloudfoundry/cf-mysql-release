@@ -40,11 +40,16 @@ case $1 in
 
   start)
 
-    mkdir -p $RUN_DIR
-    chown -R vcap:vcap $RUN_DIR
+    if [[ ! -d "$RUN_DIR" ]]; then
+      log "start script: directory $RUN_DIR does not exist, creating it now"
+      mkdir -p $RUN_DIR
+    fi
 
-    mkdir -p $TMP_DIR
-    chown -R vcap:vcap $TMP_DIR
+    if [[ ! -d "$TMP_DIR" ]]; then
+      log "start script: directory $TMP_DIR does not exist, creating it now"
+      mkdir -p $TMP_DIR
+      chown -R vcap:vcap $TMP_DIR
+    fi
 
     log "start script: checking for existing instance of $MY_NAME"
     set +e
@@ -75,7 +80,7 @@ case $1 in
 
     mkdir -p $LOG_DIR
     touch $LOG_FILE
-    chown -R vcap:vcap $LOG_DIR
+    chown vcap:vcap $LOG_FILE
     date >> $LOG_FILE 2>> $LOG_FILE
 
     # It is surprisingly hard to get the config file location passed in
@@ -84,7 +89,6 @@ case $1 in
     rm -f /etc/my.cnf
     rm -f $CONFIG_DIR/my.cnf
     ln -sf $MARIADB_JOB_DIR/config/my.cnf $CONFIG_DIR/my.cnf
-    chown -R vcap:vcap $CONFIG_DIR
 
     if ! test -d ${datadir}; then
       log "start script: making ${datadir} and running /var/vcap/packages/mariadb/scripts/mysql_install_db"
@@ -99,12 +103,11 @@ case $1 in
     cd $MARIADB_CTRL_PACKAGE
 
     log "start script: starting mariadb_ctrl..."
-    su - vcap -c \
-    "$MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
+    $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
              -configPath=$CONFIG_FILE \
              2>&1 \
              | tee -a $LOG_FILE \
-             | logger -p local1.error -t mariadb_ctrl &"
+             | logger -p local1.error -t mariadb_ctrl &
 
     log "start script: completed starting mariadb_ctrl."
     ;;
@@ -112,7 +115,6 @@ case $1 in
   stop)
     log "stop script: stopping mariadb_ctrl..."
     mkdir -p $LOG_DIR
-    chown -R vcap:vcap $LOG_DIR
     date >> $LOG_FILE 2>> $LOG_FILE
 
     log "stop script: stopping node $JOB_INDEX" >> $LOG_FILE

@@ -21,20 +21,15 @@ case $1 in
     pid_guard $pidfile "GRA Log Purger"
 
     mkdir -p $run_dir
-    chown -R vcap:vcap $run_dir
-
     mkdir -p $log_dir
-    chown -R vcap:vcap $log_dir
 
     cd $package_dir
 
-    su - vcap -c \
-      "$package_dir/$executable_name \
+    $package_dir/$executable_name \
         -graLogDir=$gra_log_dir \
         -graLogDaysToKeep=$gra_log_days_to_keep \
         -pidfile=$pidfile \
-        >>$log_dir/gra-log-purger.stdout.log \
-        2>>$log_dir/gra-log-purger.stderr.log &"
+        >>$log_dir/gra-log-purger.stdout.log 2>>$log_dir/gra-log-purger.stderr.log &
 
     log "Starting gra-log-purger... done"
     ;;
