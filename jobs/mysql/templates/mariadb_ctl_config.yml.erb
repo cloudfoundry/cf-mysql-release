@@ -1,0 +1,25 @@
+---
+LogFileLocation: /var/vcap/sys/log/mysql/mariadb_ctrl.combined.log
+PidFile: /var/vcap/sys/run/mariadb_ctl/mariadb_ctl.pid
+Db:
+  DaemonPath: /var/vcap/packages/mariadb_ctrl/bin/mysql_daemon.sh
+  UpgradePath: /var/vcap/packages/mariadb/bin/mysql_upgrade
+  User: <%= p('admin_username')%>
+  Password: <%= p('admin_password')%>
+  PreseededDatabases:
+  <% p("seeded_databases").each do |seed| %>
+  - DBName: <%= seed["name"] %>
+    User: <%= seed["username"]%>
+    Password: <%= seed["password"] %>
+  <% end %>
+Upgrader:
+  PackageVersionFile: /var/vcap/packages/mariadb/VERSION
+  LastUpgradedVersionFile: /var/vcap/store/mysql/mysql_upgrade_info
+Manager:
+  StateFileLocation: /var/vcap/store/mysql/state.txt
+  ClusterIps:
+  <% p('cluster_ips').each do |ip| %>
+  - <%= ip %>
+  <% end %>
+  MyIP: <%= spec.networks.send(p('network_name')).ip %>
+  MaxDatabaseSeedTries: 30

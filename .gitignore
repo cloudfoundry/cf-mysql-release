@@ -1,5 +1,7 @@
 config/dev.yml
 config/private.yml
+/*.yml
+!/.travis.yml
 releases/*.tgz
 dev_releases
 .blobs
@@ -10,6 +12,7 @@ blobs
 bosh-lite/manifests/*
 bosh-lite/tmp/*
 .idea/
+*.iml
 releases/**/*.tgz
 .idea
 .DS_Store
@@ -17,9 +20,10 @@ releases/**/*.tgz
 *~
 *#
 #*
-src/acceptance-tests/integration_config.json
+*config.json
 bin/
 pkg/
+src/github.com/cloudfoundry-incubator/spiff/
 src/github.com/vito/gosub/
 src/github.com/codegangsta/cli/
 *.iml

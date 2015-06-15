@@ -6,7 +6,7 @@ Documented here are scenarios in which the size of a cluster may change, how the
 
 Galera documentation refers to nodes in a healthy cluster as being part of a [primary component](http://galeracluster.com/documentation-webpages/glossary.html#term-primary-component). These nodes will respond normally to all queries, reads, writes and database modifications.
 
-If an individual node is unable to connect to the rest of the cluster (ex: network partition) it becomes non-primary (stops accepting writes and database modifications). In this case, the rest of the cluster should continue to function normally. A non-primary node may eventually regain connectivity and rejoin the primary component. 
+If an individual node is unable to connect to the rest of the cluster (ex: network partition) it becomes non-primary (stops accepting writes and database modifications). In this case, the rest of the cluster should continue to function normally. A non-primary node may eventually regain connectivity and rejoin the primary component.
 
 If more than half of the nodes in a cluster are no longer able to connect to each other, all of the remaining nodes lose quorum and become non-primary. In this case, the cluster must be manually restarted, as documented in the [bootstrapping docs](bootstrapping.md).
 
@@ -24,7 +24,7 @@ If more than half of the nodes in a cluster are no longer able to connect to eac
   - If the node has a newer `seqno` it will be apparent in the error log `/var/vcap/sys/log/mysql/mysql.err.log`.
   - If the healthy nodes of a cluster have a lower transaction record number than the failing node, it might be desirable to shut down the healthy nodes and bootstrap from the node with the more recent transaction record number. See the [bootstraping docs](bootstrapping.md) for more details.
   - Manual recovery may be possible, but is error-prone and involves dumping transactions and applying them to the running cluster (out of scope for this doc).
-  - Abandoning the data is also an option, if you're ok with losing the unsynced transactions. Follow the following steps to abandon the data:
+  - Abandoning the data is also an option, if you're ok with losing the unsynced transactions. Follow the following steps to abandon the data (as root):
     - Stop the process with `monit stop mariadb_ctrl`.
     - Delete the galera state (`/var/vcap/store/mysql/grastate.dat`) and cache (`/var/vcap/store/mysql/galera.cache`) files from the persistent disk.
     - Restarting the node with `monit start mariadb_ctrl`.
@@ -70,8 +70,8 @@ If more than half of the nodes in a cluster are no longer able to connect to eac
     iptables -A OUTPUT -p tcp --destination-port 4444 -j DROP && \
     iptables -A OUTPUT -p tcp --destination-port 3306
     ```
-    
+
     To recover from this, drop the partition by flushing all rules:
     ```
-    iptables -F 
+    iptables -F
     ```

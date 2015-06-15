@@ -2,13 +2,14 @@
 name: mysql
 
 templates:
-  mariadb_ctl.erb:  bin/mariadb_ctl
-  my.cnf.erb:     config/my.cnf
+  mariadb_ctl.erb: bin/mariadb_ctl
+  my.cnf.erb: config/my.cnf
+  mariadb_ctl_config.yml.erb: config/mariadb_ctl_config.yml
   mariadb_init.erb: config/mariadb_init
   galera-healthcheck_ctl.erb: bin/galera-healthcheck_ctl
+  galera_healthcheck_config.yaml.erb: config/galera_healthcheck_config.yaml
   gra-log-purger_ctl.erb: bin/gra-log-purger_ctl
   gra-log-purger.sh.erb: bin/gra-log-purger.sh
-  mysql_database_seed.sh.erb: bin/mysql_database_seed.sh
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
 
 packages:
@@ -38,6 +39,12 @@ properties:
     description: 'The size in bytes of the memory buffer InnoDB uses to cache data and indexes of its tables'
   cluster_ips:
     description: 'List of nodes.  Must have the same number of ips as there are nodes in the cluster'
+  max_heap_table_size:
+    description: 'The maximum size (in rows) to which user-created MEMORY tables are permitted to grow'
+    default: 16777216
+  tmp_table_size:
+    description: 'The maximum size (in bytes) of internal in-memory temporary tables'
+    default: 33554432
 
   #these two properties are also used by the Broker
   gcache_size:

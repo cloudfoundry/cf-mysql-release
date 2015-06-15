@@ -4,15 +4,41 @@ Bootstrapping is the process of (re)starting a Galera cluster. Before evaluating
 
 ## When to Bootstrap
 
+Manual bootstrapping should only be required when the cluster has lost quorum.
 
-- Manual bootstrapping should only be required if all nodes have died. The cluster is bootstrapped automatically the first time the cluster is deployed.
-- Nodes that are no longer a part of the quorum will report `Non-Primary` when queried with `SHOW VARIABLES LIKE 'wsrep_cluster_status'`. See [Determining Cluster State](cluster-state.md) for more information.
-- Cluster failure will occur if the cluster loses quorum (less than half of the nodes can communicate with each other). Once quorum is lost, the nodes will stop responding to write queries.  See [Cluster Behavior](cluster-behavior.md) for more details.
-- If the cluster does not have quorum and the network is healthy (partitioning or latency are not to blame), then manual bootstrapping is necessary.
+Quorum is lost when less than half of the nodes can communicate with each other (for longer than the configured grace period).
+
+If quorum has *not* been lost, then individual unhealthy nodes should automatically rejoin the quorum once repaired (error resolved, node restarted, or connectivity restored).
+
+Note: The cluster is automatically bootstrapped the first time the cluster is deployed.
+
+### Symptoms of Lost Quorum
+
+- [All nodes appear "Unhealthy" on the proxy dashboard.](quorum-lost.png)
+- All responsive nodes report the value of `wsrep_cluster_status` as `non-Primary`.
+
+    ```sh
+    mysql> SHOW STATUS LIKE 'wsrep_cluster_status';
+    +----------------------+-------------+
+    | Variable_name        | Value       |
+    +----------------------+-------------+
+    | wsrep_cluster_status | non-Primary |
+    +----------------------+-------------+
+    ```
+- All responsive nodes respond with `ERROR 1047` when queried with most statement types.
+
+    ```sh
+    mysql> select * from mysql.user;
+    ERROR 1047 (08S01) at line 1: WSREP has not yet prepared node for application use
+    ```
+
+See [Cluster Behavior](cluster-behavior.md) for more details about determining cluster state.
 
 ## Bootstrapping
 
-1. SSH to each node in the cluster and shut down the mariadb process.
+Once it has been determined that bootstrapping is required, follow the following steps to shut down the cluster and bootstrap from the nodes with the most transactions.
+
+1. SSH to each node in the cluster and, as root, shut down the mariadb process.
 
   ```sh
   $ monit stop mariadb_ctrl
@@ -75,5 +101,5 @@ Bootstrapping is the process of (re)starting a Galera cluster. Before evaluating
 1. Verify that the new nodes have successfully joined the cluster. The following command should output the total number of nodes in the cluster:
 
   ```sh
-  mysql> show status like 'wsrep_cluster_size';
+  mysql> SHOW STATUS LIKE 'wsrep_cluster_size';
   ```

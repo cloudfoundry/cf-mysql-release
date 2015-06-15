@@ -1,36 +1,60 @@
 #!/bin/bash
 
-BOSH_RELEASES_DIR=${BOSH_RELEASES_DIR:-~/workspace}
-MYSQL_RELEASE_DIR=${MYSQL_RELEASE_DIR:-$BOSH_RELEASES_DIR/cf-mysql-release}
+set -eu
 
-if [[ ! -d $MYSQL_RELEASE_DIR ]]; then
-  echo "Cannot find cf-mysql-release at $MYSQL_RELEASE_DIR; override with \$MYSQL_RELEASE_DIR variable"
-  exit 1
-fi
+MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# This script expects to live one directory below the release directory.
+RELEASE_DIR=$( cd ${MY_DIR}/.. && pwd )
+
+# And that the release directory lives one directory below the workspace directory.
+WORKSPACE_DIR="$( cd ${RELEASE_DIR}/.. && pwd )"
+
+OK_COLOR='\033[1;32m'
+ACTION_COLOR='\033[1;33m'
+INFO_COLOR='\033[1;36m'
+NO_COLOR='\033[0m'
 
 # By default use 3 node stub
 mysql_stub="cf-mysql-stub-spiff-3-node.yml"
-# otherwise look for a stub with the number of nodes provided
-if [ ! -z $1 ]; then
+
+# If any arguments were provided,
+# see if there is a stub with the number of nodes provided.
+# If not, assume the argument is not the number of nodes and continue.
+if [[ $# -ne 0 ]] && [[ -f "${RELEASE_DIR}/bosh-lite/cf-mysql-stub-spiff-$1-node.yml" ]] ; then
   mysql_stub="cf-mysql-stub-spiff-$1-node.yml"
+  echo -e "Using stub ${INFO_COLOR}${RELEASE_DIR}/bosh-lite/${mysql_stub}${NO_COLOR}"
+  shift
 fi
 
-cd $MYSQL_RELEASE_DIR
+mkdir -p ${RELEASE_DIR}/bosh-lite/tmp
+mkdir -p ${RELEASE_DIR}/bosh-lite/manifest
 
-# If the requested stub doesn't exist there's nothing more we can do, so fail.
-if [ ! -f bosh-lite/$mysql_stub ]; then
-  echo "stub not found: $mysql_stub"
-  exit 1
+cp \
+  ${RELEASE_DIR}/bosh-lite/$mysql_stub \
+  ${RELEASE_DIR}/bosh-lite/tmp/cf-mysql-stub-with-uuid.yml
+
+DIRECTOR_IP=${DIRECTOR_IP:-192.168.50.4}
+
+# If a file exists with an api-address, use that instead
+if [ -f ${WORKSPACE_DIR}/api-address ]; then
+  API_ADDRESS=$( cat ${WORKSPACE_DIR}/api-address )
+  echo -e "WARNING: Found API address file at ${INFO_COLOR}${WORKSPACE_DIR}/api-address${NO_COLOR}
+    - using ${INFO_COLOR}${API_ADDRESS}${NO_COLOR} instead of ${INFO_COLOR}${DIRECTOR_IP}${NO_COLOR} for director IP
+    - and ${INFO_COLOR}${API_ADDRESS}.xip.io${NO_COLOR} instead of ${INFO_COLOR}10.244.0.34.xip.io${NO_COLOR} for API address"
+  DIRECTOR_IP=${API_ADDRESS}
+  perl -pi -e "s/10.244.0.34.xip.io/${API_ADDRESS}.xip.io/g" bosh-lite/tmp/cf-mysql-stub-with-uuid.yml
 fi
 
-mkdir -p bosh-lite/tmp
-mkdir -p bosh-lite/manifests
-cp bosh-lite/$mysql_stub bosh-lite/tmp/cf-mysql-stub-with-uuid.yml
+bosh -n target ${DIRECTOR_IP}
+bosh login admin admin
 DIRECTOR_UUID=$(bosh status | grep UUID | awk '{print $2}')
 echo $DIRECTOR_UUID
 perl -pi -e "s/PLACEHOLDER-DIRECTOR-UUID/$DIRECTOR_UUID/g" bosh-lite/tmp/cf-mysql-stub-with-uuid.yml
 
-# The first argument is used above - pass the remaining arguments to the spiff script
-shift
-$MYSQL_RELEASE_DIR/generate_deployment_manifest warden bosh-lite/tmp/cf-mysql-stub-with-uuid.yml $* > bosh-lite/manifests/cf-mysql-manifest.yml
+${RELEASE_DIR}/generate_deployment_manifest \
+  warden \
+  ${RELEASE_DIR}/bosh-lite/tmp/cf-mysql-stub-with-uuid.yml \
+  "$@" > ${RELEASE_DIR}/bosh-lite/manifests/cf-mysql-manifest.yml
+
 bosh deployment bosh-lite/manifests/cf-mysql-manifest.yml

@@ -10,6 +10,9 @@ cat > integration_config.json <<EOF
   "admin_user":    "<%= p('cf.admin_username') %>",
   "broker_host":   "<%= p('broker.host') %>",
   "service_name":  "<%= p('service.name') %>",
+  <% if p('org_name') %>
+  "org_name": "<%= p('org_name') %>",
+  <% end %>
   "plans": [
   <% plans = p('service.plans')
   plans.each do |plan| %>
@@ -25,9 +28,6 @@ cat > integration_config.json <<EOF
   end%>
   ],
   "skip_ssl_validation": <%= p('cf.skip_ssl_validation') %>,
-  "smoke_tests_only": <%= p('smoke_tests_only') %>,
-  "include_dashboard_tests": <%= p('include_dashboard_tests') %>,
-  "include_failover_tests": <%= p('include_failover_tests') %>,
   "proxy": {
     "external_host": "<%= p('proxy.external_host') %>",
     "api_username": "<%= p('proxy.api_username') %>",
@@ -50,5 +50,10 @@ export GOPATH=/var/vcap/packages/acceptance-tests
 export GOROOT=/var/vcap/packages/golang
 export PATH=/var/vcap/packages/cli/bin:$GOPATH/bin:$GOROOT/bin:$PWD/bin:$PATH
 
-CONFIG=$PWD/integration_config.json \
-bin/test
+export CONFIG=$PWD/integration_config.json
+
+<% if p('smoke_tests_only') %>
+  bin/test-smoke --noColor
+<% else %>
+  bin/test-acceptance --noColor
+<% end %>

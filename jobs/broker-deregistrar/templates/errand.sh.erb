@@ -1,33 +1,31 @@
 #!/bin/bash
-set -e
-export PATH=$PATH:/var/vcap/packages/ruby/bin
-cd /var/vcap/packages/broker-registrar
+
+set -eu
 
 CF_API_URL='<%= p("cf.api_url") %>'
 CF_ADMIN_USERNAME='<%= p("cf.admin_username") %>'
 CF_ADMIN_PASSWORD='<%= p("cf.admin_password") %>'
+
 BROKER_NAME='<%= p("broker.name") %>'
-BROKER_URL='http://<%= p("broker.host") %>:<%= p("broker.port") %>'
-BROKER_USERNAME='<%= p("broker.username") %>'
-BROKER_PASSWORD='<%= p("broker.password") %>'
 
-# partially-redacted command for debugging
-echo "
-bundle exec ./bin/broker-registrar delete
-    --cf-address $CF_API_URL
-    --cf-username $CF_ADMIN_USERNAME
-    --cf-password ********
-    --broker-name $BROKER_NAME
-    --broker-url $BROKER_URL
-    --broker-username $BROKER_USERNAME
-    --broker-password ********
-"
+export PATH=/var/vcap/packages/cli/bin
 
-bundle exec ./bin/broker-registrar delete \
-    --cf-address $CF_API_URL                \
-    --cf-username $CF_ADMIN_USERNAME        \
-    --cf-password $CF_ADMIN_PASSWORD        \
-    --broker-name $BROKER_NAME              \
-    --broker-url $BROKER_URL                \
-    --broker-username $BROKER_USERNAME      \
-    --broker-password $BROKER_PASSWORD
+API_COMMAND="cf api ${CF_API_URL}"
+
+<% if p("cf.skip_ssl_validation") %>
+    API_COMMAND="${API_COMMAND} --skip-ssl-validation"
+<% end %>
+
+${API_COMMAND}
+
+cf auth \
+  ${CF_ADMIN_USERNAME} \
+  ${CF_ADMIN_PASSWORD}
+
+cf purge-service-offering \
+  ${BROKER_NAME} \
+  -f
+
+cf delete-service-broker \
+  ${BROKER_NAME} \
+  -f

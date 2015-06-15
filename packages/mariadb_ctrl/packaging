@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
-set -u
+set -eux
 
 mkdir -p ${BOSH_INSTALL_TARGET}/src
 cp -a . ${BOSH_INSTALL_TARGET}/src
@@ -12,9 +11,7 @@ export PATH=$GOROOT/bin:$PATH
 
 go install github.com/cloudfoundry/mariadb_ctrl
 
-cp $BOSH_INSTALL_TARGET/src/github.com/cloudfoundry/mariadb_ctrl/mysql_upgrade.sh  $BOSH_INSTALL_TARGET/bin/mysql_upgrade.sh
 cp $BOSH_INSTALL_TARGET/src/github.com/cloudfoundry/mariadb_ctrl/mysql_daemon.sh   $BOSH_INSTALL_TARGET/bin/mysql_daemon.sh
-cp $BOSH_INSTALL_TARGET/src/github.com/cloudfoundry/mariadb_ctrl/show_databases.sh $BOSH_INSTALL_TARGET/bin/show_databases.sh
 
 # clean up source artifacts
 rm -rf ${BOSH_INSTALL_TARGET}/src ${BOSH_INSTALL_TARGET}/pkg

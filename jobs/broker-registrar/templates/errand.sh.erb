@@ -1,0 +1,51 @@
+#!/bin/bash
+
+set -eu
+
+CF_API_URL='<%= p("cf.api_url") %>'
+CF_ADMIN_USERNAME='<%= p("cf.admin_username") %>'
+CF_ADMIN_PASSWORD='<%= p("cf.admin_password") %>'
+CF_SKIP_SSL_VALIDATION='<%= p("cf.skip_ssl_validation") %>'
+
+BROKER_NAME='<%= p("broker.name") %>'
+BROKER_URL='<%= p("broker.protocol") %>://<%= p("broker.host") %>:<%= p("broker.port") %>'
+BROKER_USERNAME='<%= p("broker.username") %>'
+BROKER_PASSWORD='<%= p("broker.password") %>'
+
+export PATH=/var/vcap/packages/cli/bin
+
+echo "CF_API_URL=${CF_API_URL}"
+echo "CF_SKIP_SSL_VALIDATION=${CF_SKIP_SSL_VALIDATION}"
+echo "CF_ADMIN_USERNAME=${CF_ADMIN_USERNAME}"
+echo "BROKER_NAME=${BROKER_NAME}"
+echo "BROKER_URL=${BROKER_URL}"
+echo "BROKER_USERNAME=${BROKER_USERNAME}"
+
+if [[ ${CF_SKIP_SSL_VALIDATION} == "true" ]]; then
+  cf api ${CF_API_URL} --skip-ssl-validation
+else
+  cf api ${CF_API_URL}
+fi
+
+cf auth \
+  ${CF_ADMIN_USERNAME} \
+  ${CF_ADMIN_PASSWORD}
+
+set +e
+OUTPUT=$( cf create-service-broker ${BROKER_NAME} ${BROKER_USERNAME} ${BROKER_PASSWORD} ${BROKER_URL} )
+EXIT_CODE=$?
+set -e
+
+if [[ ${EXIT_CODE} -ne 0  ]]; then
+  if [[ ${OUTPUT} == *"service broker name is taken"* ]]; then
+    echo "Service broker already exists - proceeding"
+  elif [[ ${OUTPUT} == *"service broker url is taken"* ]]; then
+    echo "Service broker already exists - proceeding"
+  else
+    echo "Unexpected failure: ${OUTPUT}"
+    exit 1
+  fi
+fi
+
+cf enable-service-access \
+  ${BROKER_NAME}

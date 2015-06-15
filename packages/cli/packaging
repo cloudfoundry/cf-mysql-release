@@ -2,13 +2,7 @@ set -e
 
 cd cli
 
-if uname | grep Darwin; then
-  cli=cf-darwin-amd64.tgz
-else
-  cli=cf-linux-amd64-6.7.0-c38c991.tgz
-fi
-
-tar xzf $cli
+tar xvf cf-linux-amd64-6.10.0.tgz
 
 BIN_DIR=${BOSH_INSTALL_TARGET}/bin
 

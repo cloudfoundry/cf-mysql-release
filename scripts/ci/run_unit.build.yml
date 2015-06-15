@@ -1,0 +1,13 @@
+---
+platform: linux
+
+image: docker:///cloudfoundry/cf-mysql-ci
+
+inputs:
+- name: cf-mysql-release
+
+params:
+  PACKAGE:
+
+run:
+  path: cf-mysql-release/scripts/ci/test-unit-docker

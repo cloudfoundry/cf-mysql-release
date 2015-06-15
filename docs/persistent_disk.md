@@ -31,7 +31,7 @@ When the disk is detached, monit considers the process stopped and BOSH will con
 
 1. Attempt to recreate the broken node using BOSH. This will alert BOSH to the missing disk.
   <pre class="terminal">
-  $ bosh recreate mysql INDEX
+  $ bosh recreate mysql_AZ INDEX
   </pre>
   You should see an error that looks like this:
   <pre class="terminal">
@@ -39,7 +39,7 @@ When the disk is detached, monit considers the process stopped and BOSH will con
   </pre>
   If recreate fails with the following error, wait until monit times out and all jobs are stopped then try again.
   <pre class="terminal">
-  Failed updating job mysql: mysql/INDEX (canary) (00:00:22): Action Failed get_task: Task 8ace0778-c5aa-4a2f-55a0-42443452adb1 result: Stopping Monitored Services: Stopping service gra-log-purger-executable: Stopping Monit service gra-log-purger-executable: Request failed with 503 Service Unavailable:
+  Failed updating job mysql_AZ: mysql_AZ/INDEX (canary) (00:00:22): Action Failed get_task: Task 8ace0778-c5aa-4a2f-55a0-42443452adb1 result: Stopping Monitored Services: Stopping service gra-log-purger-executable: Stopping Monit service gra-log-purger-executable: Request failed with 503 Service Unavailable:
   </pre>
 - Use BOSH cloud check to reattach the disk.
   <pre class="terminal">
@@ -48,7 +48,7 @@ When the disk is detached, monit considers the process stopped and BOSH will con
   When prompted, choose `3. Reattach disk and reboot instance`; this should succeed. As BOSH recreate failed after stopping the jobs, BOSH believes the jobs should stay stopped on reboot.
 - Upon restarting the node again, it will join the cluster.
   <pre class="terminal">
-  $ bosh restart mysql INDEX
+  $ bosh restart mysql_AZ INDEX
   </pre>
 
 ### When persistent disk is lost and needs to be re-created
@@ -63,7 +63,7 @@ When the disk is detached, monit considers the process stopped and BOSH will con
   </pre>
 - Attempt to recreate the node using BOSH in order to obtain the disk id.
   <pre class="terminal">
-  $ bosh recreate mysql INDEX
+  $ bosh recreate mysql_AZ INDEX
   </pre>
   You should see an error that looks like this:
   <pre class="terminal">
@@ -92,7 +92,7 @@ When the disk is detached, monit considers the process stopped and BOSH will con
   </pre>
 
   This will delete the reference to the lost disk, and cause BOSH to recreate a fresh disk for this VM on the next deploy.
-- Through the infrastructure interface (e.g., vCenter client or AWS console), power off and delete the VM corresponding to `mysql/INDEX`.
+- Through the infrastructure interface (e.g., vCenter client or AWS console), power off and delete the VM corresponding to `mysql_AZ/INDEX`.
 - Use BOSH cloud check to remove reference to the VM.
   <pre class="terminal">
   $ bosh cck
@@ -114,10 +114,10 @@ When the disk is detached, monit considers the process stopped and BOSH will con
 To simulate a disk issues in vCenter, follow these steps:
 
 1. Log in to vCenter client
-- Locate the vm that correlates to `mysql/0`. You can do this most easily by running `bosh vms` and identifying the IP address of the VM. The vCenter client will match VMs to IP addresses.
+- Locate the vm that correlates to `mysql_z1/0`. You can do this most easily by running `bosh vms` and identifying the IP address of the VM. The vCenter client will match VMs to IP addresses.
 - Navigate to the VM detail view, then click Edit.
 - Locate the entry for the persistent disk and delete it. You will have the option to detach the disk or delete it from the datastore.
 
 Note:
 - It may take a few minutes for MariaDB to fail. Attempting to write to a database will trigger this immediately.
-- `bosh recreate mysql 0` should reveal that the disk has been detached. `bosh cck` will not report any issues until an operator has first attempted to recreate the VM with `bosh recreate`.
+- `bosh recreate mysql_z1 0` should reveal that the disk has been detached. `bosh cck` will not report any issues until an operator has first attempted to recreate the VM with `bosh recreate`.

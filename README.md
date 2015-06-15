@@ -1,5 +1,32 @@
 # Cloud Foundry MySQL Service
 
+### Table of contents
+
+[Components](#components)
+
+[Getting the code](#getting-the-code)
+
+[Development](#development)
+
+[Release notes & known issues](#release-notes)
+
+[Deploying](#deploying)
+
+[Registering the Service Broker](#registering-broker)
+
+[Security Groups](#security-groups)
+
+[Smoke Tests and Acceptance Tests](#smoke-acceptance-tests)
+
+[Deregistering the Service Broker](#deregistering-broker)
+
+[Configuring a High Availability deployment](#configuring-ha-deployment)
+
+[Additional Configuration Options](#additional-configuration-options)
+
+<a name='components'></a>
+## Components
+
 A BOSH release of a MySQL database-as-a-service for Cloud Foundry using [MariaDB Galera Cluster](https://mariadb.com/kb/en/mariadb/documentation/replication-cluster-multi-master/galera/what-is-mariadb-galera-cluster/) and a [v2 Service Broker](http://docs.cloudfoundry.org/services/).
 
 <table>
@@ -15,7 +42,7 @@ A BOSH release of a MySQL database-as-a-service for Cloud Foundry using [MariaDB
    </tr>
    <tr>
      <td>MySQL Server</td>
-     <td>MariaDB 10.0.16; database instances are hosted on the servers.</td>
+     <td>MariaDB 10.0.17; database instances are hosted on the servers.</td>
      <td> n/a </td>
    </tr>
       <tr>
@@ -25,8 +52,78 @@ A BOSH release of a MySQL database-as-a-service for Cloud Foundry using [MariaDB
    </tr>
 </table>
 
+<a name='proxy'></a>
+### Proxy
 
-<a name='branches'></a>
+Traffic to the MySQL cluster is routed through one or more proxy nodes. The current proxy implementation is [Switchboard](https://github.com/cloudfoundry-incubator/switchboard). This proxy acts as an intermediary between the client and the MySQL server - providing failover between MySQL nodes. The number of nodes is configured by the proxy job instance count in the deployment manifest.
+
+For more details see the [proxy documentation](/docs/proxy.md).
+
+<a name="dashboard"></a>
+### Dashboard
+
+A user-facing service dashboard is provided by the service broker that displays storage utilization information for each service instance.
+The dashboard is accessible by users via Single Sign-On (SSO) once authenticated with Cloud Foundry.
+The dashboard URL can be found by running `cf service MY_SERVICE_INSTANCE`.
+
+Service authors interested in implementing a service dashboard accessible via SSO can follow documentation for [Dashboard SSO](http://docs.cloudfoundry.org/services/dashboard-sso.html).
+
+#### Prerequisites
+
+1. SSO is initiated when a user navigates to the URL found in the `dashboard_url` field. This value is returned to cloud controller by the broker in response to a provision request, and is exposed in the cloud controller API for the service instance. A users client must expose this field as a link, or it can be obtained via curl (`cf curl /v2/service_instances/:guid`) and copied into a browser.
+
+2. SSO requires the following OAuth client to be configured in cf-release. This client is responsible for creating the OAuth client for the MySQL dashboard. Without this client configured in cf-release, the MySQL dashboard will not be accessible but the service will be otherwise functional. Registering the broker will display a warning to this effect.
+
+    ```
+    properties:
+        uaa:
+          clients:
+            cc-service-dashboards:
+              secret: cc-broker-secret
+              scope: cloud_controller.write,openid,cloud_controller.read,cloud_controller_service_permissions.read
+              authorities: clients.read,clients.write,clients.admin
+              authorized-grant-types: client_credentials
+    ```
+
+3. SSO was implemented in v169 of cf-release; if you are on an older version of cf-release you'll encounter an error when you register the service broker. If upgradiing cf-release is not an option, try removing the following lines from the cf-mysql-release manifest and redeploy.
+
+    ```bash
+    dashboard_client:
+      id: p-mysql
+      secret: yoursecret
+    ```
+
+#### Implementation Notes
+
+The following links show how this release implements [Dashboard SSO](http://docs.cloudfoundry.org/services/dashboard-sso.html) integration.
+
+1. Update the broker catalog with the dashboard client [properties](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/config/settings.yml#L26)
+2. Implement oauth [workflow](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/config/initializers/omniauth.rb) with the [omniauth-uaa-oauth2 gem](https://github.com/cloudfoundry/omniauth-uaa-oauth2)
+3. [Use](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/lib/uaa_session.rb) the [cf-uaa-lib gem](https://github.com/cloudfoundry/cf-uaa-lib) to get a valid access token and request permissions on the instance
+4. Before showing the user the dashboard, [the broker checks](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/app/controllers/manage/instances_controller.rb#L7) to see if the user is logged-in and has permissions to view the usage details of the instance.
+
+### Broker Configuration
+
+#### Require HTTPS when visiting Dashboard
+
+The dashboard URL defaults to using the `https` scheme. This means any requests using `http` will automatically be redirected to `https` instead.
+To override this, you can change `jobs.cf-mysql-broker_z1.ssl_enabled` to `false`.
+
+Keep in mind that changing the `ssl_enabled` setting for an existing broker will not update previously advertised dashboard URLs.
+Visiting the old URL may fail if you are using the [SSO integration](http://docs.cloudfoundry.org/services/dashboard-sso.html),
+because the OAuth2 client registered with UAA will expect users to both come from and return to a URI using the scheme
+implied by the `ssl_enabled` setting.
+
+Note:
+If using `https`, the broker must be reached through an SSL termination proxy.
+Connecting to the broker directly on `https` will result in a `port 443: Connection refused` error.
+
+#### Trust Self-Signed SSL Certificates
+
+By default, the broker will not trust a self-signed SSL certificate when communicating with cf-release.
+To trust self-signed SSL certificates, you can change `jobs.cf-mysql-broker_z1.skip_ssl_validation` to `true`.
+
+<a name='getting-the-code'></a>
 ## Getting the code
 
 Final releases are designed for public use, and are tagged with a version number of the form "v<N>".
@@ -41,7 +138,10 @@ At semi-regular intervals a final release is created from the [**release-candida
 
 Pushing to any branch other than [**develop**](https://github.com/cloudfoundry/cf-mysql-release/tree/develop) will create problems for the CI pipeline, which relies on fast forward merges. To recover from this condition follow the instructions [here](https://github.com/cloudfoundry/cf-release/blob/master/docs/fix_commit_to_master.md).
 
+<a name='development'></a>
 ## Development
+
+See our [contributing docs](CONTRIBUTING.md) for instructions on how to make a pull request.
 
 This BOSH release doubles as a `$GOPATH`. It will automatically be set up for
 you if you have [direnv](http://direnv.net) installed.
@@ -49,7 +149,7 @@ you if you have [direnv](http://direnv.net) installed.
     # fetch release repo
     mkdir -p ~/workspace
     cd ~/workspace
-    git clone https://github.com/cloudfoundry-incubator/cf-mysql-release.git
+    git clone https://github.com/cloudfoundry/cf-mysql-release.git
     cd cf-mysql-release/
 
     # switch to develop branch (not master!)
@@ -65,11 +165,13 @@ If you do not wish to use direnv, you can simply `source` the `.envrc` file in t
 of the release repo.  You may manually need to update your `$GOPATH` and `$PATH` variables
 as you switch in and out of the directory.
 
+<a name='release-notes'></a>
 ## Release Notes & Known Issues
 
 For release notes and known issues, see [the release wiki](https://github.com/cloudfoundry/cf-mysql-release/wiki/).
 
-## Deployment
+<a name='deploying'></a>
+## Deploying
 
 ### Prerequisites
 
@@ -81,15 +183,16 @@ For release notes and known issues, see [the release wiki](https://github.com/cl
 
 1. [Upload Stemcell](#upload_stemcell)
 1. [Upload Release](#upload_release)
+1. [Create Infrastructure](#create_infrastructure)
+1. [Deployment Components](#deployment_components)
 1. [Create Manifest and Deploy](#create_manifest)
-1. [Register the Service Broker](#register_broker)
 
 After installation, the MySQL service will be visible in the Services Marketplace; using the [CLI](https://github.com/cloudfoundry/cli), run `cf marketplace`.
 
 <a name="upload_stemcell"></a>
 ### Upload Stemcell
 
-The latest final release expects the Ubuntu Trusty (14.04) go_agent stemcell version 2831 by default. Older stemcells are not recommended. Stemcells can be downloaded from http://bosh.io/stemcells; choose the appropriate stemcell for your infrastructure ([vsphere esxi](https://d26ekeud912fhb.cloudfront.net/bosh-stemcell/aws/light-bosh-stemcell-2831-aws-xen-hvm-ubuntu-trusty-go_agent.tgz) or [aws hvm](https://d26ekeud912fhb.cloudfront.net/bosh-stemcell/aws/light-bosh-stemcell-2831-aws-xen-hvm-ubuntu-trusty-go_agent.tgz)).
+The latest final release expects the Ubuntu Trusty (14.04) go_agent stemcell version [2859](https://github.com/cloudfoundry/bosh/blob/master/CHANGELOG.md#2859) by default. Older stemcells are not recommended. Stemcells can be downloaded from http://bosh.io/stemcells; choose the appropriate stemcell for your infrastructure ([vsphere esxi](https://d26ekeud912fhb.cloudfront.net/bosh-stemcell/vsphere/bosh-stemcell-2859-vsphere-esxi-ubuntu-trusty-go_agent.tgz) or [aws hvm](https://d26ekeud912fhb.cloudfront.net/bosh-stemcell/aws/light-bosh-stemcell-2859-aws-xen-hvm-ubuntu-trusty-go_agent.tgz)).
 
 <a name="upload_release"></a>
 ### Upload Release
@@ -138,6 +241,46 @@ If deploying an **older** final release than the latest, check out the tag for t
   ```
   $ bosh upload release
   ```
+
+<a name="create_infrastructure"></a>
+### Create Infrastructure
+
+Note: No infrastructure changes are required to deploy to bosh-lite
+
+#### Define subnets
+
+Prior to deployment, the operator should define three subnets via their infrastructure provider.
+The MySQL release is designed to be deployed across three subnets to ensure availability in the event of a subnet failure.
+The [sample_aws_stub.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/sample_stubs/sample_aws_stub.yml) demonstrates how these subnets can be configured on AWS across multiple availability zones.
+
+#### Create load balancer
+
+In order to route requests to both proxies, the operator should create a load balancer.
+Manifest changes required to configure a load balancer can be found in the
+[proxy](https://github.com/cloudfoundry/cf-mysql-release/blob/master/docs/proxy.md#configuring-load-balancer) documentation.
+Once a load balancer is configured, the brokers will hand out the address of the load balancer rather than the IP of the first proxy.
+Currently, load balancing requests across both proxies can increase the possibility of deadlocks. See the [routing](https://github.com/cloudfoundry/cf-mysql-release/blob/master/docs/proxy.md#consistent-routing) documentation for more information.
+To avoid this problem, configure the load balancer to route requests to the second proxy only in the event of a failure.
+
+<a name="deployment_components"></a>
+### Deployment Components
+
+#### Database nodes
+
+There are three mysql jobs (mysql\_z1, mysql\_z2, mysql\_z3) which should be deployed with one instance each.
+Each of these instances will reside in separate subnets as described in the previous section.
+The number of mysql nodes should always be odd, with a minimum count of three, to avoid [split-brain](http://en.wikipedia.org/wiki/Split-brain\_\(computing\)).
+When the failed node comes back online, it will automatically rejoin the cluster and sync data from one of the healthy nodes. Note: Due to our bootstrapping procedure, if you are bringing up a cluster for the first time, there must be a database node in the first subnet.
+
+#### Proxy nodes
+
+There are two proxy jobs (proxy\_z1, proxy\_z2), which should be deployed with one instance each to different subnets.
+The second proxy is intended to be used in a failover capacity. In the event the first proxy fails, the second proxy will still be able to route requests to the mysql nodes.
+
+#### Broker nodes
+
+There are also two broker jobs (cf-mysql-broker\_z1, cf-mysql-broker\_z2) which should be deployed with one instance each to different subnets.
+The brokers each register a route with the router, which load balances requests across the brokers.
 
 <a name="create_manifest"></a>
 ### Create Manifest and Deploy
@@ -194,12 +337,12 @@ If deploying an **older** final release than the latest, check out the tag for t
 
 Manifest properties are described in the `spec` file for each job; see [jobs](jobs).
 
-You can find your director_uuid by running `bosh status`.
+You can find your `director_uuid` by running `bosh status`.
 
-The MariaDB cluster nodes are configured by default with 100GB of persistent disk. This can be configured in your stub or manifest using `jobs.mysql.persistent_disk`, however your deployment will fail if this is less than 3GB; we recommend allocating 10GB at a minimum.
+The MariaDB cluster nodes are configured by default with 100GB of persistent disk. This can be configured in your stub or manifest using `disk_pools.mysql-persistent-disk.disk_size`, however your deployment will fail if this is less than 3GB; we recommend allocating 10GB at a minimum.
 
-<a name="register_broker"></a>
-## Register the Service Broker
+<a name="registering-broker"></a>
+## Registering the Service Broker
 
 ### BOSH errand
 
@@ -219,9 +362,9 @@ Note: the broker-registrar errand will fail if the broker has already been regis
     $ cf create-service-broker p-mysql BROKER_USERNAME BROKER_PASSWORD URL
     ```
 
-    `BROKER_USERNAME` and `BROKER_PASSWORD` are the credentials Cloud Foundry will use to authenticate when making API calls to the service broker. Use the values for manifest properties `jobs.cf-mysql-broker.properties.auth_username` and `jobs.cf-mysql-broker.properties.auth_password`.
+    `BROKER_USERNAME` and `BROKER_PASSWORD` are the credentials Cloud Foundry will use to authenticate when making API calls to the service broker. Use the values for manifest properties `jobs.cf-mysql-broker_z1.properties.auth_username` and `jobs.cf-mysql-broker_z1.properties.auth_password`.
 
-    `URL` specifies where the Cloud Controller will access the MySQL broker. Use the value of the manifest property `jobs.cf-mysql-broker.properties.external_host`.
+    `URL` specifies where the Cloud Controller will access the MySQL broker. Use the value of the manifest property `jobs.cf-mysql-broker_z1.properties.external_host`. By default, this value is set to `p-mysql.<properties.domain>` (in spiff: `"p-mysql." .properties.domain`).
 
     For more information, see [Managing Service Brokers](http://docs.cloudfoundry.org/services/managing-service-brokers.html).
 
@@ -229,31 +372,42 @@ Note: the broker-registrar errand will fail if the broker has already been regis
 
 ## Security Groups
 
-Since [cf-release](https://github.com/cloudfoundry/cf-release) v175, applications by default cannot to connect to IP addresses on the private network. This prevents applications from connecting to the MySQL service. To enable access to the service, create a new security group for the IP configured in your manifest for the property `jobs.mysql_broker.mysql_node.host`.
+Note: this section does not apply to bosh-lite deployments.
+
+Since [cf-release](https://github.com/cloudfoundry/cf-release) v175, applications by default cannot to connect to IP addresses on the private network. This prevents applications from connecting to the MySQL service. To enable access to the service, create a new security group for the IP configured in your manifest for the property `jobs.cf-mysql-broker_z1.mysql_node.host`.
 
 1. Add the rule to a file in the following json format; multiple rules are supported.
 
   ```
   [
-      {
-        "destination": "10.244.1.18",
-        "protocol": "all"
-      }
-  ]
+		{
+			"destination": "10.10.163.1-10.10.163.255",
+			"protocol": "all"
+		},
+		{
+			"destination": "10.10.164.1-10.10.164.255",
+			"protocol": "all"
+		},
+		{
+			"destination": "10.10.165.1-10.10.165.255",
+			"protocol": "all"
+		}
+	]
   ```
 - Create a security group from the rule file.
-  <pre class="terminal">
+  ```shell
   $ cf create-security-group p-mysql rule.json
-  </pre>
+  ```
+
 - Enable the rule for all apps
-  <pre class="terminal">
+  ```
   $ cf bind-running-security-group p-mysql
-  </pre>
+  ```
 
-Changes are only applied to new application containers; in order for an existing app to receive security group changes it must be restarted.
+Security group changes are only applied to new application containers; existing apps must be restarted.
 
-<a name="tests"></a>
-## Smoke Tests & Acceptance Tests
+<a name="smoke-acceptance-tests"></a>
+## Smoke Tests and Acceptance Tests
 
 The smoke tests are a subset of the acceptance tests, useful for verifying a deployment. The acceptance tests are for developers to validate changes to the MySQL Release. These tests can be run manually or from a BOSH errand. For details on running these tests manually, see [Acceptance Tests](docs/acceptance-tests.md).
 
@@ -268,35 +422,16 @@ To run the MySQL Release Smoke tests you will need:
 - credentials for a CF Admin user
 - a deployed MySQL Release with the broker registered and the plan made public
 
-The following properties must be included in the deployment manifest under the `acceptance-tests` job (most will be there by default):
-
-- `cf.api_url`
-- `cf.admin_username`
-- `cf.admin_password`
-- `cf.apps_domain`
-- `cf.skip_ssl_validation`
-- `broker.host`
-- `service.name`
-- `service.plans`
-
-The `service.plans` array must include the following properties for each plan:
-
-- `plan_name`
-- `max_storage_mb`
-
-The following property is optional:
-
-- `mysql.max_user_connections` (default: 40)
-
-To run the smoke tests via bosh errand:
+Run the smoke tests via bosh errand as follows:
 
 ```
 $ bosh run errand acceptance-tests
 ```
 
+Modifying values under `jobs.acceptance-tests.properties` may be required. Configuration options can be found in the [job spec](jobs/acceptance-tests/spec).
 
-<a name="deregister_broker"></a>
-## De-register the Service Broker
+<a name="deregistering-broker"></a>
+## De-registering the Service Broker
 
 The following commands are destructive and are intended to be run in conjuction with deleting your BOSH deployment.
 
@@ -304,7 +439,7 @@ The following commands are destructive and are intended to be run in conjuction 
 
 BOSH errands were introduced in version 2366 of the BOSH CLI, BOSH Director, and stemcells.
 
-This errand runs the two commands listed in the manual section below from a BOSH-deployed VM. This errand should be run before deleting your BOSH deployment. If you have already deleted your deployment follow the manual instructions below.
+This errand runs the two commands listed in the manual section below from a BOSH-deployed VM.
 
 ```
 $ bosh run errand broker-deregistrar
@@ -319,59 +454,35 @@ $ cf purge-service-offering p-mysql
 $ cf delete-service-broker p-mysql
 ```
 
-<a name="dashboard"></a>
-## Dashboard
+<a name="deployment-resources"></a>
+## Deployment Resources
 
-A user-facing service dashboard is provided by the service broker that displays storage utilization information for each service instance. The dashboard is accessible by users via Single Sign-On (SSO) once authenticated with Cloud Foundry.
+The service is configured to have a small footprint out of the box. These resources are sufficient for development, but may be insufficient for production workloads. If the service appears to be performing poorly, redeploying with increased resources may improve performance. See [deployment resources](docs/deployment-resources.md) for further details.
 
-Service authors interested in implementing a service dashboard accessible via SSO can follow documentation for [Dashboard SSO](http://docs.cloudfoundry.org/services/dashboard-sso.html).
+<a name="additional-configuration-options"></a>
+## Additional Configuration Options
 
-### Prerequisites
+### Updating Service Plans
 
-1. SSO is initiated when a user navigates to the URL found in the `dashboard_url` field. This value is returned to cloud controller by the broker in response to a provision request, and is exposed in the cloud controller API for the service instance. A users client must expose this field as a link, or it can be obtained via curl (`cf curl /v2/service_instances/:guid`) and copied into a browser.
+Updating the service instances is supported; see [Service plans and instances](docs/service-plans-instances.md) for details.
 
-2. SSO requires the following OAuth client to be configured in cf-release. This client is responsible for creating the OAuth client for the MySQL dashboard. Without this client configured in cf-release, the MySQL dashboard will not be accessible but the service will be otherwise functional. Registering the broker will display a warning to this effect.
+### Pre-seeding Databases
 
-    ```
-    properties:
-        uaa:
-          clients:
-            cc-service-dashboards:
-              secret: cc-broker-secret
-              scope: cloud_controller.write,openid,cloud_controller.read,cloud_controller_service_permissions.read
-              authorities: clients.read,clients.write,clients.admin
-              authorized-grant-types: client_credentials
-    ```
+Normally databases are created via the `cf create-service` command, and
+a MySQL user is created and given access to that database when an app is bound to that service instance.
+However, it is sometimes useful to have databases and users already available when the service is deployed,
+without having to run `cf create-service` or bind an app.
+To specify any preseeded databases, add the following to the deployment manifest:
 
-3. SSO was implemented in v169 of cf-release; if you are on an older version of cf-release you'll encounter an error when you register the service broker. If upgradiing cf-release is not an option, try removing the following lines from the cf-mysql-release manifest and redeploy.
-
-    ```bash
-    dashboard_client:
-      id: p-mysql
-      secret: yoursecret
-    ```
-
-### SSL
-
-The dashboard URL defaults to using the `https` scheme. To override this, you can change `properties.ssl_enabled` to `false` in the `cf-mysql-broker` job.
-
-Keep in mind that changing the `ssl_enabled` setting for an existing broker will not update previously advertised dashboard URLs.
-Visiting the old URL may fail if you are using the [SSO integration](http://docs.cloudfoundry.org/services/dashboard-sso.html),
-because the OAuth2 client registered with UAA will expect users to both come from and return to a URI using the scheme
-implied by the `ssl_enabled` setting.
-
-### Implementation Notes
-
-The following links show how this release implements [Dashboard SSO](http://docs.cloudfoundry.org/services/dashboard-sso.html) integration.
-
-1. Update the broker catalog with the dashboard client [properties](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/config/settings.yml#L26)
-2. Implement oauth [workflow](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/config/initializers/omniauth.rb) with the [omniauth-uaa-oauth2 gem](https://github.com/cloudfoundry/omniauth-uaa-oauth2)
-3. [Use](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/lib/uaa_session.rb) the [cf-uaa-lib gem](https://github.com/cloudfoundry/cf-uaa-lib) to get a valid access token and request permissions on the instance
-4. Before showing the user the dashboard, [the broker checks](https://github.com/cloudfoundry/cf-mysql-broker/blob/master/app/controllers/manage/instances_controller.rb#L7) to see if the user is logged-in and has permissions to view the usage details of the instance.
-
-## Proxy
-
-More extensive proxy documentation can be found [here](https://github.com/cloudfoundry/cf-mysql-release/docs/proxy.md)
-
-
-Traffic to the MySQL cluster is routed through one or more proxy nodes. The current proxy implementation is [Switchboard](https://github.com/cloudfoundry-incubator/switchboard). This proxy acts as an intermediary between the client and the MySQL server - providing failover between MySQL nodes. The number of nodes is configured by the job instance count in the deployment manifest.
+```
+jobs:
+- name: mysql_z1
+  properties:
+    seeded_databases:
+    - name: db1
+      username: user1
+      password: pw1
+    - name: db2
+      username: user2
+      password: pw2
+```

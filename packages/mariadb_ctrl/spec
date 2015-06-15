@@ -7,6 +7,7 @@ files:
   - github.com/cloudfoundry/mariadb_ctrl/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/cluster_health_checker/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/cluster_health_checker/fakes/*.go # gosub
+  - github.com/cloudfoundry/mariadb_ctrl/integration_test/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/mariadb_helper/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/mariadb_helper/fakes/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/os_helper/*.go # gosub
@@ -15,4 +16,10 @@ files:
   - github.com/cloudfoundry/mariadb_ctrl/upgrader/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/upgrader/fakes/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
+  - github.com/fraenkel/candiedyaml/*.go # gosub
+  - github.com/go-sql-driver/mysql/*.go # gosub
+  - github.com/imdario/mergo/*.go # gosub
+  - github.com/pivotal-cf-experimental/service-config/*.go # gosub
   - github.com/pivotal-golang/lager/*.go # gosub
+  - github.com/tedsuo/ifrit/*.go # gosub
+  - github.com/tedsuo/ifrit/sigmon/*.go # gosub

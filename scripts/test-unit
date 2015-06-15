@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -eux
+
+MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# This script assumes that it lives one directory below the release directory.
+RELEASE_DIR="$( cd $MY_DIR/.. && pwd )"
+
+source ${RELEASE_DIR}/.envrc
+
+# Remove and reinstall the ginkgo binary as it might be from the wrong target architecture
+rm -rf ${RELEASE_DIR}/bin/ginkgo
+go install -v github.com/onsi/ginkgo/ginkgo
+
+echo -e "\nTesting Switchboard..."
+${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/switchboard/bin/test "$@"
+
+echo -e "\nTesting Galera Healthcheck..."
+${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/galera-healthcheck/bin/test-unit "$@"
+
+echo -e "\nTesting MariaDB Control..."
+${RELEASE_DIR}/src/github.com/cloudfoundry/mariadb_ctrl/bin/test-unit "$@"
+
+echo -e "\nTesting Quota Enforcer..."
+${RELEASE_DIR}/src/github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/bin/test-unit "$@"

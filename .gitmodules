@@ -7,9 +7,6 @@
 [submodule "packages/ruby"]
 	path = packages/ruby
 	url = https://github.com/cloudfoundry/ruby.git
-[submodule "src/broker-registrar"]
-	path = src/broker-registrar
-	url = https://github.com/pivotal-cf/broker-registrar.git
 [submodule "src/github.com/cloudfoundry-incubator/galera-healthcheck"]
 	path = src/github.com/cloudfoundry-incubator/galera-healthcheck
 	url = https://github.com/cloudfoundry-incubator/galera-healthcheck.git
@@ -81,3 +78,19 @@
 	path = src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests
 	url = https://github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests.git
 	branch = master
+[submodule "src/github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer"]
+	path = src/github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer
+	url = https://github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer.git
+[submodule "src/github.com/DATA-DOG/go-sqlmock"]
+	path = src/github.com/DATA-DOG/go-sqlmock
+	url = https://github.com/DATA-DOG/go-sqlmock
+[submodule "src/github.com/pivotal-cf-experimental/service-config"]
+	path = src/github.com/pivotal-cf-experimental/service-config
+	url = https://github.com/pivotal-cf-experimental/service-config
+	branch = master
+[submodule "src/github.com/cloudfoundry-incubator/candiedyaml"]
+	path = src/github.com/cloudfoundry-incubator/candiedyaml
+	url = https://github.com/cloudfoundry-incubator/candiedyaml
+[submodule "src/github.com/imdario/mergo"]
+	path = src/github.com/imdario/mergo
+	url = https://github.com/imdario/mergo

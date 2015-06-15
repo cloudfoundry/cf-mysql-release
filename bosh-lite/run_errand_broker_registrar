@@ -1,0 +1,34 @@
+#!/bin/bash
+
+set -eux
+
+MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# This script expects to live one directory below the release directory.
+RELEASE_DIR=$( cd ${MY_DIR}/.. && pwd )
+# And that the release directory lives one directory below the workspace directory.
+WORKSPACE_DIR="$( cd ${RELEASE_DIR}/.. && pwd )"
+
+INFO_COLOR='\033[1;36m'
+NO_COLOR='\033[0m'
+
+DIRECTOR_IP=${DIRECTOR_IP:-192.168.50.4}
+
+# If a file exists with an api-address, use that instead
+if [ -f ${WORKSPACE_DIR}/api-address ]; then
+  API_ADDRESS=$( cat ${WORKSPACE_DIR}/api-address )
+  echo -e "WARNING: Found API address file at ${INFO_COLOR}${WORKSPACE_DIR}/api-address${NO_COLOR} - using ${INFO_COLOR}${API_ADDRESS}${NO_COLOR} instead of ${INFO_COLOR}${DIRECTOR_IP}${NO_COLOR}"
+  DIRECTOR_IP=${API_ADDRESS}
+fi
+
+MANIFEST_LOCATION="/tmp/cf-warden-mysql.yml"
+rm -rf ${MANIFEST_LOCATION}
+
+bosh -n target ${DIRECTOR_IP}
+bosh login admin admin
+
+bosh download manifest cf-warden-mysql ${MANIFEST_LOCATION}
+bosh deployment ${MANIFEST_LOCATION}
+
+bosh run errand broker-registrar
+rm -rf ${MANIFEST_LOCATION}

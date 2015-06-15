@@ -11,7 +11,7 @@ rsync -a cf-mysql-broker/ ${BOSH_INSTALL_TARGET}
 
   mysqlclient_dir=/var/vcap/packages/mysqlclient
 
-  /var/vcap/packages/ruby/bin/bundle config build.mysql2 --with-mysql-config=$mysqlclient_dir/bin/mysql_config
+  /var/vcap/packages/ruby/bin/bundle config build.mysql2 --with-mysql-config=$mysqlclient_dir/bin/mariadb_config
 
   /var/vcap/packages/ruby/bin/bundle install --local --deployment --without development test
 )

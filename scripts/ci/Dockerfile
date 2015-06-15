@@ -1,6 +1,9 @@
 FROM ubuntu:trusty
 MAINTAINER https://github.com/cloudfoundry/cf-mysql-release
 
+# libmysqlclient-dev is used for pre-packaging cf-mysql-broker
+# xvfb and chromedriver are for dashboard sso tests
+# nodejs, npm and libicu52 are for switchboard ui
 RUN \
       apt-get update && \
       apt-get -y install --fix-missing \
@@ -9,8 +12,18 @@ RUN \
             git \
             libreadline6 \
             libreadline6-dev\
+            wget \
+            libmysqlclient-dev \
+            xvfb \
+            chromium-chromedriver \
+            nodejs \
+            npm \
+            libicu52 \
       && \
       apt-get clean
+
+# Alias nodejs as node for switchboard ui
+RUN ln -s /usr/bin/nodejs /usr/bin/node
 
 # Install ruby-install
 RUN curl https://codeload.github.com/postmodern/ruby-install/tar.gz/v0.5.0 | tar xvz -C /tmp/ && \
@@ -18,14 +31,19 @@ RUN curl https://codeload.github.com/postmodern/ruby-install/tar.gz/v0.5.0 | tar
           make install
 
 # Install Ruby
-RUN ruby-install ruby 2.2.0 -- --disable-install-rdoc
+RUN ruby-install ruby 2.1.5 -- --disable-install-rdoc
 
 # Add ruby to PATH
-ENV PATH $PATH:/home/root/.gem/ruby/2.2.0/bin:/opt/rubies/ruby-2.2.0/lib/ruby/gems/2.2.0/bin:/opt/rubies/ruby-2.2.0/bin
+ENV PATH $PATH:/home/root/.gem/ruby/2.1.5/bin:/opt/rubies/ruby-2.1.5/lib/ruby/gems/2.1.5/bin:/opt/rubies/ruby-2.1.5/bin
 
 # Install gems
-RUN /opt/rubies/ruby-2.2.0/bin/gem install bosh_cli --no-rdoc --no-ri && \
-          /opt/rubies/ruby-2.2.0/bin/gem install bundler --no-rdoc --no-ri
+RUN /opt/rubies/ruby-2.1.5/bin/gem install bosh_cli --no-rdoc --no-ri && \
+          /opt/rubies/ruby-2.1.5/bin/gem install bundler --no-rdoc --no-ri
+
+# Phantomjs is used by switchboard ui tests
+RUN wget https://github.com/Pyppe/phantomjs2.0-ubuntu14.04x64/raw/master/bin/phantomjs && \
+          chmod +x phantomjs && \
+          mv phantomjs /usr/bin/phantomjs
 
 # Install cf cli
 RUN curl http://go-cli.s3-website-us-east-1.amazonaws.com/releases/v6.10.0/cf-linux-amd64.tgz | tar xvz -C /bin

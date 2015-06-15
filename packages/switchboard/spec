@@ -17,6 +17,8 @@ files:
   - github.com/cloudfoundry-incubator/switchboard/proxy/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
   - github.com/fraenkel/candiedyaml/*.go # gosub
+  - github.com/imdario/mergo/*.go # gosub
+  - github.com/pivotal-cf-experimental/service-config/*.go # gosub
   - github.com/pivotal-golang/lager/*.go # gosub
   - github.com/tedsuo/ifrit/*.go # gosub
   - github.com/tedsuo/ifrit/grouper/*.go # gosub

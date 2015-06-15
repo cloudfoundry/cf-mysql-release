@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -eux
+
+MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# This script expects to live two directories below the release directory.
+RELEASE_DIR=$( cd ${MY_DIR}/../.. && pwd )
+
+# GoCD does not print color, so do not attempt to do so
+${RELEASE_DIR}/scripts/test-unit --noColor "$@"
+
+# Remove existing compiled packages and binaries
+# GoCD isn't always good about cleaning up after itself
+rm -rf ${RELEASE_DIR}/bin/*
+rm -rf ${RELEASE_DIR}/pkg/*
