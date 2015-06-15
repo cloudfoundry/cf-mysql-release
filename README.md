@@ -20,8 +20,6 @@
 
 [Deregistering the Service Broker](#deregistering-broker)
 
-[Configuring a High Availability deployment](#configuring-ha-deployment)
-
 [Additional Configuration Options](#additional-configuration-options)
 
 <a name='components'></a>
