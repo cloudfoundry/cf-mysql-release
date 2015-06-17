@@ -243,7 +243,7 @@ Note: No infrastructure changes are required to deploy to bosh-lite
 #### Define subnets
 
 Prior to deployment, the operator should define three subnets via their infrastructure provider.
-The MySQL release is designed to be deployed across three subnets to ensure availability in the event of a subnet failure.
+The MySQL release is designed to be deployed across three subnets to ensure availability in the event of a subnet failure.  During installation, a fourth subnet is required for compilation vms.
 The [sample_aws_stub.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/sample_stubs/sample_aws_stub.yml) demonstrates how these subnets can be configured on AWS across multiple availability zones.
 
 #### Create load balancer
