@@ -59,7 +59,11 @@ ENV PATH $PATH:/usr/local/go/bin:/root/go/bin
 RUN mkdir -p $GOPATH
 
 # Install spiff
-RUN go get github.com/cloudfoundry-incubator/spiff
+RUN \
+  git clone https://github.com/cloudfoundry-incubator/spiff.git /tmp/go/src/github.com/cloudfoundry-incubator/spiff && \
+  GOPATH=/tmp/go /tmp/go/src/github.com/cloudfoundry-incubator/spiff/scripts/build && \
+  cp /tmp/go/src/github.com/cloudfoundry-incubator/spiff/spiff /usr/local/bin && \
+  rm -rf /tmp/*
 
 # Add workspace directory
 RUN mkdir -p /root/workspace && ln -s /root/workspace /workspace
