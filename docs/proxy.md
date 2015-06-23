@@ -2,7 +2,7 @@
 
 In cf-mysql-release, [Switchboard](https://github.com/cloudfoundry-incubator/switchboard) is used to proxy TCP connections to healthy MariaDB nodes.
 
-A proxy is used to gracefully handle failure of MariaDB nodes. Use of a proxy permits transparent failover to other nodes within the cluster in the event of a node failure.
+A proxy is used to gracefully handle failure of MariaDB nodes. Use of a proxy permits very fast, unambiguous failover to other nodes within the cluster in the event of a node failure.
 
 When a node becomes unhealthy, the proxy re-routes all subsequent connections to a healthy node. All existing connections to the unhealthy node are closed.
 
