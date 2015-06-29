@@ -43,7 +43,7 @@ networks:
       - 10.10.0.2 # amazon has only 1 DNS server for the whole VPC at x.x.0.2
     cloud_properties:
       subnet: (( properties.template_only.aws.subnet_ids.mysql3 ))
-- name: services1
+- name: compilation
   type: manual
   subnets:
     - range: 10.10.35.0/24
@@ -57,7 +57,7 @@ networks:
       dns:
         - 10.10.0.2 # amazon has only 1 DNS server for the whole VPC at x.x.0.2
       cloud_properties:
-        subnet: (( properties.template_only.aws.subnet_ids.services1 ))
+        subnet: (( properties.template_only.aws.subnet_ids.compilation ))
 
 properties:
   cf:
@@ -86,7 +86,7 @@ properties:
         mysql1: YOUR_SUBNET_ID_1
         mysql2: YOUR_SUBNET_ID_2
         mysql3: YOUR_SUBNET_ID_3
-        services1: YOUR_COMPILATION_SUBNET
+        compilation: YOUR_COMPILATION_SUBNET
 
 meta:
   environment: YOUR_ENVIRONMENT_NAME
