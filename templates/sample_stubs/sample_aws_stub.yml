@@ -50,9 +50,9 @@ networks:
       name: default_unused
       reserved:
         - 10.10.35.2 - 10.10.35.9
-        - 10.10.35.1 - 10.10.35.100
+        - 10.10.35.130 - 10.10.35.254
       static:
-        - 10.10.35.10 - 10.10.35.255
+        - 10.10.35.10 - 10.10.35.14
       gateway: 10.10.35.1
       dns:
         - 10.10.0.2 # amazon has only 1 DNS server for the whole VPC at x.x.0.2
