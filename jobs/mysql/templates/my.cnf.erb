@@ -30,6 +30,8 @@ wsrep_node_name='mysql/<%= index %>'
 wsrep_cluster_name='cf-mariadb-galera-cluster'
 wsrep_sst_method=xtrabackup-v2
 wsrep_sst_auth=<%= p('admin_username')%>:<%= p('admin_password')%>
+wsrep_max_ws_rows=<%= p('wsrep_max_ws_rows') %>
+wsrep_max_ws_size=<%= p('wsrep_max_ws_size') %>
 #wsrep_on='OFF'
 #wsrep_desync='ON'
 #wsrep_OSU_method='RSU'

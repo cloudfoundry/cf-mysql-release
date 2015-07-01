@@ -105,6 +105,8 @@ jobs:
     seeded_databases: ~
     max_heap_table_size: (( merge || nil ))
     tmp_table_size: (( merge || nil ))
+    wsrep_max_ws_rows: (( merge || nil ))
+    wsrep_max_ws_size: (( merge || nil ))
     syslog_aggregator: (( meta.syslog_aggregator ))
     network_name: mysql1
 
@@ -124,6 +126,8 @@ jobs:
     seeded_databases: ~
     max_heap_table_size: (( jobs.mysql_z1.properties.max_heap_table_size ))
     tmp_table_size: (( jobs.mysql_z1.properties.tmp_table_size ))
+    wsrep_max_ws_rows: (( jobs.mysql_z1.properties.wsrep_max_ws_rows ))
+    wsrep_max_ws_size: (( jobs.mysql_z1.properties.wsrep_max_ws_size ))
     syslog_aggregator: (( meta.syslog_aggregator ))
     network_name: mysql2
 
@@ -143,6 +147,8 @@ jobs:
     seeded_databases: ~
     max_heap_table_size: (( jobs.mysql_z1.properties.max_heap_table_size ))
     tmp_table_size: (( jobs.mysql_z1.properties.tmp_table_size ))
+    wsrep_max_ws_rows: (( jobs.mysql_z1.properties.wsrep_max_ws_rows ))
+    wsrep_max_ws_size: (( jobs.mysql_z1.properties.wsrep_max_ws_size ))
     syslog_aggregator: (( meta.syslog_aggregator ))
     network_name: mysql3
 

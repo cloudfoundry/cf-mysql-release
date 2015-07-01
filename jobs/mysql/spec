@@ -45,6 +45,12 @@ properties:
   tmp_table_size:
     description: 'The maximum size (in bytes) of internal in-memory temporary tables'
     default: 33554432
+  wsrep_max_ws_rows:
+    description: 'Maximum permitted number of rows per writeset.'
+    default: 131072
+  wsrep_max_ws_size:
+    description: 'Maximum permitted size in bytes per writeset.'
+    default: 1073741824
 
   #these two properties are also used by the Broker
   gcache_size:
