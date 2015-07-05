@@ -372,7 +372,12 @@ Note: the broker-registrar errand will fail if the broker has already been regis
 
 ## Security Groups
 
-Note: this section does not apply to bosh-lite deployments.
+Note: If using bosh-lite, a security rule has been provided which maps to the IP addresses defined in the manifest.  You can add as follows:
+
+  ```
+  $ cf create-security-group p-mysql security-rule-bosh-lite.json
+  ``` 
+Then enable the rule for all apps as defined below.
 
 Since [cf-release](https://github.com/cloudfoundry/cf-release) v175, applications by default cannot to connect to IP addresses on the private network. This prevents applications from connecting to the MySQL service. To enable access to the service, create a new security group for the IP configured in your manifest for the property `jobs.cf-mysql-broker_z1.mysql_node.host`.
 
