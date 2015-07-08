@@ -4,6 +4,7 @@ set -e
 rsync -a cf-mysql-broker/ ${BOSH_INSTALL_TARGET}
 
 # install gems from cache
+# some more comment to force pre-packaging and make a new package
 (
   cd ${BOSH_INSTALL_TARGET}
 
