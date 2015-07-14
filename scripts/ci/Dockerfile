@@ -13,6 +13,7 @@ RUN \
             libreadline6 \
             libreadline6-dev\
             wget \
+            unzip \
             libmysqlclient-dev \
             xvfb \
             chromium-chromedriver \
@@ -56,14 +57,11 @@ ENV GOPATH /root/go
 ENV PATH $PATH:/usr/local/go/bin:/root/go/bin
 
 # Create GOPATH
-RUN mkdir -p $GOPATH
+RUN mkdir -p $GOPATH && mkdir $GOPATH/bin $GOPATH/pkg $GOPATH/src
 
 # Install spiff
-RUN \
-  git clone https://github.com/cloudfoundry-incubator/spiff.git /tmp/go/src/github.com/cloudfoundry-incubator/spiff && \
-  GOPATH=/tmp/go /tmp/go/src/github.com/cloudfoundry-incubator/spiff/scripts/build && \
-  cp /tmp/go/src/github.com/cloudfoundry-incubator/spiff/spiff /usr/local/bin && \
-  rm -rf /tmp/*
+RUN wget -O /tmp/spiff.zip https://github.com/cloudfoundry-incubator/spiff/releases/download/v1.0.7/spiff_linux_amd64.zip
+RUN unzip /tmp/spiff.zip -d /tmp/ && mv /tmp/spiff $GOPATH/bin/
 
 # Add workspace directory
 RUN mkdir -p /root/workspace && ln -s /root/workspace /workspace
