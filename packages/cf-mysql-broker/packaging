@@ -12,10 +12,13 @@ rsync -a cf-mysql-broker/ ${BOSH_INSTALL_TARGET}
 
   mysqlclient_dir=/var/vcap/packages/mysqlclient
 
+  # TODO: Remove the /var/vcap/packages/ruby/bin prefix since we already add it to our PATH [#99155694]
   /var/vcap/packages/ruby/bin/bundle config build.mysql2 \
     --with-mysql-config=$mysqlclient_dir/bin/mariadb_config \
     --with-mysql-lib=$mysqlclient_dir/lib \
     --with-mysql-include=$mysqlclient_dir/include
 
   /var/vcap/packages/ruby/bin/bundle install --local --deployment --without development test
+
+  RAILS_ENV=assets bundle exec rake assets:precompile
 )

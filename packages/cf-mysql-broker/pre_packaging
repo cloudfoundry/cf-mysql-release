@@ -5,9 +5,7 @@ set -e
   cd ${BUILD_DIR}/cf-mysql-broker
 
   # cache gems
-  bundle package --all
-
-  RAILS_ENV=assets bundle exec rake assets:precompile
+  bundle package --all --no-install
 
   # remove unneeded files
   rm -rf spec
