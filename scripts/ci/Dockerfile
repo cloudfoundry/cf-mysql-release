@@ -53,11 +53,8 @@ RUN curl http://go-cli.s3-website-us-east-1.amazonaws.com/releases/v6.10.0/cf-li
 RUN curl https://storage.googleapis.com/golang/go1.4.2.linux-amd64.tar.gz | tar xvz -C /usr/local/
 
 # Add golang environment variables
-ENV GOPATH /root/go
-ENV PATH $PATH:/usr/local/go/bin:/root/go/bin
-
-# Create GOPATH
-RUN mkdir -p $GOPATH && mkdir $GOPATH/bin $GOPATH/pkg $GOPATH/src
+ENV GOPATH /usr/local/go
+ENV PATH $PATH:/usr/local/go/bin
 
 # Install spiff
 RUN wget -O /tmp/spiff.zip https://github.com/cloudfoundry-incubator/spiff/releases/download/v1.0.7/spiff_linux_amd64.zip
