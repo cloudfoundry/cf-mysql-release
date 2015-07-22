@@ -1,5 +1,8 @@
 director_uuid: REPLACE_WITH_YOUR_DIRECTOR_UUID
 
+# NOTE:
+# Replace 10.0.{0,1,2} part of the octet
+# with your network configuration
 networks:
 - name: mysql1
   subnets:
