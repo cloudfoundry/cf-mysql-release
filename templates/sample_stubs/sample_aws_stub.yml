@@ -67,7 +67,7 @@ properties:
     # these come from your cf-release manifest
     admin_username: REPLACE_WITH_YOUR_CF_ADMIN_USERNAME
     admin_password: REPLACE_WITH_YOUR_CF_ADMIN_PASSWORD
-    skip_ssl_validation: false
+    skip_ssl_validation: REPLACE_WITH_TRUE_OR_FALSE # True if you don't have a trusted SSL certificate, false if you do
 
   domain: REPLACE_WITH_YOUR_CF_SYSTEM_DOMAIN # The broker registers a route at p-msyql.external_domain.
   app_domains:
