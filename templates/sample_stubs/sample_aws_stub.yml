@@ -73,7 +73,7 @@ properties:
     user: nats
     password: REPLACE_WITH_NATS_PASSWORD_FROM_CF_RELEASE
     machines:
-      - 10.10.80.11
+      - REPLACE_WITH_NATS_IP_ADDRESS_FROM_CF_RELEASE
     port: 4222
 
   template_only:

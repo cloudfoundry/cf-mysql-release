@@ -66,7 +66,7 @@ properties:
   - REPLACE_WITH_YOUR_CF_APPS_DOMAIN
   nats:
     machines:
-      - 10.0.0.5
+      - REPLACE_WITH_NATS_IP_ADDRESS_FROM_CF_RELEASE
     password: REPLACE_WITH_NATS_PASSWORD_FROM_CF_RELEASE
     user: nats
     port: 4222
