@@ -15,9 +15,11 @@ ACTION_COLOR='\033[1;33m'
 INFO_COLOR='\033[1;36m'
 NO_COLOR='\033[0m'
 
+BOSH_LITE_USERNAME=${BOSH_LITE_USERNAME:-admin}
+BOSH_LITE_PASSWORD=${BOSH_LITE_PASSWORD:-admin}
+
 # By default use 3 node stub
 mysql_stub="cf-mysql-stub-spiff-3-node.yml"
-
 # If any arguments were provided,
 # see if there is a stub with the number of nodes provided.
 # If not, assume the argument is not the number of nodes and continue.
@@ -47,7 +49,7 @@ if [ -f ${WORKSPACE_DIR}/api-address ]; then
 fi
 
 bosh -n target ${DIRECTOR_IP}
-bosh login admin admin
+bosh -n login "${BOSH_LITE_USERNAME}" "${BOSH_LITE_PASSWORD}"
 DIRECTOR_UUID=$(bosh status | grep UUID | awk '{print $2}')
 echo $DIRECTOR_UUID
 perl -pi -e "s/PLACEHOLDER-DIRECTOR-UUID/$DIRECTOR_UUID/g" $RELEASE_DIR/bosh-lite/tmp/cf-mysql-stub-with-uuid.yml
