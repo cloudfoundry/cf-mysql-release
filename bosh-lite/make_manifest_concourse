@@ -9,19 +9,19 @@ WORKSPACE_DIR="$( cd ${RELEASE_DIR}/.. && pwd )"
 OUTPUT_FILE=${OUTPUT_FILE:?}
 NODE_COUNT=${NODE_COUNT:-3}
 
-OK_COLOR='\033[1;32m'
-ACTION_COLOR='\033[1;33m'
-INFO_COLOR='\033[1;36m'
-NO_COLOR='\033[0m'
-
 # select stub that corresponds to $NODE_COUNT
-if [[ -f "${RELEASE_DIR}/bosh-lite/cf-mysql-stub-spiff-${NODE_COUNT}-node.yml" ]] ; then
-  mysql_stub="cf-mysql-stub-spiff-${NODE_COUNT}-node.yml"
-  echo -e "Using stub ${INFO_COLOR}${RELEASE_DIR}/bosh-lite/${mysql_stub}${NO_COLOR}"
+MYSQL_STUB="${RELEASE_DIR}/bosh-lite/cf-mysql-stub-spiff-${NODE_COUNT}-node.yml"
+if [[ ! -f "${MYSQL_STUB}" ]] ; then
+  echo "Can't find ${MYSQL_STUB}"
+  exit 1
 fi
+
+# concourse bosh resource will automatically replace the UUID
+MYSQL_STUB_MODIFIED=/tmp/mysql-stub.yml
+sed 's/PLACEHOLDER-DIRECTOR-UUID/~/' ${MYSQL_STUB} > ${MYSQL_STUB_MODIFIED}
 
 ${RELEASE_DIR}/generate_deployment_manifest \
   warden \
   ${RELEASE_DIR}/templates/sample_stubs/sample_plans_stub.yml \
-  ${RELEASE_DIR}/bosh-lite/${mysql_stub} \
+  ${MYSQL_STUB_MODIFIED} \
   "$@" > ${WORKSPACE_DIR}/${OUTPUT_FILE}
