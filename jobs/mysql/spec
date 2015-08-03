@@ -75,3 +75,7 @@ properties:
   syslog_aggregator.transport:
     description: "Transport to be used when forwarding logs (tcp|udp|relp)."
     default: "tcp"
+
+  database_startup_timeout:
+    description: 'How long the startup script waits for the database to come online (in seconds)'
+    default: 150
