@@ -10,7 +10,13 @@ RELEASE_DIR=$( cd ${MY_DIR}/.. && pwd )
 export PATH=$PATH:/usr/lib/chromium-browser/
 export LD_LIBRARY_PATH=/usr/lib/chromium-browser/libs
 
-CONFIG=${CONFIG:?}
+export CONFIG="${CONFIG:-}"
+
+if [ -z "${CONFIG}" ]; then
+  export CONFIG_LOCATION="${RELEASE_DIR}/integration-config.json"
+  ${RELEASE_DIR}/scripts/create_integration_test_config
+  export CONFIG="${CONFIG_LOCATION}"
+fi
 
 source ${RELEASE_DIR}/.envrc
 
