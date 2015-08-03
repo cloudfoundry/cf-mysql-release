@@ -1,0 +1,76 @@
+#!/bin/bash
+
+set -eu
+
+MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+RELEASE_DIR=$( cd ${MY_DIR}/.. && pwd )
+WORKSPACE_DIR="$( cd ${RELEASE_DIR}/.. && pwd )"
+
+OK_COLOR='\033[1;32m'
+ACTION_COLOR='\033[1;33m'
+INFO_COLOR='\033[1;36m'
+NO_COLOR='\033[0m'
+
+CONFIG_LOCATION=${CONFIG_LOCATION:-${RELEASE_DIR}/integration-config.json}
+echo -e "Creating config file at ${INFO_COLOR}${CONFIG_LOCATION}${NO_COLOR}..."
+
+CF_API_USER="${CF_API_USER:?}"
+CF_API_PASSWORD="${CF_API_PASSWORD:?}"
+PROXY_API_USER="${PROXY_API_USER:?}"
+PROXY_API_PASSWORD="${PROXY_API_PASSWORD:?}"
+DOMAIN="${DOMAIN:?}"
+USE_SMALL_PLANS=${USE_SMALL_PLANS:-false}
+USE_HTTPS=${USE_HTTPS:-true}
+
+if [ "${USE_HTTPS}" = true ]; then
+  PROTOCOL="https"
+else
+  PROTOCOL="http"
+fi
+
+if [ "${USE_SMALL_PLANS}" = true ]; then
+  SMALL_PLAN_SIZE=10
+  LARGE_PLAN_SIZE=20
+else
+  SMALL_PLAN_SIZE=100
+  LARGE_PLAN_SIZE=1000
+fi
+
+cat > ${CONFIG_LOCATION} <<EOF
+{
+  "api": "${PROTOCOL}://api.${DOMAIN}",
+  "apps_domain": "${DOMAIN}",
+  "admin_user": "${CF_API_USER}",
+  "admin_password": "${CF_API_PASSWORD}",
+  "broker_host": "p-mysql.${DOMAIN}",
+  "service_name": "p-mysql",
+  "plans" : [
+    {
+      "plan_name": "100mb",
+      "max_user_connections": 20,
+      "max_storage_mb": ${SMALL_PLAN_SIZE}
+    },
+    {
+      "plan_name": "1gb",
+      "max_user_connections": 40,
+      "max_storage_mb": ${LARGE_PLAN_SIZE}
+    }
+  ],
+  "skip_ssl_validation": true,
+  "timeout_scale": 1.0,
+  "proxy": {
+    "external_host":"p-mysql.${DOMAIN}",
+    "api_username":"${PROXY_API_USER}",
+    "api_password":"${PROXY_API_PASSWORD}",
+    "api_force_https": ${USE_HTTPS},
+    "skip_ssl_validation": true
+  }
+}
+EOF
+
+echo -e "${OK_COLOR}OK${NO_COLOR}"
+
+echo -e "
+TIP: Export the environment variable with the following command:
+
+${ACTION_COLOR}export CONFIG=${CONFIG_LOCATION}${NO_COLOR}"
