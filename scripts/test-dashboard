@@ -25,4 +25,4 @@ rm -rf ${RELEASE_DIR}/bin/ginkgo
 go install -v github.com/onsi/ginkgo/ginkgo
 
 echo -e "\nTesting Dashboard SSO"
-xvfb-run ${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/bin/test-dashboard "$@"
+${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/bin/test-dashboard "$@"

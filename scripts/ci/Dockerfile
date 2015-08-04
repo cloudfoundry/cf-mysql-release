@@ -2,7 +2,7 @@ FROM ubuntu:trusty
 MAINTAINER https://github.com/cloudfoundry/cf-mysql-release
 
 # libmysqlclient-dev is used for pre-packaging cf-mysql-broker
-# xvfb and chromedriver are for dashboard sso tests
+# libfontconfig1-dev etc. are required by phantomjs
 # nodejs, npm and libicu52 are for switchboard ui
 RUN \
       apt-get update && \
@@ -18,6 +18,7 @@ RUN \
             nodejs \
             npm \
             libicu52 \
+            libfontconfig1-dev libfreetype6 libssl-dev libpng-dev libjpeg-dev \
       && \
       apt-get clean
 
