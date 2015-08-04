@@ -36,6 +36,14 @@ else
   LARGE_PLAN_SIZE=1000
 fi
 
+# The following properties are only used by the failover test
+BROKER_0_REMOTE_IP=${BROKER_0_REMOTE_IP:-}
+BROKER_1_REMOTE_IP=${BROKER_1_REMOTE_IP:-}
+MYSQL_NODE_0_REMOTE_IP=${MYSQL_NODE_0_REMOTE_IP:-}
+BROKER_0_LOCAL_PORT=${BROKER_0_LOCAL_PORT:-}
+BROKER_1_LOCAL_PORT=${BROKER_1_LOCAL_PORT:-}
+MYSQL_NODE_0_LOCAL_PORT=${MYSQL_NODE_0_LOCAL_PORT:-}
+
 cat > ${CONFIG_LOCATION} <<EOF
 {
   "api": "${PROTOCOL}://api.${DOMAIN}",
@@ -64,7 +72,23 @@ cat > ${CONFIG_LOCATION} <<EOF
     "api_password":"${PROXY_API_PASSWORD}",
     "api_force_https": ${USE_HTTPS},
     "skip_ssl_validation": true
-  }
+  },
+  "brokers": [
+    {
+      "ip": "${BROKER_0_REMOTE_IP}",
+      "ssh_tunnel": "127.0.0.1:${BROKER_0_LOCAL_PORT}"
+    },
+    {
+      "ip": "${BROKER_1_REMOTE_IP}",
+      "ssh_tunnel": "127.0.0.1:${BROKER_1_LOCAL_PORT}"
+    }
+  ],
+  "mysql_nodes": [
+    {
+      "ip": "${MYSQL_NODE_0_REMOTE_IP}",
+      "ssh_tunnel": "127.0.0.1:${MYSQL_NODE_0_LOCAL_PORT}"
+    }
+  ]
 }
 EOF
 
