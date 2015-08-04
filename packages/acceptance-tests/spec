@@ -23,7 +23,6 @@ files:
   - github.com/cloudfoundry-incubator/cf-test-helpers/generator/*.go # gosub
   - github.com/sclevine/agouti/*.go # gosub
   - github.com/sclevine/agouti/matchers/*.go # gosub
-  - github.com/sclevine/agouti/dsl/*.go # gosub
   - github.com/onsi/ginkgo/config/*.go # gosub
   - github.com/onsi/ginkgo/ginkgo/convert/*.go # gosub
   - github.com/onsi/ginkgo/ginkgo/interrupthandler/*.go # gosub
