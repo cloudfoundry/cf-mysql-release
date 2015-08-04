@@ -15,8 +15,6 @@ RUN \
             wget \
             unzip \
             libmysqlclient-dev \
-            xvfb \
-            chromium-chromedriver \
             nodejs \
             npm \
             libicu52 \
@@ -41,7 +39,7 @@ ENV PATH $PATH:/home/root/.gem/ruby/2.2.2/bin:/opt/rubies/ruby-2.2.2/lib/ruby/ge
 RUN /opt/rubies/ruby-2.2.2/bin/gem install bosh_cli --no-rdoc --no-ri && \
           /opt/rubies/ruby-2.2.2/bin/gem install bundler --no-rdoc --no-ri
 
-# Phantomjs is used by switchboard ui tests
+# Phantomjs is used by switchboard ui tests and dashboard acceptance tests
 RUN wget https://github.com/Pyppe/phantomjs2.0-ubuntu14.04x64/raw/master/bin/phantomjs && \
           chmod +x phantomjs && \
           mv phantomjs /usr/bin/phantomjs

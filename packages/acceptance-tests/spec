@@ -21,9 +21,9 @@ files:
   - github.com/onsi/gomega/gbytes/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-test-helpers/cf/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-test-helpers/generator/*.go # gosub
-  - github.com/sclevine/agouti/core/*.go # gosub
-  - github.com/sclevine/agouti/dsl/*.go # gosub
+  - github.com/sclevine/agouti/*.go # gosub
   - github.com/sclevine/agouti/matchers/*.go # gosub
+  - github.com/sclevine/agouti/dsl/*.go # gosub
   - github.com/onsi/ginkgo/config/*.go # gosub
   - github.com/onsi/ginkgo/ginkgo/convert/*.go # gosub
   - github.com/onsi/ginkgo/ginkgo/interrupthandler/*.go # gosub
@@ -58,11 +58,10 @@ files:
   - github.com/onsi/gomega/types/*.go # gosub
   - golang.org/x/crypto/ssh/*.go # gosub
   - github.com/nu7hatch/gouuid/*.go # gosub
-  - github.com/sclevine/agouti/core/internal/api/*.go # gosub
-  - github.com/sclevine/agouti/core/internal/page/*.go # gosub
-  - github.com/sclevine/agouti/core/internal/selection/*.go # gosub
-  - github.com/sclevine/agouti/core/internal/service/*.go # gosub
-  - github.com/sclevine/agouti/core/internal/session/*.go # gosub
+  - github.com/sclevine/agouti/api/*.go # gosub
+  - github.com/sclevine/agouti/api/internal/bus/*.go # gosub
+  - github.com/sclevine/agouti/api/internal/service/*.go # gosub
+  - github.com/sclevine/agouti/internal/element/*.go # gosub
+  - github.com/sclevine/agouti/internal/target/*.go # gosub
+  - github.com/sclevine/agouti/matchers/internal/*.go # gosub
   - github.com/sclevine/agouti/matchers/internal/colorparser/*.go # gosub
-  - github.com/sclevine/agouti/matchers/internal/page/*.go # gosub
-  - github.com/sclevine/agouti/matchers/internal/selection/*.go # gosub
