@@ -21,12 +21,13 @@ export PROXY_API_PASSWORD="password"
 export USE_SMALL_PLANS=true
 export USE_HTTPS=false
 
+DOMAIN="${DOMAIN:-10.244.0.34}"
 # If a file exists with an api-address, use that instead
 if [ -f ${WORKSPACE_DIR}/api-address ]; then
   API_ADDRESS=$( cat ${WORKSPACE_DIR}/api-address )
   echo -e "WARNING: Found API address file at ${INFO_COLOR}${WORKSPACE_DIR}/api-address${NO_COLOR} - using ${INFO_COLOR}${API_ADDRESS}${NO_COLOR} instead of ${INFO_COLOR}${DOMAIN}${NO_COLOR}"
   export DOMAIN=${API_ADDRESS}
 fi
-export DOMAIN="${DOMAIN:-10.244.0.34}.xip.io"
+export DOMAIN="${DOMAIN}.xip.io"
 
 ${RELEASE_DIR}/scripts/create_integration_test_config
