@@ -1,5 +1,11 @@
 director_uuid: REPLACE_WITH_YOUR_DIRECTOR_UUID
 
+meta:
+  # Used as a prefix for the deployment name
+  #
+  # e.g. `environment: cf-tabasco` makes a deployment named cf-tabasco-mysql
+  environment: REPLACE_WITH_YOUR_ENVIRONMENT_NAME
+
 # NOTE:
 # Replace 10.0.{0,1,2} part of the octet
 # with your network configuration
@@ -73,9 +79,6 @@ properties:
     password: REPLACE_WITH_NATS_PASSWORD_FROM_CF_RELEASE
     user: nats
     port: 4222
-
-meta:
-  environment: REPLACE_WITH_YOUR_ENVIRONMENT_NAME
 
 jobs:
 - name: proxy_z1

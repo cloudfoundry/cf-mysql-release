@@ -1,9 +1,9 @@
 ---
 meta:
   # override this in your stub to set the environment name,
-  # which is used for the deployment name
+  # which is used as a prefix for the deployment name
   #
-  # i.e. cf-tabasco
+  # e.g. `environment: cf-tabasco` makes a deployment named cf-tabasco-mysql
   environment: ~
 
   syslog_aggregator: ~

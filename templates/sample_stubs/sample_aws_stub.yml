@@ -1,5 +1,11 @@
 director_uuid: REPLACE_WITH_YOUR_DIRECTOR_UUID
 
+meta:
+  # Used as a prefix for the deployment name
+  #
+  # e.g. `environment: cf-tabasco` makes a deployment named cf-tabasco-mysql
+  environment: REPLACE_WITH_YOUR_ENVIRONMENT_NAME
+
 # NOTE:
 # Replace 10.0.{0,1,2} part of the octet
 # with your network configuration
@@ -91,8 +97,6 @@ properties:
         mysql3: REPLACE_WITH_YOUR_SUBNET_ID_3
         compilation: REPLACE_WITH_YOUR_COMPILATION_SUBNET
 
-meta:
-  environment: REPLACE_WITH_YOUR_ENVIRONMENT_NAME
 
 jobs:
 # Jobs for cf-mysql-release are below
