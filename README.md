@@ -483,3 +483,24 @@ jobs:
       username: user2
       password: pw2
 ```
+
+### Configuring how long the startup script waits for the database to come online
+
+On larger databases, the default database startup timeout may be too low.
+This would result in the job reporting as failing, while MySQL continues to bootstrap in the background (see [Known Issues > Long SST Transfers](docs/Known-Issues.md#long-sst-transfers)).
+To increase the duration that the startup script waits for MySQL to start, add the following to your deployment stub:
+
+```yaml
+jobs:
+- name: mysql_z1
+  properties:
+    database_startup_timeout: 360
+```
+
+Note: This is independent of the overall BOSH timeout which is also configurable in the manifest. The BOSH timeout should always be higher than the database startup timeout:
+
+```yaml
+update:
+  canary_watch_time: 30000-600000
+  update_watch_time: 30000-600000
+```
