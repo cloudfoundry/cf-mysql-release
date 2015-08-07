@@ -103,6 +103,7 @@ jobs:
     admin_password: (( merge ))
     cluster_ips: (( merge || .properties.default_mysql_cluster_ips ))
     seeded_databases: ~
+    database_startup_timeout: (( merge || nil ))
     max_heap_table_size: (( merge || nil ))
     tmp_table_size: (( merge || nil ))
     wsrep_max_ws_rows: (( merge || nil ))
@@ -124,6 +125,7 @@ jobs:
     admin_password: (( jobs.mysql_z1.properties.admin_password ))
     cluster_ips: (( jobs.mysql_z1.properties.cluster_ips ))
     seeded_databases: ~
+    database_startup_timeout: (( jobs.mysql_z1.properties.database_startup_timeout ))
     max_heap_table_size: (( jobs.mysql_z1.properties.max_heap_table_size ))
     tmp_table_size: (( jobs.mysql_z1.properties.tmp_table_size ))
     wsrep_max_ws_rows: (( jobs.mysql_z1.properties.wsrep_max_ws_rows ))
@@ -145,6 +147,7 @@ jobs:
     admin_password: (( jobs.mysql_z1.properties.admin_password ))
     cluster_ips: (( jobs.mysql_z1.properties.cluster_ips ))
     seeded_databases: ~
+    database_startup_timeout: (( jobs.mysql_z1.properties.database_startup_timeout ))
     max_heap_table_size: (( jobs.mysql_z1.properties.max_heap_table_size ))
     tmp_table_size: (( jobs.mysql_z1.properties.tmp_table_size ))
     wsrep_max_ws_rows: (( jobs.mysql_z1.properties.wsrep_max_ws_rows ))
