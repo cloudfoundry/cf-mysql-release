@@ -9,6 +9,19 @@ WORKSPACE_DIR="$( cd ${RELEASE_DIR}/.. && pwd )"
 OUTPUT_FILE=${OUTPUT_FILE:?}
 NODE_COUNT=${NODE_COUNT:-3}
 BOSH_LITE_PRIVATE_IP=$(cat "${BOSH_LITE_PRIVATE_IP_FILE:?}" | jq -r '.private_ip' )
+USE_PREVIOUS_RELEASE=${USE_PREVIOUS_RELEASE:-false}
+
+get_version() {
+  if [ "${USE_PREVIOUS_RELEASE}" = true ]; then
+  echo "$(find ${RELEASE_DIR}/releases/cf-mysql-* -type f -printf "%f\n" | \
+    cut -d '-' -f3              | \
+    cut -d '.' -f1              | \
+    sort -n                     | \
+    tail -1)"
+  else
+    echo "latest"
+  fi
+}
 
 # select stub that corresponds to $NODE_COUNT
 MYSQL_STUB="${RELEASE_DIR}/bosh-lite/cf-mysql-stub-spiff-${NODE_COUNT}-node.yml"
@@ -30,9 +43,18 @@ properties:
   - ${BOSH_LITE_PRIVATE_IP}.xip.io
 PRIVATE_IP_STUB
 
+MYSQL_VERSION="$(get_version)"
+VERSION_STUB=/tmp/version-stub.yml
+cat <<VERSION_STUB > ${VERSION_STUB}
+releases:
+- name: cf-mysql
+  version: ${MYSQL_VERSION}
+VERSION_STUB
+
 ${RELEASE_DIR}/generate_deployment_manifest \
   warden \
   ${RELEASE_DIR}/templates/sample_stubs/sample_plans_stub.yml \
   ${MYSQL_STUB_MODIFIED} \
   ${MYSQL_STUB_CF_PRIVATE_IP} \
+  ${VERSION_STUB} \
   "$@" > ${WORKSPACE_DIR}/${OUTPUT_FILE}
