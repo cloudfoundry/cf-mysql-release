@@ -21,7 +21,13 @@ export PROXY_API_PASSWORD="password"
 export USE_SMALL_PLANS=true
 export USE_HTTPS=false
 
-DOMAIN="${DOMAIN:-10.244.0.34}"
+BOSH_LITE_PRIVATE_IP_FILE="${BOSH_LITE_PRIVATE_IP_FILE:-}"
+if [ ! -z "${BOSH_LITE_PRIVATE_IP_FILE}" ]; then
+  DOMAIN=$(cat "${BOSH_LITE_PRIVATE_IP_FILE}" | jq -r '.private_ip' )
+else
+  DOMAIN="${DOMAIN:-10.244.0.34}"
+fi
+
 # If a file exists with an api-address, use that instead
 if [ -f ${WORKSPACE_DIR}/api-address ]; then
   API_ADDRESS=$( cat ${WORKSPACE_DIR}/api-address )
