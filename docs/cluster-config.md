@@ -7,8 +7,9 @@ This page documents the various configuration decisions that have been made in r
 Galera supports multiple methods for [State Snapshot Transfer](http://www.percona.com/doc/percona-xtradb-cluster/5.5/manual/state_snapshot_transfer.html).
 The `rsync` method is usually fastest. The `xtrabackup` method has the advantage of keeping the donor node writeable during SST. We have chosen to use `xtrabackup`.
 
-### InnoDB Log Files
-Our cluster defaults to 1GB for log file size to support larger blob.
+### InnoDB Redo Log Files
+
+Our cluster defaults to 1GB for log file size to support large blob transactions. By default there are two log files, and that number is static throughout the life of the database. Thus, the minimum disk size required for a DB install is 2GB per node, separate from the data storage required. To learn more about redologs, check out [redo logging in innodb](https://blogs.oracle.com/mysqlinnodb/entry/redo_logging_in_innodb).
 
 ### Max User Connections
 To ensure all users get fair access to system resources, we have capped each user's number of connections to 40.
