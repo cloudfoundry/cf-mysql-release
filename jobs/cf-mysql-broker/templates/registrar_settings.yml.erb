@@ -1,3 +1,4 @@
+<% if_p('nats.machines') do |_| %>
 message_bus_servers:
 <% p('nats.machines').each do |ip| %>
     - host: <%= ip %>:<%= p('nats.port') %>
@@ -11,3 +12,4 @@ health_checker:
     name: script
     interval_in_seconds: 10
     healthcheck_script_path: /var/vcap/jobs/cf-mysql-broker/bin/healthcheck.sh
+<% end %>

@@ -9,18 +9,18 @@ meta:
   syslog_aggregator: ~
 
 properties:
-  app_domains: (( merge ))
-  domain: (( merge ))
+  app_domains: (( merge || nil ))
+  domain: (( merge || nil ))
   nats:
-    user: (( merge ))
-    password: (( merge ))
-    port: (( merge ))
-    machines: (( merge ))
+    user: (( merge || nil ))
+    password: (( merge || nil ))
+    port: (( merge || nil ))
+    machines: (( merge || nil ))
   cf:
     api_url: (( "https://api." .properties.domain ))
-    admin_username: (( merge ))
-    admin_password: (( merge ))
-    apps_domain: (( .properties.app_domains.[0] ))
+    admin_username: (( merge || " " ))
+    admin_password: (( merge || " " ))
+    apps_domain: (( .properties.app_domains.[0] || " " ))
     skip_ssl_validation: (( merge || nil ))
   default_mysql_cluster_ips:
   - (( jobs.mysql_z1.networks.mysql1.static_ips.[0] || nil ))
@@ -168,7 +168,7 @@ jobs:
     proxy:
       <<: (( merge || nil ))
       health_port: (( merge || nil ))
-      api_force_https: (( merge || nil ))
+      api_force_https: (( merge || false ))
       api_username: (( merge ))
       api_password: (( merge ))
     cluster_ips: (( jobs.mysql_z1.properties.cluster_ips ))
@@ -213,9 +213,9 @@ jobs:
     network_name: mysql1
     ssl_enabled: (( merge || nil ))
     skip_ssl_validation: (( .properties.cf.skip_ssl_validation ))
-    auth_username: (( merge ))
-    auth_password: (( merge ))
-    cookie_secret: (( merge ))
+    auth_username: (( merge || nil ))
+    auth_password: (( merge || nil ))
+    cookie_secret: (( merge || nil ))
     external_host: (( merge || "p-mysql." .properties.domain ))
     cc_api_uri: (( .properties.cf.api_url ))
     nats: (( .properties.nats ))
@@ -237,8 +237,8 @@ jobs:
         supportUrl: "https://support.pivotal.io"
       dashboard_client:
         id: p-mysql
-        secret: (( merge ))
-      plans: (( merge ))
+        secret: (( merge || nil ))
+      plans: (( merge || [] ))
     mysql_node:
       host: (( merge || jobs.proxy_z1.networks.mysql1.static_ips.[0] ))
       admin_password: (( jobs.mysql_z1.properties.admin_password ))
@@ -321,11 +321,4 @@ jobs:
     service:
       max_user_connections_default: (( jobs.cf-mysql-broker_z1.properties.max_user_connections_default ))
       name: (( jobs.cf-mysql-broker_z1.properties.services.[0].name ))
-      plans:
-        - plan_name: (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[0].name ))
-          max_storage_mb: (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[0].max_storage_mb ))
-          max_user_connections: (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[0].max_user_connections ))
-        - plan_name: (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[1].name ))
-          max_storage_mb: (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[1].max_storage_mb ))
-          max_user_connections: (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[1].max_user_connections ))
-
+      plans: (( jobs.cf-mysql-broker_z1.properties.services.[0].plans ))

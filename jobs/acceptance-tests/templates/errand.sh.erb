@@ -1,52 +1,38 @@
 #!/bin/bash
 set -e -x
 
+<% if p('no_cf') %>
+exit 0
+<% end %>
+
 cd /var/vcap/packages/acceptance-tests/src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests
 
-cat > integration_config.json <<EOF
-{
-  "api":           "<%= p('cf.api_url') %>",
-  "apps_domain":   "<%= p('cf.apps_domain') %>",
-  "admin_user":    "<%= p('cf.admin_username') %>",
-  "broker_host":   "<%= p('broker.host') %>",
-  "service_name":  "<%= p('service.name') %>",
-  <% if p('org_name') %>
-  "org_name": "<%= p('org_name') %>",
-  <% end %>
-  "plans": [
-  <% plans = p('service.plans')
-  plans.each do |plan| %>
-    {
-      "plan_name": "<%= plan['plan_name'] %>",
-      "max_storage_mb": <%= plan['max_storage_mb'] %>,
-      "max_user_connections": <%= plan['max_user_connections'] || p('service.max_user_connections_default')%>
-  <% if plan != plans.last %>
-    },
-  <% else %>
-    }
-  <% end
-  end%>
-  ],
-  "skip_ssl_validation": <%= p('cf.skip_ssl_validation') %>,
-  "proxy": {
-    "external_host": "<%= p('proxy.external_host') %>",
-    "api_username": "<%= p('proxy.api_username') %>",
-    "api_password": "<%= p('proxy.api_password') %>",
-    "api_force_https": <%= p('proxy.api_force_https') %>,
-    "skip_ssl_validation": <%= p('proxy.skip_ssl_validation') %>
-  },
-  "timeout_scale": <%= p('timeout_scale') %>,
-EOF
+<%
+integration_config = properties.cf.to_h
+integration_config[:proxy] = properties.proxy.to_h
+integration_config[:timeout_scale] = properties.timeout_scale
+
+integration_config[:org_name] = properties.org_name if properties.org_name
+integration_config[:api] = properties.cf.api_url if properties.cf
+integration_config[:admin_user] = properties.cf.admin_username if properties.cf
+integration_config[:broker_host] = properties.broker.host if properties.broker
+if properties.service
+  integration_config[:service_name] = properties.service.name
+  integration_config[:plans] = properties.service.plans.map do |plan|
+    { max_user_connections: properties.service.max_user_connections_default }.merge(plan.to_h)
+  end
+end
+%>
 
 # don't expose passwords
 set +x
-
-cat >> integration_config.json <<EOF
-  "admin_password":   "<%= p('cf.admin_password') %>"
-}
+cat > integration_config.json <<EOF
+<%=
+require "json"
+JSON.dump(integration_config)
+%>
 EOF
-
-# set -x
+set -x
 
 export GOPATH=/var/vcap/packages/acceptance-tests
 export GOROOT=/var/vcap/packages/golang
