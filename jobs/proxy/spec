@@ -59,3 +59,6 @@ properties:
     default: "tcp"
   cluster_ips:
     description: "List of nodes.  Must have the same number of ips as there are nodes in the cluster"
+  cf-mysql.standalone:
+    description: "Standalone Mode: Are you deploying MySQL without a CloudFoundry deployment?"
+    default: false
