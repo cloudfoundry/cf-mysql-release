@@ -10,6 +10,7 @@ OUTPUT_FILE=${OUTPUT_FILE:?}
 NODE_COUNT=${NODE_COUNT:-3}
 BOSH_LITE_PRIVATE_IP=$(cat "${BOSH_LITE_PRIVATE_IP_FILE:?}" | jq -r '.private_ip' )
 USE_PREVIOUS_RELEASE=${USE_PREVIOUS_RELEASE:-false}
+STANDALONE_MODE=${STANDALONE_MODE:-false}
 
 get_version() {
   if [ "${USE_PREVIOUS_RELEASE}" = true ]; then
@@ -51,10 +52,16 @@ releases:
   version: ${MYSQL_VERSION}
 VERSION_STUB
 
+STANDALONE_STUB=""
+if [ "${STANDALONE_MODE}" = true ] ; then
+  STANDALONE_STUB="${RELEASE_DIR}/bosh-lite/cf-mysql-standalone-stub.yml"
+fi
+
 ${RELEASE_DIR}/generate_deployment_manifest \
   warden \
   ${RELEASE_DIR}/templates/sample_stubs/sample_plans_stub.yml \
   ${MYSQL_STUB_MODIFIED} \
   ${MYSQL_STUB_CF_PRIVATE_IP} \
   ${VERSION_STUB} \
+  ${STANDALONE_STUB} \
   "$@" > ${WORKSPACE_DIR}/${OUTPUT_FILE}
