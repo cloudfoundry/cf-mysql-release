@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash -xaaaaa
 
 function has_remote_branch() {
   git rev-parse @{u} > /dev/null 2>&1
