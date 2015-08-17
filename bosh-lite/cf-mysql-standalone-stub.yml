@@ -1,7 +1,6 @@
 ---
 properties:
-  cf-mysql:
-    standalone: true
+  standalone: true
 
 jobs:
 - name: cf-mysql-broker_z1

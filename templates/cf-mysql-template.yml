@@ -22,8 +22,7 @@ properties:
     admin_password: (( merge ))
     apps_domain: (( .properties.app_domains.[0] ))
     skip_ssl_validation: (( merge || nil ))
-  cf-mysql:
-    standalone: (( merge || false ))
+  standalone: (( merge || false ))
   default_mysql_cluster_ips:
   - (( jobs.mysql_z1.networks.mysql1.static_ips.[0] || nil ))
   - (( jobs.mysql_z2.networks.mysql2.static_ips.[0] || nil ))
@@ -178,7 +177,7 @@ jobs:
     external_host: (( "p-mysql." .properties.domain ))
     nats: (( .properties.nats ))
     syslog_aggregator: (( meta.syslog_aggregator ))
-    cf-mysql: (( .properties.cf-mysql ))
+    standalone: (( .properties.standalone ))
 
 - name: proxy_z2
   release: cf-mysql
@@ -201,7 +200,7 @@ jobs:
     external_host: (( "p-mysql." .properties.domain ))
     nats: (( .properties.nats ))
     syslog_aggregator: (( meta.syslog_aggregator ))
-    cf-mysql: (( .properties.cf-mysql ))
+    standalone: (( .properties.standalone ))
 
 - name: cf-mysql-broker_z1
   release: cf-mysql
