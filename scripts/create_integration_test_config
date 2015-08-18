@@ -54,12 +54,12 @@ cat > ${CONFIG_LOCATION} <<EOF
   "service_name": "p-mysql",
   "plans" : [
     {
-      "plan_name": "100mb",
+      "name": "100mb",
       "max_user_connections": 20,
       "max_storage_mb": ${SMALL_PLAN_SIZE}
     },
     {
-      "plan_name": "1gb",
+      "name": "1gb",
       "max_user_connections": 40,
       "max_storage_mb": ${LARGE_PLAN_SIZE}
     }

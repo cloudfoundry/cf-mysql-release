@@ -40,6 +40,9 @@ properties:
   smoke_tests_only:
     description: 'Instead of running the full acceptance test suite, only run a shorter smoke test'
     default: true
+  no_cf:
+    description: 'If this release has been deployed without CF, only run the proxy tests'
+    default: false
 
   proxy.external_host:
     description: 'Proxy external host (e.g. p-mysql.example.com => proxy-0.p-mysql.example.com)'
