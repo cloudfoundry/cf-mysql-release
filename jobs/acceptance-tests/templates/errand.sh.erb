@@ -38,6 +38,17 @@ cat > integration_config.json <<EOF
   "timeout_scale": <%= p('timeout_scale') %>,
 EOF
 
+<% if p('standalone_tests_only') %>
+cat >> integration_config.json <<EOF
+  "standalone": {
+    "host":  "<%= p('standalone.host') %>",
+    "port": <%= p('standalone.port') %>,
+    "username": "<%= p('standalone.username') %>",
+    "password": "<%= p('standalone.password') %>"
+  },
+EOF
+<% end %>
+
 # don't expose passwords
 set +x
 
@@ -54,7 +65,10 @@ export PATH=/var/vcap/packages/cli/bin:$GOPATH/bin:$GOROOT/bin:$PWD/bin:$PATH
 
 export CONFIG=$PWD/integration_config.json
 
-<% if p('smoke_tests_only') %>
+
+<% if p('standalone_tests_only') %>
+  bin/test-standalone --noColor
+<% elsif p('smoke_tests_only') %>
   bin/test-smoke --noColor
 <% else %>
   bin/test-acceptance --noColor

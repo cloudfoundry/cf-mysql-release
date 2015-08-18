@@ -13,6 +13,7 @@ files:
   - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/cf-mysql-service/lifecycle/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/cf-mysql-service/proxy/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/cf-mysql-service/quota/*.go # gosub
+  - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/cf-mysql-service/standalone/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/helpers/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/partition/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-test-helpers/runner/*.go # gosub
@@ -23,6 +24,8 @@ files:
   - github.com/cloudfoundry-incubator/cf-test-helpers/generator/*.go # gosub
   - github.com/sclevine/agouti/*.go # gosub
   - github.com/sclevine/agouti/matchers/*.go # gosub
+  - github.com/go-sql-driver/mysql/*.go # gosub
+  - github.com/nu7hatch/gouuid/*.go # gosub
   - github.com/onsi/ginkgo/config/*.go # gosub
   - github.com/onsi/ginkgo/ginkgo/convert/*.go # gosub
   - github.com/onsi/ginkgo/ginkgo/interrupthandler/*.go # gosub
@@ -56,7 +59,6 @@ files:
   - github.com/onsi/gomega/matchers/support/goraph/util/*.go # gosub
   - github.com/onsi/gomega/types/*.go # gosub
   - golang.org/x/crypto/ssh/*.go # gosub
-  - github.com/nu7hatch/gouuid/*.go # gosub
   - github.com/sclevine/agouti/api/*.go # gosub
   - github.com/sclevine/agouti/api/internal/bus/*.go # gosub
   - github.com/sclevine/agouti/api/internal/service/*.go # gosub

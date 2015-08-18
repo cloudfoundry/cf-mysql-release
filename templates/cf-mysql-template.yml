@@ -312,6 +312,7 @@ jobs:
   properties:
     <<: (( merge || nil ))
     smoke_tests_only: (( merge || nil ))
+    standalone_tests_only: (( .properties.standalone ))
     proxy:
       external_host: (( jobs.proxy_z1.properties.external_host ))
       api_username: (( jobs.proxy_z1.properties.proxy.api_username ))
@@ -331,4 +332,8 @@ jobs:
         - plan_name: (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[1].name ))
           max_storage_mb: (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[1].max_storage_mb ))
           max_user_connections: (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[1].max_user_connections ))
-
+    standalone:
+      host: (( merge || jobs.proxy_z1.networks.[0].static_ips.[0] ))
+      port: (( jobs.mysql_z1.properties.port || nil ))
+      username: (( jobs.mysql_z1.properties.admin_username || nil ))
+      password: (( jobs.mysql_z1.properties.admin_password || nil ))

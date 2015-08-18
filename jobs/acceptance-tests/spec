@@ -54,6 +54,19 @@ properties:
     description: 'Tests will skip validation of SSL certificates'
     default: true
 
+  standalone_tests_only:
+    description: 'Instead of running the full acceptance test suite, only run a minimal set of tests that do not require a running CF deployment'
+    default: false
+  standalone.host:
+    description: 'Hostname of proxy or load balancer used to communicate with MySQL nodes in a standalone deployment'
+  standalone.port:
+    description: 'Port used to communicate with MySQL nodes'
+    default: 3306
+  standalone.username:
+    description: 'MySQL admin username'
+    default: 'root'
+  standalone.password:
+    description: 'MySQL admin password'
 
   timeout_scale:
     description: 'scaling multiplier used to determine command timeouts'
