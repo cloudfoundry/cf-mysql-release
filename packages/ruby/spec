@@ -1,0 +1,7 @@
+---
+name: ruby
+files:
+- ruby/ruby-2.2.3.tar.gz # Downloaded from https://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.3.tar.gz
+- ruby/rubygems-2.4.8.tgz # Downloaded from https://rubygems.org/rubygems/rubygems-2.4.8.tgz
+- ruby/bundler-1.10.6.gem # Downloaded from https://rubygems.org/downloads/bundler-1.10.6.gem
+- ruby/yaml-0.1.5.tar.gz # Downloaded from http://pyyaml.org/download/libyaml/yaml-0.1.5.tar.gz
