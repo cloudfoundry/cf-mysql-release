@@ -12,10 +12,13 @@ rsync -a cf-mysql-broker/ ${BOSH_INSTALL_TARGET}
 
   mysqlclient_dir=/var/vcap/packages/mysqlclient
 
+  # Need to remove the "--no-install" directive which
+  # is saved in the .bundle/config file
+  rm .bundle/config
+
+
   /var/vcap/packages/ruby/bin/bundle config build.mysql2 \
-    --with-mysql-config=$mysqlclient_dir/bin/mariadb_config \
-    --with-mysql-lib=$mysqlclient_dir/lib \
-    --with-mysql-include=$mysqlclient_dir/include
+    --with-mysql-config=$mysqlclient_dir/bin/mariadb_config
 
   /var/vcap/packages/ruby/bin/bundle install --local --deployment --without development test
 
