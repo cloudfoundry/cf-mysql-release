@@ -31,15 +31,17 @@ RUN curl https://codeload.github.com/postmodern/ruby-install/tar.gz/v0.5.0 | tar
           cd /tmp/ruby-install-0.5.0 && \
           make install
 
+ENV DOCKER_RUBY_VERSION 2.2.3
+
 # Install Ruby
-RUN ruby-install ruby 2.2.2 -- --disable-install-rdoc
+RUN ruby-install ruby ${DOCKER_RUBY_VERSION} -- --disable-install-rdoc
 
 # Add ruby to PATH
-ENV PATH $PATH:/home/root/.gem/ruby/2.2.2/bin:/opt/rubies/ruby-2.2.2/lib/ruby/gems/2.2.2/bin:/opt/rubies/ruby-2.2.2/bin
+ENV PATH $PATH:/home/root/.gem/ruby/${DOCKER_RUBY_VERSION}/bin:/opt/rubies/ruby-2.2.3/lib/ruby/gems/${DOCKER_RUBY_VERSION}/bin:/opt/rubies/ruby-${DOCKER_RUBY_VERSION}/bin
 
 # Install gems
-RUN /opt/rubies/ruby-2.2.2/bin/gem install bosh_cli --no-rdoc --no-ri && \
-          /opt/rubies/ruby-2.2.2/bin/gem install bundler --no-rdoc --no-ri
+RUN /opt/rubies/ruby-${DOCKER_RUBY_VERSION}/bin/gem install bosh_cli --no-rdoc --no-ri && \
+          /opt/rubies/ruby-${DOCKER_RUBY_VERSION}/bin/gem install bundler --no-rdoc --no-ri
 
 # Phantomjs is used by switchboard ui tests and dashboard acceptance tests
 RUN wget https://github.com/Pyppe/phantomjs2.0-ubuntu14.04x64/raw/master/bin/phantomjs && \
