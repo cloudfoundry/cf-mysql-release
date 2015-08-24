@@ -484,6 +484,10 @@ jobs:
       password: pw2
 ```
 
+Note: If all you need is a database deployment, it is possible to deploy this
+release with zero broker instances and completely remove any dependencies on Cloud Foundry.
+See the [proxy](jobs/proxy/spec) and [acceptance-tests](jobs/acceptance-tests/spec) spec files for standalone configuration options.
+
 ### Configuring how long the startup script waits for the database to come online
 
 On larger databases, the default database startup timeout may be too low.
