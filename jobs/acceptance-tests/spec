@@ -40,6 +40,9 @@ properties:
   smoke_tests_only:
     description: 'Instead of running the full acceptance test suite, only run a shorter smoke test'
     default: true
+  smoke_test_password:
+    description: 'Password for smoke tests to comply with CF password policy, if exists.'
+    default: 'meow'
 
   proxy.external_host:
     description: 'Proxy external host (e.g. p-mysql.example.com => proxy-0.p-mysql.example.com)'

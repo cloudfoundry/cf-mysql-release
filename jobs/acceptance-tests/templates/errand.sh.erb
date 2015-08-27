@@ -10,6 +10,7 @@ cat > integration_config.json <<EOF
   "admin_user":    "<%= p('cf.admin_username') %>",
   "broker_host":   "<%= p('broker.host') %>",
   "service_name":  "<%= p('service.name') %>",
+  "test_password": "<%= p('smoke_test_password') %>",
   <% if p('org_name') %>
   "org_name": "<%= p('org_name') %>",
   <% end %>
