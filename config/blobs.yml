@@ -71,10 +71,6 @@ mysqlclient/mariadb-connector-c-2.1.0-src.tar.gz:
   object_id: e1e0446a-8cbd-4b8e-b496-fc20f530fd7c
   sha: 2fea886fd8ddf3e17d6228d282828afeaee0a317
   size: 1912888
-mariadb/mariadb-galera-10.0.19.tar.gz:
-  object_id: 86040e96-82ce-47e2-8003-1b646ef5e9e8
-  sha: 15fc7f3799f816345fd771eeb229f630a12fdabc
-  size: 56520261
 ruby/bundler-1.10.6.gem:
   object_id: e87ef0c2-f9f5-42fc-80fb-71411d034550
   sha: 55a37fccd1c0cb5542d468e35d3be46dd0667f73
@@ -87,3 +83,7 @@ ruby/rubygems-2.4.8.tgz:
   object_id: 69d96d0c-d34c-44e1-bb09-9340f483fe36
   sha: 0db6b2f1cdd2267fe19f1f875057c2f2ce9f5696
   size: 447712
+mariadb/mariadb-galera-10.0.21.tar.gz:
+  object_id: 2ff9fa35-02d9-4c2c-8442-95f7e31d22b7
+  sha: 500b852960a214b7793112367973d7a625607ba1
+  size: 56518164
