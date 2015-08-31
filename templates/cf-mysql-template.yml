@@ -27,6 +27,8 @@ properties:
   - (( jobs.mysql_z1.networks.mysql1.static_ips.[0] || nil ))
   - (( jobs.mysql_z2.networks.mysql2.static_ips.[0] || nil ))
   - (( jobs.mysql_z3.networks.mysql3.static_ips.[0] || nil ))
+  default_acceptance_plans:
+  - (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[0] ))
 
 name: (( meta.environment "-mysql" ))
 director_uuid: (( merge ))
@@ -325,13 +327,7 @@ jobs:
     service:
       max_user_connections_default: (( jobs.cf-mysql-broker_z1.properties.max_user_connections_default ))
       name: (( jobs.cf-mysql-broker_z1.properties.services.[0].name ))
-      plans:
-        - plan_name: (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[0].name ))
-          max_storage_mb: (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[0].max_storage_mb ))
-          max_user_connections: (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[0].max_user_connections ))
-        - plan_name: (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[1].name ))
-          max_storage_mb: (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[1].max_storage_mb ))
-          max_user_connections: (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[1].max_user_connections ))
+      plans: (( merge || .properties.default_acceptance_plans ))
     standalone:
       host: (( merge || jobs.proxy_z1.networks.[0].static_ips.[0] ))
       port: (( jobs.mysql_z1.properties.port || nil ))

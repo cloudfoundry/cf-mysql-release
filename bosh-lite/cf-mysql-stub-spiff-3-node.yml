@@ -48,3 +48,9 @@ jobs:
         <<: (( merge || nil ))
         api_username: username
         api_password: password
+  - name: acceptance-tests
+    properties:
+      service:
+        plans:
+          - (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[0] ))
+          - (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[1] ))
