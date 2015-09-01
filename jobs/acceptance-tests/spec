@@ -42,7 +42,7 @@ properties:
     default: true
   smoke_test_password:
     description: 'Password for smoke tests to comply with CF password policy, if exists.'
-    default: 'meow'
+    default: '@Ma8rtj2vu'
 
   proxy.external_host:
     description: 'Proxy external host (e.g. p-mysql.example.com => proxy-0.p-mysql.example.com)'
