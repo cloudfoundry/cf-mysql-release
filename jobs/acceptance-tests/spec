@@ -53,7 +53,8 @@ properties:
   proxy.skip_ssl_validation:
     description: 'Tests will skip validation of SSL certificates'
     default: true
-
+  proxy.dashboard_urls:
+    description: 'Array of routes registered for each Proxy UI via NATS (with the router in cf-release)'
   standalone_tests_only:
     description: 'Instead of running the full acceptance test suite, only run a minimal set of tests that do not require a running CF deployment'
     default: false
