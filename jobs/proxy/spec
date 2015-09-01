@@ -35,6 +35,8 @@ properties:
   proxy.health_port:
     description: "Port for checking the health of the proxy process"
     default: 1936
+  proxy.proxy_ips:
+    description: "List of IP addresses for all proxy jobs"
   external_host:
     description: 'Domain of the route registered for the UI via NATS (with the router in cf-release)'
   nats.user:

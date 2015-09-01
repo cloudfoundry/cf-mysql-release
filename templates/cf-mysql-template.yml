@@ -29,6 +29,12 @@ properties:
   - (( jobs.mysql_z3.networks.mysql3.static_ips.[0] || nil ))
   default_acceptance_plans:
   - (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[0] ))
+  default_proxy_ips:
+  - (( jobs.proxy_z1.networks.mysql1.static_ips.[0] || nil ))
+  - (( jobs.proxy_z2.networks.mysql2.static_ips.[0] || nil ))
+  default_proxy_urls:
+  - (( jobs.proxy_z1.properties.external_host || nil ))
+  - (( jobs.proxy_z2.properties.external_host || nil ))
 
 name: (( meta.environment "-mysql" ))
 director_uuid: (( merge ))
@@ -174,6 +180,7 @@ jobs:
       api_force_https: (( merge || nil ))
       api_username: (( merge ))
       api_password: (( merge ))
+      proxy_ips: (( merge || .properties.default_proxy_ips ))
     cluster_ips: (( jobs.mysql_z1.properties.cluster_ips ))
     network_name: mysql1
     external_host: (( "p-mysql." .properties.domain ))
@@ -197,6 +204,7 @@ jobs:
       api_force_https: (( jobs.proxy_z1.properties.proxy.api_force_https ))
       api_username: (( jobs.proxy_z1.properties.proxy.api_username ))
       api_password: (( jobs.proxy_z1.properties.proxy.api_password ))
+      proxy_ips: (( jobs.proxy_z1.properties.proxy.proxy_ips ))
     cluster_ips: (( jobs.mysql_z1.properties.cluster_ips ))
     network_name: mysql2
     external_host: (( "p-mysql." .properties.domain ))
@@ -316,7 +324,7 @@ jobs:
     smoke_tests_only: (( merge || nil ))
     standalone_tests_only: (( .properties.standalone ))
     proxy:
-      external_host: (( jobs.proxy_z1.properties.external_host ))
+      dashboard_urls: (( merge || .properties.default_proxy_urls ))
       api_username: (( jobs.proxy_z1.properties.proxy.api_username ))
       api_password: (( jobs.proxy_z1.properties.proxy.api_password ))
       api_force_https: (( jobs.proxy_z1.properties.proxy.api_force_https ))
