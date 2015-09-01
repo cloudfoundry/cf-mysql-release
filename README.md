@@ -369,7 +369,7 @@ Note: the broker-registrar errand will fail if the broker has already been regis
 
 ## Security Groups
 
-Note: this section does not apply to bosh-lite deployments.
+Note: adding additional security groups for cf-mysql is not required on bosh-lites running cf-release [v212](https://github.com/cloudfoundry/cf-release/blob/v212/bosh-lite/cf-stub-spiff.yml#L47) or later.
 
 Since [cf-release](https://github.com/cloudfoundry/cf-release) v175, applications by default cannot to connect to IP addresses on the private network. This prevents applications from connecting to the MySQL service. To enable access to the service, create a new security group for the IP configured in your manifest for the property `jobs.cf-mysql-broker_z1.mysql_node.host`.
 
