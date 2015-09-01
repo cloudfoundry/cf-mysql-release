@@ -45,7 +45,7 @@ networks:
     - 10.0.1.3
     - 8.8.8.8
     cloud_properties:
-      name: REPLACE_WITH_YOUR_SUBNET_NAME_2 #This should match your vSphere network name, e.g. "VM Network 2".
+      name: REPLACE_WITH_YOUR_SUBNET_NAME_2
 - name: mysql3
   subnets:
   - range: 10.0.2.0/24
@@ -63,7 +63,21 @@ networks:
     - 10.0.2.3
     - 8.8.8.8
     cloud_properties:
-      name: REPLACE_WITH_YOUR_SUBNET_NAME_3 #This should match your vSphere network name, e.g. "VM Network 3".
+      name: REPLACE_WITH_YOUR_SUBNET_NAME_3
+- name: compilation
+  subnets:
+  - range: 10.0.3.0/24
+    gateway: 10.0.3.1
+    reserved:
+    - 10.0.3.2-10.0.3.169
+    - 10.0.3.190-10.0.3.254
+    static:
+    - 10.0.3.170-10.0.3.174
+    dns:
+    - 10.0.3.3
+    - 8.8.8.8
+    cloud_properties:
+      name: REPLACE_WITH_YOUR_SUBNET_NAME_4
 
 properties:
   cf:
@@ -79,6 +93,23 @@ properties:
     password: REPLACE_WITH_NATS_PASSWORD_FROM_CF_RELEASE
     user: nats
     port: 4222
+  # A multi-AZ VSphere environment can be distributed across different datacenters and/or clusters
+  datacenters:
+  - name: z1
+    datacenter_name: REPLACE_WITH_YOUR_FIRST_DATACENTER
+    clusters:
+    - REPLACE_WITH_YOUR_FIRST_CLUSTER:
+        resource_pool: REPLACE_WITH_YOUR_FIRST_RESOURCE_POOL
+  - name: z2
+    datacenter_name: REPLACE_WITH_YOUR_SECOND_DATACENTER
+    clusters:
+    - REPLACE_WITH_YOUR_SECOND_CLUSTER:
+        resource_pool: REPLACE_WITH_YOUR_SECOND_RESOURCE_POOL
+  - name: z3
+    datacenter_name: REPLACE_WITH_YOUR_THIRD_DATACENTER
+    clusters:
+    - REPLACE_WITH_YOUR_THIRD_CLUSTER:
+        resource_pool: REPLACE_WITH_YOUR_THIRD_RESOURCE_POOL
 
 jobs:
 - name: proxy_z1

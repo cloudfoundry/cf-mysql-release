@@ -9,58 +9,101 @@ compilation:
     ram: (( merge || 4096 ))
     disk: (( merge || 20480 ))
     cpu: (( merge || 4 ))
+    datacenters:
+    - name: (( .properties.datacenters.z1.datacenter_name ))
+      clusters: (( .properties.datacenters.z1.clusters ))
 
 networks: (( merge ))
 
-cloud_properties_mysql: &cloud_properties_mysql
-  ram: (( merge || 4096 ))
-  disk: (( merge || 10480 ))
-  cpu: (( merge || 2 ))
-
-cloud_properties_proxy: &cloud_properties_proxy
-  ram: (( merge || 2048 ))
-  disk: (( merge || 4096 ))
-  cpu: (( merge || 1 ))
-
-cloud_properties_proxy: &cloud_properties_broker
-  ram: (( merge || 2048 ))
-  disk: (( merge || 4096 ))
-  cpu: (( merge || 1 ))
-
-cloud_properties_errands: &cloud_properties_errands
-  ram: (( merge || 2048 ))
-  disk: (( merge || 4096 ))
-  cpu: (( merge || 1 ))
+properties:
+  datacenters:
+  - name: z1
+    datacenter_name: (( merge ))
+    clusters: (( merge ))
+  - name: z2
+    datacenter_name: (( merge ))
+    clusters: (( merge ))
+  - name: z3
+    datacenter_name: (( merge ))
+    clusters: (( merge ))
 
 resource_pools:
 - name: mysql_z1
   stemcell: *stemcell
-  cloud_properties: *cloud_properties_mysql
+  cloud_properties:
+    ram: (( merge || 4096 ))
+    disk: (( merge || 10480 ))
+    cpu: (( merge || 2 ))
+    datacenters:
+    - name: (( .properties.datacenters.z1.datacenter_name ))
+      clusters: (( .properties.datacenters.z1.clusters ))
 
 - name: mysql_z2
   stemcell: *stemcell
-  cloud_properties: *cloud_properties_mysql
+  cloud_properties:
+    ram: (( resource_pools.mysql_z1.cloud_properties.ram ))
+    disk: (( resource_pools.mysql_z1.cloud_properties.disk ))
+    cpu: (( resource_pools.mysql_z1.cloud_properties.cpu ))
+    datacenters:
+    - name: (( .properties.datacenters.z2.datacenter_name ))
+      clusters: (( .properties.datacenters.z2.clusters ))
 
 - name: mysql_z3
   stemcell: *stemcell
-  cloud_properties: *cloud_properties_mysql
+  cloud_properties:
+    ram: (( resource_pools.mysql_z1.cloud_properties.ram ))
+    disk: (( resource_pools.mysql_z1.cloud_properties.disk ))
+    cpu: (( resource_pools.mysql_z1.cloud_properties.cpu ))
+    datacenters:
+    - name: (( .properties.datacenters.z3.datacenter_name ))
+      clusters: (( .properties.datacenters.z3.clusters ))
 
 - name: proxy_z1
   stemcell: *stemcell
-  cloud_properties: *cloud_properties_proxy
+  cloud_properties:
+    ram: (( merge || 2048 ))
+    disk: (( merge || 4096 ))
+    cpu: (( merge || 1 ))
+    datacenters:
+    - name: (( .properties.datacenters.z1.datacenter_name ))
+      clusters: (( .properties.datacenters.z1.clusters ))
 
 - name: proxy_z2
   stemcell: *stemcell
-  cloud_properties: *cloud_properties_proxy
+  cloud_properties:
+    ram: (( resource_pools.proxy_z1.cloud_properties.ram ))
+    disk: (( resource_pools.proxy_z1.cloud_properties.disk ))
+    cpu: (( resource_pools.proxy_z1.cloud_properties.cpu ))
+    datacenters:
+    - name: (( .properties.datacenters.z2.datacenter_name ))
+      clusters: (( .properties.datacenters.z2.clusters ))
 
 - name: cf-mysql-broker_z1
   stemcell: *stemcell
-  cloud_properties: *cloud_properties_broker
+  cloud_properties:
+    ram: (( merge || 2048 ))
+    disk: (( merge || 4096 ))
+    cpu: (( merge || 1 ))
+    datacenters:
+    - name: (( .properties.datacenters.z1.datacenter_name ))
+      clusters: (( .properties.datacenters.z1.clusters ))
 
 - name: cf-mysql-broker_z2
   stemcell: *stemcell
-  cloud_properties: *cloud_properties_broker
+  cloud_properties:
+    ram: (( resource_pools.cf-mysql-broker_z1.cloud_properties.ram ))
+    disk: (( resource_pools.cf-mysql-broker_z1.cloud_properties.disk ))
+    cpu: (( resource_pools.cf-mysql-broker_z1.cloud_properties.cpu ))
+    datacenters:
+    - name: (( .properties.datacenters.z2.datacenter_name ))
+      clusters: (( .properties.datacenters.z2.clusters ))
 
 - name: errands_z1
   stemcell: *stemcell
-  cloud_properties: *cloud_properties_errands
+  cloud_properties:
+    ram: (( merge || 2048 ))
+    disk: (( merge || 4096 ))
+    cpu: (( merge || 1 ))
+    datacenters:
+    - name: (( .properties.datacenters.z1.datacenter_name ))
+      clusters: (( .properties.datacenters.z1.clusters ))
