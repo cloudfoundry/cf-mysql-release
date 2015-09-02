@@ -32,9 +32,6 @@ properties:
   default_proxy_ips:
   - (( jobs.proxy_z1.networks.mysql1.static_ips.[0] || nil ))
   - (( jobs.proxy_z2.networks.mysql2.static_ips.[0] || nil ))
-  default_proxy_urls:
-  - (( jobs.proxy_z1.properties.external_host || nil ))
-  - (( jobs.proxy_z2.properties.external_host || nil ))
 
 name: (( meta.environment "-mysql" ))
 director_uuid: (( merge ))
@@ -324,7 +321,8 @@ jobs:
     smoke_tests_only: (( merge || nil ))
     standalone_tests_only: (( .properties.standalone ))
     proxy:
-      dashboard_urls: (( merge || .properties.default_proxy_urls ))
+      external_host: (( jobs.proxy_z1.properties.external_host ))
+      proxy_count: (( merge || 2 ))
       api_username: (( jobs.proxy_z1.properties.proxy.api_username ))
       api_password: (( jobs.proxy_z1.properties.proxy.api_password ))
       api_force_https: (( jobs.proxy_z1.properties.proxy.api_force_https ))

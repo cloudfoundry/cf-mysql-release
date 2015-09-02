@@ -21,16 +21,22 @@ cat > integration_config.json <<EOF
       "plan_name": "<%= plan['name'] %>",
       "max_storage_mb": <%= plan['max_storage_mb'] %>,
       "max_user_connections": <%= plan['max_user_connections'] || p('service.max_user_connections_default')%>
-  <% if plan != plans.last %>
+    <% if plan != plans.last %>
     },
-  <% else %>
+    <% else %>
     }
-  <% end
-  end%>
+    <% end %>
+  <% end %>
   ],
   "skip_ssl_validation": <%= p('cf.skip_ssl_validation') %>,
   "proxy": {
-    "dashboard_urls": <%= p('proxy.dashboard_urls').reject(&:nil?) %>,
+    "dashboard_urls": [
+    <% p('proxy.proxy_count').times do |index| %>
+      <% proxy_url = "\"https://proxy-#{index}.#{p('proxy.external_host')}\"" %>
+      <% proxy_url += "," unless index == p('proxy.proxy_count') - 1 %>
+      <%= proxy_url %>
+    <% end %>
+    ],
     "api_username": "<%= p('proxy.api_username') %>",
     "api_password": "<%= p('proxy.api_password') %>",
     "api_force_https": <%= p('proxy.api_force_https') %>,

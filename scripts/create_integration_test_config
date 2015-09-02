@@ -36,6 +36,15 @@ else
   LARGE_PLAN_SIZE=1000
 fi
 
+PROXY_COUNT=${PROXY_COUNT:-2}
+if [ "${PROXY_COUNT}" == 0 ]; then
+  DASHBOARD_URLS="[]"
+else if [ "${PROXY_COUNT}" == 1 ]; then
+  DASHBOARD_URLS="[\"https://proxy-0.p-mysql.${DOMAIN}\"]"
+else
+  DASHBOARD_URLS="[\"https://proxy-0.p-mysql.${DOMAIN}\", \"https://proxy-1.p-mysql.${DOMAIN}\"]"
+fi
+
 # The following properties are only used by the failover test
 BROKER_0_REMOTE_IP=${BROKER_0_REMOTE_IP:-}
 BROKER_1_REMOTE_IP=${BROKER_1_REMOTE_IP:-}
@@ -67,7 +76,7 @@ cat > ${CONFIG_LOCATION} <<EOF
   "skip_ssl_validation": true,
   "timeout_scale": 1.0,
   "proxy": {
-    "dashboard_urls": ["p-mysql.${DOMAIN}"],
+    "dashboard_urls": ${DASHBOARD_URLS},
     "api_username":"${PROXY_API_USER}",
     "api_password":"${PROXY_API_PASSWORD}",
     "api_force_https": ${USE_HTTPS},
