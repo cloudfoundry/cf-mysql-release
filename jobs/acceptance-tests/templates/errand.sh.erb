@@ -30,7 +30,7 @@ cat > integration_config.json <<EOF
   ],
   "skip_ssl_validation": <%= p('cf.skip_ssl_validation') %>,
   "proxy": {
-    "dashboard_urls": <%= p('proxy.dashboard_urls') %>,
+    "dashboard_urls": <%= p('proxy.dashboard_urls').reject(&:nil?) %>,
     "api_username": "<%= p('proxy.api_username') %>",
     "api_password": "<%= p('proxy.api_password') %>",
     "api_force_https": <%= p('proxy.api_force_https') %>,

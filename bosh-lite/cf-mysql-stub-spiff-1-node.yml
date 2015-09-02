@@ -61,6 +61,8 @@ jobs:
         api_password: password
   - name: proxy_z2
     instances: 0
+    properties:
+      external_host: null
   - name: acceptance-tests
     properties:
       service:
