@@ -77,5 +77,4 @@ properties:
     default: "tcp"
 
   database_startup_timeout:
-    description: 'How long the startup script waits for the database to come online (in seconds)'
-    default: 150
+    description: 'How long the startup script waits for the database to come online (in milliseconds)'

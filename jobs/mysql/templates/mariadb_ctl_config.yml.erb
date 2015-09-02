@@ -22,4 +22,5 @@ Manager:
   - <%= ip %>
   <% end %>
   MyIP: <%= spec.networks.send(p('network_name')).ip %>
-  MaxDatabaseSeedTries: <%= p('database_startup_timeout') / 5 %>
+  # TODO: change this to a percent
+  MaxDatabaseSeedTries: <%= p('database_startup_timeout') / 5000 %>

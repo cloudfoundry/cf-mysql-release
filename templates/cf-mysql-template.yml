@@ -48,8 +48,8 @@ compilation:
 
 update:
   canaries: 1
-  canary_watch_time: 30000-600000
-  update_watch_time: 30000-600000
+  canary_watch_time: (( "30000-" jobs.mysql_z1.properties.database_startup_timeout ))
+  update_watch_time: (( "30000-" jobs.mysql_z1.properties.database_startup_timeout ))
   max_in_flight: 1
 
 networks: (( merge ))
@@ -109,7 +109,7 @@ jobs:
     admin_password: (( merge ))
     cluster_ips: (( merge || .properties.default_mysql_cluster_ips ))
     seeded_databases: ~
-    database_startup_timeout: (( merge || nil ))
+    database_startup_timeout: (( merge || 600000 ))
     max_heap_table_size: (( merge || nil ))
     tmp_table_size: (( merge || nil ))
     wsrep_max_ws_rows: (( merge || nil ))
