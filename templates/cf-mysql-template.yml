@@ -32,6 +32,11 @@ properties:
   default_proxy_ips:
   - (( jobs.proxy_z1.networks.mysql1.static_ips.[0] || nil ))
   - (( jobs.proxy_z2.networks.mysql2.static_ips.[0] || nil ))
+  temp:
+    # spiff does not allow concating multiple fields of different types
+    # without adding new temporary properties
+    database_startup_timeout_str: (( "" jobs.mysql_z1.properties.database_startup_timeout ))
+    canary_end_in_sec: (( .properties.temp.database_startup_timeout_str "000" ))
 
 name: (( meta.environment "-mysql" ))
 director_uuid: (( merge ))
@@ -48,8 +53,8 @@ compilation:
 
 update:
   canaries: 1
-  canary_watch_time: (( "30000-" jobs.mysql_z1.properties.database_startup_timeout ))
-  update_watch_time: (( "30000-" jobs.mysql_z1.properties.database_startup_timeout ))
+  canary_watch_time: (( "30000-" .properties.temp.canary_end_in_sec ))
+  update_watch_time: (( "30000-" .properties.temp.canary_end_in_sec ))
   max_in_flight: 1
 
 networks: (( merge ))
@@ -109,7 +114,7 @@ jobs:
     admin_password: (( merge ))
     cluster_ips: (( merge || .properties.default_mysql_cluster_ips ))
     seeded_databases: ~
-    database_startup_timeout: (( merge || 600000 ))
+    database_startup_timeout: (( merge || 600 ))
     max_heap_table_size: (( merge || nil ))
     tmp_table_size: (( merge || nil ))
     wsrep_max_ws_rows: (( merge || nil ))

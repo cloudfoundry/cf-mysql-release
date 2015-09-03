@@ -1,4 +1,4 @@
-<% monit_db_timeout = (p('database_startup_timeout') * 0.9 / 1000).round %>
+<% monit_db_timeout = (p('database_startup_timeout') * 0.9 ).round %>
 check process mariadb_ctrl
   with pidfile /var/vcap/sys/run/mariadb_ctl/mariadb_ctl.pid
   start program "/var/vcap/jobs/mysql/bin/mariadb_ctl start" with timeout <%= monit_db_timeout %> seconds
