@@ -62,19 +62,6 @@ case $1 in
     fi
     set -e
 
-    log "start script: checking if mysqld_safe is already running... "
-    set +e
-    pgrep -f /var/vcap/packages/mariadb/bin/mysqld_safe
-    result_code=$?
-    set -e
-    # Exit code of 0 means we did find a process, so we should exit.
-    if [ $result_code -eq 0 ]; then
-      log "start script: mysqld_safe already running - exiting with 0 so that monit doesn't think that execution failed"
-      exit 0
-    else
-      log "start script: mysqld_safe not already running - continue"
-    fi
-
     # Start syslog forwarding
     /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $MARIADB_JOB_DIR/config
 
