@@ -23,6 +23,7 @@ jobs:
     properties:
       <<: (( merge || nil ))
       admin_password: password
+      database_startup_timeout: 300
   - name: cf-mysql-broker_z1
     properties:
       <<: (( merge || nil ))

@@ -29,6 +29,7 @@ jobs:
       <<: (( merge || nil ))
       admin_password: password
       cluster_ips: (( jobs.mysql_z1.networks.[0].static_ips ))
+      database_startup_timeout: 300
   - name: mysql_z2
     instances: 0
   - name: mysql_z3
