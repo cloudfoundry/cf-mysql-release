@@ -51,10 +51,6 @@ xtrabackup/socat-1.7.2.4.tar.gz:
   object_id: cd877813-c9ac-4596-b4e4-d361fe5bbdb6
   sha: c33904b83295accef2aaff8adf7eedd3310f9777
   size: 583762
-golang/go1.4.2.linux-amd64.tar.gz:
-  object_id: 2f024dbf-1a20-4bec-a62a-adaf5e202459
-  sha: 5020af94b52b65cc9b6f11d50a67e4bae07b0aff
-  size: 62442704
 cli/cf-linux-amd64-6.10.0.tgz:
   object_id: adb9d3ea-3582-4ff3-a3b4-eab569915e16
   sha: f845800310e4b702a39a2f1191e3d71862630103
@@ -87,3 +83,7 @@ mariadb/mariadb-galera-10.0.21.tar.gz:
   object_id: 2ff9fa35-02d9-4c2c-8442-95f7e31d22b7
   sha: 500b852960a214b7793112367973d7a625607ba1
   size: 56518164
+golang/go1.5.1.linux-amd64.tar.gz:
+  object_id: 57718a28-73c7-4d17-a46b-12c8cc40a503
+  sha: 46eecd290d8803887dec718c691cc243f2175fe0
+  size: 77875767
