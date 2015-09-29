@@ -43,9 +43,9 @@ if [ -f ${WORKSPACE_DIR}/api-address ]; then
   API_ADDRESS=$( cat ${WORKSPACE_DIR}/api-address )
   echo -e "WARNING: Found API address file at ${INFO_COLOR}${WORKSPACE_DIR}/api-address${NO_COLOR}
     - using ${INFO_COLOR}${API_ADDRESS}${NO_COLOR} instead of ${INFO_COLOR}${DIRECTOR_IP}${NO_COLOR} for director IP
-    - and ${INFO_COLOR}${API_ADDRESS}.xip.io${NO_COLOR} instead of ${INFO_COLOR}10.244.0.34.xip.io${NO_COLOR} for API address"
+    - and ${INFO_COLOR}${API_ADDRESS}.xip.io${NO_COLOR} instead of ${INFO_COLOR}bosh-lite.com${NO_COLOR} for API address"
   DIRECTOR_IP=${API_ADDRESS}
-  perl -pi -e "s/10.244.0.34.xip.io/${API_ADDRESS}.xip.io/g" $RELEASE_DIR/bosh-lite/tmp/cf-mysql-stub-with-uuid.yml
+  perl -pi -e "s/bosh-lite.com/${API_ADDRESS}.xip.io/g" $RELEASE_DIR/bosh-lite/tmp/cf-mysql-stub-with-uuid.yml
 fi
 
 bosh -n target ${DIRECTOR_IP}
