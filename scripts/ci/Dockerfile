@@ -64,3 +64,7 @@ RUN unzip /tmp/spiff.zip -d /tmp/ && mv /tmp/spiff $GOPATH/bin/
 
 # Add workspace directory
 RUN mkdir -p /root/workspace && ln -s /root/workspace /workspace
+
+# Tell ssh to ignore fingerprints
+RUN mkdir -p /root/.ssh
+RUN echo "Host * \n\tStrictHostKeyChecking no \n\tUserKnownHostsFile=/dev/null" >> /root/.ssh/config
