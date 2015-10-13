@@ -68,3 +68,9 @@ RUN mkdir -p /root/workspace && ln -s /root/workspace /workspace
 # Tell ssh to ignore fingerprints
 RUN mkdir -p /root/.ssh
 RUN echo "Host * \n\tStrictHostKeyChecking no \n\tUserKnownHostsFile=/dev/null" >> /root/.ssh/config
+
+# Install aws cli
+RUN wget https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py && \
+          python /tmp/get-pip.py && \
+          rm /tmp/get-pip.py && \
+          pip install awscli
