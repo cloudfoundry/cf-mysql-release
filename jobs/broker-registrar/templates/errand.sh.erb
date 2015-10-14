@@ -12,6 +12,16 @@ BROKER_URL='<%= p("broker.protocol") %>://<%= p("broker.host") %>:<%= p("broker.
 BROKER_USERNAME='<%= p("broker.username") %>'
 BROKER_PASSWORD='<%= p("broker.password") %>'
 
+function updateServiceBroker() {
+  echo "Service broker already exists - updating broker"
+  cf update-service-broker ${BROKER_NAME} ${BROKER_USERNAME} ${BROKER_PASSWORD} ${BROKER_URL}
+}
+
+function createServiceBroker(){
+  echo "Service broker does not exist - creating broker"
+  cf create-service-broker ${BROKER_NAME} ${BROKER_USERNAME} ${BROKER_PASSWORD} ${BROKER_URL}
+}
+
 export PATH=/var/vcap/packages/cli/bin
 
 echo "CF_API_URL=${CF_API_URL}"
@@ -31,20 +41,18 @@ cf auth \
   ${CF_ADMIN_USERNAME} \
   ${CF_ADMIN_PASSWORD}
 
-set +e
-OUTPUT=$( cf create-service-broker ${BROKER_NAME} ${BROKER_USERNAME} ${BROKER_PASSWORD} ${BROKER_URL} )
-EXIT_CODE=$?
-set -e
+SERVICE_EXISTS=$(cf service-brokers)
 
-if [[ ${EXIT_CODE} -ne 0  ]]; then
-  if [[ ${OUTPUT} == *"service broker name is taken"* ]]; then
-    echo "Service broker already exists - proceeding"
-  elif [[ ${OUTPUT} == *"service broker url is taken"* ]]; then
-    echo "Service broker already exists - proceeding"
-  else
-    echo "Unexpected failure: ${OUTPUT}"
-    exit 1
-  fi
+# whitespace is added as prefix to broker_name and as suffix to broker_url to support the use case when we have 2 brokers with abc1, abc.
+
+BROKER_NAME_REGEX=*${BROKER_NAME}\ *
+BROKER_URL_REGEX=*\ ${BROKER_URL}*
+
+if [[ ${SERVICE_EXISTS} == ${BROKER_NAME_REGEX} ]] ||
+   [[ ${SERVICE_EXISTS} == ${BROKER_URL_REGEX} ]]; then
+  updateServiceBroker
+else
+  createServiceBroker
 fi
 
 cf enable-service-access \
