@@ -74,3 +74,6 @@ RUN wget https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py && \
           python /tmp/get-pip.py && \
           rm /tmp/get-pip.py && \
           pip install awscli
+
+#install gorgeous gem
+RUN gem install gorgeous
