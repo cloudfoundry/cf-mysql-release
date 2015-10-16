@@ -4,6 +4,7 @@ dependencies:
   - golang
 files:
   - github.com/cloudfoundry/mariadb_ctrl/*.sh
+  - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/cluster_health_checker/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/cluster_health_checker/fakes/*.go # gosub
@@ -17,7 +18,6 @@ files:
   - github.com/cloudfoundry/mariadb_ctrl/start_manager/fakes/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/upgrader/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/upgrader/fakes/*.go # gosub
-  - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
   - github.com/fraenkel/candiedyaml/*.go # gosub
   - github.com/go-sql-driver/mysql/*.go # gosub
   - github.com/imdario/mergo/*.go # gosub

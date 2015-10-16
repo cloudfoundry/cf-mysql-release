@@ -4,6 +4,7 @@ dependencies:
   - golang
 files:
   - github.com/cloudfoundry-incubator/switchboard/static/**/* # static UI files
+  - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/api/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/api/fakes/*.go # gosub
@@ -15,14 +16,8 @@ files:
   - github.com/cloudfoundry-incubator/switchboard/dummies/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/health/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/proxy/*.go # gosub
-  - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
   - github.com/fraenkel/candiedyaml/*.go # gosub
   - github.com/imdario/mergo/*.go # gosub
-  - github.com/pivotal-cf-experimental/service-config/*.go # gosub
-  - github.com/pivotal-golang/lager/*.go # gosub
-  - github.com/tedsuo/ifrit/*.go # gosub
-  - github.com/tedsuo/ifrit/grouper/*.go # gosub
-  - gopkg.in/validator.v2/*.go # gosub
   - github.com/onsi/ginkgo/*.go # gosub
   - github.com/onsi/ginkgo/config/*.go # gosub
   - github.com/onsi/ginkgo/internal/codelocation/*.go # gosub
@@ -38,3 +33,8 @@ files:
   - github.com/onsi/ginkgo/reporters/*.go # gosub
   - github.com/onsi/ginkgo/reporters/stenographer/*.go # gosub
   - github.com/onsi/ginkgo/types/*.go # gosub
+  - github.com/pivotal-cf-experimental/service-config/*.go # gosub
+  - github.com/pivotal-golang/lager/*.go # gosub
+  - github.com/tedsuo/ifrit/*.go # gosub
+  - github.com/tedsuo/ifrit/grouper/*.go # gosub
+  - gopkg.in/validator.v2/*.go # gosub
