@@ -27,8 +27,6 @@ properties:
   - (( jobs.mysql_z1.networks.mysql1.static_ips.[0] || nil ))
   - (( jobs.mysql_z2.networks.mysql2.static_ips.[0] || nil ))
   - (( jobs.mysql_z3.networks.mysql3.static_ips.[0] || nil ))
-  default_acceptance_plans:
-  - (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[0] ))
   default_proxy_ips:
   - (( jobs.proxy_z1.networks.mysql1.static_ips.[0] || nil ))
   - (( jobs.proxy_z2.networks.mysql2.static_ips.[0] || nil ))
@@ -299,6 +297,7 @@ jobs:
       host: (( jobs.cf-mysql-broker_z1.properties.external_host ))
       username: (( jobs.cf-mysql-broker_z1.properties.auth_username ))
       password: (( jobs.cf-mysql-broker_z1.properties.auth_password ))
+      services: (( jobs.cf-mysql-broker_z1.properties.services ))
 
 - name: broker-deregistrar
   template: broker-deregistrar
@@ -338,7 +337,7 @@ jobs:
     service:
       max_user_connections_default: (( jobs.cf-mysql-broker_z1.properties.max_user_connections_default ))
       name: (( jobs.cf-mysql-broker_z1.properties.services.[0].name ))
-      plans: (( merge || .properties.default_acceptance_plans ))
+      plans: (( jobs.cf-mysql-broker_z1.properties.services.[0].plans ))
     standalone:
       host: (( merge || jobs.proxy_z1.networks.[0].static_ips.[0] ))
       port: (( jobs.mysql_z1.properties.port || nil ))

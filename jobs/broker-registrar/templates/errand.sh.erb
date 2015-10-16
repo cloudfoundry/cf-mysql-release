@@ -44,4 +44,12 @@ cf auth \
 # Create broker or update if exists
 createServiceBroker || updateServiceBroker
 
-cf enable-service-access ${BROKER_NAME}
+# Loop over plans for p-mysql broker and enable if is public
+<% service = p('broker.services').first %>
+<% service['plans'].each do |plan| %>
+  # Default plan to public if not specified in manifest
+  <% is_private = ( !plan.has_key?('private') ? false : plan['private'] ) %>
+  <% unless is_private %>
+    cf enable-service-access ${BROKER_NAME} -p '<%= plan['name'] %>'
+  <% end %>
+<% end %>

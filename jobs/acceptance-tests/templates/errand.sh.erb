@@ -19,6 +19,7 @@ cat > integration_config.json <<EOF
   plans.each do |plan| %>
     {
       "plan_name": "<%= plan['name'] %>",
+      "private": <%= !plan.has_key?('private') ? false : plan['private'] %>,
       "max_storage_mb": <%= plan['max_storage_mb'] %>,
       "max_user_connections": <%= plan['max_user_connections'] || p('service.max_user_connections_default')%>
     <% if plan != plans.last %>

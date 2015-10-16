@@ -28,3 +28,5 @@ properties:
     description: 'Basic Auth username for the service broker'
   broker.password:
     description: 'Basic Auth password for the service broker'
+  broker.services:
+    description: 'Basic plans object for registering'
