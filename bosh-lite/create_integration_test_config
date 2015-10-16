@@ -24,6 +24,7 @@ export USE_HTTPS=false
 BOSH_LITE_PRIVATE_IP_FILE="${BOSH_LITE_PRIVATE_IP_FILE:-}"
 if [ ! -z "${BOSH_LITE_PRIVATE_IP_FILE}" ]; then
   DOMAIN=$(cat "${BOSH_LITE_PRIVATE_IP_FILE}" | jq -r '.private_ip' )
+  DOMAIN="${DOMAIN}.xip.io"
 fi
 export DOMAIN="${DOMAIN:-bosh-lite.com}"
 
