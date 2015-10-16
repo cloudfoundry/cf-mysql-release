@@ -24,16 +24,7 @@ export USE_HTTPS=false
 BOSH_LITE_PRIVATE_IP_FILE="${BOSH_LITE_PRIVATE_IP_FILE:-}"
 if [ ! -z "${BOSH_LITE_PRIVATE_IP_FILE}" ]; then
   DOMAIN=$(cat "${BOSH_LITE_PRIVATE_IP_FILE}" | jq -r '.private_ip' )
-else
-  DOMAIN="${DOMAIN:-10.244.0.34}"
 fi
-
-# If a file exists with an api-address, use that instead
-if [ -f ${WORKSPACE_DIR}/api-address ]; then
-  API_ADDRESS=$( cat ${WORKSPACE_DIR}/api-address )
-  echo -e "WARNING: Found API address file at ${INFO_COLOR}${WORKSPACE_DIR}/api-address${NO_COLOR} - using ${INFO_COLOR}${API_ADDRESS}${NO_COLOR} instead of ${INFO_COLOR}${DOMAIN}${NO_COLOR}"
-  export DOMAIN=${API_ADDRESS}
-fi
-export DOMAIN="${DOMAIN}.xip.io"
+export DOMAIN="${DOMAIN:-bosh-lite.com}"
 
 ${RELEASE_DIR}/scripts/create_integration_test_config

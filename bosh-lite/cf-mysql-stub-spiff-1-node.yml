@@ -62,11 +62,3 @@ jobs:
         api_password: password
   - name: proxy_z2
     instances: 0
-  - name: acceptance-tests
-    properties:
-      proxy:
-        proxy_count: 1
-      service:
-        plans:
-          - (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[0] ))
-          - (( jobs.cf-mysql-broker_z1.properties.services.[0].plans.[1] ))
