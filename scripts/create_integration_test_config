@@ -44,9 +44,9 @@ PROXY_COUNT=${PROXY_COUNT:-2}
 if [ "${PROXY_COUNT}" == 0 ]; then
   DASHBOARD_URLS="[]"
 elif [ "${PROXY_COUNT}" == 1 ]; then
-  DASHBOARD_URLS="[\"https://proxy-0.p-mysql.${DOMAIN}\"]"
+  DASHBOARD_URLS="[\"https://proxy-0-p-mysql.${DOMAIN}\"]"
 else
-  DASHBOARD_URLS="[\"https://proxy-0.p-mysql.${DOMAIN}\", \"https://proxy-1.p-mysql.${DOMAIN}\"]"
+  DASHBOARD_URLS="[\"https://proxy-0-p-mysql.${DOMAIN}\", \"https://proxy-1-p-mysql.${DOMAIN}\"]"
 fi
 
 # The following properties are only used by the failover test

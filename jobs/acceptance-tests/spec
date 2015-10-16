@@ -45,7 +45,7 @@ properties:
     default: '@Ma8rtj2vu'
 
   proxy.external_host:
-    description: 'Proxy external host (e.g. p-mysql.example.com => proxy-0.p-mysql.example.com)'
+    description: 'Proxy external host (e.g. p-mysql.example.com => proxy-0-p-mysql.example.com)'
   proxy.api_username:
     description: 'Proxy API username'
   proxy.api_password:
@@ -57,7 +57,7 @@ properties:
     description: 'Tests will skip validation of SSL certificates'
     default: true
   proxy.proxy_count:
-    description: 'Number of proxy instances. Use to construct an array of proxy dashboard url (e.g. https://proxy-INDEX.EXTERNAL_HOST)'
+    description: 'Number of proxy instances. Use to construct an array of proxy dashboard url (e.g. https://proxy-INDEX-EXTERNAL_HOST)'
   standalone_tests_only:
     description: 'Instead of running the full acceptance test suite, only run a minimal set of tests that do not require a running CF deployment'
     default: false

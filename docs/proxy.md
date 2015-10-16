@@ -93,7 +93,7 @@ Finally, update the manifest property `properties.mysql_node.host` for the cf-my
 
 ## API
 
-The proxy hosts a JSON API at `proxy-<bosh job index>.p-mysql.<system domain>/v0/`.
+The proxy hosts a JSON API at `proxy-<bosh job index>-p-mysql.<system domain>/v0/`.
 
 The API provides the following route:
 
@@ -133,4 +133,4 @@ Response:
 
 ## Dashboard
 
-The proxy also provides a Dashboard UI to view the current status of the database nodes. This is hosted at `proxy-<bosh job index>.p-mysql.<system domain>`.
+The proxy also provides a Dashboard UI to view the current status of the database nodes. This is hosted at `proxy-<bosh job index>-p-mysql.<system domain>`.

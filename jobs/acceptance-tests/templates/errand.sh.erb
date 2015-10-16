@@ -33,7 +33,7 @@ cat > integration_config.json <<EOF
   "proxy": {
     "dashboard_urls": [
     <% p('proxy.proxy_count').times do |index| %>
-      <% proxy_url = "\"https://proxy-#{index}.#{p('proxy.external_host')}\"" %>
+      <% proxy_url = "\"https://proxy-#{index}-#{p('proxy.external_host')}\"" %>
       <% proxy_url += "," unless index == p('proxy.proxy_count') - 1 %>
       <%= proxy_url %>
     <% end %>
