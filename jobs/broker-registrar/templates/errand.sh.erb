@@ -41,19 +41,7 @@ cf auth \
   ${CF_ADMIN_USERNAME} \
   ${CF_ADMIN_PASSWORD}
 
-SERVICE_EXISTS="$(cf service-brokers)"
+# Create broker or update if exists
+createServiceBroker || updateServiceBroker
 
-# whitespace is added as prefix to broker_name and as suffix to broker_url to support the use case when we have 2 brokers with abc1, abc.
-
-BROKER_NAME_REGEX=*${BROKER_NAME}\ *
-BROKER_URL_REGEX=*\ ${BROKER_URL}*
-
-if [[ ${SERVICE_EXISTS} == ${BROKER_NAME_REGEX} ]] ||
-   [[ ${SERVICE_EXISTS} == ${BROKER_URL_REGEX} ]]; then
-  updateServiceBroker
-else
-  createServiceBroker
-fi
-
-cf enable-service-access \
-  ${BROKER_NAME}
+cf enable-service-access ${BROKER_NAME}
