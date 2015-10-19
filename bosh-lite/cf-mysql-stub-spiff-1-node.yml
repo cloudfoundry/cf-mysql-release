@@ -62,3 +62,7 @@ jobs:
         api_password: password
   - name: proxy_z2
     instances: 0
+  - name: acceptance-tests
+    properties:
+      proxy:
+        proxy-count: 1
