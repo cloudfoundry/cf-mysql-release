@@ -65,4 +65,4 @@ jobs:
   - name: acceptance-tests
     properties:
       proxy:
-        proxy-count: 1
+        proxy_count: 1
