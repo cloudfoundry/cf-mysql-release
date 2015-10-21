@@ -22,6 +22,8 @@
 
 [Additional Configuration Options](#additional-configuration-options)
 
+[CI](http://www.github.com/cloudfoundry-incubator/cf-mysql-ci)
+
 <a name='components'></a>
 ## Components
 
