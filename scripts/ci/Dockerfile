@@ -20,6 +20,7 @@ RUN \
             libicu52 \
             libfontconfig1-dev libfreetype6 libssl-dev libpng-dev libjpeg-dev \
             jq \
+            mysql-client \
       && \
       apt-get clean
 
