@@ -119,6 +119,7 @@ jobs:
     wsrep_max_ws_size: (( merge || nil ))
     syslog_aggregator: (( meta.syslog_aggregator ))
     network_name: mysql1
+    skip_name_resolve: (( merge || nil ))
 
 - name: mysql_z2
   release: cf-mysql
@@ -141,6 +142,7 @@ jobs:
     wsrep_max_ws_size: (( jobs.mysql_z1.properties.wsrep_max_ws_size ))
     syslog_aggregator: (( meta.syslog_aggregator ))
     network_name: mysql2
+    skip_name_resolve: (( jobs.mysql_z1.properties.skip_name_resolve ))
 
 - name: mysql_z3
   release: cf-mysql
@@ -163,6 +165,7 @@ jobs:
     wsrep_max_ws_size: (( jobs.mysql_z1.properties.wsrep_max_ws_size ))
     syslog_aggregator: (( meta.syslog_aggregator ))
     network_name: mysql3
+    skip_name_resolve: (( jobs.mysql_z1.properties.skip_name_resolve ))
 
 - name: proxy_z1
   release: cf-mysql

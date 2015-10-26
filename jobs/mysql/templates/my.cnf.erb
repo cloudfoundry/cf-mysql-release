@@ -51,6 +51,11 @@ pid-file  = /var/vcap/sys/run/mysql/mysql.pid
 init-file = /var/vcap/jobs/mysql/config/mariadb_init
 skip-external-locking = TRUE
 max_allowed_packet = 256M
+<% if p('skip_name_resolve') %>
+skip_name_resolve = 1
+<% else %>
+skip_name_resolve = 0
+<% end %>
 
 innodb_file_per_table = ON
 innodb_file_format = Barracuda
