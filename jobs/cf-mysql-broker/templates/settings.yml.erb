@@ -34,7 +34,11 @@ production:
       supportUrl: <%= service.metadata.supportUrl %>
     plans:
     <% (service.plans || []).each do |plan| %>
+    <% if plan.id %>
     - id: <%= plan.id %>
+    <% else %>
+    - id: <%= plan.guid %>
+    <% end %>
       name: <%= plan.name %>
       description: <%= plan.description %>
       max_storage_mb: <%= plan.max_storage_mb %>
