@@ -43,6 +43,7 @@ production:
       description: <%= plan.description %>
       max_storage_mb: <%= plan.max_storage_mb %>
       max_user_connections: <%= plan.max_user_connections || p('max_user_connections_default') %>
+      <% if !metadata.nil? %>
       metadata:
         costs:
         <% (plan.metadata.costs || []).each do |cost| %>
@@ -54,6 +55,7 @@ production:
           - <%= bullet %>
         <% end %>
         displayName: <%= plan.displayName || plan.metadata.displayName %>
+      <% end %>
     <% end %>
     dashboard_client:
       id: <%= service.dashboard_client.id %>
