@@ -39,7 +39,11 @@ production:
     <% else %>
     - id: <%= plan.guid %>
     <% end %>
+    <% if plan['name'] =~ /\s/ %>
+      <% raise "Plan '#{plan['name']}' cannot have whitespace in the name! Please change the plan name and reinstall." %>
+    <% else %>
       name: <%= plan.name %>
+    <% end %>
       description: <%= plan.description %>
       max_storage_mb: <%= plan.max_storage_mb %>
       max_user_connections: <%= plan.max_user_connections || p('max_user_connections_default') %>
