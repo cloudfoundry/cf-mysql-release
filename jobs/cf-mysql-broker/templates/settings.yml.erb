@@ -60,7 +60,10 @@ production:
 
         metadata:
           <% if costs.empty? %>
-          costs: []
+          costs:
+          - amount:
+              usd: 0.0
+            unit: MONTH
           <% else %>
           costs:
           <% costs.each do |cost| %>
