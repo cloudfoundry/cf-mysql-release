@@ -10,7 +10,8 @@
   <% p('cluster_ips').each_with_index do |ip, n| %>
   - "Host": <%= ip %>
     "Port": 3306
-    "HealthcheckPort": 9200
+    "StatusPort": 9200
+    "StatusEndpoint": "/"
     "Name": "backend-<%= n %>"
   <% end %>
 "HealthPort": <%= p('proxy.health_port') %>
