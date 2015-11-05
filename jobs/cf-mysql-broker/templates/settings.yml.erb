@@ -34,28 +34,52 @@ production:
       supportUrl: <%= service.metadata.supportUrl %>
     plans:
     <% (service.plans || []).each do |plan| %>
-    <% if plan.id %>
-    - id: <%= plan.id %>
-    <% else %>
-    - id: <%= plan.guid %>
-    <% end %>
-      name: <%= plan.name %>
-      description: <%= plan.description %>
-      max_storage_mb: <%= plan.max_storage_mb %>
-      max_user_connections: <%= plan.max_user_connections || p('max_user_connections_default') %>
-      <% if !plan.metadata.nil? %>
-      metadata:
-        costs:
-        <% (plan.metadata.costs || []).each do |cost| %>
-          - amount:
-              usd: <%= cost.amount.usd %>
-            unit: <%= cost.unit %>
-        <% end %>
-        bullets: <% (plan.metadata.bullets || []).each do |bullet| %>
-          - <%= bullet %>
-        <% end %>
-        displayName: <%= plan.displayName || plan.metadata.displayName %>
-      <% end %>
+      - id: <%= plan.id || plan.guid %>
+        name: <%= plan.name %>
+        description: <%= plan.description %>
+        max_storage_mb: <%= plan.max_storage_mb %>
+
+        <% max_user_connections = plan.max_user_connections || p('max_user_connections_default') %>
+        max_user_connections: <%= max_user_connections %>
+
+        <%
+        if !plan.metadata
+          costs = []
+          bullets = [
+            "#{plan.description}",
+            "#{plan.max_storage_mb} MB storage",
+            "#{max_user_connections} concurrent connections"
+          ]
+          display_name = plan.name
+        else
+          costs = plan.metadata.costs || []
+          bullets = plan.metadata.bullets || []
+          display_name = plan.metadata.displayName
+        end
+        %>
+
+        metadata:
+          <% if costs.empty? %>
+          costs: []
+          <% else %>
+          costs:
+          <% costs.each do |cost| %>
+            - amount:
+                usd: <%= cost.amount.usd %>
+              unit: <%= cost.unit %>
+          <% end %>
+          <% end %>
+
+          <% if bullets.empty? %>
+          bullets: []
+          <% else %>
+          bullets:
+          <% bullets.each do |bullet| %>
+            - <%= bullet %>
+          <% end %>
+          <% end %>
+
+          displayName: <%= display_name %>
     <% end %>
     dashboard_client:
       id: <%= service.dashboard_client.id %>
