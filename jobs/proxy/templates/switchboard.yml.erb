@@ -11,7 +11,7 @@
   - "Host": <%= ip %>
     "Port": 3306
     "StatusPort": 9200
-    "StatusEndpoint": "/"
+    "StatusEndpoint": "galera_status"
     "Name": "backend-<%= n %>"
   <% end %>
 "HealthPort": <%= p('proxy.health_port') %>
