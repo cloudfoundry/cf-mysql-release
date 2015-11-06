@@ -9,6 +9,7 @@ files:
   - github.com/cloudfoundry-incubator/galera-healthcheck/config/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/healthcheck/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/integration/*.go # gosub
+  - github.com/cloudfoundry-incubator/galera-healthcheck/sequence_number/*.go # gosub
   - github.com/fraenkel/candiedyaml/*.go # gosub
   - github.com/go-sql-driver/mysql/*.go # gosub
   - github.com/imdario/mergo/*.go # gosub
