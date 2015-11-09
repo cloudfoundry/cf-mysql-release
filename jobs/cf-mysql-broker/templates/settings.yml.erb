@@ -35,6 +35,11 @@ production:
     plans:
     <% (service.plans || []).each do |plan| %>
       - id: <%= plan.id || plan.guid %>
+        <%
+          if plan.name !~ /^[a-z0-9\_\-]+$/
+            raise "Plan name '#{plan.name}' must only contain lowercase letters, numbers, hyphen(-), or underscore(_)."
+          end
+        %>
         name: <%= plan.name %>
         description: <%= plan.description %>
         max_storage_mb: <%= plan.max_storage_mb %>
