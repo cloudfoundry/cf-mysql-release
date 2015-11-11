@@ -1,0 +1,11 @@
+---
+name: bootstrap
+packages: []
+templates:
+  errand.sh.erb: bin/run
+properties:
+  healthcheck_port:
+    description: 'Port used by healthcheck process to listen on'
+    default: 9200
+  cluster_ips:
+    description: 'IP addresses of all MySQL nodes'

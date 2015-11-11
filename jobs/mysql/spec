@@ -32,6 +32,9 @@ properties:
   port:
     description: 'Port the mysql server should bind to'
     default: 3306
+  healthcheck_port:
+    description: 'Port used by healthcheck process to listen on'
+    default: 9200
   max_connections:
     description: 'Maximum total number of database connections for the node'
     default: 1500

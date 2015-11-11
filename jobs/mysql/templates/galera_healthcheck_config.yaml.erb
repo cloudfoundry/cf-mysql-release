@@ -1,5 +1,5 @@
 ---
-Port: 9200
+Port: <%= p('healthcheck_port') %>
 PidFile: '/var/vcap/sys/run/galera-healthcheck/galera-healthcheck.pid'
 MysqldPath: '/var/vcap/packages/mariadb/bin/mysqld'
 DB:

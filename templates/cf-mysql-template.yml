@@ -346,3 +346,14 @@ jobs:
       port: (( jobs.mysql_z1.properties.port || nil ))
       username: (( jobs.mysql_z1.properties.admin_username || nil ))
       password: (( jobs.mysql_z1.properties.admin_password || nil ))
+
+- name: bootstrap
+  template: bootstrap
+  release: cf-mysql
+  instances: 1
+  resource_pool: errands_z1
+  lifecycle: errand
+  networks:
+  - name: mysql1
+  properties:
+    cluster_ips: (( jobs.mysql_z1.properties.cluster_ips ))

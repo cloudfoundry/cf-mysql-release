@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -eux
+
+function curl_with_status_code() {
+  OUTPUT_TMP_FILE=/tmp/bootstrap-errand-output
+  touch "${OUTPUT_TMP_FILE}"
+  STATUS_CODE="$(curl -s \
+    --output ${OUTPUT_TMP_FILE} \
+    --write-out "%{http_code}" \
+    "$@")"
+
+  if [[ ${STATUS_CODE} != 20* ]]; then
+    echo "Non-200 response: $(cat ${OUTPUT_TMP_FILE})"
+    rm "${OUTPUT_TMP_FILE}"
+    exit 1
+  else
+    cat "${OUTPUT_TMP_FILE}"
+    rm "${OUTPUT_TMP_FILE}"
+  fi
+}
+
+GALERA_PORT="<%= p('healthcheck_port') %>"
+
+<% p('cluster_ips').each do |ip| %>
+MYSQL_IP="<%= ip %>"
+resp="$(curl_with_status_code ${MYSQL_IP}:${GALERA_PORT}/sequence_number)"
+echo "$MYSQL_IP responds with sequence number $resp"
+<% end %>
+
+
+
