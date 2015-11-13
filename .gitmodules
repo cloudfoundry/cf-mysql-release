@@ -96,7 +96,9 @@
 	url = https://github.com/imdario/mergo
 [submodule "src/golang.org/x/net"]
 	path = src/golang.org/x/net
-	url = https://golang.org/x/net
+	url = https://go.googlesource.com/net
+	branch = master
 [submodule "src/golang.org/x/text"]
 	path = src/golang.org/x/text
-	url = https://golang.org/x/text
+	url = https://go.googlesource.com/text
+	branch = master
