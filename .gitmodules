@@ -97,3 +97,6 @@
 [submodule "src/golang.org/x/net"]
 	path = src/golang.org/x/net
 	url = https://golang.org/x/net
+[submodule "src/golang.org/x/text"]
+	path = src/golang.org/x/text
+	url = https://golang.org/x/text
