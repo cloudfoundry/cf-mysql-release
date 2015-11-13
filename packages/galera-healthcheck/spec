@@ -8,6 +8,8 @@ files:
   - github.com/cloudfoundry-incubator/galera-healthcheck/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/config/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/healthcheck/*.go # gosub
+  - github.com/cloudfoundry-incubator/galera-healthcheck/monit_status/*.go # gosub
+  - github.com/cloudfoundry-incubator/galera-healthcheck/mysql_status/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/mysqld_cmd/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/mysqld_cmd/fakes/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/sequence_number/*.go # gosub
@@ -16,4 +18,17 @@ files:
   - github.com/imdario/mergo/*.go # gosub
   - github.com/pivotal-cf-experimental/service-config/*.go # gosub
   - github.com/pivotal-golang/lager/*.go # gosub
+  - golang.org/x/net/html/*.go # gosub
+  - golang.org/x/net/html/atom/*.go # gosub
+  - golang.org/x/net/html/charset/*.go # gosub
+  - golang.org/x/text/encoding/*.go # gosub
+  - golang.org/x/text/encoding/charmap/*.go # gosub
+  - golang.org/x/text/encoding/internal/*.go # gosub
+  - golang.org/x/text/encoding/internal/identifier/*.go # gosub
+  - golang.org/x/text/encoding/japanese/*.go # gosub
+  - golang.org/x/text/encoding/korean/*.go # gosub
+  - golang.org/x/text/encoding/simplifiedchinese/*.go # gosub
+  - golang.org/x/text/encoding/traditionalchinese/*.go # gosub
+  - golang.org/x/text/encoding/unicode/*.go # gosub
+  - golang.org/x/text/transform/*.go # gosub
   - gopkg.in/validator.v2/*.go # gosub

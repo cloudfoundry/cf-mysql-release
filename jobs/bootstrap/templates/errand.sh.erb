@@ -12,6 +12,7 @@ function curl_with_status_code() {
 
   if [[ ${STATUS_CODE} != 20* ]]; then
     echo "Non-200 response: $(cat ${OUTPUT_TMP_FILE})"
+    cat "${OUTPUT_TMP_FILE}"
     rm "${OUTPUT_TMP_FILE}"
     exit 1
   else
@@ -31,21 +32,21 @@ function ensure_endpoint_exists() {
     exit 1
   elif [[ ${STATUS_CODE} == 500 ]]; then
     echo "Internal server error -- no worries, we will quit and keep moving"
-    exit 0
   else
     echo "Endpoint $@ found"
   fi
 
 }
 
+
 GALERA_PORT="<%= p('healthcheck_port') %>"
 
 <% p('cluster_ips').each do |ip| %>
-MYSQL_IP="<%= ip %>"
+  MYSQL_IP="<%= ip %>"
 
-#TODO switch back to `curl_with_status_code` once we have the shutdown endpoint
+  #TODO switch back to `curl_with_status_code` once we have the shutdown endpoint
 
-ensure_endpoint_exists ${MYSQL_IP}:${GALERA_PORT}/sequence_number
-echo "$MYSQL_IP has /sequence_number endpoint"
-
+  ensure_endpoint_exists ${MYSQL_IP}:${GALERA_PORT}/sequence_number
+  echo "$MYSQL_IP has /sequence_number endpoint"
+  curl_with_status_code ${MYSQL_IP}:${GALERA_PORT}/mysql_status
 <% end %>
