@@ -94,3 +94,6 @@
 [submodule "src/github.com/imdario/mergo"]
 	path = src/github.com/imdario/mergo
 	url = https://github.com/imdario/mergo
+[submodule "src/golang.org/x/net"]
+	path = src/golang.org/x/net
+	url = https://golang.org/x/net
