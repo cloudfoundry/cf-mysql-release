@@ -38,7 +38,7 @@ A BOSH release of a MySQL database-as-a-service for Cloud Foundry using [MariaDB
     <td>Advertises the MySQL service and plans.  Creates and deletes MySQL databases and
     credentials (bindings) at the request of Cloud Foundry's Cloud Controller.
     </td>
-    <td><a href="https://travis-ci.org/cloudfoundry/cf-mysql-broker"><img src="https://travis-ci.org/cloudfoundry/cf-mysql-broker.svg" alt="Build Status"></a></td>
+    <td> n/a </td>
    </tr>
    <tr>
      <td>MySQL Server</td>
@@ -47,8 +47,7 @@ A BOSH release of a MySQL database-as-a-service for Cloud Foundry using [MariaDB
    </tr>
       <tr>
      <td>Proxy</td>
-     <td><a href="https://github.com/cloudfoundry-incubator/switchboard">Switchboard</a>; proxies to MySQL, severing connections on MySQL node failure.</td>
-     <td><a href="https://travis-ci.org/cloudfoundry-incubator/switchboard"><img src="https://travis-ci.org/cloudfoundry-incubator/switchboard.svg" alt="Build Status"></a></td>
+     <td> n/a </td>
    </tr>
 </table>
 
