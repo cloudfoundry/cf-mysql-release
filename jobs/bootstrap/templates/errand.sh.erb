@@ -49,4 +49,5 @@ GALERA_PORT="<%= p('healthcheck_port') %>"
   ensure_endpoint_exists ${MYSQL_IP}:${GALERA_PORT}/sequence_number
   echo "$MYSQL_IP has /sequence_number endpoint"
   curl_with_status_code ${MYSQL_IP}:${GALERA_PORT}/mysql_status
+
 <% end %>
