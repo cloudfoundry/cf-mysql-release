@@ -31,23 +31,21 @@ A BOSH release of a MySQL database-as-a-service for Cloud Foundry using [MariaDB
 
 <table>
   <tr>
-      <th>Component</th><th>Description</th><th>Build Status</th>
+      <th>Component</th><th>Description</th>
   </tr>
   <tr>
     <td><a href="https://github.com/cloudfoundry/cf-mysql-broker">CF MySQL Broker</a></td>
     <td>Advertises the MySQL service and plans.  Creates and deletes MySQL databases and
     credentials (bindings) at the request of Cloud Foundry's Cloud Controller.
     </td>
-    <td> n/a </td>
    </tr>
    <tr>
      <td>MySQL Server</td>
      <td>MariaDB 10.0.17; database instances are hosted on the servers.</td>
-     <td> n/a </td>
    </tr>
       <tr>
      <td>Proxy</td>
-     <td> n/a </td>
+     <td><a href="https://github.com/cloudfoundry-incubator/switchboard">Switchboard</a>; proxies to MySQL, severing connections on MySQL node failure.</td>
    </tr>
 </table>
 
