@@ -11,9 +11,7 @@ files:
   - github.com/cloudfoundry-incubator/galera-healthcheck/monit_client/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/monit_client/fakes/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/monit_cmd/*.go # gosub
-  - github.com/cloudfoundry-incubator/galera-healthcheck/monit_status/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/mysql_start_mode/*.go # gosub
-  - github.com/cloudfoundry-incubator/galera-healthcheck/mysql_status/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/mysqld_cmd/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/mysqld_cmd/fakes/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/sequence_number/*.go # gosub
