@@ -102,3 +102,7 @@
 	path = src/golang.org/x/text
 	url = https://go.googlesource.com/text
 	branch = master
+[submodule "github.com/cloudfoundry-incubator/cf-mysql-bootstrap"]
+	path = src/github.com/cloudfoundry-incubator/cf-mysql-bootstrap
+	url = https://github.com/cloudfoundry-incubator/cf-mysql-bootstrap
+	branch = master

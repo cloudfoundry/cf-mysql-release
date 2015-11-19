@@ -1,6 +1,7 @@
 ---
 name: bootstrap
-packages: []
+packages:
+  - bootstrap
 templates:
   errand.sh.erb: bin/run
 properties:

@@ -357,3 +357,4 @@ jobs:
   - name: mysql1
   properties:
     cluster_ips: (( jobs.mysql_z1.properties.cluster_ips ))
+    healthcheck_port: (( merge || nil ))

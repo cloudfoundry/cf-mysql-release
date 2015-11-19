@@ -24,3 +24,6 @@ ${RELEASE_DIR}/src/github.com/cloudfoundry/mariadb_ctrl/bin/test-unit "$@"
 
 echo -e "\nTesting Quota Enforcer..."
 ${RELEASE_DIR}/src/github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/bin/test-unit "$@"
+
+echo -e "\nTesting Bootstrapper..."
+${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/cf-mysql-bootstrap/bin/test "$@"

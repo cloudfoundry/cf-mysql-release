@@ -1,53 +1,23 @@
 #!/bin/bash
 
-set -eux
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
 
-function curl_with_status_code() {
-  OUTPUT_TMP_FILE=/tmp/bootstrap-errand-output
-  touch "${OUTPUT_TMP_FILE}"
-  STATUS_CODE="$(curl -s \
-    --output ${OUTPUT_TMP_FILE} \
-    --write-out "%{http_code}" \
-    "$@")"
+ERRAND_NAME=bootstrap
 
-  if [[ ${STATUS_CODE} != 20* ]]; then
-    echo "Non-200 response: $(cat ${OUTPUT_TMP_FILE})"
-    cat "${OUTPUT_TMP_FILE}"
-    rm "${OUTPUT_TMP_FILE}"
-    exit 1
-  else
-    cat "${OUTPUT_TMP_FILE}"
-    rm "${OUTPUT_TMP_FILE}"
-  fi
-}
-
-function ensure_endpoint_exists() {
-  STATUS_CODE="$(curl -s \
-    --output /dev/null \
-    --write-out "%{http_code}" \
-    "$@")"
-
-  if [[ ${STATUS_CODE} == 404 ]]; then
-    echo "Expected endpoint $@ to exist"
-    exit 1
-  elif [[ ${STATUS_CODE} == 500 ]]; then
-    echo "Internal server error -- no worries, we will quit and keep moving"
-  else
-    echo "Endpoint $@ found"
-  fi
-
-}
+export HOME=/var/vcap
+echo "Started bootstrap errand ..."
 
 
-GALERA_PORT="<%= p('healthcheck_port') %>"
+cat >> bootstrap_config.yml <<EOF
+HealthcheckURLs:
+ <% p('cluster_ips').each do |ip| %>
+ - http://<%= ip %>:<%= p('healthcheck_port') %>
+ <% end %>
+EOF
 
-<% p('cluster_ips').each do |ip| %>
-  MYSQL_IP="<%= ip %>"
+  /var/vcap/packages/bootstrap/bin/cf-mysql-bootstrap \
+    -configPath=bootstrap_config.yml
 
-  #TODO switch back to `curl_with_status_code` once we have the shutdown endpoint
-
-  ensure_endpoint_exists ${MYSQL_IP}:${GALERA_PORT}/sequence_number
-  echo "$MYSQL_IP has /sequence_number endpoint"
-  curl_with_status_code ${MYSQL_IP}:${GALERA_PORT}/mysql_status
-
-<% end %>
+echo "Successfully bootstrapped"
+exit 0
