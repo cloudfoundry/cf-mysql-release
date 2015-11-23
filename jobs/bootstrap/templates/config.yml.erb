@@ -1,0 +1,4 @@
+HealthcheckURLs:
+  <% p('cluster_ips').each do |ip| %>
+  - http://<%= ip %>:<%= p('healthcheck_port') %>
+  <% end %>

@@ -4,6 +4,7 @@ packages:
   - bootstrap
 templates:
   errand.sh.erb: bin/run
+  config.yml.erb: config/config.yml
 properties:
   healthcheck_port:
     description: 'Port used by healthcheck process to listen on'
