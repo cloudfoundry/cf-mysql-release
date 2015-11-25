@@ -103,6 +103,9 @@ jobs:
 - name: mysql_z1
   properties:
     admin_password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP #The admin password for the MySQL server process
+    bootstrap_endpoint:
+      username: REPLACE_WITH_A_USERNAME_YOU_MAKE_UP
+      password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
 
 - name: cf-mysql-broker_z1
   properties:
