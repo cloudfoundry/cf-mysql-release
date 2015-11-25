@@ -84,3 +84,8 @@ properties:
 
   database_startup_timeout:
     description: 'How long the startup script waits for the database to come online (in seconds)'
+
+  bootstrap_endpoint.username:
+    description: 'Username used by the bootstrap endpoints for Basic Auth'
+  bootstrap_endpoint.password:
+    description: 'Password used by the bootstrap endpoints for Basic Auth'

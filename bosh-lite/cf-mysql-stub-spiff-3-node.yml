@@ -24,6 +24,9 @@ jobs:
       <<: (( merge || nil ))
       admin_password: password
       database_startup_timeout: 600
+      bootstrap_endpoint:
+        username: username
+        password: password
   - name: cf-mysql-broker_z1
     properties:
       <<: (( merge || nil ))

@@ -13,3 +13,6 @@ Monit:
   Port: 2822
   MysqlStateFilePath: '/var/vcap/store/mysql/state.txt'
   ServiceName: 'mariadb_ctrl'
+BootstrapEndpoint:
+  Username: <%= p('bootstrap_endpoint.username') %>
+  Password: <%= p('bootstrap_endpoint.password') %>

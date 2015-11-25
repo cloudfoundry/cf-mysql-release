@@ -2,3 +2,6 @@ HealthcheckURLs:
   <% p('cluster_ips').each do |ip| %>
   - http://<%= ip %>:<%= p('healthcheck_port') %>
   <% end %>
+DatabaseStartupTimeout: <%= p('database_startup_timeout') %>
+Username: <%= p('bootstrap_endpoint.username') %>
+Password: <%= p('bootstrap_endpoint.password') %>

@@ -120,6 +120,9 @@ jobs:
     syslog_aggregator: (( meta.syslog_aggregator ))
     network_name: mysql1
     skip_name_resolve: (( merge || nil ))
+    bootstrap_endpoint:
+      username: (( merge ))
+      password: (( merge ))
 
 - name: mysql_z2
   release: cf-mysql
@@ -143,6 +146,7 @@ jobs:
     syslog_aggregator: (( meta.syslog_aggregator ))
     network_name: mysql2
     skip_name_resolve: (( jobs.mysql_z1.properties.skip_name_resolve ))
+    bootstrap_endpoint: (( jobs.mysql_z1.properties.bootstrap_endpoint ))
 
 - name: mysql_z3
   release: cf-mysql
@@ -166,6 +170,7 @@ jobs:
     syslog_aggregator: (( meta.syslog_aggregator ))
     network_name: mysql3
     skip_name_resolve: (( jobs.mysql_z1.properties.skip_name_resolve ))
+    bootstrap_endpoint: (( jobs.mysql_z1.properties.bootstrap_endpoint ))
 
 - name: proxy_z1
   release: cf-mysql
@@ -358,3 +363,5 @@ jobs:
   properties:
     cluster_ips: (( jobs.mysql_z1.properties.cluster_ips ))
     healthcheck_port: (( merge || nil ))
+    database_startup_timeout: (( jobs.mysql_z1.properties.database_startup_timeout ))
+    bootstrap_endpoint: (( jobs.mysql_z1.properties.bootstrap_endpoint ))
