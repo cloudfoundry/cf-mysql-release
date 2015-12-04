@@ -54,6 +54,7 @@ update:
   canary_watch_time: (( "30000-" .properties.temp.canary_end_in_sec ))
   update_watch_time: (( "30000-" .properties.temp.canary_end_in_sec ))
   max_in_flight: 1
+  serial: true
 
 networks: (( merge ))
 
