@@ -7,7 +7,9 @@
   "Port": <%= p('proxy.port') %>
   "HealthcheckTimeoutMillis": <%= p("proxy.healthcheck_timeout_millis") %>
   "Backends":
-  <% p('cluster_ips').each_with_index do |ip, n| %>
+  <% cluster_ips = p('cluster_ips') %>
+  <% cluster_ips.delete(p('arbitrator_ip')) %>
+  <% cluster_ips.each_with_index do |ip, n| %>
   - "Host": <%= ip %>
     "Port": 3306
     "StatusPort": 9200

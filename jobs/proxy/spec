@@ -61,6 +61,8 @@ properties:
     default: "tcp"
   cluster_ips:
     description: "List of nodes.  Must have the same number of ips as there are nodes in the cluster"
+  arbitrator_ip:
+    description: "List of IP addresses for the arbitrator nodes of the MySQL cluster"
   standalone:
     description: "Standalone Mode: Are you deploying MySQL without a CloudFoundry deployment?"
     default: false

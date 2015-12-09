@@ -188,6 +188,7 @@ jobs:
     nats: (( .properties.nats ))
     syslog_aggregator: (( meta.syslog_aggregator ))
     standalone: (( .properties.standalone ))
+    arbitrator_ip: (( jobs.arbitrator_z3.networks.mysql3.static_ips.[0] || nil ))
 
 - name: proxy_z2
   release: cf-mysql
@@ -212,6 +213,7 @@ jobs:
     nats: (( .properties.nats ))
     syslog_aggregator: (( meta.syslog_aggregator ))
     standalone: (( .properties.standalone ))
+    arbitrator_ip: (( jobs.arbitrator_z3.networks.mysql3.static_ips.[0] || nil ))
 
 - name: cf-mysql-broker_z1
   release: cf-mysql
