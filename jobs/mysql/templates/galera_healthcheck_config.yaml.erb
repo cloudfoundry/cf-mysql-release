@@ -2,6 +2,7 @@
 Port: <%= p('healthcheck_port') %>
 PidFile: '/var/vcap/sys/run/galera-healthcheck/galera-healthcheck.pid'
 MysqldPath: '/var/vcap/packages/mariadb/bin/mysqld'
+ArbitratorNode: false
 DB:
   User: <%= p('admin_username') %>
   Password: <%= p('admin_password') %>
