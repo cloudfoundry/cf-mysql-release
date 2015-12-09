@@ -1,0 +1,33 @@
+---
+name: arbitrator
+
+templates:
+  garbd_ctl.erb: bin/garbd_ctl
+  garbd_config.erb: config/garbd_config
+
+packages:
+- mariadb
+- common
+
+properties:
+  admin_username:
+    description: 'Username for the MySQL server admin user'
+    default: 'root'
+  admin_password:
+    description: 'Password for the MySQL server admin user'
+  port:
+    description: 'Port the mysql server should bind to'
+    default: 3306
+  galera_port:
+    description: 'Port which garbd listens on'
+    default: 4567
+  healthcheck_port:
+    description: 'Port used by healthcheck process to listen on'
+    default: 9200
+  cluster_ips:
+    description: 'List of nodes.  Must have the same number of ips as there are nodes in the cluster'
+
+  bootstrap_endpoint.username:
+    description: 'Username used by the bootstrap endpoints for Basic Auth'
+  bootstrap_endpoint.password:
+    description: 'Password used by the bootstrap endpoints for Basic Auth'

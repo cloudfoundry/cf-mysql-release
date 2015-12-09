@@ -1,0 +1,5 @@
+check process garbd
+  with pidfile /var/vcap/sys/run/garbd/garbd.pid
+  start program "/var/vcap/jobs/arbitrator/bin/garbd_ctl start" with timeout 60 seconds
+  stop program "/var/vcap/jobs/arbitrator/bin/garbd_ctl stop" with timeout 10 seconds
+  group vcap
