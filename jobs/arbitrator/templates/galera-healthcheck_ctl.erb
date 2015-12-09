@@ -1,0 +1,42 @@
+#!/bin/bash -e
+
+job_dir=/var/vcap/jobs/arbitrator
+run_dir=/var/vcap/sys/run/galera-healthcheck
+log_dir=/var/vcap/sys/log/galera-healthcheck
+package_dir=/var/vcap/packages/galera-healthcheck
+pidfile=$run_dir/galera-healthcheck.pid
+
+export GOROOT=/var/vcap/packages/golang
+export PATH=$GOROOT/bin:$PWD/bin:$PATH
+
+source /var/vcap/packages/common/utils.sh
+
+case $1 in
+
+  start)
+    log "Starting galera-healthcheck..."
+    pid_guard $pidfile "Galera Healthcheck"
+
+    mkdir -p $run_dir
+    mkdir -p $log_dir
+
+    cd $package_dir
+
+    $package_dir/bin/galera-healthcheck \
+      -configPath=$job_dir/config/galera_healthcheck_config.yaml \
+      >>$log_dir/galera-healthcheck.stdout.log 2>>$log_dir/galera-healthcheck.stderr.log &
+
+    log "Starting galera-healthcheck... done"
+    ;;
+
+  stop)
+    log "Stopping galera-healthcheck..."
+    kill_and_wait $pidfile
+    log "Stopping galera-healthcheck... done"
+    ;;
+
+  *)
+    echo "Usage: galera-healthcheck_ctl {start|stop}"
+    ;;
+
+esac

@@ -4,9 +4,12 @@ name: arbitrator
 templates:
   garbd_ctl.erb: bin/garbd_ctl
   garbd_config.erb: config/garbd_config
+  galera-healthcheck_ctl.erb: bin/galera-healthcheck_ctl
+  galera_healthcheck_config.yaml.erb: config/galera_healthcheck_config.yaml
 
 packages:
 - mariadb
+- galera-healthcheck
 - common
 
 properties:
