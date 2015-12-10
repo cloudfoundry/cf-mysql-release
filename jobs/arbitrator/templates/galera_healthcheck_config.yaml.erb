@@ -2,7 +2,6 @@
 Port: <%= p('healthcheck_port') %>
 PidFile: '/var/vcap/sys/run/galera-healthcheck/galera-healthcheck.pid'
 MysqldPath: '/var/vcap/packages/mariadb/bin/mysqld'
-ArbitratorNode: true
 DB:
   User: <%= p('admin_username') %>
   Password: <%= p('admin_password') %>
@@ -12,8 +11,7 @@ Monit:
   Password: 'random-password'
   Host: 'localhost'
   Port: 2822
-  MysqlStateFilePath: '/var/vcap/store/mysql/state.txt'
-  ServiceName: 'mariadb_ctrl'
+  ServiceName: 'garbd'
 BootstrapEndpoint:
   Username: <%= p('bootstrap_endpoint.username') %>
   Password: <%= p('bootstrap_endpoint.password') %>
