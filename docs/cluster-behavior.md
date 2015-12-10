@@ -66,7 +66,7 @@ Existing nodes restarted with monit should automatically join the cluster. If an
   - If deployed using a proxy, a continually inactive node will cause the proxy to fail over, selecting a different mysql node to route new queries to.
 
 ### Re-bootstrapping the cluster after quorum is lost
-  - The start script will currently bootstrap node 0 only on initial deploy. If bootstrapping is necessary at a later date, it must be done manually. For more information on manually bootstrapping a cluster, see [Bootstrapping Galera](bootstrapping.md).
+  - The start script will currently bootstrap node 0 only on initial deploy. If bootstrapping is necessary at a later date, it must be done manually. For more information on bootstrapping a cluster, see [Bootstrapping Galera](bootstrapping.md).
   - If the single node is bootstrapped, it will create a new one-node cluster that other nodes can join.
 
 ### Simulating node failure
