@@ -56,6 +56,6 @@ Run ```bosh run errand bootstrap``` from the terminal. When done, this should su
    
 ## How it works
 
-The bootstrap errand simply automates the steps in the manual bootstrapping process documented in previous releases of cf-mysql. From a higher-level perspective, it finds the node with the highest transaction sequence number, and asks it to start up by itself (i.e. in bootstrap mode), then asks the remaining nodes to join the cluster.
+The bootstrap errand simply automates the steps in the manual bootstrapping process documented in previous releases of cf-mysql. It finds the node with the highest transaction sequence number, and asks it to start up by itself (i.e. in bootstrap mode), then asks the remaining nodes to join the cluster.
 
 The sequence number of a stopped node can be retained by either reading the node's state file under ```/var/vcap/store/mysql/grastate.dat```, or by running a mysqld command with a WSREP flag, like ```mysqld --wsrep-recover```. 
