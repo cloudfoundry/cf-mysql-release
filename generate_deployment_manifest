@@ -6,16 +6,35 @@ templates="${MY_DIR}/templates"
 
 infrastructure="$1"
 
+if [ -z "$2" ]; then
+  arb="arbitrator"
+elif [ "$2" != "arbitrator" ] && [ "$2" != "no-arbitrator" ]; then
+  arb="arbitrator"
+elif [ "$2" == "arbitrator" ] || [ "$2" == "no-arbitrator" ]; then
+  arb=$2
+  shift
+fi
+
 if [ "$infrastructure" != "aws" ] && \
     [ "$infrastructure" != "warden" ] && \
     [ "$infrastructure" != "vsphere" ] ; then
-  echo "usage: ./generate_deployment_manifest <aws|warden|vsphere> [stubs...]"
+  echo "usage: ./generate_deployment_manifest <aws|warden|vsphere> {no-arbitrator} [stubs...]"
   exit 1
 fi
 
 shift
 
-spiff merge \
-  "$templates/cf-mysql-template.yml" \
-  "$templates/cf-infrastructure-${infrastructure}.yml" \
-  $*
+if [ "${arb}" == "arbitrator" ]; then
+  spiff merge \
+    "$templates/cf-mysql-template.yml" \
+    "$templates/cf-mysql-node3-arbitrator.yml" \
+    "$templates/cf-infrastructure-${infrastructure}.yml" \
+    $*
+else
+  spiff merge \
+    "$templates/cf-mysql-template.yml" \
+    "$templates/cf-mysql-node3-mysql.yml" \
+    "$templates/cf-infrastructure-${infrastructure}.yml" \
+    $*
+fi
+

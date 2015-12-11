@@ -67,7 +67,7 @@ resource_pools:
   network: mysql2
   stemcell: (( merge ))
   cloud_properties: (( merge ))
-- name: arbitrator_z3
+- name: mysql_z3
   network: mysql3
   stemcell: (( merge ))
   cloud_properties: (( merge ))
@@ -149,11 +149,11 @@ jobs:
     skip_name_resolve: (( jobs.mysql_z1.properties.skip_name_resolve ))
     bootstrap_endpoint: (( jobs.mysql_z1.properties.bootstrap_endpoint ))
 
-- name: arbitrator_z3
+- name: mysql_z3
   release: cf-mysql
-  template: arbitrator
-  instances: (( merge || 1 ))
-  resource_pool: arbitrator_z3
+  template: mysql
+  instances: (( merge || 0 ))
+  resource_pool: mysql_z3
   persistent_disk_pool: (( disk_pools.[0].name ))
   networks:
   - name: mysql3
@@ -162,8 +162,32 @@ jobs:
     <<: (( merge || nil ))
     admin_password: (( jobs.mysql_z1.properties.admin_password ))
     cluster_ips: (( jobs.mysql_z1.properties.cluster_ips ))
+    seeded_databases: ~
+    database_startup_timeout: (( jobs.mysql_z1.properties.database_startup_timeout ))
+    max_heap_table_size: (( jobs.mysql_z1.properties.max_heap_table_size ))
+    tmp_table_size: (( jobs.mysql_z1.properties.tmp_table_size ))
+    wsrep_max_ws_rows: (( jobs.mysql_z1.properties.wsrep_max_ws_rows ))
+    wsrep_max_ws_size: (( jobs.mysql_z1.properties.wsrep_max_ws_size ))
+    syslog_aggregator: (( meta.syslog_aggregator ))
     network_name: mysql3
+    skip_name_resolve: (( jobs.mysql_z1.properties.skip_name_resolve ))
     bootstrap_endpoint: (( jobs.mysql_z1.properties.bootstrap_endpoint ))
+
+- name: arbitrator_z3
+  release: cf-mysql
+  template: arbitrator
+  instances: (( merge || 1 ))
+  resource_pool: mysql_z3
+  persistent_disk_pool: (( merge || disk_pools.[0].name ))
+  networks:
+  - name: mysql3
+    static_ips: (( merge || static_ips(0) ))
+  properties:
+    <<: (( merge || nil ))
+    admin_password: (( merge || jobs.mysql_z1.properties.admin_password ))
+    cluster_ips: (( merge || jobs.mysql_z1.properties.cluster_ips ))
+    network_name: mysql3
+    bootstrap_endpoint: (( merge || jobs.mysql_z1.properties.bootstrap_endpoint ))
 
 - name: proxy_z1
   release: cf-mysql

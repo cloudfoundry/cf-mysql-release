@@ -1,0 +1,6 @@
+jobs:
+- name: arbitrator_z3
+  instances: 0
+
+- name: mysql_z3
+  instances: 1

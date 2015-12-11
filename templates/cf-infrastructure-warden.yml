@@ -23,7 +23,7 @@ resource_pools:
   network: mysql1
   stemcell: *stemcell
   cloud_properties: {name: random}
-- name: arbitrator_z3
+- name: mysql_z3
   network: mysql1
   stemcell: *stemcell
   cloud_properties: {name: random}

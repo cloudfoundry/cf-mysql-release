@@ -18,6 +18,18 @@ NO_COLOR='\033[0m'
 BOSH_LITE_USERNAME=${BOSH_LITE_USERNAME:-admin}
 BOSH_LITE_PASSWORD=${BOSH_LITE_PASSWORD:-admin}
 
+ARBITRATOR=${ARBITRATOR:-"true"}
+ 
+if [ "${ARBITRATOR}" != "true" ] && \
+    [ "${ARBITRATOR}" != "false" ]; then
+  echo "Error: ARBITRATOR Env var must be set to true or false"
+  exit 1
+elif [ "${ARBITRATOR}" == "true" ]; then
+  DEP_FLAG="arbitrator"
+else
+  DEP_FLAG="no-arbitrator"
+fi
+
 # By default use 3 node stub
 mysql_stub="cf-mysql-stub-spiff-3-node.yml"
 # If any arguments were provided,
@@ -56,6 +68,7 @@ perl -pi -e "s/PLACEHOLDER-DIRECTOR-UUID/$DIRECTOR_UUID/g" $RELEASE_DIR/bosh-lit
 
 ${RELEASE_DIR}/generate_deployment_manifest \
   warden \
+  ${DEP_FLAG} \
   ${RELEASE_DIR}/templates/sample_stubs/sample_plans_stub.yml \
   ${RELEASE_DIR}/bosh-lite/tmp/cf-mysql-stub-with-uuid.yml \
   "$@" > ${RELEASE_DIR}/bosh-lite/manifests/cf-mysql-manifest.yml
