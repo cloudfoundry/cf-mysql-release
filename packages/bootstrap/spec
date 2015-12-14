@@ -6,6 +6,8 @@ files:
   - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-mysql-bootstrap/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-mysql-bootstrap/bootstrapper/*.go # gosub
+  - github.com/cloudfoundry-incubator/cf-mysql-bootstrap/bootstrapper/node_manager/*.go # gosub
+  - github.com/cloudfoundry-incubator/cf-mysql-bootstrap/bootstrapper/node_manager/fakes/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-mysql-bootstrap/clock/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-mysql-bootstrap/clock/fakes/*.go # gosub
   - github.com/cloudfoundry-incubator/cf-mysql-bootstrap/config/*.go # gosub
