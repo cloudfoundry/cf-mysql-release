@@ -3,6 +3,8 @@ set -e -x
 
 cd /var/vcap/packages/acceptance-tests/src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests
 
+skips=<%= p("skip_regex") ? %Q[-skip="#{p("skip_regex")}"] : "" %>
+
 cat > integration_config.json <<EOF
 {
   "api":           "<%= p('cf.api_url') %>",
@@ -74,9 +76,9 @@ export CONFIG=$PWD/integration_config.json
 
 
 <% if p('standalone_tests_only') %>
-  bin/test-standalone --noColor
+  bin/test-standalone --noColor $skips
 <% elsif p('smoke_tests_only') %>
-  bin/test-smoke --noColor
+  bin/test-smoke --noColor $skips
 <% else %>
-  bin/test-acceptance --noColor
+  bin/test-acceptance --noColor $skips
 <% end %>
