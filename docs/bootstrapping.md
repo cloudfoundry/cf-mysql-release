@@ -44,6 +44,7 @@ Run `bosh run errand bootstrap` from the terminal. When done, this should succes
 If the cluster was already healthy to begin with (i.e. quorum was never lost), the errand will error out saying `bootstrap is not required`.
 
 If one or more nodes are not reachable (i.e. the VM exists but in an unknown state), it will error out saying `nodes are not reachable`. In this situation, follow the steps below:
+
 1. `bosh -n stop mysql_z1 && bosh -n stop mysql_z2 && bosh -n stop mysql_z3`
 1. `bosh edit deployment`
 1. Set `update.canaries` to 0, `update.max_in_flight` to 3, and `update.serial` to false.
@@ -56,13 +57,13 @@ If one or more nodes are not reachable (i.e. the VM exists but in an unknown sta
 1. Set `update.canaries` to 1, `update.max_in_flight` to 1, and `update.serial` to true.
 1. Verify that deployment succeeds and all jobs are healthy. A healthy deployment should look like this:
 
-	```
+```
 $ bosh vms cf-warden-mysql | egrep 'mysql_z./0'
 Acting as user 'admin' on deployment 'cf-warden-mysql' on 'Bosh Lite Director'
 | mysql_z1/0           | running | mysql_z1           | 10.244.7.2   |
 | mysql_z2/0           | running | mysql_z2           | 10.244.8.2   |
 | mysql_z3/0           | running | mysql_z3           | 10.244.9.2   |
-	```
+```
 
 If these steps did not work for you, please refer to the [Manual Bootstrap Process](#manual-bootstrap-process) below.
 
