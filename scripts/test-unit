@@ -13,6 +13,9 @@ source ${RELEASE_DIR}/.envrc
 rm -rf ${RELEASE_DIR}/bin/ginkgo
 go install -v github.com/onsi/ginkgo/ginkgo
 
+rm -rf ${RELEASE_DIR}/bin/ginkgo
+go install -v github.com/tools/godep
+
 echo -e "\nTesting Switchboard..."
 ${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/switchboard/bin/test "$@"
 
