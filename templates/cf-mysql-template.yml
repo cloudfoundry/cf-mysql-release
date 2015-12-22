@@ -181,7 +181,7 @@ jobs:
   persistent_disk_pool: (( merge || disk_pools.[0].name ))
   networks:
   - name: mysql3
-    static_ips: (( merge || static_ips(0) ))
+    static_ips: (( merge || static_ips(1) ))
   properties:
     <<: (( merge || nil ))
     admin_password: (( merge || jobs.mysql_z1.properties.admin_password ))
