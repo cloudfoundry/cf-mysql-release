@@ -43,6 +43,9 @@ properties:
   smoke_test_password:
     description: 'Password for smoke tests to comply with CF password policy, if exists.'
     default: '@Ma8rtj2vu'
+  skip_regex:
+    default: ""
+    description: Regex for tests that should be skipped
 
   proxy.external_host:
     description: 'Proxy external host (e.g. p-mysql.example.com => proxy-0-p-mysql.example.com)'
