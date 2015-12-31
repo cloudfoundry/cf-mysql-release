@@ -4,7 +4,7 @@ message_bus_servers:
       user: <%= p('nats.user') %>
       password: <%= p('nats.password') %>
 <% end %>
-external_host: <%= p('external_host') %>
+external_host: <%= p('cf_mysql.external_host') %>
 external_ip: <%= spec.networks.send(p('network_name')).ip %>
 port: 80
 health_checker:

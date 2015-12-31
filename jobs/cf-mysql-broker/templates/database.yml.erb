@@ -17,7 +17,7 @@ production:
   connect_timeout: 20
   read_timeout: 20
   reconnect: true
-  host: <%= p('mysql_node.host') %>
-  port: <%= p('mysql_node.port') %>
-  username: <%= p('mysql_node.admin_username') %>
-  password: <%= p('mysql_node.admin_password') %>
+  host: <%= p('cf_mysql.host') %>
+  port: <%= p('cf_mysql.mysql.port') %>
+  username: <%= p('cf_mysql.mysql.admin_username') %>
+  password: <%= p('cf_mysql.mysql.admin_password') %>

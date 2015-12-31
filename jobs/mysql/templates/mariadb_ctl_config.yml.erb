@@ -4,10 +4,10 @@ PidFile: /var/vcap/sys/run/mariadb_ctl/mariadb_ctl.pid
 Db:
   DaemonPath: /var/vcap/packages/mariadb_ctrl/bin/mysql_daemon.sh
   UpgradePath: /var/vcap/packages/mariadb/bin/mysql_upgrade
-  User: <%= p('admin_username')%>
-  Password: <%= p('admin_password')%>
+  User: <%= p('cf_mysql.mysql.admin_username')%>
+  Password: <%= p('cf_mysql.mysql.admin_password')%>
   PreseededDatabases:
-  <% p("seeded_databases").each do |seed| %>
+  <% p("cf_mysql.mysql.seeded_databases").each do |seed| %>
   - DBName: <%= seed["name"] %>
     User: <%= seed["username"]%>
     Password: <%= seed["password"] %>
@@ -18,8 +18,8 @@ Upgrader:
 Manager:
   StateFileLocation: /var/vcap/store/mysql/state.txt
   ClusterIps:
-  <% p('cluster_ips').each do |ip| %>
+  <% p('cf_mysql.mysql.cluster_ips').each do |ip| %>
   - <%= ip %>
   <% end %>
   MyIP: <%= spec.networks.send(p('network_name')).ip %>
-  DatabaseStartupTimeout: <%= (p('database_startup_timeout') * 0.8).round %>
+  DatabaseStartupTimeout: <%= (p('cf_mysql.mysql.database_startup_timeout') * 0.8).round %>

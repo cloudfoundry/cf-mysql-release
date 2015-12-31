@@ -13,7 +13,7 @@ base_folder = '/var/vcap/sys/run/mysql'
 %>
 
 [client]
-port      = <%= p('port') %>
+port      = <%= p('cf_mysql.mysql.port') %>
 socket		= <%= "#{base_folder}/mysqld.sock" %>
 
 [mysqld_safe]
@@ -23,15 +23,15 @@ nice      = 0
 [mysqld]
 # GALERA options:
 wsrep_provider=/var/vcap/packages/mariadb/lib/plugin/libgalera_smm.so
-wsrep_provider_options="gcache.size=<%= p('gcache_size') %>M;pc.recovery=TRUE"
-wsrep_cluster_address="gcomm://<%= p('cluster_ips').join(",") %>"
+wsrep_provider_options="gcache.size=<%= p('cf_mysql.mysql.gcache_size') %>M;pc.recovery=TRUE"
+wsrep_cluster_address="gcomm://<%= p('cf_mysql.mysql.cluster_ips').join(",") %>"
 wsrep_node_address='<%= spec.networks.send(p('network_name')).ip %>'
 wsrep_node_name='mysql/<%= index %>'
 wsrep_cluster_name='cf-mariadb-galera-cluster'
 wsrep_sst_method=xtrabackup-v2
-wsrep_sst_auth=<%= p('admin_username')%>:<%= p('admin_password')%>
-wsrep_max_ws_rows=<%= p('wsrep_max_ws_rows') %>
-wsrep_max_ws_size=<%= p('wsrep_max_ws_size') %>
+wsrep_sst_auth=<%= p('cf_mysql.mysql.admin_username')%>:<%= p('cf_mysql.mysql.admin_password')%>
+wsrep_max_ws_rows=<%= p('cf_mysql.mysql.wsrep_max_ws_rows') %>
+wsrep_max_ws_size=<%= p('cf_mysql.mysql.wsrep_max_ws_size') %>
 #wsrep_on='OFF'
 #wsrep_desync='ON'
 #wsrep_OSU_method='RSU'
@@ -41,7 +41,7 @@ collation_server        = utf8_unicode_ci
 character_set_server    = utf8
 user		= vcap
 socket		= <%= "#{base_folder}/mysqld.sock" %>
-port      = <%= p('port') %>
+port      = <%= p('cf_mysql.mysql.port') %>
 basedir		= /var/vcap/packages/mariadb
 datadir		= /var/vcap/store/mysql
 tmpdir		= /var/vcap/data/mysql/tmp
@@ -51,7 +51,7 @@ pid-file  = /var/vcap/sys/run/mysql/mysql.pid
 init-file = /var/vcap/jobs/mysql/config/mariadb_init
 skip-external-locking = TRUE
 max_allowed_packet = 256M
-<% if p('skip_name_resolve') %>
+<% if p('cf_mysql.mysql.skip_name_resolve') %>
 skip_name_resolve = 1
 <% else %>
 skip_name_resolve = 0
@@ -59,10 +59,10 @@ skip_name_resolve = 0
 
 innodb_file_per_table = ON
 innodb_file_format = Barracuda
-innodb_log_file_size = "<%= p('ib_log_file_size')%>MB"
+innodb_log_file_size = "<%= p('cf_mysql.mysql.ib_log_file_size')%>MB"
 
-max_heap_table_size = <%= p('max_heap_table_size') %>
-tmp_table_size = <%= p('tmp_table_size') %>
+max_heap_table_size = <%= p('cf_mysql.mysql.max_heap_table_size') %>
+tmp_table_size = <%= p('cf_mysql.mysql.tmp_table_size') %>
 
 # These are mandatory MySQL settings for MariaDB Galera to work
 binlog_format = ROW
@@ -75,11 +75,11 @@ query_cache_size = 0
 innodb_stats_on_metadata = ON
 innodb_stats_persistent = OFF
 
-<% if_p('innodb_buffer_pool_size') do |innodb_buffer_pool_size| %>
+<% if_p('cf_mysql.mysql.innodb_buffer_pool_size') do |innodb_buffer_pool_size| %>
 innodb_buffer_pool_size = <%= innodb_buffer_pool_size %>
 <% end %>
 
-<% if_p('max_connections') do |max_connections| %>
+<% if_p('cf_mysql.mysql.max_connections') do |max_connections| %>
 max_connections = <%= max_connections %>
 <% end %>
 

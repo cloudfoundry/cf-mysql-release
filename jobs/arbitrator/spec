@@ -13,24 +13,23 @@ packages:
 - common
 
 properties:
-  admin_username:
+  cf_mysql.mysql.admin_username:
     description: 'Username for the MySQL server admin user'
     default: 'root'
-  admin_password:
+  cf_mysql.mysql.admin_password:
     description: 'Password for the MySQL server admin user'
-  port:
+  cf_mysql.mysql.port:
     description: 'Port the mysql server should bind to'
     default: 3306
-  galera_port:
+  cf_mysql.mysql.galera_port:
     description: 'Port which garbd listens on'
     default: 4567
-  healthcheck_port:
+  cf_mysql.mysql.healthcheck_port:
     description: 'Port used by healthcheck process to listen on'
     default: 9200
-  cluster_ips:
+  cf_mysql.mysql.cluster_ips:
     description: 'List of nodes.  Must have the same number of ips as there are nodes in the cluster'
-
-  bootstrap_endpoint.username:
+  cf_mysql.mysql.bootstrap_endpoint.username:
     description: 'Username used by the bootstrap endpoints for Basic Auth'
-  bootstrap_endpoint.password:
+  cf_mysql.mysql.bootstrap_endpoint.password:
     description: 'Password used by the bootstrap endpoints for Basic Auth'

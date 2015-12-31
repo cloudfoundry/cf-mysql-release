@@ -1,4 +1,4 @@
 group = cf-mariadb-galera-cluster
-<% galera_port = p('galera_port') %>
-<% node_addresses = p('cluster_ips').map { |ip| "#{ip}:#{galera_port}" } %>
+<% galera_port = p('cf_mysql.mysql.galera_port') %>
+<% node_addresses = p('cf_mysql.mysql.cluster_ips').map { |ip| "#{ip}:#{galera_port}" } %>
 address = gcomm://<%= node_addresses.join(',') %>

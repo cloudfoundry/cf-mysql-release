@@ -5,7 +5,7 @@ message_bus_servers:
       password: <%= p('nats.password') %>
 <% end %>
 <% my_ip = spec.networks.send(p('network_name')).ip %>
-<% proxy_index = p('proxy.proxy_ips').index(my_ip) %>
-external_host: proxy-<%= proxy_index %>-<%= p('external_host') %>
+<% proxy_index = p('cf_mysql.proxy.proxy_ips').index(my_ip) %>
+external_host: proxy-<%= proxy_index %>-<%= p('cf_mysql.external_host') %>
 external_ip: <%= my_ip %>
-port: <%= p('proxy.api_port') %>
+port: <%= p('cf_mysql.proxy.api_port') %>
