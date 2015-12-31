@@ -4,7 +4,7 @@ director_uuid: (( config_from_cf.cf_director_uuid ))
 
 releases:
 - name: cf-mysql
-  version: (( release_versions.cf-mysql || "latest" ))
+  version: (( release_versions.cf-mysql.version || "latest" ))
 
 compilation:
   workers: 4
