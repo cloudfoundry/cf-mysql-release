@@ -1,4 +1,9 @@
 ---
+<%
+# cluster_ips may contain nil values due to lack of flexibility in spiff
+cluster_ips = p('cf_mysql.mysql.cluster_ips').compact
+%>
+
 LogFileLocation: /var/vcap/sys/log/mysql/mariadb_ctrl.combined.log
 PidFile: /var/vcap/sys/run/mariadb_ctl/mariadb_ctl.pid
 Db:
@@ -18,7 +23,7 @@ Upgrader:
 Manager:
   StateFileLocation: /var/vcap/store/mysql/state.txt
   ClusterIps:
-  <% p('cf_mysql.mysql.cluster_ips').each do |ip| %>
+  <% cluster_ips.each do |ip| %>
   - <%= ip %>
   <% end %>
   MyIP: <%= spec.networks.send(p('network_name')).ip %>

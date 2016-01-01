@@ -1,5 +1,10 @@
+<%
+# cluster_ips may contain nil values due to lack of flexibility in spiff
+cluster_ips = p('cf_mysql.mysql.cluster_ips').compact
+%>
+
 HealthcheckURLs:
-  <% p('cf_mysql.mysql.cluster_ips').each do |ip| %>
+  <% cluster_ips.each do |ip| %>
   - http://<%= ip %>:<%= p('cf_mysql.mysql.healthcheck_port') %>
   <% end %>
 DatabaseStartupTimeout: <%= p('cf_mysql.mysql.database_startup_timeout') %>

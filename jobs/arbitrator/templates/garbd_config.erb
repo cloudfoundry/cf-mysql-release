@@ -1,4 +1,9 @@
+<%
+# cluster_ips may contain nil values due to lack of flexibility in spiff
+cluster_ips = p('cf_mysql.mysql.cluster_ips').compact
+%>
+
 group = cf-mariadb-galera-cluster
 <% galera_port = p('cf_mysql.mysql.galera_port') %>
-<% node_addresses = p('cf_mysql.mysql.cluster_ips').map { |ip| "#{ip}:#{galera_port}" } %>
+<% node_addresses = cluster_ips.map { |ip| "#{ip}:#{galera_port}" } %>
 address = gcomm://<%= node_addresses.join(',') %>

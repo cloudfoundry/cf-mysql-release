@@ -283,7 +283,7 @@ properties:
       smoke_tests_only: (( property_overrides.acceptance_tests.smoke_tests_only || nil ))
       standalone_tests_only: (( property_overrides.acceptance_tests.standalone_tests_only || nil ))
       timeout_scale: (( property_overrides.acceptance_tests.timeout_scale || nil ))
-  
+
 # The keys below should not be included in the final stub
 config_from_cf: (( merge ))
 iaas_settings: (( merge ))
@@ -292,7 +292,7 @@ property_overrides: (( merge ))
 release_versions: (( merge || nil ))
 empty_hash: {}
 default_mysql_cluster_ips:
-- (( jobs.mysql_z1.networks.mysql1.static_ips.[0] || nil ))
+- (( jobs.mysql_z1.networks.mysql1.static_ips.[0] ))
 - (( jobs.mysql_z2.networks.mysql2.static_ips.[0] || nil ))
 - (( jobs.arbitrator_z3.networks.mysql3.static_ips.[0] || jobs.mysql_z3.networks.mysql3.static_ips.[0] || nil ))
 default_proxy_ips:
