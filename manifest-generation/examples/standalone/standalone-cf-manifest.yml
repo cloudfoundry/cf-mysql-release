@@ -1,6 +1,6 @@
 # Standalone deployments have no CF, but these fields are required
 # for all deployments.
-name: cf
+name: REPLACE_WITH_CF_DEPLOYMENT_NAME
 director_uuid: REPLACE_WITH_DIRECTOR_UUID
 properties:
   admin_username: UNUSED_VALUE
@@ -13,4 +13,3 @@ properties:
   system_domain: UNUSED_VALUE
   app_domains: [UNUSED_VALUE]
   domain: UNUSED_VALUE
-
