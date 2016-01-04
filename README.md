@@ -276,56 +276,92 @@ The brokers each register a route with the router, which load balances requests 
 ### Create Manifest and Deploy
 
 <a name="bosh-lite"></a>
-#### BOSH-lite
+#### Deploy on BOSH-lite
 
-1. Generate the manifest using a bosh-lite specific script and a stub provided for you, `bosh-lite/cf-mysql-stub-spiff.yml`.
-
+1. Run the following script to generate a working manifest for a bosh-lite on your local machine:
     ```
-    $ ./bosh-lite/make_manifest
+    $ ./scripts/generate-bosh-lite-manifest
     ```
-    The resulting file, `bosh-lite/manifests/cf-mysql-manifest.yml` is your deployment manifest. To modify the deployment configuration, you can edit the stub and regenerate the manifest or edit the manifest directly.
 
-1. The `make_manifest` script will set the deployment to `bosh-lite/manifests/cf-mysql-manifest.yml` for you, so to deploy you only need to run:
+1. Run the following command to deploy cf-mysql to the bosh-lite (assumes release has already been uploaded):
   ```
   $ bosh deploy
   ```
 
-<a name="vsphere"></a>
-#### vSphere
-
-1. Create a stub file called `cf-mysql-vsphere-stub.yml` by copying and modifying the [sample_vsphere_stub.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/sample_stubs/sample_vsphere_stub.yml)  in `templates/sample_stubs`. The `sample_plans_stub.yml` can also be copied if values need changing.
-
-2. Generate the manifest:
+1. To edit the manifest:
   ```
-  $ ./generate_deployment_manifest \
-    vsphere \
-    plans_stub.yml \
-    cf-mysql-vsphere-stub.yml > cf-mysql-vsphere.yml
-  ```
-  The resulting file, `cf-mysql-vsphere.yml` is your deployment manifest. To modify the deployment configuration, you can edit the stub and regenerate the manifest or edit the manifest directly.
-
-3. To deploy:
-  ```
-  $ bosh deployment cf-mysql-vsphere.yml && bosh deploy
+  $ bosh edit deployment
   ```
 
-<a name="aws"></a>
-#### AWS
+#### Deploy on AWS or vSphere
 
-1. Create a stub file called `cf-mysql-aws-stub.yml` by copying and modifying the [sample_aws_stub.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/sample_stubs/sample_aws_stub.yml) in `templates/sample_stubs`. The `sample_plans_stub.yml` can also be copied if values need changing.
+For other environments, we provide a script called `generate-deployment-manifest`.
 
-1. Generate the manifest:
-  ```
-  $ ./generate_deployment_manifest \
-    aws \
-    plans_stub.yml \
-    cf-mysql-aws-stub.yml > cf-mysql-aws.yml
-  ```
-  The resulting file, `cf-mysql-aws.yml` is your deployment manifest. To modify the deployment configuration, you can edit the stub and regenerate the manifest or edit the manifest directly.
+```
+Usage:
+The script requires the following arguments-
+    -c CF Manifest
+    -p Property overrides stub file (Use this file to provide credentials and broker plans)
+    -i Infrastructure type stub file (AWS or vSphere)
+The following arguments are optional-
+    -n Instance count overrides stub file (single node, 3 node)
+    -v Release versions stub file (Use this file to specify the cf-mysql release version, defaults to latest)
+```
 
-1. To deploy:
+For example:
+
+```
+$ ./scripts/generate-deployment-manifest \
+  -c <YOUR_CONFIG_REPO>/cf-deployment.yml \
+  -p <YOUR_CONFIG_REPO>/cf-mysql/property-overrides.yml \
+  -i <YOUR_CONFIG_REPO>/cf-mysql/iaas-settings.yml \
+  > cf-mysql.yml
+```
+
+##### Provide a CF manifest
+
+The script must obtain some configuration options from an existing CF manifest (e.g. CF Admin credentials).
+Add the following properties to your CF manifest prior to running this script:
+```
+properties:
+  admin_username: REPLACE_WITH_ADMIN_USERNAME
+  admin_password: REPLACE_WITH_ADMIN_PASSWORD
+  skip_ssl_validation: <true|false> # optional, defaults to false
+```
+This admin user must have the `cloud_controller.admin` UAA permission.
+
+Note: This change to the CF manifest is temporary while we investigate better methods for sharing properties across deployments.
+
+##### Copy sample stubs and fill in values
+
+We have provided example stubs to serve as a starting point.
+Copy these stubs to your config repository, and fill in the `REPLACE_WITH` text with values for your environment.
+
+For example, the following files can be used for an AWS deployment:
+```
+$ cp cf-mysql-release/manifest-generation/examples/aws/iaas-settings.yml \
+    cf-mysql-release/manifest-generation/examples/property-overrides.yml \
+    <YOUR_CONFIG_REPO>/cf-mysql/
+```
+
+Additional example stubs can be found under `cf-mysql-release/manifest-generation/examples/`.
+These include:
+- Deploying with a minimal number of VMs (`examples/minimal/`)
+- Deploying without a running CF deployment (`examples/standalone/`)
+- Replacing the arbitrator with a full MySQL node (`examples/no-arbitrator/`)
+
+##### Deploying
+
+Once the manifest has been generated, do the following to deploy cf-mysql on your environment.
+
+1. Deploy CF-MySQL (assumes release has already been uploaded):
   ```
-  $ bosh deployment cf-mysql-aws.yml && bosh deploy
+  $ bosh deploy
+  ```
+
+1. To edit the manifest:
+  ```
+  $ bosh edit deployment
   ```
 
 <a name="manifest-properties"></a>
