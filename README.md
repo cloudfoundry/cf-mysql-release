@@ -369,7 +369,7 @@ Once the manifest has been generated, do the following to deploy cf-mysql on you
 
 Manifest properties are described in the `spec` file for each job; see [jobs](jobs).
 
-You can find your `director_uuid` by running `bosh status`.
+You can find your `director_uuid` by running `bosh status --uuid`.
 
 The MariaDB cluster nodes are configured by default with 100GB of persistent disk. This can be configured in your stub or manifest using `disk_pools.mysql-persistent-disk.disk_size`, however your deployment will fail if this is less than 3GB; we recommend allocating 10GB at a minimum.
 
