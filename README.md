@@ -344,11 +344,11 @@ $ cp cf-mysql-release/manifest-generation/examples/aws/iaas-settings.yml \
     <YOUR_CONFIG_REPO>/cf-mysql/
 ```
 
-Additional example stubs can be found under `cf-mysql-release/manifest-generation/examples/`.
+Additional example stubs can be found under [cf-mysql-release/manifest-generation/examples/](manifest-generation/examples).
 These include:
-- Deploying with a minimal number of VMs (`examples/minimal/`)
-- Deploying without a running CF deployment (`examples/standalone/`)
-- Replacing the arbitrator with a full MySQL node (`examples/no-arbitrator/`)
+- Deploying with a minimal number of VMs ([examples/minimal/](manifest-generation/examples/minimal/))
+- Deploying without a running CF deployment ([examples/standalone/](manifest-generation/examples/standalone/))
+- Replacing the arbitrator with a full MySQL node ([examples/no-arbitrator/](manifest-generation/examples/no-arbitrator/))
 
 ##### Deploying
 
