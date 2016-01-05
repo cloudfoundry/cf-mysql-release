@@ -33,7 +33,7 @@ iaas_settings:
 
   - name: arbitrator_z3
     cloud_properties:
-      instance_type: m3.medium
+      instance_type: t2.small
       availability_zone: (( properties.template_only.aws.availability_zone3 ))
 
   - name: proxy_z1

@@ -59,7 +59,7 @@ iaas_settings:
     cloud_properties:
       ram: 2048
       disk: 4096
-      cpu: 2
+      cpu: 1
       datacenters:
       - name: (( .properties.datacenters.z3.datacenter_name ))
         clusters: (( .properties.datacenters.z3.clusters ))

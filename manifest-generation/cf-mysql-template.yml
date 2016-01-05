@@ -48,6 +48,10 @@ resource_pools:
   network: mysql3
   stemcell: (( iaas_settings.stemcell ))
   cloud_properties: (( iaas_settings.resource_pool_cloud_properties.mysql_z3.cloud_properties ))
+- name: arbitrator_z3
+  network: mysql3
+  stemcell: (( iaas_settings.stemcell ))
+  cloud_properties: (( iaas_settings.resource_pool_cloud_properties.arbitrator_z3.cloud_properties ))
 - name: proxy_z1
   network: mysql1
   stemcell: (( iaas_settings.stemcell ))
@@ -111,7 +115,7 @@ jobs:
   release: cf-mysql
   template: arbitrator
   instances: (( instance_count_overrides.arbitrator_z3.instances || 1 ))
-  resource_pool: mysql_z3
+  resource_pool: arbitrator_z3
   networks:
   - name: mysql3
     static_ips: (( static_ips(1) ))
