@@ -74,6 +74,7 @@ resource_pools:
   cloud_properties: (( iaas_settings.resource_pool_cloud_properties.errands_z1.cloud_properties ))
 
 jobs:
+
 - name: mysql_z1
   release: cf-mysql
   template: mysql
@@ -298,7 +299,7 @@ empty_hash: {}
 default_mysql_cluster_ips:
 - (( jobs.mysql_z1.networks.mysql1.static_ips.[0] ))
 - (( jobs.mysql_z2.networks.mysql2.static_ips.[0] || nil ))
-- (( jobs.arbitrator_z3.networks.mysql3.static_ips.[0] || jobs.mysql_z3.networks.mysql3.static_ips.[0] || nil ))
+- (( jobs.mysql_z3.networks.mysql3.static_ips.[0] || nil ))
 default_proxy_ips:
 - (( jobs.proxy_z1.networks.mysql1.static_ips.[0] || nil ))
 - (( jobs.proxy_z2.networks.mysql2.static_ips.[0] || nil ))
