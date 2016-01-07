@@ -15,11 +15,12 @@ function usage(){
   Optional arguments
     -n Instance count overrides stub file (single node, 3 node) 
     -v Release versions stub file
+    -b Backups manifest stub file
   "
   exit 1
 }
 
-while getopts "c:p:i:n:v:" opt; do
+while getopts "c:p:i:n:v:b:" opt; do
   case $opt in
     c)
       cf_manifest=$OPTARG
@@ -35,6 +36,9 @@ while getopts "c:p:i:n:v:" opt; do
       ;;
     v)
       release_versions=$OPTARG
+      ;;
+    b)
+      backup_stub=$OPTARG
       ;;
     *)
       echo "Unknown arguments"
@@ -77,6 +81,11 @@ if [[ ! -z "${release_versions}" && ! -f "${release_versions}" ]]; then
   argument_error=true
 fi
 
+if [[ ! -z "${backup_stub}" && ! -f "${backup_stub}" ]]; then
+  >&2 echo "Backup Stub file '${backup_stub}' is not a regular file"
+  argument_error=true
+fi
+
 if [ "$argument_error" = "true" ]; then
   usage
 fi
@@ -92,6 +101,7 @@ spiff merge \
 
 spiff merge \
   ${MANIFEST_DIR}/cf-mysql-template.yml \
+  ${backup_stub} \
   ${tmpdir}/config-from-cf.yml \
   ${infrastructure_type} \
   ${instance_counts} \
