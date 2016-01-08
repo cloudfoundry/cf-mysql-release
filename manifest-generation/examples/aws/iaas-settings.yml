@@ -6,6 +6,7 @@ properties:
       availability_zone3: REPLACE_WITH_AZ_3
 
 iaas_settings:
+  <<: (( merge || nil ))
   stemcell: &stemcell
     name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
     version: latest

@@ -11,25 +11,28 @@ function usage(){
   Mandatory arguments:   
     -c CF Manifest
     -p Property overrides stub file
-    -i Infrastructure type stub file
+    -i Infrastructure settings stub file
   Optional arguments
     -n Instance count overrides stub file (single node, 3 node) 
     -v Release versions stub file
-    -b Backups manifest stub file
+    -j Manifest stub file for additional jobs
   "
   exit 1
 }
 
-while getopts "c:p:i:n:v:b:" opt; do
+property_overrides=()
+iaas_settings=()
+
+while getopts "c:p:i:n:v:j:" opt; do
   case $opt in
     c)
       cf_manifest=$OPTARG
       ;;
     p)
-      property_overrides=$OPTARG
+      property_overrides+=($OPTARG)
       ;;
     i)
-      infrastructure_type=$OPTARG
+      iaas_settings+=($OPTARG)
       ;;
     n)
       instance_counts=$OPTARG
@@ -37,8 +40,8 @@ while getopts "c:p:i:n:v:b:" opt; do
     v)
       release_versions=$OPTARG
       ;;
-    b)
-      backup_stub=$OPTARG
+    j)
+      other_jobs_stub=$OPTARG
       ;;
     *)
       echo "Unknown arguments"
@@ -47,12 +50,16 @@ while getopts "c:p:i:n:v:b:" opt; do
   esac
 done
 
-if [ -z "${infrastructure_type}" ]; then
-  >&2 echo "infrastructure_type stub file is missing"
+if [ ${#iaas_settings[@]} == 0 ]; then
+  >&2 echo "iaas_settings stub file is missing"
   argument_error=true
-elif [ ! -f "${infrastructure_type}" ]; then
-  >&2 echo "infrastructure_type stub ${infrastructure_type} is not a regular file"
-  argument_error=true
+else
+  for file in "${iaas_settings[@]}"; do
+    if [ ! -f "${file}" ]; then
+      >&2 echo "iaas_settings stub ${file} is not a regular file"
+      argument_error=true
+    fi
+  done
 fi
 
 if [ -z "${cf_manifest}" ]; then
@@ -63,12 +70,16 @@ elif [ ! -f "${cf_manifest}" ]; then
   argument_error=true
 fi
 
-if [ -z ${property_overrides} ]; then
+if [ ${#property_overrides[@]} == 0 ]; then
   >&2 echo "property-overrides stub file is missing"
   argument_error=true
-elif [ ! -f "${property_overrides}" ]; then
-  >&2 echo "Property Overrides stub '${property_overrides}' is not a regular file"
-  argument_error=true
+else
+  for file in "${property_overrides[@]}"; do
+    if [ ! -f "${file}" ]; then
+      >&2 echo "Property Overrides stub '${file}' is not a regular file"
+      argument_error=true
+    fi
+  done
 fi
 
 if [[ ! -z "${instance_counts}" && ! -f "${instance_counts}" ]]; then
@@ -81,8 +92,8 @@ if [[ ! -z "${release_versions}" && ! -f "${release_versions}" ]]; then
   argument_error=true
 fi
 
-if [[ ! -z "${backup_stub}" && ! -f "${backup_stub}" ]]; then
-  >&2 echo "Backup Stub file '${backup_stub}' is not a regular file"
+if [[ ! -z "${other_jobs_stub}" && ! -f "${other_jobs_stub}" ]]; then
+  >&2 echo "Additional Job Stub file '${other_jobs_stub}' is not a regular file"
   argument_error=true
 fi
 
@@ -101,11 +112,11 @@ spiff merge \
 
 spiff merge \
   ${MANIFEST_DIR}/cf-mysql-template.yml \
-  ${backup_stub} \
+  ${other_jobs_stub} \
   ${tmpdir}/config-from-cf.yml \
-  ${infrastructure_type} \
+  "${iaas_settings[@]}" \
   ${instance_counts} \
-  ${property_overrides} \
+  "${property_overrides[@]}" \
   ${release_versions} \
   > ${tmpdir}/mysql-config.yml
 
