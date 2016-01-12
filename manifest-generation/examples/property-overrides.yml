@@ -2,7 +2,7 @@ property_overrides:
   <<: (( merge || nil ))
   syslog_aggregator: ~
   standalone: false
-  host: YOUR_LOAD_BALANCER_ADDRESS # Optional, set to your Load Balancer address if configured
+  host: REPLACE_WITH_LB_HOSTNAME # Optional, set to your Load Balancer address if configured; delete this line otherwise
   mysql:
     admin_password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP #The admin password for the MySQL server process
     bootstrap_endpoint:
