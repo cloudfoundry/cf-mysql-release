@@ -304,6 +304,7 @@ For example, the following files can be used for an AWS deployment:
 ```
 $ cp cf-mysql-release/manifest-generation/examples/aws/iaas-settings.yml \
     cf-mysql-release/manifest-generation/examples/property-overrides.yml \
+    cf-mysql-release/manifest-generation/examples/cf-stub.yml \
     <YOUR_CONFIG_REPO>/cf-mysql/
 ```
 
@@ -313,16 +314,11 @@ These include:
 - Deploying without a running CF deployment ([examples/standalone/](manifest-generation/examples/standalone/))
 - Replacing the arbitrator with a full MySQL node ([examples/no-arbitrator/](manifest-generation/examples/no-arbitrator/))
 
-##### Provide a CF manifest
+##### Fill in the CF stub
 
-The script must obtain some configuration options from an existing CF manifest (e.g. CF Admin credentials).
-Add the following properties to your CF manifest prior to running this script:
-```
-properties:
-  admin_username: REPLACE_WITH_ADMIN_USERNAME
-  admin_password: REPLACE_WITH_ADMIN_PASSWORD
-  skip_ssl_validation: <true|false> # optional, defaults to false
-```
+The script must obtain some configuration options from the CF deployment (e.g. CF Admin credentials).
+Edit the copied `cf-stub.yml` from the previous section to include values from your CF manifest.
+Existing admin users can be found under `properties.uaa.scim.users` in the CF manifest.
 This admin user must have the `cloud_controller.admin` UAA permission.
 
 Note: This change to the CF manifest is temporary while we investigate better methods for sharing properties across deployments.
