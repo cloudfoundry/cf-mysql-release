@@ -295,7 +295,41 @@ The brokers each register a route with the router, which load balances requests 
 
 #### Deploy on AWS or vSphere
 
-For other environments, we provide a script called `generate-deployment-manifest`.
+##### Copy sample stubs and fill in values
+
+We have provided example stubs to serve as a starting point.
+Copy these stubs to your config repository, and fill in the `REPLACE_WITH` text with values for your environment.
+
+For example, the following files can be used for an AWS deployment:
+```
+$ cp cf-mysql-release/manifest-generation/examples/aws/iaas-settings.yml \
+    cf-mysql-release/manifest-generation/examples/property-overrides.yml \
+    <YOUR_CONFIG_REPO>/cf-mysql/
+```
+
+Additional example stubs can be found under [cf-mysql-release/manifest-generation/examples/](manifest-generation/examples).
+These include:
+- Deploying with a minimal number of VMs ([examples/minimal/](manifest-generation/examples/minimal/))
+- Deploying without a running CF deployment ([examples/standalone/](manifest-generation/examples/standalone/))
+- Replacing the arbitrator with a full MySQL node ([examples/no-arbitrator/](manifest-generation/examples/no-arbitrator/))
+
+##### Provide a CF manifest
+
+The script must obtain some configuration options from an existing CF manifest (e.g. CF Admin credentials).
+Add the following properties to your CF manifest prior to running this script:
+```
+properties:
+  admin_username: REPLACE_WITH_ADMIN_USERNAME
+  admin_password: REPLACE_WITH_ADMIN_PASSWORD
+  skip_ssl_validation: <true|false> # optional, defaults to false
+```
+This admin user must have the `cloud_controller.admin` UAA permission.
+
+Note: This change to the CF manifest is temporary while we investigate better methods for sharing properties across deployments.
+
+##### Generate AWS or vSphere manifest
+
+Run the `./scripts/generate-deployment-manifest` with the stubs you created in the preceeding steps.
 
 ```
 Usage:
@@ -317,38 +351,6 @@ $ ./scripts/generate-deployment-manifest \
   -i <YOUR_CONFIG_REPO>/cf-mysql/iaas-settings.yml \
   > cf-mysql.yml
 ```
-
-##### Provide a CF manifest
-
-The script must obtain some configuration options from an existing CF manifest (e.g. CF Admin credentials).
-Add the following properties to your CF manifest prior to running this script:
-```
-properties:
-  admin_username: REPLACE_WITH_ADMIN_USERNAME
-  admin_password: REPLACE_WITH_ADMIN_PASSWORD
-  skip_ssl_validation: <true|false> # optional, defaults to false
-```
-This admin user must have the `cloud_controller.admin` UAA permission.
-
-Note: This change to the CF manifest is temporary while we investigate better methods for sharing properties across deployments.
-
-##### Copy sample stubs and fill in values
-
-We have provided example stubs to serve as a starting point.
-Copy these stubs to your config repository, and fill in the `REPLACE_WITH` text with values for your environment.
-
-For example, the following files can be used for an AWS deployment:
-```
-$ cp cf-mysql-release/manifest-generation/examples/aws/iaas-settings.yml \
-    cf-mysql-release/manifest-generation/examples/property-overrides.yml \
-    <YOUR_CONFIG_REPO>/cf-mysql/
-```
-
-Additional example stubs can be found under [cf-mysql-release/manifest-generation/examples/](manifest-generation/examples).
-These include:
-- Deploying with a minimal number of VMs ([examples/minimal/](manifest-generation/examples/minimal/))
-- Deploying without a running CF deployment ([examples/standalone/](manifest-generation/examples/standalone/))
-- Replacing the arbitrator with a full MySQL node ([examples/no-arbitrator/](manifest-generation/examples/no-arbitrator/))
 
 ##### Deploying
 
