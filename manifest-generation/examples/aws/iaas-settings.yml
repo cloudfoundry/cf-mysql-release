@@ -1,6 +1,7 @@
 properties:
   template_only:
     aws:
+      mysql_elb_names: [REPLACE_WITH_ELB_NAME_NOT_DNS_HOSTNAME] # optional, remove this line to skip binding an ELB
       availability_zone: REPLACE_WITH_AZ_1 # e.g. us-east-1a
       availability_zone2: REPLACE_WITH_AZ_2
       availability_zone3: REPLACE_WITH_AZ_3
@@ -41,13 +42,13 @@ iaas_settings:
     cloud_properties:
       instance_type: m3.medium
       availability_zone: (( properties.template_only.aws.availability_zone ))
-      elbs: (( merge || nil ))
+      elbs: (( properties.template_only.aws.mysql_elb_names || nil ))
 
   - name: proxy_z2
     cloud_properties:
       instance_type: m3.medium
       availability_zone: (( properties.template_only.aws.availability_zone2 ))
-      elbs: (( merge || nil ))
+      elbs: (( properties.template_only.aws.mysql_elb_names || nil ))
 
   - name: cf-mysql-broker_z1
     cloud_properties:

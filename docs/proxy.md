@@ -73,6 +73,15 @@ property_overrides:
   host: <load balancer address>
 ```
 
+If deploying on AWS, also add the ELB name (not the address) in the `iaas-settings` stub:
+
+```
+properties:
+  template_only:
+    aws:
+      mysql_elb_names: [<load balancer name>]
+```
+
 ### AWS Route 53
 
 To set up a Round Robin DNS across multiple proxy IPs using AWS Route 53,
