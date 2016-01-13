@@ -16,6 +16,9 @@ properties:
     - REPLACE_WITH_YOUR_THIRD_CLUSTER:
         resource_pool: REPLACE_WITH_YOUR_THIRD_RESOURCE_POOL
 
+iaas_settings:
+  <<: (( merge || nil ))
+
 # NOTE:
 # Replace 10.0.{0,1,2} part of the octet
 # with your network configuration
@@ -63,7 +66,6 @@ properties:
       cloud_properties:
         name: REPLACE_WITH_YOUR_SUBNET_NAME_3
 
-iaas_settings:
   stemcell: &stemcell
     name: bosh-vsphere-esxi-ubuntu-trusty-go_agent
     version: latest

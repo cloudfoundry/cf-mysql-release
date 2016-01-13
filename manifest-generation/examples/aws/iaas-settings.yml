@@ -6,6 +6,9 @@ properties:
       availability_zone2: REPLACE_WITH_AZ_2
       availability_zone3: REPLACE_WITH_AZ_3
 
+iaas_settings:
+  <<: (( merge || nil ))
+
 # NOTE:
 # Replace 10.0.{0,1,2} part of the octet
 # with your network configuration
@@ -53,8 +56,6 @@ properties:
       cloud_properties:
         subnet: REPLACE_WITH_YOUR_SUBNET_ID_3
 
-iaas_settings:
-  <<: (( merge || nil ))
   stemcell: &stemcell
     name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
     version: latest
