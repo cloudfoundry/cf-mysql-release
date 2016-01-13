@@ -16,6 +16,53 @@ properties:
     - REPLACE_WITH_YOUR_THIRD_CLUSTER:
         resource_pool: REPLACE_WITH_YOUR_THIRD_RESOURCE_POOL
 
+# NOTE:
+# Replace 10.0.{0,1,2} part of the octet
+# with your network configuration
+  subnet_configs:
+  - name: mysql1
+    subnets:
+    - range: 10.0.0.0/24
+      gateway: 10.0.0.1
+      reserved:
+      - 10.0.0.2-10.0.0.109
+      - 10.0.0.130-10.0.0.254
+      static:
+        - 10.0.0.120-10.0.0.124
+      dns:
+      - 10.0.0.3
+      - 8.8.8.8
+      cloud_properties:
+        name: REPLACE_WITH_YOUR_SUBNET_NAME #This should match your vSphere network name, e.g. "VM Network".
+  - name: mysql2
+    subnets:
+    - range: 10.0.1.0/24
+      gateway: 10.0.1.1
+      reserved:
+      - 10.0.1.2-10.0.1.109
+      - 10.0.1.130-10.0.1.254
+      static:
+        - 10.0.1.120-10.0.1.124
+      dns:
+      - 10.0.1.3
+      - 8.8.8.8
+      cloud_properties:
+        name: REPLACE_WITH_YOUR_SUBNET_NAME_2
+  - name: mysql3
+    subnets:
+    - range: 10.0.2.0/24
+      gateway: 10.0.2.1
+      reserved:
+      - 10.0.2.2-10.0.2.109
+      - 10.0.2.130-10.0.2.254
+      static:
+        - 10.0.2.120-10.0.2.124
+      dns:
+      - 10.0.2.3
+      - 8.8.8.8
+      cloud_properties:
+        name: REPLACE_WITH_YOUR_SUBNET_NAME_3
+
 iaas_settings:
   stemcell: &stemcell
     name: bosh-vsphere-esxi-ubuntu-trusty-go_agent
@@ -112,50 +159,3 @@ iaas_settings:
   disk_pools:
   - name: mysql-persistent-disk
     disk_size: 100000
-
-# NOTE:
-# Replace 10.0.{0,1,2} part of the octet
-# with your network configuration
-  subnet_configs:
-  - name: mysql1
-    subnets:
-    - range: 10.0.0.0/24
-      gateway: 10.0.0.1
-      reserved:
-      - 10.0.0.2-10.0.0.109
-      - 10.0.0.130-10.0.0.254
-      static:
-        - 10.0.0.120-10.0.0.124
-      dns:
-      - 10.0.0.3
-      - 8.8.8.8
-      cloud_properties:
-        name: REPLACE_WITH_YOUR_SUBNET_NAME #This should match your vSphere network name, e.g. "VM Network".
-  - name: mysql2
-    subnets:
-    - range: 10.0.1.0/24
-      gateway: 10.0.1.1
-      reserved:
-      - 10.0.1.2-10.0.1.109
-      - 10.0.1.130-10.0.1.254
-      static:
-        - 10.0.1.120-10.0.1.124
-      dns:
-      - 10.0.1.3
-      - 8.8.8.8
-      cloud_properties:
-        name: REPLACE_WITH_YOUR_SUBNET_NAME_2
-  - name: mysql3
-    subnets:
-    - range: 10.0.2.0/24
-      gateway: 10.0.2.1
-      reserved:
-      - 10.0.2.2-10.0.2.109
-      - 10.0.2.130-10.0.2.254
-      static:
-        - 10.0.2.120-10.0.2.124
-      dns:
-      - 10.0.2.3
-      - 8.8.8.8
-      cloud_properties:
-        name: REPLACE_WITH_YOUR_SUBNET_NAME_3
