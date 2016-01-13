@@ -1,20 +1,25 @@
 properties:
-  datacenters:
-  - name: z1
-    datacenter_name: REPLACE_WITH_YOUR_FIRST_DATACENTER
-    clusters:
-    - REPLACE_WITH_YOUR_FIRST_CLUSTER:
-        resource_pool: REPLACE_WITH_YOUR_FIRST_RESOURCE_POOL
-  - name: z2
-    datacenter_name: REPLACE_WITH_YOUR_SECOND_DATACENTER
-    clusters:
-    - REPLACE_WITH_YOUR_SECOND_CLUSTER:
-        resource_pool: REPLACE_WITH_YOUR_SECOND_RESOURCE_POOL
-  - name: z3
-    datacenter_name: REPLACE_WITH_YOUR_THIRD_DATACENTER
-    clusters:
-    - REPLACE_WITH_YOUR_THIRD_CLUSTER:
-        resource_pool: REPLACE_WITH_YOUR_THIRD_RESOURCE_POOL
+  vsphere:
+    datacenters:
+    - name: z1
+      datacenter_name: REPLACE_WITH_YOUR_FIRST_DATACENTER
+      clusters:
+      - REPLACE_WITH_YOUR_FIRST_CLUSTER:
+          resource_pool: REPLACE_WITH_YOUR_FIRST_RESOURCE_POOL
+    - name: z2
+      datacenter_name: REPLACE_WITH_YOUR_SECOND_DATACENTER
+      clusters:
+      - REPLACE_WITH_YOUR_SECOND_CLUSTER:
+          resource_pool: REPLACE_WITH_YOUR_SECOND_RESOURCE_POOL
+    - name: z3
+      datacenter_name: REPLACE_WITH_YOUR_THIRD_DATACENTER
+      clusters:
+      - REPLACE_WITH_YOUR_THIRD_CLUSTER:
+          resource_pool: REPLACE_WITH_YOUR_THIRD_RESOURCE_POOL
+    subnet_names:
+      mysql1: REPLACE_WITH_YOUR_SUBNET_NAME_1 #This should match your vSphere network name, e.g. "VM Network".
+      mysql2: REPLACE_WITH_YOUR_SUBNET_NAME_2
+      mysql3: REPLACE_WITH_YOUR_SUBNET_NAME_3
 
 iaas_settings:
   <<: (( merge || nil ))
@@ -36,7 +41,7 @@ iaas_settings:
       - 10.0.0.3
       - 8.8.8.8
       cloud_properties:
-        name: REPLACE_WITH_YOUR_SUBNET_NAME #This should match your vSphere network name, e.g. "VM Network".
+        name: (( properties.vsphere.subnet_names.mysql1 ))
   - name: mysql2
     subnets:
     - range: 10.0.1.0/24
@@ -50,7 +55,7 @@ iaas_settings:
       - 10.0.1.3
       - 8.8.8.8
       cloud_properties:
-        name: REPLACE_WITH_YOUR_SUBNET_NAME_2
+        name: (( properties.vsphere.subnet_names.mysql2 ))
   - name: mysql3
     subnets:
     - range: 10.0.2.0/24
@@ -64,7 +69,7 @@ iaas_settings:
       - 10.0.2.3
       - 8.8.8.8
       cloud_properties:
-        name: REPLACE_WITH_YOUR_SUBNET_NAME_3
+        name: (( properties.vsphere.subnet_names.mysql3 ))
 
   stemcell: &stemcell
     name: bosh-vsphere-esxi-ubuntu-trusty-go_agent
@@ -74,8 +79,8 @@ iaas_settings:
     disk: 20480
     cpu: 4
     datacenters:
-    - name: (( .properties.datacenters.z1.datacenter_name ))
-      clusters: (( .properties.datacenters.z1.clusters ))
+    - name: (( .properties.vsphere.datacenters.z1.datacenter_name ))
+      clusters: (( .properties.vsphere.datacenters.z1.clusters ))
   resource_pool_cloud_properties:
   - name: mysql_z1
     cloud_properties:
@@ -83,8 +88,8 @@ iaas_settings:
       disk: 10480
       cpu: 2
       datacenters:
-      - name: (( .properties.datacenters.z1.datacenter_name ))
-        clusters: (( .properties.datacenters.z1.clusters ))
+      - name: (( .properties.vsphere.datacenters.z1.datacenter_name ))
+        clusters: (( .properties.vsphere.datacenters.z1.clusters ))
 
   - name: mysql_z2
     cloud_properties:
@@ -92,8 +97,8 @@ iaas_settings:
       disk: (( iaas_settings.resource_pool_cloud_properties.mysql_z1.cloud_properties.disk ))
       cpu: (( iaas_settings.resource_pool_cloud_properties.mysql_z1.cloud_properties.cpu ))
       datacenters:
-      - name: (( .properties.datacenters.z2.datacenter_name ))
-        clusters: (( .properties.datacenters.z2.clusters ))
+      - name: (( .properties.vsphere.datacenters.z2.datacenter_name ))
+        clusters: (( .properties.vsphere.datacenters.z2.clusters ))
 
   - name: mysql_z3
     cloud_properties:
@@ -101,8 +106,8 @@ iaas_settings:
       disk: (( iaas_settings.resource_pool_cloud_properties.mysql_z1.cloud_properties.disk ))
       cpu: (( iaas_settings.resource_pool_cloud_properties.mysql_z1.cloud_properties.cpu ))
       datacenters:
-      - name: (( .properties.datacenters.z3.datacenter_name ))
-        clusters: (( .properties.datacenters.z3.clusters ))
+      - name: (( .properties.vsphere.datacenters.z3.datacenter_name ))
+        clusters: (( .properties.vsphere.datacenters.z3.clusters ))
 
   - name: arbitrator_z3
     cloud_properties:
@@ -110,8 +115,8 @@ iaas_settings:
       disk: 4096
       cpu: 1
       datacenters:
-      - name: (( .properties.datacenters.z3.datacenter_name ))
-        clusters: (( .properties.datacenters.z3.clusters ))
+      - name: (( .properties.vsphere.datacenters.z3.datacenter_name ))
+        clusters: (( .properties.vsphere.datacenters.z3.clusters ))
 
   - name: proxy_z1
     cloud_properties:
@@ -119,8 +124,8 @@ iaas_settings:
       disk: 4096
       cpu: 2
       datacenters:
-      - name: (( .properties.datacenters.z1.datacenter_name ))
-        clusters: (( .properties.datacenters.z1.clusters ))
+      - name: (( .properties.vsphere.datacenters.z1.datacenter_name ))
+        clusters: (( .properties.vsphere.datacenters.z1.clusters ))
 
   - name: proxy_z2
     cloud_properties:
@@ -128,8 +133,8 @@ iaas_settings:
       disk: (( iaas_settings.resource_pool_cloud_properties.proxy_z1.cloud_properties.disk ))
       cpu: (( iaas_settings.resource_pool_cloud_properties.proxy_z1.cloud_properties.cpu ))
       datacenters:
-      - name: (( .properties.datacenters.z2.datacenter_name ))
-        clusters: (( .properties.datacenters.z2.clusters ))
+      - name: (( .properties.vsphere.datacenters.z2.datacenter_name ))
+        clusters: (( .properties.vsphere.datacenters.z2.clusters ))
 
   - name: cf-mysql-broker_z1
     cloud_properties:
@@ -137,8 +142,8 @@ iaas_settings:
       disk: 4096
       cpu: 1
       datacenters:
-      - name: (( .properties.datacenters.z1.datacenter_name ))
-        clusters: (( .properties.datacenters.z1.clusters ))
+      - name: (( .properties.vsphere.datacenters.z1.datacenter_name ))
+        clusters: (( .properties.vsphere.datacenters.z1.clusters ))
 
   - name: cf-mysql-broker_z2
     cloud_properties:
@@ -146,8 +151,8 @@ iaas_settings:
       disk: (( iaas_settings.resource_pool_cloud_properties.cf-mysql-broker_z1.cloud_properties.disk ))
       cpu: (( iaas_settings.resource_pool_cloud_properties.cf-mysql-broker_z1.cloud_properties.cpu ))
       datacenters:
-      - name: (( .properties.datacenters.z2.datacenter_name ))
-        clusters: (( .properties.datacenters.z2.clusters ))
+      - name: (( .properties.vsphere.datacenters.z2.datacenter_name ))
+        clusters: (( .properties.vsphere.datacenters.z2.clusters ))
 
   - name: errands_z1
     cloud_properties:
@@ -155,8 +160,8 @@ iaas_settings:
       disk: 4096
       cpu: 1
       datacenters:
-      - name: (( .properties.datacenters.z1.datacenter_name ))
-        clusters: (( .properties.datacenters.z1.clusters ))
+      - name: (( .properties.vsphere.datacenters.z1.datacenter_name ))
+        clusters: (( .properties.vsphere.datacenters.z1.clusters ))
 
   disk_pools:
   - name: mysql-persistent-disk

@@ -5,6 +5,10 @@ properties:
       availability_zone: REPLACE_WITH_AZ_1 # e.g. us-east-1a
       availability_zone2: REPLACE_WITH_AZ_2
       availability_zone3: REPLACE_WITH_AZ_3
+      subnet_ids:
+        mysql1: REPLACE_WITH_YOUR_SUBNET_ID_1
+        mysql2: REPLACE_WITH_YOUR_SUBNET_ID_2
+        mysql3: REPLACE_WITH_YOUR_SUBNET_ID_3
 
 iaas_settings:
   <<: (( merge || nil ))
@@ -26,7 +30,7 @@ iaas_settings:
       dns:
         - 10.10.0.2 # amazon has only 1 DNS server for the whole VPC at x.x.0.2
       cloud_properties:
-        subnet: REPLACE_WITH_YOUR_SUBNET_ID_1
+        subnet: (( properties.template_only.aws.subnet_ids.mysql1 ))
   - name: mysql2
     type: manual
     subnets:
@@ -40,7 +44,7 @@ iaas_settings:
       dns:
         - 10.10.0.2 # amazon has only 1 DNS server for the whole VPC at x.x.0.2
       cloud_properties:
-        subnet: REPLACE_WITH_YOUR_SUBNET_ID_2
+        subnet: (( properties.template_only.aws.subnet_ids.mysql2 ))
   - name: mysql3
     type: manual
     subnets:
@@ -54,7 +58,7 @@ iaas_settings:
       dns:
         - 10.10.0.2 # amazon has only 1 DNS server for the whole VPC at x.x.0.2
       cloud_properties:
-        subnet: REPLACE_WITH_YOUR_SUBNET_ID_3
+        subnet: (( properties.template_only.aws.subnet_ids.mysql3 ))
 
   stemcell: &stemcell
     name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
