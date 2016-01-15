@@ -12,6 +12,8 @@ files:
   - github.com/cloudfoundry/mariadb_ctrl/integration_test/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/mariadb_helper/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/mariadb_helper/fakes/*.go # gosub
+  - github.com/cloudfoundry/mariadb_ctrl/mariadb_helper/seeder/*.go # gosub
+  - github.com/cloudfoundry/mariadb_ctrl/mariadb_helper/seeder/fakes/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/os_helper/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/os_helper/fakes/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/start_manager/*.go # gosub
