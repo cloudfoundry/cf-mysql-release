@@ -252,6 +252,9 @@ Once a load balancer is configured, the brokers will hand out the address of the
 Currently, load balancing requests across both proxies can increase the possibility of deadlocks. See the [routing](https://github.com/cloudfoundry/cf-mysql-release/blob/master/docs/proxy.md#consistent-routing) documentation for more information.
 To avoid this problem, configure the load balancer to route requests to the second proxy only in the event of a failure.
 
+- **Note:** When using an Elastic Load Balancer (ELB) on Amazon, make sure to create the ELB in the same VPC as your cf-mysql deployment
+- **Note:** For all load balancers, take special care to configure health checks to use the health_port of the proxies (default 1936). Do not configure the load balancer to use port 3306. 
+
 <a name="deployment_components"></a>
 ### Deployment Components
 
