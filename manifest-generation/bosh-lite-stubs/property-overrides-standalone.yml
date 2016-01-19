@@ -1,5 +1,6 @@
 property_overrides:
   standalone: true
+  roadmin_password: password
   mysql:
     admin_password: password
     bootstrap_endpoint:
