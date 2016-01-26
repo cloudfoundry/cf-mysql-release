@@ -18,6 +18,8 @@ files:
   - github.com/cloudfoundry/mariadb_ctrl/os_helper/fakes/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/start_manager/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/start_manager/fakes/*.go # gosub
+  - github.com/cloudfoundry/mariadb_ctrl/start_manager/node_starter/*.go # gosub
+  - github.com/cloudfoundry/mariadb_ctrl/start_manager/node_starter/fakes/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/upgrader/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/upgrader/fakes/*.go # gosub
   - github.com/fraenkel/candiedyaml/*.go # gosub
