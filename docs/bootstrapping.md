@@ -48,7 +48,7 @@ If one or more nodes are not reachable (i.e. the VM exists but in an unknown sta
 1. `bosh -n stop mysql_z1 && bosh -n stop mysql_z2 && bosh -n stop <arbitrator|mysql>_z3`
 1. `bosh edit deployment`
 1. Set `update.canaries` to 0, `update.max_in_flight` to 3, and `update.serial` to false.
-1. `bosh deploy`
+1. `bosh deploy`. Note, if you get a 503 error (like `Sending stop request to monit: Request failed, response: Response{ StatusCode: 503, Status: '503 Service Unavailable' }`), it means that monit is still trying to stop the vms. Please wait a few minutes and try this step again.
 1. `bosh -n start mysql_z1 ; bosh -n start mysql_z2 ; bosh -n start <arbitrator|mysql>_z3` (This will throw several errors, but it ensures that all the jobs are present on the VM)
 1. `bosh instances` to verify that all jobs report as failing.
 1. Try running the errand again using `bosh -n run errand bootstrap` as above.
