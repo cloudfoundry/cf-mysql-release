@@ -60,7 +60,6 @@ properties:
     mysql:
       admin_username: (( property_overrides.mysql.admin_username || nil ))
       admin_password: (( property_overrides.mysql.admin_password ))
-      roadmin_password: (( property_overrides.mysql.roadmin_password ))
       port: (( property_overrides.mysql.port || nil ))
       galera_port: (( property_overrides.mysql.galera_port || nil ))
       healthcheck_port: (( property_overrides.mysql.healthcheck_port || nil ))
