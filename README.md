@@ -20,8 +20,6 @@
 
 [Deregistering the Service Broker](#deregistering-broker)
 
-[Additional Configuration Options](#additional-configuration-options)
-
 [CI](http://www.github.com/cloudfoundry-incubator/cf-mysql-ci)
 
 <a name='components'></a>
@@ -253,7 +251,7 @@ Currently, load balancing requests across both proxies can increase the possibil
 To avoid this problem, configure the load balancer to route requests to the second proxy only in the event of a failure.
 
 - **Note:** When using an Elastic Load Balancer (ELB) on Amazon, make sure to create the ELB in the same VPC as your cf-mysql deployment
-- **Note:** For all load balancers, take special care to configure health checks to use the health_port of the proxies (default 1936). Do not configure the load balancer to use port 3306. 
+- **Note:** For all load balancers, take special care to configure health checks to use the health_port of the proxies (default 1936). Do not configure the load balancer to use port 3306.
 
 <a name="deployment_components"></a>
 ### Deployment Components
@@ -491,56 +489,3 @@ $ cf delete-service-broker p-mysql
 ## Deployment Resources
 
 The service is configured to have a small footprint out of the box. These resources are sufficient for development, but may be insufficient for production workloads. If the service appears to be performing poorly, redeploying with increased resources may improve performance. See [deployment resources](docs/deployment-resources.md) for further details.
-
-<a name="additional-configuration-options"></a>
-## Additional Configuration Options
-
-### Updating Service Plans
-
-Updating the service instances is supported; see [Service plans and instances](docs/service-plans-instances.md) for details.
-
-### Pre-seeding Databases
-
-Normally databases are created via the `cf create-service` command, and
-a MySQL user is created and given access to that database when an app is bound to that service instance.
-However, it is sometimes useful to have databases and users already available when the service is deployed,
-without having to run `cf create-service` or bind an app.
-To specify any preseeded databases, add the following to the deployment manifest:
-
-```
-jobs:
-- name: mysql_z1
-  properties:
-    seeded_databases:
-    - name: db1
-      username: user1
-      password: pw1
-    - name: db2
-      username: user2
-      password: pw2
-```
-
-Note: If all you need is a database deployment, it is possible to deploy this
-release with zero broker instances and completely remove any dependencies on Cloud Foundry.
-See the [proxy](jobs/proxy/spec) and [acceptance-tests](jobs/acceptance-tests/spec) spec files for standalone configuration options.
-
-### Configuring how long the startup script waits for the database to come online
-
-On larger databases, the default database startup timeout may be too low.
-This would result in the job reporting as failing, while MySQL continues to bootstrap in the background (see [Known Issues > Long SST Transfers](docs/Known-Issues.md#long-sst-transfers)).
-To increase the duration that the startup script waits for MySQL to start, add the following to your deployment stub:
-
-```yaml
-jobs:
-- name: mysql_z1
-  properties:
-    database_startup_timeout: 360
-```
-
-Note: This is independent of the overall BOSH timeout which is also configurable in the manifest. The BOSH timeout should always be higher than the database startup timeout:
-
-```yaml
-update:
-  canary_watch_time: 30000-600000
-  update_watch_time: 30000-600000
-```
