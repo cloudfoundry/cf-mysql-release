@@ -4,6 +4,7 @@ dependencies:
 - golang
 files:
   - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
+  - github.com/fraenkel/candiedyaml/*.go # gosub
   - github.com/go-sql-driver/mysql/*.go # gosub
   - github.com/imdario/mergo/*.go # gosub
   - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/*.go # gosub
@@ -16,4 +17,3 @@ files:
   - github.com/pivotal-golang/lager/*.go # gosub
   - github.com/tedsuo/ifrit/*.go # gosub
   - gopkg.in/validator.v2/*.go # gosub
-  - gopkg.in/yaml.v2/*.go # gosub

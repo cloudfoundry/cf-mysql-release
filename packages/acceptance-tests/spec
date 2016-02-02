@@ -25,6 +25,7 @@ files:
   - github.com/onsi/ginkgo/config/*.go # gosub
   - github.com/onsi/ginkgo/ginkgo/*.go # gosub
   - github.com/onsi/ginkgo/ginkgo/convert/*.go # gosub
+  - github.com/onsi/ginkgo/ginkgo/interrupthandler/*.go # gosub
   - github.com/onsi/ginkgo/ginkgo/nodot/*.go # gosub
   - github.com/onsi/ginkgo/ginkgo/testrunner/*.go # gosub
   - github.com/onsi/ginkgo/ginkgo/testsuite/*.go # gosub
@@ -48,6 +49,7 @@ files:
   - github.com/onsi/gomega/gexec/*.go # gosub
   - github.com/onsi/gomega/internal/assertion/*.go # gosub
   - github.com/onsi/gomega/internal/asyncassertion/*.go # gosub
+  - github.com/onsi/gomega/internal/oraclematcher/*.go # gosub
   - github.com/onsi/gomega/internal/testingtsupport/*.go # gosub
   - github.com/onsi/gomega/matchers/*.go # gosub
   - github.com/onsi/gomega/matchers/support/goraph/bipartitegraph/*.go # gosub

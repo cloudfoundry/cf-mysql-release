@@ -19,6 +19,7 @@ files:
   - github.com/cloudfoundry-incubator/galera-healthcheck/mysqld_cmd/fakes/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/sequence_number/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/sequence_number/fakes/*.go # gosub
+  - github.com/fraenkel/candiedyaml/*.go # gosub
   - github.com/go-sql-driver/mysql/*.go # gosub
   - github.com/imdario/mergo/*.go # gosub
   - github.com/pivotal-cf-experimental/service-config/*.go # gosub
@@ -38,4 +39,3 @@ files:
   - golang.org/x/text/encoding/unicode/*.go # gosub
   - golang.org/x/text/transform/*.go # gosub
   - gopkg.in/validator.v2/*.go # gosub
-  - gopkg.in/yaml.v2/*.go # gosub
