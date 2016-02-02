@@ -116,7 +116,7 @@
 	branch = master
 [submodule "src/github.com/apcera/gnatsd"]
 	path = src/github.com/apcera/gnatsd
-	url = https://github.com/apcera/gnatsd
+	url = https://github/apcera/gnatsd
 	branch = master
 [submodule "src/github.com/nats-io/nats"]
 	path = src/github.com/nats-io/nats
