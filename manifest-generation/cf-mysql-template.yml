@@ -135,33 +135,6 @@ properties:
     source_executable: (( property_overrides.service-backup.source_executable || nil ))
     cleanup_executable: (( property_overrides.service-backup.cleanup_executable || nil ))
 
-# The keys below should not be included in the final stub
-config_from_cf: (( merge ))
-iaas_settings: (( merge ))
-property_overrides: (( merge ))
-instance_count_overrides: (( merge || nil ))
-release_versions: (( merge || nil ))
-job_overrides: (( merge || nil ))
-
-default_mysql_cluster_ips:
-- (( jobs.mysql_z1.networks.mysql1.static_ips.[0] ))
-- (( jobs.mysql_z2.networks.mysql2.static_ips.[0] || nil ))
-- (( jobs.arbitrator_z3.networks.mysql3.static_ips.[0] || jobs.mysql_z3.networks.mysql3.static_ips.[0] || nil ))
-default_proxy_ips:
-- (( jobs.proxy_z1.networks.mysql1.static_ips.[0] || nil ))
-- (( jobs.proxy_z2.networks.mysql2.static_ips.[0] || nil ))
-# spiff does not allow concating multiple fields of different types
-# without adding new temporary properties
-database_startup_timeout_str: (( "" .properties.cf_mysql.mysql.database_startup_timeout ))
-canary_end_in_sec: (( database_startup_timeout_str "000" ))
-
-additional_disk_pools: (( iaas_settings.additional_disk_pools || empty_list ))
-additional_releases: (( job_overrides.additional_releases || empty_list ))
-additional_resource_pools: (( iaas_settings.additional_resource_pools || empty_list))
-additional_jobs: (( job_overrides.additional_jobs || empty_list ))
-empty_hash: {}
-empty_list: []
-
 base_releases:
 - name: cf-mysql
   version: (( release_versions.cf-mysql.version || "latest" ))
@@ -356,3 +329,9 @@ default_proxy_ips:
 # without adding new temporary properties
 database_startup_timeout_str: (( "" .properties.cf_mysql.mysql.database_startup_timeout ))
 canary_end_in_sec: (( database_startup_timeout_str "000" ))
+additional_disk_pools: (( iaas_settings.additional_disk_pools || empty_list ))
+additional_releases: (( job_overrides.additional_releases || empty_list ))
+additional_resource_pools: (( iaas_settings.additional_resource_pools || empty_list))
+additional_jobs: (( job_overrides.additional_jobs || empty_list ))
+empty_hash: {}
+empty_list: []
