@@ -12,22 +12,24 @@ For a fresh deployment of CF MySQL v26, simply follow the steps in the [README](
 
 If you already have a 3-node deployment of CF MySQL (e.g. v25), follow the below steps to upgrade to the new configuration as a rolling deploy (the commands below apply to testing on a bosh-lite deployment. For other environments, the same steps are to be followed, except that stubs are different, as explained in the README linked above.).
 
-1. Generate a 3 node + arbitrator manifest: `./scripts/generate-deployment-manifest -c /tmp/bosh-lite-cf-manifest.yml -p manifest-generation/bosh-lite-stubs/property-overrides.yml -i manifest-generation/bosh-lite-stubs/iaas-settings.yml -n manifest-generation/examples/upgrade-to-arbitrator/deploy-arbitrator/instance-count-overrides.yml > <manifest export path>.yml`
-1. `bosh deployment <manifest export path>.yml`
+1. Generate a 3 node + arbitrator manifest:
+    <pre>./scripts/generate-deployment-manifest -c /tmp/bosh-lite-cf-manifest.yml -p manifest-generation/bosh-lite-stubs/property-overrides.yml -i manifest-generation/bosh-lite-stubs/iaas-settings.yml -n manifest-generation/examples/upgrade-to-arbitrator/deploy-arbitrator/instance-count-overrides.yml > [manifest export path].yml</pre>
+1. `bosh deployment [manifest export path].yml`
 1. `bosh deploy`
 1.  Upon successful deployment, generate the 2 node + arbitrator manifest:
-`./scripts/generate-deployment-manifest -c /tmp/bosh-lite-cf-manifest.yml -p manifest-generation/bosh-lite-stubs/property-overrides.yml -i manifest-generation/bosh-lite-stubs/iaas-settings.yml -n manifest-generation/examples/upgrade-to-arbitrator/remove-mysql-node/instance-count-overrides.yml > <manifest export path>.yml`
-1. `bosh deployment <manifest export path>.yml`
+    <pre>./scripts/generate-deployment-manifest -c /tmp/bosh-lite-cf-manifest.yml -p manifest-generation/bosh-lite-stubs/property-overrides.yml -i manifest-generation/bosh-lite-stubs/iaas-settings.yml -n manifest-generation/examples/upgrade-to-arbitrator/remove-mysql-node/instance-count-overrides.yml > [manifest export path].yml</pre>
+1. `bosh deployment [manifest export path].yml`
 1. `bosh deploy`
 
 ### Rolling from 2-node-plus-arbitrator back to 3-node deployment
 
 If you wish to go back to a 3-node deployment from a 2-node-plus-arbitrator deployment, follow the steps below to perform the downgrade:
 
-1. Generate a 3-node + arbitrator manifest: `./scripts/generate-deployment-manifest -c /tmp/bosh-lite-cf-manifest.yml -p manifest-generation/bosh-lite-stubs/property-overrides.yml -i manifest-generation/bosh-lite-stubs/iaas-settings.yml -n manifest-generation/examples/upgrade-to-arbitrator/deploy-arbitrator/instance-count-overrides.yml > <manifest export path>.yml`
-1. `bosh deployment <manifest export path>.yml`
+1. Generate a 3-node + arbitrator manifest:
+    <pre>./scripts/generate-deployment-manifest -c /tmp/bosh-lite-cf-manifest.yml -p manifest-generation/bosh-lite-stubs/property-overrides.yml -i manifest-generation/bosh-lite-stubs/iaas-settings.yml -n manifest-generation/examples/upgrade-to-arbitrator/deploy-arbitrator/instance-count-overrides.yml > [manifest export path].yml</pre>
+1. `bosh deployment [manifest export path].yml`
 1. `bosh deploy`
 1.  Upon successful deployment, generate the 3 node manifest:
-`./scripts/generate-deployment-manifest -c /tmp/bosh-lite-cf-manifest.yml -p manifest-generation/bosh-lite-stubs/property-overrides.yml -i manifest-generation/bosh-lite-stubs/iaas-settings.yml -n manifest-generation/examples/no-arbitrator/instance-count-overrides.yml > <manifest export path>.yml`
-1. `bosh deployment <manifest export path>.yml`
+    <pre>./scripts/generate-deployment-manifest -c /tmp/bosh-lite-cf-manifest.yml -p manifest-generation/bosh-lite-stubs/property-overrides.yml -i manifest-generation/bosh-lite-stubs/iaas-settings.yml -n manifest-generation/examples/no-arbitrator/instance-count-overrides.yml > [manifest export path].yml</pre>
+1. `bosh deployment [manifest export path].yml`
 1. `bosh deploy`
