@@ -1,8 +1,8 @@
 message_bus_servers:
 <% p('nats.machines').each do |ip| %>
-    - host: <%= ip %>:<%= p('nats.port') %>
-      user: <%= p('nats.user') %>
-      password: <%= p('nats.password') %>
+- host: <%= ip %>:<%= p('nats.port') %>
+  user: <%= p('nats.user') %>
+  password: <%= p('nats.password') %>
 <% end %>
 host: <%= spec.networks.send(p('network_name')).ip %>
 routes:
@@ -10,7 +10,7 @@ routes:
   port: 80
   uris:
   - <%= p('cf_mysql.external_host') %>
-registration_interval: 10
-health_check:
-  name: script
-  script_path: /var/vcap/jobs/cf-mysql-broker/bin/healthcheck.sh
+  registration_interval: 10
+  health_check:
+    name: script
+    script_path: /var/vcap/jobs/cf-mysql-broker/bin/healthcheck.sh
