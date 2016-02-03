@@ -6,7 +6,7 @@ message_bus_servers:
 <% end %>
 host: <%= spec.networks.send(p('network_name')).ip %>
 routes:
-- name: "broker_"<%= index %>
+- name: "broker_<%= index %>"
   port: 80
   uris:
   - <%= p('cf_mysql.external_host') %>

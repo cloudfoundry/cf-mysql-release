@@ -8,7 +8,7 @@ message_bus_servers:
 <% proxy_index = p('cf_mysql.proxy.proxy_ips').index(my_ip) %>
 host: <%= my_ip %>
 routes:
-- name: "proxy_"<%= index %>
+- name: "proxy_<%= index %>"
   port: <%= p('cf_mysql.proxy.api_port') %>
   uris:
   - proxy-<%= proxy_index %>-<%= p('cf_mysql.external_host') %>
