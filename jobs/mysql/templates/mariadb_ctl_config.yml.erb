@@ -11,6 +11,7 @@ Db:
   UpgradePath: /var/vcap/packages/mariadb/bin/mysql_upgrade
   User: <%= p('cf_mysql.mysql.admin_username')%>
   Password: <%= p('cf_mysql.mysql.admin_password')%>
+  ReadOnlyUserEnabled: <%= p('cf_mysql.mysql.roadmin_enabled')%> 
   ReadOnlyUser: roadmin
   ReadOnlyPassword: <%= p('cf_mysql.mysql.roadmin_password')%>
   PreseededDatabases:
