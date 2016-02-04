@@ -1,0 +1,4 @@
+---
+name: cf-mysql-common
+files:
+- cf-mysql-common/utils.sh

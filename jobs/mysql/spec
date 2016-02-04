@@ -20,7 +20,7 @@ packages:
 - galera-healthcheck
 - gra-log-purger
 - golang
-- common
+- cf-mysql-common
 - syslog_aggregator
 
 properties:
