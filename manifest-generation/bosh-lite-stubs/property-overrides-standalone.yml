@@ -2,6 +2,7 @@ property_overrides:
   standalone: true
   mysql:
     admin_password: password
+    roadmin_enabled: true
     roadmin_password: password
     bootstrap_endpoint:
       username: username

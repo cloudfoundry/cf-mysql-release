@@ -65,6 +65,7 @@ properties:
       healthcheck_port: (( property_overrides.mysql.healthcheck_port || nil ))
       bootstrap_endpoint: (( property_overrides.mysql.bootstrap_endpoint ))
       cluster_ips: (( property_overrides.mysql.cluster_ips || default_mysql_cluster_ips ))
+      roadmin_enabled: (( property_overrides.mysql.roadmin_enabled || false ))
       roadmin_password: (( property_overrides.mysql.roadmin_password ))
       seeded_databases: (( property_overrides.mysql.seeded_databases || nil ))
       database_startup_timeout: (( property_overrides.mysql.database_startup_timeout || 600 ))

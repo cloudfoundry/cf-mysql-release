@@ -5,6 +5,7 @@ property_overrides:
   host: REPLACE_WITH_LB_HOSTNAME # Optional, set to your Load Balancer address if configured; delete this line otherwise
   mysql:
     admin_password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP #The admin password for the MySQL server process
+    roadmin_enabled: true
     roadmin_password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
     bootstrap_endpoint:
       username: REPLACE_WITH_A_USERNAME_YOU_MAKE_UP
