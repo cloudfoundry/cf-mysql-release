@@ -1,5 +1,5 @@
 ---
-name: route-registrar
+name: cf-mysql-route-registrar
 dependencies:
 - golang
 files:

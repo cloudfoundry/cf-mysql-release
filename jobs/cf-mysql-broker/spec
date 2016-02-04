@@ -20,7 +20,7 @@ packages:
 - cf-mysql-common
 - mariadb
 - syslog_aggregator
-- route-registrar
+- cf-mysql-route-registrar
 - quota-enforcer
 
 properties:
@@ -54,7 +54,7 @@ properties:
     description: 'Host (DNS) or IP address used by the broker and bound applications to reach the service'
   cf_mysql.external_host:
     description: 'Host used to register a route for the broker with the router in cf-release via NATS. By registering the broker with Cloud Foundry using this route, and using the router for load balancing, the broker can be horizontally scaled. Domain is typically the same as system domain in cf-release.'
-  
+
   cf_mysql.mysql.port:
     description: 'Port used by the broker and bound applications to reach the service'
     default: 3306
