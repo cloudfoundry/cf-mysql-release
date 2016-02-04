@@ -43,6 +43,9 @@ properties:
   cf_mysql.mysql.port:
     description: 'Port the mysql server should bind to'
     default: 3306
+  cf_mysql.mysql.galera_port:
+    description: 'Port which garbd listens on'
+    default: 4567
   cf_mysql.mysql.healthcheck_port:
     description: 'Port used by healthcheck process to listen on'
     default: 9200
