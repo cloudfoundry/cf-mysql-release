@@ -9,7 +9,7 @@ pidfile=$run_dir/galera-healthcheck.pid
 export GOROOT=/var/vcap/packages/golang
 export PATH=$GOROOT/bin:$PWD/bin:$PATH
 
-source /var/vcap/packages/common/utils.sh
+source /var/vcap/packages/cf-mysql-common/utils.sh
 
 case $1 in
 

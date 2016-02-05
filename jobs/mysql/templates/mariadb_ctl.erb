@@ -16,7 +16,7 @@ RUN_DIR=/var/vcap/sys/run/$MY_NAME
 PIDFILE=$RUN_DIR/$MY_NAME.pid
 TMP_DIR=/var/vcap/data/mysql/tmp
 
-source /var/vcap/packages/common/utils.sh
+source /var/vcap/packages/cf-mysql-common/utils.sh
 
 # add mysql to path
 if [ ! -f /usr/local/bin/mysql ]; then
@@ -53,7 +53,7 @@ case $1 in
 
     log "start script: checking for existing instance of $MY_NAME"
     set +e
-    $(source /var/vcap/packages/common/utils.sh; pid_guard $PIDFILE $MY_NAME)
+    $(source /var/vcap/packages/cf-mysql-common/utils.sh; pid_guard $PIDFILE $MY_NAME)
     pg_exit_code=$?
     log "start script: pg_exit_code: $pg_exit_code"
     if [ $pg_exit_code -eq 1 ]; then

@@ -17,10 +17,10 @@ packages:
 - ruby
 - mysqlclient
 - cf-mysql-broker
-- common
+- cf-mysql-common
 - mariadb
 - syslog_aggregator
-- route-registrar
+- cf-mysql-route-registrar
 - quota-enforcer
 
 properties:
@@ -54,7 +54,7 @@ properties:
     description: 'Host (DNS) or IP address used by the broker and bound applications to reach the service'
   cf_mysql.external_host:
     description: 'Host used to register a route for the broker with the router in cf-release via NATS. By registering the broker with Cloud Foundry using this route, and using the router for load balancing, the broker can be horizontally scaled. Domain is typically the same as system domain in cf-release.'
-  
+
   cf_mysql.mysql.port:
     description: 'Port used by the broker and bound applications to reach the service'
     default: 3306
@@ -86,6 +86,9 @@ properties:
   cf_mysql.broker.ssl_enabled:
     description: 'Determines use of https in dashboard url and in callback uri for calls to UAA'
     default: true
-  
+  cf_mysql.broker.nginx.port:
+    default: 80
+    description: "Port for nginx"
+
   network_name:
     description: "The name of the network (needed for the syslog aggregator)"

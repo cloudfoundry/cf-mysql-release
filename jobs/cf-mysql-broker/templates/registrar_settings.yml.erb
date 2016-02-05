@@ -7,7 +7,7 @@ message_bus_servers:
 host: <%= spec.networks.send(p('network_name')).ip %>
 routes:
 - name: "broker_<%= index %>"
-  port: 80
+  port: <%= p('cf_mysql.broker.nginx.port') %>
   uris:
   - <%= p('cf_mysql.external_host') %>
   registration_interval: 10
