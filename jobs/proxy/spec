@@ -11,9 +11,9 @@ templates:
 packages:
 - switchboard
 - golang
-- common
+- cf-mysql-common
 - syslog_aggregator
-- route-registrar
+- cf-mysql-route-registrar
 
 properties:
  

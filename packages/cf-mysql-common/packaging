@@ -1,0 +1,3 @@
+set -e
+
+cp -a cf-mysql-common/* ${BOSH_INSTALL_TARGET}

@@ -10,7 +10,7 @@ templates:
 packages:
 - mariadb
 - galera-healthcheck
-- common
+- cf-mysql-common
 
 properties:
   cf_mysql.mysql.admin_username:
