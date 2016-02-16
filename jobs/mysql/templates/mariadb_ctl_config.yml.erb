@@ -13,7 +13,9 @@ Db:
   Password: <%= p('cf_mysql.mysql.admin_password')%>
   ReadOnlyUserEnabled: <%= p('cf_mysql.mysql.roadmin_enabled')%> 
   ReadOnlyUser: roadmin
-  ReadOnlyPassword: <%= p('cf_mysql.mysql.roadmin_password')%>
+<% if_p('cf_mysql.mysql.roadmin_password') do |rpwd| %>
+  ReadOnlyPassword: <%= rpwd %>
+<% end %>
   PreseededDatabases:
   <% p("cf_mysql.mysql.seeded_databases").each do |seed| %>
   - DBName: <%= seed["name"] %>
