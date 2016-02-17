@@ -55,10 +55,8 @@ log-error = /var/vcap/sys/log/mysql/mysql.err.log
 init-file = /var/vcap/jobs/mysql/config/mariadb_init
 skip-external-locking = TRUE
 max_allowed_packet = 256M
-<% if p('cf_mysql.mysql.skip_name_resolve') %>
-skip_name_resolve = 1
-<% else %>
-skip_name_resolve = 0
+<% if_p('cf_mysql.mysql.skip_name_resolve') do |disable_dns| %>
+<%= "skip_name_resolve" if disable_dns %>
 <% end %>
 
 innodb_file_per_table = ON
