@@ -83,6 +83,18 @@ properties:
     default: 40
   cf_mysql.broker.services:
     description: 'Services and plans offered by the broker'
+    example: |
+      plans:
+      - name: 100mb
+        id: r4nd0m_gu1d
+        description: Shared MySQL Server
+        max_storage_mb: 10
+        max_user_connections: 20
+      - name: 1gb
+        id: an0th3r_r4nd0m_gu1d
+        description: Shared MySQL Server
+        max_storage_mb: 20
+        max_user_connections: 40
   cf_mysql.broker.ssl_enabled:
     description: 'Determines use of https in dashboard url and in callback uri for calls to UAA'
     default: true
