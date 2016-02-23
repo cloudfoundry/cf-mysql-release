@@ -1,4 +1,4 @@
-source /var/vcap/packages/common/utils.sh
+source /var/vcap/packages/cf-mysql-common/utils.sh
 
 RUN_DIR=/var/vcap/sys/run/warden
 ROOT_TGZ=/var/vcap/stemcell_base.tar.gz
