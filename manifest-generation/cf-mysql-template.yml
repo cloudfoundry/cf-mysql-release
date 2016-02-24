@@ -125,7 +125,7 @@ properties:
     endpoint_credentials:
       username: (( property_overrides.cf-mysql-backup.endpoint_credentials.username || nil ))
       password: (( property_overrides.cf-mysql-backup.endpoint_credentials.password || nil ))
-  service-backup: (( property_overrides.service-backup ))
+  service-backup: (( property_overrides.service-backup || nil ))
 
 base_releases:
 - name: cf-mysql
