@@ -125,16 +125,7 @@ properties:
     endpoint_credentials:
       username: (( property_overrides.cf-mysql-backup.endpoint_credentials.username || nil ))
       password: (( property_overrides.cf-mysql-backup.endpoint_credentials.password || nil ))
-  service-backup:
-    cron_schedule: (( property_overrides.service-backup.cron_schedule || nil ))
-    blobstore:
-      bucket_name: (( property_overrides.service-backup.blobstore.bucket_name || nil ))
-      bucket_path: (( property_overrides.service-backup.blobstore.bucket_path || nil ))
-      access_key_id: (( property_overrides.service-backup.blobstore.access_key_id || nil ))
-      secret_access_key: (( property_overrides.service-backup.blobstore.secret_access_key || nil ))
-    source_folder: (( property_overrides.service-backup.source_folder || nil ))
-    source_executable: (( property_overrides.service-backup.source_executable || nil ))
-    cleanup_executable: (( property_overrides.service-backup.cleanup_executable || nil ))
+  service-backup: (( property_overrides.service-backup ))
 
 base_releases:
 - name: cf-mysql
