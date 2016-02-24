@@ -6,7 +6,7 @@ CF_API_URL='<%= p("cf.api_url") %>'
 CF_ADMIN_USERNAME='<%= p("cf.admin_username") %>'
 CF_ADMIN_PASSWORD='<%= p("cf.admin_password") %>'
 
-BROKER_NAME='<%= p("broker.name") %>'
+BROKER_NAME='<%= p("cf_mysql.broker.services").first["name"] %>'
 
 export PATH=/var/vcap/packages/cli/bin
 

@@ -7,10 +7,10 @@ CF_ADMIN_USERNAME='<%= p("cf.admin_username") %>'
 CF_ADMIN_PASSWORD='<%= p("cf.admin_password") %>'
 CF_SKIP_SSL_VALIDATION='<%= p("cf.skip_ssl_validation") %>'
 
-BROKER_NAME='<%= p("broker.name") %>'
-BROKER_URL='<%= p("broker.protocol") %>://<%= p("broker.host") %>:<%= p("broker.port") %>'
-BROKER_USERNAME='<%= p("broker.username") %>'
-BROKER_PASSWORD='<%= p("broker.password") %>'
+BROKER_NAME='<%= p("cf_mysql.broker.services").first["name"] %>'
+BROKER_URL='<%= p("cf_mysql.broker.protocol") %>://<%= p("cf_mysql.external_host") %>:<%= p("cf_mysql.broker.port") %>'
+BROKER_USERNAME='<%= p("cf_mysql.broker.auth_username") %>'
+BROKER_PASSWORD='<%= p("cf_mysql.broker.auth_password") %>'
 
 function updateServiceBroker() {
   echo "Service broker already exists - updating broker"
@@ -45,7 +45,7 @@ cf auth \
 createServiceBroker || updateServiceBroker
 
 # Loop over plans for p-mysql broker and enable if is public
-<% service = p('broker.services').first %>
+<% service = p('cf_mysql.broker.services').first %>
 <% service['plans'].each do |plan| %>
   # Default plan to public if not specified in manifest
   <% is_private = ( !plan.has_key?('private') ? false : plan['private'] ) %>

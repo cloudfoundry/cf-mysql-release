@@ -1,65 +1,65 @@
 production:
   database_config_path: '/var/vcap/jobs/cf-mysql-broker/config/database.yml'
-  auth_username: '<%= p('auth_username') %>'
-  auth_password: '<%= p('auth_password') %>'
-  cookie_secret: <%= p('cookie_secret') %>
+  auth_username: '<%= p('cf_mysql.broker.auth_username') %>'
+  auth_password: '<%= p('cf_mysql.broker.auth_password') %>'
+  cookie_secret: <%= p('cf_mysql.broker.cookie_secret') %>
   session_expiry: 86400
-  external_host: <%= p('external_host') %>
+  external_host: <%= p('cf_mysql.external_host') %>
 
-  ssl_enabled: <%= p('ssl_enabled') %>
-  skip_ssl_validation: <%= p('skip_ssl_validation') %>
+  ssl_enabled: <%= p('cf_mysql.broker.ssl_enabled') %>
+  skip_ssl_validation: <%= p('cf.skip_ssl_validation') %>
 
-  cc_api_uri: <%= p('cc_api_uri') %>
+  cc_api_uri: <%= p('cf.api_url') %>
 
-  persistent_disk: <%= p('mysql_node.persistent_disk') %>
-  ib_log_file_size: <%= p('mysql_node.ib_log_file_size')%>
-  gcache_size: <%= p('mysql_node.gcache_size')%>
+  persistent_disk: <%= p('cf_mysql.mysql.persistent_disk') %>
+  ib_log_file_size: <%= p('cf_mysql.mysql.ib_log_file_size')%>
+  gcache_size: <%= p('cf_mysql.mysql.gcache_size')%>
 
   services:
-  <% (properties.services || []).each do |service| %>
-  - id: <%= service.id %>
-    name: <%= service.name %>
-    plan_updateable: <%= service.plan_updateable %>
-    description: <%= service.description %>
+  <% p('cf_mysql.broker.services').each do |service| %>
+  - id: <%= service['id'] %>
+    name: <%= service['name'] %>
+    plan_updateable: <%= service['plan_updateable'] %>
+    description: <%= service['description'] %>
     tags:
-    <% (service.tags || []).each do |tag| %>
+    <% (service['tags'] || []).each do |tag| %>
     - <%= tag %>
     <% end %>
     metadata:
-      displayName: <%= service.metadata.displayName %>
-      imageUrl: <%= service.metadata.imageUrl %>
-      longDescription: <%= service.metadata.longDescription %>
-      providerDisplayName: <%= service.metadata.providerDisplayName %>
-      documentationUrl: <%= service.metadata.documentationUrl %>
-      supportUrl: <%= service.metadata.supportUrl %>
+      displayName: <%= service['metadata']['displayName'] %>
+      imageUrl: <%= service['metadata']['imageUrl'] %>
+      longDescription: <%= service['metadata']['longDescription'] %>
+      providerDisplayName: <%= service['metadata']['providerDisplayName'] %>
+      documentationUrl: <%= service['metadata']['documentationUrl'] %>
+      supportUrl: <%= service['metadata']['supportUrl'] %>
     plans:
-    <% (service.plans || []).each do |plan| %>
-      - id: <%= plan.id || plan.guid %>
+    <% (service['plans'] || []).each do |plan| %>
+      - id: <%= plan['id'] || plan['guid'] %>
         <%
-          if plan.name !~ /^[a-z0-9\_\-]+$/
-            raise "Plan name '#{plan.name}' must only contain lowercase letters, numbers, hyphen(-), or underscore(_)."
+          if plan['name'] !~ /^[a-z0-9\_\-]+$/
+            raise "Plan name '#{plan['name']}' must only contain lowercase letters, numbers, hyphen(-), or underscore(_)."
           end
         %>
-        name: <%= plan.name %>
-        description: <%= plan.description %>
-        max_storage_mb: <%= plan.max_storage_mb %>
+        name: <%= plan['name'] %>
+        description: <%= plan['description'] %>
+        max_storage_mb: <%= plan['max_storage_mb'] %>
 
-        <% max_user_connections = plan.max_user_connections || p('max_user_connections_default') %>
+        <% max_user_connections = plan['max_user_connections'] || p('cf_mysql.broker.max_user_connections_default') %>
         max_user_connections: <%= max_user_connections %>
 
         <%
-        if !plan.metadata
+        if !plan['metadata']
           costs = []
           bullets = [
-            "#{plan.description}",
-            "#{plan.max_storage_mb} MB storage",
+            "#{plan['description']}",
+            "#{plan['max_storage_mb']} MB storage",
             "#{max_user_connections} concurrent connections"
           ]
-          display_name = plan.name
+          display_name = plan['name']
         else
-          costs = plan.metadata.costs || []
-          bullets = plan.metadata.bullets || []
-          display_name = plan.metadata.displayName
+          costs = plan['metadata']['costs'] || []
+          bullets = plan['metadata']['bullets'] || []
+          display_name = plan['metadata']['displayName']
         end
         %>
 
@@ -73,8 +73,8 @@ production:
           costs:
           <% costs.each do |cost| %>
             - amount:
-                usd: <%= cost.amount.usd %>
-              unit: <%= cost.unit %>
+                usd: <%= cost['amount']['usd'] %>
+              unit: <%= cost['unit'] %>
           <% end %>
           <% end %>
 
@@ -90,7 +90,7 @@ production:
           displayName: <%= display_name %>
     <% end %>
     dashboard_client:
-      id: <%= service.dashboard_client.id %>
-      secret: <%= service.dashboard_client.secret %>
-      redirect_uri: <%= "#{p('ssl_enabled') ? 'https' : 'http'}://#{p('external_host')}/" %>
+      id: <%= service['dashboard_client']['id'] %>
+      secret: <%= service['dashboard_client']['secret'] %>
+      redirect_uri: <%= "#{p('cf_mysql.broker.ssl_enabled') ? 'https' : 'http'}://#{p('cf_mysql.external_host')}/" %>
   <% end %>

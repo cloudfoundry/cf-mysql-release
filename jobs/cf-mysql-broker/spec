@@ -24,54 +24,6 @@ packages:
 - quota-enforcer
 
 properties:
-  auth_username:
-    description: "Broker's basic auth username"
-  auth_password:
-    description: "Broker's basic auth password"
-
-  cookie_secret:
-    description: 'A unique secret key, used to sign sessions'
-
-  mysql_node.host:
-    description: 'Host (DNS) or IP address used by the broker and bound applications to reach the service'
-  mysql_node.port:
-    description: 'Port used by the broker and bound applications to reach the service'
-    default: 3306
-  mysql_node.admin_username:
-    description: 'Username for the admin MySQL account'
-    default: 'root'
-  mysql_node.admin_password:
-    description: 'Password for the admin MySQL account'
-  mysql_node.persistent_disk:
-    description: 'Size of the persistent disk allocated to the MySQL node for storage'
-  mysql_node.gcache_size:
-    description: 'Cache size used by galera (maximum amount of data possible in an IST), in MB'
-    default: 512
-  mysql_node.ib_log_file_size:
-    description: 'Size of the ib_log_file used by innodb, in MB'
-    default: 1024
-
-  max_user_connections_default:
-    description: 'number of user connections to allow in a plan if not specified'
-    default: 40
-
-  services:
-    description: 'Services and plans offered by the broker'
-
-  cc_api_uri:
-    description: 'URL of the CloudFoundry Cloud Controller'
-
-  external_host:
-    description: 'Host used to register a route for the broker with the router in cf-release via NATS. By registering the broker with Cloud Foundry using this route, and using the router for load balancing, the broker can be horizontally scaled. Domain is typically the same as system domain in cf-release.'
-
-  ssl_enabled:
-    description: 'Determines use of https in dashboard url and in callback uri for calls to UAA'
-    default: true
-
-  skip_ssl_validation:
-    description: 'Determines whether dashboard verifies SSL certificates when communicating with Cloud Controller and UAA'
-    default: false
-
   nats.user:
     description: 'Username for broker to register a route with NATS'
   nats.password:
@@ -81,11 +33,12 @@ properties:
   nats.machines:
     description: 'IP of each NATS cluster member.'
 
-  networks.broker_network:
-    description: 'Name of the network the broker will get its IP address from'
+  cf.api_url:
+    description: 'URL of the CloudFoundry Cloud Controller'
+  cf.skip_ssl_validation:
+    description: 'Determines whether dashboard verifies SSL certificates when communicating with Cloud Controller and UAA'
+    default: false
 
-  network_name:
-    description: "The name of the network (needed for the syslog aggregator)"
   syslog_aggregator.address:
     description: "IP address for syslog aggregator"
   syslog_aggregator.port:
@@ -96,3 +49,55 @@ properties:
   syslog_aggregator.transport:
     description: "Transport to be used when forwarding logs (tcp|udp|relp)."
     default: "tcp"
+
+  cf_mysql.host:
+    description: 'Host (DNS) or IP address used by the broker and bound applications to reach the service'
+  cf_mysql.external_host:
+    description: 'Host used to register a route for the broker with the router in cf-release via NATS. By registering the broker with Cloud Foundry using this route, and using the router for load balancing, the broker can be horizontally scaled. Domain is typically the same as system domain in cf-release.'
+  
+  cf_mysql.mysql.port:
+    description: 'Port used by the broker and bound applications to reach the service'
+    default: 3306
+  cf_mysql.mysql.admin_username:
+    description: 'Username for the admin MySQL account'
+    default: 'root'
+  cf_mysql.mysql.admin_password:
+    description: 'Password for the admin MySQL account'
+  cf_mysql.mysql.persistent_disk:
+    description: 'Size of the persistent disk allocated to the MySQL node for storage'
+  cf_mysql.mysql.gcache_size:
+    description: 'Cache size used by galera (maximum amount of data possible in an IST), in MB'
+    default: 512
+  cf_mysql.mysql.ib_log_file_size:
+    description: 'Size of the ib_log_file used by innodb, in MB'
+    default: 1024
+
+  cf_mysql.broker.auth_username:
+    description: "Broker's basic auth username"
+  cf_mysql.broker.auth_password:
+    description: "Broker's basic auth password"
+  cf_mysql.broker.cookie_secret:
+    description: 'A unique secret key, used to sign sessions'
+  cf_mysql.broker.max_user_connections_default:
+    description: 'number of user connections to allow in a plan if not specified'
+    default: 40
+  cf_mysql.broker.services:
+    description: 'Services and plans offered by the broker'
+    example: |
+      plans:
+      - name: 100mb
+        id: REPLACE-WITH-A-UNIQUE-GUID
+        description: Shared MySQL Server
+        max_storage_mb: 100
+        max_user_connections: 20
+      - name: 1gb
+        id: REPLACE-WITH-A-UNIQUE-GUID
+        description: Shared MySQL Server
+        max_storage_mb: 1000
+        max_user_connections: 40
+  cf_mysql.broker.ssl_enabled:
+    description: 'Determines use of https in dashboard url and in callback uri for calls to UAA'
+    default: true
+  
+  network_name:
+    description: "The name of the network (needed for the syslog aggregator)"

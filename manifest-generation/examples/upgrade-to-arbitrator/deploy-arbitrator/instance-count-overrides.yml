@@ -1,0 +1,5 @@
+instance_count_overrides:
+  - name: mysql_z3
+    instances: 1
+  - name: arbitrator_z3
+    instances: 1

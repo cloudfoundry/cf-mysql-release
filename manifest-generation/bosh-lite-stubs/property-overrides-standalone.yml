@@ -1,0 +1,30 @@
+property_overrides:
+  standalone: true
+  mysql:
+    admin_password: password
+    roadmin_enabled: true
+    roadmin_password: password
+    bootstrap_endpoint:
+      username: username
+      password: password
+  proxy:
+    api_username: username
+    api_password: password
+  broker:
+    auth_username: admin
+    auth_password: password
+    cookie_secret: 94046872-2602-4ca6-8d07-8b0da9762477
+    dashboard_secret: p-mysql-secret
+    plans:
+    - name: 100mb
+      id: ab08f1bc-e6fc-4b56-a767-ee0fea6e3f20
+      description: Shared MySQL Server
+      max_storage_mb: 10
+      max_user_connections: 20
+    - name: 1gb
+      id: 11d0aa36-dcec-4021-85f5-ea4d9a5c8342
+      description: Shared MySQL Server
+      max_storage_mb: 20
+      max_user_connections: 40
+  acceptance_tests:
+    standalone_tests_only: true

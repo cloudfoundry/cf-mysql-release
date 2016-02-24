@@ -1,0 +1,18 @@
+config_from_cf:
+  cf_deployment_name: (( merge ))
+  cf_director_uuid: (( merge ))
+  nats:
+    user: (( merge ))
+    password: (( merge ))
+    port: (( merge ))
+    machines: (( merge ))
+  domain: (( merge ))
+  system_domain: (( merge ))
+  app_domains: (( merge ))
+  api_url: (( merge ))
+  skip_ssl_validation: (( merge ))
+  admin_username: (( merge ))
+  admin_password: (( merge ))
+  smoke_tests:
+    use_existing_org: (( merge ))
+    org: (( merge ))

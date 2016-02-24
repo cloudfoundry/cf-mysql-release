@@ -1,0 +1,26 @@
+property_overrides:
+  <<: (( merge || nil ))
+  standalone: true
+  host: YOUR_LOAD_BALANCER_ADDRESS # Optional, set to your Load Balancer address if configured
+  mysql:
+    admin_password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP #The admin password for the MySQL server process
+    roadmin_password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
+    bootstrap_endpoint:
+      username: REPLACE_WITH_A_USERNAME_YOU_MAKE_UP
+      password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
+  proxy:
+    api_username: REPLACE_WITH_A_USERNAME_YOU_MAKE_UP
+    api_password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
+  acceptance_tests:
+    standalone_tests_only: true
+  broker:
+    auth_username: UNUSED_VALUE
+    auth_password: UNUSED_VALUE
+    cookie_secret: UNUSED_VALUE
+    auth_password: UNUSED_VALUE
+    dashboard_secret: UNUSED_VALUE
+    plans:
+    - name: UNUSED_VALUE
+      id: UNUSED_VALUE
+      description: UNUSED_VALUE
+      max_storage_mb: 100

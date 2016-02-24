@@ -24,53 +24,6 @@ packages:
 - syslog_aggregator
 
 properties:
-  admin_username:
-    description: 'Username for the MySQL server admin user'
-    default: 'root'
-  admin_password:
-    description: 'Password for the MySQL server admin user'
-  port:
-    description: 'Port the mysql server should bind to'
-    default: 3306
-  healthcheck_port:
-    description: 'Port used by healthcheck process to listen on'
-    default: 9200
-  max_connections:
-    description: 'Maximum total number of database connections for the node'
-    default: 1500
-  innodb_buffer_pool_size:
-    description: 'The size in bytes of the memory buffer InnoDB uses to cache data and indexes of its tables'
-  cluster_ips:
-    description: 'List of nodes.  Must have the same number of ips as there are nodes in the cluster'
-  max_heap_table_size:
-    description: 'The maximum size (in rows) to which user-created MEMORY tables are permitted to grow'
-    default: 16777216
-  tmp_table_size:
-    description: 'The maximum size (in bytes) of internal in-memory temporary tables'
-    default: 33554432
-  wsrep_max_ws_rows:
-    description: 'Maximum permitted number of rows per writeset.'
-    default: 131072
-  wsrep_max_ws_size:
-    description: 'Maximum permitted size in bytes per writeset.'
-    default: 1073741824
-  skip_name_resolve:
-    description: 'Do not restrict connections to database based on hostname'
-    default: false
-
-  #these two properties are also used by the Broker
-  gcache_size:
-    description: 'Cache size used by galera (maximum amount of data possible in an IST), in MB'
-    default: 512
-  ib_log_file_size:
-    description: 'Size of the ib_log_file used by innodb, in MB'
-    default: 1024
-  seeded_databases:
-    description: 'Set of databases to seed'
-    default: {}
-
-  network_name:
-    description: "The name of the network (needed for the syslog aggregator)"
   syslog_aggregator.address:
     description: "IP address for syslog aggregator"
   syslog_aggregator.port:
@@ -82,10 +35,61 @@ properties:
     description: "Transport to be used when forwarding logs (tcp|udp|relp)."
     default: "tcp"
 
-  database_startup_timeout:
+  cf_mysql.mysql.admin_username:
+    description: 'Username for the MySQL server admin user'
+    default: 'root'
+  cf_mysql.mysql.admin_password:
+    description: 'Password for the MySQL server admin user'
+  cf_mysql.mysql.port:
+    description: 'Port the mysql server should bind to'
+    default: 3306
+  cf_mysql.mysql.healthcheck_port:
+    description: 'Port used by healthcheck process to listen on'
+    default: 9200
+  cf_mysql.mysql.max_connections:
+    description: 'Maximum total number of database connections for the node'
+    default: 1500
+  cf_mysql.mysql.innodb_buffer_pool_size:
+    description: 'Optional, the size in bytes of the memory buffer InnoDB uses to cache data and indexes of its tables'
+  cf_mysql.mysql.cluster_ips:
+    description: 'List of nodes.  Must have the same number of ips as there are nodes in the cluster'
+  cf_mysql.mysql.max_heap_table_size:
+    description: 'The maximum size (in rows) to which user-created MEMORY tables are permitted to grow'
+    default: 16777216
+  cf_mysql.mysql.tmp_table_size:
+    description: 'The maximum size (in bytes) of internal in-memory temporary tables'
+    default: 33554432
+  cf_mysql.mysql.wsrep_max_ws_rows:
+    description: 'Maximum permitted number of rows per writeset.'
+    default: 131072
+  cf_mysql.mysql.wsrep_max_ws_size:
+    description: 'Maximum permitted size in bytes per writeset.'
+    default: 1073741824
+  cf_mysql.mysql.skip_name_resolve:
+    description: 'Do not restrict connections to database based on hostname'
+    default: true
+  #these two properties are also used by the Broker
+  cf_mysql.mysql.gcache_size:
+    description: 'Cache size used by galera (maximum amount of data possible in an IST), in MB'
+    default: 512
+  cf_mysql.mysql.ib_log_file_size:
+    description: 'Size of the ib_log_file used by innodb, in MB'
+    default: 1024
+  cf_mysql.mysql.seeded_databases:
+    description: 'Set of databases to seed'
+    default: {}
+  cf_mysql.mysql.roadmin_enabled:
+    description: 'Whether read only user is enabled'
+    default: false
+  cf_mysql.mysql.roadmin_password:
+    description: 'Password for the MySQL server read-only admin user'
+  cf_mysql.mysql.database_startup_timeout:
     description: 'How long the startup script waits for the database to come online (in seconds)'
-
-  bootstrap_endpoint.username:
+  cf_mysql.mysql.bootstrap_endpoint.username:
     description: 'Username used by the bootstrap endpoints for Basic Auth'
-  bootstrap_endpoint.password:
+  cf_mysql.mysql.bootstrap_endpoint.password:
     description: 'Password used by the bootstrap endpoints for Basic Auth'
+
+  network_name:
+    description: "The name of the network (needed for the syslog aggregator)"
+

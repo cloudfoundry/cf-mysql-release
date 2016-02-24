@@ -1,0 +1,49 @@
+#!/bin/bash
+
+set -eux
+
+MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# This script assumes that it lives one directory below the release directory.
+RELEASE_DIR="$( cd ${MY_DIR}/.. && pwd )"
+
+FAKE_CF_MANIFEST="${RELEASE_DIR}/manifest-generation/examples/standalone/standalone-cf-manifest.yml"
+
+# aws
+${RELEASE_DIR}/scripts/generate-deployment-manifest \
+    -c "${FAKE_CF_MANIFEST}" \
+    -p "${RELEASE_DIR}"/manifest-generation/examples/property-overrides.yml \
+    -i "${RELEASE_DIR}"/manifest-generation/examples/aws/iaas-settings.yml
+
+# vsphere
+${RELEASE_DIR}/scripts/generate-deployment-manifest \
+    -c "${FAKE_CF_MANIFEST}" \
+    -p "${RELEASE_DIR}"/manifest-generation/examples/property-overrides.yml \
+    -i "${RELEASE_DIR}"/manifest-generation/examples/vsphere/iaas-settings.yml
+
+# bosh-lite
+${RELEASE_DIR}/scripts/generate-deployment-manifest \
+    -c "${FAKE_CF_MANIFEST}" \
+    -p "${RELEASE_DIR}"/manifest-generation/bosh-lite-stubs/property-overrides.yml \
+    -i "${RELEASE_DIR}"/manifest-generation/bosh-lite-stubs/iaas-settings.yml
+
+# standalone
+${RELEASE_DIR}/scripts/generate-deployment-manifest \
+    -c "${FAKE_CF_MANIFEST}" \
+    -p "${RELEASE_DIR}"/manifest-generation/examples/standalone/property-overrides.yml \
+    -i "${RELEASE_DIR}"/manifest-generation/bosh-lite-stubs/iaas-settings.yml \
+    -n "${RELEASE_DIR}"/manifest-generation/examples/standalone/instance-count-overrides.yml
+
+# no arbitrator
+${RELEASE_DIR}/scripts/generate-deployment-manifest \
+    -c "${FAKE_CF_MANIFEST}" \
+    -p "${RELEASE_DIR}"/manifest-generation/examples/property-overrides.yml \
+    -i "${RELEASE_DIR}"/manifest-generation/bosh-lite-stubs/iaas-settings.yml \
+    -n "${RELEASE_DIR}"/manifest-generation/examples/no-arbitrator/instance-count-overrides.yml
+
+# minimal
+${RELEASE_DIR}/scripts/generate-deployment-manifest \
+    -c "${FAKE_CF_MANIFEST}" \
+    -p "${RELEASE_DIR}"/manifest-generation/examples/property-overrides.yml \
+    -i "${RELEASE_DIR}"/manifest-generation/bosh-lite-stubs/iaas-settings.yml \
+    -n "${RELEASE_DIR}"/manifest-generation/examples/minimal/instance-count-overrides.yml

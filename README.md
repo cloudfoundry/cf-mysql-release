@@ -20,8 +20,6 @@
 
 [Deregistering the Service Broker](#deregistering-broker)
 
-[Additional Configuration Options](#additional-configuration-options)
-
 [CI](http://www.github.com/cloudfoundry-incubator/cf-mysql-ci)
 
 <a name='components'></a>
@@ -252,6 +250,9 @@ Once a load balancer is configured, the brokers will hand out the address of the
 Currently, load balancing requests across both proxies can increase the possibility of deadlocks. See the [routing](https://github.com/cloudfoundry/cf-mysql-release/blob/master/docs/proxy.md#consistent-routing) documentation for more information.
 To avoid this problem, configure the load balancer to route requests to the second proxy only in the event of a failure.
 
+- **Note:** When using an Elastic Load Balancer (ELB) on Amazon, make sure to create the ELB in the same VPC as your cf-mysql deployment
+- **Note:** For all load balancers, take special care to configure health checks to use the health_port of the proxies (default 1936). Do not configure the load balancer to use port 3306.
+
 <a name="deployment_components"></a>
 ### Deployment Components
 
@@ -276,56 +277,90 @@ The brokers each register a route with the router, which load balances requests 
 ### Create Manifest and Deploy
 
 <a name="bosh-lite"></a>
-#### BOSH-lite
+#### Deploy on BOSH-lite
 
-1. Generate the manifest using a bosh-lite specific script and a stub provided for you, `bosh-lite/cf-mysql-stub-spiff.yml`.
-
+1. Run the following script to generate a working manifest for a bosh-lite on your local machine:
     ```
-    $ ./bosh-lite/make_manifest
+    $ ./scripts/generate-bosh-lite-manifest
     ```
-    The resulting file, `bosh-lite/manifests/cf-mysql-manifest.yml` is your deployment manifest. To modify the deployment configuration, you can edit the stub and regenerate the manifest or edit the manifest directly.
 
-1. The `make_manifest` script will set the deployment to `bosh-lite/manifests/cf-mysql-manifest.yml` for you, so to deploy you only need to run:
+1. Run the following command to deploy cf-mysql to the bosh-lite (assumes release has already been uploaded):
   ```
   $ bosh deploy
   ```
 
-<a name="vsphere"></a>
-#### vSphere
-
-1. Create a stub file called `cf-mysql-vsphere-stub.yml` by copying and modifying the [sample_vsphere_stub.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/sample_stubs/sample_vsphere_stub.yml)  in `templates/sample_stubs`. The `sample_plans_stub.yml` can also be copied if values need changing.
-
-2. Generate the manifest:
+1. To edit the manifest:
   ```
-  $ ./generate_deployment_manifest \
-    vsphere \
-    plans_stub.yml \
-    cf-mysql-vsphere-stub.yml > cf-mysql-vsphere.yml
-  ```
-  The resulting file, `cf-mysql-vsphere.yml` is your deployment manifest. To modify the deployment configuration, you can edit the stub and regenerate the manifest or edit the manifest directly.
-
-3. To deploy:
-  ```
-  $ bosh deployment cf-mysql-vsphere.yml && bosh deploy
+  $ bosh edit deployment
   ```
 
-<a name="aws"></a>
-#### AWS
+#### Deploy on AWS or vSphere
 
-1. Create a stub file called `cf-mysql-aws-stub.yml` by copying and modifying the [sample_aws_stub.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/sample_stubs/sample_aws_stub.yml) in `templates/sample_stubs`. The `sample_plans_stub.yml` can also be copied if values need changing.
+##### Copy sample stubs and fill in values
 
-1. Generate the manifest:
-  ```
-  $ ./generate_deployment_manifest \
-    aws \
-    plans_stub.yml \
-    cf-mysql-aws-stub.yml > cf-mysql-aws.yml
-  ```
-  The resulting file, `cf-mysql-aws.yml` is your deployment manifest. To modify the deployment configuration, you can edit the stub and regenerate the manifest or edit the manifest directly.
+We have provided example stubs to serve as a starting point.
+Copy these stubs to your config repository, and fill in the `REPLACE_WITH` text with values for your environment.
 
-1. To deploy:
+For example, the following files can be used for an AWS deployment:
+```
+$ cp cf-mysql-release/manifest-generation/examples/aws/iaas-settings.yml \
+    cf-mysql-release/manifest-generation/examples/property-overrides.yml \
+    cf-mysql-release/manifest-generation/examples/cf-stub.yml \
+    <YOUR_CONFIG_REPO>/cf-mysql/
+```
+
+Additional example stubs can be found under [cf-mysql-release/manifest-generation/examples/](manifest-generation/examples).
+These include:
+- Deploying with a minimal number of VMs ([examples/minimal/](manifest-generation/examples/minimal/))
+- Deploying without a running CF deployment ([examples/standalone/](manifest-generation/examples/standalone/))
+- Replacing the arbitrator with a full MySQL node ([examples/no-arbitrator/](manifest-generation/examples/no-arbitrator/))
+
+##### Fill in the CF stub
+
+The script must obtain some configuration options from the CF deployment (e.g. CF Admin credentials).
+Edit the copied `cf-stub.yml` from the previous section to include values from your CF manifest.
+Existing admin users can be found under `properties.uaa.scim.users` in the CF manifest.
+This admin user must have the `cloud_controller.admin` UAA permission.
+
+Note: This change to the CF manifest is temporary while we investigate better methods for sharing properties across deployments.
+
+##### Generate AWS or vSphere manifest
+
+Run the `./scripts/generate-deployment-manifest` with the stubs you created in the preceeding steps.
+
+```
+Usage:
+The script requires the following arguments-
+    -c CF Manifest
+    -p Property overrides stub file (Use this file to provide credentials and broker plans)
+    -i Infrastructure type stub file (AWS or vSphere)
+The following arguments are optional-
+    -n Instance count overrides stub file (single node, 3 node)
+    -v Release versions stub file (Use this file to specify the cf-mysql release version, defaults to latest)
+```
+
+For example:
+
+```
+$ ./scripts/generate-deployment-manifest \
+  -c <YOUR_CONFIG_REPO>/cf-stub.yml \
+  -p <YOUR_CONFIG_REPO>/cf-mysql/property-overrides.yml \
+  -i <YOUR_CONFIG_REPO>/cf-mysql/iaas-settings.yml \
+  > cf-mysql.yml
+```
+
+##### Deploying
+
+Once the manifest has been generated, do the following to deploy cf-mysql on your environment.
+
+1. Deploy CF-MySQL (assumes release has already been uploaded):
   ```
-  $ bosh deployment cf-mysql-aws.yml && bosh deploy
+  $ bosh deploy
+  ```
+
+1. To edit the manifest:
+  ```
+  $ bosh edit deployment
   ```
 
 <a name="manifest-properties"></a>
@@ -333,7 +368,7 @@ The brokers each register a route with the router, which load balances requests 
 
 Manifest properties are described in the `spec` file for each job; see [jobs](jobs).
 
-You can find your `director_uuid` by running `bosh status`.
+You can find your `director_uuid` by running `bosh status --uuid`.
 
 The MariaDB cluster nodes are configured by default with 100GB of persistent disk. This can be configured in your stub or manifest using `disk_pools.mysql-persistent-disk.disk_size`, however your deployment will fail if this is less than 3GB; we recommend allocating 10GB at a minimum.
 
@@ -454,56 +489,3 @@ $ cf delete-service-broker p-mysql
 ## Deployment Resources
 
 The service is configured to have a small footprint out of the box. These resources are sufficient for development, but may be insufficient for production workloads. If the service appears to be performing poorly, redeploying with increased resources may improve performance. See [deployment resources](docs/deployment-resources.md) for further details.
-
-<a name="additional-configuration-options"></a>
-## Additional Configuration Options
-
-### Updating Service Plans
-
-Updating the service instances is supported; see [Service plans and instances](docs/service-plans-instances.md) for details.
-
-### Pre-seeding Databases
-
-Normally databases are created via the `cf create-service` command, and
-a MySQL user is created and given access to that database when an app is bound to that service instance.
-However, it is sometimes useful to have databases and users already available when the service is deployed,
-without having to run `cf create-service` or bind an app.
-To specify any preseeded databases, add the following to the deployment manifest:
-
-```
-jobs:
-- name: mysql_z1
-  properties:
-    seeded_databases:
-    - name: db1
-      username: user1
-      password: pw1
-    - name: db2
-      username: user2
-      password: pw2
-```
-
-Note: If all you need is a database deployment, it is possible to deploy this
-release with zero broker instances and completely remove any dependencies on Cloud Foundry.
-See the [proxy](jobs/proxy/spec) and [acceptance-tests](jobs/acceptance-tests/spec) spec files for standalone configuration options.
-
-### Configuring how long the startup script waits for the database to come online
-
-On larger databases, the default database startup timeout may be too low.
-This would result in the job reporting as failing, while MySQL continues to bootstrap in the background (see [Known Issues > Long SST Transfers](docs/Known-Issues.md#long-sst-transfers)).
-To increase the duration that the startup script waits for MySQL to start, add the following to your deployment stub:
-
-```yaml
-jobs:
-- name: mysql_z1
-  properties:
-    database_startup_timeout: 360
-```
-
-Note: This is independent of the overall BOSH timeout which is also configurable in the manifest. The BOSH timeout should always be higher than the database startup timeout:
-
-```yaml
-update:
-  canary_watch_time: 30000-600000
-  update_watch_time: 30000-600000
-```

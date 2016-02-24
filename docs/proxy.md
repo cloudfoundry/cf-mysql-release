@@ -55,25 +55,31 @@ Bound applications are provided with a hostname or IP address to reach a databas
 
 ### Configuring load balancer
 
-Configure the load balancer to route traffic for TCP port 3306 to the IPs of all proxy instances on TCP port 3306. Next, configure the load balancer's healthcheck to use the proxy health port. This is TCP port 1936 by default to maintain backwards compatibility with previous releases, but this port can be configured by changing the following manifest property:
+Configure the load balancer to route traffic for TCP port 3306 to the IPs of all proxy instances on TCP port 3306.
+Next, configure the load balancer's healthcheck to use the proxy health port.
+This is TCP port 1936 by default to maintain backwards compatibility with previous releases, but this port can be configured by changing the following manifest property in the `property-overrides` stub:
 
 ```
-jobs:
-- name: proxy_z1
-  properties:
-    proxy:
-      health_port: <port>
+property_overrides:
+  proxy:
+    health_port: <port>
 ```
 
 ### Configuring cf-mysql-release to give applications the address of the load balancer
-To ensure that bound applications will use the load balancer to reach bound databases, the manifest property `properties.mysql_node.host` must be updated for the cf-mysql-broker job:
+To ensure that bound applications will use the load balancer to reach bound databases, the set `property_overrides.host` in the `property-overrides` stub:
 
 ```
-jobs:
-- name: cf-mysql-broker_z1
-  properties:
-    mysql_node:
-      host: <load balancer address>
+property_overrides:
+  host: <load balancer address>
+```
+
+If deploying on AWS, also add the ELB name (not the address) in the `iaas-settings` stub:
+
+```
+properties:
+  template_only:
+    aws:
+      mysql_elb_names: [<load balancer name>]
 ```
 
 ### AWS Route 53

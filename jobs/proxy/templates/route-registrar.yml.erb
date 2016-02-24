@@ -1,11 +1,15 @@
 message_bus_servers:
 <% p('nats.machines').each do |ip| %>
-    - host: <%= ip %>:<%= p('nats.port') %>
-      user: <%= p('nats.user') %>
-      password: <%= p('nats.password') %>
+- host: <%= ip %>:<%= p('nats.port') %>
+  user: <%= p('nats.user') %>
+  password: <%= p('nats.password') %>
 <% end %>
 <% my_ip = spec.networks.send(p('network_name')).ip %>
-<% proxy_index = p('proxy.proxy_ips').index(my_ip) %>
-external_host: proxy-<%= proxy_index %>-<%= p('external_host') %>
-external_ip: <%= my_ip %>
-port: <%= p('proxy.api_port') %>
+<% proxy_index = p('cf_mysql.proxy.proxy_ips').index(my_ip) %>
+host: <%= my_ip %>
+routes:
+- name: "proxy_<%= index %>"
+  port: <%= p('cf_mysql.proxy.api_port') %>
+  uris:
+  - proxy-<%= proxy_index %>-<%= p('cf_mysql.external_host') %>
+  registration_interval: 10

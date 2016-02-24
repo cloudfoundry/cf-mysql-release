@@ -1,6 +1,7 @@
 ---
-Host: <%= p('mysql_node.host') %>
-Port: <%= p('mysql_node.port') %>
-User: <%= p('mysql_node.admin_username') %>
-Password: <%= p('mysql_node.admin_password') %>
+Host: <%= p('cf_mysql.host') %>
+Port: <%= p('cf_mysql.mysql.port') %>
+User: <%= p('cf_mysql.mysql.admin_username') %>
+Password: <%= p('cf_mysql.mysql.admin_password') %>
 DBName: mysql_broker
+ReadOnlyUser: roadmin

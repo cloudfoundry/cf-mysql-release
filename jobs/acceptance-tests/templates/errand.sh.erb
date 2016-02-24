@@ -3,25 +3,34 @@ set -e -x
 
 cd /var/vcap/packages/acceptance-tests/src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests
 
+<%
+mysql_service = p('cf_mysql.broker.services').first
+default_max_user_connections = mysql_service['max_user_connections_default'] || 40
+
+# proxy_ips may contain nil values due to lack of flexibility in spiff
+proxy_ips = p('cf_mysql.proxy.proxy_ips').compact
+%>
+
 cat > integration_config.json <<EOF
 {
   "api":           "<%= p('cf.api_url') %>",
-  "apps_domain":   "<%= p('cf.apps_domain') %>",
+  "apps_domain":   "<%= p('cf.app_domains').first %>",
   "admin_user":    "<%= p('cf.admin_username') %>",
-  "broker_host":   "<%= p('broker.host') %>",
-  "service_name":  "<%= p('service.name') %>",
-  "test_password": "<%= p('smoke_test_password') %>",
-  <% if p('org_name') %>
-  "org_name": "<%= p('org_name') %>",
+  "admin_password":   "<%= p('cf.admin_password') %>",
+  "test_password": "@Ma8rtj2vu",
+  "broker_host":   "<%= p('cf_mysql.external_host') %>",
+  "service_name":  "<%= mysql_service['name'] %>",
+  <% if p('cf.smoke_tests.use_existing_org') %>
+  "org_name": "<%= p('cf.smoke_tests.org') %>",
   <% end %>
   "plans": [
-  <% plans = p('service.plans')
+  <% plans = mysql_service['plans']
   plans.each do |plan| %>
     {
       "plan_name": "<%= plan['name'] %>",
       "private": <%= !plan.has_key?('private') ? false : plan['private'] %>,
       "max_storage_mb": <%= plan['max_storage_mb'] %>,
-      "max_user_connections": <%= plan['max_user_connections'] || p('service.max_user_connections_default')%>
+      "max_user_connections": <%= plan['max_user_connections'] || default_max_user_connections %>
     <% if plan != plans.last %>
     },
     <% else %>
@@ -31,41 +40,32 @@ cat > integration_config.json <<EOF
   ],
   "skip_ssl_validation": <%= p('cf.skip_ssl_validation') %>,
   "proxy": {
-    "dashboard_urls": [
-    <% p('proxy.proxy_count').times do |index| %>
-      <% proxy_url = "\"https://proxy-#{index}-#{p('proxy.external_host')}\"" %>
-      <% proxy_url += "," unless index == p('proxy.proxy_count') - 1 %>
-      <%= proxy_url %>
-    <% end %>
-    ],
-    "api_username": "<%= p('proxy.api_username') %>",
-    "api_password": "<%= p('proxy.api_password') %>",
-    "api_force_https": <%= p('proxy.api_force_https') %>,
-    "skip_ssl_validation": <%= p('proxy.skip_ssl_validation') %>
+    <% urls = proxy_ips.each_with_index.map do |_, index|
+      "\"https://proxy-#{index}-#{p('cf_mysql.external_host')}\""
+    end %>
+    "dashboard_urls": [<%= urls.join(",") %>],
+    "api_username": "<%= p('cf_mysql.proxy.api_username') %>",
+    "api_password": "<%= p('cf_mysql.proxy.api_password') %>",
+    "api_force_https": <%= p('cf_mysql.proxy.api_force_https') %>,
+    "skip_ssl_validation": <%= p('cf.skip_ssl_validation') %>
   },
-  "timeout_scale": <%= p('timeout_scale') %>,
 EOF
 
-<% if p('standalone_tests_only') %>
+<% if p('cf_mysql.acceptance_tests.standalone_tests_only') %>
 cat >> integration_config.json <<EOF
   "standalone": {
-    "host":  "<%= p('standalone.host') %>",
-    "port": <%= p('standalone.port') %>,
-    "username": "<%= p('standalone.username') %>",
-    "password": "<%= p('standalone.password') %>"
+    "host":  "<%= p('cf_mysql.host') %>",
+    "port": <%= p('cf_mysql.mysql.port') %>,
+    "username": "<%= p('cf_mysql.mysql.admin_username') %>",
+    "password": "<%= p('cf_mysql.mysql.admin_password') %>"
   },
 EOF
 <% end %>
 
-# don't expose passwords
-set +x
-
 cat >> integration_config.json <<EOF
-  "admin_password":   "<%= p('cf.admin_password') %>"
+  "timeout_scale": <%= p('cf_mysql.acceptance_tests.timeout_scale') %>
 }
 EOF
-
-# set -x
 
 export GOPATH=/var/vcap/packages/acceptance-tests
 export GOROOT=/var/vcap/packages/golang
@@ -73,10 +73,9 @@ export PATH=/var/vcap/packages/cli/bin:$GOPATH/bin:$GOROOT/bin:$PWD/bin:$PATH
 
 export CONFIG=$PWD/integration_config.json
 
-
-<% if p('standalone_tests_only') %>
+<% if p('cf_mysql.acceptance_tests.standalone_tests_only') %>
   bin/test-standalone --noColor
-<% elsif p('smoke_tests_only') %>
+<% elsif p('cf_mysql.acceptance_tests.smoke_tests_only') %>
   bin/test-smoke --noColor
 <% else %>
   bin/test-acceptance --noColor

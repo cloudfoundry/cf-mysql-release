@@ -14,5 +14,5 @@ properties:
     description: 'Username of the admin user'
   cf.admin_password:
     description: 'Password of the admin user'
-  broker.name:
-    description: 'Name of the service broker'
+  cf_mysql.broker.services:
+    description: 'List of services the broker provides'

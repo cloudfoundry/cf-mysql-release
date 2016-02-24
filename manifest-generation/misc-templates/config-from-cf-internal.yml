@@ -1,0 +1,37 @@
+config_from_cf:
+  cf_deployment_name: (( name ))
+  cf_director_uuid: (( director_uuid ))
+  nats:
+    user: (( properties.nats.user ))
+    password: (( properties.nats.password ))
+    port: (( properties.nats.port ))
+    machines: (( properties.nats.machines ))
+  domain: (( properties.domain ))
+  system_domain: (( properties.system_domain ))
+  app_domains: (( properties.app_domains ))
+  api_url: (( "https://api." properties.domain ))
+  skip_ssl_validation: (( properties.skip_ssl_validation ))
+  admin_username: (( properties.admin_username ))
+  admin_password: (( properties.admin_password ))
+  smoke_tests:
+    use_existing_org: (( properties.smoke_tests.use_existing_org ))
+    org: (( properties.smoke_tests.org ))
+
+# The keys below should not be included in the final stub
+name: (( merge ))
+director_uuid: (( merge ))
+properties:
+  nats:
+    user: (( merge ))
+    password: (( merge ))
+    machines: (( merge ))
+    port: (( merge ))
+  domain: (( merge ))
+  system_domain: (( merge ))
+  app_domains: (( merge ))
+  admin_username: (( merge ))
+  admin_password: (( merge ))
+  skip_ssl_validation: (( merge || nil ))
+  smoke_tests:
+    use_existing_org: (( merge || nil ))
+    org: (( merge || nil ))

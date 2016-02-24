@@ -87,3 +87,7 @@ mariadb/mariadb-galera-10.0.22.tar.gz:
   object_id: 6276661c-5065-451a-8ef9-36e214ce29a6
   sha: 3e79ccd1cb10dd4ef87d67a163f001b0edd05103
   size: 56593286
+mariadb/mariadb-galera-10.0.23.tar.gz:
+  object_id: 6d3ba50a-c12e-4a4d-b992-10f7051a0a73
+  sha: c920df0661770abb923a7af5e964927f7d02ff5f
+  size: 57726827

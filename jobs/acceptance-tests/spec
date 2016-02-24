@@ -15,63 +15,51 @@ properties:
     description: 'Username of the admin user'
   cf.admin_password:
     description: 'Password of the admin user'
-  cf.apps_domain:
-    description: 'Shared domain for pushed apps'
+  cf.app_domains:
+    description: 'List of shared domains for pushed apps (tests will use the first domain)'
   cf.skip_ssl_validation:
     description: 'Whether to add --skip-ssl-validation for cf cli'
     default: false
-
-  broker.host:
-    description: 'Host for the broker. Should be the same as jobs.cf-mysql-broker.properties.external_host'
-
-  service.name:
-    description: 'Name of the MySQL service'
-  service.plans:
-    description: 'Array of MySQL plans'
-
-  service.max_user_connections_default:
-    description: 'number of user connections to allow in a plan if not specified'
-    default: 40
-
-  org_name:
+  cf.smoke_tests.use_existing_org:
+    description: 'Runs smoke test errand as an existing org. Creates a new org if false'
+    default: false
+  cf.smoke_tests.org:
     description: 'The name of the Org to run acceptance tests against'
     default: ''
 
-  smoke_tests_only:
+  cf_mysql.acceptance_tests.smoke_tests_only:
     description: 'Instead of running the full acceptance test suite, only run a shorter smoke test'
     default: true
-  smoke_test_password:
-    description: 'Password for smoke tests to comply with CF password policy, if exists.'
-    default: '@Ma8rtj2vu'
-
-  proxy.external_host:
-    description: 'Proxy external host (e.g. p-mysql.example.com => proxy-0-p-mysql.example.com)'
-  proxy.api_username:
-    description: 'Proxy API username'
-  proxy.api_password:
-    description: 'Proxy API password'
-  proxy.api_force_https:
-    description: 'Expect proxy to force redirect to HTTPS'
-    default: true
-  proxy.skip_ssl_validation:
-    description: 'Tests will skip validation of SSL certificates'
-    default: true
-  proxy.proxy_count:
-    description: 'Number of proxy instances. Use to construct an array of proxy dashboard url (e.g. https://proxy-INDEX-EXTERNAL_HOST)'
-  standalone_tests_only:
+  cf_mysql.acceptance_tests.standalone_tests_only:
     description: 'Instead of running the full acceptance test suite, only run a minimal set of tests that do not require a running CF deployment'
     default: false
-  standalone.host:
-    description: 'Hostname of proxy or load balancer used to communicate with MySQL nodes in a standalone deployment'
-  standalone.port:
-    description: 'Port used to communicate with MySQL nodes'
-    default: 3306
-  standalone.username:
-    description: 'MySQL admin username'
-    default: 'root'
-  standalone.password:
-    description: 'MySQL admin password'
-
-  timeout_scale:
+  cf_mysql.acceptance_tests.timeout_scale:
     description: 'scaling multiplier used to determine command timeouts'
     default: 1
+
+  cf_mysql.host:
+    description: 'Hostname given to apps by the broker, usually a Load Balancer address or the IP of the first proxy'
+  cf_mysql.external_host:
+    description: 'Hostname given for dashboard URLs (e.g. p-mysql.example.com)'
+
+  cf_mysql.mysql.port:
+    description: 'Port used to access MySQL'
+    default: 3306
+  cf_mysql.mysql.admin_username:
+    description: 'Admin username used to access MySQL'
+    default: 'root'
+  cf_mysql.mysql.admin_password:
+    description: 'Admin password used to access MySQL'
+
+  cf_mysql.broker.services:
+    description: 'Array of Services the broker provides'
+  
+  cf_mysql.proxy.api_username:
+    description: 'Proxy API username'
+  cf_mysql.proxy.api_password:
+    description: 'Proxy API password'
+  cf_mysql.proxy.api_force_https:
+    description: 'Expect proxy to force redirect to HTTPS'
+    default: true
+  cf_mysql.proxy.proxy_ips:
+    description: 'Use to construct an array of proxy dashboard url (e.g. https://proxy-INDEX-EXTERNAL_HOST)'

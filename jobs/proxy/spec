@@ -16,29 +16,10 @@ packages:
 - route-registrar
 
 properties:
-  proxy.port:
-    description: "Port for the proxy to listen on"
-    default: 3306
-  proxy.healthcheck_timeout_millis:
-    description: "Timeout (milliseconds) before assuming a backend is unhealthy"
-    default: 5000
-  proxy.api_force_https:
-    description: "Redirect all HTTP requests to the API to HTTPS"
-    default: true
-  proxy.api_port:
-    description: "Port for the proxy API to listen on"
-    default: 80
-  proxy.api_username:
-    description: "Username for Basic Auth used to secure API"
-  proxy.api_password:
-    description: "Password for Basic Auth used to secure API"
-  proxy.health_port:
-    description: "Port for checking the health of the proxy process"
-    default: 1936
-  proxy.proxy_ips:
-    description: "List of IP addresses for all proxy jobs"
-  external_host:
-    description: 'Domain of the route registered for the UI via NATS (with the router in cf-release)'
+ 
+  network_name:
+    description: "The name of the network (needed for the syslog aggregator)"
+
   nats.user:
     description: 'Username to register a route via NATS'
   nats.password:
@@ -47,8 +28,7 @@ properties:
     description: 'IP port of Cloud Foundry NATS server'
   nats.machines:
     description: 'IP of each NATS cluster member.'
-  network_name:
-    description: "The name of the network (needed for the syslog aggregator)"
+
   syslog_aggregator.address:
     description: "IP address for syslog aggregator"
   syslog_aggregator.port:
@@ -59,8 +39,37 @@ properties:
   syslog_aggregator.transport:
     description: "Transport to be used when forwarding logs (tcp|udp|relp)."
     default: "tcp"
-  cluster_ips:
-    description: "List of nodes.  Must have the same number of ips as there are nodes in the cluster"
-  standalone:
+
+  cf_mysql.external_host:
+    description: 'Domain of the route registered for the UI via NATS (with the router in cf-release)'
+
+  cf_mysql.standalone:
     description: "Standalone Mode: Are you deploying MySQL without a CloudFoundry deployment?"
     default: false
+
+  cf_mysql.mysql.cluster_ips:
+    description: "List of nodes.  Must have the same number of ips as there are nodes in the cluster"
+  cf_mysql.proxy.port:
+    description: "Port for the proxy to listen on"
+    default: 3306
+  cf_mysql.proxy.healthcheck_timeout_millis:
+    description: "Timeout (milliseconds) before assuming a backend is unhealthy"
+    default: 5000
+  cf_mysql.proxy.api_port:
+    description: "Port for the proxy API to listen on"
+    default: 80
+  cf_mysql.proxy.api_force_https:
+    description: "Redirect all HTTP requests to the API to HTTPS"
+    default: true
+  cf_mysql.proxy.api_username:
+    description: "Username for Basic Auth used to secure API"
+  cf_mysql.proxy.api_password:
+    description: "Password for Basic Auth used to secure API"
+  cf_mysql.proxy.health_port:
+    description: "Port for checking the health of the proxy process"
+    default: 1936
+  cf_mysql.proxy.proxy_ips:
+    description: "List of IP addresses for all proxy jobs"
+  cf_mysql.proxy.arbitrator_ip:
+    description: "List of IP addresses for the arbitrator nodes of the MySQL cluster"
+    default: "no-arbitrator-ip"

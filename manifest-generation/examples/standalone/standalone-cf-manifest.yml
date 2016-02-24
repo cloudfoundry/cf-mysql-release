@@ -1,0 +1,15 @@
+# Standalone deployments have no CF, but these fields are required
+# for all deployments.
+name: REPLACE_WITH_CF_DEPLOYMENT_NAME
+director_uuid: REPLACE_WITH_DIRECTOR_UUID
+properties:
+  admin_username: UNUSED_VALUE
+  admin_password: UNUSED_VALUE
+  nats:
+    machines: []
+    user: UNUSED_VALUE
+    password: UNUSED_VALUE
+    port: 0
+  system_domain: UNUSED_VALUE
+  app_domains: [UNUSED_VALUE]
+  domain: UNUSED_VALUE
