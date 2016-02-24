@@ -5,8 +5,8 @@ check process switchboard
   group vcap
 
 <% if p("cf_mysql.standalone") == false %>
-check process route-registrar
-  with pidfile /var/vcap/sys/run/route-registrar/route-registrar.pid
+check process cf-mysql-route-registrar
+  with pidfile /var/vcap/sys/run/cf-mysql-broker/route-registrar.pid
   start program "/var/vcap/jobs/proxy/bin/route-registrar_ctl start"
   stop program "/var/vcap/jobs/proxy/bin/route-registrar_ctl stop"
   group vcap

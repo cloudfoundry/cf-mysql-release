@@ -22,6 +22,6 @@ go install github.com/vito/gosub
   echo github.com/cloudfoundry-incubator/route-registrar # uses Godeps
   echo broker-registrar  # non-go project
   echo cf-mysql-broker   # non-go project
-  echo common            # non-go project
+  echo cf-mysql-common   # non-go project
   echo syslog_aggregator # non-go project
 } | xargs gosub sync
