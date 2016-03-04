@@ -35,12 +35,12 @@ export PATH=$PATH:/var/vcap/packages/xtrabackup/bin
 export PERL5LIB=$PERL5LIB:/var/vcap/packages/xtrabackup/lib/perl/5.18.2
 
 if [[ ! -d "$RUN_DIR" ]]; then
-  log "start script: directory $RUN_DIR does not exist, creating it now"
+  log "prestart script: directory $RUN_DIR does not exist, creating it now"
   mkdir -p $RUN_DIR
 fi
 
 if [[ ! -d "$TMP_DIR" ]]; then
-  log "start script: directory $TMP_DIR does not exist, creating it now"
+  log "prestart script: directory $TMP_DIR does not exist, creating it now"
   mkdir -p $TMP_DIR
   chown -R vcap:vcap $TMP_DIR
 fi
@@ -49,9 +49,9 @@ log "prestart script: checking for existing instance of $MY_NAME"
 set +e
 $(source /var/vcap/packages/cf-mysql-common/utils.sh; pid_guard $PIDFILE $MY_NAME)
 pg_exit_code=$?
-log "start script: pg_exit_code: $pg_exit_code"
+log "prestart script: pg_exit_code: $pg_exit_code"
 if [ $pg_exit_code -eq 1 ]; then
-  log "start script: $MY_NAME already running. Exiting 0 so that monit doesn't think that execution failed"
+  log "prestart script: $MY_NAME already running. Exiting 0 so that monit doesn't think that execution failed"
   exit 0
 fi
 set -e
@@ -72,7 +72,7 @@ rm -f $CONFIG_DIR/my.cnf
 ln -sf $MARIADB_JOB_DIR/config/my.cnf $CONFIG_DIR/my.cnf
 
 if ! test -d ${datadir}; then
-  log "start script: making ${datadir} and running /var/vcap/packages/mariadb/scripts/mysql_install_db"
+  log "prestart script: making ${datadir} and running /var/vcap/packages/mariadb/scripts/mysql_install_db"
   mkdir -p ${datadir}
   /var/vcap/packages/mariadb/scripts/mysql_install_db \
          --basedir=/var/vcap/packages/mariadb \
