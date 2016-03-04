@@ -11,9 +11,9 @@ JOB_INDEX=<%= index %>
 CONFIG_FILE=$MARIADB_JOB_DIR/config/mariadb_ctl_config.yml
 MARIADB_CTRL_PACKAGE=/var/vcap/packages/mariadb_ctrl
 
-PROC_NAME=mariadb_ctl
-RUN_DIR=/var/vcap/sys/run/$PROC_NAME
-PIDFILE=$RUN_DIR/$PROC_NAME.pid
+MY_NAME=mariadb_ctl
+RUN_DIR=/var/vcap/sys/run/$MY_NAME
+PIDFILE=$RUN_DIR/$MY_NAME.pid
 TMP_DIR=/var/vcap/data/mysql/tmp
 
 source /var/vcap/packages/cf-mysql-common/utils.sh
@@ -51,13 +51,13 @@ case $1 in
       chown -R vcap:vcap $TMP_DIR
     fi
 
-    log "start script: checking for existing instance of $PROC_NAME"
+    log "start script: checking for existing instance of $MY_NAME"
     set +e
-    $(source /var/vcap/packages/cf-mysql-common/utils.sh; pid_guard $PIDFILE $PROC_NAME)
+    $(source /var/vcap/packages/cf-mysql-common/utils.sh; pid_guard $PIDFILE $MY_NAME)
     pg_exit_code=$?
     log "start script: pg_exit_code: $pg_exit_code"
     if [ $pg_exit_code -eq 1 ]; then
-      log "start script: $PROC_NAME already running. Exiting 0 so that monit doesn't think that execution failed"
+      log "start script: $MY_NAME already running. Exiting 0 so that monit doesn't think that execution failed"
       exit 0
     fi
     set -e
