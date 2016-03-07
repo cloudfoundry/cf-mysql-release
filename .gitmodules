@@ -67,10 +67,6 @@
 	path = src/github.com/tedsuo/ifrit
 	url = https://github.com/tedsuo/ifrit
 	branch = master
-[submodule "src/github.com/fraenkel/candiedyaml"]
-	path = src/github.com/fraenkel/candiedyaml
-	url = https://github.com/fraenkel/candiedyaml
-	branch = master
 [submodule "src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests"]
 	path = src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests
 	url = https://github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests.git
@@ -85,9 +81,6 @@
 	path = src/github.com/pivotal-cf-experimental/service-config
 	url = https://github.com/pivotal-cf-experimental/service-config
 	branch = master
-[submodule "src/github.com/cloudfoundry-incubator/candiedyaml"]
-	path = src/github.com/cloudfoundry-incubator/candiedyaml
-	url = https://github.com/cloudfoundry-incubator/candiedyaml
 [submodule "src/github.com/imdario/mergo"]
 	path = src/github.com/imdario/mergo
 	url = https://github.com/imdario/mergo
