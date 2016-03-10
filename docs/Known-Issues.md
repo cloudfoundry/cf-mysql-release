@@ -1,3 +1,7 @@
+### Build issue with cf-mysql v26
+
+The release tagged `v26` will no longer build from source due to a dependency that is no longer available. To continue working from source, update your source tree to `develop`.
+
 ###MyISAM Tables
 The clustering plugin used in this release (Galera) does not support replication of MyISAM Tables. However, the service does not prevent the creation of MyISAM tables. When MyISAM tables are created, the tables will be created on every node (DDL statements are replicated), but data written to a node won't be replicated. If the persistent disk is lost on the node data is written to (for MyISAM tables only), data will be lost. To change a table from MyISAM to InnoDB, please follow this [guide](http://dev.mysql.com/doc/refman/5.5/en/converting-tables-to-innodb.html).
 
