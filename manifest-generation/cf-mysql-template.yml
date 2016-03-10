@@ -121,6 +121,7 @@ properties:
       standalone_tests_only: (( property_overrides.acceptance_tests.standalone_tests_only || nil ))
       timeout_scale: (( property_overrides.acceptance_tests.timeout_scale || nil ))
   cf-mysql-backup:
+    ulimit: (( property_overrides.cf-mysql-backup.ulimit || nil ))
     symmetric_key: (( property_overrides.cf-mysql-backup.symmetric_key || nil ))
     endpoint_credentials:
       username: (( property_overrides.cf-mysql-backup.endpoint_credentials.username || nil ))
