@@ -17,3 +17,4 @@ files:
   - github.com/pivotal-cf-experimental/service-config/*.go # gosub
   - github.com/pivotal-golang/lager/*.go # gosub
   - gopkg.in/validator.v2/*.go # gosub
+  - gopkg.in/yaml.v2/*.go # gosub
