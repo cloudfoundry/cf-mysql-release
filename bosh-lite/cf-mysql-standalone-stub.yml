@@ -1,6 +1,8 @@
 ---
 properties:
   standalone: true
+  roadmin_enabled: true
+  roadmin_password: password
 
 jobs:
 - name: cf-mysql-broker_z1

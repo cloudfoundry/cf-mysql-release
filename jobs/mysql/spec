@@ -65,6 +65,11 @@ properties:
   ib_log_file_size:
     description: 'Size of the ib_log_file used by innodb, in MB'
     default: 1024
+  roadmin_enabled:
+    description: 'Whether read only user is enabled'
+    default: false
+  roadmin_password:
+    description: 'Password for the MySQL server read-only admin user'
   seeded_databases:
     description: 'Set of databases to seed'
     default: {}

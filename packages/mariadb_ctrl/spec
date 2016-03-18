@@ -12,10 +12,14 @@ files:
   - github.com/cloudfoundry/mariadb_ctrl/integration_test/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/mariadb_helper/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/mariadb_helper/fakes/*.go # gosub
+  - github.com/cloudfoundry/mariadb_ctrl/mariadb_helper/seeder/*.go # gosub
+  - github.com/cloudfoundry/mariadb_ctrl/mariadb_helper/seeder/fakes/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/os_helper/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/os_helper/fakes/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/start_manager/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/start_manager/fakes/*.go # gosub
+  - github.com/cloudfoundry/mariadb_ctrl/start_manager/node_starter/*.go # gosub
+  - github.com/cloudfoundry/mariadb_ctrl/start_manager/node_starter/fakes/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/upgrader/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/upgrader/fakes/*.go # gosub
   - github.com/go-sql-driver/mysql/*.go # gosub
