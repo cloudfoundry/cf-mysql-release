@@ -3,18 +3,3 @@ name: bootstrap
 dependencies:
 - golang
 files:
-  - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
-  - github.com/cloudfoundry-incubator/cf-mysql-bootstrap/*.go # gosub
-  - github.com/cloudfoundry-incubator/cf-mysql-bootstrap/bootstrapper/*.go # gosub
-  - github.com/cloudfoundry-incubator/cf-mysql-bootstrap/bootstrapper/node_manager/*.go # gosub
-  - github.com/cloudfoundry-incubator/cf-mysql-bootstrap/bootstrapper/node_manager/fakes/*.go # gosub
-  - github.com/cloudfoundry-incubator/cf-mysql-bootstrap/clock/*.go # gosub
-  - github.com/cloudfoundry-incubator/cf-mysql-bootstrap/clock/fakes/*.go # gosub
-  - github.com/cloudfoundry-incubator/cf-mysql-bootstrap/config/*.go # gosub
-  - github.com/cloudfoundry-incubator/cf-mysql-bootstrap/fakes/*.go # gosub
-  - github.com/cloudfoundry-incubator/cf-mysql-bootstrap/test_helpers/*.go # gosub
-  - github.com/fraenkel/candiedyaml/*.go # gosub
-  - github.com/imdario/mergo/*.go # gosub
-  - github.com/pivotal-cf-experimental/service-config/*.go # gosub
-  - github.com/pivotal-golang/lager/*.go # gosub
-  - gopkg.in/validator.v2/*.go # gosub
