@@ -10,7 +10,6 @@ templates:
 
 packages:
 - switchboard
-- golang
 - cf-mysql-common
 - syslog_aggregator
 - cf-mysql-route-registrar
