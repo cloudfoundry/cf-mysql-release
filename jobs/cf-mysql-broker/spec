@@ -35,6 +35,7 @@ properties:
 
   cf.api_url:
     description: 'URL of the CloudFoundry Cloud Controller'
+    example: 'http://api.your-domain.example.com'
   cf.skip_ssl_validation:
     description: 'Determines whether dashboard verifies SSL certificates when communicating with Cloud Controller and UAA'
     default: false

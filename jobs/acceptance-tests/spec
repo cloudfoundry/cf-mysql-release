@@ -11,6 +11,7 @@ templates:
 properties:
   cf.api_url:
     description: 'Full URL of Cloud Foundry API'
+    example: 'http://api.your-domain.example.com'
   cf.admin_username:
     description: 'Username of the admin user'
   cf.admin_password:

@@ -7,6 +7,7 @@ templates:
 properties:
   cf.api_url:
     description: 'Full URL of Cloud Foundry API'
+    example: 'http://api.your-domain.example.com'
   cf.skip_ssl_validation:
     description: 'Skip SSL validation when connecting to Cloud Foundry API'
     default: false
