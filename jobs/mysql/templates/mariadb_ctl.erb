@@ -86,8 +86,8 @@ case $1 in
     cd $MARIADB_CTRL_PACKAGE
 
     log "start script: starting mariadb_ctrl..."
-    su - vcap -c \
-    "$MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
+    su vcap -c \
+    "PATH=$PATH PERL5LIB=$PERL5LIB $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
              -configPath=$CONFIG_FILE \
              2>&1 \
              | tee -a $LOG_FILE \
