@@ -99,9 +99,9 @@ properties:
   cf_mysql.broker.ssl_enabled:
     description: 'Determines use of https in dashboard url and in callback uri for calls to UAA'
     default: true
-  cf_mysql.broker.nginx.port:
+  cf_mysql.broker.port:
     default: 8081
-    description: "Port for nginx"
+    description: "Port for broker"
 
   network_name:
     description: "The name of the network (needed for the syslog aggregator)"
