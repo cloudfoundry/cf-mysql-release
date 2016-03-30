@@ -7,7 +7,7 @@ echo "Started bootstrap errand ..."
 JOB_DIR=/var/vcap/jobs/bootstrap
 CONFIG_PATH=$JOB_DIR/config/config.yml
 
-/var/vcap/packages/bootstrap/bin/cf-mysql-bootstrap -configPath=${CONFIG_PATH}
+su vcap -c "/var/vcap/packages/bootstrap/bin/cf-mysql-bootstrap -configPath=${CONFIG_PATH}"
 echo "Bootstrap errand completed"
 
 exit 0
