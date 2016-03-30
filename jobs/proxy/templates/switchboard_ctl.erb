@@ -18,18 +18,20 @@ case $1 in
     pid_guard $pidfile "Switchboard"
 
     mkdir -p $run_dir
+    chown vcap:vcap -R $run_dir
     mkdir -p $log_dir
+    chown vcap:vcap -R $log_dir
 
     cd $package_dir
 
     # Start syslog forwarding
     /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $job_dir/config
 
-    $package_dir/bin/switchboard \
+    su vcap -c "$package_dir/bin/switchboard \
       -configPath=$job_dir/config/switchboard.yml \
       2>&1 \
       | tee -a $log_dir/switchboard.combined.log \
-      | logger -p local1.error -t switchboard
+      | logger -p local1.error -t switchboard"
 
     log "Starting switchboard... done"
     ;;

@@ -57,7 +57,7 @@ properties:
     default: 5000
   cf_mysql.proxy.api_port:
     description: "Port for the proxy API to listen on"
-    default: 80
+    default: 8080
   cf_mysql.proxy.api_force_https:
     description: "Redirect all HTTP requests to the API to HTTPS"
     default: true
