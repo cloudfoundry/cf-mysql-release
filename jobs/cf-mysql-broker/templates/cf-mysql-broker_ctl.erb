@@ -39,13 +39,13 @@ case $1 in
 
         # Create DB and run migrations
         set +e
-        bundle exec rake db:create 2>&1 \
+        su vcap -p -c "PATH=$PATH bundle exec rake db:create 2>&1 \
             | tee -a $LOG_DIR/db_migrate.combined.log \
-            | logger -p local1.error -t mysql-broker-dbcreate
+            | logger -p local1.error -t mysql-broker-dbcreate"
 
-        bundle exec rake db:migrate 2>&1 \
+        su vcap -p -c "PATH=$PATH bundle exec rake db:migrate 2>&1 \
             | tee -a $LOG_DIR/db_migrate.combined.log \
-            | logger -p local1.error -t mysql-broker-dbmigrate
+            | logger -p local1.error -t mysql-broker-dbmigrate"
 
         EXIT_STATUS=$?
         set -e
@@ -59,9 +59,9 @@ case $1 in
 
         # Sync size of existing service instances to match plans in manifest
         set +e
-        bundle exec rake broker:sync_plans_in_db 2>&1 \
+        su vcap -p -c "PATH=$PATH bundle exec rake broker:sync_plans_in_db 2>&1 \
             | tee -a $LOG_DIR/cf-mysql-broker.log \
-            | logger -p local1.error -t mysql-broker-plans
+            | logger -p local1.error -t mysql-broker-plans"
 
         EXIT_STATUS=$?
         set -e
