@@ -32,4 +32,3 @@ Manager:
   - <%= ip %>
   <% end %>
   MyIP: <%= spec.networks.send(p('network_name')).ip %>
-  DatabaseStartupTimeout: <%= (p('cf_mysql.mysql.database_startup_timeout') * 0.8).round %>

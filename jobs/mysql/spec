@@ -87,8 +87,6 @@ properties:
     default: false
   cf_mysql.mysql.roadmin_password:
     description: 'Password for the MySQL server read-only admin user'
-  cf_mysql.mysql.database_startup_timeout:
-    description: 'How long the startup script waits for the database to come online (in seconds)'
   cf_mysql.mysql.bootstrap_endpoint.username:
     description: 'Username used by the bootstrap endpoints for Basic Auth'
   cf_mysql.mysql.bootstrap_endpoint.password:
