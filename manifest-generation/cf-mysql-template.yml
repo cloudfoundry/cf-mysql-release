@@ -12,8 +12,8 @@ compilation:
 
 update:
   canaries: 1
-  canary_watch_time: (( merge || "30000-" canary_end_in_sec ))
-  update_watch_time: (( merge || "30000-" canary_end_in_sec ))
+  canary_watch_time: (( merge || "30000-600000" ))
+  update_watch_time: (( merge || "30000-600000" ))
   max_in_flight: 1
   serial: true
 
@@ -68,7 +68,6 @@ properties:
       roadmin_enabled: (( property_overrides.mysql.roadmin_enabled || false ))
       roadmin_password: (( property_overrides.mysql.roadmin_password ))
       seeded_databases: (( property_overrides.mysql.seeded_databases || nil ))
-      database_startup_timeout: (( property_overrides.mysql.database_startup_timeout || 600 ))
       max_heap_table_size: (( property_overrides.mysql.max_heap_table_size || nil ))
       tmp_table_size: (( property_overrides.mysql.tmp_table_size || nil ))
       wsrep_max_ws_rows: (( property_overrides.mysql.wsrep_max_ws_rows || nil ))
@@ -315,8 +314,6 @@ default_proxy_ips:
 - (( jobs.proxy_z2.networks.mysql2.static_ips.[0] || nil ))
 # spiff does not allow concating multiple fields of different types
 # without adding new temporary properties
-database_startup_timeout_str: (( "" .properties.cf_mysql.mysql.database_startup_timeout ))
-canary_end_in_sec: (( database_startup_timeout_str "000" ))
 additional_disk_pools: (( iaas_settings.additional_disk_pools || empty_list ))
 additional_releases: (( job_overrides.additional_releases || empty_list ))
 additional_resource_pools: (( iaas_settings.additional_resource_pools || empty_list))
