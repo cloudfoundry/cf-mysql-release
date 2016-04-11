@@ -62,7 +62,7 @@ iaas_settings:
 
   stemcell: &stemcell
     name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-    version: latest
+  compilation_workers: 2 # When setting this parameter, it overrides the default number of compilation workers (default=4)
   compilation_cloud_properties:
     instance_type: c4.large
     availability_zone: (( properties.template_only.aws.availability_zone ))
