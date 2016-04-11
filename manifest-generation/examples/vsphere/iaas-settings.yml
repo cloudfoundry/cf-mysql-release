@@ -74,6 +74,7 @@ iaas_settings:
   stemcell: &stemcell
     name: bosh-vsphere-esxi-ubuntu-trusty-go_agent
     version: latest
+  compilation_workers: 2 # When setting this parameter, it overrides the default number of compilation workers (default=4)
   compilation_cloud_properties:
     ram: 4096
     disk: 20480
