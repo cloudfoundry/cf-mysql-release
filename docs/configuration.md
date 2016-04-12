@@ -8,7 +8,7 @@ Updating the service instances is supported; see [Service plans and instances](d
 
 The manifest optionally allows the user to specify a password for the `roadmin` user. By supplying this password, the service will automatically create a user that has access to read all databases, but permission to write to none of them.
 
-This parameter is defined in the [spec file](../jobs/mysql/spec#L81).
+This parameter is defined in the [spec file](../jobs/mysql/spec#L84).
 
 ## Pre-seeding Databases
 
