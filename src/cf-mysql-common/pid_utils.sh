@@ -83,7 +83,7 @@ function kill_and_wait() {
 
   if [ ! -f "${pidfile}" ]; then
     echo "Pidfile ${pidfile} doesn't exist"
-    exit 0
+    return 0
   fi
 
   local pid
@@ -91,13 +91,13 @@ function kill_and_wait() {
 
   if [ -z "${pid}" ]; then
     echo "Unable to get pid from ${pidfile}"
-    exit 1
+    return 1
   fi
 
   if ! pid_is_running "${pid}"; then
     echo "Process ${pid} is not running"
     rm -f "${pidfile}"
-    exit 0
+    return 0
   fi
 
   echo "Killing ${pidfile}: ${pid} "
@@ -113,7 +113,7 @@ function kill_and_wait() {
 
   if pid_is_running "${pid}"; then
     echo "Timed Out"
-    exit 1
+    return 1
   else
     echo "Stopped"
     rm -f "${pidfile}"
