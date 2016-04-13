@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eu
+set -e
 
 MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 RELEASE_DIR="$( cd "${MY_DIR}/.." && pwd )"
@@ -52,7 +52,7 @@ pushd "${RELEASE_DIR}" > /dev/null
     "${RELEASE_DIR}/manifest-generation/bosh-lite-stubs/cf-manifest.yml" \
     > "${tmpdir}/bosh-lite-cf-manifest.yml"
 
-  if [[ -n ${instance_counts} ]]; then
+  if [[ ! -z ${instance_counts} ]]; then
     ./scripts/generate-deployment-manifest \
       -c "${tmpdir}/bosh-lite-cf-manifest.yml" \
       -p ./manifest-generation/bosh-lite-stubs/property-overrides.yml \
