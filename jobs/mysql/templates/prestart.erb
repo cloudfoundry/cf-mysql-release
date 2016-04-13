@@ -47,7 +47,7 @@ fi
 
 log "prestart script: checking for existing instance of $MY_NAME"
 set +e
-$(source /var/vcap/packages/cf-mysql-common/pid_utils.sh; pid_guard $PIDFILE $MY_NAME)
+source /var/vcap/packages/cf-mysql-common/pid_utils.sh; pid_guard $PIDFILE $MY_NAME
 pg_exit_code=$?
 log "prestart script: pg_exit_code: $pg_exit_code"
 if [ $pg_exit_code -eq 1 ]; then
