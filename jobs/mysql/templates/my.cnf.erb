@@ -76,6 +76,10 @@ max_allowed_packet = 256M
 <%= "skip_name_resolve" if disable_dns %>
 <% end %>
 
+# Slow query logging:
+slow_query_log = 1
+slow_query_log_file = /var/vcap/sys/log/mysql/mysql_slow_query.log
+
 innodb_file_per_table = ON
 innodb_file_format = Barracuda
 innodb_log_file_size = "<%= p('cf_mysql.mysql.ib_log_file_size')%>MB"
