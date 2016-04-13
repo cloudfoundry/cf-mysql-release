@@ -331,7 +331,7 @@ Run the `./scripts/generate-deployment-manifest` with the stubs you created in t
 ```
 Usage:
 The script requires the following arguments-
-    -c CF Manifest
+    -c CF stub (provided in cf-mysql-release)
     -p Property overrides stub file (Use this file to provide credentials and broker plans)
     -i Infrastructure type stub file (AWS or vSphere)
 The following arguments are optional-
