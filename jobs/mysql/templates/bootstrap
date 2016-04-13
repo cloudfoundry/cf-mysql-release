@@ -5,6 +5,10 @@ set -e
 export MARIADB_JOB_DIR=/var/vcap/jobs/mysql
 datadir=/var/vcap/store/mysql
 CONFIG_DIR=/etc/mysql
+LOG_DIR=/var/vcap/sys/log/mysql
+LOG_FILE=$LOG_DIR/pre-start.stdout.log
+SLOW_QUERY_LOG_FILE=$LOG_DIR/mysql_slow_query.log
+JOB_INDEX=<%= index %>
 CONFIG_FILE=$MARIADB_JOB_DIR/config/mariadb_ctl_config.yml
 MARIADB_CTRL_PACKAGE=/var/vcap/packages/mariadb_ctrl
 
@@ -34,6 +38,7 @@ export PERL5LIB=$PERL5LIB:/var/vcap/packages/xtrabackup/lib/perl/5.18.2
 if [[ ! -d "$RUN_DIR" ]]; then
   log "bootstrap script: directory $RUN_DIR does not exist, creating it now"
   mkdir -p $RUN_DIR
+  chown -R vcap:vcap $RUN_DIR
 fi
 
 if [[ ! -d "$TMP_DIR" ]]; then
@@ -42,7 +47,15 @@ if [[ ! -d "$TMP_DIR" ]]; then
   chown -R vcap:vcap $TMP_DIR
 fi
 
+mkdir -p $LOG_DIR
+touch $LOG_FILE
+touch $SLOW_QUERY_LOG_FILE
+chown -R vcap:vcap $LOG_DIR
+date >> $LOG_FILE 2>> $LOG_FILE
+date >> $SLOW_QUERY_LOG_FILE 2>> $SLOW_QUERY_LOG_FILE
+
 log "bootstrap script: checking for existing instance of $MY_NAME"
+
 set +e
 source /var/vcap/packages/cf-mysql-common/pid_utils.sh; pid_guard $PIDFILE $MY_NAME
 pg_exit_code=$?
@@ -53,10 +66,8 @@ if [ $pg_exit_code -eq 1 ]; then
 fi
 set -e
 
-mkdir -p $(dirname $LOG_FILE)
-touch $LOG_FILE
-chown vcap:vcap $LOG_FILE
-date >> $LOG_FILE 2>> $LOG_FILE
+# Start syslog forwarding
+/var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $MARIADB_JOB_DIR/config
 
 # It is surprisingly hard to get the config file location passed in
 # on the command line to the mysql.server script. This is easier.
@@ -78,11 +89,13 @@ chown -R vcap:vcap ${datadir}
 cd $MARIADB_CTRL_PACKAGE
 
 log "bootstrap script: starting mariadb_ctrl in prestart mode"
-$MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
+
+su vcap -c \
+"PATH=$PATH PERL5LIB=$PERL5LIB $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
          -configPath=$CONFIG_FILE \
          -prestart=true \
          2>&1 \
          | tee -a $LOG_FILE \
-         | logger -p local1.error -t mariadb_ctrl
+         | logger -p local1.error -t mariadb_ctrl"
 
 log "bootstrap script: completed bootstrap"
