@@ -1,7 +1,7 @@
 ---
 name: broker-deregistrar
 packages:
-- cli 
+- cli
 templates:
   errand.sh.erb: bin/run
 properties:
