@@ -12,6 +12,7 @@ templates:
   gra-log-purger.sh.erb: bin/gra-log-purger.sh
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
   pre-start.erb: bin/pre-start
+  pre-start-unprivileged.erb: bin/pre-start-unprivileged
 
 packages:
 - xtrabackup
