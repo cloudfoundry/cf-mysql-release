@@ -194,8 +194,6 @@ base_jobs:
   networks:
   - name: mysql1
     static_ips: (( static_ips(0) ))
-  properties:
-    network_name: mysql1
 - name: mysql_z2
   templates: (( base_templates.mysql colocated_jobs.mysql_z2 ))
   instances: (( instance_count_overrides.mysql_z2.instances || 1 ))
@@ -204,8 +202,6 @@ base_jobs:
   networks:
   - name: mysql2
     static_ips: (( static_ips(0) ))
-  properties:
-    network_name: mysql2
 - name: mysql_z3
   templates: (( base_templates.mysql colocated_jobs.mysql_z3 ))
   # defaults to using an arbitrator in place of mysql node in z3
@@ -215,8 +211,6 @@ base_jobs:
   networks:
   - name: mysql3
     static_ips: (( static_ips(0) ))
-  properties:
-    network_name: mysql3
 - name: arbitrator_z3
   templates: (( base_templates.arbitrator colocated_jobs.arbitrator_z3 ))
   instances: (( instance_count_overrides.arbitrator_z3.instances || 1 ))
@@ -224,8 +218,6 @@ base_jobs:
   networks:
   - name: mysql3
     static_ips: (( static_ips(1) ))
-  properties:
-    network_name: mysql3
 - name: proxy_z1
   templates: (( base_templates.proxy colocated_jobs.proxy_z1 ))
   instances: (( instance_count_overrides.proxy_z1.instances || 1 ))
@@ -233,8 +225,6 @@ base_jobs:
   networks:
   - name: mysql1
     static_ips: (( static_ips(1) ))
-  properties:
-    network_name: mysql1
 - name: proxy_z2
   templates: (( base_templates.proxy colocated_jobs.proxy_z2 ))
   instances: (( instance_count_overrides.proxy_z2.instances || 1 ))
@@ -242,24 +232,18 @@ base_jobs:
   networks:
   - name: mysql2
     static_ips: (( static_ips(1) ))
-  properties:
-    network_name: mysql2
 - name: cf-mysql-broker_z1
   templates: (( base_templates.broker colocated_jobs.cf-mysql-broker_z1 ))
   instances: (( instance_count_overrides.cf-mysql-broker_z1.instances || 1 ))
   resource_pool: cf-mysql-broker_z1
   networks:
   - name: mysql1
-  properties:
-    network_name: mysql1
 - name: cf-mysql-broker_z2
   templates: (( base_templates.broker colocated_jobs.cf-mysql-broker_z2 ))
   instances: (( instance_count_overrides.cf-mysql-broker_z2.instances || 1 ))
   resource_pool: cf-mysql-broker_z2
   networks:
   - name: mysql2
-  properties:
-    network_name: mysql2
 - name: broker-registrar
   template: broker-registrar
   release: cf-mysql

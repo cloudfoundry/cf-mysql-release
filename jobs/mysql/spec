@@ -92,6 +92,3 @@ properties:
   cf_mysql.mysql.bootstrap_endpoint.password:
     description: 'Password used by the bootstrap endpoints for Basic Auth'
 
-  network_name:
-    description: "The name of the network (needed for the syslog aggregator)"
-
