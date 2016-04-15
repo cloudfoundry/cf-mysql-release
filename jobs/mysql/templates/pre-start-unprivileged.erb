@@ -56,20 +56,10 @@ if [ $pg_exit_code -eq 1 ]; then
 fi
 set -e
 
-# Start syslog forwarding
-/var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $MARIADB_JOB_DIR/config
-
 mkdir -p $LOG_DIR
 touch $LOG_FILE
 chown vcap:vcap $LOG_FILE
 date >> $LOG_FILE 2>> $LOG_FILE
-
-# It is surprisingly hard to get the config file location passed in
-# on the command line to the mysql.server script. This is easier.
-mkdir -p $CONFIG_DIR
-rm -f /etc/my.cnf
-rm -f $CONFIG_DIR/my.cnf
-ln -sf $MARIADB_JOB_DIR/config/my.cnf $CONFIG_DIR/my.cnf
 
 if ! test -d ${datadir}; then
   log "prestart script: making ${datadir} and running /var/vcap/packages/mariadb/scripts/mysql_install_db"
