@@ -5,8 +5,8 @@ set -e
 export MARIADB_JOB_DIR=/var/vcap/jobs/mysql
 datadir=/var/vcap/store/mysql
 CONFIG_DIR=/etc/mysql
-LOG_DIR=/var/vcap/sys/log/mysql
-LOG_FILE=$LOG_DIR/pre-start.stdout.log
+LOG_DIR=/var/vcap/sys/log/galera-healthcheck
+LOG_FILE=$LOG_DIR/pre-start-unprivileged.stdout.log
 JOB_INDEX=<%= index %>
 CONFIG_FILE=$MARIADB_JOB_DIR/config/mariadb_ctl_config.yml
 MARIADB_CTRL_PACKAGE=/var/vcap/packages/mariadb_ctrl
