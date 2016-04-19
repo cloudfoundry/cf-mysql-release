@@ -31,7 +31,9 @@ jobs:
       password: pw2
 ```
 
-Note: If all you need is a database deployment, it is possible to deploy this
+Note 1: If a seeded database is renamed in the manifest, a new database will be created with the new name on the next deploy. The old one will not be deleted. If a username for a database is changed, a new user with the new username is created on the next deploy. We do not support changing the password for a user via the manifest, you will need to update it manually using SQL statements.
+
+Note 2: If all you need is a database deployment, it is possible to deploy this
 release with zero broker instances and completely remove any dependencies on Cloud Foundry.
 See the [proxy](jobs/proxy/spec) and [acceptance-tests](jobs/acceptance-tests/spec) spec files for standalone configuration options.
 

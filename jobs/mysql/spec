@@ -83,6 +83,13 @@ properties:
   cf_mysql.mysql.seeded_databases:
     description: 'Set of databases to seed'
     default: {}
+    example: |
+      - name: db1
+        username: user1
+        password: pw1
+      - name: db2
+        username: user2
+        password: pw2
   cf_mysql.mysql.roadmin_enabled:
     description: 'Whether read only user is enabled'
     default: false
@@ -92,4 +99,3 @@ properties:
     description: 'Username used by the bootstrap endpoints for Basic Auth'
   cf_mysql.mysql.bootstrap_endpoint.password:
     description: 'Password used by the bootstrap endpoints for Basic Auth'
-
