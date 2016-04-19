@@ -45,6 +45,9 @@ case $1 in
       exit 1
     fi
 
+    mkdir -p $RUN_DIR
+    chown -R vcap:vcap $RUN_DIR
+
     mkdir -p $TMP_DIR
     chown -R vcap:vcap $TMP_DIR
 
