@@ -15,6 +15,7 @@ PROC_NAME=mariadb_ctl
 RUN_DIR=/var/vcap/sys/run/$PROC_NAME
 PIDFILE=$RUN_DIR/$PROC_NAME.pid
 TMP_DIR=/var/vcap/data/mysql/tmp
+PRESTART_MARKER_FILE=/var/vcap/sys/run/prestart_marker
 
 source /var/vcap/packages/cf-mysql-common/pid_utils.sh
 
@@ -39,9 +40,10 @@ case $1 in
   # monit unmonitor && monit monitor, at which point monit would find the pid and reset the status to 'running'
 
   start)
-
-    mkdir -p $RUN_DIR
-    chown -R vcap:vcap $RUN_DIR
+    if [ ! -f ${PRESTART_MARKER_FILE} ]; then
+      log "this bosh version and/or stemcell version is not pre-start compatible"
+      exit 1
+    fi
 
     mkdir -p $TMP_DIR
     chown -R vcap:vcap $TMP_DIR

@@ -2,10 +2,16 @@
 
 set -e
 
+RUN_DIR=/var/vcap/sys/run
 MARIADB_JOB_DIR=/var/vcap/jobs/mysql
+PRESTART_MARKER_FILE=$RUN_DIR/prestart_marker
 
 LOG_DIR=/var/vcap/sys/log/mysql
 export LOG_FILE=$LOG_DIR/pre-start.stdout.log
+
+mkdir -p $RUN_DIR
+chown -R vcap:vcap $RUN_DIR
+touch $PRESTART_MARKER_FILE
 
 # Start syslog forwarding
 /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $MARIADB_JOB_DIR/config
