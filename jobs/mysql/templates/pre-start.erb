@@ -2,93 +2,14 @@
 
 set -e
 
-export MARIADB_JOB_DIR=/var/vcap/jobs/mysql
-datadir=/var/vcap/store/mysql
-CONFIG_DIR=/etc/mysql
+MARIADB_JOB_DIR=/var/vcap/jobs/mysql
+
 LOG_DIR=/var/vcap/sys/log/mysql
-LOG_FILE=$LOG_DIR/pre-start.stdout.log
-JOB_INDEX=<%= index %>
-CONFIG_FILE=$MARIADB_JOB_DIR/config/mariadb_ctl_config.yml
-MARIADB_CTRL_PACKAGE=/var/vcap/packages/mariadb_ctrl
-
-MY_NAME=mariadb_ctl
-RUN_DIR=/var/vcap/sys/run/$MY_NAME
-PIDFILE=$RUN_DIR/$MY_NAME.pid
-TMP_DIR=/var/vcap/data/mysql/tmp
-
-source /var/vcap/packages/cf-mysql-common/pid_utils.sh
-
-##########################
-chown -R vcap:vcap /var/vcap/data/tmp/
-#######################
-
-# add mysql to path
-if [ ! -f /usr/local/bin/mysql ]; then
-  log "Adding mysql to path"
-  ln -s /var/vcap/packages/mariadb/bin/mysql /usr/local/bin
-fi
-
-# add xtrabackup to path
-export PATH=$PATH:/var/vcap/packages/xtrabackup/bin
-
-# add perl libraries to perl env
-export PERL5LIB=$PERL5LIB:/var/vcap/packages/xtrabackup/lib/perl/5.18.2
-
-if [[ ! -d "$RUN_DIR" ]]; then
-  log "prestart script: directory $RUN_DIR does not exist, creating it now"
-  mkdir -p $RUN_DIR
-fi
-
-if [[ ! -d "$TMP_DIR" ]]; then
-  log "prestart script: directory $TMP_DIR does not exist, creating it now"
-  mkdir -p $TMP_DIR
-  chown -R vcap:vcap $TMP_DIR
-fi
-
-log "prestart script: checking for existing instance of $MY_NAME"
-set +e
-source /var/vcap/packages/cf-mysql-common/pid_utils.sh; pid_guard $PIDFILE $MY_NAME
-pg_exit_code=$?
-log "prestart script: pg_exit_code: $pg_exit_code"
-if [ $pg_exit_code -eq 1 ]; then
-  log "prestart script: $MY_NAME already running. Exiting 0 so that monit doesn't think that execution failed"
-  exit 0
-fi
-set -e
+export LOG_FILE=$LOG_DIR/pre-start.stdout.log
 
 # Start syslog forwarding
 /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $MARIADB_JOB_DIR/config
 
-mkdir -p $LOG_DIR
-touch $LOG_FILE
-chown vcap:vcap $LOG_FILE
-date >> $LOG_FILE 2>> $LOG_FILE
-
-# It is surprisingly hard to get the config file location passed in
-# on the command line to the mysql.server script. This is easier.
-mkdir -p $CONFIG_DIR
 rm -f /etc/my.cnf
-rm -f $CONFIG_DIR/my.cnf
-ln -sf $MARIADB_JOB_DIR/config/my.cnf $CONFIG_DIR/my.cnf
 
-if ! test -d ${datadir}; then
-  log "prestart script: making ${datadir} and running /var/vcap/packages/mariadb/scripts/mysql_install_db"
-  mkdir -p ${datadir}
-  /var/vcap/packages/mariadb/scripts/mysql_install_db \
-         --basedir=/var/vcap/packages/mariadb \
-         --user=vcap \
-         --datadir=${datadir} >> $LOG_FILE 2>> $LOG_FILE
-fi
-chown -R vcap:vcap ${datadir}
-
-cd $MARIADB_CTRL_PACKAGE
-
-log "prestart script: starting mariadb_ctrl in prestart mode"
-$MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
-         -configPath=$CONFIG_FILE \
-         -prestart=true \
-         2>&1 \
-         | tee -a $LOG_FILE \
-         | logger -p local1.error -t mariadb_ctrl
-
-log "prestart script: completed prestart"
+${MARIADB_JOB_DIR}/bin/bootstrap
