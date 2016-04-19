@@ -4,8 +4,8 @@ set -u # report the usage of uninitialized variables
 
 JOB_NAME=route-registrar
 
-RUN_DIR=/var/vcap/sys/run/proxy
-LOG_DIR=/var/vcap/sys/log/proxy
+RUN_DIR=/var/vcap/sys/run/cf-mysql-broker
+LOG_DIR=/var/vcap/sys/log/cf-mysql-broker
 
 PIDFILE=$RUN_DIR/route-registrar.pid
 CONFIG_FILE=/var/vcap/jobs/proxy/config/route-registrar.yml
