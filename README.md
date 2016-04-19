@@ -39,7 +39,7 @@ A BOSH release of a MySQL database-as-a-service for Cloud Foundry using [MariaDB
    </tr>
    <tr>
      <td>MySQL Server</td>
-     <td>MariaDB 10.0.17; database instances are hosted on the servers.</td>
+     <td>MariaDB 10.0.24; database instances are hosted on the servers.</td>
    </tr>
       <tr>
      <td>Proxy</td>
