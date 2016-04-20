@@ -20,7 +20,20 @@ properties:
     description: 'Host address of the service broker'
 
   cf_mysql.broker.services:
-    description: 'List of services the broker provides'
+    description: 'Array of services, each service contains the list of plans the broker of that service provides'
+    example: |
+      - name: REPLACE-WITH-SERVICE-NAME
+        plans:
+        - name: 100mb
+          id: REPLACE-WITH-A-UNIQUE-GUID
+          description: Shared MySQL Server
+          max_storage_mb: 100
+          max_user_connections: 20
+        - name: 1gb
+          id: REPLACE-WITH-A-UNIQUE-GUID
+          description: Shared MySQL Server
+          max_storage_mb: 1000
+          max_user_connections: 40
   cf_mysql.broker.protocol:
     description: 'Protocol (http/https) provided to the Cloud Controller when registering/deregistering the broker'
     default: https
