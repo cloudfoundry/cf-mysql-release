@@ -55,16 +55,7 @@ def discover_external_ip
   <% else %>
     #only RELP, UDP, and TCP are supported
   <% end %>
-
-  # Log vcap messages locally, too
-  #$template VcapComponentLogFile, "/var/log/%programname:6:$%/%programname:6:$%.log"
-  #$template VcapComponentLogFormat, "%timegenerated% %syslogseverity-text% -- %msg%\n"
-  #:programname, startswith, "vcap." -?VcapComponentLogFile;VcapComponentLogFormat
-
-  # Prevent them from reaching anywhere else
-  :programname, startswith, "vcap." ~
-
-<% end.else do %>
-  # Prevent them from reaching anywhere else
-  :programname, startswith, "vcap." ~
 <% end %>
+
+# Prevent them from reaching anywhere else
+:programname, startswith, "vcap." ~
