@@ -16,17 +16,6 @@ properties:
   cf.admin_password:
     description: 'Password of the admin user'
   cf_mysql.broker.services:
-    description: 'Array of services, each service contains the list of plans the broker of that service provides'
+    description: 'Array of services. Note - the broker-deregistrar errand only deregisters the first service'
     example: |
       - name: REPLACE-WITH-SERVICE-NAME
-        plans:
-        - name: 100mb
-          id: REPLACE-WITH-A-UNIQUE-GUID
-          description: Shared MySQL Server
-          max_storage_mb: 100
-          max_user_connections: 20
-        - name: 1gb
-          id: REPLACE-WITH-A-UNIQUE-GUID
-          description: Shared MySQL Server
-          max_storage_mb: 1000
-          max_user_connections: 40

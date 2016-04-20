@@ -20,7 +20,7 @@ properties:
     description: 'Host address of the service broker'
 
   cf_mysql.broker.services:
-    description: 'Array of services, each service contains the list of plans the broker of that service provides'
+    description: 'Array of services, each service contains the list of plans the broker of that service provides. Note - the broker-registrar errand only registers the first service'
     example: |
       - name: REPLACE-WITH-SERVICE-NAME
         plans:
