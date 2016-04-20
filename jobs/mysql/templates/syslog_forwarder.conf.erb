@@ -55,6 +55,13 @@ def discover_external_ip
   <% else %>
     #only RELP, UDP, and TCP are supported
   <% end %>
+
+  module(load="imfile")
+  input(type="imfile"
+        File="/var/vcap/sys/log/mysql/mysql_slow_query.log"
+        Tag="slow_query_log"
+        Severity="warning"
+        Facility="local1")
 <% end %>
 
 # Prevent them from reaching anywhere else
