@@ -66,9 +66,6 @@ set -e
 
 ulimit -n <%= p('cf_mysql.mysql.max_open_files') %>
 
-# Start syslog forwarding
-/var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $MARIADB_JOB_DIR/config
-
 # It is surprisingly hard to get the config file location passed in
 # on the command line to the mysql.server script. This is easier.
 mkdir -p $CONFIG_DIR
