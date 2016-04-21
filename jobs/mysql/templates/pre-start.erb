@@ -18,4 +18,4 @@ touch $PRESTART_MARKER_FILE
 
 rm -f /etc/my.cnf
 
-${MARIADB_JOB_DIR}/bin/bootstrap
+MARIADB_CTRL_PREFIX_CMD="su vcap -c " ${MARIADB_JOB_DIR}/bin/bootstrap

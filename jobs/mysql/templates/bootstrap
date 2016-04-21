@@ -11,6 +11,7 @@ SLOW_QUERY_LOG_FILE=$LOG_DIR/mysql_slow_query.log
 JOB_INDEX=<%= index %>
 CONFIG_FILE=$MARIADB_JOB_DIR/config/mariadb_ctl_config.yml
 MARIADB_CTRL_PACKAGE=/var/vcap/packages/mariadb_ctrl
+MARIADB_CTRL_PREFIX_CMD="${MARIADB_CTRL_PREFIX_CMD:-bash -c}"
 
 MY_NAME=mariadb_ctl
 RUN_DIR=/var/vcap/sys/run/$MY_NAME
@@ -87,7 +88,7 @@ cd $MARIADB_CTRL_PACKAGE
 
 log "bootstrap script: starting mariadb_ctrl in prestart mode"
 
-su vcap -c \
+$MARIADB_CTRL_PREFIX_CMD \
 "PATH=$PATH PERL5LIB=$PERL5LIB $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
          -configPath=$CONFIG_FILE \
          -prestart=true \
