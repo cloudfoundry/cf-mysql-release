@@ -2,4 +2,3 @@ GRANT ALL PRIVILEGES ON *.* TO '<%= p('cf_mysql.mysql.admin_username') %>'@'%' W
 UPDATE mysql.user SET Password=PASSWORD('<%= p('cf_mysql.mysql.admin_password') %>') WHERE User='<%= p('cf_mysql.mysql.admin_username') %>';
 DELETE FROM mysql.user WHERE User='';
 FLUSH PRIVILEGES;
-DROP DATABASE IF EXISTS test;
