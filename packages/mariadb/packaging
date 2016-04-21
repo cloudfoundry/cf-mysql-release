@@ -12,6 +12,7 @@ tar xzf mariadb/mariadb-galera-${MARIADB_VERSION}.tar.gz
 
   cmake .. \
       -DCMAKE_INSTALL_PREFIX=${BOSH_INSTALL_TARGET} \
+      -DWITH_SSL=system \
       -DWITH_WSREP=ON \
       -DWITH_INNODB_DISALLOW_WRITES=1 \
       -DWITH_PCRE=bundled
