@@ -64,6 +64,8 @@ if [ $pg_exit_code -eq 1 ]; then
 fi
 set -e
 
+ulimit -n <%= p('cf_mysql.mysql.max_open_files') %>
+
 # Start syslog forwarding
 /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $MARIADB_JOB_DIR/config
 
