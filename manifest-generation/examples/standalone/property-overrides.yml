@@ -19,6 +19,7 @@ property_overrides:
     cookie_secret: UNUSED_VALUE
     auth_password: UNUSED_VALUE
     dashboard_secret: UNUSED_VALUE
+    service_name: UNUSED_VALUE # Name for the service to be called in the marketplace
     plans:
     - name: UNUSED_VALUE
       id: UNUSED_VALUE

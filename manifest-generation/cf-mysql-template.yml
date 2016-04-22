@@ -98,7 +98,7 @@ properties:
       protocol: (( property_overrides.broker.protocol || nil ))
       port: (( property_overrides.broker.port || nil ))
       services:
-      - name: p-mysql
+      - name: (( property_overrides.broker.service_name ))
         plan_updateable: true
         id: (( property_overrides.broker.service_id || "44b26033-1f54-4087-b7bc-da9652c2a539" ))
         description: MySQL databases on demand
