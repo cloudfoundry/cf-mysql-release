@@ -279,6 +279,8 @@ The brokers each register a route with the router, which load balances requests 
 <a name="bosh-lite"></a>
 #### Deploy on BOSH-lite
 
+To use the provided manifest stubs you will need a version of bosh-lite that supports multiple containers on the same subnet (bosh-lite version 9000.50.0+).
+
 1. Run the following script to generate a working manifest for a bosh-lite on your local machine:
     ```
     $ ./scripts/generate-bosh-lite-manifest
