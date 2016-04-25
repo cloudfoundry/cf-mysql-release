@@ -82,6 +82,7 @@ slow_query_log_file = /var/vcap/sys/log/mysql/mysql_slow_query.log
 
 innodb_file_per_table = ON
 innodb_file_format = Barracuda
+innodb_large_prefix = ON
 innodb_log_file_size = "<%= p('cf_mysql.mysql.ib_log_file_size')%>MB"
 
 max_heap_table_size = <%= p('cf_mysql.mysql.max_heap_table_size') %>
