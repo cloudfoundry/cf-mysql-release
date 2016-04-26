@@ -25,3 +25,4 @@ files:
   - github.com/tedsuo/ifrit/*.go # gosub
   - github.com/tedsuo/ifrit/sigmon/*.go # gosub
   - gopkg.in/validator.v2/*.go # gosub
+  - gopkg.in/yaml.v2/*.go # gosub

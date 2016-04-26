@@ -38,3 +38,4 @@ files:
   - github.com/tedsuo/ifrit/*.go # gosub
   - github.com/tedsuo/ifrit/grouper/*.go # gosub
   - gopkg.in/validator.v2/*.go # gosub
+  - gopkg.in/yaml.v2/*.go # gosub
