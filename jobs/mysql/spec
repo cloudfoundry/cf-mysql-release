@@ -21,7 +21,6 @@ packages:
 - galera
 - galera-healthcheck
 - gra-log-purger
-- golang
 - cf-mysql-common
 - syslog_aggregator
 
