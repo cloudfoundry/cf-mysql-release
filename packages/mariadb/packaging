@@ -42,7 +42,6 @@ tar xzf mariadb/mariadb-galera-${MARIADB_VERSION}.tar.gz
   tail -n 1000 build.out
 
   rm -rf ${BOSH_INSTALL_TARGET}/mysql-test/
-  strip ${BOSH_INSTALL_TARGET}/{bin,lib,lib/plugin}/* 2> /dev/null || :
 
   echo -n "${MARIADB_VERSION}-MariaDB" > ${BOSH_INSTALL_TARGET}/VERSION
   cp /var/vcap/packages/galera/garbd ${BOSH_INSTALL_TARGET}/bin/
