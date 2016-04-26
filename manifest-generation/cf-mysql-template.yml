@@ -1,5 +1,5 @@
 ---
-name: (( config_from_cf.cf_deployment_name "-mysql" ))
+name: (( property_overrides.deployment_name || config_from_cf.cf_deployment_name "-mysql" ))
 director_uuid: (( config_from_cf.cf_director_uuid ))
 
 releases: (( base_releases additional_releases ))
