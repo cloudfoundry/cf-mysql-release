@@ -90,3 +90,6 @@
 [submodule "src/github.com/imdario/mergo"]
 	path = src/github.com/imdario/mergo
 	url = https://github.com/imdario/mergo
+[submodule "src/gopkg.in/yaml.v2"]
+	path = src/gopkg.in/yaml.v2
+	url = https://gopkg.in/yaml.v2
