@@ -5,7 +5,7 @@ director_uuid: (( config_from_cf.cf_director_uuid ))
 releases: (( base_releases additional_releases ))
 
 compilation:
-  workers: 4
+  workers: (( iaas_settings.compilation_workers || 4)) 
   network: mysql1
   reuse_compilation_vms: true
   cloud_properties: (( iaas_settings.compilation_cloud_properties ))
