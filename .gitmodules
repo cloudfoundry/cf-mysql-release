@@ -1,9 +1,6 @@
 [submodule "src/cf-mysql-broker"]
 	path = src/cf-mysql-broker
 	url = https://github.com/cloudfoundry/cf-mysql-broker.git
-[submodule "packages/ruby"]
-	path = packages/ruby
-	url = https://github.com/cloudfoundry/ruby.git
 [submodule "src/github.com/cloudfoundry-incubator/galera-healthcheck"]
 	path = src/github.com/cloudfoundry-incubator/galera-healthcheck
 	url = https://github.com/cloudfoundry-incubator/galera-healthcheck.git
