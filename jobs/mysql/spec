@@ -12,7 +12,7 @@ templates:
   gra-log-purger.sh.erb: bin/gra-log-purger.sh
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
   pre-start.erb: bin/pre-start
-  bootstrap: bin/bootstrap
+  bootstrap.erb: bin/bootstrap
 
 packages:
 - xtrabackup
@@ -101,3 +101,6 @@ properties:
     description: 'Username used by the bootstrap endpoints for Basic Auth'
   cf_mysql.mysql.bootstrap_endpoint.password:
     description: 'Password used by the bootstrap endpoints for Basic Auth'
+  cf_mysql.mysql.server_audit_events:
+    description: 'Enable audit logging and specify types of events that will be logged. If null, then logging is disabled'
+    example: 'connect,query_ddl,query_dml,query_dcl'
