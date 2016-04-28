@@ -5,6 +5,7 @@ dependencies:
 files:
   - github.com/cloudfoundry-incubator/switchboard/static/**/* # static UI files
   - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
+  - github.com/cloudfoundry-incubator/candiedyaml/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/api/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/api/fakes/*.go # gosub

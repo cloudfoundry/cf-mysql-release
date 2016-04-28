@@ -5,6 +5,7 @@ dependencies:
 files:
   - github.com/cloudfoundry/mariadb_ctrl/*.sh
   - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
+  - github.com/cloudfoundry-incubator/candiedyaml/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/cluster_health_checker/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/cluster_health_checker/fakes/*.go # gosub
