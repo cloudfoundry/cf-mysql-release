@@ -11,6 +11,7 @@ templates:
   gra-log-purger_ctl.erb: bin/gra-log-purger_ctl
   gra-log-purger.sh.erb: bin/gra-log-purger.sh
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
+  cluster_health_logger.erb: bin/cluster_health_logger
 
 packages:
 - xtrabackup
@@ -75,3 +76,6 @@ properties:
   syslog_aggregator.transport:
     description: "Transport to be used when forwarding logs (tcp|udp|relp)."
     default: "tcp"
+  cf_mysql.mysql.cluster_health_log_interval:
+    description: 'Time in seconds between log entries for cluster health'
+    default: 30
