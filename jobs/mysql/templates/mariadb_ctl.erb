@@ -89,7 +89,7 @@ case $1 in
 
     echo "start script: starting mariadb_ctrl..."
     su vcap -c \
-    "PATH=$PATH PERL5LIB=$PERL5LIB $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
+    "DISABLE_SST=1 PATH=$PATH PERL5LIB=$PERL5LIB $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
              -configPath=$CONFIG_FILE \
              2>&1 \
              | tee -a $LOG_FILE \
