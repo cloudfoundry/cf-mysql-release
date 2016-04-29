@@ -6,7 +6,6 @@ files:
   - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
   - github.com/go-sql-driver/mysql/*.go # gosub
   - github.com/imdario/mergo/*.go # gosub
-  - github.com/cloudfoundry-incubator/candiedyaml/*.go # gosub
   - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/*.go # gosub
   - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/config/*.go # gosub
   - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/database/*.go # gosub

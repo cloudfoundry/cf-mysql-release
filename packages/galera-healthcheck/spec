@@ -4,7 +4,6 @@ dependencies:
   - golang
 files:
   - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
-  - github.com/cloudfoundry-incubator/candiedyaml/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/healthcheck/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/integration/*.go # gosub
