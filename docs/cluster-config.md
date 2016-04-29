@@ -2,6 +2,12 @@
 
 This page documents the various configuration decisions that have been made in relation to MariaDB and Galera in cf-mysql-release.
 
+### Maximum Open Files
+In the course of normal operation, where MySQL VMs enter and leave the cluster, there are times when a node will need to open file descriptors to all of the database files. The default is 65,000. You can increase this by including a different value for `cf_mysql.mysql.max_open_files` in the manifest, and re-deploying.
+
+### Slow Query Log
+cf-mysql automatically enables the [slow query log](https://mariadb.com/kb/en/mariadb/slow-query-log-overview/) and sets it to record any query that takes longer than 10 seconds. By default, those logs appear in the file `/var/vcap/sys/log/mysql/mysql_slow_query.log` per node. For a consildated view, use a syslog server.
+
 ### SST method
 
 Galera supports multiple methods for [State Snapshot Transfer](http://www.percona.com/doc/percona-xtradb-cluster/5.5/manual/state_snapshot_transfer.html).
