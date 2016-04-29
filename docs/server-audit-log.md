@@ -24,4 +24,4 @@ By default, the audit log will live in /var/vcap/sys/log/mysql/mysql_server_audi
 
 ## Using Syslog
 
-If syslog is enabled (i.e., `syslog_aggregator.address` is set), then the server audit logs will be written to syslog instead of a local logfile.
+If syslog is enabled (i.e., `syslog_aggregator.address` is set), then the server audit logs will be written to syslog as well as a local logfile.
