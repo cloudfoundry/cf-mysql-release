@@ -16,3 +16,8 @@ config_from_cf:
   smoke_tests:
     use_existing_org: (( merge ))
     org: (( merge ))
+  acceptance_tests:
+    admin_user: (( merge ))
+    admin_password: (( merge ))
+    api: (( merge ))
+    app_domains: (( merge ))

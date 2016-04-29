@@ -120,6 +120,10 @@ properties:
       smoke_tests_only: (( property_overrides.acceptance_tests.smoke_tests_only || nil ))
       standalone_tests_only: (( property_overrides.acceptance_tests.standalone_tests_only || nil ))
       timeout_scale: (( property_overrides.acceptance_tests.timeout_scale || nil ))
+      admin_user: (( config_from_cf.acceptance_tests.admin_user ))
+      admin_password: (( config_from_cf.acceptance_tests.admin_password ))
+      api: (( config_from_cf.acceptance_tests.api ))
+      app_domains: (( config_from_cf.acceptance_tests.app_domains ))
   cf-mysql-backup: (( property_overrides.cf-mysql-backup || nil ))
   service-backup: (( property_overrides.service-backup || nil ))
 

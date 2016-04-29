@@ -16,6 +16,11 @@ config_from_cf:
   smoke_tests:
     use_existing_org: (( properties.smoke_tests.use_existing_org ))
     org: (( properties.smoke_tests.org ))
+  acceptance_tests:
+    admin_user: (( config_from_cf.admin_username ))
+    admin_password: (( config_from_cf.admin_password ))
+    api: (( config_from_cf.api_url ))
+    app_domains: (( config_from_cf.app_domains ))
 
 # The keys below should not be included in the final stub
 name: (( merge ))
