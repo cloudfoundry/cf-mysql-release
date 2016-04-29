@@ -180,7 +180,7 @@ After installation, the MySQL service will be visible in the Services Marketplac
 <a name="upload_stemcell"></a>
 ### Upload Stemcell
 
-The latest final release expects the Ubuntu Trusty (14.04) go_agent stemcell version [2859](https://github.com/cloudfoundry/bosh/blob/master/CHANGELOG.md#2859) by default. Older stemcells are not recommended. Stemcells can be downloaded from http://bosh.io/stemcells; choose the appropriate stemcell for your infrastructure ([vsphere esxi](https://d26ekeud912fhb.cloudfront.net/bosh-stemcell/vsphere/bosh-stemcell-2859-vsphere-esxi-ubuntu-trusty-go_agent.tgz) or [aws hvm](https://d26ekeud912fhb.cloudfront.net/bosh-stemcell/aws/light-bosh-stemcell-2859-aws-xen-hvm-ubuntu-trusty-go_agent.tgz)).
+The latest final release expects the Ubuntu Trusty (14.04) go_agent stemcell version [2859](https://github.com/cloudfoundry/bosh/blob/master/CHANGELOG.md#2859) by default. Older stemcells are not recommended. Stemcells can be downloaded from http://bosh.io/stemcells; choose the appropriate stemcell for your infrastructure ([vsphere esxi](https://d26ekeud912fhb.cloudfront.net/bosh-stemcell/vsphere/bosh-stemcell-2859-vsphere-esxi-ubuntu-trusty-go_agent.tgz),  [aws hvm](https://d26ekeud912fhb.cloudfront.net/bosh-stemcell/aws/light-bosh-stemcell-2859-aws-xen-hvm-ubuntu-trusty-go_agent.tgz), or [openstack kvm](https://d26ekeud912fhb.cloudfront.net/bosh-stemcell/openstack/bosh-stemcell-2859-openstack-kvm-ubuntu-trusty-go_agent.tgz)).
 
 <a name="upload_release"></a>
 ### Upload Release
@@ -296,7 +296,7 @@ To use the provided manifest stubs you will need a version of bosh-lite that sup
   $ bosh edit deployment
   ```
 
-#### Deploy on AWS or vSphere
+#### Deploy on AWS, vSphere, or OpenStack
 
 ##### Copy sample stubs and fill in values
 
@@ -326,7 +326,7 @@ This admin user must have the `cloud_controller.admin` UAA permission.
 
 Note: This change to the CF manifest is temporary while we investigate better methods for sharing properties across deployments.
 
-##### Generate AWS or vSphere manifest
+##### Generate an AWS, vSphere, or OpenStack manifest
 
 Run the `./scripts/generate-deployment-manifest` with the stubs you created in the preceeding steps.
 
@@ -335,7 +335,7 @@ Usage:
 The script requires the following arguments-
     -c CF stub (provided in cf-mysql-release)
     -p Property overrides stub file (Use this file to provide credentials and broker plans)
-    -i Infrastructure type stub file (AWS or vSphere)
+    -i Infrastructure type stub file (AWS, vSphere, or OpenStack)
 The following arguments are optional-
     -n Instance count overrides stub file (single node, 3 node)
     -v Release versions stub file (Use this file to specify the cf-mysql release version, defaults to latest)
