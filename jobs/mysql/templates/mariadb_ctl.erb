@@ -15,6 +15,7 @@ MY_NAME=mariadb_ctl
 RUN_DIR=/var/vcap/sys/run/$MY_NAME
 PIDFILE=$RUN_DIR/$MY_NAME.pid
 TMP_DIR=/var/vcap/data/mysql/tmp
+export DISABLE_SST=1
 
 source /var/vcap/packages/common/utils.sh
 
@@ -91,6 +92,7 @@ case $1 in
     ln -sf $MARIADB_JOB_DIR/config/my.cnf $CONFIG_DIR/my.cnf
 
     if ! test -d ${datadir}; then
+      export DISABLE_SST=0
       log "start script: making ${datadir} and running /var/vcap/packages/mariadb/scripts/mysql_install_db"
       mkdir -p ${datadir}
       /var/vcap/packages/mariadb/scripts/mysql_install_db \
