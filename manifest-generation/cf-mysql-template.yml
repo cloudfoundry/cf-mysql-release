@@ -155,15 +155,12 @@ base_templates:
   - {release: cf-mysql, name: mysql}
   proxy:
   - {release: cf-mysql, name: proxy}
-  arbitrator:
-  - {release: cf-mysql, name: arbitrator}
   broker:
   - {release: cf-mysql, name: cf-mysql-broker}
 colocated_jobs:
   mysql_z1: (( job_overrides.colocated_jobs.mysql_z1.additional_templates || empty_list ))
   mysql_z2: (( job_overrides.colocated_jobs.mysql_z2.additional_templates || empty_list ))
   mysql_z3: (( job_overrides.colocated_jobs.mysql_z3.additional_templates || empty_list ))
-  arbitrator_z3: (( job_overrides.colocated_jobs.arbitrator_z3.additional_templates || empty_list ))
   proxy_z1: (( job_overrides.colocated_jobs.proxy_z1.additional_templates || empty_list ))
   proxy_z2: (( job_overrides.colocated_jobs.proxy_z2.additional_templates || empty_list ))
   cf-mysql-broker_z1: (( job_overrides.colocated_jobs.cf-mysql-broker_z1.additional_templates || empty_list ))
@@ -304,7 +301,6 @@ default_mysql_cluster_ips:
 - (( jobs.mysql_z1.networks.mysql1.static_ips.[0] ))
 - (( jobs.mysql_z2.networks.mysql2.static_ips.[0] || nil ))
 - (( jobs.mysql_z3.networks.mysql3.static_ips.[0] || nil ))
-- (( jobs.arbitrator_z3.networks.mysql3.static_ips.[0] || nil ))
 additional_resource_pools: (( iaas_settings.additional_resource_pools || empty_list))
 additional_jobs: (( job_overrides.additional_jobs || empty_list ))
 empty_hash: {}
