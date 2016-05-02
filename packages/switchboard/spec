@@ -16,7 +16,6 @@ files:
   - github.com/cloudfoundry-incubator/switchboard/dummies/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/health/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/proxy/*.go # gosub
-  - github.com/cloudfoundry-incubator/candiedyaml/*.go # gosub
   - github.com/imdario/mergo/*.go # gosub
   - github.com/onsi/ginkgo/*.go # gosub
   - github.com/onsi/ginkgo/config/*.go # gosub
