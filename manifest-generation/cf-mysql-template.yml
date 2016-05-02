@@ -218,7 +218,7 @@ base_jobs:
    network_name: mysql2
 - name: mysql_z3
   templates: (( base_templates.mysql colocated_jobs.mysql_z3 ))
-  instances: (( instance_count_overrides.mysql_z3.instances || 0 ))
+  instances: (( instance_count_overrides.mysql_z3.instances || 1 ))
   resource_pool: mysql_z3
   persistent_disk_pool: mysql-persistent-disk
   networks:
