@@ -292,7 +292,7 @@ base_jobs:
   - name: mysql1
   properties:
     proxy:
-      external_host: (( jobs.proxy_z1.properties.external_host ))
+      external_host: (( properties.external_host ))
       skip_ssl_validation: (( config_from_cf.skip_ssl_validation || nil ))
     smoke_tests_only: (( merge || nil ))
     service:
