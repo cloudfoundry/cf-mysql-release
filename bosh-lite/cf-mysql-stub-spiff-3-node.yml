@@ -6,8 +6,8 @@ releases:
     version: latest
 
 properties:
-  app_domains: (( merge || ["10.244.0.34.xip.io"] ))
-  domain: (( merge || "10.244.0.34.xip.io" ))
+  app_domains: (( merge || ["bosh-lite.com"] ))
+  domain: (( merge || "bosh-lite.com" ))
   nats:
     machines: [10.244.0.6]
     password: nats
