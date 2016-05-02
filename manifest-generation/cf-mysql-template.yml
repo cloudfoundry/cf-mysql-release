@@ -93,7 +93,7 @@ releases:
 
 compilation:
   workers: 4
-  network: compilation
+  network: mysql1
   reuse_compilation_vms: true
   cloud_properties: (( iaas_settings.compilation_cloud_properties ))
 
