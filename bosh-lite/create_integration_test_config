@@ -28,11 +28,11 @@ fi
 
 cat > ${CONFIG_LOCATION} <<EOF
 {
-  "api": "http://api.${DOMAIN}.xip.io",
-  "apps_domain": "${DOMAIN}.xip.io",
+  "api": "http://api.bosh-lite.com",
+  "apps_domain": "bosh-lite.com",
   "admin_user": "admin",
   "admin_password": "admin",
-  "broker_host": "p-mysql.${DOMAIN}.xip.io",
+  "broker_host": "p-mysql.bosh-lite.com",
   "service_name": "p-mysql",
   "plans" : [
     {
@@ -49,7 +49,7 @@ cat > ${CONFIG_LOCATION} <<EOF
   "skip_ssl_validation": true,
   "timeout_scale": 1.0,
   "proxy": {
-    "external_host":"p-mysql.${DOMAIN}.xip.io",
+    "external_host":"p-mysql.bosh-lite.com",
     "api_username":"username",
     "api_password":"password",
     "api_force_https": true,
