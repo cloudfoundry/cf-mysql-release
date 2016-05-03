@@ -345,7 +345,7 @@ For example:
 
 ```
 $ ./scripts/generate-deployment-manifest \
-  -c <YOUR_CONFIG_REPO>/cf-stub.yml \
+  -c <YOUR_CONFIG_REPO>/cf-mysql/cf-stub.yml \
   -p <YOUR_CONFIG_REPO>/cf-mysql/property-overrides.yml \
   -i <YOUR_CONFIG_REPO>/cf-mysql/iaas-settings.yml \
   > cf-mysql.yml
