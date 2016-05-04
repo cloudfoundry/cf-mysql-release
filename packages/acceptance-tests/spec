@@ -54,15 +54,7 @@ files:
   - github.com/onsi/gomega/matchers/support/goraph/node/*.go # gosub
   - github.com/onsi/gomega/matchers/support/goraph/util/*.go # gosub
   - github.com/onsi/gomega/types/*.go # gosub
-  - github.com/sclevine/agouti/core/*.go # gosub
-  - github.com/sclevine/agouti/core/internal/api/*.go # gosub
-  - github.com/sclevine/agouti/core/internal/page/*.go # gosub
-  - github.com/sclevine/agouti/core/internal/selection/*.go # gosub
-  - github.com/sclevine/agouti/core/internal/service/*.go # gosub
-  - github.com/sclevine/agouti/core/internal/session/*.go # gosub
-  - github.com/sclevine/agouti/dsl/*.go # gosub
-  - github.com/sclevine/agouti/matchers/*.go # gosub
-  - github.com/sclevine/agouti/matchers/internal/colorparser/*.go # gosub
-  - github.com/sclevine/agouti/matchers/internal/page/*.go # gosub
-  - github.com/sclevine/agouti/matchers/internal/selection/*.go # gosub
+  - github.com/sclevine/agouti/**/*.go
   - golang.org/x/crypto/ssh/*.go # gosub
+excluded_files:
+  - github.com/sclevine/agouti/**/*_test.go
