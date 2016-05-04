@@ -1,0 +1,125 @@
+properties:
+  template_only:
+    aws:
+      mysql_elb_names: [REPLACE_WITH_ELB_NAME_NOT_DNS_HOSTNAME] # optional, remove this line to skip binding an ELB
+      availability_zone: REPLACE_WITH_AZ_1 # e.g. us-east-1a
+      availability_zone2: REPLACE_WITH_AZ_2
+      availability_zone3: REPLACE_WITH_AZ_3
+      subnet_ids:
+        mysql1: REPLACE_WITH_YOUR_SUBNET_ID_1
+        mysql2: REPLACE_WITH_YOUR_SUBNET_ID_2
+        mysql3: REPLACE_WITH_YOUR_SUBNET_ID_3
+
+iaas_settings:
+  <<: (( merge || nil ))
+
+# NOTE:
+# Replace 10.0.{0,1,2} part of the octet
+# with your network configuration
+  subnet_configs:
+  - name: mysql1
+    type: manual
+    subnets:
+    - range: 10.10.32.0/24
+      reserved:
+        - 10.10.32.2 - 10.10.32.9
+        - 10.10.32.130 - 10.10.32.254
+      static:
+        - 10.10.32.10 - 10.10.32.14
+      gateway: 10.10.32.1
+      dns:
+        - 10.10.0.2 # amazon has only 1 DNS server for the whole VPC at x.x.0.2
+      cloud_properties:
+        subnet: (( properties.template_only.aws.subnet_ids.mysql1 ))
+  - name: mysql2
+    type: manual
+    subnets:
+    - range: 10.10.33.0/24
+      reserved:
+        - 10.10.33.2 - 10.10.33.9
+        - 10.10.33.130 - 10.10.33.254
+      static:
+        - 10.10.33.10 - 10.10.33.14
+      gateway: 10.10.33.1
+      dns:
+        - 10.10.0.2 # amazon has only 1 DNS server for the whole VPC at x.x.0.2
+      cloud_properties:
+        subnet: (( properties.template_only.aws.subnet_ids.mysql2 ))
+  - name: mysql3
+    type: manual
+    subnets:
+    - range: 10.10.34.0/24
+      reserved:
+        - 10.10.34.2 - 10.10.34.9
+        - 10.10.34.130 - 10.10.34.254
+      static:
+        - 10.10.34.10 - 10.10.34.14
+      gateway: 10.10.34.1
+      dns:
+        - 10.10.0.2 # amazon has only 1 DNS server for the whole VPC at x.x.0.2
+      cloud_properties:
+        subnet: (( properties.template_only.aws.subnet_ids.mysql3 ))
+
+  stemcell: &stemcell
+    name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
+    version: latest
+  compilation_workers: 4 # When setting this parameter, it overrides the default number of compilation workers (default=4)
+  compilation_cloud_properties:
+    instance_type: c4.large
+    availability_zone: (( properties.template_only.aws.availability_zone ))
+    ephemeral_disk:
+      size: 30000 # in MB
+      type: gp2
+  resource_pool_cloud_properties:
+  - name: mysql_z1
+    cloud_properties:
+      instance_type: m3.large
+      availability_zone: (( properties.template_only.aws.availability_zone ))
+
+  - name: mysql_z2
+    cloud_properties:
+      instance_type: m3.large
+      availability_zone: (( properties.template_only.aws.availability_zone2 ))
+
+  - name: mysql_z3
+    cloud_properties:
+      instance_type: m3.large
+      availability_zone: (( properties.template_only.aws.availability_zone3 ))
+
+  - name: arbitrator_z3
+    cloud_properties:
+      instance_type: t2.small
+      availability_zone: (( properties.template_only.aws.availability_zone3 ))
+
+  - name: proxy_z1
+    cloud_properties:
+      instance_type: m3.medium
+      availability_zone: (( properties.template_only.aws.availability_zone ))
+      elbs: (( properties.template_only.aws.mysql_elb_names || nil ))
+
+  - name: proxy_z2
+    cloud_properties:
+      instance_type: m3.medium
+      availability_zone: (( properties.template_only.aws.availability_zone2 ))
+      elbs: (( properties.template_only.aws.mysql_elb_names || nil ))
+
+  - name: cf-mysql-broker_z1
+    cloud_properties:
+      instance_type: m3.medium
+      availability_zone: (( properties.template_only.aws.availability_zone ))
+
+  - name: cf-mysql-broker_z2
+    cloud_properties:
+      instance_type: m3.medium
+      availability_zone: (( properties.template_only.aws.availability_zone2 ))
+
+  - name: errands_z1
+    cloud_properties:
+      instance_type: m3.medium
+      availability_zone: (( properties.template_only.aws.availability_zone ))
+
+  disk_pools:
+  - name: mysql-persistent-disk
+    disk_size: 100000
+    cloud_properties:
+      type: gp2
