@@ -296,18 +296,18 @@ base_jobs:
     smoke_tests_only: (( merge || nil ))
     standalone_tests_only: (( .properties.standalone ))
     service:
-      max_user_connections_default: (( property_overrides.broker.max_user_connections_default || nil ))
+      max_user_connections_default: (( .properties.max_user_connections_default || nil ))
       name: (( property_overrides.broker.service_name ))
       plans: (( property_overrides.broker.plans ))
     proxy:
-      external_host: (( jobs.proxy_z1.properties.external_host ))
+      external_host: (( .properties.external_host ))
       proxy_count: (( merge || 2 ))
-      api_force_https: (( jobs.proxy_z1.properties.proxy.api_force_https ))
+      api_force_https: (( .properties.proxy.api_force_https ))
       skip_ssl_validation: (( merge || nil ))
     service:
-      max_user_connections_default: (( jobs.cf-mysql-broker_z1.properties.max_user_connections_default ))
-      name: (( jobs.cf-mysql-broker_z1.properties.services.[0].name ))
-      plans: (( merge || .properties.default_acceptance_plans ))
+      max_user_connections_default: (( .properties.max_user_connections_default ))
+      name: (( .properties.services.[0].name ))
+      plans: (( merge || .properties.services.[0].plans.[0] ))
     standalone:
       host: (( merge || jobs.proxy_z1.networks.[0].static_ips.[0] ))
       port: (( jobs.mysql_z1.properties.port || nil ))
