@@ -92,4 +92,4 @@
 	url = https://github.com/imdario/mergo
 [submodule "src/gopkg.in/yaml.v2"]
 	path = src/gopkg.in/yaml.v2
-	url = github.com:cloudfoundry/cf-mysql-release/src/gopkg.in/yaml.v2
+	url = https://gopkg.in/yaml.v2
