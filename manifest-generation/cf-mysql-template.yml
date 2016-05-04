@@ -20,12 +20,17 @@ properties:
   wsrep_max_ws_rows: (( property_overrides.mysql.wsrep_max_ws_rows || nil ))
   wsrep_max_ws_size: (( property_overrides.mysql.wsrep_max_ws_size || nil ))
   syslog_aggregator: (( meta.syslog_aggregator ))
-
+  database_startup_timeout: (( merge || 600 ))
+  default_proxy_ips:
+  - (( jobs.proxy_z1.networks.mysql1.static_ips.[0] || nil ))
+  - (( jobs.proxy_z2.networks.mysql2.static_ips.[0] || nil ))
   proxy:
     health_port: (( property_overrides.proxy.health_port || nil ))
     api_force_https: (( property_overrides.proxy.api_force_https || nil ))
     api_username: (( property_overrides.proxy.api_username ))
     api_password: (( property_overrides.proxy.api_password ))
+    proxy_ips: (( merge || .properties.default_proxy_ips ))
+  standalone: (( merge || false ))
 
   external_host: (( "p-mysql." .properties.domain ))
   syslog_aggregator: (( property_overrides.syslog_aggregator || nil  ))
@@ -289,10 +294,25 @@ base_jobs:
   - name: mysql1
   properties:
     smoke_tests_only: (( merge || nil ))
+    standalone_tests_only: (( .properties.standalone ))
     service:
       max_user_connections_default: (( property_overrides.broker.max_user_connections_default || nil ))
       name: (( property_overrides.broker.service_name ))
       plans: (( property_overrides.broker.plans ))
+    proxy:
+      external_host: (( jobs.proxy_z1.properties.external_host ))
+      proxy_count: (( merge || 2 ))
+      api_force_https: (( jobs.proxy_z1.properties.proxy.api_force_https ))
+      skip_ssl_validation: (( merge || nil ))
+    service:
+      max_user_connections_default: (( jobs.cf-mysql-broker_z1.properties.max_user_connections_default ))
+      name: (( jobs.cf-mysql-broker_z1.properties.services.[0].name ))
+      plans: (( merge || .properties.default_acceptance_plans ))
+    standalone:
+      host: (( merge || jobs.proxy_z1.networks.[0].static_ips.[0] ))
+      port: (( jobs.mysql_z1.properties.port || nil ))
+      username: (( .properties.cf.admin_username || nil ))
+      password: (( .properties.cf.admin_password || nil ))
 
 config_from_cf: (( merge ))
 iaas_settings: (( merge ))
