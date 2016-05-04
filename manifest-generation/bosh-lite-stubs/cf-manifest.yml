@@ -1,0 +1,15 @@
+name: cf-warden
+director_uuid: REPLACE_WITH_DIRECTOR_UUID
+properties:
+  admin_username: admin
+  admin_password: admin
+  nats:
+    machines: [10.244.0.6]
+    password: nats
+    port: 4222
+    user: nats
+  system_domain: bosh-lite.com
+  app_domains:
+  - bosh-lite.com
+  domain: bosh-lite.com
+  skip_ssl_validation: true
