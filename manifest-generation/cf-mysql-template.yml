@@ -303,11 +303,7 @@ base_jobs:
       external_host: (( .properties.external_host ))
       proxy_count: (( merge || 2 ))
       api_force_https: (( .properties.proxy.api_force_https ))
-      skip_ssl_validation: (( merge || nil ))
-    service:
-      max_user_connections_default: (( .properties.max_user_connections_default ))
-      name: (( .properties.services.[0].name ))
-      plans: (( merge || .properties.services.[0].plans.[0] ))
+      skip_ssl_validation: (( .properties.skip_ssl_validation ))
     standalone:
       host: (( merge || jobs.proxy_z1.networks.[0].static_ips.[0] ))
       port: (( jobs.mysql_z1.properties.port || nil ))
