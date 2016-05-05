@@ -103,4 +103,6 @@ properties:
   cf_mysql.broker.port:
     default: 8081
     description: "Port for broker"
+  cf_mysql.broker.quota_enforcer_password:
+    description: 'The password for the quota-enforcer user'
 

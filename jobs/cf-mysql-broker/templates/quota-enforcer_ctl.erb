@@ -21,6 +21,13 @@ case $1 in
     mkdir -p $log_dir
     chown -R vcap:vcap $log_dir
 
+    /var/vcap/packages/mariadb/bin/mysql \
+      -u<%= p('cf_mysql.mysql.admin_username') %> \
+      -p<%= p('cf_mysql.mysql.admin_password') %> \
+      -h<%= p('cf_mysql.host') %> \
+      -P<%= p('cf_mysql.mysql.port') %> \
+      -e"GRANT ALL PRIVILEGES ON *.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.quota_enforcer_password') %>' WITH GRANT OPTION"
+
     su vcap -c "$package_dir/bin/cf-mysql-quota-enforcer \
         -pidFile=$pidfile \
         -configPath=$job_dir/bin/quota_enforcer_config.yml \
