@@ -89,8 +89,6 @@ properties:
       port: (( property_overrides.proxy.port || nil ))
       healthcheck_timeout_millis: (( property_overrides.proxy.healthcheck_timeout_millis || nil ))
       api_port: (( property_overrides.proxy.api_port || nil ))
-      consul_enabled: (( property_overrides.proxy.consul_enabled || nil ))
-      consul_service_name: (( property_overrides.proxy.consul_service_name || nil ))
     broker:
       max_user_connections_default: (( property_overrides.broker.max_user_connections_default || nil ))
       ssl_enabled: (( property_overrides.broker.ssl_enabled || nil ))
@@ -124,21 +122,6 @@ properties:
       timeout_scale: (( property_overrides.acceptance_tests.timeout_scale || nil ))
   cf-mysql-backup: (( property_overrides.cf-mysql-backup || nil ))
   service-backup: (( property_overrides.service-backup || nil ))
-
-  # -- Properties below are used by the consul_agent job from cf-release --
-  consul:
-    agent:
-      datacenter: (( config_from_cf.consul.datacenter ))
-      domain: (( config_from_cf.consul.domain ))
-      log_level: (( config_from_cf.consul.log_level ))
-      servers:
-        lan: (( config_from_cf.consul.lan_servers ))
-    ca_cert: (( config_from_cf.consul.ca_cert ))
-    agent_cert: (( config_from_cf.consul.agent_cert ))
-    agent_key: (( config_from_cf.consul.agent_key ))
-    encrypt_keys: (( config_from_cf.consul.encrypt_keys ))
-    server_cert: (( config_from_cf.consul.server_cert ))
-    server_key: (( config_from_cf.consul.server_key ))
 
 base_releases:
 - name: cf-mysql
