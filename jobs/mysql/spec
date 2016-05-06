@@ -13,7 +13,8 @@ templates:
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
   pre-start.erb: bin/pre-start
   bootstrap.erb: bin/bootstrap
-  cluster_health_logger.erb: bin/cluster_health_logger
+  cluster_health_logger_ctl.erb: bin/cluster_health_logger_ctl
+  cluster_health_logger_config.yml.erb: config/cluster_health_logger_config.yml
 
 packages:
 - xtrabackup
