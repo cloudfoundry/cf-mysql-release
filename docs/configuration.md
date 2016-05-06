@@ -1,7 +1,7 @@
 # Configuration Options
 
-## Configuring the Service Name
-In [cf-mysql v27](https://github.com/cloudfoundry/cf-mysql-release/releases/tag/v27) and later, you can control how the mysql service appears in the marketplace. You can do this during manifest generation by overriding the property `service_name` when creating your own customized version of the [property-overrides.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/manifest-generation/examples/property-overrides.yml#L22) example.
+## Configuring the Service Name and Deployment Name
+In [cf-mysql v27](https://github.com/cloudfoundry/cf-mysql-release/releases/tag/v27) and later, you can control how the mysql service appears in the marketplace and the list of BOSH deployments. You can do this during manifest generation by overriding the properties `service_name` and `deployment_name` when creating your own customized version of the [property-overrides.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/manifest-generation/examples/property-overrides.yml#L22) example.
 
 After you've run both `bosh deploy` and `bosh run errand broker-deregistrar`, the output of `cf marketplace` will look like:
 
