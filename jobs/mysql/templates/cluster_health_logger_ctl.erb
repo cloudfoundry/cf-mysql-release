@@ -19,6 +19,9 @@ case $1 in
 
     chown -R vcap:vcap ${RUN_DIR}
 
+    touch ${OUTPUT_FILE}
+    chown vcap:vcap ${OUTPUT_FILE}
+
     exec chpst -u vcap:vcap ${BIN_FILE} -configPath=${CONFIG_DIR}/cluster_health_logger_config.yml
 
     ;;
