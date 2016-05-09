@@ -95,6 +95,7 @@ server_audit_logging = ON
 server_audit_events = <%= p('cf_mysql.mysql.server_audit_events') %>
 server_audit_output_type = file
 server_audit_file_path = /var/vcap/sys/log/mysql/mysql_server_audit.log
+server_audit_excl_users=quota-enforcer
 <% end %>
 
 # These are mandatory MySQL settings for MariaDB Galera to work

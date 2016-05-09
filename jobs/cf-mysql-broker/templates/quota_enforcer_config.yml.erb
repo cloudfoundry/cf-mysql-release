@@ -4,4 +4,6 @@ Port: <%= p('cf_mysql.mysql.port') %>
 User: quota-enforcer
 Password: <%= p('cf_mysql.broker.quota_enforcer_password') %>
 DBName: mysql_broker
-ReadOnlyUser: roadmin
+IgnoredUser:
+  - roadmin
+  - quota-enforcer
