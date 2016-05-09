@@ -62,15 +62,7 @@ case $1 in
     chown -R vcap:vcap $TMP_DIR
 
     echo "Checking for existing instance of $PROC_NAME"
-    set +e
-    $(source /var/vcap/packages/cf-mysql-common/pid_utils.sh; pid_guard $PIDFILE $PROC_NAME)
-    pg_exit_code=$?
-    echo "pg_exit_code: $pg_exit_code"
-    if [ $pg_exit_code -eq 1 ]; then
-      echo "${PROC_NAME} already running. Exiting 0 so that monit doesn't think that execution failed"
-      exit 0
-    fi
-    set -e
+    pid_guard $PIDFILE $PROC_NAME
 
     # Start syslog forwarding
     /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $MARIADB_JOB_DIR/config

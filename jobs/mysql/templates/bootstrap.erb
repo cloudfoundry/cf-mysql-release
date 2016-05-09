@@ -61,15 +61,8 @@ chown vcap:vcap $SERVER_AUDIT_LOG_FILE
 
 log "bootstrap script: checking for existing instance of $MY_NAME"
 
-set +e
-source /var/vcap/packages/cf-mysql-common/pid_utils.sh; pid_guard $PIDFILE $MY_NAME
-pg_exit_code=$?
-log "bootstrap script: pg_exit_code: $pg_exit_code"
-if [ $pg_exit_code -eq 1 ]; then
-  log "bootstrap script: $MY_NAME already running. Exiting 0 so that monit doesn't think that execution failed"
-  exit 0
-fi
-set -e
+source /var/vcap/packages/cf-mysql-common/pid_utils.sh
+pid_guard $PIDFILE $MY_NAME
 
 ulimit -n <%= p('cf_mysql.mysql.max_open_files') %>
 
