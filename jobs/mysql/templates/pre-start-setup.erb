@@ -1,0 +1,93 @@
+#!/bin/bash
+
+set -e
+
+## NOTE: This script MUST ALWAYS run as root user.
+
+########################## ENV SETUP ##########################################
+
+datadir=/var/vcap/store/mysql
+CONFIG_DIR=/etc/mysql
+LOG_DIR=/var/vcap/sys/log/mysql
+LOG_FILE=$LOG_DIR/pre-start.stdout.log
+SLOW_QUERY_LOG_FILE=$LOG_DIR/mysql_slow_query.log
+SERVER_AUDIT_LOG_FILE=$LOG_DIR/mysql_server_audit.log
+MARIADB_JOB_DIR=/var/vcap/jobs/mysql
+RUN_DIR=/var/vcap/sys/run/mariadb_ctl
+PRESTART_MARKER_FILE=$RUN_DIR/prestart_marker
+JOB_INDEX=<%= index %>
+TMP_DIR=/var/vcap/data/mysql/tmp
+PERSISTENT_TMP_DIR=/var/vcap/data/tmp
+
+source /var/vcap/packages/cf-mysql-common/pid_utils.sh
+
+log "pre-start setup script: set up ENV and logging"
+
+############################ DIR SETUP ########################################
+
+# Setup directories and assign correct owners
+if [[ ! -d "$RUN_DIR" ]]; then
+  log "pre-start setup script: directory $RUN_DIR does not exist, creating it now"
+  mkdir -p $RUN_DIR
+fi
+chown -R vcap:vcap $RUN_DIR
+
+# Touch marker file (in case BOSH does not support pre-start we must blow up)
+touch $PRESTART_MARKER_FILE
+
+if [[ ! -d "$TMP_DIR" ]]; then
+  log "pre-start setup script: directory $TMP_DIR does not exist, creating it now"
+  mkdir -p $TMP_DIR
+fi
+chown -R vcap:vcap $TMP_DIR
+chown -R vcap:vcap $PERSISTENT_TMP_DIR
+
+mkdir -p $LOG_DIR
+touch $LOG_FILE
+touch $SLOW_QUERY_LOG_FILE
+chown -R vcap:vcap $LOG_DIR
+date >> $LOG_FILE 2>> $LOG_FILE
+date >> $SLOW_QUERY_LOG_FILE 2>> $SLOW_QUERY_LOG_FILE
+
+<% if_p('cf_mysql.mysql.server_audit_events') do |_| %>
+touch $SERVER_AUDIT_LOG_FILE
+chown vcap:vcap $SERVER_AUDIT_LOG_FILE
+<% end %>
+
+# Start syslog forwarding
+/var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $MARIADB_JOB_DIR/config
+
+# It is surprisingly hard to get the config file location passed in
+# on the command line to the mysql.server script. This is easier.
+mkdir -p $CONFIG_DIR
+chown vcap:vcap $CONFIG_DIR
+rm -f $CONFIG_DIR/my.cnf
+ln -sf $MARIADB_JOB_DIR/config/my.cnf $CONFIG_DIR/my.cnf
+
+
+################################ HIGH Ulimit for SST of lots of tables ########
+
+ulimit -n <%= p('cf_mysql.mysql.max_open_files') %>
+
+############################### DATA directory creation #######################
+
+if ! test -d ${datadir}; then
+  log "bootstrap script: making ${datadir} and running /var/vcap/packages/mariadb/scripts/mysql_install_db"
+  mkdir -p ${datadir}
+  /var/vcap/packages/mariadb/scripts/mysql_install_db \
+         --basedir=/var/vcap/packages/mariadb \
+         --user=vcap \
+         --datadir=${datadir} >> $LOG_FILE 2>> $LOG_FILE
+fi
+chown -R vcap:vcap ${datadir}
+
+rm -f /etc/my.cnf
+
+if [ -d ${datadir} ]
+then
+  export DISABLE_SST=1
+fi
+
+############################## Call execution script ##########################
+
+MARIADB_CTRL_PREFIX_CMD="su vcap -c " ${MARIADB_JOB_DIR}/bin/pre-start-execution

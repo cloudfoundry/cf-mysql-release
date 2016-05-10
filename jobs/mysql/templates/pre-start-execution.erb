@@ -1,0 +1,56 @@
+#!/bin/bash
+
+set -e
+
+## NOTE: This can run as root user or vcap user,
+#        depending on whether called by BOSH during deploy or
+#        by the bootstrap errand.
+
+############################### ENV SETUP ########################################
+
+PROC_NAME=mariadb_ctl
+RUN_DIR=/var/vcap/sys/run/$PROC_NAME
+PIDFILE=$RUN_DIR/$PROC_NAME.pid
+MARIADB_JOB_DIR=/var/vcap/jobs/mysql
+CONFIG_FILE=$MARIADB_JOB_DIR/config/mariadb_ctl_config.yml
+MARIADB_CTRL_PACKAGE=/var/vcap/packages/mariadb_ctrl
+MARIADB_CTRL_PREFIX_CMD="${MARIADB_CTRL_PREFIX_CMD:-bash -c}"
+LOG_DIR=/var/vcap/sys/log/mysql
+LOG_FILE=$LOG_DIR/pre-start.stdout.log
+
+source /var/vcap/packages/cf-mysql-common/pid_utils.sh
+
+################################ PATH SETUP #######################################
+
+# add mysql to path
+if [ ! -f /usr/local/bin/mysql ]; then
+  log "Adding mysql to path"
+  ln -s /var/vcap/packages/mariadb/bin/mysql /usr/local/bin
+fi
+
+# add xtrabackup to path
+export PATH=$PATH:/var/vcap/packages/xtrabackup/bin
+
+# add perl libraries to perl env
+export PERL5LIB=$PERL5LIB:/var/vcap/packages/xtrabackup/lib/perl/5.18.2
+
+
+####################### START MARIADB_CTRL  ####################################
+
+log "pre-start execution script: starting mariadb_ctrl in prestart mode"
+
+# Setup pidguard and logging
+log "pre-start execution script: checking for existing instance of $PROC_NAME"
+pid_guard $PIDFILE $PROC_NAME
+
+cd $MARIADB_CTRL_PACKAGE
+
+$MARIADB_CTRL_PREFIX_CMD \
+"PATH=$PATH PERL5LIB=$PERL5LIB $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
+         -configPath=$CONFIG_FILE \
+         -prestart=true \
+         2>&1 \
+         | tee -a $LOG_FILE \
+         | logger -p local1.error -t mariadb_ctrl"
+
+log "pre-start execution script: completed pre-start execution"

@@ -15,7 +15,7 @@ PROC_NAME=mariadb_ctl
 RUN_DIR=/var/vcap/sys/run/$PROC_NAME
 PIDFILE=$RUN_DIR/$PROC_NAME.pid
 TMP_DIR=/var/vcap/data/mysql/tmp
-PRESTART_MARKER_FILE=/var/vcap/sys/run/prestart_marker
+PRESTART_MARKER_FILE=$RUN_DIR/prestart_marker
 
 source /var/vcap/packages/cf-mysql-common/pid_utils.sh
 source /var/vcap/packages/cf-mysql-common/syslog_utils.sh
