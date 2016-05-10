@@ -13,3 +13,17 @@ properties:
   system_domain: UNUSED_VALUE
   app_domains: [UNUSED_VALUE]
   domain: UNUSED_VALUE
+  consul:
+    agent:
+      datacenter: UNUSED_VALUE
+      domain: UNUSED_VALUE
+      log_level: UNUSED_VALUE
+      servers:
+        lan: [UNUSED_VALUE]
+    ca_cert: UNUSED_VALUE
+    agent_cert: UNUSED_VALUE
+    agent_key: UNUSED_VALUE
+    encrypt_keys: UNUSED_VALUE
+    server_cert: UNUSED_VALUE
+    server_key: UNUSED_VALUE
+
