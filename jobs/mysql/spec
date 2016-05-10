@@ -11,6 +11,7 @@ templates:
   gra-log-purger_ctl.erb: bin/gra-log-purger_ctl
   gra-log-purger.sh.erb: bin/gra-log-purger.sh
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
+  cluster_health_logger.erb: bin/cluster_health_logger
 
 packages:
 - xtrabackup
@@ -78,3 +79,7 @@ properties:
 
   database_startup_timeout:
     description: 'How long the startup script waits for the database to come online (in seconds)'
+
+  cf_mysql.mysql.cluster_health_log_interval:
+    description: 'Time in seconds between log entries for cluster health'
+    default: 30
