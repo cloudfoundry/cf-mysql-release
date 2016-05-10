@@ -124,3 +124,30 @@
   path = src/github.com/go-yaml/yaml
 	url = https://github.com/go-yaml/yaml
   branch = master	
+[submodule "src/github.com/cloudfoundry-incubator/cf_http"]
+	path = src/github.com/cloudfoundry-incubator/cf_http
+	url = git@github.com:cloudfoundry-incubator/cf_http.git
+[submodule "src/github.com/cloudfoundry-incubator/consuladapter"]
+	path = src/github.com/cloudfoundry-incubator/consuladapter
+	url = git@github.com:cloudfoundry-incubator/consuladapter.git
+[submodule "src/github.com/cloudfoundry-incubator/locket"]
+	path = src/github.com/cloudfoundry-incubator/locket
+	url = git@github.com:cloudfoundry-incubator/locket.git
+[submodule "src/github.com/cloudfoundry-incubator/runtime-schema"]
+	path = src/github.com/cloudfoundry-incubator/runtime-schema
+	url = git@github.com:cloudfoundry-incubator/runtime-schema.git
+[submodule "src/github.com/cloudfoundry/dropsonde"]
+	path = src/github.com/cloudfoundry/dropsonde
+	url = git@github.com:cloudfoundry/dropsonde.git
+[submodule "src/github.com/cloudfoundry/sonde-go"]
+	path = src/github.com/cloudfoundry/sonde-go
+	url = git@github.com:cloudfoundry/sonde-go.git
+[submodule "src/github.com/gogo/protobuf"]
+	path = src/github.com/gogo/protobuf
+	url = git@github.com:gogo/protobuf.git
+[submodule "src/github.com/hashicorp/consul"]
+	path = src/github.com/hashicorp/consul
+	url = git@github.com:hashicorp/consul.git
+[submodule "src/github.com/pivotal-golang/clock"]
+	path = src/github.com/pivotal-golang/clock
+	url = git@github.com:pivotal-golang/clock.git
