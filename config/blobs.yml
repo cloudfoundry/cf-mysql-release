@@ -79,10 +79,10 @@ ruby/rubygems-2.4.8.tgz:
   object_id: 69d96d0c-d34c-44e1-bb09-9340f483fe36
   sha: 0db6b2f1cdd2267fe19f1f875057c2f2ce9f5696
   size: 447712
-mariadb/mariadb-galera-10.0.21.tar.gz:
-  object_id: 2ff9fa35-02d9-4c2c-8442-95f7e31d22b7
-  sha: 500b852960a214b7793112367973d7a625607ba1
-  size: 56518164
+mariadb/mariadb-galera-10.0.23.tar.gz:
+  object_id: 6d3ba50a-c12e-4a4d-b992-10f7051a0a73
+  sha: c920df0661770abb923a7af5e964927f7d02ff5f
+  size: 57726827
 golang/go1.5.1.linux-amd64.tar.gz:
   object_id: 57718a28-73c7-4d17-a46b-12c8cc40a503
   sha: 46eecd290d8803887dec718c691cc243f2175fe0
