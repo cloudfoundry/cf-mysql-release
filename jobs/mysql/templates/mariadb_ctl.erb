@@ -2,8 +2,6 @@
 
 set -e
 
-############################################## ENV SETUP ######################
-
 export MARIADB_JOB_DIR=/var/vcap/jobs/mysql
 LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/mariadb_ctrl.combined.log
@@ -18,13 +16,7 @@ PRESTART_MARKER_FILE=$RUN_DIR/prestart_marker
 source /var/vcap/packages/cf-mysql-common/pid_utils.sh
 source /var/vcap/packages/cf-mysql-common/syslog_utils.sh
 
-
-################################################ SYS LOG output ################
-
 tee_output_to_sys_log "/var/vcap/sys/log"
-
-
-############################################### PATH SETUP #####################
 
 # add xtrabackup to path
 export PATH=$PATH:/var/vcap/packages/xtrabackup/bin
@@ -32,13 +24,7 @@ export PATH=$PATH:/var/vcap/packages/xtrabackup/bin
 # add perl libraries to perl env
 export PERL5LIB=$PERL5LIB:/var/vcap/packages/xtrabackup/lib/perl/5.18.2
 
-
-############################## Increase Ulimit (for SST lots of tables) ########
-
 ulimit -n <%= p('cf_mysql.mysql.max_open_files') %>
-
-
-############################## monit logic #####################################
 
 case $1 in
 

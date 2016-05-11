@@ -6,8 +6,6 @@ set -e
 #        depending on whether called by BOSH during deploy or
 #        by the bootstrap errand.
 
-############################### ENV SETUP ########################################
-
 PROC_NAME=mariadb_ctl
 RUN_DIR=/var/vcap/sys/run/$PROC_NAME
 PIDFILE=$RUN_DIR/$PROC_NAME.pid
@@ -20,8 +18,6 @@ LOG_FILE=$LOG_DIR/pre-start.stdout.log
 
 source /var/vcap/packages/cf-mysql-common/pid_utils.sh
 
-################################ PATH SETUP #######################################
-
 # add mysql to path
 if [ ! -f /usr/local/bin/mysql ]; then
   log "Adding mysql to path"
@@ -33,9 +29,6 @@ export PATH=$PATH:/var/vcap/packages/xtrabackup/bin
 
 # add perl libraries to perl env
 export PERL5LIB=$PERL5LIB:/var/vcap/packages/xtrabackup/lib/perl/5.18.2
-
-
-####################### START MARIADB_CTRL  ####################################
 
 log "pre-start execution script: starting mariadb_ctrl in prestart mode"
 

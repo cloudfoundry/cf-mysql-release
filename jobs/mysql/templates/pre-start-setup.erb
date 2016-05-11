@@ -4,8 +4,6 @@ set -e
 
 ## NOTE: This script MUST ALWAYS run as root user.
 
-########################## ENV SETUP ##########################################
-
 datadir=/var/vcap/store/mysql
 CONFIG_DIR=/etc/mysql
 LOG_DIR=/var/vcap/sys/log/mysql
@@ -22,8 +20,6 @@ PERSISTENT_TMP_DIR=/var/vcap/data/tmp
 source /var/vcap/packages/cf-mysql-common/pid_utils.sh
 
 log "pre-start setup script: set up ENV and logging"
-
-############################ DIR SETUP ########################################
 
 # Setup directories and assign correct owners
 if [[ ! -d "$RUN_DIR" ]]; then
@@ -64,12 +60,7 @@ chown vcap:vcap $CONFIG_DIR
 rm -f $CONFIG_DIR/my.cnf
 ln -sf $MARIADB_JOB_DIR/config/my.cnf $CONFIG_DIR/my.cnf
 
-
-################################ HIGH Ulimit for SST of lots of tables ########
-
 ulimit -n <%= p('cf_mysql.mysql.max_open_files') %>
-
-############################### DATA directory creation #######################
 
 if [ -d ${datadir} ]; then
   export DISABLE_SST=1
@@ -86,8 +77,5 @@ fi
 chown -R vcap:vcap ${datadir}
 
 rm -f /etc/my.cnf
-
-
-############################## Call execution script ##########################
 
 MARIADB_CTRL_PREFIX_CMD="su vcap -c " ${MARIADB_JOB_DIR}/bin/pre-start-execution
