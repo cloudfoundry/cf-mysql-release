@@ -2,31 +2,29 @@
 
 set -e
 
+############################################## ENV SETUP ######################
+
 export MARIADB_JOB_DIR=/var/vcap/jobs/mysql
-datadir=/var/vcap/store/mysql
-CONFIG_DIR=/etc/mysql
 LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/mariadb_ctrl.combined.log
 JOB_INDEX=<%= index %>
 CONFIG_FILE=$MARIADB_JOB_DIR/config/mariadb_ctl_config.yml
 MARIADB_CTRL_PACKAGE=/var/vcap/packages/mariadb_ctrl
-
 PROC_NAME=mariadb_ctl
 RUN_DIR=/var/vcap/sys/run/$PROC_NAME
 PIDFILE=$RUN_DIR/$PROC_NAME.pid
-TMP_DIR=/var/vcap/data/mysql/tmp
 PRESTART_MARKER_FILE=$RUN_DIR/prestart_marker
 
 source /var/vcap/packages/cf-mysql-common/pid_utils.sh
 source /var/vcap/packages/cf-mysql-common/syslog_utils.sh
 
+
+################################################ SYS LOG output ################
+
 tee_output_to_sys_log "/var/vcap/sys/log"
 
-# add mysql to path
-if [ ! -f /usr/local/bin/mysql ]; then
-  echo "Adding mysql to path"
-  ln -s /var/vcap/packages/mariadb/bin/mysql /usr/local/bin
-fi
+
+############################################### PATH SETUP #####################
 
 # add xtrabackup to path
 export PATH=$PATH:/var/vcap/packages/xtrabackup/bin
@@ -34,12 +32,13 @@ export PATH=$PATH:/var/vcap/packages/xtrabackup/bin
 # add perl libraries to perl env
 export PERL5LIB=$PERL5LIB:/var/vcap/packages/xtrabackup/lib/perl/5.18.2
 
-# setup log directory and file for daemon process
-mkdir -p $LOG_DIR
-touch $LOG_FILE
-chown -R vcap:vcap $LOG_DIR
+
+############################## Increase Ulimit (for SST lots of tables) ########
 
 ulimit -n <%= p('cf_mysql.mysql.max_open_files') %>
+
+
+############################## monit logic #####################################
 
 case $1 in
 
@@ -55,35 +54,8 @@ case $1 in
       exit 1
     fi
 
-    mkdir -p $RUN_DIR
-    chown -R vcap:vcap $RUN_DIR
-
-    mkdir -p $TMP_DIR
-    chown -R vcap:vcap $TMP_DIR
-
     echo "Checking for existing instance of $PROC_NAME"
     pid_guard $PIDFILE $PROC_NAME
-
-    # Start syslog forwarding
-    /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $MARIADB_JOB_DIR/config
-
-    # It is surprisingly hard to get the config file location passed in
-    # on the command line to the mysql.server script. This is easier.
-    mkdir -p $CONFIG_DIR
-    rm -f /etc/my.cnf
-    rm -f $CONFIG_DIR/my.cnf
-    ln -sf $MARIADB_JOB_DIR/config/my.cnf $CONFIG_DIR/my.cnf
-    chown -R vcap:vcap $CONFIG_DIR
-
-    if ! test -d ${datadir}; then
-      echo "start script: making ${datadir} and running /var/vcap/packages/mariadb/scripts/mysql_install_db"
-      mkdir -p ${datadir}
-      /var/vcap/packages/mariadb/scripts/mysql_install_db \
-             --basedir=/var/vcap/packages/mariadb \
-             --user=vcap \
-             --datadir=${datadir}
-    fi
-    chown -R vcap:vcap ${datadir}
 
     cd $MARIADB_CTRL_PACKAGE
 
