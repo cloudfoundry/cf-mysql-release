@@ -71,6 +71,10 @@ ulimit -n <%= p('cf_mysql.mysql.max_open_files') %>
 
 ############################### DATA directory creation #######################
 
+if [ -d ${datadir} ]; then
+  export DISABLE_SST=1
+fi
+
 if ! test -d ${datadir}; then
   log "bootstrap script: making ${datadir} and running /var/vcap/packages/mariadb/scripts/mysql_install_db"
   mkdir -p ${datadir}
@@ -83,10 +87,6 @@ chown -R vcap:vcap ${datadir}
 
 rm -f /etc/my.cnf
 
-if [ -d ${datadir} ]
-then
-  export DISABLE_SST=1
-fi
 
 ############################## Call execution script ##########################
 
