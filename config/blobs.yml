@@ -87,7 +87,7 @@ mysqlclient/mariadb-connector-c-2.1.0-src.tar.gz:
   object_id: e1e0446a-8cbd-4b8e-b496-fc20f530fd7c
   sha: 2fea886fd8ddf3e17d6228d282828afeaee0a317
   size: 1912888
-mariadb/mariadb-galera-10.0.19.tar.gz:
-  object_id: 86040e96-82ce-47e2-8003-1b646ef5e9e8
-  sha: 15fc7f3799f816345fd771eeb229f630a12fdabc
-  size: 56520261
+mariadb/mariadb-galera-10.0.23.tar.gz:
+  object_id: 6d3ba50a-c12e-4a4d-b992-10f7051a0a73
+  sha: c920df0661770abb923a7af5e964927f7d02ff5f
+  size: 57726827
