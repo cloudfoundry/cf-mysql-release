@@ -7,12 +7,17 @@ MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # This script assumes that it lives one directory below the release directory.
 RELEASE_DIR="$( cd ${MY_DIR}/.. && pwd )"
 
-${RELEASE_DIR}/generate_deployment_manifest \
-    aws \
-    ${RELEASE_DIR}/templates/sample_stubs/sample_plans_stub.yml \
-    ${RELEASE_DIR}/templates/sample_stubs/sample_aws_stub.yml
+FAKE_CF_MANIFEST="${RELEASE_DIR}/manifest-generation/bosh-lite-stubs/cf-manifest.yml"
 
-${RELEASE_DIR}/generate_deployment_manifest \
-    vsphere \
-    ${RELEASE_DIR}/templates/sample_stubs/sample_plans_stub.yml \
-    ${RELEASE_DIR}/templates/sample_stubs/sample_vsphere_stub.yml
+# bosh-lite
+${RELEASE_DIR}/scripts/generate-deployment-manifest \
+    -c "${FAKE_CF_MANIFEST}" \
+    -p "${RELEASE_DIR}"/manifest-generation/bosh-lite-stubs/property-overrides.yml \
+    -i "${RELEASE_DIR}"/manifest-generation/bosh-lite-stubs/iaas-settings.yml
+
+# minimal
+${RELEASE_DIR}/scripts/generate-deployment-manifest \
+    -c "${FAKE_CF_MANIFEST}" \
+    -p "${RELEASE_DIR}"/manifest-generation/examples/property-overrides.yml \
+    -i "${RELEASE_DIR}"/manifest-generation/bosh-lite-stubs/iaas-settings.yml \
+    -n "${RELEASE_DIR}"/manifest-generation/examples/minimal/instance-count-overrides.yml
