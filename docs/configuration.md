@@ -71,6 +71,6 @@ Note: This is independent of the overall BOSH timeout which is also configurable
 
 ```yaml
 update:
-  canary_watch_time: 30000-600000
-  update_watch_time: 30000-600000
+  canary_watch_time: 10000-600000
+  update_watch_time: 10000-600000
 ```
