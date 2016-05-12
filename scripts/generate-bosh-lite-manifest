@@ -17,7 +17,7 @@ argument_error=false
 function usage(){
   >&2 echo " Usage:
   Optional arguments
-    -n Instance count overrides stub file (single node, 3 node) 
+    -n Instance count overrides stub file (single node, 3 node)
   "
   exit 1
 }
