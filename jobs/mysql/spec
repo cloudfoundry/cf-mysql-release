@@ -65,8 +65,6 @@ properties:
     description: 'Set of databases to seed'
     default: {}
 
-  network_name:
-    description: "The name of the network (needed for the syslog aggregator)"
   syslog_aggregator.address:
     description: "IP address for syslog aggregator"
   syslog_aggregator.port:

@@ -84,8 +84,6 @@ properties:
   networks.broker_network:
     description: 'Name of the network the broker will get its IP address from'
 
-  network_name:
-    description: "The name of the network (needed for the syslog aggregator)"
   syslog_aggregator.address:
     description: "IP address for syslog aggregator"
   syslog_aggregator.port:
