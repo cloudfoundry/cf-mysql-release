@@ -14,6 +14,7 @@ properties:
   domain: (( config_from_cf.domain ))
   admin_password: (( property_overrides.mysql.admin_password ))
   cluster_ips: (( property_overrides.mysql.cluster_ips || default_mysql_cluster_ips ))
+  gcache_size: (( property_overrides.mysql.gcache_size || nil ))
   seeded_databases: ~
   max_heap_table_size: (( property_overrides.mysql.max_heap_table_size || nil ))
   tmp_table_size: (( property_overrides.mysql.tmp_table_size || nil ))

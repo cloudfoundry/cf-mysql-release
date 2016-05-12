@@ -1,6 +1,7 @@
 property_overrides:
   mysql:
     admin_password: password
+    gcache_size:
   proxy:
     api_username: username
     api_password: password
