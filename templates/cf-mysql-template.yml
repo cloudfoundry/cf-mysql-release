@@ -108,7 +108,6 @@ jobs:
     wsrep_max_ws_rows: (( merge || nil ))
     wsrep_max_ws_size: (( merge || nil ))
     syslog_aggregator: (( meta.syslog_aggregator ))
-    network_name: mysql1
 
 - name: mysql_z2
   release: cf-mysql
@@ -129,7 +128,6 @@ jobs:
     wsrep_max_ws_rows: (( jobs.mysql_z1.properties.wsrep_max_ws_rows ))
     wsrep_max_ws_size: (( jobs.mysql_z1.properties.wsrep_max_ws_size ))
     syslog_aggregator: (( meta.syslog_aggregator ))
-    network_name: mysql2
 
 - name: mysql_z3
   release: cf-mysql
@@ -150,7 +148,6 @@ jobs:
     wsrep_max_ws_rows: (( jobs.mysql_z1.properties.wsrep_max_ws_rows ))
     wsrep_max_ws_size: (( jobs.mysql_z1.properties.wsrep_max_ws_size ))
     syslog_aggregator: (( meta.syslog_aggregator ))
-    network_name: mysql3
 
 - name: proxy_z1
   release: cf-mysql
@@ -169,7 +166,6 @@ jobs:
       api_username: (( merge ))
       api_password: (( merge ))
     cluster_ips: (( jobs.mysql_z1.properties.cluster_ips ))
-    network_name: mysql1
     external_host: (( "p-mysql." .properties.domain ))
     nats: (( .properties.nats ))
     syslog_aggregator: (( meta.syslog_aggregator ))
@@ -191,7 +187,6 @@ jobs:
       api_username: (( jobs.proxy_z1.properties.proxy.api_username ))
       api_password: (( jobs.proxy_z1.properties.proxy.api_password ))
     cluster_ips: (( jobs.mysql_z1.properties.cluster_ips ))
-    network_name: mysql2
     external_host: (( "p-mysql." .properties.domain ))
     nats: (( .properties.nats ))
     syslog_aggregator: (( meta.syslog_aggregator ))
@@ -207,7 +202,6 @@ jobs:
     <<: (( merge || nil ))
     max_user_connections_default: (( merge || 40 ))
     syslog_aggregator: (( meta.syslog_aggregator ))
-    network_name: mysql1
     ssl_enabled: (( merge || nil ))
     skip_ssl_validation: (( .properties.cf.skip_ssl_validation ))
     auth_username: (( merge ))
@@ -252,7 +246,6 @@ jobs:
     <<: (( merge || nil ))
     max_user_connections_default: (( merge || 40 ))
     syslog_aggregator: (( meta.syslog_aggregator ))
-    network_name: mysql2
     auth_username: (( jobs.cf-mysql-broker_z1.properties.auth_username ))
     auth_password: (( jobs.cf-mysql-broker_z1.properties.auth_password ))
     cookie_secret: (( jobs.cf-mysql-broker_z1.properties.cookie_secret ))
