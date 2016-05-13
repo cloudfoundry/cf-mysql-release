@@ -67,7 +67,7 @@ if [ -d ${datadir} ]; then
 fi
 
 if ! test -d ${datadir}; then
-  log "bootstrap script: making ${datadir} and running /var/vcap/packages/mariadb/scripts/mysql_install_db"
+  log "pre-start setup script: making ${datadir} and running /var/vcap/packages/mariadb/scripts/mysql_install_db"
   mkdir -p ${datadir}
   /var/vcap/packages/mariadb/scripts/mysql_install_db \
          --basedir=/var/vcap/packages/mariadb \
