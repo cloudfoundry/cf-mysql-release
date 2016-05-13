@@ -4,7 +4,7 @@ packages:
   - mariadb
   - ruby
 templates:
-  errand.sh.erb: bin/run
+  run.erb: bin/run
 properties:
   cf_mysql.mysql.cluster_ips:
     description: 'IP addresses of all MySQL nodes'
