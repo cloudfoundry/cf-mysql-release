@@ -1,6 +1,7 @@
 property_overrides:
   mysql:
     admin_password: password
+    gcache_size:
     roadmin_enabled: true
     roadmin_password: password
     bootstrap_endpoint:
