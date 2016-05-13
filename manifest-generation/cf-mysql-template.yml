@@ -299,6 +299,15 @@ base_jobs:
   networks:
   - name: mysql1
   properties: {}
+- name: verify_cluster_schemas
+  template: verify_cluster_schemas
+  release: cf-mysql
+  instances: 1
+  resource_pool: errands_z1
+  lifecycle: errand
+  networks:
+  - name: mysql1
+  properties: {}
 
 # The keys below should not be included in the final stub
 config_from_cf: (( merge ))

@@ -1,0 +1,19 @@
+#!/var/vcap/packages/ruby/bin/ruby
+
+cluster_ips = <%= p('cf_mysql.mysql.cluster_ips') %>.compact
+arbitrator_ip = '<%= p('cf_mysql.proxy.arbitrator_ip') %>'
+mysql_port = <%= p('cf_mysql.mysql.port') %>
+mysql_user = '<%= p('cf_mysql.mysql.admin_username') %>'
+mysql_password = '<%= p('cf_mysql.mysql.admin_password') %>'
+
+
+cluster_ips.delete arbitrator_ip
+schema_shas = cluster_ips.map do |node_ip|
+  schema_sha = `/var/vcap/packages/mariadb/bin/mysqldump -h#{node_ip} -P#{mysql_port} -u#{mysql_user} -p#{mysql_password} --all-databases --single-transaction --no-data --compact | sha1sum`.chomp
+  puts "Node #{node_ip} sha: #{schema_sha}"
+  schema_sha
+end
+
+
+exit 1 if schema_shas.uniq.length > 1
+exit 0
