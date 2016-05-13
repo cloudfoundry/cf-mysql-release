@@ -48,7 +48,7 @@ wsrep_cluster_address="gcomm://<%= cluster_ips.join(",") %>"
 wsrep_node_address='<%= network_ip %>:<%= p('cf_mysql.mysql.galera_port') %>'
 wsrep_node_name='<%= name %>/<%= index %>'
 wsrep_cluster_name='cf-mariadb-galera-cluster'
-wsrep_sst_method=xtrabackup-v2-ist-only
+wsrep_sst_method=xtrabackup-v2
 wsrep_sst_auth=<%= p('cf_mysql.mysql.admin_username')%>:<%= p('cf_mysql.mysql.admin_password')%>
 wsrep_max_ws_rows=<%= p('cf_mysql.mysql.wsrep_max_ws_rows') %>
 wsrep_max_ws_size=<%= p('cf_mysql.mysql.wsrep_max_ws_size') %>
