@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -eu
+
+echo "Started force-rejoin errand ..."
+
+JOB_DIR=/var/vcap/jobs/force-rejoin
+CONFIG_PATH=$JOB_DIR/config/config.yml
+LOG_DIR=/var/vcap/sys/log/force-rejoin
+
+mkdir -p $LOG_DIR
+chown -R vcap:vcap $LOG_DIR
+
+su vcap -c "/var/vcap/packages/bootstrap/bin/cf-mysql-bootstrap -configPath=${CONFIG_PATH} 2>&1"
+echo "Force-rejoin errand completed"
+
+exit 0
