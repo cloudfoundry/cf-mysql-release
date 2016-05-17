@@ -3,12 +3,12 @@
 require '/var/vcap/packages/cluster-schema-verifier/cluster_schema_verifier.rb'
 
 config = {
-    cluster_ips: <%= p('cf_mysql.mysql.cluster_ips').compact %>,
+    cluster_ips: <%= p('cluster_ips').compact %>,
     arbitrator_ip: '<%= p('cf_mysql.proxy.arbitrator_ip') %>',
-    mysql_port: <%= p('cf_mysql.mysql.port') %>,
+    mysql_port: <%= p('port') %>,
     healthcheck_port: <%= p('cf_mysql.mysql.healthcheck_port') %>,
-    mysql_user: '<%= p('cf_mysql.mysql.admin_username') %>',
-    mysql_password: '<%= p('cf_mysql.mysql.admin_password') %>',
+    mysql_user: '<%= p('admin_username') %>',
+    mysql_password: '<%= p('admin_password') %>',
     healthcheck_user: '<%= p('cf_mysql.mysql.bootstrap_endpoint.username') %>',
     healthcheck_password: '<%= p('cf_mysql.mysql.bootstrap_endpoint.password') %>'
 }
