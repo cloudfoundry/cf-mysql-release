@@ -291,43 +291,60 @@ The brokers each register a route with the router, which load balances requests 
   $ bosh deploy
   ```
 
-<a name="vsphere"></a>
-#### vSphere
+<a name="aws-vsphere"></a>
+#### Deploy on AWS or vSphere
 
-1. Create a stub file called `cf-mysql-vsphere-stub.yml` by copying and modifying the [sample_vsphere_stub.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/sample_stubs/sample_vsphere_stub.yml)  in `templates/sample_stubs`. The `sample_plans_stub.yml` can also be copied if values need changing.
+##### Copy sample stubs and fill in values
 
-2. Generate the manifest:
-  ```
-  $ ./generate_deployment_manifest \
-    vsphere \
-    plans_stub.yml \
-    cf-mysql-vsphere-stub.yml > cf-mysql-vsphere.yml
-  ```
-  The resulting file, `cf-mysql-vsphere.yml` is your deployment manifest. To modify the deployment configuration, you can edit the stub and regenerate the manifest or edit the manifest directly.
+We have provided example stubs to serve as a starting point.
+Copy these stubs to your config repository, and fill in the `REPLACE_WITH` text with values for your environment.
 
-3. To deploy:
-  ```
-  $ bosh deployment cf-mysql-vsphere.yml && bosh deploy
-  ```
+For example, the following files can be used for an AWS deployment:
+```
+$ cp cf-mysql-release/manifest-generation/examples/aws/iaas-settings.yml \
+    cf-mysql-release/manipulationfest-generation/examples/property-overrides.yml \
+    cf-mysql-release/manifest-generation/examples/cf-stub.yml \
+    <YOUR_CONFIG_REPO>/cf-mysql/
+```
 
-<a name="aws"></a>
-#### AWS
+Additional example stubs can be found under [cf-mysql-release/manifest-generation/examples/](manifest-generation/examples).
+These include:
+- Deploying with a minimal number of VMs ([examples/minimal/](manifest-generation/examples/minimal/))
+- Deploying without a running CF deployment ([examples/standalone/](manifest-generation/examples/standalone/))
 
-1. Create a stub file called `cf-mysql-aws-stub.yml` by copying and modifying the [sample_aws_stub.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/templates/sample_stubs/sample_aws_stub.yml) in `templates/sample_stubs`. The `sample_plans_stub.yml` can also be copied if values need changing.
+##### Fill in the CF stub
 
-1. Generate the manifest:
-  ```
-  $ ./generate_deployment_manifest \
-    aws \
-    plans_stub.yml \
-    cf-mysql-aws-stub.yml > cf-mysql-aws.yml
-  ```
-  The resulting file, `cf-mysql-aws.yml` is your deployment manifest. To modify the deployment configuration, you can edit the stub and regenerate the manifest or edit the manifest directly.
+The script must obtain some configuration options from the CF deployment (e.g. CF Admin credentials).
+Edit the copied `cf-stub.yml` from the previous section to include values from your CF manifest.
+Existing admin users can be found under `properties.uaa.scim.users` in the CF manifest.
+This admin user must have the `cloud_controller.admin` UAA permission.
 
-1. To deploy:
-  ```
-  $ bosh deployment cf-mysql-aws.yml && bosh deploy
-  ```
+Note: This change to the CF manifest is temporary while we investigate better methods for sharing properties across deployments.
+
+##### Generate AWS or vSphere manifest
+
+Run the `./scripts/generate-deployment-manifest` with the stubs you created in the preceeding steps.
+
+```
+Usage:
+The script requires the following arguments-
+    -c CF stub (provided in cf-mysql-release)
+    -p Property overrides stub file (Use this file to provide credentials and broker plans)
+    -i Infrastructure type stub file (AWS or vSphere)
+The following arguments are optional-
+    -n Instance count overrides stub file (single node, 3 node)
+    -v Release versions stub file (Use this file to specify the cf-mysql release version, defaults to latest)
+```
+
+For example:
+
+```
+$ ./scripts/generate-deployment-manifest \
+  -c <YOUR_CONFIG_REPO>/cf-stub.yml \
+  -p <YOUR_CONFIG_REPO>/cf-mysql/property-overrides.yml \
+  -i <YOUR_CONFIG_REPO>/cf-mysql/iaas-settings.yml \
+  > cf-mysql.yml
+```
 
 <a name="manifest-properties"></a>
 #### Deployment Manifest Properties
