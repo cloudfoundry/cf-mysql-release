@@ -10,7 +10,6 @@ check process galera-healthcheck
   start program "/var/vcap/jobs/mysql/bin/galera-healthcheck_ctl start" with timeout 60 seconds
   stop program "/var/vcap/jobs/mysql/bin/galera-healthcheck_ctl stop" with timeout 10 seconds
   group vcap
-  depends on mariadb_ctrl
 
 check process gra-log-purger-executable
   with pidfile /var/vcap/sys/run/gra-log-purger/gra-log-purger.pid

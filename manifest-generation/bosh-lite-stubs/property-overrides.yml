@@ -2,6 +2,9 @@ property_overrides:
   mysql:
     admin_password: password
     gcache_size:
+    bootstrap_endpoint:
+      username: username
+      password: password
   proxy:
     api_username: username
     api_password: password
