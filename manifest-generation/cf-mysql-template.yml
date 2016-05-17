@@ -299,6 +299,15 @@ base_jobs:
   networks:
   - name: mysql1
   properties: {}
+- name: force-rejoin
+  template: force-rejoin
+  release: cf-mysql
+  instances: 1
+  resource_pool: errands_z1
+  lifecycle: errand
+  networks:
+  - name: mysql1
+  properties: {}
 - name: verify-cluster-schemas
   template: verify-cluster-schemas
   release: cf-mysql
