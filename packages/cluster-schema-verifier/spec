@@ -1,0 +1,4 @@
+---
+name: cluster-schema-verifier
+files:
+  - 'cluster_schema_verifier/lib/cluster_schema_verifier.rb'

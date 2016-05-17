@@ -299,8 +299,8 @@ base_jobs:
   networks:
   - name: mysql1
   properties: {}
-- name: verify_cluster_schemas
-  template: verify_cluster_schemas
+- name: verify-cluster-schemas
+  template: verify-cluster-schemas
   release: cf-mysql
   instances: 1
   resource_pool: errands_z1
