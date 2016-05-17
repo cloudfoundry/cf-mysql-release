@@ -4,14 +4,14 @@ dependencies:
   - golang
 files:
   - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
-  - github.com/cloudfoundry-incubator/galera-healthcheck/*.go # gosub
-  - github.com/cloudfoundry-incubator/galera-healthcheck/cluster-health-logger/*.go # gosub
-  - github.com/cloudfoundry-incubator/galera-healthcheck/cluster-health-logger/logwriter/*.go # gosub
-  - github.com/cloudfoundry-incubator/galera-healthcheck/healthcheck/*.go # gosub
-  - github.com/cloudfoundry-incubator/galera-healthcheck/integration/*.go # gosub
+  - github.com/cloudfoundry-incubator/galera-healthcheck/**/*.go
+  - github.com/bmizerany/pat/**/*.go
+  - github.com/tedsuo/rata/**/*.go
   - github.com/go-sql-driver/mysql/*.go # gosub
   - github.com/imdario/mergo/*.go # gosub
   - github.com/pivotal-cf-experimental/service-config/*.go # gosub
   - github.com/pivotal-golang/lager/*.go # gosub
   - gopkg.in/validator.v2/*.go # gosub
   - gopkg.in/yaml.v2/*.go # gosub
+  - golang.org/x/net/**/*.go
+  - golang.org/x/text/**/*.go

@@ -82,3 +82,8 @@ properties:
   cf_mysql.mysql.cluster_health_log_interval:
     description: 'Time in seconds between log entries for cluster health'
     default: 30
+
+  cf_mysql.mysql.bootstrap_endpoint.username:
+    description: 'Basic Auth username used for galera_healthcheck'
+  cf_mysql.mysql.bootstrap_endpoint.password:
+    description: 'Basic Auth password used for galera_healthcheck'
