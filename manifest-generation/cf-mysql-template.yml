@@ -301,6 +301,15 @@ base_jobs:
       port: (( jobs.mysql_z1.properties.port || nil ))
       username: (( .properties.cf.admin_username || nil ))
       password: (( .properties.cf.admin_password || nil ))
+- name: verify-cluster-schemas
+  template: verify-cluster-schemas
+  release: cf-mysql
+  instances: 1
+  resource_pool: errands_z1
+  lifecycle: errand
+  networks:
+  - name: mysql1
+  properties: {}
 
 config_from_cf: (( merge ))
 iaas_settings: (( merge ))
