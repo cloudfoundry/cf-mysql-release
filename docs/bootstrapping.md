@@ -43,7 +43,7 @@ Run `bosh run errand bootstrap` from the terminal. When done, this should succes
 
 If the cluster was already healthy to begin with (i.e. quorum was never lost), the errand will error out saying `bootstrap is not required`.
 
-If one or more nodes are not reachable (i.e. the VM exists but in an unknown state), it will error out saying `nodes are not reachable`. In this situation, follow the steps below:
+If one or more nodes are not reachable (i.e. the VM exists but in an unknown state), it will error out saying `Error: could not reach node`. In this situation, follow the steps below:
 
 1. `bosh -n stop mysql_z1 && bosh -n stop mysql_z2 && bosh -n stop <arbitrator|mysql>_z3`
 1. `bosh edit deployment`
