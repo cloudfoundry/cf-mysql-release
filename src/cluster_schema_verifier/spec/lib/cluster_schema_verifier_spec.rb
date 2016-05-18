@@ -136,6 +136,14 @@ describe ClusterSchemaVerifier do
 
       expect { verifier.dump_sql_schema('192.0.2.1') }.to raise_error(Exception, "Error while dumping schema: #{error}")
     end
+
+    context 'when output has auto_increment info' do
+      let(:output) { 'data AUTO_INCREMENT=13 other_data'}
+
+      it 'removes the auto_increment statements' do
+        expect(verifier.dump_sql_schema('192.0.2.1')).to eq('data  other_data')
+      end
+    end
   end
 
   describe 'cluster_schemas_valid?' do

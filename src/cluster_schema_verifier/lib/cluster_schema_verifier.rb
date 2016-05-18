@@ -93,7 +93,7 @@ class ClusterSchemaVerifier
       raise "Error while dumping schema: #{stderr}"
     end
 
-    stdout
+    stdout.gsub(/AUTO_INCREMENT=\d+/, '')
   end
 
   def log(message)
