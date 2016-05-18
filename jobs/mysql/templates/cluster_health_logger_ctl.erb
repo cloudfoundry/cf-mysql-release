@@ -22,6 +22,12 @@ case $1 in
 
     chown -R vcap:vcap ${RUN_DIR}
 
+    /var/vcap/packages/mariadb/bin/mysql \
+      -u<%= p('cf_mysql.mysql.admin_username') %> \
+      -p<%= p('cf_mysql.mysql.admin_password') %> \
+      -P<%= p('cf_mysql.mysql.port') %> \
+      -e"GRANT USAGE ON mysql.* TO 'cluster-health-logger'@'%' IDENTIFIED BY '<%= p('cf_mysql.mysql.cluster_health.password') %>'"
+
     exec chpst -u vcap:vcap ${BIN_FILE} -configPath=${CONFIG_DIR}/cluster_health_logger_config.yml
 
     ;;

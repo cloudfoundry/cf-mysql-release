@@ -79,6 +79,8 @@ properties:
       max_connections: (( property_overrides.mysql.max_connections || nil ))
       persistent_disk: (( disk_pools.mysql-persistent-disk.disk_size ))
       server_audit_events: (( property_overrides.mysql.server_audit_events || nil ))
+      cluster_health:
+        password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
     proxy:
       api_username: (( property_overrides.proxy.api_username ))
       api_password: (( property_overrides.proxy.api_password ))

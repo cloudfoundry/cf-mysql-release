@@ -109,3 +109,5 @@ properties:
   cf_mysql.mysql.cluster_health.log_interval:
     description: 'Time in seconds between log entries for cluster health'
     default: 30
+  cf_mysql.mysql.cluster_health.password:
+    description: 'Password for the cluster logger health user'
