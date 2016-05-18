@@ -26,7 +26,8 @@ case $1 in
       -u<%= p('cf_mysql.mysql.admin_username') %> \
       -p<%= p('cf_mysql.mysql.admin_password') %> \
       -P<%= p('cf_mysql.mysql.port') %> \
-      -e"GRANT USAGE ON mysql.* TO 'cluster-health-logger'@'%' IDENTIFIED BY '<%= p('cf_mysql.mysql.cluster_health.password') %>'"
+      -h127.0.0.1 \
+      -e"GRANT USAGE ON mysql.* TO 'cluster-health-logger'@'127.0.0.1' IDENTIFIED BY '<%= p('cf_mysql.mysql.cluster_health.password') %>'"
 
     exec chpst -u vcap:vcap ${BIN_FILE} -configPath=${CONFIG_DIR}/cluster_health_logger_config.yml
 
