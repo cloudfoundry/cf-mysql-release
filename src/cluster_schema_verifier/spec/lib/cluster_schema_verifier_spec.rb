@@ -141,7 +141,7 @@ describe ClusterSchemaVerifier do
       let(:output) { 'data AUTO_INCREMENT=13 other_data'}
 
       it 'removes the auto_increment statements' do
-        expect(verifier.dump_sql_schema('192.0.2.1')).to eq('data  other_data')
+        expect(verifier.dump_sql_schema('192.0.2.1')).to eq('data other_data')
       end
     end
   end
