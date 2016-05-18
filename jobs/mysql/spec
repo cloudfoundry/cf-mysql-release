@@ -106,6 +106,6 @@ properties:
   cf_mysql.mysql.server_audit_events:
     description: 'Enable audit logging and specify types of events that will be logged. If null, then logging is disabled'
     example: 'connect,query_ddl,query_dml,query_dcl'
-  cf_mysql.mysql.cluster_health_log_interval:
+  cf_mysql.mysql.cluster_health.log_interval:
     description: 'Time in seconds between log entries for cluster health'
     default: 30
