@@ -31,3 +31,6 @@ ${RELEASE_DIR}/src/github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/bi
 
 echo -e "\nTesting Bootstrapper..."
 ${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/cf-mysql-bootstrap/bin/test "$@"
+
+echo -e "\nTesting Cluster Health Logger..."
+${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/cf-mysql-cluster-health-logger/bin/test "$@"
