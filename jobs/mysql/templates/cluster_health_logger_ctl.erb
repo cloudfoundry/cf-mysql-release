@@ -6,7 +6,7 @@ JOB_DIR=/var/vcap/jobs/mysql
 CONFIG_DIR=${JOB_DIR}/config
 RUN_DIR=/var/vcap/sys/run/mysql
 PID_FILE=${RUN_DIR}/cluster_health_logger.pid
-BIN_FILE=/var/vcap/packages/galera-healthcheck/bin/cluster-health-logger
+BIN_FILE=/var/vcap/packages/cf-mysql-cluster-health-logger/bin/cf-mysql-cluster-health-logger
 OUTPUT_FILE=/var/vcap/sys/log/mysql/cluster_health.log
 
 case $1 in
@@ -21,6 +21,13 @@ case $1 in
 
     touch ${OUTPUT_FILE}
     chown vcap:vcap ${OUTPUT_FILE}
+
+    /var/vcap/packages/mariadb/bin/mysql \
+      -u<%= p('admin_username') %> \
+      -p<%= p('admin_password') %> \
+      -P<%= p('port') %> \
+      -h127.0.0.1 \
+      -e"GRANT USAGE ON mysql.* TO 'cluster-health-logger'@'127.0.0.1' IDENTIFIED BY '<%= p('cf_mysql.mysql.cluster_health.password') %>'"
 
     exec chpst -u vcap:vcap ${BIN_FILE} -configPath=${CONFIG_DIR}/cluster_health_logger_config.yml
 

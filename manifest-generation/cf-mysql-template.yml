@@ -51,7 +51,8 @@ properties:
   cf_mysql:
     mysql:
       bootstrap_endpoint: (( property_overrides.mysql.bootstrap_endpoint ))
-
+      cluster_health:
+        password: (( property_overrides.mysql.cluster_health.password ))
   max_user_connections_default: (( property_overrides.broker.max_user_connections_default || nil ))
   ssl_enabled: (( property_overrides.broker.ssl_enabled || nil ))
   skip_ssl_validation: (( config_from_cf.skip_ssl_validation || nil ))
