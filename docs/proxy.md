@@ -109,29 +109,48 @@ To configure service discovery for the proxies, you need to colocate the consul 
 
 #### Colocate the Consul-Agent Job
 
-To colocate the agent with the proxy, add the `job-overrides-consul.yml` stub to your manifest:
+To colocate the agent with the proxy, add a `job-overrides.yml` stub to your manifest generation command. An example can be found in `manifest-generation/examples/job-overrides-consul.yml`:
+
+```
+# job-overrides.yml
+
+job_overrides:
+  colocated_jobs:
+    proxy_z1:
+      additional_templates:
+        - {release: cf, name: consul_agent}
+    proxy_z2:
+      additional_templates:
+        - {release: cf, name: consul_agent}
+  additional_releases:
+  - name: cf
+    version: (( release_versions.cf.version || "latest" ))
+```
+
+For a full bosh in general infrastructure:
 
 ```
 ./scripts/generate-deployment-manifest \
     -c <cf-manifest> \
     -p <property-overrides-stub> \
     -i <iaas-settings-stub> \
-    -j ./manifest_generation/examples/job-overrides-consul.yml
+    -j <job-overrides-stub>
 ```
 
 For BOSH-lite:
 
 ```
 ./scripts/generate-bosh-lite-manifest \
-    -j ./manifest_generation/examples/job-overrides-consul.yml
+    -j <job-overrides-stub>
 ```
 
 #### Specify Consul-specific Properties
 
 To enable consul, provide the following properties in your cf-mysql-release manifest (for example, using the provided `property-overrides.yml` stub):
 
-manifest-generation/examples/property-overrides.yml
 ```
+# manifest-generation/examples/property-overrides.yml
+
 property_overrides:
   proxy:
     # ...
