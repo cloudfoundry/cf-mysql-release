@@ -105,3 +105,7 @@
 [submodule "src/golang.org/x/text"]
 	path = src/golang.org/x/text
 	url = https://go.googlesource.com/text
+[submodule "src/github.com/cloudfoundry-incubator/cf-mysql-cluster-health-logger"]
+	path = src/github.com/cloudfoundry-incubator/cf-mysql-cluster-health-logger
+	url = https://github.com/cloudfoundry-incubator/cf-mysql-cluster-health-logger.git
+	branch = master

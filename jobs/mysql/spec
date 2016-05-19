@@ -24,6 +24,7 @@ packages:
 - golang
 - common
 - syslog_aggregator
+- cf-mysql-cluster-health-logger
 
 properties:
   admin_username:
@@ -79,9 +80,11 @@ properties:
   database_startup_timeout:
     description: 'How long the startup script waits for the database to come online (in seconds)'
 
-  cf_mysql.mysql.cluster_health_log_interval:
+  cf_mysql.mysql.cluster_health.log_interval:
     description: 'Time in seconds between log entries for cluster health'
     default: 30
+  cf_mysql.mysql.cluster_health.password:
+    description: 'Password for the cluster logger health user'
 
   cf_mysql.mysql.bootstrap_endpoint.username:
     description: 'Basic Auth username used for galera_healthcheck'
