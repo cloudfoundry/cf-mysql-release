@@ -151,3 +151,7 @@
 [submodule "src/github.com/pivotal-golang/clock"]
 	path = src/github.com/pivotal-golang/clock
 	url = https://github.com/pivotal-golang/clock.git
+[submodule "src/github.com/cloudfoundry-incubator/cf-mysql-cluster-health-logger"]
+	path = src/github.com/cloudfoundry-incubator/cf-mysql-cluster-health-logger
+	url = https://github.com/cloudfoundry-incubator/cf-mysql-cluster-health-logger.git
+	branch = master

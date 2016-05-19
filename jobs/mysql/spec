@@ -24,6 +24,7 @@ packages:
 - galera-healthcheck
 - gra-log-purger
 - cf-mysql-common
+- cf-mysql-cluster-health-logger
 - syslog_aggregator
 
 properties:

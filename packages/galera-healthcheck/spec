@@ -9,8 +9,6 @@ files:
   - github.com/cloudfoundry-incubator/galera-healthcheck/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/api/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/api/middleware/*.go # gosub
-  - github.com/cloudfoundry-incubator/galera-healthcheck/cluster-health-logger/*.go # gosub
-  - github.com/cloudfoundry-incubator/galera-healthcheck/cluster-health-logger/logwriter/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/config/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/healthcheck/*.go # gosub
   - github.com/cloudfoundry-incubator/galera-healthcheck/healthcheck/fakes/*.go # gosub
