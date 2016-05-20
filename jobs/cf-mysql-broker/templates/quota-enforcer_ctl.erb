@@ -26,7 +26,12 @@ case $1 in
       -p<%= p('cf_mysql.mysql.admin_password') %> \
       -h<%= p('cf_mysql.host') %> \
       -P<%= p('cf_mysql.mysql.port') %> \
-      -e"GRANT ALL PRIVILEGES ON *.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.quota_enforcer_password') %>' WITH GRANT OPTION"
+      -e"GRANT RELOAD ON *.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.quota_enforcer_password') %>'; \
+GRANT SUPER ON *.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.quota_enforcer_password') %>'; \
+GRANT PROCESS ON *.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.quota_enforcer_password') %>'; \
+GRANT SELECT ON mysql_broker.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.quota_enforcer_password') %>'; \
+GRANT SELECT ON mysql.db TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.quota_enforcer_password') %>'; \
+GRANT INSERT, UPDATE, CREATE ON *.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.quota_enforcer_password') %>' WITH GRANT OPTION;"
 
     su vcap -c "$package_dir/bin/cf-mysql-quota-enforcer \
         -pidFile=$pidfile \
