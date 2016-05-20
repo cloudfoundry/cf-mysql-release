@@ -32,7 +32,7 @@ properties:
   cookie_secret:
     description: 'A unique secret key, used to sign sessions'
 
-  broker.quota_enforcer_password:
+  broker.quota_enforcer.password:
     description: 'The password for the quota-enforcer user'
 
   mysql_node.host:
