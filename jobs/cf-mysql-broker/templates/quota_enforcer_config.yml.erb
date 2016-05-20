@@ -1,9 +1,9 @@
 ---
+<%  ignored_users = p('cf_mysql.broker.quota_enforcer.ignored_users')
+    ignored_users += ['roadmin', 'quota-enforcer'] %>
 Host: <%= p('cf_mysql.host') %>
 Port: <%= p('cf_mysql.mysql.port') %>
 User: quota-enforcer
 Password: <%= p('cf_mysql.broker.quota_enforcer.password') %>
 DBName: mysql_broker
-IgnoredUsers:
-  - roadmin
-  - quota-enforcer
+IgnoredUsers: <%= ignored_users.uniq %>

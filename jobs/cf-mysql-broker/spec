@@ -106,3 +106,5 @@ properties:
 
   cf_mysql.broker.quota_enforcer.password:
     description: 'The password for the quota-enforcer user'
+  cf_mysql.broker.quota_enforcer.ignored_users:
+    description: 'Array of users that the quota enforcer will not enforce quotas on'
