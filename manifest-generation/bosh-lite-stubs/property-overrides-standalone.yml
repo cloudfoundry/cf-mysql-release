@@ -4,9 +4,9 @@ property_overrides:
     admin_password: password
     roadmin_enabled: true
     roadmin_password: password
-    bootstrap_endpoint:
-      username: username
-      password: password
+    galera_healthcheck:
+      endpoint_username: username
+      endpoint_password: password
     cluster_health:
       password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
   proxy:
