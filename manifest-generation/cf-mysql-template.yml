@@ -50,7 +50,7 @@ properties:
   - (( jobs.mysql_z3.networks.mysql3.static_ips.[0] || nil ))
   cf_mysql:
     mysql:
-      bootstrap_endpoint: (( property_overrides.mysql.bootstrap_endpoint ))
+      galera_healthcheck: (( property_overrides.mysql.galera_healthcheck ))
       cluster_health:
         password: (( property_overrides.mysql.cluster_health.password ))
   max_user_connections_default: (( property_overrides.broker.max_user_connections_default || nil ))
