@@ -300,8 +300,8 @@ base_jobs:
   networks:
   - name: mysql1
   properties: {}
-- name: force-rejoin
-  template: force-rejoin
+- name: rejoin-unsafe
+  template: rejoin-unsafe
   release: cf-mysql
   instances: 1
   resource_pool: errands_z1

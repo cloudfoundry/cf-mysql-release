@@ -2,16 +2,16 @@
 
 set -eu
 
-echo "Started force-rejoin errand ..."
+echo "Started rejoin-unsafe errand ..."
 
-JOB_DIR=/var/vcap/jobs/force-rejoin
+JOB_DIR=/var/vcap/jobs/rejoin-unsafe
 CONFIG_PATH=$JOB_DIR/config/config.yml
-LOG_DIR=/var/vcap/sys/log/force-rejoin
+LOG_DIR=/var/vcap/sys/log/rejoin-unsafe
 
 mkdir -p $LOG_DIR
 chown -R vcap:vcap $LOG_DIR
 
 su vcap -c "/var/vcap/packages/bootstrap/bin/cf-mysql-bootstrap -configPath=${CONFIG_PATH} 2>&1"
-echo "Force-rejoin errand completed"
+echo "rejoin-unsafe errand completed"
 
 exit 0
