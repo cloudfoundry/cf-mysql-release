@@ -97,10 +97,6 @@ properties:
     default: false
   cf_mysql.mysql.roadmin_password:
     description: 'Password for the MySQL server read-only admin user'
-  cf_mysql.mysql.bootstrap_endpoint.username:
-    description: 'Username used by the bootstrap endpoints for Basic Auth'
-  cf_mysql.mysql.bootstrap_endpoint.password:
-    description: 'Password used by the bootstrap endpoints for Basic Auth'
   cf_mysql.mysql.server_audit_events:
     description: 'Enable audit logging and specify types of events that will be logged. If null, then logging is disabled'
     example: 'connect,query_ddl,query_dml,query_dcl'
