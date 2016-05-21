@@ -9,8 +9,8 @@ config = {
     healthcheck_port: <%= p('cf_mysql.mysql.healthcheck_port') %>,
     mysql_user: '<%= p('admin_username') %>',
     mysql_password: '<%= p('admin_password') %>',
-    healthcheck_user: '<%= p('cf_mysql.mysql.bootstrap_endpoint.username') %>',
-    healthcheck_password: '<%= p('cf_mysql.mysql.bootstrap_endpoint.password') %>'
+    healthcheck_user: '<%= p('cf_mysql.mysql.galera_healthcheck.endpoint_username') %>',
+    healthcheck_password: '<%= p('cf_mysql.mysql.galera_healthcheck.endpoint_password') %>'
 }
 
 if !ClusterSchemaVerifier.new(config).cluster_schemas_valid?
