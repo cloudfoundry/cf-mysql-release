@@ -1,6 +1,6 @@
 ---
 <%  ignored_users = p('cf_mysql.broker.quota_enforcer.ignored_users')
-    ignored_users += ['roadmin', 'quota-enforcer'] %>
+    ignored_users << 'roadmin' %>
 Host: <%= p('cf_mysql.host') %>
 Port: <%= p('cf_mysql.mysql.port') %>
 User: quota-enforcer
