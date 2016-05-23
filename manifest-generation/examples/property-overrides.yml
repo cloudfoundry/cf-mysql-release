@@ -25,6 +25,7 @@ property_overrides:
     dashboard_secret: REPLACE_WITH_PASSWORD_YOU_MAKE_UP #Secret used by MySQL dashboard to fetch an OAuth token from UAA
     quota_enforcer:
       password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
+      ignored_users: [ignored_user_1, ignored_user_2] # Optional, additional database users not subject to quota limits
     service_name: p-mysql # Name for the service as it will appear in the marketplace
     plans:
     - name: 100mb
