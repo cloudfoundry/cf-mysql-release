@@ -21,3 +21,9 @@ We recommend that a minimum of 2 service brokers are configured for a given depl
 Having redundant service brokers avoids a single point of failure when creating or binding service instances for an application. While a deployment is operable with a single service broker it is not recommended for stated reasons.
 
 If zero service brokers are deployed, it follows that service instances cannot be provisioned nor bound to any application.
+
+## Quota Enforcement
+
+The service broker is deployed with a quota-enforcer process, which ensures that service instances do not exceed their allocated storage quota. When the quota is exceeded, the database users associated with the service instance will only be able to `DELETE` until the disk usage falls under the quota.
+
+By default, the `roadmin` and `quota-enforcer` database users are not subject to quota enforcement. When deploying the service broker you can optionally specify additional users to ignore with the property `cf_mysql.broker.quota_enforcer.ignored_users`. For an example of this, see the [example property-overrides.yml file](../manifest-generation/examples/property-overrides.yml).
