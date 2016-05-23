@@ -20,8 +20,8 @@ properties:
     default: 'root'
   admin_password:
     description: 'Password for the MySQL server admin user'
-  cf_mysql.mysql.healthcheck_port:
-    description: 'Port used to access galera healthcheck'
+  cf_mysql.mysql.galera_healthcheck.port:
+    description: 'Port used by sidecar process to listen on'
     default: 9200
   cf_mysql.mysql.galera_healthcheck.endpoint_username:
     description: 'Username used to authenticate with galera healthcheck'
