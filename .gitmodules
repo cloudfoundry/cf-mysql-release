@@ -109,3 +109,6 @@
 	path = src/github.com/cloudfoundry-incubator/cf-mysql-cluster-health-logger
 	url = https://github.com/cloudfoundry-incubator/cf-mysql-cluster-health-logger.git
 	branch = master
+[submodule "src/github.com/cloudfoundry-incubator/cf-mysql-bootstrap"]
+	path = src/github.com/cloudfoundry-incubator/cf-mysql-bootstrap
+	url = https://github.com/cloudfoundry-incubator/cf-mysql-bootstrap.git
