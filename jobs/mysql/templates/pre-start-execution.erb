@@ -2,6 +2,9 @@
 
 set -e
 
+<% if !p('cf_mysql.mysql.disable_auto_sst') %>
+export DISABLE_SST=0
+<% end %>
 ## NOTE: This can run as root user or vcap user,
 #        depending on whether called by BOSH during deploy or
 #        by the bootstrap errand.

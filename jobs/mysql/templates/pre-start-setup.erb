@@ -62,9 +62,11 @@ ln -sf $MARIADB_JOB_DIR/config/my.cnf $CONFIG_DIR/my.cnf
 
 ulimit -n <%= p('cf_mysql.mysql.max_open_files') %>
 
+<% if p('cf_mysql.mysql.disable_auto_sst') %>
 if [ -d ${datadir} ]; then
   export DISABLE_SST=1
 fi
+<% end %>
 
 if ! test -d ${datadir}; then
   log "pre-start setup script: making ${datadir} and running /var/vcap/packages/mariadb/scripts/mysql_install_db"

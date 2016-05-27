@@ -2,6 +2,14 @@
 
 set -e
 
+<%
+  if p('cf_mysql.mysql.disable_auto_sst')
+    disable_sst_string = 'DISABLE_SST=1'
+  else
+    disable_sst_string = 'DISABLE_SST=0'
+  end
+%>
+
 export MARIADB_JOB_DIR=/var/vcap/jobs/mysql
 LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/mariadb_ctrl.combined.log
@@ -47,7 +55,7 @@ case $1 in
 
     echo "start script: starting mariadb_ctrl..."
     su vcap -c \
-    "DISABLE_SST=1 PATH=$PATH PERL5LIB=$PERL5LIB $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
+    "<%= disable_sst_string %> PATH=$PATH PERL5LIB=$PERL5LIB $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
              -configPath=$CONFIG_FILE \
              2>&1 \
              | tee -a $LOG_FILE \
