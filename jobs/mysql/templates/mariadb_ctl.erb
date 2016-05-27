@@ -4,6 +4,7 @@ set -e
 
 export MARIADB_JOB_DIR=/var/vcap/jobs/mysql
 datadir=/var/vcap/store/mysql
+enable_sst_marker=/var/vcap/sys/run/galera-healthcheck/enable_sst
 CONFIG_DIR=/etc/mysql
 LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/mariadb_ctrl.combined.log
@@ -77,6 +78,11 @@ case $1 in
     rm -f /etc/my.cnf
     rm -f $CONFIG_DIR/my.cnf
     ln -sf $MARIADB_JOB_DIR/config/my.cnf $CONFIG_DIR/my.cnf
+
+    if test -f ${enable_sst_marker}; then
+      export DISABLE_SST=0
+      rm ${enable_sst_marker}
+    fi
 
     if ! test -d ${datadir}; then
       export DISABLE_SST=0
