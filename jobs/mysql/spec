@@ -90,3 +90,6 @@ properties:
     description: 'Username used by the sidecar endpoints for Basic Auth'
   cf_mysql.mysql.galera_healthcheck.endpoint_password:
     description: 'Password used by the sidecar endpoints for Basic Auth'
+  cf_mysql.mysql.disable_auto_sst:
+    description: 'When disable_auto_sst is true, nodes unable to IST will be prevented from automatically deleting their data and performing an SST'
+    default: true
