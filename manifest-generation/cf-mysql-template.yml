@@ -50,6 +50,7 @@ properties:
   - (( jobs.mysql_z3.networks.mysql3.static_ips.[0] || nil ))
   cf_mysql:
     mysql:
+      disable_auto_sst: (( property_overrides.mysql.disable_auto_sst || nil ))
       galera_healthcheck: (( property_overrides.mysql.galera_healthcheck ))
       cluster_health:
         password: (( property_overrides.mysql.cluster_health.password ))
