@@ -1,0 +1,29 @@
+---
+name: verify-cluster-schemas
+packages:
+  - mariadb
+  - ruby
+  - cluster-schema-verifier
+templates:
+  run.rb.erb: bin/run
+properties:
+  cf_mysql.mysql.cluster_ips:
+    description: 'IP addresses of all MySQL nodes'
+  cf_mysql.proxy.arbitrator_ip:
+    description: 'IP address of the arbitrator if it exists'
+  cf_mysql.mysql.port:
+    description: 'Port the mysql servers are running on'
+    default: 3306
+  cf_mysql.mysql.admin_username:
+    description: 'Username for the MySQL server admin user'
+    default: 'root'
+  cf_mysql.mysql.admin_password:
+    description: 'Password for the MySQL server admin user'
+  cf_mysql.mysql.healthcheck_port:
+    description: 'Port used to access galera healthcheck'
+    default: 9200
+  cf_mysql.mysql.galera_healthcheck.endpoint_username:
+    description: 'Username used to authenticate with galera healthcheck'
+  cf_mysql.mysql.galera_healthcheck.endpoint_password:
+    description: 'Password used to authenticate with galera healthcheck'
+

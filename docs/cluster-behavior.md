@@ -69,6 +69,15 @@ Existing nodes restarted with monit should automatically join the cluster. If an
   - The start script will currently bootstrap node 0 only on initial deploy. If bootstrapping is necessary at a later date, it must be done manually. For more information on bootstrapping a cluster, see [Bootstrapping Galera](bootstrapping.md).
   - If the single node is bootstrapped, it will create a new one-node cluster that other nodes can join.
 
+### Forcing a Node to Rejoin the Cluster (Unsafe Procedure)
+  **Note**: This errand resets all nodes to the state of the node with the highest sequence number. This will cause you to lose any data that is not on that node.
+
+  - In the event that a cluster becomes unhealthy (i.e. nodes are out of sync), as of v27, MySQL ships with an errand called `rejoin-unsafe`. This errand will:
+      - Check the nodes for the highest sequence number
+      - Start that node in Bootstrap mode
+      - Force the other nodes to SST, restoring the cluster to healthy state
+
+
 ### Simulating node failure
   - To simulate a temporary single node failure, use `kill -9` on the pid of the mysql process. This will only temporarily disable the node because the process is being monitored by monit, which will restart the process if it is not running.
   - To more permenantly disable the process, execute `monit unmonitor mariadb_ctrl` before `kill -9`.

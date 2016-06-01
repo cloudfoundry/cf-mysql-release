@@ -93,12 +93,10 @@ tmp_table_size = <%= p('cf_mysql.mysql.tmp_table_size') %>
 plugin-load = server_audit=server_audit.so
 server_audit_logging = ON
 server_audit_events = <%= p('cf_mysql.mysql.server_audit_events') %>
-   <% if use_syslog %>
-server_audit_output_type = syslog
-   <% else %>
 server_audit_output_type = file
 server_audit_file_path = /var/vcap/sys/log/mysql/mysql_server_audit.log
-   <% end %>
+server_audit_excl_users=cluster-health-logger,quota-enforcer
+server_audit_file_rotations=0
 <% end %>
 
 # These are mandatory MySQL settings for MariaDB Galera to work

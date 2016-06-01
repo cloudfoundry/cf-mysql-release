@@ -1,0 +1,6 @@
+---
+Port: <%= p('cf_mysql.mysql.port') %>
+User: cluster-health-logger
+Password: <%= p('cf_mysql.mysql.cluster_health.password') %>
+LogPath: /var/vcap/sys/log/mysql/cluster_health.log
+Interval: <%= p('cf_mysql.mysql.cluster_health.log_interval') %>

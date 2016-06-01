@@ -14,4 +14,3 @@ go install github.com/cloudfoundry-incubator/galera-healthcheck
 
 # clean up source artifacts
 rm -rf ${BOSH_INSTALL_TARGET}/src ${BOSH_INSTALL_TARGET}/pkg
-

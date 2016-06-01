@@ -1,5 +1,5 @@
 ---
-Port: <%= p('cf_mysql.mysql.healthcheck_port') %>
+Port: <%= p('cf_mysql.mysql.galera_healthcheck.port') %>
 PidFile: '/var/vcap/sys/run/galera-healthcheck/galera-healthcheck.pid'
 MysqldPath: '/var/vcap/packages/mariadb/bin/mysqld'
 DB:
@@ -12,6 +12,6 @@ Monit:
   Host: 'localhost'
   Port: 2822
   ServiceName: 'garbd'
-BootstrapEndpoint:
-  Username: <%= p('cf_mysql.mysql.bootstrap_endpoint.username') %>
-  Password: <%= p('cf_mysql.mysql.bootstrap_endpoint.password') %>
+SidecarEndpoint:
+  Username: <%= p('cf_mysql.mysql.galera_healthcheck.endpoint_username') %>
+  Password: <%= p('cf_mysql.mysql.galera_healthcheck.endpoint_password') %>

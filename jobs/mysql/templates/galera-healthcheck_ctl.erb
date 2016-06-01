@@ -25,6 +25,8 @@ case $1 in
 
     cd $package_dir
 
+    ulimit -n <%= p('cf_mysql.mysql.max_open_files') %> # HIGH Ulimit for SST of lots of tables (in case we run the bootstrap errand)
+
     su - vcap -c \
       "$package_dir/bin/galera-healthcheck \
         -configPath=$job_dir/config/galera_healthcheck_config.yaml \

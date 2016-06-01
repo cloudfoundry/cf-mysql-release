@@ -18,7 +18,7 @@ var graLogDir = flag.String(
 
 var graLogDaysToKeep = flag.Int(
 	"graLogDaysToKeep",
-	30,
+	60,
 	"Specifies the maximum age of the GRA log files allowed.",
 )
 

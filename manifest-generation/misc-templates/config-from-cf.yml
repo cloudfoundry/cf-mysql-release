@@ -16,3 +16,14 @@ config_from_cf:
   smoke_tests:
     use_existing_org: (( merge ))
     org: (( merge ))
+  consul:
+    datacenter: (( merge ))
+    domain: (( merge ))
+    log_level: (( merge ))
+    lan_servers: (( merge ))
+    ca_cert: (( merge ))
+    agent_cert: (( merge ))
+    agent_key: (( merge ))
+    encrypt_keys: (( merge ))
+    server_cert: (( merge ))
+    server_key: (( merge ))

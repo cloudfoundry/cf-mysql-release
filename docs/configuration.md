@@ -1,5 +1,22 @@
 # Configuration Options
 
+## Configuring the Service Name and Deployment Name
+In [cf-mysql v27](https://github.com/cloudfoundry/cf-mysql-release/releases/tag/v27) and later, you can control how the mysql service appears in the marketplace and the list of BOSH deployments. You can do this during manifest generation by overriding the properties `service_name` and `deployment_name` when creating your own customized version of the [property-overrides.yml](https://github.com/cloudfoundry/cf-mysql-release/blob/master/manifest-generation/examples/property-overrides.yml#L22) example.
+
+After you've run both `bosh deploy` and `bosh run errand broker-deregistrar`, the output of `cf marketplace` will look like:
+
+- 
+    ```sh
+    $ cf marketplace
+    Getting services from marketplace in org accept / space test as admin...
+    OK
+    
+    service            plans        description
+    myspecial-mysql   100mb, 1gb   MySQL databases on demand
+    
+    TIP:  Use 'cf marketplace -s SERVICE' to view descriptions of individual plans of a given service.
+    ```
+
 ## Updating Service Plans
 
 Updating the service instances is supported; see [Service plans and instances](docs/service-plans-instances.md) for details.
@@ -40,7 +57,7 @@ See the [proxy](jobs/proxy/spec) and [acceptance-tests](jobs/acceptance-tests/sp
 ## Configuring how long the startup script waits for the database to come online
 
 On larger databases, the default database startup timeout may be too low.
-This would result in the job reporting as failing, while MySQL continues to bootstrap in the background (see [Known Issues > Long SST Transfers](docs/Known-Issues.md#long-sst-transfers)).
+This would result in the job reporting as failing, while MySQL continues to bootstrap in the background (see [Known Issues > Long SST Transfers](Known-Issues.md#long-sst-transfers)).
 To increase the duration that the startup script waits for MySQL to start, add the following to your deployment stub:
 
 ```yaml
@@ -54,6 +71,6 @@ Note: This is independent of the overall BOSH timeout which is also configurable
 
 ```yaml
 update:
-  canary_watch_time: 30000-600000
-  update_watch_time: 30000-600000
+  canary_watch_time: 10000-600000
+  update_watch_time: 10000-600000
 ```

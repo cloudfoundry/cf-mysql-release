@@ -332,20 +332,21 @@ Run the `./scripts/generate-deployment-manifest` with the stubs you created in t
 
 ```
 Usage:
-The script requires the following arguments-
-    -c CF stub (provided in cf-mysql-release)
-    -p Property overrides stub file (Use this file to provide credentials and broker plans)
-    -i Infrastructure type stub file (AWS, vSphere, or OpenStack)
-The following arguments are optional-
+  Mandatory arguments:
+    -c CF Manifest
+    -p Property overrides stub file
+    -i Infrastructure settings stub file
+  Optional arguments
     -n Instance count overrides stub file (single node, 3 node)
-    -v Release versions stub file (Use this file to specify the cf-mysql release version, defaults to latest)
+    -v Release versions stub file
+    -j Manifest stub file for additional jobs
 ```
 
 For example:
 
 ```
 $ ./scripts/generate-deployment-manifest \
-  -c <YOUR_CONFIG_REPO>/cf-mysql/cf-stub.yml \
+  -c <YOUR_CONFIG_REPO>/cf-manifest.yml \
   -p <YOUR_CONFIG_REPO>/cf-mysql/property-overrides.yml \
   -i <YOUR_CONFIG_REPO>/cf-mysql/iaas-settings.yml \
   > cf-mysql.yml

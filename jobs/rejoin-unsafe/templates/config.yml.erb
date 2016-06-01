@@ -1,0 +1,13 @@
+<%
+# cluster_ips may contain nil values due to lack of flexibility in spiff
+cluster_ips = p('cf_mysql.mysql.cluster_ips').compact
+%>
+
+HealthcheckURLs:
+  <% cluster_ips.each do |ip| %>
+  - http://<%= ip %>:<%= p('cf_mysql.mysql.galera_healthcheck.port') %>
+  <% end %>
+Username: <%= p('cf_mysql.mysql.galera_healthcheck.endpoint_username') %>
+Password: <%= p('cf_mysql.mysql.galera_healthcheck.endpoint_password') %>
+LogFilePath: "/var/vcap/sys/log/rejoin-unsafe/rejoin-unsafe.log"
+RepairMode: "rejoin-unsafe"

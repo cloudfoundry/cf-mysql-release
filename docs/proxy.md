@@ -51,7 +51,11 @@ The proxy tier is responsible for routing connections from applications to healt
 
 Bound applications are provided with a hostname or IP address to reach a database managed by the service. By default, the MySQL service will provide bound applications with the IP of the first instance in the proxy tier. Even if additional proxy instances are deployed, client connections will not be routed through them. This means the first proxy instance is a single point of failure.
 
-**In order to eliminate the first proxy instance as a single point of failure, operators must configure a load balancer to route client connections to all proxy IPs, and configure the MySQL service to give bound applications a hostname or IP address that resolves to the load balancer.**
+**In order to eliminate the first proxy instance as a single point of failure, operators have two options:**
+  * Configure [Consul](http://consul.io)<sup>[[1]](#configuring-consul)</sup> for service discovery.
+  * Configure a load balancer<sup>[[2]](#configuring-load-balancer)</sup> to route client connections to all proxy IPs, and configure the MySQL service<sup>[[3]](#configuring-cf-mysql-release-to-give-applications-the-address-of-the-load-balancer)</sup> to give bound applications a hostname or IP address that resolves to the load balancer.
+
+*Note: To use MySQL as a bindable service on Cloud Foundry the operator must configure a load balancer, Consul will not be acceessible from applications.*
 
 ### Configuring load balancer
 
@@ -96,6 +100,63 @@ follow the following instructions:
 7. In the value input, enter the IP addresses of each proxy VM, separated by a newline.
 
 Finally, update the manifest property `properties.mysql_node.host` for the cf-mysql-broker job, as described above.
+
+### Configuring Consul
+
+The Consul server is deployed with [cf-release](https://github.com/cloudfoundry/cf-release), if your deployment does not include cf-release you can use [consul-release](https://github.com/cloudfoundry-incubator/consul-release) to deploy a standalone Consul cluster.
+
+To configure service discovery for the proxies, you need to colocate the consul agent with each Proxy and specify some Consul-specific properties.
+
+#### Colocate the Consul-Agent Job
+
+To colocate the agent with the proxy, add a `job-overrides.yml` stub to your manifest generation command. An example can be found in `manifest-generation/examples/job-overrides-consul.yml`:
+
+```
+# job-overrides.yml
+
+job_overrides:
+  colocated_jobs:
+    proxy_z1:
+      additional_templates:
+        - {release: cf, name: consul_agent}
+    proxy_z2:
+      additional_templates:
+        - {release: cf, name: consul_agent}
+  additional_releases:
+  - name: cf
+    version: (( release_versions.cf.version || "latest" ))
+```
+
+For a full bosh in general infrastructure:
+
+```
+./scripts/generate-deployment-manifest \
+    -c <cf-manifest> \
+    -p <property-overrides-stub> \
+    -i <iaas-settings-stub> \
+    -j <job-overrides-stub>
+```
+
+For BOSH-lite:
+
+```
+./scripts/generate-bosh-lite-manifest \
+    -j <job-overrides-stub>
+```
+
+#### Specify Consul-specific Properties
+
+To enable consul, provide the following properties in your cf-mysql-release manifest (for example, using the provided `property-overrides.yml` stub):
+
+```
+# manifest-generation/examples/property-overrides.yml
+
+property_overrides:
+  proxy:
+    # ...
+    consul_enabled: true
+    consul_service_name: <your-service-name>
+```
 
 ## API
 

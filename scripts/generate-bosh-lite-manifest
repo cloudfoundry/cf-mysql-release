@@ -17,31 +17,11 @@ argument_error=false
 function usage(){
   >&2 echo " Usage:
   Optional arguments
-    -n Instance count overrides stub file (single node, 3 node) 
+    -j Job overrides stub file (e.g., for Consul)
+    -n Instance count overrides stub file (single node, 3 node)
   "
   exit 1
 }
-
-while getopts "n:" opt; do
-  case $opt in
-    n)
-      instance_counts=$OPTARG
-      ;;
-    *)
-      echo "Unknown arguments"
-      usage
-      ;;
-  esac
-done
-
-if [[ ! -z "${instance_counts}" && ! -f "${instance_counts}" ]]; then
-  >&2 echo "Instance Count Overrides stub '${instance_counts}' is not a regular file"
-  argument_error=true
-fi
-
-if [ "$argument_error" = "true" ]; then
-  usage
-fi
 
 pushd "${RELEASE_DIR}" > /dev/null
 
@@ -57,13 +37,14 @@ pushd "${RELEASE_DIR}" > /dev/null
       -c "${tmpdir}/bosh-lite-cf-manifest.yml" \
       -p ./manifest-generation/bosh-lite-stubs/property-overrides.yml \
       -i ./manifest-generation/bosh-lite-stubs/iaas-settings.yml \
-      -n ${instance_counts} \
+      "$@" \
       > cf-mysql.yml
   else
     ./scripts/generate-deployment-manifest \
       -c "${tmpdir}/bosh-lite-cf-manifest.yml" \
       -p ./manifest-generation/bosh-lite-stubs/property-overrides.yml \
       -i ./manifest-generation/bosh-lite-stubs/iaas-settings.yml \
+      "$@" \
       > cf-mysql.yml
   fi
 

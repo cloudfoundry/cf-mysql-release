@@ -19,6 +19,6 @@ check process gra-log-purger-executable
 
 check process cluster_health_logger
   with pidfile /var/vcap/sys/run/mysql/cluster_health_logger.pid
-  start program "/var/vcap/jobs/mysql/bin/cluster_health_logger"
-  stop program "/usr/bin/killall cluster_health_logger"
+  start program "/var/vcap/jobs/mysql/bin/cluster_health_logger_ctl start"
+  stop program "/var/vcap/jobs/mysql/bin/cluster_health_logger_ctl stop"
   group vcap

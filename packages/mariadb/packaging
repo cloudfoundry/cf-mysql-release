@@ -2,6 +2,7 @@
 set -e
 
 MARIADB_VERSION=10.0.24
+MY_DIR=$(pwd)
 
 tar xzf mariadb/mariadb-galera-${MARIADB_VERSION}.tar.gz
 (
@@ -46,4 +47,5 @@ tar xzf mariadb/mariadb-galera-${MARIADB_VERSION}.tar.gz
   echo -n "${MARIADB_VERSION}-MariaDB" > ${BOSH_INSTALL_TARGET}/VERSION
   cp /var/vcap/packages/galera/garbd ${BOSH_INSTALL_TARGET}/bin/
   cp /var/vcap/packages/galera/libgalera_smm.so ${BOSH_INSTALL_TARGET}/lib/plugin/
+  cp ${MY_DIR}/github.com/cloudfoundry/mariadb_ctrl/custom_sst/wsrep_sst_xtrabackup-v2-ist-only ${BOSH_INSTALL_TARGET}/bin/wsrep_sst_xtrabackup-v2
 )

@@ -2,28 +2,29 @@
 
 set -e
 
+<%
+  if p('cf_mysql.mysql.disable_auto_sst')
+    disable_sst_string = 'DISABLE_SST=1'
+  else
+    disable_sst_string = 'DISABLE_SST=0'
+  end
+%>
+
 export MARIADB_JOB_DIR=/var/vcap/jobs/mysql
-datadir=/var/vcap/store/mysql
-CONFIG_DIR=/etc/mysql
 LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/mariadb_ctrl.combined.log
 JOB_INDEX=<%= index %>
 CONFIG_FILE=$MARIADB_JOB_DIR/config/mariadb_ctl_config.yml
 MARIADB_CTRL_PACKAGE=/var/vcap/packages/mariadb_ctrl
-
 PROC_NAME=mariadb_ctl
 RUN_DIR=/var/vcap/sys/run/$PROC_NAME
 PIDFILE=$RUN_DIR/$PROC_NAME.pid
-TMP_DIR=/var/vcap/data/mysql/tmp
-PRESTART_MARKER_FILE=/var/vcap/sys/run/prestart_marker
+PRESTART_MARKER_FILE=$RUN_DIR/prestart_marker
 
 source /var/vcap/packages/cf-mysql-common/pid_utils.sh
+source /var/vcap/packages/cf-mysql-common/syslog_utils.sh
 
-# add mysql to path
-if [ ! -f /usr/local/bin/mysql ]; then
-  log "Adding mysql to path"
-  ln -s /var/vcap/packages/mariadb/bin/mysql /usr/local/bin
-fi
+tee_output_to_sys_log "/var/vcap/sys/log"
 
 # add xtrabackup to path
 export PATH=$PATH:/var/vcap/packages/xtrabackup/bin
@@ -43,75 +44,32 @@ case $1 in
 
   start)
     if [ ! -f ${PRESTART_MARKER_FILE} ]; then
-      log "this bosh version and/or stemcell version is not pre-start compatible"
+      >&2 echo "This bosh version and/or stemcell version is not pre-start compatible"
       exit 1
     fi
 
-    mkdir -p $RUN_DIR
-    chown -R vcap:vcap $RUN_DIR
-
-    mkdir -p $TMP_DIR
-    chown -R vcap:vcap $TMP_DIR
-
-    log "start script: checking for existing instance of $PROC_NAME"
-    set +e
-    $(source /var/vcap/packages/cf-mysql-common/pid_utils.sh; pid_guard $PIDFILE $PROC_NAME)
-    pg_exit_code=$?
-    log "start script: pg_exit_code: $pg_exit_code"
-    if [ $pg_exit_code -eq 1 ]; then
-      log "start script: $PROC_NAME already running. Exiting 0 so that monit doesn't think that execution failed"
-      exit 0
-    fi
-    set -e
-
-    # Start syslog forwarding
-    /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $MARIADB_JOB_DIR/config
-
-    mkdir -p $LOG_DIR
-    touch $LOG_FILE
-    chown -R vcap:vcap $LOG_DIR
-    date >> $LOG_FILE 2>> $LOG_FILE
-
-    # It is surprisingly hard to get the config file location passed in
-    # on the command line to the mysql.server script. This is easier.
-    mkdir -p $CONFIG_DIR
-    rm -f /etc/my.cnf
-    rm -f $CONFIG_DIR/my.cnf
-    ln -sf $MARIADB_JOB_DIR/config/my.cnf $CONFIG_DIR/my.cnf
-    chown -R vcap:vcap $CONFIG_DIR
-
-    if ! test -d ${datadir}; then
-      log "start script: making ${datadir} and running /var/vcap/packages/mariadb/scripts/mysql_install_db"
-      mkdir -p ${datadir}
-      /var/vcap/packages/mariadb/scripts/mysql_install_db \
-             --basedir=/var/vcap/packages/mariadb \
-             --user=vcap \
-             --datadir=${datadir} >> $LOG_FILE 2>> $LOG_FILE
-    fi
-    chown -R vcap:vcap ${datadir}
+    echo "Checking for existing instance of $PROC_NAME"
+    pid_guard $PIDFILE $PROC_NAME
 
     cd $MARIADB_CTRL_PACKAGE
 
-    log "start script: starting mariadb_ctrl..."
+    echo "start script: starting mariadb_ctrl..."
     su vcap -c \
-    "PATH=$PATH PERL5LIB=$PERL5LIB $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
+    "<%= disable_sst_string %> PATH=$PATH PERL5LIB=$PERL5LIB $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
              -configPath=$CONFIG_FILE \
              2>&1 \
              | tee -a $LOG_FILE \
-             | logger -p local1.error -t mariadb_ctrl &"
+             | logger -p user.error -t mariadb_ctrl &"
 
-    log "start script: completed starting mariadb_ctrl."
+    echo "start script: completed starting mariadb_ctrl."
     ;;
 
   stop)
-    log "stop script: stopping mariadb_ctrl..."
-    mkdir -p $LOG_DIR
-    chown -R vcap:vcap $LOG_DIR
-    date >> $LOG_FILE 2>> $LOG_FILE
+    echo "stop script: stopping mariadb_ctrl..."
 
-    log "stop script: stopping node $JOB_INDEX" >> $LOG_FILE
+    echo "stop script: stopping node $JOB_INDEX"
     kill_and_wait $PIDFILE
-    log "stop script: completed stopping mariadb_ctrl"
+    echo "stop script: completed stopping mariadb_ctrl"
     ;;
 
   *)

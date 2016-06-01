@@ -1,11 +1,14 @@
 property_overrides:
   mysql:
     admin_password: password
+    gcache_size:
     roadmin_enabled: true
     roadmin_password: password
-    bootstrap_endpoint:
-      username: username
-      password: password
+    cluster_health:
+      password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
+    galera_healthcheck:
+      endpoint_username: username
+      endpoint_password: password
   proxy:
     api_username: username
     api_password: password
@@ -14,6 +17,8 @@ property_overrides:
     auth_password: password
     cookie_secret: 94046872-2602-4ca6-8d07-8b0da9762477
     dashboard_secret: p-mysql-secret
+    quota_enforcer:
+      password: password
     service_name: p-mysql
     plans:
     - name: 100mb

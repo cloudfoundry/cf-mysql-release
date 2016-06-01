@@ -6,6 +6,8 @@ iaas_settings:
 
   compilation_cloud_properties: {}
 
+  watch_time: 10000-120000
+
   resource_pool_cloud_properties:
   - name: mysql_z1
     cloud_properties: {}
