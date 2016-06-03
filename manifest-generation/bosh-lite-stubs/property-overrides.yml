@@ -2,6 +2,7 @@ property_overrides:
   mysql:
     admin_password: password
     gcache_size:
+    disable_auto_sst:
     roadmin_enabled: true
     roadmin_password: password
     cluster_health:
