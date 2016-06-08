@@ -302,7 +302,7 @@ Copy these stubs to your config repository, and fill in the `REPLACE_WITH` text 
 For example, the following files can be used for an AWS deployment:
 ```
 $ cp cf-mysql-release/manifest-generation/examples/aws/iaas-settings.yml \
-    cf-mysql-release/manipulationfest-generation/examples/property-overrides.yml \
+    cf-mysql-release/manifest-generation/examples/property-overrides.yml \
     cf-mysql-release/manifest-generation/examples/cf-stub.yml \
     <YOUR_CONFIG_REPO>/cf-mysql/
 ```
