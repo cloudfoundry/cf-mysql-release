@@ -56,7 +56,7 @@ properties:
   cf_mysql:
     standalone: (( property_overrides.standalone || false ))
     external_host: (( "p-mysql." .properties.domain ))
-    host: (( property_overrides.host || jobs.proxy_z1.networks.mysql1.static_ips.[0] ))
+    host: (( property_overrides.host || jobs.proxy_z1.networks.mysql1.static_ips.[0] || nil ))
     mysql:
       admin_username: (( property_overrides.mysql.admin_username || nil ))
       admin_password: (( property_overrides.mysql.admin_password ))
