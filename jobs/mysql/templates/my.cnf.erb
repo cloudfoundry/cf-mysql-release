@@ -68,6 +68,12 @@ init-file = /var/vcap/jobs/mysql/config/mariadb_init
 skip-external-locking = TRUE
 max_allowed_packet = 256M
 
+<% if p('cf_mysql.mysql.binlog_enabled') %>
+log-bin = mysql-bin
+log-slave-updates = 1
+expire_logs_days = <%= p('cf_mysql.mysql.binlog_expire_days') %>
+<% end %>
+
 innodb_file_per_table = ON
 innodb_file_format = Barracuda
 innodb_log_file_size = "<%= p('ib_log_file_size')%>MB"
