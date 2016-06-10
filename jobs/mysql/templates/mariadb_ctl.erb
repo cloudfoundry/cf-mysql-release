@@ -50,11 +50,9 @@ case $1 in
 
     # WORKAROUND: monit may attempt to run this script multiple times if mysqld does not start in time.
     # Ensure that running this script multiple times does not spawn multiple copies of _ctrl
-    LAUNCHER_PID=$$
     LAUNCHER_NAME=mariadb_ctl_launcher
     LAUNCHER_PID_FILE=$RUN_DIR/$LAUNCHER_NAME.pid
     pid_guard $LAUNCHER_PID_FILE $LAUNCHER_NAME
-    echo $LAUNCHER_PID > $LAUNCHER_PID_FILE
 
     echo "Checking for existing instance of $PROC_NAME"
     pid_guard $PIDFILE $PROC_NAME
@@ -62,9 +60,16 @@ case $1 in
     cd $MARIADB_CTRL_PACKAGE
 
     echo "start script: starting mariadb_ctrl..."
-    exec > >(tee -a $LOG_FILE | logger -p user.error -t mariadb_ctrl) 2>&1
+    su vcap -c \
+    "<%= disable_sst_string %> PATH=$PATH PERL5LIB=$PERL5LIB $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
+             -configPath=$CONFIG_FILE \
+             2>&1 \
+             | tee -a $LOG_FILE \
+             | logger -p user.error -t mariadb_ctrl &"
 
-    <%= disable_sst_string %> PATH=$PATH PERL5LIB=$PERL5LIB exec $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl -configPath=$CONFIG_FILE
+    echo $! > $LAUNCHER_PID_FILE
+
+    echo "start script: completed starting mariadb_ctrl."
     ;;
 
   stop)
