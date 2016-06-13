@@ -125,3 +125,6 @@ properties:
   cf_mysql.mysql.binlog_expire_days:
     default: 60
     description: 'Time in days to store binlogs before purging'
+  cf_mysql.mysql.log_conflicts:
+    default: true
+    description: 'Defines whether the node logs additional information about conflicts. The values that were in conflict are logged, so it is possible for user data to end up in the logs.'
