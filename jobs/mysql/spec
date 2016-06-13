@@ -124,4 +124,4 @@ properties:
     description: 'Enable binlogs across all nodes'
   cf_mysql.mysql.binlog_expire_days:
     default: 60
-    description: 'Time in days to store binlogs before purging'V
+    description: 'Time in days to store binlogs before purging'
