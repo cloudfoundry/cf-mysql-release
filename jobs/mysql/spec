@@ -93,3 +93,9 @@ properties:
   cf_mysql.mysql.disable_auto_sst:
     description: 'When disable_auto_sst is true, nodes unable to IST will be prevented from automatically deleting their data and performing an SST'
     default: true
+  cf_mysql.mysql.binlog_enabled:
+    default: true
+    description: 'Enable binlogs across all nodes'
+  cf_mysql.mysql.binlog_expire_days:
+    default: 60
+    description: 'Time in days to store binlogs before purging'
