@@ -42,12 +42,11 @@ properties:
     password: (( config_from_cf.nats.password ))
     port: (( config_from_cf.nats.port ))
   app_domains: (( config_from_cf.app_domains ))
-  domain: (( config_from_cf.domain ))
   cf:
     api_url: (( config_from_cf.api_url ))
     app_domains: (( config_from_cf.app_domains ))
-    admin_username: (( config_from_cf.admin_username ))
-    admin_password: (( config_from_cf.admin_password ))
+    admin_username: (( property_overrides.cf.admin_username ))
+    admin_password: (( property_overrides.cf.admin_password ))
     skip_ssl_validation: (( config_from_cf.skip_ssl_validation || nil ))
     smoke_tests:
       use_existing_org: (( config_from_cf.smoke_tests.use_existing_org || nil ))
@@ -55,7 +54,7 @@ properties:
   syslog_aggregator: (( property_overrides.syslog_aggregator || nil ))
   cf_mysql:
     standalone: (( property_overrides.standalone || false ))
-    external_host: (( "p-mysql." .properties.domain ))
+    external_host: (( "p-mysql." .config_from_cf.system_domain ))
     host: (( property_overrides.host || jobs.proxy_z1.networks.mysql1.static_ips.[0] ))
     mysql:
       admin_username: (( property_overrides.mysql.admin_username || nil ))
