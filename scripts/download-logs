@@ -1,0 +1,54 @@
+#!/bin/bash
+set -e
+
+function usage(){
+  >&2 echo "Usage:
+  -n IP address or hostname of the mysql or proxy node to retrieve logs from (can be specified multiple times)
+  -d The output directory
+
+  example:
+    ./download-logs -d /tmp -n 10.0.0.1 -n 10.0.0.2
+  "
+  exit 1
+}
+
+while getopts "d:n:" opt; do
+  case $opt in
+    d)
+      output_dir=$OPTARG
+      ;;
+    n)
+      nodes+=("$OPTARG")
+      ;;
+    *)
+      echo "Unknown arguments"
+      usage
+      ;;
+  esac
+done
+
+if [ -z "${output_dir}" ]; then
+  usage
+fi
+
+if [ ${#nodes[@]} == 0 ]; then
+  usage
+fi
+
+for node in "${nodes[@]}"; do
+ ssh "vcap@${node}" "found_paths=(); \
+    for path in '/var/vcap/sys/log' '/var/vcap/store/mysql'; do \
+      if [ -d \${path} ]; then \
+        found_paths+=(\${path}); \
+      fi; \
+    done; \
+    find \${found_paths[@]} \( -path '/var/vcap/sys/log/*' \
+      -o -path '/var/vcap/store/mysql/mysql-bin.*' \
+      -o -path '/var/vcap/store/mysql/GRA*.log' \) \
+      -print0 | tar --create \
+      --absolute-names \
+      --transform s%^%${node}% \
+      --gzip \
+      --null \
+      --files-from -" > "${output_dir}/${node}.tar.gz"
+done
