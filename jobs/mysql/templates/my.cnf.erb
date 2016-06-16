@@ -80,6 +80,7 @@ expire_logs_days = <%= p('cf_mysql.mysql.binlog_expire_days') %>
 innodb_file_per_table = ON
 innodb_file_format = Barracuda
 innodb_log_file_size = "<%= p('ib_log_file_size')%>MB"
+innodb-support-xa = OFF
 
 max_heap_table_size = <%= p('max_heap_table_size') %>
 tmp_table_size = <%= p('tmp_table_size') %>
