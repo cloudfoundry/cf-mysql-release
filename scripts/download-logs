@@ -35,7 +35,20 @@ if [ ${#nodes[@]} == 0 ]; then
   usage
 fi
 
+echo "Please enter passphrase to encrypt files. This will be needed to decrypt the downloaded logs"
+read -s passphrase
+
+echo "Please re-enter passphrase to encrypt files."
+read -s verify_passphrase
+
+if [ "${passphrase}" != "${verify_passphrase}" ]; then
+  echo "Passphrases do not match. Quitting"
+  exit 1
+fi
+
 for node in "${nodes[@]}"; do
+node_logs+="${node}.tar.gz "
+
  ssh "vcap@${node}" "found_paths=(); \
     for path in '/var/vcap/sys/log' '/var/vcap/store/mysql'; do \
       if [ -d \${path} ]; then \
@@ -52,3 +65,11 @@ for node in "${nodes[@]}"; do
       --null \
       --files-from -" > "${output_dir}/${node}.tar.gz"
 done
+
+pushd "${output_dir}"
+  tar -zcvf mysql-logs.tar.gz ${node_logs[@]}
+
+  gpg -c --no-tty --passphrase "${passphrase}" ./mysql-logs.tar.gz
+popd
+
+echo "Encrypted logs saved at "${output_dir}"mysql-logs.tar.gz.gpg"
