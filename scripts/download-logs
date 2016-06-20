@@ -68,8 +68,10 @@ done
 
 pushd "${output_dir}"
   tar -zcvf mysql-logs.tar.gz ${node_logs[@]}
+  rm ${node_logs[@]}
 
-  gpg -c --no-tty --passphrase "${passphrase}" ./mysql-logs.tar.gz
+  gpg -c --batch --yes --no-tty --passphrase "${passphrase}" ./mysql-logs.tar.gz
+  rm mysql-logs.tar.gz
 popd
 
-echo "Encrypted logs saved at "${output_dir}"mysql-logs.tar.gz.gpg"
+echo "Encrypted logs saved at "${output_dir}"/mysql-logs.tar.gz.gpg"
