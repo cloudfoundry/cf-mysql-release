@@ -47,9 +47,13 @@ if [ "${passphrase}" != "${verify_passphrase}" ]; then
 fi
 
 for node in "${nodes[@]}"; do
-node_logs+="${node}.tar.gz "
+  node_logs+="${node}.tar.gz "
 
- ssh "vcap@${node}" "found_paths=(); \
+  # tar exits non-zero on warnings, such as "file changed as we read it"
+  # We want to still capture as much data as we can in these cases
+  set +e
+
+  ssh "vcap@${node}" "found_paths=(); \
     for path in '/var/vcap/sys/log' '/var/vcap/store/mysql'; do \
       if [ -d \${path} ]; then \
         found_paths+=(\${path}); \
@@ -64,6 +68,7 @@ node_logs+="${node}.tar.gz "
       --gzip \
       --null \
       --files-from -" > "${output_dir}/${node}.tar.gz"
+  set -e
 done
 
 pushd "${output_dir}"
