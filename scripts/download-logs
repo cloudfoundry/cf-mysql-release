@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -eu
 
 function usage(){
   >&2 echo "Usage:
@@ -35,17 +35,6 @@ if [ ${#nodes[@]} == 0 ]; then
   usage
 fi
 
-echo "Please enter passphrase to encrypt files. This will be needed to decrypt the downloaded logs"
-read -s passphrase
-
-echo "Please re-enter passphrase to encrypt files."
-read -s verify_passphrase
-
-if [ "${passphrase}" != "${verify_passphrase}" ]; then
-  echo "Passphrases do not match. Quitting"
-  exit 1
-fi
-
 for node in "${nodes[@]}"; do
   node_logs+="${node}.tar.gz "
 
@@ -75,7 +64,7 @@ pushd "${output_dir}"
   tar -zcvf mysql-logs.tar.gz ${node_logs[@]}
   rm ${node_logs[@]}
 
-  gpg -c --batch --yes --no-tty --passphrase "${passphrase}" ./mysql-logs.tar.gz
+  gpg -c --yes ./mysql-logs.tar.gz
   rm mysql-logs.tar.gz
 popd
 
