@@ -79,6 +79,7 @@ properties:
       max_connections: (( property_overrides.mysql.max_connections || nil ))
       persistent_disk: (( disk_pools.mysql-persistent-disk.disk_size ))
       server_audit_events: (( property_overrides.mysql.server_audit_events || nil ))
+      server_audit_excluded_users: (( property_overrides.mysql.server_audit_excluded_users || nil ))
       cluster_health:
         password: (( property_overrides.mysql.cluster_health.password ))
     proxy:
