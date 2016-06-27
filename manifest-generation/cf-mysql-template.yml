@@ -9,8 +9,7 @@ meta:
   syslog_aggregator: ~
 
 properties:
-
-
+  <<: (( merge || nil ))
   domain: (( config_from_cf.domain ))
   admin_password: (( property_overrides.mysql.admin_password ))
   cluster_ips: (( property_overrides.mysql.cluster_ips || default_mysql_cluster_ips ))
@@ -98,9 +97,7 @@ properties:
 name: (( property_overrides.deployment_name || config_from_cf.cf_deployment_name "-mysql" ))
 director_uuid: (( config_from_cf.cf_director_uuid ))
 
-releases:
-- name: cf-mysql
-  version: (( merge || "latest" ))
+releases: (( base_releases additional_releases ))
 
 compilation:
   workers: 4
@@ -127,6 +124,9 @@ networks:
 
 resource_pools: (( base_resource_pools additional_resource_pools ))
 
+base_releases:
+- name: cf-mysql
+  version: (( release_versions.cf-mysql.version || "latest" ))
 base_resource_pools:
 - name: mysql_z1
   network: mysql1
@@ -324,11 +324,13 @@ base_jobs:
 config_from_cf: (( merge ))
 iaas_settings: (( merge ))
 property_overrides: (( merge ))
+job_overrides: (( merge ))
 default_mysql_cluster_ips:
 - (( jobs.mysql_z1.networks.mysql1.static_ips.[0] ))
 - (( jobs.mysql_z2.networks.mysql2.static_ips.[0] || nil ))
 - (( jobs.mysql_z3.networks.mysql3.static_ips.[0] || nil ))
 additional_resource_pools: (( iaas_settings.additional_resource_pools || empty_list))
 additional_jobs: (( job_overrides.additional_jobs || empty_list ))
+additional_releases: (( job_overrides.additional_releases || empty_list ))
 empty_hash: {}
 empty_list: []
