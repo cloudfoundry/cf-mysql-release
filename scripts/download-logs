@@ -64,6 +64,7 @@ pushd "${output_dir}"
   tar -zcvf mysql-logs.tar.gz ${node_logs[@]}
   rm ${node_logs[@]}
 
+  echo "Specify a passphrase of 6-8 words long. Do not use a private passphrase, you will need to share this passphrase with anyone who will decrypt this archive."
   gpg -c --yes --cipher-algo AES256 --symmetric --force-mdc ./mysql-logs.tar.gz
   rm mysql-logs.tar.gz
 popd
