@@ -324,7 +324,7 @@ base_jobs:
 config_from_cf: (( merge ))
 iaas_settings: (( merge ))
 property_overrides: (( merge ))
-job_overrides: (( merge ))
+job_overrides: (( merge || empty_hash ))
 default_mysql_cluster_ips:
 - (( jobs.mysql_z1.networks.mysql1.static_ips.[0] ))
 - (( jobs.mysql_z2.networks.mysql2.static_ips.[0] || nil ))
