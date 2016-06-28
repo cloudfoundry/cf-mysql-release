@@ -89,4 +89,6 @@ properties:
   cf_mysql.proxy.consul_service_name:
     description: "Switchboard will register with consul using this name"
     default: "mysql"
-
+  cf_mysql.proxy.max_open_files:
+    description: 'Configure this number to be twice as large as mysql.max_connections'
+    default: 3000
