@@ -55,6 +55,13 @@
     #only RELP, UDP, and TCP are supported
   <% end %>
 
+  module(load="imfile")
+  input(type="imfile"
+    File="/var/vcap/sys/log/mysql/mysql_server_audit.log"
+    Tag="server_audit_log"
+    Severity="warning"
+    Facility="local1")
+
   # Log vcap messages locally, too
   #$template VcapComponentLogFile, "/var/log/%programname:6:$%/%programname:6:$%.log"
   #$template VcapComponentLogFormat, "%timegenerated% %syslogseverity-text% -- %msg%\n"

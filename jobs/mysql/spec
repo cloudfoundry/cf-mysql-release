@@ -102,3 +102,6 @@ properties:
   cf_mysql.mysql.log_conflicts:
     default: true
     description: 'Defines whether the node logs additional information about conflicts. The values that were in conflict are logged, so it is possible for user data to end up in the logs.'
+  cf_mysql.mysql.server_audit_events:
+    description: 'Enable audit logging and specify types of events that will be logged. If null, then logging is disabled'
+    example: 'connect,query'

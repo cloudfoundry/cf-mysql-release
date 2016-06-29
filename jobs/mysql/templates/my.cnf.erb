@@ -80,6 +80,15 @@ innodb-support-xa = OFF
 max_heap_table_size = <%= p('max_heap_table_size') %>
 tmp_table_size = <%= p('tmp_table_size') %>
 
+# Audit logging
+<% if_p('cf_mysql.mysql.server_audit_events') do |server_audit_events| %>
+plugin-load = server_audit=server_audit.so
+server_audit_logging = ON
+server_audit_events = <%= p('cf_mysql.mysql.server_audit_events') %>
+server_audit_output_type = file
+server_audit_file_path = /var/vcap/sys/log/mysql/mysql_server_audit.log
+<% end %>
+
 <% if p('cf_mysql.mysql.binlog_enabled') %>
 log-bin = mysql-bin
 log-slave-updates = 1

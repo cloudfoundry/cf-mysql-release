@@ -58,6 +58,7 @@ properties:
       galera_healthcheck: (( property_overrides.mysql.galera_healthcheck ))
       cluster_health:
         password: (( property_overrides.mysql.cluster_health.password ))
+      server_audit_events: (( property_overrides.mysql.server_audit_events || nil ))
   max_user_connections_default: (( property_overrides.broker.max_user_connections_default || nil ))
   ssl_enabled: (( property_overrides.broker.ssl_enabled || nil ))
   skip_ssl_validation: (( config_from_cf.skip_ssl_validation || nil ))
