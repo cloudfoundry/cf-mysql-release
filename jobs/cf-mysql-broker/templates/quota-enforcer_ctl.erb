@@ -22,16 +22,8 @@ case $1 in
     chown -R vcap:vcap $log_dir
 
     /var/vcap/packages/mariadb/bin/mysql \
-      -u<%= p('cf_mysql.mysql.admin_username') %> \
-      -p<%= p('cf_mysql.mysql.admin_password') %> \
-      -h<%= p('cf_mysql.host') %> \
-      -P<%= p('cf_mysql.mysql.port') %> \
-      -e"GRANT RELOAD ON *.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.quota_enforcer.password') %>'; \
-GRANT SUPER ON *.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.quota_enforcer.password') %>'; \
-GRANT PROCESS ON *.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.quota_enforcer.password') %>'; \
-GRANT SELECT ON mysql_broker.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.quota_enforcer.password') %>'; \
-GRANT SELECT ON mysql.db TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.quota_enforcer.password') %>'; \
-GRANT INSERT, UPDATE, CREATE ON *.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.quota_enforcer.password') %>' WITH GRANT OPTION;"
+      --defaults-file=${job_dir}/config/mylogin.cnf \
+      < ${job_dir}/config/quota_enforcer_setup.sql
 
     su vcap -c "$package_dir/bin/cf-mysql-quota-enforcer \
         -pidFile=$pidfile \

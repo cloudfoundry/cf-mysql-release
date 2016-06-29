@@ -4,6 +4,7 @@ name: mysql
 templates:
   mariadb_ctl.erb: bin/mariadb_ctl
   my.cnf.erb: config/my.cnf
+  mylogin.cnf.erb: config/mylogin.cnf
   mariadb_ctl_config.yml.erb: config/mariadb_ctl_config.yml
   mariadb_init.erb: config/mariadb_init
   galera-healthcheck_ctl.erb: bin/galera-healthcheck_ctl
@@ -15,6 +16,7 @@ templates:
   pre-start-execution.erb: bin/pre-start-execution
   cluster_health_logger_ctl.erb: bin/cluster_health_logger_ctl
   cluster_health_logger_config.yml.erb: config/cluster_health_logger_config.yml
+  cluster_health_logger_setup.sql.erb: config/cluster_health_logger_setup.sql
 
 packages:
 - xtrabackup
