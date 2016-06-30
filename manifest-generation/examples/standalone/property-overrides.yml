@@ -5,7 +5,6 @@ property_overrides:
   host: YOUR_LOAD_BALANCER_ADDRESS # Optional, set to your Load Balancer address if configured
   mysql:
     admin_password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP #The admin password for the MySQL server process
-    roadmin_password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
     cluster_health:
       password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
     galera_healthcheck:

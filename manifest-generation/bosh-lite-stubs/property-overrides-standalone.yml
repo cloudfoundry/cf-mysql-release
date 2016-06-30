@@ -2,8 +2,6 @@ property_overrides:
   standalone: true
   mysql:
     admin_password: password
-    roadmin_enabled: true
-    roadmin_password: password
     galera_healthcheck:
       endpoint_username: username
       endpoint_password: password
