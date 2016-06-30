@@ -18,6 +18,13 @@ case $1 in
     mkdir -p $run_dir
     mkdir -p $log_dir
 
+    /var/vcap/packages/mariadb/bin/mysql \
+      -u<%= p('mysql_node.admin_username') %> \
+      -p<%= p('mysql_node.admin_password') %> \
+      -h<%= p('mysql_node.host') %> \
+      -P<%= p('mysql_node.port') %> \
+      -e"GRANT ALL PRIVILEGES ON *.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('broker.quota_enforcer_password') %>' WITH GRANT OPTION"
+
     $package_dir/bin/cf-mysql-quota-enforcer \
         -pidFile=$pidfile \
         -configPath=$job_dir/bin/quota_enforcer_config.yml \

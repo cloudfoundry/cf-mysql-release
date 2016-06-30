@@ -20,6 +20,7 @@ property_overrides:
     cookie_secret: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
     dashboard_secret: REPLACE_WITH_PASSWORD_YOU_MAKE_UP #Secret used by MySQL dashboard to fetch an OAuth token from UAA
     service_name: p-mysql # Name for the service as it will appear in the marketplace
+    quota_enforcer_password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
     plans:
     - name: 100mb
       id: ab08f1bc-e6fc-4b56-a767-ee0fea6e3f20

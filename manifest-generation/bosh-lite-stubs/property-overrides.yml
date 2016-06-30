@@ -17,6 +17,7 @@ property_overrides:
     cookie_secret: 94046872-2602-4ca6-8d07-8b0da9762477
     dashboard_secret: p-mysql-secret
     service_name: p-mysql
+    quota_enforcer_password: password
     plans:
     plans:
     - name: 100mb

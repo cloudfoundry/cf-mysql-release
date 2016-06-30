@@ -23,6 +23,7 @@ property_overrides:
     auth_password: UNUSED_VALUE
     dashboard_secret: UNUSED_VALUE
     service_name: UNUSED_VALUE # Name for the service to be called in the marketplace
+    quota_enforcer_password: UNUSED_VALUE
     plans:
     - name: UNUSED_VALUE
       id: UNUSED_VALUE

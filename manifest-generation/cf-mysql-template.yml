@@ -94,6 +94,7 @@ properties:
     host: (( properties.external_host ))
     username: (( property_overrides.broker.auth_username ))
     password: (( property_overrides.broker.auth_password ))
+    quota_enforcer_password: (( property_overrides.broker.quota_enforcer_password ))
 
 name: (( property_overrides.deployment_name || config_from_cf.cf_deployment_name "-mysql" ))
 director_uuid: (( config_from_cf.cf_director_uuid ))

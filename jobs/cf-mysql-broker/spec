@@ -32,6 +32,9 @@ properties:
   cookie_secret:
     description: 'A unique secret key, used to sign sessions'
 
+  broker.quota_enforcer_password:
+    description: 'The password for the quota-enforcer user'
+
   mysql_node.host:
     description: 'Host (DNS) or IP address used by the broker and bound applications to reach the service'
   mysql_node.port:
