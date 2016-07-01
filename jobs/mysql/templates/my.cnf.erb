@@ -86,9 +86,10 @@ plugin-load = server_audit=server_audit.so
 server_audit_logging = ON
 server_audit_events = <%= p('cf_mysql.mysql.server_audit_events') %>
 server_audit_output_type = file
-server_audit_file_path = /var/vcap/sys/log/mysql/mysql_server_audit.log
-server_audit_excl_users=cluster-health-logger,quota-enforcer
-server_audit_file_rotations=0
+server_audit_file_path = /var/vcap/store/mysql_audit_logs/mysql_server_audit.log
+server_audit_excl_users=cluster-health-logger,quota-enforcer,galera-healthcheck
+server_audit_file_rotations=<%= p('cf_mysql.mysql.server_audit_file_rotations') %>
+server_audit_file_rotate_size=<%= p('cf_mysql.mysql.server_audit_file_rotate_size_in_mb') %>MB
 <% end %>
 
 <% if p('cf_mysql.mysql.binlog_enabled') %>

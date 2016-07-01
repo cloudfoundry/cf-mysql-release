@@ -8,7 +8,7 @@ enable_sst_marker=/var/vcap/sys/run/galera-healthcheck/enable_sst
 CONFIG_DIR=/etc/mysql
 LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/mariadb_ctrl.combined.log
-SERVER_AUDIT_LOG_FILE=$LOG_DIR/mysql_server_audit.log
+SERVER_AUDIT_LOG_DIR=/var/vcap/store/mysql_audit_logs
 JOB_INDEX=<%= index %>
 CONFIG_FILE=$MARIADB_JOB_DIR/config/mariadb_ctl_config.yml
 MARIADB_CTRL_PACKAGE=/var/vcap/packages/mariadb_ctrl
@@ -77,8 +77,8 @@ case $1 in
     date >> $LOG_FILE 2>> $LOG_FILE
 
     <% if_p('cf_mysql.mysql.server_audit_events') do |_| %>
-    touch $SERVER_AUDIT_LOG_FILE
-    chown vcap:vcap $SERVER_AUDIT_LOG_FILE
+    mkdir -p ${SERVER_AUDIT_LOG_DIR}
+    chown vcap:vcap ${SERVER_AUDIT_LOG_DIR}
     <% end %>
 
     # It is surprisingly hard to get the config file location passed in

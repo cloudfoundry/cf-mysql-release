@@ -4,15 +4,18 @@ name: mysql
 templates:
   mariadb_ctl.erb: bin/mariadb_ctl
   my.cnf.erb: config/my.cnf
+  mylogin.cnf.erb: config/mylogin.cnf
   mariadb_ctl_config.yml.erb: config/mariadb_ctl_config.yml
   mariadb_init.erb: config/mariadb_init
   galera-healthcheck_ctl.erb: bin/galera-healthcheck_ctl
   galera_healthcheck_config.yaml.erb: config/galera_healthcheck_config.yaml
+  galera_healthcheck_setup.sql.erb: config/galera_healthcheck_setup.sql
   gra-log-purger_ctl.erb: bin/gra-log-purger_ctl
   gra-log-purger.sh.erb: bin/gra-log-purger.sh
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
   cluster_health_logger_ctl.erb: bin/cluster_health_logger_ctl
   cluster_health_logger_config.yml.erb: config/cluster_health_logger_config.yml
+  cluster_health_logger_setup.sql.erb: config/cluster_health_logger_setup.sql
 
 packages:
 - xtrabackup
@@ -90,6 +93,9 @@ properties:
     description: 'Username used by the sidecar endpoints for Basic Auth'
   cf_mysql.mysql.galera_healthcheck.endpoint_password:
     description: 'Password used by the sidecar endpoints for Basic Auth'
+  cf_mysql.mysql.galera_healthcheck.db_password:
+    description: 'Password used by the sidecar to connect to the database'
+
   cf_mysql.mysql.disable_auto_sst:
     description: 'When disable_auto_sst is true, nodes unable to IST will be prevented from automatically deleting their data and performing an SST'
     default: true
@@ -102,6 +108,13 @@ properties:
   cf_mysql.mysql.log_conflicts:
     default: true
     description: 'Defines whether the node logs additional information about conflicts. The values that were in conflict are logged, so it is possible for user data to end up in the logs.'
+
   cf_mysql.mysql.server_audit_events:
     description: 'Enable audit logging and specify types of events that will be logged. If null, then logging is disabled'
     example: 'connect,query'
+  cf_mysql.mysql.server_audit_file_rotations:
+    default: 30
+    description: 'Number of audit file rotations to keep'
+  cf_mysql.mysql.server_audit_file_rotate_size_in_mb:
+    default: 100
+    description: 'Size in MB of each audit log file'

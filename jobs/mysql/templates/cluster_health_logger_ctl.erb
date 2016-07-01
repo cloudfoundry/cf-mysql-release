@@ -23,11 +23,8 @@ case $1 in
     chown vcap:vcap ${OUTPUT_FILE}
 
     /var/vcap/packages/mariadb/bin/mysql \
-      -u<%= p('admin_username') %> \
-      -p<%= p('admin_password') %> \
-      -P<%= p('port') %> \
-      -h127.0.0.1 \
-      -e"GRANT USAGE ON mysql.* TO 'cluster-health-logger'@'127.0.0.1' IDENTIFIED BY '<%= p('cf_mysql.mysql.cluster_health.password') %>'"
+      --defaults-file=${CONFIG_DIR}/mylogin.cnf \
+      < ${CONFIG_DIR}/cluster_health_logger_setup.sql
 
     exec chpst -u vcap:vcap ${BIN_FILE} -configPath=${CONFIG_DIR}/cluster_health_logger_config.yml
 
