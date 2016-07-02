@@ -1,6 +1,9 @@
 #!/bin/bash
 set -eu
 
+output_dir=${output_dir:-}
+nodes=()
+
 function usage(){
   >&2 echo "Usage:
   -n IP address or hostname of the mysql or proxy node to retrieve logs from (can be specified multiple times)
@@ -43,14 +46,15 @@ for node in "${nodes[@]}"; do
   set +e
 
   ssh "vcap@${node}" "found_paths=(); \
-    for path in '/var/vcap/sys/log' '/var/vcap/store/mysql'; do \
+    for path in '/var/vcap/sys/log' '/var/vcap/store/mysql' '/var/vcap/store/mysql_audit_logs'; do \
       if [ -d \${path} ]; then \
         found_paths+=(\${path}); \
       fi; \
     done; \
     find \${found_paths[@]} \( -path '/var/vcap/sys/log/*' \
       -o -path '/var/vcap/store/mysql/mysql-bin.*' \
-      -o -path '/var/vcap/store/mysql/GRA*.log' \) \
+      -o -path '/var/vcap/store/mysql/GRA*.log' \
+      -o -path '/var/vcap/store/mysql_audit_logs/*' \) \
       -print0 | tar --create \
       --absolute-names \
       --transform s%^%${node}% \
