@@ -30,6 +30,9 @@ if [ ! -f /usr/local/bin/mysql ]; then
   ln -s /var/vcap/packages/mariadb/bin/mysql /usr/local/bin
 fi
 
+# logrotate audit logs
+ln -sf /var/vcap/jobs/mysql/config/mysql_audit_logs.logrotate /etc/logrotate.d/mysql_audit_logs
+
 # add xtrabackup to path
 export PATH=$PATH:/var/vcap/packages/xtrabackup/bin
 
