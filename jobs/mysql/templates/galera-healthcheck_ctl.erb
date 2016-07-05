@@ -1,7 +1,6 @@
 #!/bin/bash -e
 
 job_dir=/var/vcap/jobs/mysql
-config_dir=${job_dir}/config
 run_dir=/var/vcap/sys/run/galera-healthcheck
 log_dir=/var/vcap/sys/log/galera-healthcheck
 package_dir=/var/vcap/packages/galera-healthcheck
@@ -20,10 +19,6 @@ case $1 in
 
     mkdir -p $run_dir
     mkdir -p $log_dir
-
-    /var/vcap/packages/mariadb/bin/mysql \
-      --defaults-file=${config_dir}/mylogin.cnf \
-      < ${config_dir}/galera_healthcheck_setup.sql
 
     cd $package_dir
 
