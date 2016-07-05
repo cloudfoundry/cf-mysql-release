@@ -7,9 +7,10 @@ files:
   - github.com/go-sql-driver/mysql/*.go # gosub
   - github.com/imdario/mergo/*.go # gosub
   - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/*.go # gosub
+  - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/clock/*.go # gosub
   - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/config/*.go # gosub
   - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/database/*.go # gosub
-  - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/database/fakes/*.go # gosub
+  - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/database/databasefakes/*.go # gosub
   - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/enforcer/*.go # gosub
   - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/integration/*.go # gosub
   - github.com/pivotal-cf-experimental/service-config/*.go # gosub
