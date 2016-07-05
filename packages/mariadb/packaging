@@ -8,6 +8,9 @@ tar xzf mariadb/mariadb-galera-${MARIADB_VERSION}.tar.gz
 (
   set -e
   cd mariadb-${MARIADB_VERSION}
+
+  patch -p1 < ${MY_DIR}/mariadb-patch/wsrep-debug-non-verbose.patch
+
   mkdir bld
   cd bld
 
