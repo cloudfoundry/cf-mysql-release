@@ -36,6 +36,9 @@ properties:
 
   broker.quota_enforcer.password:
     description: 'The password for the quota-enforcer user'
+  broker.quota_enforcer.pause:
+    description: 'In seconds, the interval that the Quota Enforcer pauses between checks for violators and reformers'
+    default: 1
 
   mysql_node.host:
     description: 'Host (DNS) or IP address used by the broker and bound applications to reach the service'
