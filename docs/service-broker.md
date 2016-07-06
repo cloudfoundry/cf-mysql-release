@@ -21,3 +21,15 @@ We recommend that a minimum of 2 service brokers are configured for a given depl
 Having redundant service brokers avoids a single point of failure when creating or binding service instances for an application. While a deployment is operable with a single service broker it is not recommended for stated reasons.
 
 If zero service brokers are deployed, it follows that service instances cannot be provisioned nor bound to any application.
+
+## Quota Enforcer
+
+The broker is deployed with a quota enforcer to ensure that users do not exceed their allocated service quota.
+
+### Configuring the pause time
+
+By default the quota enforcer pauses for 1 second between checks. This pause time is configurable through the `broker.quota_enforcer.pause` property, where the value is specified as the number of seconds to pause for.
+
+For most deployments we recommend that the pause time be left at its default value to ensure that quotas are enforced in a timely manner.
+
+One reason why an operator may choose to increase the pause time is when debugging Galera clustering. If `wsrep_debug` is enabled then the queries issued by the quota enforcer may obscure other activity - reducing the frequency of quota enforcer checks may be helpful in this case.
