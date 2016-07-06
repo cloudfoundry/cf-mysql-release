@@ -112,3 +112,6 @@
 [submodule "src/github.com/cloudfoundry-incubator/cf-mysql-bootstrap"]
 	path = src/github.com/cloudfoundry-incubator/cf-mysql-bootstrap
 	url = https://github.com/cloudfoundry-incubator/cf-mysql-bootstrap.git
+[submodule "src/github.com/golang/protobuf"]
+	path = src/github.com/golang/protobuf
+	url = https://github.com/golang/protobuf
