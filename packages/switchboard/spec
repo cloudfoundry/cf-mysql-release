@@ -7,12 +7,12 @@ files:
   - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/api/*.go # gosub
-  - github.com/cloudfoundry-incubator/switchboard/api/fakes/*.go # gosub
+  - github.com/cloudfoundry-incubator/switchboard/api/apifakes/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/api/middleware/*.go # gosub
-  - github.com/cloudfoundry-incubator/switchboard/api/middleware/fakes/*.go # gosub
+  - github.com/cloudfoundry-incubator/switchboard/api/middleware/middlewarefakes/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/config/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/domain/*.go # gosub
-  - github.com/cloudfoundry-incubator/switchboard/domain/fakes/*.go # gosub
+  - github.com/cloudfoundry-incubator/switchboard/domain/domainfakes/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/dummies/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/health/*.go # gosub
   - github.com/cloudfoundry-incubator/switchboard/proxy/*.go # gosub
