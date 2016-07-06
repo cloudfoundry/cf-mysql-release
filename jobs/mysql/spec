@@ -122,3 +122,10 @@ properties:
   cf_mysql.mysql.server_audit_file_rotate_size_in_mb:
     default: 100
     description: 'Size in MB of each audit log file'
+  cf_mysql.mysql.server_audit_excluded_users:
+    default: []
+    description: 'Other database users to exclude from audit logging'
+    example: |
+      - monitoring_user
+      - other_excluded_user
+      - bot_user
