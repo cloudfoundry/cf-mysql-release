@@ -52,9 +52,7 @@ wsrep_max_ws_size=<%= p('wsrep_max_ws_size') %>
 <% if p('cf_mysql.mysql.log_conflicts') %>
 wsrep_log_conflicts='ON'
 <% end %>
-<% if p('wsrep_debug') %>
-wsrep_debug='ON'
-<% end %>
+wsrep_debug=<%= p('wsrep_debug') %>
 
 # Regular MYSQL options:
 collation_server        = utf8_unicode_ci
