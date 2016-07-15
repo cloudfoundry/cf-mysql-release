@@ -80,6 +80,7 @@ case $1 in
     /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $MARIADB_JOB_DIR/config
 
     mkdir -p $LOG_DIR
+    chown vcap:vcap $LOG_DIR
     touch $LOG_FILE
     chown vcap:vcap $LOG_FILE
     date >> $LOG_FILE 2>> $LOG_FILE
