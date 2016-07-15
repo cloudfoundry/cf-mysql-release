@@ -16,6 +16,7 @@ Monit:
   BootstrapFilePath: ''
   BootstrapLogFilePath: '/var/vcap/sys/log/galera-healthcheck/pre-start-execution-during-bootstrap.stdout.log'
   EnableSstMarkerFilePath: '/var/vcap/sys/run/galera-healthcheck/enable_sst'
+  SstInterruptNotifyCmd: <%= p('cf_mysql.mysql.interrupt_notify_cmd') %>
 SidecarEndpoint:
   Username: <%= p('cf_mysql.mysql.galera_healthcheck.endpoint_username') %>
   Password: <%= p('cf_mysql.mysql.galera_healthcheck.endpoint_password') %>

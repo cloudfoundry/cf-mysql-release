@@ -21,6 +21,9 @@ TMP_DIR=/var/vcap/data/mysql/tmp
 <% if p('cf_mysql.mysql.disable_auto_sst') %>
 export DISABLE_SST=1
 <% end %>
+<% if p('cf_mysql.mysql.interrupt_notify_cmd') %>
+export INTERRUPT_NOTIFY_CMD="<%= p('cf_mysql.mysql.interrupt_notify_cmd') %>"
+<% end %>
 
 source /var/vcap/packages/common/utils.sh
 
