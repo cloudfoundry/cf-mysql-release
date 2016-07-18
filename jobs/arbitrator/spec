@@ -24,12 +24,12 @@ properties:
   cf_mysql.mysql.galera_port:
     description: 'Port which garbd listens on'
     default: 4567
-  cf_mysql.mysql.healthcheck_port:
-    description: 'Port used by healthcheck process to listen on'
-    default: 9200
   cf_mysql.mysql.cluster_ips:
     description: 'List of nodes.  Must have the same number of ips as there are nodes in the cluster'
-  cf_mysql.mysql.bootstrap_endpoint.username:
-    description: 'Username used by the bootstrap endpoints for Basic Auth'
-  cf_mysql.mysql.bootstrap_endpoint.password:
-    description: 'Password used by the bootstrap endpoints for Basic Auth'
+  cf_mysql.mysql.galera_healthcheck.endpoint_username:
+    description: 'Username used by the sidecar endpoints for Basic Auth'
+  cf_mysql.mysql.galera_healthcheck.endpoint_password:
+    description: 'Password used by the sidecar endpoints for Basic Auth'
+  cf_mysql.mysql.galera_healthcheck.port:
+    description: 'Port used by sidecar process to listen on'
+    default: 9200

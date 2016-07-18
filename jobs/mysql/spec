@@ -43,9 +43,6 @@ properties:
   cf_mysql.mysql.port:
     description: 'Port the mysql server should bind to'
     default: 3306
-  cf_mysql.mysql.healthcheck_port:
-    description: 'Port used by healthcheck process to listen on'
-    default: 9200
   cf_mysql.mysql.max_connections:
     description: 'Maximum total number of database connections for the node'
     default: 1500
@@ -85,8 +82,10 @@ properties:
     description: 'Password for the MySQL server read-only admin user'
   cf_mysql.mysql.database_startup_timeout:
     description: 'How long the startup script waits for the database to come online (in seconds)'
-  cf_mysql.mysql.bootstrap_endpoint.username:
-    description: 'Username used by the bootstrap endpoints for Basic Auth'
-  cf_mysql.mysql.bootstrap_endpoint.password:
-    description: 'Password used by the bootstrap endpoints for Basic Auth'
-
+  cf_mysql.mysql.galera_healthcheck.endpoint_username:
+    description: 'Username used by the sidecar endpoints for Basic Auth'
+  cf_mysql.mysql.galera_healthcheck.endpoint_password:
+    description: 'Password used by the sidecar endpoints for Basic Auth'
+  cf_mysql.mysql.galera_healthcheck.port:
+    description: 'Port used by sidecar process to listen on'
+    default: 9200
