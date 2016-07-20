@@ -1,4 +1,16 @@
 #!/usr/bin/env ruby
+
+############### Sample commands: ####################
+# To see all spaces for a given app name:
+#   jq '[.[] | select(.app_name == "APPNAME")] | group_by(.space) | .[] | {space: .[0].space, count: length}' < OUTPUT_FILE
+#
+# To see all orgs for a given app name:
+#   jq '[.[] | select(.app_name == "tracker-app")] | group_by(.org) | .[] | {org: .[0].org, count: length}' < OUTPUT_FILE
+#
+# To see all apps of a given name and the number of entries related to that app:
+#   jq 'group_by(.app_name) | map({app_name .[0].app_name, count: length})' < OUTPUT_FILE
+######################################################
+
 require 'multi_json'
 MultiJson.engine
 
