@@ -53,7 +53,9 @@ properties:
   - (( jobs.mysql_z2.networks.mysql2.static_ips.[0] || nil ))
   - (( jobs.mysql_z3.networks.mysql3.static_ips.[0] || nil ))
   cf_mysql:
+    <<: (( merge || nil ))
     mysql:
+      <<: (( merge || nil ))
       disable_auto_sst: (( property_overrides.mysql.disable_auto_sst || nil ))
       galera_healthcheck: (( property_overrides.mysql.galera_healthcheck ))
       cluster_health:
@@ -181,8 +183,8 @@ colocated_jobs:
   cf-mysql-broker_z1: (( job_overrides.colocated_jobs.cf-mysql-broker_z1.additional_templates || empty_list ))
   cf-mysql-broker_z2: (( job_overrides.colocated_jobs.cf-mysql-broker_z2.additional_templates || empty_list ))
 
-
-disk_pools:
+disk_pools: (( base_disk_pools additional_disk_pools ))
+base_disk_pools:
 - name: mysql-persistent-disk
   disk_size: (( merge || 100000 ))
   cloud_properties:
@@ -333,6 +335,7 @@ default_mysql_cluster_ips:
 - (( jobs.mysql_z1.networks.mysql1.static_ips.[0] ))
 - (( jobs.mysql_z2.networks.mysql2.static_ips.[0] || nil ))
 - (( jobs.mysql_z3.networks.mysql3.static_ips.[0] || nil ))
+additional_disk_pools: (( iaas_settings.additional_disk_pools || empty_list))
 additional_resource_pools: (( iaas_settings.additional_resource_pools || empty_list))
 additional_jobs: (( job_overrides.additional_jobs || empty_list ))
 additional_releases: (( job_overrides.additional_releases || empty_list ))
