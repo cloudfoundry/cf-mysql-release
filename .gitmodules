@@ -130,3 +130,6 @@
   path = src/github.com/go-yaml/yaml
 	url = https://github.com/go-yaml/yaml
   branch = master	
+[submodule "src/github.com/cloudfoundry-incubator/cf-mysql-cluster-health-logger"]
+	path = src/github.com/cloudfoundry-incubator/cf-mysql-cluster-health-logger
+	url = git@github.com:cloudfoundry-incubator/cf-mysql-cluster-health-logger
