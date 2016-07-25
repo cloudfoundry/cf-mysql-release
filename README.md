@@ -276,6 +276,8 @@ The brokers each register a route with the router, which load balances requests 
 <a name="create_manifest"></a>
 ### Create Manifest and Deploy
 
+Please note that the manifest generation scripts require spiff version 1.0.7 or greater. 
+
 <a name="bosh-lite"></a>
 #### Deploy on BOSH-lite
 
