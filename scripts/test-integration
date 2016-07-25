@@ -1,0 +1,38 @@
+set -eux
+
+MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# This script assumes that it lives one directory below the release directory.
+RELEASE_DIR="$( cd $MY_DIR/.. && pwd )"
+
+source ${RELEASE_DIR}/.envrc
+
+# Remove and reinstall the ginkgo binary as it might be from the wrong target architecture
+rm -rf ${RELEASE_DIR}/bin/ginkgo
+go install -v github.com/onsi/ginkgo/ginkgo
+
+rm -rf ${RELEASE_DIR}/bin/godep
+go get -v github.com/tools/godep
+go install -v github.com/tools/godep
+
+quota_enforcer_dir="${RELEASE_DIR}/src/github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer"
+quota_enforcer_config="${quota_enforcer_dir}/config.yaml"
+
+cat << CONFIG > "${quota_enforcer_config}"
+---
+Host: 127.0.0.1
+Port: 3306
+User: quota-enforcer
+Password: password
+IgnoredUsers:
+- quota-enforcer
+- cluster-health-logger
+DBName: development
+PauseInSeconds: 2
+AdminUser: root
+AdminPassword: password
+ReadOnlyUser: roadmin
+CONFIG
+
+echo -e "\nTesting Quota Enforcer..."
+"${quota_enforcer_dir}/bin/test-integration" "$@"
