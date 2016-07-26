@@ -18,6 +18,10 @@ case $1 in
     mkdir -p $run_dir
     mkdir -p $log_dir
 
+    /var/vcap/packages/mariadb/bin/mysql \
+      --defaults-file=${job_dir}/config/mylogin.cnf \
+      < ${job_dir}/config/quota_enforcer_setup.sql
+
     $package_dir/bin/cf-mysql-quota-enforcer \
         -pidFile=$pidfile \
         -configPath=$job_dir/bin/quota_enforcer_config.yml \

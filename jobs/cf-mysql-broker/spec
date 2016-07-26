@@ -3,11 +3,13 @@ name: cf-mysql-broker
 
 templates:
   settings.yml.erb: config/settings.yml
+  mylogin.cnf.erb: config/mylogin.cnf
   cf-mysql-broker_ctl.erb: bin/cf-mysql-broker_ctl
   unicorn.conf.rb.erb: config/unicorn.conf.rb
   database.yml.erb: config/database.yml
   quota-enforcer_ctl.erb: bin/quota-enforcer_ctl
   quota_enforcer_config.yml.erb: bin/quota_enforcer_config.yml
+  quota_enforcer_setup.sql.erb: config/quota_enforcer_setup.sql
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
   healthcheck.sh.erb: bin/healthcheck.sh
   registrar_settings.yml.erb: config/registrar_settings.yml
@@ -98,3 +100,8 @@ properties:
   cf_mysql.broker.ssl_enabled:
     description: 'Determines use of https in dashboard url and in callback uri for calls to UAA'
     default: true
+  cf_mysql.broker.quota_enforcer.password:
+    description: 'The password for the quota-enforcer user'
+  cf_mysql.broker.quota_enforcer.pause:
+    description: 'In seconds, the interval that the Quota Enforcer pauses between checks for violators and reformers'
+    default: 1
