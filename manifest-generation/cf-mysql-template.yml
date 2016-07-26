@@ -80,6 +80,8 @@ properties:
       persistent_disk: (( disk_pools.mysql-persistent-disk.disk_size ))
       cluster_health:
         password: (( property_overrides.mysql.cluster_health.password ))
+      server_audit_events: (( property_overrides.mysql.server_audit_events || nil ))
+      server_audit_excluded_users: (( property_overrides.mysql.server_audit_excluded_users || nil ))
     proxy:
       api_username: (( property_overrides.proxy.api_username ))
       api_password: (( property_overrides.proxy.api_password ))

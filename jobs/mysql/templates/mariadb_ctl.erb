@@ -7,6 +7,7 @@ datadir=/var/vcap/store/mysql
 CONFIG_DIR=/etc/mysql
 LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/mariadb_ctrl.combined.log
+SERVER_AUDIT_LOG_DIR=/var/vcap/store/mysql_audit_logs
 JOB_INDEX=<%= index %>
 CONFIG_FILE=$MARIADB_JOB_DIR/config/mariadb_ctl_config.yml
 MARIADB_CTRL_PACKAGE=/var/vcap/packages/mariadb_ctrl
@@ -30,6 +31,9 @@ if [ ! -f /usr/local/bin/mysql ]; then
   log "Adding mysql to path"
   ln -s /var/vcap/packages/mariadb/bin/mysql /usr/local/bin
 fi
+
+# logrotate audit logs
+ln -sf /var/vcap/jobs/mysql/config/mysql_audit_logs.logrotate /etc/logrotate.d/mysql_audit_logs
 
 # add xtrabackup to path
 export PATH=$PATH:/var/vcap/packages/xtrabackup/bin
@@ -73,9 +77,15 @@ case $1 in
     /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $MARIADB_JOB_DIR/config
 
     mkdir -p $LOG_DIR
+    chown vcap:vcap $LOG_DIR
     touch $LOG_FILE
     chown vcap:vcap $LOG_FILE
     date >> $LOG_FILE 2>> $LOG_FILE
+
+    <% if_p('cf_mysql.mysql.server_audit_events') do |_| %>
+    mkdir -p ${SERVER_AUDIT_LOG_DIR}
+    chown vcap:vcap ${SERVER_AUDIT_LOG_DIR}
+    <% end %>
 
     # It is surprisingly hard to get the config file location passed in
     # on the command line to the mysql.server script. This is easier.

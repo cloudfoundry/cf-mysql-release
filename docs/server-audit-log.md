@@ -1,0 +1,27 @@
+## Server Audit Log
+
+The purpose of the MariaDB Audit Plugin is to log the server's activity.
+
+Records about who connected to the server, what queries ran and what tables were touched can be stored to the rotating log file or sent to the local syslogd.
+
+## Enabling the Server Audit Log
+
+By default, this plugin is disabled. To enable the server audit log, set the `server_audit_events` property in your cf-mysql manifest.
+
+```yml
+properties:
+	mysql:
+		server_audit_events: connect,query
+```
+
+Valid values are: `connect`, `query`, `table`, `query_ddl`, `query_dml`, and `query_dcl`.
+
+See (MariaDB audit plugin documentation)[https://mariadb.com/kb/en/mariadb/about-the-mariadb-audit-plugin/] for more information about logging options.
+
+## Viewing Output of the Server Audit Log
+
+By default, the audit log will live in /var/vcap/sys/log/mysql/mysql_server_audit.log.
+
+## Using Syslog
+
+If syslog is enabled (i.e., `syslog_aggregator.address` is set), then the server audit logs will be written to syslog as well as a local logfile.
