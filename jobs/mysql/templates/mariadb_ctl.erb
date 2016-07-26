@@ -16,6 +16,13 @@ RUN_DIR=/var/vcap/sys/run/$MY_NAME
 PIDFILE=$RUN_DIR/$MY_NAME.pid
 TMP_DIR=/var/vcap/data/mysql/tmp
 
+<% if p('cf_mysql.mysql.disable_auto_sst') %>
+export DISABLE_SST=1
+<% end %>
+<% if p('cf_mysql.mysql.interrupt_notify_cmd') %>
+export INTERRUPT_NOTIFY_CMD="<%= p('cf_mysql.mysql.interrupt_notify_cmd') %>"
+<% end %>
+
 source /var/vcap/packages/common/utils.sh
 
 # add mysql to path
@@ -78,6 +85,7 @@ case $1 in
     ln -sf $MARIADB_JOB_DIR/config/my.cnf $CONFIG_DIR/my.cnf
 
     if ! test -d ${datadir}; then
+      export DISABLE_SST=0
       log "start script: making ${datadir} and running /var/vcap/packages/mariadb/scripts/mysql_install_db"
       mkdir -p ${datadir}
       /var/vcap/packages/mariadb/scripts/mysql_install_db \
