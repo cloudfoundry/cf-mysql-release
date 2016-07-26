@@ -111,6 +111,9 @@ properties:
   cf_mysql.mysql.binlog_expire_days:
     default: 60
     description: 'Time in days to store binlogs before purging'
+  cf_mysql.mysql.wsrep_debug:
+    default: false
+    description: 'When enabled, the database server logs additional events surrounding errors to help in identifying and correcting problems. Note, these logs are written to disk and to syslog. Enabling this will possibly expose unencrypted application data.'
 
   cf_mysql.mysql.server_audit_events:
     description: 'Enable audit logging and specify types of events that will be logged. If null, then logging is disabled'

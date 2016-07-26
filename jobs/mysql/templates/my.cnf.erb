@@ -53,6 +53,9 @@ wsrep_sst_auth=<%= p('cf_mysql.mysql.admin_username')%>:<%= p('cf_mysql.mysql.ad
 wsrep_max_ws_rows=<%= p('cf_mysql.mysql.wsrep_max_ws_rows') %>
 wsrep_max_ws_size=<%= p('cf_mysql.mysql.wsrep_max_ws_size') %>
 wsrep_load_data_splitting='ON'
+<% if p('cf_mysql.mysql.wsrep_debug') %>
+wsrep_debug='ON'
+<% end %>
 #wsrep_on='OFF'
 #wsrep_desync='ON'
 #wsrep_OSU_method='RSU'
