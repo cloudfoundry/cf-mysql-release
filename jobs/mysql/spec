@@ -8,6 +8,7 @@ templates:
   mariadb_init.erb: config/mariadb_init
   galera-healthcheck_ctl.erb: bin/galera-healthcheck_ctl
   galera_healthcheck_config.yaml.erb: config/galera_healthcheck_config.yaml
+  galera_healthcheck_setup.sql.erb: config/galera_healthcheck_setup.sql
   gra-log-purger_ctl.erb: bin/gra-log-purger_ctl
   gra-log-purger.sh.erb: bin/gra-log-purger.sh
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
@@ -101,6 +102,8 @@ properties:
   cf_mysql.mysql.galera_healthcheck.port:
     description: 'Port used by sidecar process to listen on'
     default: 9200
+  cf_mysql.mysql.galera_healthcheck.db_password:
+    description: 'Password used by the sidecar to connect to the database'
 
   cf_mysql.mysql.binlog_enabled:
     default: true
