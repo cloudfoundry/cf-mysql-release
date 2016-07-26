@@ -17,8 +17,6 @@ property_overrides:
     auth_password: password
     cookie_secret: 94046872-2602-4ca6-8d07-8b0da9762477
     dashboard_secret: p-mysql-secret
-    quota_enforcer:
-      password: password
     plans:
     - name: 100mb
       id: ab08f1bc-e6fc-4b56-a767-ee0fea6e3f20
@@ -30,3 +28,5 @@ property_overrides:
       description: Shared MySQL Server
       max_storage_mb: 20
       max_user_connections: 40
+    quota_enforcer:
+      password: password
