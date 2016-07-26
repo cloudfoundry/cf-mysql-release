@@ -85,6 +85,7 @@ max_allowed_packet = 256M
 innodb_file_per_table = ON
 innodb_file_format = Barracuda
 innodb_log_file_size = "<%= p('cf_mysql.mysql.ib_log_file_size')%>MB"
+innodb-support-xa = OFF
 
 max_heap_table_size = <%= p('cf_mysql.mysql.max_heap_table_size') %>
 tmp_table_size = <%= p('cf_mysql.mysql.tmp_table_size') %>
