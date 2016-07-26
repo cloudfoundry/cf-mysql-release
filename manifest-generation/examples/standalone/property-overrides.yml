@@ -26,3 +26,5 @@ property_overrides:
       id: UNUSED_VALUE
       description: UNUSED_VALUE
       max_storage_mb: 100
+    quota_enforcer:
+      password: password

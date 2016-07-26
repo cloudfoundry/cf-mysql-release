@@ -51,3 +51,5 @@ property_overrides:
           - 1000 MB storage
           - 40 concurrent connections
         displayName: "1 GB"
+    quota_enforcer:
+      password: password
