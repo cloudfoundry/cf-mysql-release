@@ -1,16 +1,13 @@
 #!/bin/bash -e
 
-source /var/vcap/packages/cf-mysql-common/pid_utils.sh
-source /var/vcap/packages/cf-mysql-common/syslog_utils.sh
+source /var/vcap/packages/common/utils.sh
 
 JOB_DIR=/var/vcap/jobs/mysql
 CONFIG_DIR=${JOB_DIR}/config
 RUN_DIR=/var/vcap/sys/run/mysql
 PID_FILE=${RUN_DIR}/cluster_health_logger.pid
 BIN_FILE=/var/vcap/packages/cf-mysql-cluster-health-logger/bin/cf-mysql-cluster-health-logger
-LOG_DIR=/var/vcap/sys/log
-
-tee_output_to_sys_log ${LOG_DIR}
+OUTPUT_FILE=/var/vcap/sys/log/mysql/cluster_health.log
 
 case $1 in
 
@@ -22,9 +19,8 @@ case $1 in
 
     chown -R vcap:vcap ${RUN_DIR}
 
-    /var/vcap/packages/mariadb/bin/mysql \
-      --defaults-file=${CONFIG_DIR}/mylogin.cnf \
-      < ${CONFIG_DIR}/cluster_health_logger_setup.sql
+    touch ${OUTPUT_FILE}
+    chown vcap:vcap ${OUTPUT_FILE}
 
     exec chpst -u vcap:vcap ${BIN_FILE} -configPath=${CONFIG_DIR}/cluster_health_logger_config.yml
 
