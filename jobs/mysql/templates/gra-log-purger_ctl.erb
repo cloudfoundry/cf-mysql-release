@@ -3,7 +3,6 @@
 set -e
 
 gra_log_dir=/var/vcap/store/mysql
-gra_log_days_to_keep=30
 
 run_dir=/var/vcap/sys/run/gra-log-purger
 log_dir=/var/vcap/sys/log/gra-log-purger
@@ -27,7 +26,6 @@ case $1 in
 
     $package_dir/$executable_name \
         -graLogDir=$gra_log_dir \
-        -graLogDaysToKeep=$gra_log_days_to_keep \
         -pidfile=$pidfile \
         >>$log_dir/gra-log-purger.stdout.log 2>>$log_dir/gra-log-purger.stderr.log &
 

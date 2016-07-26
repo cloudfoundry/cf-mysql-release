@@ -16,12 +16,6 @@ var graLogDir = flag.String(
 	"Specifies the directory from which to purge GRA log files.",
 )
 
-var graLogDaysToKeep = flag.Int(
-	"graLogDaysToKeep",
-	30,
-	"Specifies the maximum age of the GRA log files allowed.",
-)
-
 var pidfile = flag.String(
 	"pidfile",
 	"",
@@ -37,7 +31,7 @@ func main() {
 	}
 
 	for {
-		out, err := runCommand("sh", "/var/vcap/jobs/mysql/bin/gra-log-purger.sh", *graLogDir, strconv.Itoa(*graLogDaysToKeep))
+		out, err := runCommand("sh", "/var/vcap/jobs/mysql/bin/gra-log-purger.sh", *graLogDir)
 		if err != nil {
 			LogErrorWithTimestamp(err)
 		}
