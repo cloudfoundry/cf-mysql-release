@@ -132,4 +132,4 @@
 	branch = master
 [submodule "src/github.com/cloudfoundry-incubator/cf-mysql-cluster-health-logger"]
 	path = src/github.com/cloudfoundry-incubator/cf-mysql-cluster-health-logger
-	url = git@github.com:cloudfoundry-incubator/cf-mysql-cluster-health-logger
+	url = git@github.com:cloudfoundry-incubator/cf-mysql-cluster-health-logger.git
