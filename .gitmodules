@@ -115,21 +115,21 @@
 	url = https://github.com/apcera/gnatsd
 	branch = master
 [submodule "src/github.com/nats-io/nats"]
-  path = src/github.com/nats-io/nats
-  url = https://github.com/nats-io/nats
-  branch = master
+	path = src/github.com/nats-io/nats
+	url = https://github.com/nats-io/nats
+	branch = master
 [submodule "src/github.com/nats-io/gnatsd"]
-  path = src/github.com/nats-io/gnatsd
-  url = https://github.com/nats-io/gnatsd
-  branch = master
+	path = src/github.com/nats-io/gnatsd
+	url = https://github.com/nats-io/gnatsd
+	branch = master
 [submodule "src/gopkg.in/yaml.v2"]
-  path = src/gopkg.in/yaml.v2
-  url = https://gopkg.in/yaml.v2
-  branch = master
+	path = src/gopkg.in/yaml.v2
+	url = https://gopkg.in/yaml.v2
+	branch = master
 [submodule "src/github.com/go-yaml/yaml"]
-  path = src/github.com/go-yaml/yaml
+	path = src/github.com/go-yaml/yaml
 	url = https://github.com/go-yaml/yaml
-  branch = master	
+	branch = master
 [submodule "src/github.com/cloudfoundry-incubator/cf-mysql-cluster-health-logger"]
 	path = src/github.com/cloudfoundry-incubator/cf-mysql-cluster-health-logger
 	url = git@github.com:cloudfoundry-incubator/cf-mysql-cluster-health-logger
