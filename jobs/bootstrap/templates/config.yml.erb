@@ -10,3 +10,5 @@ HealthcheckURLs:
 DatabaseStartupTimeout: <%= p('cf_mysql.mysql.database_startup_timeout') %>
 Username: <%= p('cf_mysql.mysql.galera_healthcheck.endpoint_username') %>
 Password: <%= p('cf_mysql.mysql.galera_healthcheck.endpoint_password') %>
+LogFilePath: "/var/vcap/sys/log/bootstrap/bootstrap.log"
+RepairMode: "bootstrap"
