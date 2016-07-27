@@ -12,6 +12,6 @@ Monit:
   Host: 'localhost'
   Port: 2822
   ServiceName: 'garbd'
-BootstrapEndpoint:
+SidecarEndpoint:
   Username: <%= p('cf_mysql.mysql.galera_healthcheck.endpoint_username') %>
   Password: <%= p('cf_mysql.mysql.galera_healthcheck.endpoint_password') %>
