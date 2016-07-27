@@ -9,6 +9,7 @@ property_overrides:
     galera_healthcheck:
       endpoint_username: username
       endpoint_password: password
+      db_password: gh_password
   proxy:
     api_username: username
     api_password: password
