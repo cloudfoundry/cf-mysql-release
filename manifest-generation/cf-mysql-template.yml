@@ -130,6 +130,7 @@ properties:
     endpoint_credentials:
       username: (( property_overrides.cf-mysql-backup.endpoint_credentials.username || nil ))
       password: (( property_overrides.cf-mysql-backup.endpoint_credentials.password || nil ))
+  cluster_ips: (( property_overrides.mysql.cluster_ips || default_mysql_cluster_ips ))
   service-backup:
     cron_schedule: (( property_overrides.service-backup.cron_schedule || nil ))
     blobstore:
@@ -292,6 +293,15 @@ base_jobs:
   properties: {}
 - name: bootstrap
   template: bootstrap
+  release: cf-mysql
+  instances: 1
+  resource_pool: errands_z1
+  lifecycle: errand
+  networks:
+  - name: mysql1
+  properties: {}
+- name: rejoin-unsafe
+  template: rejoin-unsafe
   release: cf-mysql
   instances: 1
   resource_pool: errands_z1

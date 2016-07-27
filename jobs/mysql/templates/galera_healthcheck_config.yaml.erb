@@ -13,6 +13,8 @@ Monit:
   Port: 2822
   MysqlStateFilePath: '/var/vcap/store/mysql/state.txt'
   ServiceName: 'mariadb_ctrl'
-BootstrapEndpoint:
+  EnableSstMarkerFilePath: '/var/vcap/sys/run/galera-healthcheck/enable_sst'
+  SstInterruptNotifyCmd: <%= p('cf_mysql.mysql.interrupt_notify_cmd') %>
+SidecarEndpoint:
   Username: <%= p('cf_mysql.mysql.galera_healthcheck.endpoint_username') %>
   Password: <%= p('cf_mysql.mysql.galera_healthcheck.endpoint_password') %>
