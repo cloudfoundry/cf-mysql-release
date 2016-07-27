@@ -57,10 +57,16 @@
 
   module(load="imfile")
   input(type="imfile"
-  File="/var/vcap/sys/log/mysql/mysql_server_audit.log"
-  Tag="server_audit_log"
-  Severity="warning"
-  Facility="local1")
+    File="/var/vcap/sys/log/mysql/mysql_server_audit.log"
+    Tag="server_audit_log"
+    Severity="warning"
+    Facility="local1")
+
+  input(type="imfile"
+    File="/var/vcap/sys/log/mysql/mysql.err.log"
+    Tag="mariadb"
+    Severity="warning"
+    Facility="local2")
 
   # Log vcap messages locally, too
   #$template VcapComponentLogFile, "/var/log/%programname:6:$%/%programname:6:$%.log"
