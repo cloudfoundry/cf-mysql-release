@@ -11,6 +11,8 @@ export PATH=$GOROOT/bin:$PWD/bin:$PATH
 
 source /var/vcap/packages/common/utils.sh
 
+ulimit -n <%= p('cf_mysql.mysql.max_open_files') %>
+
 case $1 in
 
   start)

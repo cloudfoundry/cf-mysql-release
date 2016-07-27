@@ -52,6 +52,9 @@ properties:
   cf_mysql.mysql.max_connections:
     description: 'Maximum total number of database connections for the node'
     default: 1500
+  cf_mysql.mysql.max_open_files:
+    description: 'Configure this number to be comfortably larger than the maximum number of tables you expect the database to support. Max is 104xxxx.'
+    default: 65536
   cf_mysql.mysql.innodb_buffer_pool_size:
     description: 'Optional, the size in bytes of the memory buffer InnoDB uses to cache data and indexes of its tables'
   cf_mysql.mysql.cluster_ips:
