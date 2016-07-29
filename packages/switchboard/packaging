@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
-set -u
+set -eu
 
 mkdir -p ${BOSH_INSTALL_TARGET}/src
 cp -a . ${BOSH_INSTALL_TARGET}/src
@@ -11,7 +10,7 @@ export REPO=$GOPATH/src/github.com/cloudfoundry-incubator/switchboard
 export GOROOT=$(readlink -nf /var/vcap/packages/golang)
 export PATH=$GOROOT/bin:$PATH
 
-go install github.com/cloudfoundry-incubator/switchboard
+GO15VENDOREXPERIMENT=1 go install github.com/cloudfoundry-incubator/switchboard
 
 cp -r $BOSH_INSTALL_TARGET/src/github.com/cloudfoundry-incubator/switchboard/static  $BOSH_INSTALL_TARGET/static
 
