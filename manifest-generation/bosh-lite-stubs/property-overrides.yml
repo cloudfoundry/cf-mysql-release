@@ -32,3 +32,5 @@ property_overrides:
       max_user_connections: 40
     quota_enforcer:
       password: password
+  acceptance_tests:
+    password: password

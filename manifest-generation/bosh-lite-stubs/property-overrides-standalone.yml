@@ -32,4 +32,5 @@ property_overrides:
     quota_enforcer:
       password: password
   acceptance_tests:
+    password: password
     standalone_tests_only: true

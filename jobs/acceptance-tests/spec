@@ -27,6 +27,8 @@ properties:
     description: 'The name of the Org to run acceptance tests against'
     default: ''
 
+  cf_mysql.acceptance_tests.password:
+    description: 'Password for generated user to comply with CF password policy, if exists.'
   cf_mysql.acceptance_tests.smoke_tests_only:
     description: 'Instead of running the full acceptance test suite, only run a shorter smoke test'
     default: true
