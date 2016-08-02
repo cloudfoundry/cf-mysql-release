@@ -15,6 +15,7 @@ property_overrides:
     api_username: REPLACE_WITH_A_USERNAME_YOU_MAKE_UP
     api_password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
   acceptance_tests:
+    password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
     standalone_tests_only: true
   broker:
     auth_username: UNUSED_VALUE

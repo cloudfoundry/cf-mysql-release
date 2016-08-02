@@ -18,6 +18,8 @@ property_overrides:
     api_password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
     consul_enabled: false # True if desire consul to be enabled; requires colocation of the consul agent on the proxy
     consul_service_name: REPLACE_WITH_YOUR_DESIRED_NAME
+  acceptance_tests:
+    password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
   broker:
     auth_username: REPLACE_WITH_A_USERNAME_YOU_MAKE_UP # eg. cc
     auth_password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
