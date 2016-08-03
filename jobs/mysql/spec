@@ -4,7 +4,6 @@ name: mysql
 templates:
   mariadb_ctl.erb: bin/mariadb_ctl
   my.cnf.erb: config/my.cnf
-  mylogin.cnf.erb: config/mylogin.cnf
   mariadb_ctl_config.yml.erb: config/mariadb_ctl_config.yml
   mariadb_init.erb: config/mariadb_init
   galera-healthcheck_ctl.erb: bin/galera-healthcheck_ctl
