@@ -102,7 +102,7 @@ plugin-load = server_audit=server_audit.so
 server_audit_logging = ON
 server_audit_events = <%= p('cf_mysql.mysql.server_audit_events') %>
 server_audit_output_type = file
-server_audit_file_path = /var/vcap/sys/log/mysql/mysql_server_audit.log
+server_audit_file_path = /var/vcap/store/mysql_audit_logs/mysql_server_audit.log
 server_audit_excl_users=<%= excluded_audit_users.join(',') %>
 server_audit_file_rotations=0
 <% end %>
