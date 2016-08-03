@@ -28,7 +28,7 @@
   end
 
   def excluded_audit_users
-    return ['cluster-health-logger', 'quota-enforcer'] + p('cf_mysql.mysql.server_audit_excluded_users')
+    return ['cluster-health-logger', 'quota-enforcer', 'galera-healthcheck'] + p('cf_mysql.mysql.server_audit_excluded_users')
   end
 %>
 
