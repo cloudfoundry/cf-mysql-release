@@ -49,6 +49,9 @@ properties:
   cf_mysql.mysql.port:
     description: 'Port the mysql server should bind to'
     default: 3306
+  cf_mysql.mysql.galera_port:
+    description: 'Port which garbd listens on'
+    default: 4567
   cf_mysql.mysql.max_connections:
     description: 'Maximum total number of database connections for the node'
     default: 1500
