@@ -62,13 +62,19 @@ def discover_external_ip
         Tag="slow_query_log"
         Severity="warning"
         Facility="local1")
-  
-  module(load="imfile")
+
   input(type="imfile"
         File="/var/vcap/sys/log/mysql/mysql_server_audit.log"
         Tag="server_audit_log"
         Severity="warning"
         Facility="local1")
+
+  input(type="imfile"
+        File="/var/vcap/sys/log/mysql/mysql.err.log"
+        Tag="mariadb"
+        Severity="warning"
+        Facility="local2")
+
 <% end %>
 
 # Prevent them from reaching anywhere else
