@@ -17,7 +17,6 @@ templates:
   cluster_health_logger_ctl.erb: bin/cluster_health_logger_ctl
   cluster_health_logger_config.yml.erb: config/cluster_health_logger_config.yml
   cluster_health_logger_setup.sql.erb: config/cluster_health_logger_setup.sql
-  mysql_audit_logs.logrotate: config/mysql_audit_logs.logrotate
 
 packages:
 - xtrabackup
@@ -103,12 +102,6 @@ properties:
   cf_mysql.mysql.server_audit_events:
     description: 'Enable audit logging and specify types of events that will be logged. If null, then logging is disabled'
     example: 'connect,query_ddl,query_dml,query_dcl'
-  cf_mysql.mysql.server_audit_file_rotations:
-    default: 30
-    description: 'Number of audit file rotations to keep'
-  cf_mysql.mysql.server_audit_file_rotate_size_in_mb:
-    default: 100
-    description: 'Size in MB of each audit log file'
   cf_mysql.mysql.server_audit_excluded_users:
     description: 'Other database users to exclude from audit logging'
     default: []
