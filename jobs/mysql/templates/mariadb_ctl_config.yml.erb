@@ -41,7 +41,6 @@ Db:
     Password: <%= seed["password"] %>
   <% end %>
   PostStartSQLFiles:
-  - /var/vcap/jobs/mysql/config/cluster_health_logger_setup.sql
   - /var/vcap/jobs/mysql/config/galera_healthcheck_setup.sql
 Upgrader:
   PackageVersionFile: /var/vcap/packages/mariadb/VERSION
