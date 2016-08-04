@@ -40,8 +40,6 @@ Db:
     User: <%= seed["username"]%>
     Password: <%= seed["password"] %>
   <% end %>
-  PostStartSQLFiles:
-  - /var/vcap/jobs/mysql/config/cluster_health_logger_setup.sql
 Upgrader:
   PackageVersionFile: /var/vcap/packages/mariadb/VERSION
   LastUpgradedVersionFile: /var/vcap/store/mysql/mysql_upgrade_info

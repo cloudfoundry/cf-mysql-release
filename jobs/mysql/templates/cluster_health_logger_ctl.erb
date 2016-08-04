@@ -22,6 +22,10 @@ case $1 in
 
     chown -R vcap:vcap ${RUN_DIR}
 
+    /var/vcap/packages/mariadb/bin/mysql \
+      --defaults-file=${CONFIG_DIR}/mylogin.cnf \
+      < ${CONFIG_DIR}/cluster_health_logger_setup.sql
+
     exec chpst -u vcap:vcap ${BIN_FILE} -configPath=${CONFIG_DIR}/cluster_health_logger_config.yml
 
     ;;
