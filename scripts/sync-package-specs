@@ -35,7 +35,6 @@ function sync_package() {
 sync_package mariadb_ctrl -app github.com/cloudfoundry/mariadb_ctrl/... &
 sync_package gra-log-purger -app gra-log-purger/... &
 sync_package galera-healthcheck -app github.com/cloudfoundry-incubator/galera-healthcheck/... &
-sync_package switchboard -app github.com/cloudfoundry-incubator/switchboard/... &
 sync_package quota-enforcer -app github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/... &
 sync_package bootstrap -app github.com/cloudfoundry-incubator/cf-mysql-bootstrap/... &
 GOPATH=$GOPATH/src/github.com/cloudfoundry-incubator/route-registrar/Godeps/_workspace:$GOPATH \
