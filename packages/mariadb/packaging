@@ -8,6 +8,9 @@ tar xzf mariadb/mariadb-galera-${MARIADB_VERSION}.tar.gz
 (
   set -e
   cd mariadb-${MARIADB_VERSION}
+
+  patch -p1 < ${MY_DIR}/mariadb-patch/add_sst_interrupt.patch
+
   mkdir bld
   cd bld
 
@@ -47,5 +50,4 @@ tar xzf mariadb/mariadb-galera-${MARIADB_VERSION}.tar.gz
   echo -n "${MARIADB_VERSION}-MariaDB" > ${BOSH_INSTALL_TARGET}/VERSION
   cp /var/vcap/packages/galera/garbd ${BOSH_INSTALL_TARGET}/bin/
   cp /var/vcap/packages/galera/libgalera_smm.so ${BOSH_INSTALL_TARGET}/lib/plugin/
-  cp ${MY_DIR}/github.com/cloudfoundry/mariadb_ctrl/custom_sst/wsrep_sst_xtrabackup-v2-ist-only ${BOSH_INSTALL_TARGET}/bin/wsrep_sst_xtrabackup-v2
 )
