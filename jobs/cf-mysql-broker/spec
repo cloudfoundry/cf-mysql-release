@@ -8,7 +8,7 @@ templates:
   unicorn.conf.rb.erb: config/unicorn.conf.rb
   database.yml.erb: config/database.yml
   quota-enforcer_ctl.erb: bin/quota-enforcer_ctl
-  quota_enforcer_config.yml.erb: bin/quota_enforcer_config.yml
+  quota_enforcer_config.yml.erb: config/quota_enforcer_config.yml
   quota_enforcer_setup.sql.erb: config/quota_enforcer_setup.sql
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
   healthcheck.sh.erb: bin/healthcheck.sh
