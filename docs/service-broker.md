@@ -27,3 +27,11 @@ If zero service brokers are deployed, it follows that service instances cannot b
 The service broker is deployed with a quota-enforcer process, which ensures that service instances do not exceed their allocated storage quota. When the quota is exceeded, the database users associated with the service instance will only be able to `DELETE` until the disk usage falls under the quota.
 
 By default, the `roadmin` and `quota-enforcer` database users are not subject to quota enforcement. When deploying the service broker you can optionally specify additional users to ignore with the property `cf_mysql.broker.quota_enforcer.ignored_users`. For an example of this, see the [example property-overrides.yml file](../manifest-generation/examples/property-overrides.yml).
+
+### Configuring the pause time
+
+By default the quota enforcer pauses for 1 second between checks. This pause time is configurable through the `broker.quota_enforcer.pause` property, where the value is specified as the number of seconds to pause for.
+
+For most deployments we recommend that the pause time be left at its default value to ensure that quotas are enforced in a timely manner.
+
+One reason why an operator may choose to increase the pause time is when debugging Galera clustering. If `wsrep_debug` is enabled then the queries issued by the quota enforcer may obscure other activity - reducing the frequency of quota enforcer checks may be helpful in this case.

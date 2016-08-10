@@ -111,3 +111,6 @@ properties:
   cf_mysql.broker.quota_enforcer.ignored_users:
     description: 'Array of users that the quota enforcer will not enforce quotas on'
     default: []
+  cf_mysql.broker.quota_enforcer.pause:
+    description: 'In seconds, the interval that the Quota Enforcer pauses between checks for violators and reformers'
+    default: 1

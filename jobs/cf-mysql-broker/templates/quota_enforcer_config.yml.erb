@@ -7,3 +7,4 @@ User: quota-enforcer
 Password: <%= p('cf_mysql.broker.quota_enforcer.password') %>
 DBName: mysql_broker
 IgnoredUsers: <%= ignored_users.uniq %>
+PauseInSeconds: <%= p('cf_mysql.broker.quota_enforcer.pause') %>
