@@ -13,6 +13,7 @@ set -e
 export MARIADB_JOB_DIR=/var/vcap/jobs/mysql
 LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/mariadb_ctrl.combined.log
+SERVER_AUDIT_LOG_DIR=/var/vcap/store/mysql_audit_logs
 JOB_INDEX=<%= index %>
 CONFIG_FILE=$MARIADB_JOB_DIR/config/mariadb_ctl_config.yml
 MARIADB_CTRL_PACKAGE=/var/vcap/packages/mariadb_ctrl
@@ -25,6 +26,9 @@ source /var/vcap/packages/cf-mysql-common/pid_utils.sh
 source /var/vcap/packages/cf-mysql-common/syslog_utils.sh
 
 tee_output_to_sys_log ${LOG_DIR}
+
+# logrotate audit logs
+ln -sf /var/vcap/jobs/mysql/config/mysql_audit_logs.logrotate /etc/logrotate.d/mysql_audit_logs
 
 # add xtrabackup to path
 export PATH=$PATH:/var/vcap/packages/xtrabackup/bin
@@ -56,6 +60,11 @@ case $1 in
 
     echo "Checking for existing instance of $PROC_NAME"
     pid_guard $PIDFILE $PROC_NAME
+
+    <% if_p('cf_mysql.mysql.server_audit_events') do |_| %>
+    mkdir -p ${SERVER_AUDIT_LOG_DIR}
+    chown vcap:vcap ${SERVER_AUDIT_LOG_DIR}
+    <% end %>
 
     cd $MARIADB_CTRL_PACKAGE
 

@@ -64,7 +64,7 @@ def discover_external_ip
         Facility="local1")
 
   input(type="imfile"
-        File="/var/vcap/sys/log/mysql/mysql_server_audit.log"
+        File="/var/vcap/store/mysql_audit_logs/mysql_server_audit.log"
         Tag="server_audit_log"
         Severity="warning"
         Facility="local1")

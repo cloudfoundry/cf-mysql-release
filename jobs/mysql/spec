@@ -9,6 +9,7 @@ templates:
   mariadb_init.erb: config/mariadb_init
   galera-healthcheck_ctl.erb: bin/galera-healthcheck_ctl
   galera_healthcheck_config.yaml.erb: config/galera_healthcheck_config.yaml
+  galera_healthcheck_setup.sql.erb: config/galera_healthcheck_setup.sql
   gra-log-purger_ctl.erb: bin/gra-log-purger_ctl
   gra-log-purger.sh.erb: bin/gra-log-purger.sh
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
@@ -17,6 +18,7 @@ templates:
   cluster_health_logger_ctl.erb: bin/cluster_health_logger_ctl
   cluster_health_logger_config.yml.erb: config/cluster_health_logger_config.yml
   cluster_health_logger_setup.sql.erb: config/cluster_health_logger_setup.sql
+  mysql_audit_logs.logrotate.erb: config/mysql_audit_logs.logrotate
 
 packages:
 - xtrabackup
@@ -102,6 +104,12 @@ properties:
   cf_mysql.mysql.server_audit_events:
     description: 'Enable audit logging and specify types of events that will be logged. If null, then logging is disabled'
     example: 'connect,query_ddl,query_dml,query_dcl'
+  cf_mysql.mysql.server_audit_file_rotations:
+    default: 30
+    description: 'Number of audit file rotations to keep'
+  cf_mysql.mysql.server_audit_file_rotate_size_in_mb:
+    default: 100
+    description: 'Size in MB of each audit log file'
   cf_mysql.mysql.server_audit_excluded_users:
     description: 'Other database users to exclude from audit logging'
     default: []
@@ -124,6 +132,9 @@ properties:
   cf_mysql.mysql.galera_healthcheck.port:
     description: 'Port used by sidecar process to listen on'
     default: 9200
+  cf_mysql.mysql.galera_healthcheck.db_password:
+    description: 'Password used by the sidecar to connect to the database'
+
   cf_mysql.mysql.disable_auto_sst:
     description: 'When disable_auto_sst is true, nodes unable to IST will be prevented from automatically deleting their data and performing an SST'
     default: true
