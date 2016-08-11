@@ -3,8 +3,6 @@
 name: REPLACE_WITH_CF_DEPLOYMENT_NAME
 director_uuid: REPLACE_WITH_DIRECTOR_UUID
 properties:
-  admin_username: UNUSED_VALUE
-  admin_password: UNUSED_VALUE
   nats:
     machines: []
     user: UNUSED_VALUE
@@ -12,7 +10,8 @@ properties:
     port: 0
   system_domain: UNUSED_VALUE
   app_domains: [UNUSED_VALUE]
-  domain: UNUSED_VALUE
+  cc:
+    srv_api_uri: UNUSED_VALUE
   consul:
     agent:
       datacenter: UNUSED_VALUE

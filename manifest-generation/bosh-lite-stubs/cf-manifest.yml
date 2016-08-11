@@ -3,6 +3,8 @@ director_uuid: REPLACE_WITH_DIRECTOR_UUID
 properties:
   admin_username: admin
   admin_password: admin
+  cc:
+    srv_api_uri: https://api.bosh-lite.com
   nats:
     machines: [10.244.0.6]
     password: nats
@@ -16,7 +18,7 @@ properties:
   consul:
     agent:
       domain: cf.internal
-      log_level: 
+      log_level:
       servers:
         lan:
         - 10.244.0.54

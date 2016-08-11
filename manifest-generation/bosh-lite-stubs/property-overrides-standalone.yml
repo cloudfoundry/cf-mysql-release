@@ -1,4 +1,6 @@
 property_overrides:
+  cc:
+    srv_api_uri: https://api.bosh-lite.com
   standalone: true
   mysql:
     admin_password: password
