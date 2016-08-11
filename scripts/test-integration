@@ -1,4 +1,6 @@
-set -eux
+#!/bin/bash
+
+set -eu
 
 MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 

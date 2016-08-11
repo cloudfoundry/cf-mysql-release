@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e -x
+set -e
 
 go get github.com/vito/gosub
 go install github.com/vito/gosub

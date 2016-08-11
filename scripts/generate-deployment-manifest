@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 RELEASE_DIR="$( cd "${MY_DIR}/.." && pwd )"
 MANIFEST_DIR="$( cd "${RELEASE_DIR}/manifest-generation" && pwd )"
@@ -8,12 +10,12 @@ argument_error=false
 
 function usage(){
   >&2 echo " Usage:
-  Mandatory arguments:   
+  Mandatory arguments:
     -c CF Manifest
     -p Property overrides stub file
     -i Infrastructure settings stub file
   Optional arguments
-    -n Instance count overrides stub file (single node, 3 node) 
+    -n Instance count overrides stub file (single node, 3 node)
     -v Release versions stub file
     -j Manifest stub file for additional jobs
   "
