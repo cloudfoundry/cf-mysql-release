@@ -1,0 +1,154 @@
+instance_groups:
+- instances: 3
+  name: mysql_z1
+  azs: [z1,z2,z3]
+  networks:
+  - name: default
+    static_ips:
+    - 10.244.7.2
+    - 10.244.8.2
+    - 10.244.9.2
+  vm_type: default
+  stemcell: default
+  jobs:
+  - name: mysql
+    release: cf-mysql
+- instances: 2
+  name: proxy_z1
+  azs: [z1,z2,z3]
+  networks:
+  - name: default
+    static_ips:
+    - 10.244.7.3
+    - 10.244.8.3
+  vm_type: default
+  stemcell: default
+  templates:
+  - name: proxy
+    release: cf-mysql
+- instances: 2
+  name: cf-mysql-broker_z1
+  azs: [z1,z2,z3]
+  networks:
+  - name: default
+  vm_type: default
+  stemcell: default
+  templates:
+  - name: cf-mysql-broker
+    release: cf-mysql
+- instances: 1
+  lifecycle: errand
+  name: acceptance-tests
+  azs: [z1]
+  networks:
+  - name: default
+  properties: {}
+  vm_type: default
+  stemcell: default
+  templates:
+  - name: acceptance-tests
+    release: cf-mysql
+- instances: 1
+  lifecycle: errand
+  name: broker-registrar
+  azs: [z1]
+  networks:
+  - name: default
+  properties: {}
+  vm_type: default
+  stemcell: default
+  templates:
+  - name: broker-registrar
+    release: cf-mysql
+- instances: 1
+  lifecycle: errand
+  name: broker-deregistrar
+  azs: [z1]
+  networks:
+  - name: default
+  properties: {}
+  vm_type: default
+  stemcell: default
+  templates:
+  - name: broker-registrar
+    release: cf-mysql
+
+name: cf-warden-mysql
+
+properties:
+  app_domains: ((app_domains))
+  cf:
+    admin_password: ((cf_admin_password))
+    admin_username: ((cf_admin_username))
+    api_url: ((cf_api_url))
+    app_domains: ((app_domains))
+    skip_ssl_validation: ((cf_skip_ssl_validation))
+  cf_mysql:
+    acceptance_tests:
+      password: ((cf_mysql_acceptance_tests_password))
+    broker:
+      auth_password: ((cf_mysql_broker_auth_password))
+      auth_username: ((cf_mysql_broker_auth_username))
+      cookie_secret: ((cf_mysql_broker_cookie_secret))
+      external_host: ((cf_mysql_broker_external_host))
+      quota_enforcer:
+        password: ((cf_mysql_broker_quota_enforcer_password))
+      services: ((cf_mysql_broker_services))
+    external_host: ((cf_mysql_external_host))
+    host: 10.244.7.3
+    mysql:
+      admin_password: ((cf_mysql_mysql_admin_password))
+      cluster_health:
+        password: ((cf_mysql_mysql_cluster_health_password))
+      cluster_ips:
+      - 10.244.7.2
+      - 10.244.8.2
+      - 10.244.9.2
+      galera_healthcheck:
+        endpoint_password: ((cf_mysql_mysql_galera_healthcheck_endpoint_password))
+        endpoint_username: ((cf_mysql_mysql_galera_healthcheck_endpoint_username))
+      persistent_disk: 100000
+      roadmin_enabled: ((cf_mysql_mysql_roadmin_enabled))
+      roadmin_password: ((cf_mysql_mysql_roadmin_password))
+    proxy:
+      api_password: ((cf_mysql_proxy_api_password))
+      api_username: ((cf_mysql_proxy_api_username))
+      arbitrator_ip: 10.244.9.6
+      proxy_ips:
+      - 10.244.7.3
+      - 10.244.8.3
+  consul:
+    agent:
+      domain: ((consul_agent_domain))
+      servers:
+        lan:
+        - 10.244.0.54
+    agent_cert: ((consul_agent_cert))
+    agent_key: ((consul_agent_key))
+    ca_cert: ((consul_ca_cert))
+    encrypt_keys: ((consul_encrypt_keys))
+    server_cert: ((consul_server_cert))
+    server_key: ((consul_server_key))
+  nats:
+    machines:
+    - 10.244.0.6
+    password: ((nats_password))
+    port: 4222
+    user: ((nats_user))
+
+releases:
+- name: cf-mysql
+  version: latest
+
+stemcells:
+- alias: default
+  os: ubuntu-trusty
+  version: latest
+
+update:
+  canaries: 1
+  canary_watch_time: 10000-120000
+  max_in_flight: 1
+  serial: true
+  update_watch_time: 10000-120000
+
