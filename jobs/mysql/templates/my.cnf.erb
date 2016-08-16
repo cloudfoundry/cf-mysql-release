@@ -19,14 +19,6 @@
   end
   network_ip = discover_external_ip
 
-  def use_syslog
-    returnvalue = false
-    if_p("syslog_aggregator.address") do |_|
-      returnvalue = true
-    end
-    returnvalue
-  end
-
   def excluded_audit_users
     return ['cluster-health-logger', 'quota-enforcer', 'galera-healthcheck'] + p('cf_mysql.mysql.server_audit_excluded_users')
   end
@@ -38,7 +30,6 @@ socket		= <%= "#{base_folder}/mysqld.sock" %>
 
 [mysqld_safe]
 nice      = 0
-<% if use_syslog%>syslog<%end%>
 
 [mysqld]
 # GALERA options:
