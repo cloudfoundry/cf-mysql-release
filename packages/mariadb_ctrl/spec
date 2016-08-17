@@ -7,23 +7,23 @@ files:
   - github.com/cloudfoundry-incubator/cf-lager/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/cluster_health_checker/*.go # gosub
-  - github.com/cloudfoundry/mariadb_ctrl/cluster_health_checker/fakes/*.go # gosub
+  - github.com/cloudfoundry/mariadb_ctrl/cluster_health_checker/cluster_health_checkerfakes/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/config/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/integration_test/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/mariadb_helper/*.go # gosub
-  - github.com/cloudfoundry/mariadb_ctrl/mariadb_helper/fakes/*.go # gosub
+  - github.com/cloudfoundry/mariadb_ctrl/mariadb_helper/mariadb_helperfakes/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/mariadb_helper/seeder/*.go # gosub
-  - github.com/cloudfoundry/mariadb_ctrl/mariadb_helper/seeder/fakes/*.go # gosub
+  - github.com/cloudfoundry/mariadb_ctrl/mariadb_helper/seeder/seederfakes/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/os_helper/*.go # gosub
-  - github.com/cloudfoundry/mariadb_ctrl/os_helper/fakes/*.go # gosub
+  - github.com/cloudfoundry/mariadb_ctrl/os_helper/os_helperfakes/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/preparer/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/start_manager/*.go # gosub
-  - github.com/cloudfoundry/mariadb_ctrl/start_manager/fakes/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/start_manager/node_runner/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/start_manager/node_starter/*.go # gosub
-  - github.com/cloudfoundry/mariadb_ctrl/start_manager/node_starter/fakes/*.go # gosub
+  - github.com/cloudfoundry/mariadb_ctrl/start_manager/node_starter/node_starterfakes/*.go # gosub
+  - github.com/cloudfoundry/mariadb_ctrl/start_manager/start_managerfakes/*.go # gosub
   - github.com/cloudfoundry/mariadb_ctrl/upgrader/*.go # gosub
-  - github.com/cloudfoundry/mariadb_ctrl/upgrader/fakes/*.go # gosub
+  - github.com/cloudfoundry/mariadb_ctrl/upgrader/upgraderfakes/*.go # gosub
   - github.com/go-sql-driver/mysql/*.go # gosub
   - github.com/imdario/mergo/*.go # gosub
   - github.com/pivotal-cf-experimental/service-config/*.go # gosub
