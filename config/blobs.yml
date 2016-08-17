@@ -75,10 +75,6 @@ ruby/rubygems-2.4.8.tgz:
   object_id: 69d96d0c-d34c-44e1-bb09-9340f483fe36
   sha: 0db6b2f1cdd2267fe19f1f875057c2f2ce9f5696
   size: 447712
-golang/go1.5.1.linux-amd64.tar.gz:
-  object_id: 57718a28-73c7-4d17-a46b-12c8cc40a503
-  sha: 46eecd290d8803887dec718c691cc243f2175fe0
-  size: 77875767
 galera/galera-25.3.14.tar.gz:
   object_id: 6c6cbdfa-3171-49b0-aa43-4990dff1b89c
   sha: 75ece039ae7ea4a97344174c665d4e1d987535b8
@@ -91,3 +87,7 @@ cli/cf-cli_6.19.0_linux_x86-64.tgz:
   object_id: 48034f03-7621-4a61-9cf9-1635068fbdab
   sha: 625170654ffa4568dae97b4d3915e87557b29261
   size: 6450885
+golang/go1.7.linux-amd64.tar.gz:
+  object_id: 0aac416f-8a5b-42df-a6ee-1c36c52583d3
+  sha: a744e29da97fc3aadad1ee0d7d89b0d899645e50
+  size: 81573766
