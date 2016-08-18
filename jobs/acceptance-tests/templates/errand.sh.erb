@@ -69,7 +69,6 @@ cat >> integration_config.json <<EOF
 EOF
 
 export GOPATH=/var/vcap/packages/acceptance-tests
-export GOPATH=$GOPATH:$REPO/Godeps/_workspace
 export GOROOT=/var/vcap/packages/golang
 export PATH=/var/vcap/packages/cli/bin:$GOPATH/bin:$GOROOT/bin:$PWD/bin:$PATH
 
