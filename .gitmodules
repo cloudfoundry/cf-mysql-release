@@ -89,10 +89,6 @@
 	path = src/github.com/cloudfoundry-incubator/cf-mysql-bootstrap
 	url = https://github.com/cloudfoundry-incubator/cf-mysql-bootstrap
 	branch = master
-[submodule "src/github.com/bmizerany/pat"]
-	path = src/github.com/bmizerany/pat
-	url = https://github.com/bmizerany/pat
-	branch = master
 [submodule "src/github.com/nats-io/nats"]
   path = src/github.com/nats-io/nats
   url = https://github.com/nats-io/nats
