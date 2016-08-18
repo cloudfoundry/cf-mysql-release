@@ -4,10 +4,5 @@ dependencies:
   - golang
 files:
   - github.com/cloudfoundry-incubator/cf-mysql-cluster-health-logger/**/*.go
-  - github.com/imdario/mergo/*.go
-  - github.com/pivotal-cf-experimental/service-config/*.go
-  - github.com/go-sql-driver/mysql/*.go
-  - gopkg.in/validator.v2/*.go
-  - gopkg.in/yaml.v2/*.go
 excluded_files:
   - "**/*test.go"
