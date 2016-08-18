@@ -1,16 +1,13 @@
 # abort script on any command that exits with a non zero value
 set -e
 
-MARIADB_VERSION=10.0.24
+MARIADB_VERSION=10.1.16
 MY_DIR=$(pwd)
 
-tar xzf mariadb/mariadb-galera-${MARIADB_VERSION}.tar.gz
+tar xzf mariadb/mariadb-${MARIADB_VERSION}.tar.gz
 (
   set -e
   cd mariadb-${MARIADB_VERSION}
-
-  patch -p1 < ${MY_DIR}/mariadb-patch/add_sst_interrupt.patch
-  patch -p1 < ${MY_DIR}/mariadb-patch/wsrep-debug-extra-logging-levels.patch
 
   mkdir bld
   cd bld
