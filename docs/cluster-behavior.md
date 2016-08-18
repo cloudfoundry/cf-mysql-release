@@ -65,6 +65,17 @@ Existing nodes restarted with monit should automatically join the cluster. If an
   - All nodes suspend writes once they notice something is wrong with the cluster (write requests hang). After a timeout period of 5 seconds, requests to non-quorum nodes will fail. Most clients return the error: `WSREP has not yet prepared this node for application use`. Some clients may instead return `unknown error`. Nodes who have reached quorum will continue fulfilling write requests.
   - If deployed using a proxy, a continually inactive node will cause the proxy to fail over, selecting a different mysql node to route new queries to.
 
+### Monit failing to recognize healthy processes
+  - During standard operation of the cluster `prestart` will run any time a node is started by the bosh director. This will happen as the result of any bosh CLI command that starts a job, as well as the resurrector. However, there are certain situations in which a node will start up successfully but `monit`, and therefore bosh, will not realize that the node is healthy, and the job will report as failing. These situations are as follows:
+    - Operator reboots the VM with `sudo reboot`
+    - IAAS reboots the VM
+    - mysql process crashes (monit will notice and restart the process)
+  - In the event this happens, monit will report `Execution Failed` but the mysql process (including `mariadb_ctrl` will be running successfully and visible in the VM's process list.
+  - To validate this:
+    - observe monit status with `monit summary`
+    - connect to the mysql process on that node (e.g. `mysql -uroot -hlocalhost -p`)
+  - To fix this, `monit reload` and observe that monit, and hence bosh, reports the process and jobs as healthy.
+
 ### Re-bootstrapping the cluster after quorum is lost
   - The start script will currently bootstrap node 0 only on initial deploy. If bootstrapping is necessary at a later date, it must be done manually. For more information on bootstrapping a cluster, see [Bootstrapping Galera](bootstrapping.md).
   - If the single node is bootstrapped, it will create a new one-node cluster that other nodes can join.
