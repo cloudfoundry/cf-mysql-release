@@ -40,10 +40,6 @@ sync_package bootstrap -app github.com/cloudfoundry-incubator/cf-mysql-bootstrap
 GOPATH=$GOPATH/src/github.com/cloudfoundry-incubator/route-registrar/Godeps/_workspace:$GOPATH \
 sync_package route-registrar -app github.com/cloudfoundry-incubator/route-registrar/... &
 
-sync_package acceptance-tests \
-    -test github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/... \
-    -app github.com/onsi/ginkgo/ginkgo &
-
 wait
 
 git diff --name-only packages/*/spec
