@@ -5,3 +5,5 @@ dependencies:
 files:
   - github.com/cloudfoundry/mariadb_ctrl/*.sh
   - github.com/cloudfoundry/mariadb_ctrl/**/*.go
+excluded_files:
+  - "**/*_test.go"
