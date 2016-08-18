@@ -40,10 +40,6 @@
 	path = src/golang.org/x/crypto
 	url = https://go.googlesource.com/crypto
 	branch = master
-[submodule "src/github.com/erikstmartin/go-testdb"]
-	path = src/github.com/erikstmartin/go-testdb
-	url = https://github.com/erikstmartin/go-testdb
-	branch = master
 [submodule "src/github.com/cloudfoundry-incubator/cf-lager"]
 	path = src/github.com/cloudfoundry-incubator/cf-lager
 	url = https://github.com/cloudfoundry-incubator/cf-lager
