@@ -59,10 +59,6 @@ mysqlclient/mariadb-connector-c-2.1.0-src.tar.gz:
   object_id: e1e0446a-8cbd-4b8e-b496-fc20f530fd7c
   sha: 2fea886fd8ddf3e17d6228d282828afeaee0a317
   size: 1912888
-galera/galera-25.3.14.tar.gz:
-  object_id: 6c6cbdfa-3171-49b0-aa43-4990dff1b89c
-  sha: 75ece039ae7ea4a97344174c665d4e1d987535b8
-  size: 2995457
 cli/cf-cli_6.19.0_linux_x86-64.tgz:
   object_id: 48034f03-7621-4a61-9cf9-1635068fbdab
   sha: 625170654ffa4568dae97b4d3915e87557b29261
@@ -91,3 +87,7 @@ mariadb/mariadb-10.1.16.tar.gz:
   object_id: 956ecf5a-62cb-422d-9e05-a817ad972e0a
   sha: 725739d36e24bfa1156f92b0c5a57fcc379f4e91
   size: 55527069
+galera/galera-25.3.15.tar.gz:
+  object_id: f4ffabf9-d1b3-4b14-855c-3737858db132
+  sha: db36c340d147b872d1378912130e77051b3ff5c3
+  size: 3001684
