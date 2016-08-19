@@ -33,6 +33,7 @@ nice      = 0
 
 [mysqld]
 # GALERA options:
+wsrep_on=ON
 wsrep_provider=/var/vcap/packages/mariadb/lib/plugin/libgalera_smm.so
 wsrep_provider_options="gcache.size=<%= p('cf_mysql.mysql.gcache_size') %>M;pc.recovery=TRUE;pc.checksum=TRUE"
 wsrep_cluster_address="gcomm://<%= cluster_ips.join(",") %>"
