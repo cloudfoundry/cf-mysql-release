@@ -1,0 +1,28 @@
+CREATE DATABASE IF NOT EXISTS ddl_db;
+USE ddl_db;
+
+CREATE TABLE IF NOT EXISTS `test_table` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `text` TEXT(1048576) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+DELETE FROM test_table;
+
+DROP PROCEDURE IF EXISTS create_garbage;
+
+DELIMITER //
+
+CREATE PROCEDURE create_garbage()
+BEGIN
+  SET @index = 1;
+  REPEAT
+    INSERT INTO test_table(text) (SELECT SUBSTR(CONCAT(MD5(RAND()),MD5(RAND()),MD5(RAND()),MD5(RAND()),MD5(RAND()),MD5(RAND()),MD5(RAND()),MD5(RAND()),MD5(RAND()),MD5(RAND()),MD5(RAND()),MD5(RAND()),MD5(RAND()),MD5(RAND()),MD5(RAND()),MD5(RAND()),MD5(RAND()),MD5(RAND()),MD5(RAND())),1,1000));
+    SET @index = @index + 1;
+  UNTIL @index > 1000000 END REPEAT;
+END
+//
+
+DELIMITER ;
+
+CALL create_garbage();
