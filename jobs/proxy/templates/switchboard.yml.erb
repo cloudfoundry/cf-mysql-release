@@ -26,7 +26,7 @@ cluster_ips.delete(p('cf_mysql.proxy.arbitrator_ip'))
 "ProfilerPort": 6060
 "StaticDir": "/var/vcap/packages/switchboard/static"
 "PidFile": "/var/vcap/sys/run/proxy/switchboard.pid"
-<% if_p('cf_mysql.proxy.consul_enabled') do %>
+<% if p('cf_mysql.proxy.consul_enabled') %>
 "ConsulCluster": http://127.0.0.1:8500
 "ConsulServiceName": <%= p('cf_mysql.proxy.consul_service_name') %>
 <% end %>
