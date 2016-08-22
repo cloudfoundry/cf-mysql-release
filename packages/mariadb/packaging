@@ -9,6 +9,8 @@ tar xzf mariadb/mariadb-${MARIADB_VERSION}.tar.gz
   set -e
   cd mariadb-${MARIADB_VERSION}
 
+  patch -p1 < ${MY_DIR}/mariadb-patch/add_sst_interrupt.patch
+
   mkdir bld
   cd bld
 
