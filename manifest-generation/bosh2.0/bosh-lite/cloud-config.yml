@@ -41,6 +41,6 @@ networks:
     reserved: 10.244.9.1
     static:
     - 10.244.9.2
-    - 10.244.9.3
+    - 10.244.9.6
     cloud_properties:
       name: random
