@@ -3,7 +3,7 @@ Port: <%= p('cf_mysql.mysql.galera_healthcheck.port') %>
 PidFile: '/var/vcap/sys/run/galera-healthcheck/galera-healthcheck.pid'
 MysqldPath: '/var/vcap/packages/mariadb/bin/mysqld'
 DB:
-  User: <%= p('cf_mysql.mysql.admin_username') %>
+  User: root
   Password: <%= p('cf_mysql.mysql.admin_password') %>
 # This is the config that bosh sets up by default for monit.
 Monit:

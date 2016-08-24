@@ -48,9 +48,6 @@ properties:
   cf_mysql.mysql.port:
     description: 'Port used to access MySQL'
     default: 3306
-  cf_mysql.mysql.admin_username:
-    description: 'Admin username used to access MySQL'
-    default: 'root'
   cf_mysql.mysql.admin_password:
     description: 'Admin password used to access MySQL'
 

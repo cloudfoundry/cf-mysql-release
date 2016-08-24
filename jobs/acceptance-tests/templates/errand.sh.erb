@@ -57,7 +57,7 @@ cat >> integration_config.json <<EOF
   "standalone": {
     "host":  "<%= p('cf_mysql.host') %>",
     "port": <%= p('cf_mysql.mysql.port') %>,
-    "username": "<%= p('cf_mysql.mysql.admin_username') %>",
+    "username": "root",
     "password": "<%= p('cf_mysql.mysql.admin_password') %>"
   },
 EOF

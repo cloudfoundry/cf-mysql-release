@@ -61,9 +61,6 @@ properties:
   cf_mysql.mysql.port:
     description: 'Port used by the broker and bound applications to reach the service'
     default: 3306
-  cf_mysql.mysql.admin_username:
-    description: 'Username for the admin MySQL account'
-    default: 'root'
   cf_mysql.mysql.admin_password:
     description: 'Password for the admin MySQL account'
   cf_mysql.mysql.persistent_disk:
