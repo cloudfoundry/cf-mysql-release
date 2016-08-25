@@ -13,6 +13,7 @@ source "${RELEASE_DIR}/.envrc"
 echo -e "\nTesting our bash scripts..."
 shellcheck --shell=bash "${RELEASE_DIR}/scripts/download-logs" -e SC2029 -e SC2068
 shellcheck --shell=bash "${RELEASE_DIR}/scripts/test-unit"
+shellcheck --shell=bash "${RELEASE_DIR}/scripts/test-sample-stubs"
 
 # Remove and reinstall the ginkgo binary as it might be from the wrong target architecture
 rm -rf "${RELEASE_DIR}/bin/ginkgo"
