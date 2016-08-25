@@ -5,32 +5,33 @@ set -eu
 MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # This script assumes that it lives one directory below the release directory.
-RELEASE_DIR="$( cd $MY_DIR/.. && pwd )"
+RELEASE_DIR="$( cd "${MY_DIR}/.." && pwd )"
 
-source ${RELEASE_DIR}/.envrc
+# shellcheck source=/dev/null
+source "${RELEASE_DIR}/.envrc"
+
+echo -e "\nTesting our bash scripts..."
+shellcheck --shell=bash "${RELEASE_DIR}/scripts/download-logs" -e SC2029 -e SC2068
+shellcheck --shell=bash "${RELEASE_DIR}/scripts/test-unit"
 
 # Remove and reinstall the ginkgo binary as it might be from the wrong target architecture
-rm -rf ${RELEASE_DIR}/bin/ginkgo
+rm -rf "${RELEASE_DIR}/bin/ginkgo"
 go install -v github.com/onsi/ginkgo/ginkgo
 
-rm -rf ${RELEASE_DIR}/bin/godep
-go get -v github.com/tools/godep
-go install -v github.com/tools/godep
-
 echo -e "\nTesting Switchboard..."
-${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/switchboard/bin/test "$@"
+"${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/switchboard/bin/test" "$@"
 
 echo -e "\nTesting Galera Healthcheck..."
-${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/galera-healthcheck/bin/test "$@"
+"${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/galera-healthcheck/bin/test" "$@"
 
 echo -e "\nTesting MariaDB Control..."
-${RELEASE_DIR}/src/github.com/cloudfoundry/mariadb_ctrl/bin/test-unit "$@"
+"${RELEASE_DIR}/src/github.com/cloudfoundry/mariadb_ctrl/bin/test-unit" "$@"
 
 echo -e "\nTesting Quota Enforcer..."
-${RELEASE_DIR}/src/github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/bin/test-unit "$@"
+"${RELEASE_DIR}/src/github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/bin/test-unit" "$@"
 
 echo -e "\nTesting Bootstrapper..."
-${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/cf-mysql-bootstrap/bin/test "$@"
+"${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/cf-mysql-bootstrap/bin/test" "$@"
 
 echo -e "\nTesting Cluster Health Logger..."
-${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/cf-mysql-cluster-health-logger/bin/test "$@"
+"${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/cf-mysql-cluster-health-logger/bin/test" "$@"

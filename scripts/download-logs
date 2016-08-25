@@ -3,11 +3,13 @@ set -eu
 
 output_dir=${output_dir:-}
 nodes=()
+extra_log_files=""
 
 function usage(){
   >&2 echo "Usage:
-  -n IP address or hostname of the mysql or proxy node to retrieve logs from (can be specified multiple times)
-  -d The output directory
+  -n (Required) IP address or hostname of the mysql or proxy node to retrieve logs from (can be specified multiple times)
+  -d (Required) The output directory
+  -X (Optional) Include audit and binary logs
 
   example:
     ./download-logs -d /tmp -n 10.0.0.1 -n 10.0.0.2
@@ -15,13 +17,17 @@ function usage(){
   exit 1
 }
 
-while getopts "d:n:" opt; do
+while getopts "d:n:X" opt; do
   case $opt in
     d)
       output_dir=$OPTARG
       ;;
     n)
       nodes+=("$OPTARG")
+      ;;
+    X)
+      extra_log_files="-o -path '/var/vcap/store/mysql/mysql-bin.*' \
+                       -o -path '/var/vcap/store/mysql_audit_logs/*'"
       ;;
     *)
       echo "Unknown arguments"
@@ -51,10 +57,11 @@ for node in "${nodes[@]}"; do
         found_paths+=(\${path}); \
       fi; \
     done; \
-    find \${found_paths[@]} \( -path '/var/vcap/sys/log/*' \
-      -o -path '/var/vcap/store/mysql/mysql-bin.*' \
+    find \${found_paths[@]} \( \
+      -path '/var/vcap/sys/log/*' \
       -o -path '/var/vcap/store/mysql/GRA*.log' \
-      -o -path '/var/vcap/store/mysql_audit_logs/*' \) \
+      ${extra_log_files} \
+      \) \
       -print0 | tar --create \
       --absolute-names \
       --transform s%^%${node}% \
@@ -73,4 +80,4 @@ pushd "${output_dir}"
   rm mysql-logs.tar.gz
 popd
 
-echo "Encrypted logs saved at "${output_dir}"/mysql-logs.tar.gz.gpg"
+echo "Encrypted logs saved at ${output_dir}/mysql-logs.tar.gz.gpg"
