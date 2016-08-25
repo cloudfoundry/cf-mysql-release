@@ -1,0 +1,18 @@
+#!/bin/bash
+
+MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+RELEASE_DIR="$( cd "${MY_DIR}/.." && pwd )"
+MANIFEST_DIR="$( cd "${RELEASE_DIR}/manifest-generation" && pwd )"
+
+cf_manifest=$1
+
+tmpdir=$(mktemp -d /tmp/mysql_manifest.XXXXX)
+trap '{ rm -rf ${tmpdir}; }' EXIT
+
+cp ${MANIFEST_DIR}/bosh2.0/config-from-cf.yml ${tmpdir}/config-from-cf-internal.yml
+echo "<<: ((merge))" >> ${tmpdir}/config-from-cf-internal.yml
+
+spiff merge \
+  ${MANIFEST_DIR}/bosh2.0/config-from-cf.yml \
+  ${tmpdir}/config-from-cf-internal.yml \
+  ${cf_manifest} \

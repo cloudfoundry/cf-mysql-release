@@ -108,7 +108,6 @@ properties:
       auth_username: ((cf_mysql_broker_auth_username))
       auth_password: ((cf_mysql_broker_auth_password))
       cookie_secret: ((cf_mysql_broker_cookie_secret))
-      external_host: ((cf_mysql_broker_external_host))
       quota_enforcer:
         password: ((cf_mysql_broker_quota_enforcer_password))
       services:
@@ -164,21 +163,5 @@ properties:
       proxy_ips:
       - 10.244.7.3
       - 10.244.8.3
-  consul:
-    agent:
-      domain: cf.internal
-      servers:
-        lan:
-        - 10.244.0.54
-    agent_cert: ((consul_agent_cert))
-    agent_key: ((consul_agent_key))
-    ca_cert: ((consul_ca_cert))
-    encrypt_keys: ((consul_encrypt_keys))
-    server_cert: ((consul_server_cert))
-    server_key: ((consul_server_key))
-  nats:
-    machines:
-    - 10.244.0.6
-    password: ((nats_password))
-    port: 4222
-    user: ((nats_user))
+  consul: ((consul))
+  nats: ((nats))

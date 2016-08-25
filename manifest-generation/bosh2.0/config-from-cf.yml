@@ -1,0 +1,10 @@
+app_domains: (( properties.app_domains ))
+cf_api_url: (( properties.cc.srv_api_uri ))
+cf_skip_ssl_validation: (( properties.acceptance_tests.skip_ssl_validation ))
+nats:
+  user: (( properties.nats.user ))
+  password: (( properties.nats.password ))
+  port: (( properties.nats.port ))
+  machines: (( properties.nats.machines ))
+consul: (( properties.consul ))
+cf_mysql_external_host: (( "p-mysql." properties.system_domain ))
