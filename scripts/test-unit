@@ -12,24 +12,17 @@ source "${RELEASE_DIR}/.envrc"
 
 echo -e "\nTesting our bash scripts fatally..."
 # Custom shellcheck exclusions
-shellcheck --shell=bash "${RELEASE_DIR}/scripts/download-logs" -e SC2029 -e SC2068
-
-# Things we have addressed
-egrep -lR '#!/bin/bash|#!/usr/bin/env bash' scripts src | \
-  egrep -v "scripts/download-logs" | \
-  egrep 'scripts/test-unit|scripts/test-sample-stubs' | \
-  xargs shellcheck --shell=bash
-
-shellcheck --shell=bash "${RELEASE_DIR}/scripts/test-unit"
-shellcheck --shell=bash "${RELEASE_DIR}/scripts/test-sample-stubs"
+shellcheck --shell=bash "${RELEASE_DIR}/scripts/download-logs" -e SC2029 -e SC2068 -e SC2086
 
 echo -e "\nTesting the rest of our bash scripts..."
 # Things we have yet to address
+pushd "${RELEASE_DIR}"
 set +e
 egrep -lR '#!/bin/bash|#!/usr/bin/env bash' scripts src | \
   egrep -v "(scripts/download-logs|scripts/test-unit|scripts/test-sample-stubs)" | \
   xargs shellcheck --shell=bash
 set -e
+popd
 
 # Remove and reinstall the ginkgo binary as it might be from the wrong target architecture
 rm -rf "${RELEASE_DIR}/bin/ginkgo"
