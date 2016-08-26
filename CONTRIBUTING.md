@@ -46,7 +46,7 @@ Pushing to any branch other than [**develop**](https://github.com/cloudfoundry/c
     1. Ensure that tests still pass
       * If you find yourself changing tests after a refactor, consider refactoring the tests first
 
-1. Run the [acceptance tests](docs/acceptance-tests.md) (update them if required).
+1. Run the [smoke-tests](https://github.com/cloudfoundry/cf-mysql-release#smoke-tests) (update them if required).
 
 1. Commit your changes (`git commit`)
   * Small changes per commit with clear commit messages are preferred.
