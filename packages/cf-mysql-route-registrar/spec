@@ -1,8 +1,0 @@
----
-name: cf-mysql-route-registrar
-dependencies:
-- golang
-files:
-  - github.com/cloudfoundry-incubator/route-registrar/**/*.go
-excluded_files:
-  - "**/*_test.go"

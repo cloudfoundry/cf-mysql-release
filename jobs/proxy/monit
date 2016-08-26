@@ -3,11 +3,3 @@ check process switchboard
   start program "/var/vcap/jobs/proxy/bin/switchboard_ctl start" with timeout 10 seconds
   stop program "/var/vcap/jobs/proxy/bin/switchboard_ctl stop" with timeout 10 seconds
   group vcap
-
-<% if p("cf_mysql.standalone") == false %>
-check process cf-mysql-route-registrar
-  with pidfile /var/vcap/sys/run/cf-mysql-broker/route-registrar.pid
-  start program "/var/vcap/jobs/proxy/bin/route-registrar_ctl start"
-  stop program "/var/vcap/jobs/proxy/bin/route-registrar_ctl stop"
-  group vcap
-<% end %>

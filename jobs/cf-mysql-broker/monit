@@ -4,12 +4,6 @@ check process cf-mysql-broker
   stop program "/var/vcap/jobs/cf-mysql-broker/bin/cf-mysql-broker_ctl stop" with timeout 60 seconds
   group vcap
 
-check process cf-mysql-route-registrar
-  with pidfile /var/vcap/sys/run/cf-mysql-broker/route-registrar.pid
-  start program "/var/vcap/jobs/cf-mysql-broker/bin/route-registrar_ctl start"
-  stop program "/var/vcap/jobs/cf-mysql-broker/bin/route-registrar_ctl stop"
-  group vcap
-
 check process quota-enforcer
   with pidfile /var/vcap/sys/run/cf-mysql-broker/quota-enforcer.pid
   start program "/var/vcap/jobs/cf-mysql-broker/bin/quota-enforcer_ctl start" with timeout 60 seconds

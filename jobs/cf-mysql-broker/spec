@@ -12,8 +12,6 @@ templates:
   quota_enforcer_setup.sql.erb: config/quota_enforcer_setup.sql
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
   healthcheck.sh.erb: bin/healthcheck.sh
-  registrar_settings.yml.erb: config/registrar_settings.yml
-  route-registrar_ctl.erb: bin/route-registrar_ctl
 
 packages:
 - ruby
@@ -22,19 +20,9 @@ packages:
 - cf-mysql-common
 - mariadb
 - syslog_aggregator
-- cf-mysql-route-registrar
 - quota-enforcer
 
 properties:
-  nats.user:
-    description: 'Username for broker to register a route with NATS'
-  nats.password:
-    description: 'Password for broker to register a route with NATS'
-  nats.port:
-    description: 'IP port of Cloud Foundry NATS server'
-  nats.machines:
-    description: 'IP of each NATS cluster member.'
-
   cf.api_url:
     description: 'URL of the CloudFoundry Cloud Controller'
     example: 'https://api.your-domain.example.com'

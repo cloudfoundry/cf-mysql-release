@@ -5,25 +5,13 @@ templates:
   switchboard_ctl.erb: bin/switchboard_ctl
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
   switchboard.yml.erb: config/switchboard.yml
-  route-registrar_ctl.erb: bin/route-registrar_ctl
-  route-registrar.yml.erb: config/route-registrar.yml
 
 packages:
 - switchboard
 - cf-mysql-common
 - syslog_aggregator
-- cf-mysql-route-registrar
 
 properties:
-  nats.user:
-    description: 'Username to register a route via NATS'
-  nats.password:
-    description: 'Password to register a route via NATS'
-  nats.port:
-    description: 'IP port of Cloud Foundry NATS server'
-  nats.machines:
-    description: 'IP of each NATS cluster member.'
-
   syslog_aggregator.address:
     description: "IP address for syslog aggregator"
   syslog_aggregator.port:
@@ -34,13 +22,6 @@ properties:
   syslog_aggregator.transport:
     description: "Transport to be used when forwarding logs (tcp|udp|relp)."
     default: "tcp"
-
-  cf_mysql.external_host:
-    description: 'Domain of the route registered for the UI via NATS (with the router in cf-release)'
-
-  cf_mysql.standalone:
-    description: "Standalone Mode: Are you deploying MySQL without a CloudFoundry deployment?"
-    default: false
 
   cf_mysql.mysql.cluster_ips:
     description: "List of nodes.  Must have the same number of ips as there are nodes in the cluster"
