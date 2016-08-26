@@ -1,5 +1,5 @@
 ---
-cf_mysql_acceptance_tests_password: password
+cf_mysql_smoke_tests_password: password
 
 cf_mysql_broker_auth_username: admin
 cf_mysql_broker_auth_password: password

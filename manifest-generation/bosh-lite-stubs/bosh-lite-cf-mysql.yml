@@ -38,7 +38,7 @@ instance_groups:
     release: cf-mysql
 - instances: 1
   lifecycle: errand
-  name: acceptance-tests
+  name: smoke-tests
   azs: [z1]
   networks:
   - name: default
@@ -46,7 +46,7 @@ instance_groups:
   vm_type: default
   stemcell: default
   templates:
-  - name: acceptance-tests
+  - name: smoke-tests
     release: cf-mysql
 - instances: 1
   lifecycle: errand
@@ -84,8 +84,8 @@ properties:
     app_domains: ((app_domains))
     skip_ssl_validation: ((cf_skip_ssl_validation))
   cf_mysql:
-    acceptance_tests:
-      password: ((cf_mysql_acceptance_tests_password))
+    smoke_tests:
+      password: ((cf_mysql_smoke_tests_password))
     broker:
       auth_password: ((cf_mysql_broker_auth_password))
       auth_username: ((cf_mysql_broker_auth_username))

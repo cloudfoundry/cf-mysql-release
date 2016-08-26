@@ -1,5 +1,5 @@
 ---
-name: acceptance-tests
+name: smoke-tests
 packages:
 - golang
 - acceptance-tests
@@ -28,15 +28,12 @@ properties:
     description: 'The name of the Org to run acceptance tests against'
     default: ''
 
-  cf_mysql.acceptance_tests.password:
+  cf_mysql.smoke_tests.password:
     description: 'Password for generated user to comply with CF password policy, if exists.'
-  cf_mysql.acceptance_tests.smoke_tests_only:
-    description: 'Instead of running the full acceptance test suite, only run a shorter smoke test'
-    default: true
-  cf_mysql.acceptance_tests.standalone_tests_only:
-    description: 'Instead of running the full acceptance test suite, only run a minimal set of tests that do not require a running CF deployment'
+  cf_mysql.smoke_tests.standalone_tests_only:
+    description: 'Instead of running the full smoke test suite, only run a minimal set of tests that do not require a running CF deployment'
     default: false
-  cf_mysql.acceptance_tests.timeout_scale:
+  cf_mysql.smoke_tests.timeout_scale:
     description: 'scaling multiplier used to determine command timeouts'
     default: 1
 

@@ -16,7 +16,7 @@
 
 [Security Groups](#security-groups)
 
-[Smoke Tests and Acceptance Tests](#smoke-acceptance-tests)
+[Smoke Tests](#smoke-tests)
 
 [Deregistering the Service Broker](#deregistering-broker)
 
@@ -442,14 +442,12 @@ Since [cf-release](https://github.com/cloudfoundry/cf-release) v175, application
 
 Security group changes are only applied to new application containers; existing apps must be restarted.
 
-<a name="smoke-acceptance-tests"></a>
-## Smoke Tests and Acceptance Tests
+<a name="smoke-tests"></a>
+## Smoke Tests
 
-The smoke tests are a subset of the acceptance tests, useful for verifying a deployment. The acceptance tests are for developers to validate changes to the MySQL Release. These tests can be run manually or from a BOSH errand. For details on running these tests manually, see [Acceptance Tests](docs/acceptance-tests.md).
+The smoke tests are useful for verifying a deployment.
+The MySQL Release contains an "smoke-tests" job which is deployed as a BOSH errand. The errand can then be run to verify the deployment. A deployment manifest [generated with the provided spiff templates](#create_manifest) will include this job.
 
-The MySQL Release contains an "acceptance-tests" job which is deployed as a BOSH errand. The errand can then be run to verify the deployment. A deployment manifest [generated with the provided spiff templates](#create_manifest) will include this job. The errand can be configured to run either the smoke tests (default) or the acceptance tests.
-
-<a name="smoke_tests"></a>
 ### Running Smoke Tests via BOSH errand
 
 To run the MySQL Release Smoke tests you will need:
@@ -461,10 +459,10 @@ To run the MySQL Release Smoke tests you will need:
 Run the smoke tests via bosh errand as follows:
 
 ```
-$ bosh run errand acceptance-tests
+$ bosh run errand smoke-tests
 ```
 
-Modifying values under `jobs.acceptance-tests.properties` may be required. Configuration options can be found in the [job spec](jobs/acceptance-tests/spec).
+Modifying values under `jobs.smoke-tests.properties` may be required. Configuration options can be found in the [job spec](jobs/smoke-tests/spec).
 
 <a name="deregistering-broker"></a>
 ## De-registering the Service Broker

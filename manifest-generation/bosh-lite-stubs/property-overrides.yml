@@ -36,5 +36,5 @@ property_overrides:
       description: Shared MySQL Server
       max_storage_mb: 20
       max_user_connections: 40
-  acceptance_tests:
+  smoke_tests:
     password: password
