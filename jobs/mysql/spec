@@ -31,6 +31,18 @@ packages:
 - cf-mysql-cluster-health-logger
 - syslog_aggregator
 
+consumes:
+- name: mysql
+  type: mysql
+  optional: true
+- name: arbitrator
+  type: arbitrator
+  optional: true
+
+provides:
+- name: mysql
+  type: mysql
+
 properties:
   syslog_aggregator.address:
     description: "IP address for syslog aggregator"
@@ -60,7 +72,7 @@ properties:
   cf_mysql.mysql.innodb_buffer_pool_size:
     description: 'Optional, the size in bytes of the memory buffer InnoDB uses to cache data and indexes of its tables'
   cf_mysql.mysql.cluster_ips:
-    description: 'List of nodes.  Must have the same number of ips as there are nodes in the cluster'
+    description: 'Optional, list of nodes.  Must have the same number of ips as there are nodes in the cluster'
   cf_mysql.mysql.max_heap_table_size:
     description: 'The maximum size (in rows) to which user-created MEMORY tables are permitted to grow'
     default: 16777216

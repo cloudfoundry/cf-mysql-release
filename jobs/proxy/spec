@@ -8,6 +8,21 @@ templates:
   route-registrar_ctl.erb: bin/route-registrar_ctl
   route-registrar.yml.erb: config/route-registrar.yml
 
+consumes:
+- name: proxy
+  type: proxy
+  optional: true
+- name: mysql
+  type: mysql
+  optional: true
+- name: arbitrator
+  type: arbitrator
+  optional: true
+
+provides:
+- name: proxy
+  type: proxy
+
 packages:
 - switchboard
 - cf-mysql-common
@@ -43,7 +58,7 @@ properties:
     default: false
 
   cf_mysql.mysql.cluster_ips:
-    description: "List of nodes.  Must have the same number of ips as there are nodes in the cluster"
+    description: "Optional, list of nodes.  Must have the same number of ips as there are nodes in the cluster"
   cf_mysql.proxy.port:
     description: "Port for the proxy to listen on"
     default: 3306
@@ -64,10 +79,10 @@ properties:
     description: "Port for checking the health of the proxy process"
     default: 1936
   cf_mysql.proxy.proxy_ips:
-    description: "List of IP addresses for all proxy jobs"
+    description: "Optional, list of IP addresses for all proxy jobs"
   cf_mysql.proxy.arbitrator_ip:
-    description: "List of IP addresses for the arbitrator nodes of the MySQL cluster"
-    default: "no-arbitrator-ip"
+    description: "Optional, list of IP addresses for the arbitrator nodes of the MySQL cluster"
+    default: null
   cf_mysql.proxy.consul_enabled:
     description: "Enable locking and discovery of switchboard through consul"
     default: false
