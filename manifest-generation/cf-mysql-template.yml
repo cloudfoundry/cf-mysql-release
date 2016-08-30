@@ -293,7 +293,7 @@ base_jobs:
   networks:
   - name: mysql1
   properties:
-    smoke_tests_only: (( merge || nil ))
+    smoke_tests_only: (( property_overrides.acceptance_tests.smoke_tests_only || nil ))
     standalone_tests_only: (( .properties.standalone ))
     service:
       max_user_connections_default: (( .properties.max_user_connections_default || nil ))
