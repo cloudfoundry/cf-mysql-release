@@ -6,11 +6,16 @@ REPO=/var/vcap/packages/acceptance-tests/src/github.com/cloudfoundry-incubator/c
 cd ${REPO}
 
 <%
-mysql_service = p('cf_mysql.broker.services').first
-default_max_user_connections = mysql_service['max_user_connections_default'] || 40
+  mysql_service = p('cf_mysql.broker.services').first
+  default_max_user_connections = mysql_service['max_user_connections_default'] || 40
 
-# proxy_ips may contain nil values due to lack of flexibility in spiff
-proxy_ips = p('cf_mysql.proxy.proxy_ips').compact
+  proxy_ips = nil
+  if_p('cf_mysql.proxy.proxy_ips') do |ips|
+    # proxy_ips may contain nil values due to lack of flexibility in spiff
+    proxy_ips = ips.compact
+  end.else do
+    proxy_ips= link('proxy').instances.map { |instance| instance.address }
+  end
 %>
 
 cat > integration_config.json <<EOF

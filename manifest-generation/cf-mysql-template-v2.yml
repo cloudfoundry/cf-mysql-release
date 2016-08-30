@@ -22,8 +22,6 @@ instance_groups:
   azs: [z3]
   networks:
   - name: default
-    static_ips:
-    - 10.244.9.6
   vm_type: default
   stemcell: default
   jobs:
@@ -34,9 +32,6 @@ instance_groups:
   azs: [z1, z2]
   networks:
   - name: default
-    static_ips:
-    - 10.244.7.2
-    - 10.244.8.2
   vm_type: default
   stemcell: default
   jobs:
@@ -64,7 +59,7 @@ instance_groups:
   jobs:
   - {release: cf-mysql, name: cf-mysql-broker}
 
-- name: smoke-tests
+- name: bootstrap
   instances: 1
   lifecycle: errand
   azs: [z1]
@@ -72,7 +67,7 @@ instance_groups:
   vm_type: default
   stemcell: default
   jobs:
-  - {release: cf-mysql, name: smoke-tests}
+  - {release: cf-mysql, name: bootstrap}
 
 - name: broker-registrar
   instances: 1
@@ -93,6 +88,26 @@ instance_groups:
   stemcell: default
   jobs:
   - {release: cf-mysql, name: broker-deregistrar}
+
+- name: rejoin-unsafe
+  instances: 1
+  lifecycle: errand
+  azs: [z1]
+  networks: [{name: default}]
+  vm_type: default
+  stemcell: default
+  jobs:
+  - {release: cf-mysql, name: rejoin-unsafe}
+
+- name: smoke-tests
+  instances: 1
+  lifecycle: errand
+  azs: [z1]
+  networks: [{name: default}]
+  vm_type: default
+  stemcell: default
+  jobs:
+  - {release: cf-mysql, name: smoke-tests}
 
 properties:
   app_domains: ((app_domains))
@@ -147,10 +162,6 @@ properties:
       admin_password: ((cf_mysql_mysql_admin_password))
       cluster_health:
         password: ((cf_mysql_mysql_cluster_health_password))
-      cluster_ips:
-      - 10.244.7.2
-      - 10.244.8.2
-      - 10.244.9.6
       galera_healthcheck:
         db_password: ((cf_mysql_mysql_galera_healthcheck_db_password))
         endpoint_password: ((cf_mysql_mysql_galera_healthcheck_endpoint_password))
@@ -161,8 +172,5 @@ properties:
     proxy:
       api_password: ((cf_mysql_proxy_api_password))
       api_username: ((cf_mysql_proxy_api_username))
-      proxy_ips:
-      - 10.244.7.3
-      - 10.244.8.3
   consul: ((consul))
   nats: ((nats))
