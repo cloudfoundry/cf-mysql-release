@@ -1,12 +1,6 @@
 <%
-  cluster_ips = nil
-  if_p('cf_mysql.mysql.cluster_ips') do |ips|
-    # cluster_ips may contain nil values due to lack of flexibility in spiff
-    cluster_ips = ips.compact
-  end.else do
-    cluster_ips = link('mysql').instances.map { |instance| instance.address }
-    cluster_ips += link('arbitrator').instances.map { |instance| instance.address }
-  end
+# cluster_ips may contain nil values due to lack of flexibility in spiff
+cluster_ips = p('cf_mysql.mysql.cluster_ips').compact
 %>
 
 group = cf-mariadb-galera-cluster

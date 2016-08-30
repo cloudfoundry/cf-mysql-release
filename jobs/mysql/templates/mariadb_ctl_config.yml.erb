@@ -1,6 +1,6 @@
 ---
 
-<%
+<%   
 def discover_external_ip
      networks = spec.networks.marshal_dump
      _, network = networks.find do |_name, network_spec|
@@ -18,14 +18,8 @@ def discover_external_ip
 %>
 
 <%
-  cluster_ips = nil
-  if_p('cf_mysql.mysql.cluster_ips') do |ips|
-    # cluster_ips may contain nil values due to lack of flexibility in spiff
-    cluster_ips = ips.compact
-  end.else do
-    cluster_ips = link('mysql').instances.map { |instance| instance.address }
-    cluster_ips += link('arbitrator').instances.map { |instance| instance.address }
-  end
+# cluster_ips may contain nil values due to lack of flexibility in spiff
+cluster_ips = p('cf_mysql.mysql.cluster_ips').compact
 %>
 
 LogFileLocation: /var/vcap/sys/log/mysql/mariadb_ctrl.combined.log
@@ -35,7 +29,7 @@ Db:
   UpgradePath: /var/vcap/packages/mariadb/bin/mysql_upgrade
   User: root
   Password: <%= p('cf_mysql.mysql.admin_password')%>
-  ReadOnlyUserEnabled: <%= p('cf_mysql.mysql.roadmin_enabled')%>
+  ReadOnlyUserEnabled: <%= p('cf_mysql.mysql.roadmin_enabled')%> 
   ReadOnlyUser: roadmin
 <% if_p('cf_mysql.mysql.roadmin_password') do |rpwd| %>
   ReadOnlyPassword: <%= rpwd %>

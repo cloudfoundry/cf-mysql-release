@@ -188,17 +188,11 @@ base_resource_pools:
   cloud_properties: (( iaas_settings.resource_pool_cloud_properties.errands_z1.cloud_properties ))
 base_templates:
   mysql:
-  - release: cf-mysql
-    name: mysql
-    consumes: {mysql: nil, arbitrator: nil}
+  - {release: cf-mysql, name: mysql}
   proxy:
-  - release: cf-mysql
-    name: proxy
-    consumes: {mysql: nil, arbitrator: nil, proxy: nil}
+  - {release: cf-mysql, name: proxy}
   arbitrator:
-  - release: cf-mysql
-    name: arbitrator
-    consumes: {mysql: nil, arbitrator: nil}
+  - {release: cf-mysql, name: arbitrator}
   broker:
   - {release: cf-mysql, name: cf-mysql-broker}
 colocated_jobs:

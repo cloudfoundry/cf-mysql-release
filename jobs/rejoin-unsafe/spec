@@ -5,15 +5,6 @@ packages:
 templates:
   errand.sh.erb: bin/run
   config.yml.erb: config/config.yml
-
-consumes:
-- name: mysql
-  type: mysql
-  optional: true
-- name: arbitrator
-  type: arbitrator
-  optional: true
-
 properties:
   cf_mysql.mysql.cluster_ips:
     description: 'IP addresses of all MySQL nodes'

@@ -8,11 +8,6 @@ packages:
 templates:
   errand.sh.erb: bin/run
 
-consumes:
-- name: proxy
-  type: proxy
-  optional: true
-
 properties:
   cf.api_url:
     description: 'Full URL of Cloud Foundry API'
@@ -55,7 +50,7 @@ properties:
 
   cf_mysql.broker.services:
     description: 'Array of Services the broker provides'
-
+  
   cf_mysql.proxy.api_username:
     description: 'Proxy API username'
   cf_mysql.proxy.api_password:
@@ -65,4 +60,3 @@ properties:
     default: true
   cf_mysql.proxy.proxy_ips:
     description: 'Use to construct an array of proxy dashboard url (e.g. https://proxy-INDEX-EXTERNAL_HOST)'
-    default: null

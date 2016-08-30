@@ -1,14 +1,9 @@
 <%
-  cluster_ips = nil
-  if_p('cf_mysql.mysql.cluster_ips') do |ips|
-    # cluster_ips may contain nil values due to lack of flexibility in spiff
-    cluster_ips = ips.compact
+# cluster_ips may contain nil values due to lack of flexibility in spiff
+cluster_ips = p('cf_mysql.mysql.cluster_ips').compact
 
-    # do not route traffic to arbitrator
-    cluster_ips.delete(p('cf_mysql.proxy.arbitrator_ip'))
-  end.else do
-    cluster_ips = link('mysql').instances.map { |instance| instance.address }
-  end
+# do not route traffic to arbitrator
+cluster_ips.delete(p('cf_mysql.proxy.arbitrator_ip'))
 %>
 
 "API":
