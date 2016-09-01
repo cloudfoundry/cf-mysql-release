@@ -124,6 +124,7 @@ innodb_buffer_pool_size = <%= innodb_buffer_pool_size %>
 <% if_p('cf_mysql.mysql.innodb_buffer_pool_instances') do |innodb_buffer_pool_instances| %>
 innodb_buffer_pool_instances = <%= innodb_buffer_pool_instances %>
 <% end %>
+innodb_flush_method=O_DIRECT
 
 <% if_p('cf_mysql.mysql.max_connections') do |max_connections| %>
 max_connections = <%= max_connections %>
