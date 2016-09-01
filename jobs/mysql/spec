@@ -71,6 +71,8 @@ properties:
     default: 65536
   cf_mysql.mysql.innodb_buffer_pool_size:
     description: 'Optional, the size in bytes of the memory buffer InnoDB uses to cache data and indexes of its tables'
+  cf_mysql.mysql.innodb_buffer_pool_instances:
+    description: 'Optional, number of buffer pool instances for InnoDB used if innodb_buffer_pool_size > 1GB'
   cf_mysql.mysql.cluster_ips:
     description: 'Optional, list of nodes.  Must have the same number of ips as there are nodes in the cluster'
   cf_mysql.mysql.max_heap_table_size:
