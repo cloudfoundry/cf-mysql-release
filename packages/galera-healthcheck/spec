@@ -1,8 +1,0 @@
----
-name: galera-healthcheck
-dependencies:
-  - golang
-files:
-  - github.com/cloudfoundry-incubator/galera-healthcheck/**/*.go
-excluded_files:
-  - "**/*_test.go"

@@ -1,7 +1,0 @@
-# abort script on any command that exits with a non zero value
-set -e
-
-cd scons
-tar xfz scons-2.3.1.tar.gz
-cd scons-2.3.1
-/var/vcap/packages/python/bin/python setup.py install --prefix=${BOSH_INSTALL_TARGET}

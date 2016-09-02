@@ -1,8 +1,0 @@
----
-name: cf-mysql-cluster-health-logger
-dependencies:
-  - golang
-files:
-  - github.com/cloudfoundry-incubator/cf-mysql-cluster-health-logger/**/*.go
-excluded_files:
-  - "**/*test.go"

@@ -1,8 +1,0 @@
----
-name: gra-log-purger
-dependencies:
-  - golang
-files:
-  - gra-log-purger/src/gra-log-purger/**/*.go
-excluded_files:
-  - "**/*_test.go"

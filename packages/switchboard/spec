@@ -1,7 +1,0 @@
----
-name: switchboard
-dependencies:
-  - golang
-files:
-  - github.com/cloudfoundry-incubator/switchboard/static/**/* # static UI files
-  - github.com/cloudfoundry-incubator/switchboard/**/*.go

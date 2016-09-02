@@ -1,7 +1,0 @@
----
-name: mysqlclient
-
-dependencies:
-
-files:
-- mysqlclient/**/*

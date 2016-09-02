@@ -1,7 +1,0 @@
----
-name: check
-
-dependencies:
-
-files:
-- check/**/*

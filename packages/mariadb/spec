@@ -1,9 +1,5 @@
 ---
 name: mariadb
 
-dependencies:
-- galera
-
 files:
 - mariadb/**/*
-- mariadb-patch/*

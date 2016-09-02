@@ -2,14 +2,6 @@
 
 set -e
 
-<%
-  if p('cf_mysql.mysql.disable_auto_sst')
-    disable_sst_string = 'DISABLE_SST=1'
-  else
-    disable_sst_string = 'DISABLE_SST=0'
-  end
-%>
-
 export MARIADB_JOB_DIR=/var/vcap/jobs/mysql
 LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/mariadb_ctrl.combined.log
@@ -30,13 +22,8 @@ tee_output_to_sys_log ${LOG_DIR}
 # logrotate audit logs
 ln -sf /var/vcap/jobs/mysql/config/mysql_audit_logs.logrotate /etc/logrotate.d/mysql_audit_logs
 
-# add xtrabackup to path
-export PATH=$PATH:/var/vcap/packages/xtrabackup/bin
 
-# add perl libraries to perl env
-export PERL5LIB=$PERL5LIB:/var/vcap/packages/xtrabackup/lib/perl/5.18.2
-
-ulimit -n <%= p('cf_mysql.mysql.max_open_files') %>
+ulimit -n <%= p('max_open_files') %>
 
 case $1 in
 
@@ -61,7 +48,7 @@ case $1 in
     echo "Checking for existing instance of $PROC_NAME"
     pid_guard $PIDFILE $PROC_NAME
 
-    <% if_p('cf_mysql.mysql.server_audit_events') do |_| %>
+    <% if_p('server_audit_events') do |_| %>
     mkdir -p ${SERVER_AUDIT_LOG_DIR}
     chown vcap:vcap ${SERVER_AUDIT_LOG_DIR}
     <% end %>
@@ -70,7 +57,7 @@ case $1 in
 
     echo "start script: starting mariadb_ctrl..."
     su vcap -c \
-    "<%= disable_sst_string %> PATH=$PATH PERL5LIB=$PERL5LIB $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
+    "PATH=$PATH PERL5LIB=$PERL5LIB $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
              -configPath=$CONFIG_FILE \
              2>&1 \
              | tee -a $LOG_FILE \

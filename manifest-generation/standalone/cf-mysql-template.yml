@@ -1,0 +1,33 @@
+name: cf-mysql
+
+stemcells:
+- alias: default
+  os: ubuntu-trusty
+  version: latest
+
+releases:
+- name: cf-mysql
+  version: latest
+
+update:
+  canaries: 1
+  canary_watch_time: 10000-600000
+  update_watch_time: 10000-600000
+  max_in_flight: 1
+  serial: true
+
+instance_groups:
+- name: mysql
+  instances: 1
+  azs: [z1]
+  networks:
+  - name: default
+  vm_type: default
+  stemcell: default
+  jobs:
+  - {release: cf-mysql, name: mysql}
+  properties:
+    admin_password: ((cf_mysql_mysql_admin_password))
+    persistent_disk: 100000
+    roadmin_enabled: ((cf_mysql_mysql_roadmin_enabled))
+    roadmin_password: ((cf_mysql_mysql_roadmin_password))

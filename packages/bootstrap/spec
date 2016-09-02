@@ -1,8 +1,0 @@
----
-name: bootstrap
-dependencies:
-- golang
-files:
-  - github.com/cloudfoundry-incubator/cf-mysql-bootstrap/**/*.go
-excluded_files:
-  - "**/*_test.go"

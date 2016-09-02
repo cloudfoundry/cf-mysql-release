@@ -1,6 +1,0 @@
-GRANT RELOAD ON *.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.quota_enforcer.password') %>';
-GRANT SUPER ON *.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.quota_enforcer.password') %>';
-GRANT PROCESS ON *.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.quota_enforcer.password') %>';
-GRANT SELECT ON mysql_broker.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.quota_enforcer.password') %>';
-GRANT SELECT ON mysql.db TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.quota_enforcer.password') %>';
-GRANT INSERT, UPDATE, CREATE ON *.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.quota_enforcer.password') %>' WITH GRANT OPTION;

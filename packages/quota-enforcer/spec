@@ -1,8 +1,0 @@
----
-name: quota-enforcer
-dependencies:
-  - golang
-files:
-  - github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/**/*.go
-excluded_files:
-  - "**/*_test.go"

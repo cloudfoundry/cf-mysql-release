@@ -17,45 +17,29 @@ def discover_external_ip
    network_ip = discover_external_ip
 %>
 
-<%
-  cluster_ips = nil
-  if_p('cf_mysql.mysql.cluster_ips') do |ips|
-    # cluster_ips may contain nil values due to lack of flexibility in spiff
-    cluster_ips = ips.compact
-  end.else do
-    cluster_ips = link('mysql').instances.map { |instance| instance.address }
-    cluster_ips += link('arbitrator').instances.map { |instance| instance.address }
-  end
-%>
-
 LogFileLocation: /var/vcap/sys/log/mysql/mariadb_ctrl.combined.log
 PidFile: /var/vcap/sys/run/mariadb_ctl/mariadb_ctl.pid
 Db:
   DaemonPath: /var/vcap/packages/mariadb_ctrl/bin/mysql_daemon.sh
   UpgradePath: /var/vcap/packages/mariadb/bin/mysql_upgrade
   User: root
-  Password: <%= p('cf_mysql.mysql.admin_password')%>
-  ReadOnlyUserEnabled: <%= p('cf_mysql.mysql.roadmin_enabled')%>
+  Password: <%= p('admin_password')%>
+  ReadOnlyUserEnabled: <%= p('roadmin_enabled')%>
   ReadOnlyUser: roadmin
-<% if_p('cf_mysql.mysql.roadmin_password') do |rpwd| %>
+<% if_p('roadmin_password') do |rpwd| %>
   ReadOnlyPassword: <%= rpwd %>
 <% end %>
   PreseededDatabases:
-  <% p("cf_mysql.mysql.seeded_databases").each do |seed| %>
+  <% p("seeded_databases").each do |seed| %>
   - DBName: <%= seed["name"] %>
     User: <%= seed["username"]%>
     Password: <%= seed["password"] %>
   <% end %>
-  PostStartSQLFiles:
-  - /var/vcap/jobs/mysql/config/galera_healthcheck_setup.sql
-  - /var/vcap/jobs/mysql/config/cluster_health_logger_setup.sql
+  PostStartSQLFiles: []
 Upgrader:
   PackageVersionFile: /var/vcap/packages/mariadb/VERSION
   LastUpgradedVersionFile: /var/vcap/store/mysql/mysql_upgrade_info
 Manager:
   StateFileLocation: /var/vcap/store/mysql/state.txt
-  ClusterIps:
-  <% cluster_ips.each do |ip| %>
-  - <%= ip %>
-  <% end %>
+  ClusterIps: []
   MyIP: <%= network_ip %>

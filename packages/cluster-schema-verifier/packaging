@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-set -e
-
-cp cluster_schema_verifier/lib/cluster_schema_verifier.rb ${BOSH_INSTALL_TARGET}/

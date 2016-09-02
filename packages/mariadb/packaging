@@ -9,15 +9,12 @@ tar xzf mariadb/mariadb-${MARIADB_VERSION}.tar.gz
   set -e
   cd mariadb-${MARIADB_VERSION}
 
-  patch -p1 < ${MY_DIR}/mariadb-patch/add_sst_interrupt.patch
-
   mkdir bld
   cd bld
 
   cmake .. \
       -DCMAKE_INSTALL_PREFIX=${BOSH_INSTALL_TARGET} \
       -DWITH_SSL=system \
-      -DWITH_WSREP=ON \
       -DWITH_INNODB_DISALLOW_WRITES=1 \
       -DWITH_PCRE=bundled
 
@@ -48,6 +45,4 @@ tar xzf mariadb/mariadb-${MARIADB_VERSION}.tar.gz
   rm -rf ${BOSH_INSTALL_TARGET}/mysql-test/
 
   echo -n "${MARIADB_VERSION}-MariaDB" > ${BOSH_INSTALL_TARGET}/VERSION
-  cp /var/vcap/packages/galera/garbd ${BOSH_INSTALL_TARGET}/bin/
-  cp /var/vcap/packages/galera/libgalera_smm.so ${BOSH_INSTALL_TARGET}/lib/plugin/
 )
