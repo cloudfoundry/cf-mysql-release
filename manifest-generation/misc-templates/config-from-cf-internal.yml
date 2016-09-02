@@ -13,6 +13,9 @@ config_from_cf:
   smoke_tests:
     use_existing_org: (( properties.smoke_tests.use_existing_org ))
     org: (( properties.smoke_tests.org ))
+  uaa:
+    scim:
+      users: (( properties.uaa.scim.users ))
   consul:
     datacenter: (( properties.consul.agent.datacenter ))
     domain: (( properties.consul.agent.domain ))
@@ -42,6 +45,9 @@ properties:
   smoke_tests:
     use_existing_org: (( merge || nil ))
     org: (( merge || nil ))
+  uaa:
+    scim:
+      users: (( merge ))
   consul:
     agent:
       domain: (( merge || nil ))

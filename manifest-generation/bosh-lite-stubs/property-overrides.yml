@@ -1,7 +1,4 @@
 property_overrides:
-  cf:
-    admin_username: admin
-    admin_password: admin
   mysql:
     admin_password: password
     gcache_size:

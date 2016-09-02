@@ -13,6 +13,9 @@ config_from_cf:
   smoke_tests:
     use_existing_org: (( merge ))
     org: (( merge ))
+  uaa:
+    scim:
+      users: (( merge ))
   consul:
     datacenter: (( merge ))
     domain: (( merge ))

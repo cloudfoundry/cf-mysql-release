@@ -1,8 +1,6 @@
 name: cf-warden
 director_uuid: REPLACE_WITH_DIRECTOR_UUID
 properties:
-  admin_username: admin
-  admin_password: admin
   cc:
     srv_api_uri: https://api.bosh-lite.com
   nats:
@@ -15,6 +13,11 @@ properties:
   - bosh-lite.com
   domain: bosh-lite.com
   skip_ssl_validation: true
+  uaa:
+    scim:
+      users:
+      - name: admin
+        password: admin
   consul:
     agent:
       domain: cf.internal

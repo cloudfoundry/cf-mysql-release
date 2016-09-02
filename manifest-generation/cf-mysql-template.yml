@@ -45,8 +45,8 @@ properties:
   cf:
     api_url: (( config_from_cf.api_url ))
     app_domains: (( config_from_cf.app_domains ))
-    admin_username: (( property_overrides.cf.admin_username || nil ))
-    admin_password: (( property_overrides.cf.admin_password || nil ))
+    admin_username: (( config_from_cf.uaa.scim.users.admin.name ))
+    admin_password: (( config_from_cf.uaa.scim.users.admin.password ))
     skip_ssl_validation: (( config_from_cf.skip_ssl_validation || nil ))
     smoke_tests:
       use_existing_org: (( config_from_cf.smoke_tests.use_existing_org || nil ))
