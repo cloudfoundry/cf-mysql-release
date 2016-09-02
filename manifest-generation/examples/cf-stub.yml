@@ -3,8 +3,6 @@
 name: REPLACE_WITH_CF_DEPLOYMENT_NAME
 director_uuid: REPLACE_WITH_DIRECTOR_UUID
 properties:
-  admin_username: REPLACE_WITH_ADMIN_USERNAME
-  admin_password: REPLACE_WITH_ADMIN_PASSWORD
   skip_ssl_validation: false # Optional, change to `true` in envs with self-signed SSL certs
   nats:
     machines:

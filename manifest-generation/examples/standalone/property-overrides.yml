@@ -1,8 +1,5 @@
 property_overrides:
   <<: (( merge || nil ))
-  cf:
-    admin_username: REPLACE_WITH_CC_ADMIN_USERNAME
-    admin_password: REPLACE_WITH_CC_ADMIN_PASSWORD
   deployment_name: REPLACE_WITH_YOUR_DEPLOYMENT_NAME # Optional, when setting this parameter, it overrides the hardcoded deployment name
   standalone: true
   host: YOUR_LOAD_BALANCER_ADDRESS # Optional, set to your Load Balancer address if configured

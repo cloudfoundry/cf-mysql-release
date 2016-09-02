@@ -1,8 +1,6 @@
 ---
 app_domains: [bosh-lite.com]
 
-cf_admin_username: admin
-cf_admin_password: admin
 cf_api_url: https://api.bosh-lite.com
 cf_skip_ssl_validation: true
 
