@@ -58,8 +58,8 @@ wsrep_log_conflicts='ON'
 wsrep_debug=<%= p('cf_mysql.mysql.wsrep_debug') %>
 
 # Regular MYSQL options:
-collation_server        = utf8_unicode_ci
-character_set_server    = utf8
+character_set_server    = <%= p('cf_mysql.mysql.character_set_server') %>
+collation_server        = <%= p('cf_mysql.mysql.collation_server') %>
 user		= vcap
 socket		= <%= "#{base_folder}/mysqld.sock" %>
 port      = <%= p('cf_mysql.mysql.port') %>
