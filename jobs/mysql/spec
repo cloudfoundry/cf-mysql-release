@@ -83,6 +83,9 @@ properties:
     description: 'Optional, time in seconds that an InnoDB transaction waits for an InnoDB row lock'
   cf_mysql.mysql.cluster_ips:
     description: 'Optional, list of nodes.  Must have the same number of ips as there are nodes in the cluster'
+  cf_mysql.mysql.max_allowed_packet:
+    description: 'The maximum size in bytes of a packet or a generated/intermediate string'
+    default: 256M
   cf_mysql.mysql.max_heap_table_size:
     description: 'The maximum size (in rows) to which user-created MEMORY tables are permitted to grow'
     default: 16777216
@@ -158,6 +161,10 @@ properties:
     description: 'When disable_auto_sst is true, nodes unable to IST will be prevented from automatically deleting their data and performing an SST'
     default: true
 
+  cf_mysql.mysql.userstat:
+    default: false
+    description: 'Enables user statistics, adding several new information schema tables and new FLUSH and SHOW commands.'
+
   cf_mysql.mysql.binlog_enabled:
     default: true
     description: 'Enable binlogs across all nodes'
@@ -170,3 +177,6 @@ properties:
   cf_mysql.mysql.log_conflicts:
     default: true
     description: 'Defines whether the node logs additional information about conflicts. The values that were in conflict are logged, so it is possible for user data to end up in the logs.'
+  cf_mysql.mysql.log_queries_not_using_indexes:
+    default: false
+    description: 'Queries that don't use an index, or that perform a full index scan where the index doesn't limit the number of rows, will be logged to the slow query log.'
