@@ -1,0 +1,24 @@
+check process mariadb_ctrl
+  with pidfile /var/vcap/sys/run/mariadb_ctl/mariadb_ctl.pid
+  start program "/var/vcap/jobs/mysql/bin/mariadb_ctl start"
+  stop program "/var/vcap/jobs/mysql/bin/mariadb_ctl stop" with timeout 30 seconds
+  group vcap
+  depends on gra-log-purger-executable
+
+check process galera-healthcheck
+  with pidfile /var/vcap/sys/run/galera-healthcheck/galera-healthcheck.pid
+  start program "/var/vcap/jobs/mysql/bin/galera-healthcheck_ctl start" with timeout 60 seconds
+  stop program "/var/vcap/jobs/mysql/bin/galera-healthcheck_ctl stop" with timeout 10 seconds
+  group vcap
+
+check process gra-log-purger-executable
+  with pidfile /var/vcap/sys/run/gra-log-purger/gra-log-purger.pid
+  start program "/var/vcap/jobs/mysql/bin/gra-log-purger_ctl start" with timeout 10 seconds
+  stop program "/var/vcap/jobs/mysql/bin/gra-log-purger_ctl stop" with timeout 10 seconds
+  group vcap
+
+check process cluster_health_logger
+  with pidfile /var/vcap/sys/run/mysql/cluster_health_logger.pid
+  start program "/var/vcap/jobs/mysql/bin/cluster_health_logger_ctl start"
+  stop program "/var/vcap/jobs/mysql/bin/cluster_health_logger_ctl stop"
+  group vcap
