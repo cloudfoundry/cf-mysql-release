@@ -42,6 +42,7 @@ nice      = 0
 
 [mysqld]
 # GALERA options:
+wsrep_on=ON
 wsrep_provider=/var/vcap/packages/mariadb/lib/plugin/libgalera_smm.so
 wsrep_provider_options="gcache.size=<%= p('cf_mysql.mysql.gcache_size') %>M;pc.recovery=TRUE;pc.checksum=TRUE"
 wsrep_cluster_address="gcomm://<%= cluster_ips.join(",") %>"
@@ -69,9 +70,9 @@ datadir		= /var/vcap/store/mysql
 tmpdir		= /var/vcap/data/mysql/tmp
 language	= /var/vcap/packages/mariadb/share/english
 pid-file  = /var/vcap/sys/run/mysql/mysql.pid
-log-error = /var/vcap/sys/log/mysql/mysql.err.log
-init-file = /var/vcap/jobs/mysql/config/mariadb_init
-skip-external-locking = TRUE
+log_error = /var/vcap/sys/log/mysql/mysql.err.log
+init_file = /var/vcap/jobs/mysql/config/mariadb_init
+skip_external_locking = TRUE
 max_allowed_packet = 256M
 <% if_p('cf_mysql.mysql.skip_name_resolve') do |disable_dns| %>
 <%= "skip_name_resolve" if disable_dns %>
@@ -80,7 +81,7 @@ max_allowed_packet = 256M
 innodb_file_per_table = ON
 innodb_file_format = Barracuda
 innodb_log_file_size = "<%= p('cf_mysql.mysql.ib_log_file_size')%>MB"
-innodb-support-xa = OFF
+innodb_support_xa = OFF
 
 max_heap_table_size = <%= p('cf_mysql.mysql.max_heap_table_size') %>
 tmp_table_size = <%= p('cf_mysql.mysql.tmp_table_size') %>
@@ -97,8 +98,8 @@ server_audit_file_rotations=0
 <% end %>
 
 <% if p('cf_mysql.mysql.binlog_enabled') %>
-log-bin = mysql-bin
-log-slave-updates = 1
+log_bin = mysql-bin
+log_slave_updates = 1
 expire_logs_days = <%= p('cf_mysql.mysql.binlog_expire_days') %>
 <% end %>
 

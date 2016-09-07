@@ -1,8 +1,8 @@
 diff --git a/scripts/wsrep_sst_xtrabackup-v2.sh b/scripts/wsrep_sst_xtrabackup-v2.sh
-index e3ad825..b77c234 100644
+index a836d5e..14e8b5e 100644
 --- a/scripts/wsrep_sst_xtrabackup-v2.sh
 +++ b/scripts/wsrep_sst_xtrabackup-v2.sh
-@@ -852,6 +852,19 @@ then
+@@ -875,6 +875,19 @@ then
      if [ ! -r "${STATDIR}/${IST_FILE}" ]
      then
 
@@ -20,5 +20,5 @@ index e3ad825..b77c234 100644
 +        fi
 +
          if [[ -d ${DATA}/.sst ]];then
-             wsrep_log_info "WARNING: Stale temporary SST directory: ${DATA}/.sst from previous state transfer"
-         fi
+             wsrep_log_info "WARNING: Stale temporary SST directory: ${DATA}/.sst from previous state transfer. Removing"
+             rm -rf ${DATA}/.sst
