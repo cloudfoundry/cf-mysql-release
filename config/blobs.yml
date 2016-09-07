@@ -51,10 +51,10 @@ xtrabackup/socat-1.7.2.4.tar.gz:
   object_id: cd877813-c9ac-4596-b4e4-d361fe5bbdb6
   sha: c33904b83295accef2aaff8adf7eedd3310f9777
   size: 583762
-galera/galera-25.3.9-src.tar.gz:
-  object_id: 9f0e7032-1b75-4794-bf8c-e31863a82120
-  sha: 896c7ea57781e70a5cf02c919dc3dd93968cb488
-  size: 2949775
+galera/galera-25.3.15.tar.gz:
+  object_id: f4ffabf9-d1b3-4b14-855c-3737858db132
+  sha: db36c340d147b872d1378912130e77051b3ff5c3
+  size: 3001684
 xtrabackup/percona-xtrabackup-percona-xtrabackup-2.2.10.tar.gz:
   object_id: a195ae63-042e-448d-9020-b2dc1bd5b661
   sha: e93d34bc0ef6bc06bf356523c11c9906a079fd8f
@@ -75,10 +75,10 @@ ruby/rubygems-2.4.8.tgz:
   object_id: 69d96d0c-d34c-44e1-bb09-9340f483fe36
   sha: 0db6b2f1cdd2267fe19f1f875057c2f2ce9f5696
   size: 447712
-mariadb/mariadb-galera-10.0.23.tar.gz:
-  object_id: 6d3ba50a-c12e-4a4d-b992-10f7051a0a73
-  sha: c920df0661770abb923a7af5e964927f7d02ff5f
-  size: 57726827
+mariadb/mariadb-10.1.16.tar.gz:
+  object_id: 956ecf5a-62cb-422d-9e05-a817ad972e0a
+  sha: 725739d36e24bfa1156f92b0c5a57fcc379f4e91
+  size: 55527069
 golang/go1.5.1.linux-amd64.tar.gz:
   object_id: 57718a28-73c7-4d17-a46b-12c8cc40a503
   sha: 46eecd290d8803887dec718c691cc243f2175fe0

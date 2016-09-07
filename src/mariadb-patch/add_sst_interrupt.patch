@@ -1,0 +1,24 @@
+diff --git a/scripts/wsrep_sst_xtrabackup-v2.sh b/scripts/wsrep_sst_xtrabackup-v2.sh
+index a836d5e..14e8b5e 100644
+--- a/scripts/wsrep_sst_xtrabackup-v2.sh
++++ b/scripts/wsrep_sst_xtrabackup-v2.sh
+@@ -875,6 +875,19 @@ then
+     if [ ! -r "${STATDIR}/${IST_FILE}" ]
+     then
+
++        if [ ${DISABLE_SST:=0} -eq 1 ]
++        then
++            wsrep_log_error "##############################################################################"
++            wsrep_log_error "SST disabled due to danger of data loss. Verify data and bootstrap the cluster"
++            wsrep_log_error "##############################################################################"
++
++            if [ -n "${INTERRUPT_NOTIFY_CMD:=}" ]
++            then
++              ${INTERRUPT_NOTIFY_CMD}
++            fi
++            exit 1
++        fi
++
+         if [[ -d ${DATA}/.sst ]];then
+             wsrep_log_info "WARNING: Stale temporary SST directory: ${DATA}/.sst from previous state transfer. Removing"
+             rm -rf ${DATA}/.sst
