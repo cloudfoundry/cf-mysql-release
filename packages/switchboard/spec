@@ -5,3 +5,4 @@ dependencies:
 files:
   - github.com/cloudfoundry-incubator/switchboard/static/**/* # static UI files
   - github.com/cloudfoundry-incubator/switchboard/**/*.go
+  - github.com/cloudfoundry-incubator/galera-healthcheck/**/*.go
