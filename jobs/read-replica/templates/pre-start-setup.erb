@@ -10,7 +10,7 @@ LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/pre-start.stdout.log
 SLOW_QUERY_LOG_FILE=$LOG_DIR/mysql_slow_query.log
 SERVER_AUDIT_LOG_FILE=$LOG_DIR/mysql_server_audit.log
-MARIADB_JOB_DIR=/var/vcap/jobs/mysql
+MARIADB_JOB_DIR=/var/vcap/jobs/read-replica
 RUN_DIR=/var/vcap/sys/run/mariadb_ctl
 PRESTART_MARKER_FILE=$RUN_DIR/prestart_marker
 JOB_INDEX=<%= index %>

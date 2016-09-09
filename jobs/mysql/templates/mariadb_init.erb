@@ -4,5 +4,6 @@ UPDATE mysql.user SET Password=PASSWORD('<%= p('cf_mysql.mysql.admin_password') 
 DELETE FROM mysql.user WHERE User='';
 FLUSH PRIVILEGES;
 
-GRANT REPLICATION SLAVE ON *.* TO 'slave'@'%' IDENTIFIED BY 'password';
+CREATE USER IF NOT EXISTS 'slave'@'%' IDENTIFIED BY 'password';
+GRANT REPLICATION SLAVE ON *.* TO 'slave'@'%';
 FLUSH PRIVILEGES;

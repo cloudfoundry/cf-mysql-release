@@ -69,7 +69,7 @@ tmpdir		= /var/vcap/data/mysql/tmp
 language	= /var/vcap/packages/mariadb/share/english
 pid-file  = /var/vcap/sys/run/mysql/mysql.pid
 log_error = /var/vcap/sys/log/mysql/mysql.err.log
-init_file = /var/vcap/jobs/mysql/config/mariadb_init
+init_file = /var/vcap/jobs/read-replica/config/mariadb_init
 skip_external_locking = TRUE
 max_allowed_packet = 256M
 <% if_p('cf_mysql.mysql.skip_name_resolve') do |disable_dns| %>

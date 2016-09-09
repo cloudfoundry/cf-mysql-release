@@ -10,7 +10,7 @@ set -e
   end
 %>
 
-export MARIADB_JOB_DIR=/var/vcap/jobs/mysql
+export MARIADB_JOB_DIR=/var/vcap/jobs/read-replica
 LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/mariadb_ctrl.combined.log
 SERVER_AUDIT_LOG_DIR=/var/vcap/store/mysql_audit_logs
@@ -28,7 +28,7 @@ source /var/vcap/packages/cf-mysql-common/syslog_utils.sh
 tee_output_to_sys_log ${LOG_DIR}
 
 # logrotate audit logs
-ln -sf /var/vcap/jobs/mysql/config/mysql_audit_logs.logrotate /etc/logrotate.d/mysql_audit_logs
+ln -sf /var/vcap/jobs/read-replica/config/mysql_audit_logs.logrotate /etc/logrotate.d/mysql_audit_logs
 
 # add xtrabackup to path
 export PATH=$PATH:/var/vcap/packages/xtrabackup/bin
