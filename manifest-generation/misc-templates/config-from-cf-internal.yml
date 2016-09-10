@@ -11,8 +11,8 @@ config_from_cf:
   app_domains: (( properties.app_domains ))
   api_url: (( "https://api." properties.domain ))
   skip_ssl_validation: (( properties.skip_ssl_validation ))
-  admin_username: (( properties.admin_username ))
-  admin_password: (( properties.admin_password ))
+  admin_username: (( properties.uaa.scim.users.admin.name ))
+  admin_password: (( properties.uaa.scim.users.admin.password ))
   smoke_tests:
     use_existing_org: (( properties.smoke_tests.use_existing_org ))
     org: (( properties.smoke_tests.org ))
@@ -35,3 +35,6 @@ properties:
   smoke_tests:
     use_existing_org: (( merge || nil ))
     org: (( merge || nil ))
+  uaa:
+    scim:
+      users: (( merge))
