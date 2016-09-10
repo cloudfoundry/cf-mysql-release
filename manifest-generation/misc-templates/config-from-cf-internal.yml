@@ -29,8 +29,6 @@ properties:
   domain: (( merge ))
   system_domain: (( merge ))
   app_domains: (( merge ))
-  admin_username: (( merge ))
-  admin_password: (( merge ))
   skip_ssl_validation: (( merge || nil ))
   smoke_tests:
     use_existing_org: (( merge || nil ))
