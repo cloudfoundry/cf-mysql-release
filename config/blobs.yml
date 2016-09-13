@@ -75,15 +75,15 @@ ruby/yaml-0.1.6.tar.gz:
   object_id: 566e2377-6c7b-4c24-8757-60efb86da513
   sha: f3d404e11bec3c4efcddfd14c42d46f1aabe0b5d
   size: 503012
-mariadb/mariadb-10.1.16.tar.gz:
-  object_id: 956ecf5a-62cb-422d-9e05-a817ad972e0a
-  sha: 725739d36e24bfa1156f92b0c5a57fcc379f4e91
-  size: 55527069
-galera/galera-25.3.15.tar.gz:
-  object_id: f4ffabf9-d1b3-4b14-855c-3737858db132
-  sha: db36c340d147b872d1378912130e77051b3ff5c3
-  size: 3001684
 cli/cf-cli_6.21.1_linux_x86-64.tgz:
   object_id: 25b6d3de-e535-4b46-9ba8-1d2222394731
   sha: 7dc397d2a0d93887ef50bc1f852beb686563049e
   size: 6543090
+mariadb/mariadb-10.1.17.tar.gz:
+  object_id: d6ab594e-f87b-4b48-89a3-e1fbbab028f4
+  sha: 65d3bd1c253c3b1440dc9a628986257ffb92586f
+  size: 61158134
+galera/galera-25.3.17.tar.gz:
+  object_id: de96dedb-2e26-440f-b6c8-8cc31e4a2f77
+  sha: ff5c16f1116565cf318c7d84c0f60d7a10d84f0f
+  size: 3005918
