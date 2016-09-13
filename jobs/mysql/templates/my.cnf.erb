@@ -71,7 +71,7 @@ pid-file  = /var/vcap/sys/run/mysql/mysql.pid
 log_error = /var/vcap/sys/log/mysql/mysql.err.log
 init_file = /var/vcap/jobs/mysql/config/mariadb_init
 skip_external_locking = TRUE
-max_allowed_packet = 256M
+max_allowed_packet = <%= p('cf_mysql.mysql.max_allowed_packet') %>
 <% if_p('cf_mysql.mysql.skip_name_resolve') do |disable_dns| %>
 <%= "skip_name_resolve" if disable_dns %>
 <% end %>
@@ -86,6 +86,14 @@ expire_logs_days = <%= p('cf_mysql.mysql.binlog_expire_days') %>
 # Slow query logging:
 slow_query_log = 1
 slow_query_log_file = /var/vcap/sys/log/mysql/mysql_slow_query.log
+<% if p('cf_mysql.mysql.log_queries_not_using_indexes') %>
+log_queries_not_using_indexes = ON
+<% end %>
+
+# User statistics
+<% if p('cf_mysql.mysql.userstat') %>
+userstat = 1
+<% end %>
 
 innodb_file_per_table = ON
 innodb_file_format = Barracuda
@@ -136,10 +144,10 @@ max_connections = <%= max_connections %>
 [mysqldump]
 quick
 quote-names
-max_allowed_packet = 256M
+max_allowed_packet = <%= p('cf_mysql.mysql.max_allowed_packet') %>
 
 [mysql]
-max_allowed_packet = 256M
+max_allowed_packet = <%= p('cf_mysql.mysql.max_allowed_packet') %>
 
 [isamchk]
 key_buffer		= 16M
