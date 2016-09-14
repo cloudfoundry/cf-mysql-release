@@ -179,4 +179,4 @@ properties:
     description: 'Defines whether the node logs additional information about conflicts. The values that were in conflict are logged, so it is possible for user data to end up in the logs.'
   cf_mysql.mysql.log_queries_not_using_indexes:
     default: false
-    description: 'Queries that don't use an index, or that perform a full index scan where the index doesn't limit the number of rows, will be logged to the slow query log.'
+    description: "Queries that don't use an index, or that perform a full index scan where the index doesn't limit the number of rows, will be logged to the slow query log."
