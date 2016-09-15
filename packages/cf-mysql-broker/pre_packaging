@@ -1,14 +1,11 @@
 # abort script on any command that exits with a non zero value
 set -e
 
-(
-  cd ${BUILD_DIR}/cf-mysql-broker
-
+pushd ${BUILD_DIR}/cf-mysql-broker
   # cache gems
-  bundle package --all
-
-  RAILS_ENV=assets bundle exec rake assets:precompile
+  rm -rf vendor/*
+  bundle package --all --no-install
 
   # remove unneeded files
   rm -rf spec
-)
+popd

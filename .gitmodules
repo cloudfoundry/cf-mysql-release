@@ -4,9 +4,6 @@
 [submodule "shared"]
 	path = shared
 	url = https://github.com/cloudfoundry/shared-release-packages.git
-[submodule "packages/ruby"]
-	path = packages/ruby
-	url = https://github.com/cloudfoundry/ruby.git
 [submodule "src/github.com/cloudfoundry-incubator/galera-healthcheck"]
 	path = src/github.com/cloudfoundry-incubator/galera-healthcheck
 	url = https://github.com/cloudfoundry-incubator/galera-healthcheck.git
