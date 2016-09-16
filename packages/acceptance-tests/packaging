@@ -15,4 +15,3 @@ go install github.com/onsi/ginkgo/ginkgo
 acceptance_tests_src=${BOSH_INSTALL_TARGET}/src/github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests
 
 ginkgo build ${acceptance_tests_src}/cf-mysql-service/* 
-
