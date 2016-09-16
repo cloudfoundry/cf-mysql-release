@@ -292,24 +292,6 @@ base_jobs:
       max_user_connections_default: (( property_overrides.broker.max_user_connections_default || nil ))
       name: (( property_overrides.broker.service_name ))
       plans: (( property_overrides.broker.plans ))
-- name: verify-cluster-schemas
-  template: verify-cluster-schemas
-  release: cf-mysql
-  instances: 1
-  resource_pool: errands_z1
-  lifecycle: errand
-  networks:
-  - name: mysql1
-  properties: {}
-- name: rejoin-unsafe
-  template: rejoin-unsafe
-  release: cf-mysql
-  instances: 1
-  resource_pool: errands_z1
-  lifecycle: errand
-  networks:
-  - name: mysql1
-  properties: {}
 config_from_cf: (( merge ))
 iaas_settings: (( merge ))
 property_overrides: (( merge ))
