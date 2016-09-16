@@ -1,0 +1,125 @@
+#!/bin/bash
+
+MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+RELEASE_DIR="$( cd "${MY_DIR}/.." && pwd )"
+MANIFEST_DIR="$( cd "${RELEASE_DIR}/manifest-generation" && pwd )"
+
+argument_error=false
+
+function usage(){
+  >&2 echo " Usage:
+  Mandatory arguments:
+    -c CF Manifest
+    -p Property overrides stub file
+    -i Infrastructure settings stub file
+  Optional arguments
+    -n Instance count overrides stub file (single node, 3 node)
+    -v Release versions stub file
+    -j Manifest stub file for additional jobs
+  "
+  exit 1
+}
+
+property_overrides=()
+iaas_settings=()
+
+while getopts "c:p:i:n:v:j:" opt; do
+  case $opt in
+    c)
+      cf_manifest=$OPTARG
+      ;;
+    p)
+      property_overrides+=($OPTARG)
+      ;;
+    i)
+      iaas_settings+=($OPTARG)
+      ;;
+    n)
+      instance_counts=$OPTARG
+      ;;
+    v)
+      release_versions=$OPTARG
+      ;;
+    j)
+      other_jobs_stub=$OPTARG
+      ;;
+    *)
+      echo "Unknown arguments"
+      usage
+      ;;
+  esac
+done
+
+if [ ${#iaas_settings[@]} == 0 ]; then
+  >&2 echo "iaas_settings stub file is missing"
+  argument_error=true
+else
+  for file in "${iaas_settings[@]}"; do
+    if [ ! -f "${file}" ]; then
+      >&2 echo "iaas_settings stub ${file} is not a regular file"
+      argument_error=true
+    fi
+  done
+fi
+
+if [ -z "${cf_manifest}" ]; then
+  >&2 echo "cf manifest file is missing"
+  argument_error=true
+elif [ ! -f "${cf_manifest}" ]; then
+  >&2 echo "cf manifest ${cf_manifest} is not a regular file"
+  argument_error=true
+fi
+
+if [ ${#property_overrides[@]} == 0 ]; then
+  >&2 echo "property-overrides stub file is missing"
+  argument_error=true
+else
+  for file in "${property_overrides[@]}"; do
+    if [ ! -f "${file}" ]; then
+      >&2 echo "Property Overrides stub '${file}' is not a regular file"
+      argument_error=true
+    fi
+  done
+fi
+
+if [[ ! -z "${instance_counts}" && ! -f "${instance_counts}" ]]; then
+  >&2 echo "Instance Count Overrides stub '${instance_counts}' is not a regular file"
+  argument_error=true
+fi
+
+if [[ ! -z "${release_versions}" && ! -f "${release_versions}" ]]; then
+  >&2 echo "Release versions stub '${release_versions}' is not a regular file"
+  argument_error=true
+fi
+
+if [[ ! -z "${other_jobs_stub}" && ! -f "${other_jobs_stub}" ]]; then
+  >&2 echo "Additional Job Stub file '${other_jobs_stub}' is not a regular file"
+  argument_error=true
+fi
+
+if [ "$argument_error" = "true" ]; then
+  usage
+fi
+
+tmpdir=$(mktemp -d /tmp/mysql_manifest.XXXXX)
+#trap '{ rm -rf ${tmpdir}; }' EXIT
+
+spiff merge \
+  ${MANIFEST_DIR}/misc-templates/config-from-cf.yml \
+  ${MANIFEST_DIR}/misc-templates/config-from-cf-internal.yml \
+  ${cf_manifest} \
+  > ${tmpdir}/config-from-cf.yml
+
+spiff merge \
+  ${MANIFEST_DIR}/cf-mysql-template.yml \
+  ${other_jobs_stub} \
+  ${tmpdir}/config-from-cf.yml \
+  "${iaas_settings[@]}" \
+  ${instance_counts} \
+  "${property_overrides[@]}" \
+  ${release_versions} \
+  > ${tmpdir}/mysql-config.yml
+
+spiff merge \
+  ${MANIFEST_DIR}/misc-templates/bosh.yml \
+  ${tmpdir}/mysql-config.yml
