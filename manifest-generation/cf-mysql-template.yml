@@ -23,12 +23,12 @@ properties:
   syslog_aggregator: (( meta.syslog_aggregator ))
 
   proxy:
-    external_host: (( .properties.external_host ))
     health_port: (( property_overrides.proxy.health_port || nil ))
     api_force_https: (( property_overrides.proxy.api_force_https || nil ))
     api_username: (( property_overrides.proxy.api_username ))
     api_password: (( property_overrides.proxy.api_password ))
 
+  external_host: (( "p-mysql." .properties.domain ))
   syslog_aggregator: (( property_overrides.syslog_aggregator || nil  ))
 
 
