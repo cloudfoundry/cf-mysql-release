@@ -61,7 +61,12 @@ Bound applications are provided with a hostname or IP address to reach a databas
 
 Configure the load balancer to route traffic for TCP port 3306 to the IPs of all proxy instances on TCP port 3306.
 Next, configure the load balancer's healthcheck to use the proxy health port.
-This is TCP port 1936 by default to maintain backwards compatibility with previous releases, but this port can be configured by changing the following manifest property in the `property-overrides` stub:
+
+The proxies have an HTTP server listening on port 1936. It returns 200 in all cases and for all endpoints. This can be used to configure a Load Balancer that requires HTTP healthchecks.
+
+Because HTTP uses TCP connections, the port also accepts TCP requests, useful for configuring a Load Balancer with a TCP healthcheck.
+
+By default, the port is 1936 to maintain backwards compatibility with previous releases, but this port can be configured by changing the following manifest property in the `property-overrides` stub:
 
 ```
 property_overrides:
