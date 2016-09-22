@@ -33,6 +33,7 @@
 [client]
 port      = <%= p('cf_mysql.mysql.port') %>
 socket		= <%= "#{base_folder}/mysqld.sock" %>
+ssl-verify-server-cert
 
 [mysqld_safe]
 nice      = 0
@@ -140,6 +141,12 @@ innodb_flush_method=O_DIRECT
 <% if_p('cf_mysql.mysql.max_connections') do |max_connections| %>
 max_connections = <%= max_connections %>
 <% end %>
+
+# SSL/TLS
+ssl_cipher = TLSv1.2
+ssl_ca = /var/vcap/jobs/mysql/config/ca.pem
+ssl_cert = /var/vcap/jobs/mysql/config/server-cert.pem
+ssl_key = /var/vcap/jobs/mysql/config/server-key.pem
 
 [mysqldump]
 quick

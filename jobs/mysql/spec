@@ -19,6 +19,9 @@ templates:
   cluster_health_logger_config.yml.erb: config/cluster_health_logger_config.yml
   cluster_health_logger_setup.sql.erb: config/cluster_health_logger_setup.sql
   mysql_audit_logs.logrotate.erb: config/mysql_audit_logs.logrotate
+  ca.pem.erb: config/ca.pem
+  server-cert.pem.erb: config/server-cert.pem
+  server-key.pem.erb: config/server-key.pem
 
 packages:
 - xtrabackup
@@ -180,3 +183,10 @@ properties:
   cf_mysql.mysql.log_queries_not_using_indexes:
     default: false
     description: "Queries that don't use an index, or that perform a full index scan where the index doesn't limit the number of rows, will be logged to the slow query log."
+
+  cf_mysql.mysql.ssl.ca_cert:
+    description: 'PEM file containing list of trusted TLS certificate authorities'
+  cf_mysql.mysql.ssl.server_cert:
+    description: 'TLS certificate file used to establish a secure TLS connection'
+  cf_mysql.mysql.ssl.server_key:
+    description: 'TLS key used to establish a secure TLS connection'
