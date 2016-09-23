@@ -80,4 +80,4 @@ chown -R vcap:vcap ${datadir}
 
 rm -f /etc/my.cnf
 
-MARIADB_CTRL_PREFIX_CMD="su vcap -c " ${MARIADB_JOB_DIR}/bin/pre-start-execution
+MARIADB_CTRL_PREFIX_CMD="su - vcap -c -o pipefail" ${MARIADB_JOB_DIR}/bin/pre-start-execution

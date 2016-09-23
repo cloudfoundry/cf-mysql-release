@@ -23,7 +23,7 @@ start)
 
   pid_guard $PIDFILE $JOB_NAME
 
-  su vcap -c "/var/vcap/packages/cf-mysql-route-registrar/bin/route-registrar \
+  su - vcap -c -o pipefail "/var/vcap/packages/cf-mysql-route-registrar/bin/route-registrar \
   -pidfile=$PIDFILE \
   -configPath=$CONFIG_FILE \
   >>$LOG_DIR/route-registrar.stdout.log \

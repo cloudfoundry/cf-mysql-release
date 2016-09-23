@@ -36,14 +36,19 @@ case $1 in
     # Run the migrations only on the first node
     if [ $JOB_INDEX -eq 0 ]; then
       pushd $PACKAGE_DIR
+        # Needed because rake db:migrate attempts to rewrite schema.rb file
+        # which is currently owned by root
+        #
+        # Needs to live here instead of above because chown -R does not follow symlinks
+        chown -R vcap:vcap .
 
         # Create DB and run migrations
         set +e
-        su vcap -p -c "PATH=$PATH bundle exec rake db:create 2>&1 \
+        su - vcap -p -c -o pipefail "PATH=$PATH bundle exec rake db:create 2>&1 \
             | tee -a $LOG_DIR/db_migrate.combined.log \
             | logger -p local1.error -t mysql-broker-dbcreate"
 
-        su vcap -p -c "PATH=$PATH bundle exec rake db:migrate 2>&1 \
+        su - vcap -p -c -o pipefail "PATH=$PATH bundle exec rake db:migrate 2>&1 \
             | tee -a $LOG_DIR/db_migrate.combined.log \
             | logger -p local1.error -t mysql-broker-dbmigrate"
 
@@ -59,7 +64,7 @@ case $1 in
 
         # Sync size of existing service instances to match plans in manifest
         set +e
-        su vcap -p -c "PATH=$PATH bundle exec rake broker:sync_plans_in_db 2>&1 \
+        su - vcap -p -c -o pipefail "PATH=$PATH bundle exec rake broker:sync_plans_in_db 2>&1 \
             | tee -a $LOG_DIR/cf-mysql-broker.log \
             | logger -p local1.error -t mysql-broker-plans"
 
@@ -75,7 +80,7 @@ case $1 in
       popd
     fi
 
-    su vcap -p -c "PATH=$PATH bundle exec unicorn -c $JOB_DIR/config/unicorn.conf.rb 2>&1 \
+    su - vcap -p -c -o pipefail "PATH=$PATH bundle exec unicorn -c $JOB_DIR/config/unicorn.conf.rb 2>&1 \
         | tee -a $LOG_DIR/cf-mysql-broker.log \
         | logger -p local1.error -t mysql-broker &"
     ;;

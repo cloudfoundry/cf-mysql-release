@@ -29,7 +29,7 @@ case $1 in
     # Start syslog forwarding
     /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $job_dir/config
 
-    su vcap -c "$package_dir/bin/switchboard \
+    su - vcap -c -o pipefail "$package_dir/bin/switchboard \
       -configPath=$job_dir/config/switchboard.yml \
       2>&1 \
       | tee -a $log_dir/switchboard.combined.log \

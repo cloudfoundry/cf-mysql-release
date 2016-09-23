@@ -24,7 +24,7 @@ case $1 in
 
     cd $package_dir
 
-    su vcap -p -c "PATH=$PATH $package_dir/bin/galera-healthcheck \
+    su - vcap -p -c -o pipefail "PATH=$PATH $package_dir/bin/galera-healthcheck \
       -configPath=$job_dir/config/galera_healthcheck_config.yaml \
       >>$log_dir/galera-healthcheck.stdout.log \
       2>>$log_dir/galera-healthcheck.stderr.log &"

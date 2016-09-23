@@ -28,7 +28,7 @@ case $1 in
 
     cd $package_dir
 
-    su - vcap -c \
+    su - vcap -c -o pipefail \
       "$package_dir/$executable_name \
         -graLogDir=$gra_log_dir \
         -graLogDaysToKeep=$gra_log_days_to_keep \

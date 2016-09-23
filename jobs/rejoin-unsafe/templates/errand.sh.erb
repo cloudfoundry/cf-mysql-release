@@ -11,7 +11,7 @@ LOG_DIR=/var/vcap/sys/log/rejoin-unsafe
 mkdir -p $LOG_DIR
 chown -R vcap:vcap $LOG_DIR
 
-su vcap -c "/var/vcap/packages/bootstrap/bin/cf-mysql-bootstrap -configPath=${CONFIG_PATH} 2>&1"
+su - vcap -c -o pipefail "/var/vcap/packages/bootstrap/bin/cf-mysql-bootstrap -configPath=${CONFIG_PATH} 2>&1"
 echo "rejoin-unsafe errand completed"
 
 exit 0

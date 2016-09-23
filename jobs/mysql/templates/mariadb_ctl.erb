@@ -69,7 +69,7 @@ case $1 in
     cd $MARIADB_CTRL_PACKAGE
 
     echo "start script: starting mariadb_ctrl..."
-    su vcap -c \
+    su - vcap -c -o pipefail \
     "<%= disable_sst_string %> PATH=$PATH PERL5LIB=$PERL5LIB $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
              -configPath=$CONFIG_FILE \
              2>&1 \

@@ -15,7 +15,7 @@ PIDFILE=$RUN_DIR/$PROC_NAME.pid
 MARIADB_JOB_DIR=/var/vcap/jobs/mysql
 CONFIG_FILE=$MARIADB_JOB_DIR/config/mariadb_ctl_config.yml
 MARIADB_CTRL_PACKAGE=/var/vcap/packages/mariadb_ctrl
-MARIADB_CTRL_PREFIX_CMD="${MARIADB_CTRL_PREFIX_CMD:-bash -c}"
+MARIADB_CTRL_PREFIX_CMD="${MARIADB_CTRL_PREFIX_CMD:-bash -c -o pipefail}"
 LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/pre-start.stdout.log
 
