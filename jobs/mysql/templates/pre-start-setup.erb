@@ -10,7 +10,6 @@ CONFIG_DIR=/etc/mysql
 LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/pre-start.stdout.log
 SLOW_QUERY_LOG_FILE=$LOG_DIR/mysql_slow_query.log
-SERVER_AUDIT_LOG_FILE=$LOG_DIR/mysql_server_audit.log
 MARIADB_JOB_DIR=/var/vcap/jobs/mysql
 RUN_DIR=/var/vcap/sys/run/mariadb_ctl
 PRESTART_MARKER_FILE=$RUN_DIR/prestart_marker
@@ -45,11 +44,6 @@ touch $SLOW_QUERY_LOG_FILE
 chown -R vcap:vcap $LOG_DIR
 date >> $LOG_FILE 2>> $LOG_FILE
 date >> $SLOW_QUERY_LOG_FILE 2>> $SLOW_QUERY_LOG_FILE
-
-<% if_p('cf_mysql.mysql.server_audit_events') do |_| %>
-touch $SERVER_AUDIT_LOG_FILE
-chown vcap:vcap $SERVER_AUDIT_LOG_FILE
-<% end %>
 
 # Start syslog forwarding
 /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $MARIADB_JOB_DIR/config
