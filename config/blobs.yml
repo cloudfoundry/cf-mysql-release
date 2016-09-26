@@ -51,10 +51,6 @@ xtrabackup/socat-1.7.2.4.tar.gz:
   object_id: cd877813-c9ac-4596-b4e4-d361fe5bbdb6
   sha: c33904b83295accef2aaff8adf7eedd3310f9777
   size: 583762
-cli/cf-linux-amd64-6.10.0.tgz:
-  object_id: adb9d3ea-3582-4ff3-a3b4-eab569915e16
-  sha: f845800310e4b702a39a2f1191e3d71862630103
-  size: 4803309
 xtrabackup/percona-xtrabackup-percona-xtrabackup-2.2.10.tar.gz:
   object_id: a195ae63-042e-448d-9020-b2dc1bd5b661
   sha: e93d34bc0ef6bc06bf356523c11c9906a079fd8f
@@ -87,3 +83,7 @@ galera/galera-25.3.17.tar.gz:
   object_id: de96dedb-2e26-440f-b6c8-8cc31e4a2f77
   sha: ff5c16f1116565cf318c7d84c0f60d7a10d84f0f
   size: 3005918
+cli/cf-cli_6.21.1_linux_x86-64.tgz:
+  object_id: 25b6d3de-e535-4b46-9ba8-1d2222394731
+  sha: 7dc397d2a0d93887ef50bc1f852beb686563049e
+  size: 6543090
