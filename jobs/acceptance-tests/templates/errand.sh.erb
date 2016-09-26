@@ -72,6 +72,7 @@ export GOROOT=/var/vcap/packages/golang
 export PATH=/var/vcap/packages/cli/bin:$GOPATH/bin:$GOROOT/bin:$PWD/bin:$PATH
 
 export CONFIG=$PWD/integration_config.json
+export CF_DIAL_TIMEOUT=30
 
 <% if p('cf_mysql.acceptance_tests.standalone_tests_only') %>
   bin/test-standalone --noColor

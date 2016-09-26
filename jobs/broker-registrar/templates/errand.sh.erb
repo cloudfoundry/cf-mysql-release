@@ -23,6 +23,7 @@ function createServiceBroker(){
 }
 
 export PATH=/var/vcap/packages/cli/bin
+export CF_DIAL_TIMEOUT=30
 
 echo "CF_API_URL=${CF_API_URL}"
 echo "CF_SKIP_SSL_VALIDATION=${CF_SKIP_SSL_VALIDATION}"

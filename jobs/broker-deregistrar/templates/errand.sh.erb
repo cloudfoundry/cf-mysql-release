@@ -9,6 +9,7 @@ CF_ADMIN_PASSWORD='<%= p("cf.admin_password") %>'
 BROKER_NAME='<%= p("cf_mysql.broker.services").first["name"] %>'
 
 export PATH=/var/vcap/packages/cli/bin
+export CF_DIAL_TIMEOUT=30
 
 API_COMMAND="cf api ${CF_API_URL}"
 
