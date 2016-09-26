@@ -20,7 +20,7 @@ See (MariaDB audit plugin documentation)[https://mariadb.com/kb/en/mariadb/about
 
 ## Viewing Output of the Server Audit Log
 
-By default, the audit log will live in /var/vcap/sys/log/mysql/mysql_server_audit.log.
+By default, the audit log will live in /var/vcap/store/mysql_audit_logs/mysql_server_audit.log.
 
 ## Using Syslog
 
