@@ -9,7 +9,8 @@ export GOPATH=$BOSH_INSTALL_TARGET
 export GOROOT=$(readlink -nf /var/vcap/packages/golang)
 export PATH=$GOROOT/bin:$PATH
 
-go install github.com/cloudfoundry/mariadb_ctrl
+go build -o $GOPATH/bin/mariadb_ctrl github.com/cloudfoundry/mariadb_ctrl/cmd/start
+go build -o $GOPATH/bin/mariadb_ctrl-prestart github.com/cloudfoundry/mariadb_ctrl/cmd/prestart
 
 cp $BOSH_INSTALL_TARGET/src/github.com/cloudfoundry/mariadb_ctrl/mysql_daemon.sh   $BOSH_INSTALL_TARGET/bin/mysql_daemon.sh
 

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -o pipefail
 
 <%
   if p('cf_mysql.mysql.disable_auto_sst')
