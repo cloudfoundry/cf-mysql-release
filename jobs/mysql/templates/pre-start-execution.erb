@@ -42,12 +42,15 @@ pid_guard $PIDFILE $PROC_NAME
 
 cd $MARIADB_CTRL_PACKAGE
 
+set +e
 $MARIADB_CTRL_PREFIX_CMD \
 "PATH=$PATH PERL5LIB=$PERL5LIB $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl-prestart \
          -configPath=$CONFIG_FILE \
          2>&1 \
          | tee -a $LOG_FILE \
          | logger -p local1.error -t mariadb_ctrl"
+status=$?
+set -e
 
-log "pre-start execution script: pre-start completed with error code $?"
+log "pre-start execution script: pre-start completed with error code ${status}"
 log "pre-start execution script: completed pre-start execution"
