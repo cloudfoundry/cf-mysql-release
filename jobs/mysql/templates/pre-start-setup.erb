@@ -59,7 +59,7 @@ ulimit -n <%= p('cf_mysql.mysql.max_open_files') %>
 
 <% if p('cf_mysql.mysql.disable_auto_sst') %>
 if [ -d ${datadir} ]; then
-  DISABLE_SST=1
+  export DISABLE_SST=1
 fi
 <% end %>
 
@@ -75,4 +75,6 @@ chown -R vcap:vcap ${datadir}
 
 rm -f /etc/my.cnf
 
-MARIADB_CTRL_PREFIX_CMD="su - vcap -c -o pipefail DISABLE_SST=${DISABLE_SST:=0}" ${MARIADB_JOB_DIR}/bin/pre-start-execution
+# This currently uses "su vcap" instead of "su - vcap" because it needs to share the DISABLE_SST
+# environment variable all the way down to wsrep_sst_xtrabackup-v2 for SSTs
+MARIADB_CTRL_PREFIX_CMD="su vcap -c -o pipefail" ${MARIADB_JOB_DIR}/bin/pre-start-execution
