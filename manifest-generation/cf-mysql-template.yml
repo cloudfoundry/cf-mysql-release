@@ -57,6 +57,7 @@ properties:
     external_host: (( "p-mysql." .config_from_cf.system_domain ))
     host: (( property_overrides.host || jobs.proxy_z1.networks.mysql1.static_ips.[0] ))
     mysql:
+      admin_username: (( property_overrides.mysql.admin_username || nil ))
       admin_password: (( property_overrides.mysql.admin_password ))
       disable_auto_sst: (( property_overrides.mysql.disable_auto_sst || nil ))
       port: (( property_overrides.mysql.port || nil ))

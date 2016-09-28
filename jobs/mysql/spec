@@ -55,6 +55,9 @@ properties:
     description: "Transport to be used when forwarding logs (tcp|udp|relp)."
     default: "tcp"
 
+  cf_mysql.mysql.admin_username:
+    description: 'Username for the MySQL server admin user'
+    default: 'root'
   cf_mysql.mysql.admin_password:
     description: 'Password for the MySQL server admin user'
   cf_mysql.mysql.port:

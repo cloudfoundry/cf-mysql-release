@@ -7,7 +7,7 @@ config = {
     arbitrator_ip: '<%= p('cf_mysql.proxy.arbitrator_ip') %>',
     mysql_port: <%= p('cf_mysql.mysql.port') %>,
     healthcheck_port: <%= p('cf_mysql.mysql.healthcheck_port') %>,
-    mysql_user: 'root',
+    mysql_user: '<%= p('cf_mysql.mysql.admin_username') %>',
     mysql_password: '<%= p('cf_mysql.mysql.admin_password') %>',
     healthcheck_user: '<%= p('cf_mysql.mysql.galera_healthcheck.endpoint_username') %>',
     healthcheck_password: '<%= p('cf_mysql.mysql.galera_healthcheck.endpoint_password') %>'

@@ -25,6 +25,9 @@ provides:
   type: arbitrator
 
 properties:
+  cf_mysql.mysql.admin_username:
+    description: 'Username for the MySQL server admin user'
+    default: 'root'
   cf_mysql.mysql.admin_password:
     description: 'Password for the MySQL server admin user'
   cf_mysql.mysql.port:
