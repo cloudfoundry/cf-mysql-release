@@ -2,4 +2,11 @@ CREATE USER IF NOT EXISTS '<%= p('cf_mysql.mysql.admin_username') %>'@'%' IDENTI
 GRANT ALL PRIVILEGES ON *.* TO '<%= p('cf_mysql.mysql.admin_username') %>'@'%' WITH GRANT OPTION;
 UPDATE mysql.user SET Password=PASSWORD('<%= p('cf_mysql.mysql.admin_password') %>') WHERE User='<%= p('cf_mysql.mysql.admin_username') %>';
 DELETE FROM mysql.user WHERE User='';
+<% if_p('cf_mysql.mysql.previous_admin_username') do |previous_username| %>
+DELETE FROM mysql.user WHERE User='<%= previous_username %>';
+<% end %>
+<% if p('cf_mysql.mysql.admin_username') != 'root' %>
+DELETE FROM mysql.user WHERE User='root';
+<% end %>
+
 FLUSH PRIVILEGES;

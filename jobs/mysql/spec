@@ -60,6 +60,8 @@ properties:
     default: 'root'
   cf_mysql.mysql.admin_password:
     description: 'Password for the MySQL server admin user'
+  cf_mysql.mysql.previous_admin_username:
+    description: 'Previous username of the MySQL server admin user to be removed'
   cf_mysql.mysql.port:
     description: 'Port the mysql server should bind to'
     default: 3306
