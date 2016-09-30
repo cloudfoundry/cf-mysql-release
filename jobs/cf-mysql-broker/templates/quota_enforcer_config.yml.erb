@@ -4,7 +4,13 @@
 Host: <%= p('cf_mysql.host') %>
 Port: <%= p('cf_mysql.mysql.port') %>
 User: quota-enforcer
-Password: <%= p('cf_mysql.broker.quota_enforcer.password') %>
+<% disable_quota_enforcer = p('cf_mysql.broker.disable_quota_enforcer') %>
+<% password = "" %>
+<% if_p('cf_mysql.broker.quota_enforcer.password') do |quota_enforcer_password| %>
+    <% password = quota_enforcer_password %>
+<% end %>
+<% raise('cf_mysql.broker.quota_enforcer.password must be provided') if password.empty? && !disable_quota_enforcer %>
+Password: <%= password %>
 DBName: mysql_broker
 IgnoredUsers: <%= ignored_users.uniq %>
 PauseInSeconds: <%= p('cf_mysql.broker.quota_enforcer.pause') %>
