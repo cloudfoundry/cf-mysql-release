@@ -300,6 +300,8 @@ To use the provided manifest stubs you will need a version of bosh-lite that sup
 
 #### Deploy on AWS, vSphere, or OpenStack
 
+Note: Only AWS and vSphere infrastructures are currently tested by the cf-mysql team.
+
 ##### Copy sample stubs and fill in values
 
 We have provided example stubs to serve as a starting point.

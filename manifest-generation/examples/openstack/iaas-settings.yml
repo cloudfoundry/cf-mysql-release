@@ -1,3 +1,5 @@
+# NOTE: This iaas is not currently tested by the cf-mysql team
+
 properties:
   template_only:
     openstack:

@@ -22,7 +22,7 @@ FAKE_CF_MANIFEST="${RELEASE_DIR}/manifest-generation/examples/standalone/standal
     -i "${RELEASE_DIR}"/manifest-generation/examples/vsphere/iaas-settings.yml
 
 # openstack
-${RELEASE_DIR}/scripts/generate-deployment-manifest \
+"${RELEASE_DIR}/scripts/generate-deployment-manifest" \
     -c "${FAKE_CF_MANIFEST}" \
     -p "${RELEASE_DIR}"/manifest-generation/examples/property-overrides.yml \
     -i "${RELEASE_DIR}"/manifest-generation/examples/openstack/iaas-settings.yml
