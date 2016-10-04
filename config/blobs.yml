@@ -87,3 +87,7 @@ galera/galera-25.3.17.tar.gz:
   object_id: de96dedb-2e26-440f-b6c8-8cc31e4a2f77
   sha: ff5c16f1116565cf318c7d84c0f60d7a10d84f0f
   size: 3005918
+mariadb/mariadb-10.1.18.tar.gz:
+  object_id: c947ae95-6712-4996-a0de-14eb4dcd072a
+  sha: 345a108fd92474abc760ca803c121f76c8abef3c
+  size: 61187451
