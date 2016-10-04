@@ -75,10 +75,6 @@ golang/go1.5.1.linux-amd64.tar.gz:
   object_id: 57718a28-73c7-4d17-a46b-12c8cc40a503
   sha: 46eecd290d8803887dec718c691cc243f2175fe0
   size: 77875767
-mariadb/mariadb-10.1.17.tar.gz:
-  object_id: d6ab594e-f87b-4b48-89a3-e1fbbab028f4
-  sha: 65d3bd1c253c3b1440dc9a628986257ffb92586f
-  size: 61158134
 galera/galera-25.3.17.tar.gz:
   object_id: de96dedb-2e26-440f-b6c8-8cc31e4a2f77
   sha: ff5c16f1116565cf318c7d84c0f60d7a10d84f0f
@@ -87,3 +83,7 @@ cli/cf-cli_6.21.1_linux_x86-64.tgz:
   object_id: 25b6d3de-e535-4b46-9ba8-1d2222394731
   sha: 7dc397d2a0d93887ef50bc1f852beb686563049e
   size: 6543090
+mariadb/mariadb-10.1.18.tar.gz:
+  object_id: c947ae95-6712-4996-a0de-14eb4dcd072a
+  sha: 345a108fd92474abc760ca803c121f76c8abef3c
+  size: 61187451
