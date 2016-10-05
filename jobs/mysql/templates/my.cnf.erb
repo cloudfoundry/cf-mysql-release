@@ -83,6 +83,9 @@ log_slave_updates = 1
 expire_logs_days = <%= p('cf_mysql.mysql.binlog_expire_days') %>
 <% end %>
 
+# Required for user to create triggers when binlog is enabled
+log_bin_trust_function_creators=1
+
 # Slow query logging:
 slow_query_log = 1
 slow_query_log_file = /var/vcap/sys/log/mysql/mysql_slow_query.log
