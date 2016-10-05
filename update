@@ -1,12 +1,13 @@
-#!/bin/bash -x
-set -eux
+#!/bin/bash
+set -ux
 
 function has_remote_branch() {
   git rev-parse @{u} > /dev/null 2>&1
 }
 
-has_remote_branch
-git pull -r
+set -e
+
+has_remote_branch && git pull -r
 
 git submodule foreach --recursive git submodule sync && git submodule update --init --recursive
 
