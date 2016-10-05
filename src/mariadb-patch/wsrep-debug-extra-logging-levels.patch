@@ -1,85 +1,204 @@
+From edbf9583ad978bae297eb5267d46e542df56f8df Mon Sep 17 00:00:00 2001
+From: Nirbhay Choubey <nirbhay@mariadb.com>
+Date: Wed, 21 Sep 2016 17:21:09 -0400
+Subject: [PATCH] wsrep_debug now supports more debug information levels
+
+---
+ include/mysql/service_wsrep.h         |  9 ++++++---
+ include/wsrep.h                       |  3 +++
+ sql/handler.cc                        | 29 +++++++++++++++++++++++++++++
+ sql/sql_plugin_services.ic            |  3 ++-
+ sql/sys_vars.cc                       |  5 +++--
+ sql/transaction.cc                    |  4 ++++
+ sql/wsrep_applier.cc                  |  4 +++-
+ sql/wsrep_dummy.cc                    |  5 ++++-
+ sql/wsrep_hton.cc                     |  1 -
+ sql/wsrep_mysqld.cc                   |  9 +++++++--
+ sql/wsrep_mysqld.h                    |  2 --
+ storage/innobase/handler/ha_innodb.cc | 11 +++++++++++
+ storage/innobase/trx/trx0trx.cc       | 23 +++++++++++++++++++++++
+ storage/xtradb/handler/ha_innodb.cc   | 11 +++++++++++
+ storage/xtradb/handler/ha_innodb.h    | 18 +-----------------
+ storage/xtradb/trx/trx0trx.cc         | 24 +++++++++++++++++++++++-
+ 16 files changed, 130 insertions(+), 31 deletions(-)
+
+diff --git a/include/mysql/service_wsrep.h b/include/mysql/service_wsrep.h
+index bc5b2c6..d3e3652 100644
+--- a/include/mysql/service_wsrep.h
++++ b/include/mysql/service_wsrep.h
+@@ -74,7 +74,7 @@ struct wsrep_buf;
+ extern struct wsrep_service_st {
+   struct wsrep *              (*get_wsrep_func)();
+   my_bool                     (*get_wsrep_certify_nonPK_func)();
+-  my_bool                     (*get_wsrep_debug_func)();
++  int                         (*get_wsrep_debug_func)();
+   my_bool                     (*get_wsrep_drupal_282555_workaround_func)();
+   my_bool                     (*get_wsrep_recovery_func)();
+   my_bool                     (*get_wsrep_load_data_splitting_func)();
+@@ -110,6 +110,7 @@ extern struct wsrep_service_st {
+   int                         (*wsrep_trx_is_aborting_func)(MYSQL_THD thd);
+   int                         (*wsrep_trx_order_before_func)(MYSQL_THD, MYSQL_THD);
+   void                        (*wsrep_unlock_rollback_func)();
++  ulong                       (*wsrep_thd_thread_id_func)(THD *thd);
+ } *wsrep_service;
+ 
+ #ifdef MYSQL_DYNAMIC_PLUGIN
+@@ -151,6 +152,7 @@ extern struct wsrep_service_st {
+ #define wsrep_trx_is_aborting(T) wsrep_service->wsrep_trx_is_aborting_func(T)
+ #define wsrep_trx_order_before(T1,T2) wsrep_service->wsrep_trx_order_before_func(T1,T2)
+ #define wsrep_unlock_rollback() wsrep_service->wsrep_unlock_rollback_func()
++#define wsrep_thd_thread_id(T) wsrep_service->wsrep_thd_thread_id_func(T)
+ 
+ #define wsrep_debug get_wsrep_debug()
+ #define wsrep_log_conflicts get_wsrep_log_conflicts()
+@@ -162,7 +164,7 @@ extern struct wsrep_service_st {
+ 
+ #else
+ 
+-extern my_bool wsrep_debug;
++extern int     wsrep_debug;
+ extern my_bool wsrep_log_conflicts;
+ extern my_bool wsrep_certify_nonPK;
+ extern my_bool wsrep_load_data_splitting;
+@@ -189,7 +191,7 @@ int wsrep_trx_order_before(MYSQL_THD thd1, MYSQL_THD thd2);
+ long get_wsrep_protocol_version();
+ long long wsrep_thd_trx_seqno(THD *thd);
+ my_bool get_wsrep_certify_nonPK();
+-my_bool get_wsrep_debug();
++int get_wsrep_debug();
+ my_bool get_wsrep_drupal_282555_workaround();
+ my_bool get_wsrep_recovery();
+ my_bool get_wsrep_load_data_splitting();
+@@ -208,6 +210,7 @@ void wsrep_thd_awake(THD *thd, my_bool signal);
+ void wsrep_thd_set_conflict_state(THD *thd, enum wsrep_conflict_state state);
+ bool wsrep_thd_ignore_table(THD *thd);
+ void wsrep_unlock_rollback();
++ulong wsrep_thd_thread_id(THD *thd);
+ 
+ #endif
+ 
+diff --git a/include/wsrep.h b/include/wsrep.h
+index 0f5455c..c2f37a9 100644
+--- a/include/wsrep.h
++++ b/include/wsrep.h
+@@ -44,11 +44,14 @@
+ #define WSREP_INFO(...)  WSREP_LOG(sql_print_information, ##__VA_ARGS__)
+ #define WSREP_WARN(...)  WSREP_LOG(sql_print_warning,     ##__VA_ARGS__)
+ #define WSREP_ERROR(...) WSREP_LOG(sql_print_error,       ##__VA_ARGS__)
++#define WSREP_DEBUGX(level, ...)                                         \
++  if (wsrep_debug >= level) WSREP_LOG(sql_print_information, ##__VA_ARGS__)
+ 
+ #else
+ #define IF_WSREP(A,B) B
+ #define DBUG_ASSERT_IF_WSREP(A)
+ #define WSREP_DEBUG(...)
++#define WSREP_DEBUGX(...)
+ #define WSREP_INFO(...)
+ #define WSREP_WARN(...)
+ #define WSREP_ERROR(...)
 diff --git a/sql/handler.cc b/sql/handler.cc
-index 70f1d97..5ca8b61 100644
+index de456f7..e96ef66 100644
 --- a/sql/handler.cc
 +++ b/sql/handler.cc
-@@ -1347,6 +1347,9 @@ int ha_commit_trans(THD *thd, bool all)
+@@ -1148,6 +1148,10 @@ static int prepare_or_error(handlerton *ht, THD *thd, bool all)
+   status_var_increment(thd->status_var.ha_prepare_count);
+   if (err)
+   {
++    WSREP_DEBUGX(2, "ha_commit_trans(): prepare failed, thd: %lu, applier: %d, "
++                 "exec: %d, conf: %d, kill: %d, err: %d, hton: %d",
++                 thd->thread_id, thd->wsrep_applier, thd->wsrep_exec_mode,
++                 thd->wsrep_conflict_state, thd->killed, err, ht->db_type);
+     /* avoid sending error, if we're going to replay the transaction */
+ #ifdef WITH_WSREP
+     if (ht != wsrep_hton ||
+@@ -1349,6 +1353,11 @@ int ha_commit_trans(THD *thd, bool all)
      */
      if (is_real_trans)
        thd->transaction.cleanup();
-+    WSREP_DEBUGX(2,"ha_commit_trans(), no ha_info, thd %lu applier %d exec %d conf %d kill %d",
++
++    WSREP_DEBUGX(2, "ha_commit_trans(): no ha_info, thd: %lu, applier: %d, "
++                 "exec: %d, conf: %d, kill: %d",
 +                 thd->thread_id, thd->wsrep_applier, thd->wsrep_exec_mode,
 +                 thd->wsrep_conflict_state, thd->killed);
      DBUG_RETURN(0);
    }
  
-@@ -1363,6 +1366,9 @@ int ha_commit_trans(THD *thd, bool all)
+@@ -1366,6 +1375,10 @@ int ha_commit_trans(THD *thd, bool all)
    DBUG_PRINT("info", ("is_real_trans: %d  rw_trans:  %d  rw_ha_count: %d",
                        is_real_trans, rw_trans, rw_ha_count));
  
-+  WSREP_DEBUGX(3,"ha_commit_trans(), rw_trans %d, ha_count %d thd %lu applier %d exec %d conf %d kill %d",
-+               rw_trans, rw_ha_count, thd->thread_id, thd->wsrep_applier, thd->wsrep_exec_mode,
-+               thd->wsrep_conflict_state, thd->killed);
++  WSREP_DEBUGX(3, "ha_commit_trans(): rw_trans: %d, ha_count: %d, thd: %lu, "
++               "applier: %d, exec: %d, conf: %d, kill: %d",
++               rw_trans, rw_ha_count, thd->thread_id, thd->wsrep_applier,
++               thd->wsrep_exec_mode, thd->wsrep_conflict_state, thd->killed);
    if (rw_trans)
    {
      /*
-@@ -1390,6 +1396,10 @@ int ha_commit_trans(THD *thd, bool all)
+@@ -1389,6 +1402,10 @@ int ha_commit_trans(THD *thd, bool all)
  
      DEBUG_SYNC(thd, "ha_commit_trans_after_acquire_commit_lock");
    }
 +  else
 +  {
-+    WSREP_DEBUGX(2,"ha_commit_trans(), non rw_trans");
++    WSREP_DEBUGX(2, "ha_commit_trans(): non rw_trans");
 +  }
  
    if (rw_trans &&
        opt_readonly &&
-@@ -1430,6 +1440,9 @@ int ha_commit_trans(THD *thd, bool all)
-     if (err)
- #ifdef WITH_WSREP
-     {
-+      WSREP_DEBUGX(2,"ha_commit_trans(), prepare fail, thd %lu applier %d exec %d conf %d kill %d err %d hton %d",
-+                   thd->thread_id, thd->wsrep_applier, thd->wsrep_exec_mode,
-+                   thd->wsrep_conflict_state, thd->killed, err, ht->db_type);
-       if (WSREP(thd) && ht->db_type== DB_TYPE_WSREP)
-       {
-         error= 1;
-@@ -1488,6 +1501,9 @@ int ha_commit_trans(THD *thd, bool all)
+@@ -1454,6 +1471,10 @@ int ha_commit_trans(THD *thd, bool all)
    DBUG_EXECUTE_IF("crash_commit_after_log", DBUG_SUICIDE(););
  
    error= commit_one_phase_2(thd, all, trans, is_real_trans) ? 2 : 0;
-+  WSREP_DEBUGX(3,"ha_commit_trans(), commit_one_phase_2 returns %d, thd %lu applier %d exec %d conf %d kill %d",
++  WSREP_DEBUGX(3, "ha_commit_trans(): commit_one_phase_2 returns %d, "
++               "thd: %lu, applier: %d, exec: %d, conf: %d, kill: %d",
 +               error, thd->thread_id, thd->wsrep_applier, thd->wsrep_exec_mode,
-+                 thd->wsrep_conflict_state, thd->killed);
++               thd->wsrep_conflict_state, thd->killed);
  
    DBUG_EXECUTE_IF("crash_commit_before_unlog", DBUG_SUICIDE(););
    if (tc_log->unlog(cookie, xid))
-@@ -1503,6 +1519,9 @@ int ha_commit_trans(THD *thd, bool all)
+@@ -1474,6 +1495,10 @@ int ha_commit_trans(THD *thd, bool all)
  
    /* Come here if error and we need to rollback. */
  err:
-+  WSREP_DEBUGX(2,"ha_commit_trans(), returns with error, thd %lu applier %d exec %d conf %d kill %d",
-+                 thd->thread_id, thd->wsrep_applier, thd->wsrep_exec_mode,
-+                 thd->wsrep_conflict_state, thd->killed);
++  WSREP_DEBUGX(2, "ha_commit_trans(), returns with error, thd: %lu, "
++               "applier: %d, exec: %d, conf: %d, kill: %d",
++               thd->thread_id, thd->wsrep_applier, thd->wsrep_exec_mode,
++               thd->wsrep_conflict_state, thd->killed);
    error= 1;                                  /* Transaction was rolled back */
    /*
      In parallel replication, rollback is delayed, as there is extra replication
-@@ -1586,6 +1605,9 @@ commit_one_phase_2(THD *thd, bool all, THD_TRANS *trans, bool is_real_trans)
+@@ -1557,6 +1582,10 @@ commit_one_phase_2(THD *thd, bool all, THD_TRANS *trans, bool is_real_trans)
        {
          my_error(ER_ERROR_DURING_COMMIT, MYF(0), err);
          error=1;
-+        WSREP_DEBUGX(2,"commit_one_phase_2(), commit failed, thd %lu applier %d exec %d conf %d kill %d",
++        WSREP_DEBUGX(2, "commit_one_phase_2(): commit failed, thd: %lu, "
++                     "applier: %d, exec: %d, conf: %d, kill: %d",
 +                     thd->thread_id, thd->wsrep_applier, thd->wsrep_exec_mode,
 +                     thd->wsrep_conflict_state, thd->killed);
        }
        /* Should this be done only if is_real_trans is set ? */
        status_var_increment(thd->status_var.ha_commit_count);
+diff --git a/sql/sql_plugin_services.ic b/sql/sql_plugin_services.ic
+index c3dfde1..5c95984 100644
+--- a/sql/sql_plugin_services.ic
++++ b/sql/sql_plugin_services.ic
+@@ -138,7 +138,8 @@ static struct wsrep_service_st wsrep_handler = {
+   wsrep_thd_ws_handle,
+   wsrep_trx_is_aborting,
+   wsrep_trx_order_before,
+-  wsrep_unlock_rollback
++  wsrep_unlock_rollback,
++  wsrep_thd_thread_id
+ };
+ 
+ static struct thd_specifics_service_st thd_specifics_handler=
 diff --git a/sql/sys_vars.cc b/sql/sys_vars.cc
-index 4d2e35b..d5b0ae8 100644
+index 306528c..ea965d8 100644
 --- a/sql/sys_vars.cc
 +++ b/sql/sys_vars.cc
-@@ -4581,9 +4581,10 @@ static Sys_var_charptr Sys_wsrep_dbug_option(
-        IN_FS_CHARSET, DEFAULT(""),
-        NO_MUTEX_GUARD, NOT_IN_BINLOG);
+@@ -4779,9 +4779,10 @@ static Sys_var_charptr Sys_wsrep_dbug_option(
+        GLOBAL_VAR(wsrep_dbug_option),CMD_LINE(REQUIRED_ARG),
+        IN_SYSTEM_CHARSET, DEFAULT(""));
  
 -static Sys_var_mybool Sys_wsrep_debug(
 +static Sys_var_int Sys_wsrep_debug(
@@ -91,53 +210,74 @@ index 4d2e35b..d5b0ae8 100644
  static Sys_var_mybool Sys_wsrep_convert_LOCK_to_trx(
         "wsrep_convert_LOCK_to_trx", "To convert locking sessions "
 diff --git a/sql/transaction.cc b/sql/transaction.cc
-index f478b4a..0cb8300 100644
+index 8b18870..0063a20 100644
 --- a/sql/transaction.cc
 +++ b/sql/transaction.cc
-@@ -226,6 +226,9 @@ bool trans_commit(THD *thd)
+@@ -224,6 +224,10 @@ bool trans_commit(THD *thd)
  {
    int res;
    DBUG_ENTER("trans_commit");
-+  WSREP_DEBUGX(3,"trans_commit(), thd %lu applier %d exec %d conf %d kill %d",
++  WSREP_DEBUGX(3, "trans_commit(): thd: %lu, applier: %d, exec: %d, conf: %d, "
++               "kill: %d",
 +               thd->thread_id, thd->wsrep_applier, thd->wsrep_exec_mode,
 +               thd->wsrep_conflict_state, thd->killed);
  
    if (trans_check(thd))
      DBUG_RETURN(TRUE);
 diff --git a/sql/wsrep_applier.cc b/sql/wsrep_applier.cc
-index 4d95b38..49d8213 100644
+index 426789b..728a47b 100644
 --- a/sql/wsrep_applier.cc
 +++ b/sql/wsrep_applier.cc
-@@ -126,6 +126,7 @@ static wsrep_cb_status_t wsrep_apply_events(THD*        thd,
+@@ -119,6 +119,7 @@ static wsrep_cb_status_t wsrep_apply_events(THD*        thd,
      }
  
      typ= ev->get_type_code();
-+    WSREP_DEBUGX(3,"wsrep_apply_events(), event type: %d", typ);
++    WSREP_DEBUGX(3, "wsrep_apply_events(): event type: %d", typ);
  
      switch (typ) {
      case FORMAT_DESCRIPTION_EVENT:
-@@ -267,6 +268,7 @@ wsrep_cb_status_t wsrep_apply_cb(void* const             ctx,
+@@ -270,6 +271,7 @@ wsrep_cb_status_t wsrep_apply_cb(void* const             ctx,
    {
-     wsrep_dump_rbr_buf(thd, buf, buf_len);
+     wsrep_dump_rbr_buf_with_header(thd, buf, buf_len);
    }
-+  WSREP_DEBUGX(3,"wsrep_apply_cb(), rcode %d WS buf: %lu", rcode, buf_len);
++  WSREP_DEBUGX(3, "wsrep_apply_cb(): rcode: %d, WS buf: %lu", rcode, buf_len);
  
    TABLE *tmp;
    while ((tmp = thd->temporary_tables))
-@@ -294,7 +296,7 @@ static wsrep_cb_status_t wsrep_commit(THD* const thd,
+@@ -296,7 +298,7 @@ static wsrep_cb_status_t wsrep_commit(THD* const thd)
  
    wsrep_cb_status_t const rcode(trans_commit(thd) ?
                                  WSREP_CB_FAILURE : WSREP_CB_SUCCESS);
 -
-+  WSREP_DEBUGX(3,"wsrep_commit(), trans_commit returned with %d", rcode);
++  WSREP_DEBUGX(3, "wsrep_commit(): trans_commit returned with %d", rcode);
    if (WSREP_CB_SUCCESS == rcode)
    {
      thd->wsrep_rgi->cleanup_context(thd, false);
+diff --git a/sql/wsrep_dummy.cc b/sql/wsrep_dummy.cc
+index 0aa7f9b..468bdd5 100644
+--- a/sql/wsrep_dummy.cc
++++ b/sql/wsrep_dummy.cc
+@@ -38,7 +38,7 @@ struct wsrep *get_wsrep()
+ my_bool get_wsrep_certify_nonPK()
+ { return 0; }
+ 
+-my_bool get_wsrep_debug()
++int get_wsrep_debug()
+ { return 0; }
+ 
+ my_bool get_wsrep_drupal_282555_workaround()
+@@ -130,3 +130,6 @@ int wsrep_trx_is_aborting(THD *)
+ 
+ void wsrep_unlock_rollback()
+ { }
++
++ulong wsrep_thd_thread_id(THD *)
++{ return 0; }
 diff --git a/sql/wsrep_hton.cc b/sql/wsrep_hton.cc
-index c096d26..858bd9a 100644
+index 6e0fc11..1b8853e 100644
 --- a/sql/wsrep_hton.cc
 +++ b/sql/wsrep_hton.cc
-@@ -126,7 +126,6 @@ void wsrep_post_commit(THD* thd, bool all)
+@@ -133,7 +133,6 @@ void wsrep_post_commit(THD* thd, bool all)
       /*
         Non-InnoDB statements may have populated events in stmt cache => cleanup
       */
@@ -146,134 +286,285 @@ index c096d26..858bd9a 100644
       break;
     }
 diff --git a/sql/wsrep_mysqld.cc b/sql/wsrep_mysqld.cc
-index 31a642e..fc980b2 100644
+index 776bf4a..4ca17ea 100644
 --- a/sql/wsrep_mysqld.cc
 +++ b/sql/wsrep_mysqld.cc
-@@ -46,7 +46,7 @@ const char* wsrep_dbug_option   = "";
+@@ -64,7 +64,7 @@ const char* wsrep_dbug_option   = "";
  
  long    wsrep_slave_threads            = 1; // # of slave action appliers wanted
  int     wsrep_slave_count_change       = 0; // # of appliers to stop or start
 -my_bool wsrep_debug                    = 0; // enable debug level logging
-+int wsrep_debug                    = 0; // enable debug level logging
++int wsrep_debug                        = 0; // enable debug level logging
  my_bool wsrep_convert_LOCK_to_trx      = 1; // convert locking sessions to trx
  ulong   wsrep_retry_autocommit         = 5; // retry aborted autocommit trx
  my_bool wsrep_auto_increment_control   = 1; // control auto increment variables
+@@ -2328,6 +2328,11 @@ extern "C" uint32 wsrep_thd_wsrep_rand(THD *thd)
+   return thd->wsrep_rand;
+ }
+ 
++extern "C" ulong wsrep_thd_thread_id(THD *thd)
++{
++  return (ulong) (thd) ? thd->thread_id : 0;
++}
++
+ longlong wsrep_thd_trx_seqno(THD *thd)
+ {
+   return (thd) ? thd->wsrep_trx_meta.gtid.seqno : WSREP_SEQNO_UNDEFINED;
+@@ -2555,7 +2560,7 @@ static int wsrep_create_trigger_query(THD *thd, uchar** buf, size_t* buf_len)
+ 
+ /***** callbacks for wsrep service ************/
+ 
+-my_bool get_wsrep_debug()
++int get_wsrep_debug()
+ {
+   return wsrep_debug;
+ }
 diff --git a/sql/wsrep_mysqld.h b/sql/wsrep_mysqld.h
-index 4e0d2f4..e8eef35 100644
+index 04ccc1a..26c436d 100644
 --- a/sql/wsrep_mysqld.h
 +++ b/sql/wsrep_mysqld.h
-@@ -82,7 +82,7 @@ extern const char* wsrep_data_home_dir;
- extern const char* wsrep_dbug_option;
- extern long        wsrep_slave_threads;
- extern int         wsrep_slave_count_change;
--extern MYSQL_PLUGIN_IMPORT my_bool wsrep_debug;
-+extern MYSQL_PLUGIN_IMPORT int wsrep_debug;
- extern my_bool     wsrep_convert_LOCK_to_trx;
- extern ulong       wsrep_retry_autocommit;
- extern my_bool     wsrep_auto_increment_control;
-@@ -226,6 +226,8 @@ extern wsrep_seqno_t wsrep_locked_seqno;
- #define WSREP_INFO(...)  WSREP_LOG(sql_print_information, ##__VA_ARGS__)
- #define WSREP_WARN(...)  WSREP_LOG(sql_print_warning,     ##__VA_ARGS__)
- #define WSREP_ERROR(...) WSREP_LOG(sql_print_error,       ##__VA_ARGS__)
-+#define WSREP_DEBUGX(level, ...)                                         \
-+    if (wsrep_debug >= level)     WSREP_LOG(sql_print_information, ##__VA_ARGS__)
+@@ -143,8 +143,6 @@ extern "C" void wsrep_thd_set_exec_mode(THD *thd, enum wsrep_exec_mode mode);
+ extern "C" void wsrep_thd_set_query_state(
+         THD *thd, enum wsrep_query_state state);
  
- #define WSREP_LOG_CONFLICT_THD(thd, role)                                      \
-     WSREP_LOG(sql_print_information, 	                                       \
-diff --git a/storage/xtradb/handler/ha_innodb.cc b/storage/xtradb/handler/ha_innodb.cc
-index 886a3ef..5b6aa07 100644
---- a/storage/xtradb/handler/ha_innodb.cc
-+++ b/storage/xtradb/handler/ha_innodb.cc
-@@ -4061,6 +4061,9 @@ innobase_commit_low(
+-extern "C" void wsrep_thd_set_trx_to_replay(THD *thd, uint64 trx_id);
+-
+ extern "C" uint32 wsrep_thd_wsrep_rand(THD *thd);
+ extern "C" time_t wsrep_thd_query_start(THD *thd);
+ extern "C" query_id_t wsrep_thd_query_id(THD *thd);
+diff --git a/storage/innobase/handler/ha_innodb.cc b/storage/innobase/handler/ha_innodb.cc
+index debda3b..e9db6e7 100644
+--- a/storage/innobase/handler/ha_innodb.cc
++++ b/storage/innobase/handler/ha_innodb.cc
+@@ -4063,6 +4063,9 @@ innobase_commit_low(
  #ifdef WITH_WSREP
  	THD* thd = (THD*)trx->mysql_thd;
  	const char* tmp = 0;
-+        WSREP_DEBUGX(3,"innobase_commit_low(), thd %lu",
-+                     wsrep_thd_thread_id(trx->mysql_thd));
++	WSREP_DEBUGX(3, "innobase_commit_low(): thd: %lu",
++		wsrep_thd_thread_id(trx->mysql_thd));
 +
- 	if (wsrep_on((void*)thd)) {
+ 	if (wsrep_on(thd)) {
  #ifdef WSREP_PROC_INFO
  		char info[64];
-@@ -4184,6 +4187,8 @@ innobase_commit_ordered_2(
+@@ -4154,6 +4157,10 @@ innobase_commit_ordered_2(
  	THD*	thd)	/*!< in: MySQL thread handle */
  {
  	DBUG_ENTER("innobase_commit_ordered_2");
-+        WSREP_DEBUGX(3,"innobase_commit_ordered_2(), thd %lu concurrency %lu",
-+                     wsrep_thd_thread_id(trx->mysql_thd), innobase_commit_concurrency);
++	WSREP_DEBUGX(3, "innobase_commit_ordered_2(): thd: %lu, "
++		"concurrency: %lu",
++		wsrep_thd_thread_id(trx->mysql_thd),
++		innobase_commit_concurrency);
  
- 	/* We need current binlog position for mysqlbackup to work. */
- retry:
-@@ -4408,6 +4413,8 @@ innobase_commit(
+ 	/* We need current binlog position for mysqlbackup to work.
+ 	Note, the position is current because commit_ordered is guaranteed
+@@ -4271,6 +4278,8 @@ innobase_commit(
  	DBUG_PRINT("trans", ("ending transaction"));
  
  	trx = check_trx_exists(thd);
-+        WSREP_DEBUGX(3,"innobase_commit(), thd %lu commit %d",
-+                     wsrep_thd_thread_id(trx->mysql_thd), commit_trx);
++	WSREP_DEBUGX(3, "innobase_commit(): thd: %lu, commit: %d",
++		wsrep_thd_thread_id(trx->mysql_thd), commit_trx);
  
  	/* Since we will reserve the trx_sys->mutex, we have to release
  	the search system latch first to obey the latching order. */
-@@ -4507,6 +4514,8 @@ innobase_rollback(
+@@ -4359,6 +4368,8 @@ innobase_rollback(
  	DBUG_PRINT("trans", ("aborting transaction"));
  
  	trx = check_trx_exists(thd);
-+        WSREP_DEBUGX(3,"innobase_rollback(), thd %lu",
-+                     wsrep_thd_thread_id(trx->mysql_thd));
++	WSREP_DEBUGX(3, "innobase_rollback(): thd: %lu",
++		wsrep_thd_thread_id(trx->mysql_thd));
  
  	/* Release a possible FIFO ticket and search latch. Since we will
  	reserve the trx_sys->mutex, we have to release the search system
+diff --git a/storage/innobase/trx/trx0trx.cc b/storage/innobase/trx/trx0trx.cc
+index 1a99e15..0140898 100644
+--- a/storage/innobase/trx/trx0trx.cc
++++ b/storage/innobase/trx/trx0trx.cc
+@@ -1186,6 +1186,12 @@ trx_commit_in_memory(
+ 			if the transaction did not modify anything */
+ {
+ 	trx->must_flush_log_later = FALSE;
++#ifdef WITH_WSREP
++	if (wsrep_debug > 2)
++		fprintf(stderr, "WSREP: trx_commit_in_memory(): thd: %lu, "
++			"lsn: %lu\n",
++			wsrep_thd_thread_id(trx->mysql_thd), lsn);
++#endif /* WITH_WSREP */
+ 
+ 	if (trx_is_autocommit_non_locking(trx)) {
+ 		ut_ad(trx->read_only);
+@@ -1371,6 +1377,11 @@ trx_commit_low(
+ 			or NULL if trx made no modifications */
+ {
+ 	lsn_t	lsn;
++#ifdef WITH_WSREP
++	if (wsrep_debug > 2)
++		fprintf(stderr, "WSREP: trx_commit_low(): thd: %lu \n",
++			wsrep_thd_thread_id(trx->mysql_thd));
++#endif /* WITH_WSREP */
+ 
+ 	assert_trx_nonlocking_or_in_list(trx);
+ 	ut_ad(!trx_state_eq(trx, TRX_STATE_COMMITTED_IN_MEMORY));
+@@ -1647,6 +1658,11 @@ trx_commit_for_mysql(
+ 	started. */
+ 
+ 	ut_a(trx);
++#ifdef WITH_WSREP
++	if (wsrep_debug > 2)
++		fprintf(stderr, "WSREP: trx_commit_for_mysql(): thd: %lu\n",
++			wsrep_thd_thread_id(trx->mysql_thd));
++#endif /* WITH_WSREP */
+ 
+ 	switch (trx->state) {
+ 	case TRX_STATE_NOT_STARTED:
+@@ -1664,6 +1680,13 @@ trx_commit_for_mysql(
+ 		ut_d(trx->start_file = __FILE__);
+ 		ut_d(trx->start_line = __LINE__);
+ 
++#ifdef WITH_WSREP
++		if (wsrep_debug > 1)
++			fprintf(stderr, "WSREP: trx_commit_for_mysql() "
++				"started trx, thd: %lu\n",
++				wsrep_thd_thread_id(trx->mysql_thd));
++#endif /* WITH_WSREP */
++
+ 		trx_start_low(trx);
+ 		/* fall through */
+ 	case TRX_STATE_ACTIVE:
+diff --git a/storage/xtradb/handler/ha_innodb.cc b/storage/xtradb/handler/ha_innodb.cc
+index 5ffd8b6..93d2d04 100644
+--- a/storage/xtradb/handler/ha_innodb.cc
++++ b/storage/xtradb/handler/ha_innodb.cc
+@@ -4570,6 +4570,9 @@ innobase_commit_low(
+ #ifdef WITH_WSREP
+ 	THD* thd = (THD*)trx->mysql_thd;
+ 	const char* tmp = 0;
++	WSREP_DEBUGX(3, "innobase_commit_low(): thd: %lu",
++		wsrep_thd_thread_id(trx->mysql_thd));
++
+ 	if (wsrep_on(thd)) {
+ #ifdef WSREP_PROC_INFO
+ 		char info[64];
+@@ -4693,6 +4696,10 @@ innobase_commit_ordered_2(
+ 	THD*	thd)	/*!< in: MySQL thread handle */
+ {
+ 	DBUG_ENTER("innobase_commit_ordered_2");
++	WSREP_DEBUGX(3, "innobase_commit_ordered_2(): thd: %lu, "
++		"concurrency: %lu",
++		wsrep_thd_thread_id(trx->mysql_thd),
++		innobase_commit_concurrency);
+ 
+ 	/* We need current binlog position for mysqlbackup to work. */
+ retry:
+@@ -4819,6 +4826,8 @@ innobase_commit(
+ 	DBUG_PRINT("trans", ("ending transaction"));
+ 
+ 	trx = check_trx_exists(thd);
++	WSREP_DEBUGX(3, "innobase_commit(): thd: %lu, commit: %d",
++		wsrep_thd_thread_id(trx->mysql_thd), commit_trx);
+ 
+ 	/* Since we will reserve the trx_sys->mutex, we have to release
+ 	the search system latch first to obey the latching order. */
+@@ -4929,6 +4938,8 @@ innobase_rollback(
+ 	DBUG_PRINT("trans", ("aborting transaction"));
+ 
+ 	trx = check_trx_exists(thd);
++	WSREP_DEBUGX(3, "innobase_rollback(): thd: %lu",
++		wsrep_thd_thread_id(trx->mysql_thd));
+ 
+ 	/* Release a possible FIFO ticket and search latch. Since we will
+ 	reserve the trx_sys->mutex, we have to release the search system
+diff --git a/storage/xtradb/handler/ha_innodb.h b/storage/xtradb/handler/ha_innodb.h
+index 7b0d20a..3a163ad 100644
+--- a/storage/xtradb/handler/ha_innodb.h
++++ b/storage/xtradb/handler/ha_innodb.h
+@@ -476,23 +476,7 @@ extern void mysql_bin_log_commit_pos(THD *thd, ulonglong *out_pos, const char **
+ 
+ struct trx_t;
+ #ifdef WITH_WSREP
+-#include <wsrep_mysqld.h>
+-//extern "C" int wsrep_trx_order_before(void *thd1, void *thd2);
+-
+-extern "C" bool wsrep_thd_is_wsrep_on(THD *thd);
+-
+-
+-extern "C" void wsrep_thd_set_exec_mode(THD *thd, enum wsrep_exec_mode mode);
+-extern "C" void wsrep_thd_set_query_state(
+-	THD *thd, enum wsrep_query_state state);
+-
+-extern "C" void wsrep_thd_set_trx_to_replay(THD *thd, uint64 trx_id);
+-
+-extern "C" uint32 wsrep_thd_wsrep_rand(THD *thd);
+-extern "C" time_t wsrep_thd_query_start(THD *thd);
+-extern "C" query_id_t wsrep_thd_query_id(THD *thd);
+-extern "C" query_id_t wsrep_thd_wsrep_last_query_id(THD *thd);
+-extern "C" void wsrep_thd_set_wsrep_last_query_id(THD *thd, query_id_t id);
++#include <mysql/service_wsrep.h>
+ #endif
+ 
+ extern const struct _ft_vft ft_vft_result;
 diff --git a/storage/xtradb/trx/trx0trx.cc b/storage/xtradb/trx/trx0trx.cc
-index b69e8ae..fbc7e6a 100644
+index 41f8c16..d7e334d 100644
 --- a/storage/xtradb/trx/trx0trx.cc
 +++ b/storage/xtradb/trx/trx0trx.cc
-@@ -50,7 +50,9 @@ Created 3/26/1996 Heikki Tuuri
+@@ -52,7 +52,6 @@ Created 3/26/1996 Heikki Tuuri
  #include "ut0vec.h"
  
  #include<set>
 -
-+#ifdef WITH_WSREP
-+#include <wsrep_mysqld.h>
-+#endif
  extern "C"
  int thd_deadlock_victim_preference(const MYSQL_THD thd1, const MYSQL_THD thd2);
  
-@@ -1391,6 +1393,9 @@ trx_commit_in_memory(
+@@ -1399,6 +1398,12 @@ trx_commit_in_memory(
  			if the transaction did not modify anything */
  {
  	trx->must_flush_log_later = FALSE;
-+        if (wsrep_debug > 2) fprintf(stderr,
-+                                     "trx_commit_in_memory(), thd %lu lsn %lu \n",
-+                                     wsrep_thd_thread_id(trx->mysql_thd), lsn);
++#ifdef WITH_WSREP
++	if (wsrep_debug > 2)
++		fprintf(stderr, "WSREP: trx_commit_in_memory(): thd: %lu, "
++			"lsn: %lu\n",
++			wsrep_thd_thread_id(trx->mysql_thd), lsn);
++#endif /* WITH_WSREP */
  
  	if (trx_is_autocommit_non_locking(trx)) {
  		ut_ad(trx->read_only);
-@@ -1586,6 +1591,9 @@ trx_commit_low(
+@@ -1594,6 +1599,11 @@ trx_commit_low(
  			or NULL if trx made no modifications */
  {
  	lsn_t	lsn;
-+        if (wsrep_debug > 2) fprintf(stderr,
-+                                     "trx_commit_low(), thd %lu \n",
-+                                     wsrep_thd_thread_id(trx->mysql_thd));
++#ifdef WITH_WSREP
++	if (wsrep_debug > 2)
++		fprintf(stderr, "WSREP: trx_commit_low(): thd: %lu \n",
++			wsrep_thd_thread_id(trx->mysql_thd));
++#endif /* WITH_WSREP */
  
  	assert_trx_nonlocking_or_in_list(trx);
  	ut_ad(!trx_state_eq(trx, TRX_STATE_COMMITTED_IN_MEMORY));
-@@ -1904,6 +1912,9 @@ trx_commit_for_mysql(
+@@ -1912,6 +1922,11 @@ trx_commit_for_mysql(
  	started. */
  
  	ut_a(trx);
-+        if (wsrep_debug > 2) fprintf(stderr,
-+                                     "trx_commit_for_mysql(), thd %lu \n",
-+                                     wsrep_thd_thread_id(trx->mysql_thd));
++#ifdef WITH_WSREP
++	if (wsrep_debug > 2)
++		fprintf(stderr, "WSREP: trx_commit_for_mysql(): thd: %lu\n",
++			wsrep_thd_thread_id(trx->mysql_thd));
++#endif /* WITH_WSREP */
  
  	switch (trx->state) {
  	case TRX_STATE_NOT_STARTED:
-@@ -1920,6 +1931,10 @@ trx_commit_for_mysql(
- 
+@@ -1929,6 +1944,13 @@ trx_commit_for_mysql(
  		ut_d(trx->start_file = __FILE__);
  		ut_d(trx->start_line = __LINE__);
-+                if (wsrep_debug > 1)
-+                  fprintf(stderr,
-+                          "trx_commit_for_mysql(), started trx, thd %lu \n",
-+                          wsrep_thd_thread_id(trx->mysql_thd));
  
++#ifdef WITH_WSREP
++		if (wsrep_debug > 1)
++			fprintf(stderr, "WSREP: trx_commit_for_mysql() "
++				"started trx, thd: %lu\n",
++				wsrep_thd_thread_id(trx->mysql_thd));
++#endif /* WITH_WSREP */
++
  		trx_start_low(trx);
  		/* fall through */
+ 	case TRX_STATE_ACTIVE:
+-- 
+2.4.0
+
