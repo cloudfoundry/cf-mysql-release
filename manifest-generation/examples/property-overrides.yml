@@ -22,6 +22,7 @@ property_overrides:
   smoke_tests:
     password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
   broker:
+    db_password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
     auth_username: REPLACE_WITH_A_USERNAME_YOU_MAKE_UP # eg. cc
     auth_password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
     cookie_secret: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP

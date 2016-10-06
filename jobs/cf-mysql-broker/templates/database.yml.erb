@@ -19,5 +19,5 @@ production:
   reconnect: true
   host: <%= p('cf_mysql.host') %>
   port: <%= p('cf_mysql.mysql.port') %>
-  username: <%= p('cf_mysql.mysql.admin_username') %>
-  password: <%= p('cf_mysql.mysql.admin_password') %>
+  username: cf-mysql-broker
+  password: <%= p('cf_mysql.broker.db_password') %>

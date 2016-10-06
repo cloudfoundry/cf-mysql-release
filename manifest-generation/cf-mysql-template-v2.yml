@@ -121,6 +121,7 @@ properties:
     smoke_tests:
       password: ((cf_mysql_smoke_tests_password))
     broker:
+      db_password: ((cf_mysql_broker_db_password))
       auth_username: ((cf_mysql_broker_auth_username))
       auth_password: ((cf_mysql_broker_auth_password))
       cookie_secret: ((cf_mysql_broker_cookie_secret))

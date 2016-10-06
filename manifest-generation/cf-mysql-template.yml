@@ -94,6 +94,7 @@ properties:
       consul_enabled: (( property_overrides.proxy.consul_enabled || nil ))
       consul_service_name: (( property_overrides.proxy.consul_service_name || nil ))
     broker:
+      db_password: (( property_overrides.broker.db_password || nil ))
       max_user_connections_default: (( property_overrides.broker.max_user_connections_default || nil ))
       ssl_enabled: (( property_overrides.broker.ssl_enabled || nil ))
       auth_username: (( property_overrides.broker.auth_username ))

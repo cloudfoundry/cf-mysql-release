@@ -33,6 +33,10 @@ case $1 in
     # Start syslog forwarding
     /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $JOB_DIR/config
 
+    /var/vcap/packages/mariadb/bin/mysql \
+      --defaults-file="${JOB_DIR}/config/mylogin.cnf" \
+      < "${JOB_DIR}/config/cf_mysql_broker_setup.sql"
+
     # Run the migrations only on the first node
     if [ $JOB_INDEX -eq 0 ]; then
       pushd $PACKAGE_DIR
