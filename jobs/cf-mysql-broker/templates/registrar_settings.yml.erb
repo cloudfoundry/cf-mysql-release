@@ -31,7 +31,7 @@ routes:
   port: <%= p('cf_mysql.broker.port') %>
   uris:
   - <%= p('cf_mysql.external_host') %>
-  registration_interval: 10
+  registration_interval: 10s
   health_check:
     name: script
     script_path: /var/vcap/jobs/cf-mysql-broker/bin/healthcheck.sh
