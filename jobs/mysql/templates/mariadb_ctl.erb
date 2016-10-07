@@ -9,6 +9,10 @@ set -o pipefail
   else
     disable_sst_string = 'DISABLE_SST=0'
   end
+
+  if p('cf_mysql.mysql.interrupt_notify_cmd')
+    disable_sst_string << " INTERRUPT_NOTIFY_CMD='#{p('cf_mysql.mysql.interrupt_notify_cmd')}'"
+  end
 %>
 
 export MARIADB_JOB_DIR=/var/vcap/jobs/mysql
