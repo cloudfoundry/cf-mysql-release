@@ -9,6 +9,7 @@ property_overrides:
     cluster_health:
       password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
     galera_healthcheck:
+      db_password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
       endpoint_username: REPLACE_WITH_A_USERNAME_YOU_MAKE_UP
       endpoint_password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
   proxy:
@@ -18,6 +19,7 @@ property_overrides:
     password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP
     standalone_tests_only: true
   broker:
+    db_password: UNUSED_VALUE
     auth_username: UNUSED_VALUE
     auth_password: UNUSED_VALUE
     cookie_secret: UNUSED_VALUE
