@@ -8,7 +8,7 @@ CONFIG_DIR=${JOB_DIR}/config
 RUN_DIR=/var/vcap/sys/run/mysql
 PID_FILE=${RUN_DIR}/cluster_health_logger.pid
 BIN_FILE=/var/vcap/packages/cf-mysql-cluster-health-logger/bin/cf-mysql-cluster-health-logger
-LOG_DIR=/var/vcap/sys/log
+LOG_DIR=/var/vcap/sys/log/mysql
 
 tee_output_to_sys_log ${LOG_DIR}
 
