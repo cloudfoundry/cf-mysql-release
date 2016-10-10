@@ -75,6 +75,7 @@ properties:
       gcache_size: (( property_overrides.mysql.gcache_size || nil ))
       ib_log_file_size: (( property_overrides.mysql.ib_log_file_size || nil ))
       innodb_buffer_pool_size: (( property_overrides.mysql.innodb_buffer_pool_size || nil ))
+      interrupt_notify_cmd: (( property_overrides.mysql.interrupt_notify_cmd || nil ))
       max_connections: (( property_overrides.mysql.max_connections || nil ))
       persistent_disk: (( disk_pools.mysql-persistent-disk.disk_size ))
       server_audit_events: (( property_overrides.mysql.server_audit_events || nil ))
