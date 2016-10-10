@@ -22,6 +22,9 @@ consumes:
 provides:
 - name: proxy
   type: proxy
+  properties:
+  - cf_mysql.proxy.api_username
+  - cf_mysql.proxy.api_password
 
 packages:
 - switchboard
