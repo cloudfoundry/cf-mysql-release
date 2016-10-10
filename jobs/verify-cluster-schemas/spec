@@ -4,6 +4,13 @@ packages:
   - mariadb
   - ruby
   - cluster-schema-verifier
+consumes:
+- name: mysql
+  type: mysql
+  optional: true
+- name: arbitrator
+  type: arbitrator
+  optional: true
 templates:
   run.rb.erb: bin/run
 properties:
