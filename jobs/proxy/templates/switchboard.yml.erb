@@ -13,27 +13,29 @@
   end
 %>
 
-"API":
-  "Port": <%= p('cf_mysql.proxy.api_port') %>
-  "ForceHttps": <%= p('cf_mysql.proxy.api_force_https') %>
-  "Username": <%= p('cf_mysql.proxy.api_username') %>
-  "Password": <%= p('cf_mysql.proxy.api_password') %>
-"Proxy":
-  "Port": <%= p('cf_mysql.proxy.port') %>
-  "HealthcheckTimeoutMillis": <%= p("cf_mysql.proxy.healthcheck_timeout_millis") %>
-  "Backends":
+API:
+  Port: <%= p('cf_mysql.proxy.api_port') %>
+  ForceHttps: <%= p('cf_mysql.proxy.api_force_https') %>
+  Username: <%= p('cf_mysql.proxy.api_username') %>
+  Password: <%= p('cf_mysql.proxy.api_password') %>
+Proxy:
+  Port: <%= p('cf_mysql.proxy.port') %>
+  HealthcheckTimeoutMillis: <%= p('cf_mysql.proxy.healthcheck_timeout_millis') %>
+  Backends:
   <% cluster_ips.each_with_index do |ip, n| %>
-  - "Host": <%= ip %>
-    "Port": 3306
-    "StatusPort": 9200
-    "StatusEndpoint": "galera_status"
-    "Name": "backend-<%= n %>"
+  - Host: <%= ip %>
+    Port: 3306
+    StatusPort: 9200
+    StatusEndpoint: galera_status
+    Name: "backend-<%= n %>"
   <% end %>
-"HealthPort": <%= p('cf_mysql.proxy.health_port') %>
-"ProfilerPort": 6060
-"StaticDir": "/var/vcap/packages/switchboard/static"
-"PidFile": "/var/vcap/sys/run/proxy/switchboard.pid"
+HealthPort: <%= p('cf_mysql.proxy.health_port') %>
+Profiling:
+  Enabled: <%= p('cf_mysql.proxy.profiling_enabled') %>
+  Port: 6060
+StaticDir: /var/vcap/packages/switchboard/static
+PidFile: /var/vcap/sys/run/proxy/switchboard.pid
 <% if p('cf_mysql.proxy.consul_enabled') %>
-"ConsulCluster": http://127.0.0.1:8500
-"ConsulServiceName": <%= p('cf_mysql.proxy.consul_service_name') %>
+ConsulCluster: http://127.0.0.1:8500
+ConsulServiceName: <%= p('cf_mysql.proxy.consul_service_name') %>
 <% end %>
