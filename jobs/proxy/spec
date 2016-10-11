@@ -5,7 +5,6 @@ templates:
   switchboard_ctl.erb: bin/switchboard_ctl
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
   switchboard.yml.erb: config/switchboard.yml
-  pre-start.erb: bin/pre-start
   route-registrar_ctl.erb: bin/route-registrar_ctl
   route-registrar.yml.erb: config/route-registrar.yml
 
