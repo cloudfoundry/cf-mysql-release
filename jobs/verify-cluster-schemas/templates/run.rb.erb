@@ -7,6 +7,7 @@ require '/var/vcap/packages/cluster-schema-verifier/cluster_schema_verifier.rb'
   arbitrator_ip = ''
   if_p('cf_mysql.mysql.cluster_ips') do |ips|
     cluster_ips = ips.compact
+    arbitrator_ip = p('cf_mysql.proxy.arbitrator_ip')
   end.else do
     cluster_ips = link('mysql').instances.map { |instance| instance.address }
     if_link('arbitrator') do
