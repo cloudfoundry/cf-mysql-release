@@ -109,6 +109,16 @@ instance_groups:
   jobs:
   - {release: cf-mysql, name: smoke-tests}
 
+- name: verify-cluster-schemas
+  instances: 1
+  lifecycle: errand
+  azs: [z1]
+  networks: [{name: default}]
+  vm_type: default
+  stemcell: default
+  jobs:
+  - {release: cf-mysql, name: verify-cluster-schemas}
+
 properties:
   app_domains: ((app_domains))
   cf:
