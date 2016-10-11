@@ -96,5 +96,5 @@ properties:
     description: 'Configure this number to be twice as large as mysql.max_connections'
     default: 3000
   cf_mysql.proxy.profiling_enabled:
-    description: "Enable profiling of the switchboard process"
+    description: "When set to true, the switchboard will listen on port 6060 and enable profiling of the process"
     default: false
