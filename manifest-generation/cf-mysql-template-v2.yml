@@ -17,16 +17,6 @@ update:
   serial: true
 
 instance_groups:
-- name: arbitrator
-  instances: 1
-  azs: [z3]
-  networks:
-  - name: default
-  vm_type: default
-  stemcell: default
-  jobs:
-  - {release: cf-mysql, name: arbitrator}
-
 - name: mysql
   instances: 2
   azs: [z1, z2]
@@ -37,6 +27,16 @@ instance_groups:
   persistent_disk_type: large
   jobs:
   - {release: cf-mysql, name: mysql}
+
+- name: arbitrator
+  instances: 1
+  azs: [z3]
+  networks:
+  - name: default
+  vm_type: default
+  stemcell: default
+  jobs:
+  - {release: cf-mysql, name: arbitrator}
 
 - name: proxy
   instances: 2
