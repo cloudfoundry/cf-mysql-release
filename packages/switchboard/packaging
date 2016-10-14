@@ -10,8 +10,8 @@ export REPO=$GOPATH/src/github.com/cloudfoundry-incubator/switchboard
 export GOROOT=$(readlink -nf /var/vcap/packages/golang)
 export PATH=$GOROOT/bin:$PATH
 
-GO15VENDOREXPERIMENT=1 go install github.com/cloudfoundry-incubator/switchboard
-GO15VENDOREXPERIMENT=1 go install github.com/cloudfoundry-incubator/switchboard/cmd/flusharp
+go install github.com/cloudfoundry-incubator/switchboard
+go install github.com/cloudfoundry-incubator/switchboard/cmd/flusharp
 chmod +s "${GOPATH}/bin/flusharp"
 
 cp -r $BOSH_INSTALL_TARGET/src/github.com/cloudfoundry-incubator/switchboard/static  $BOSH_INSTALL_TARGET/static
