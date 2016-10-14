@@ -57,7 +57,7 @@ See the [proxy](jobs/proxy/spec) and [acceptance-tests](jobs/acceptance-tests/sp
 ## Configuring how long the startup script waits for the database to come online
 
 On larger databases, the default database startup timeout may be too low.
-This would result in the job reporting as failing, while MySQL continues to bootstrap in the background (see [Known Issues > Long SST Transfers](Known-Issues.md#long-sst-transfers)).
+This would result in the job reporting as failing, while MySQL continues to bootstrap in the background (see [Known Issues > Long SST Transfers](known-issues.md#long-sst-transfers)).
 To increase the duration that the startup script waits for MySQL to start, add the following to your deployment stub:
 
 ```yaml
