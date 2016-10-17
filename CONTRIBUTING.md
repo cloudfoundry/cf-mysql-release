@@ -29,7 +29,7 @@ Pushing to any branch other than [**develop**](https://github.com/cloudfoundry/c
 
 1. Fork the repository on github
 
-1. Update submodules (`./update`)
+1. Update submodules (`./scripts/update`)
 
 1. Create a feature branch (`git checkout -b awesome_sauce`)
   * Run the unit tests to ensure that your local environment is working `./scripts/test-unit`

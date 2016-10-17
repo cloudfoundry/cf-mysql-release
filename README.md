@@ -147,7 +147,7 @@ you if you have [direnv](http://direnv.net) installed.
     direnv allow
 
     # initialize and sync submodules
-    ./update
+    ./scripts/update
 
 If you do not wish to use direnv, you can simply `source` the `.envrc` file in the root
 of the release repo.  You may manually need to update your `$GOPATH` and `$PATH` variables
@@ -198,7 +198,7 @@ Run the upload command, referencing the latest config file in the `releases` dir
   ```
   $ cd ~/workspace/cf-mysql-release
   $ git checkout master
-  $ ./update
+  $ ./scripts/update
   $ bosh upload release releases/cf-mysql-<N>.yml
   ```
 
@@ -207,7 +207,7 @@ If deploying an **older** final release than the latest, check out the tag for t
   ```
   $ cd ~/workspace/cf-mysql-release
   $ git checkout v<N>
-  $ ./update
+  $ ./scripts/update
   $ bosh upload release releases/cf-mysql-<N>.yml
   ```
 
@@ -218,7 +218,7 @@ If deploying an **older** final release than the latest, check out the tag for t
   ```
   $ cd ~/workspace/cf-mysql-release
   $ git checkout release-candidate
-  $ ./update
+  $ ./scripts/update
   $ bosh create release
   ```
 
