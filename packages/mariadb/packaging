@@ -1,17 +1,22 @@
 # abort script on any command that exits with a non zero value
 set -e
 
-MARIADB_VERSION=10.0.19
+MARIADB_VERSION=10.1.18
+MY_DIR=$(pwd)
 
-tar xzf mariadb/mariadb-galera-${MARIADB_VERSION}.tar.gz
+tar xzf mariadb/mariadb-${MARIADB_VERSION}.tar.gz
 (
   set -e
   cd mariadb-${MARIADB_VERSION}
+
+  patch -p1 < ${MY_DIR}/mariadb-patch/wsrep-debug-extra-logging-levels.patch
+
   mkdir bld
   cd bld
 
   cmake .. \
       -DCMAKE_INSTALL_PREFIX=${BOSH_INSTALL_TARGET} \
+      -DWITH_SSL=system \
       -DWITH_WSREP=ON \
       -DWITH_INNODB_DISALLOW_WRITES=1 \
       -DWITH_PCRE=bundled
@@ -39,6 +44,8 @@ tar xzf mariadb/mariadb-galera-${MARIADB_VERSION}.tar.gz
       exit $BUILD_EXIT_CODE
   fi
   tail -n 1000 build.out
+
+  rm -rf ${BOSH_INSTALL_TARGET}/mysql-test/
 
   echo -n "${MARIADB_VERSION}-MariaDB" > ${BOSH_INSTALL_TARGET}/VERSION
   cp /var/vcap/packages/galera/garbd ${BOSH_INSTALL_TARGET}/bin/

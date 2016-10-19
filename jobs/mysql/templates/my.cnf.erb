@@ -38,6 +38,7 @@ nice      = 0
 
 [mysqld]
 # GALERA options:
+wsrep_on=ON
 wsrep_provider=/var/vcap/packages/mariadb/lib/plugin/libgalera_smm.so
 wsrep_provider_options="gcache.size=<%= p('gcache_size') %>M;pc.recovery=TRUE"
 wsrep_cluster_address="gcomm://<%= p('cluster_ips').join(",") %>"
@@ -48,9 +49,10 @@ wsrep_sst_method=xtrabackup-v2
 wsrep_sst_auth=<%= p('admin_username')%>:<%= p('admin_password')%>
 wsrep_max_ws_rows=<%= p('wsrep_max_ws_rows') %>
 wsrep_max_ws_size=<%= p('wsrep_max_ws_size') %>
-#wsrep_on='OFF'
-#wsrep_desync='ON'
-#wsrep_OSU_method='RSU'
+
+wsrep_replicate_myisam='OFF'
+enforce_storage_engine = InnoDB
+innodb_support_xa = OFF
 
 # Regular MYSQL options:
 collation_server        = utf8_unicode_ci
@@ -63,9 +65,9 @@ datadir		= /var/vcap/store/mysql
 tmpdir		= /var/vcap/data/mysql/tmp
 language	= /var/vcap/packages/mariadb/share/english
 pid-file  = /var/vcap/sys/run/mysql/mysql.pid
-<% unless use_syslog%>log-error = /var/vcap/sys/log/mysql/mysql.err.log<%end%>
-init-file = /var/vcap/jobs/mysql/config/mariadb_init
-skip-external-locking = TRUE
+<% unless use_syslog%>log_error = /var/vcap/sys/log/mysql/mysql.err.log<%end%>
+init_file = /var/vcap/jobs/mysql/config/mariadb_init
+skip_external_locking = TRUE
 max_allowed_packet = 256M
 
 innodb_file_per_table = ON
