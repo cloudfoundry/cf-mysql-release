@@ -2,88 +2,64 @@
 packages:
 - name: acceptance-tests
   version: 1
-  sha1: !binary |-
-    MTQxOTQ0ZWI1NzBhNDVkZDY2MDM2MTBhMjZiYjg5YTJlYjJhZTgyYw==
-  fingerprint: !binary |-
-    MzA2ODg4ZjYwYWNhOGVmMzlhNDk1Y2FjN2QwMzUxN2RhNDNiNzg5Yg==
+  sha1: 141944eb570a45dd6603610a26bb89a2eb2ae82c
+  fingerprint: 306888f60aca8ef39a495cac7d03517da43b789b
   dependencies:
   - ruby
 - name: broker-registrar
   version: 1
-  sha1: !binary |-
-    MTEzNDZhOWZmY2VhZjEyZTdiZTQyZTQzYWFmN2I4ZGY1ZTI3OGIyOQ==
-  fingerprint: !binary |-
-    YWZiZTljYWM0Mzk0NDdlZWMzODYzNDNjYzgzY2E1ZWI4YjhkMzE2NA==
+  sha1: 11346a9ffceaf12e7be42e43aaf7b8df5e278b29
+  fingerprint: afbe9cac439447eec386343cc83ca5eb8b8d3164
   dependencies:
   - ruby
 - name: cf-mysql-broker
   version: 7
-  sha1: !binary |-
-    NjFjZDhmNWU5M2ZiZjQyZjBkNjA2ZTk0YmEyZDk2OWNlMWUyZDZkNA==
-  fingerprint: !binary |-
-    ZmM2MDc1M2Q3MGNmMGU2M2YyNTJhOTgxYmFmY2U5OTE3ZWM5ZTk2NQ==
+  sha1: 61cd8f5e93fbf42f0d606e94ba2d969ce1e2d6d4
+  fingerprint: fc60753d70cf0e63f252a981bafce9917ec9e965
   dependencies:
   - ruby
   - mysqlclient
 - name: common
   version: 1
-  sha1: !binary |-
-    MTI1MzAxZjZhMGQwZjk5Nzc5NDhlZDU3NTQzMzlkODFmZTA4MWYzZA==
-  fingerprint: !binary |-
-    NDdlYWMzYzQxNmY4N2ViMGE2NDhiM2RmZTQ1NjMyYzY1NGQ2ZTY3Zg==
+  sha1: 125301f6a0d0f9977948ed5754339d81fe081f3d
+  fingerprint: 47eac3c416f87eb0a648b3dfe45632c654d6e67f
   dependencies: []
 - name: mysql
   version: 2
-  sha1: !binary |-
-    YTM0YzEzODg0NmM5ZjYzNmU1OTY4MmY4YWY2YWQ1NjM3NmU2NzgwMA==
-  fingerprint: !binary |-
-    NWNjNDEyY2JhNjUwYjFmMWUzNzdjNWEwNjdjNzlkN2E0YThiOTg2OQ==
+  sha1: a34c138846c9f636e59682f8af6ad56376e67800
+  fingerprint: 5cc412cba650b1f1e377c5a067c79d7a4a8b9869
   dependencies: []
 - name: mysqlclient
   version: 2
-  sha1: !binary |-
-    YTIxNTk2MjY0YTdiMDNlYjIzMWExMjJhM2EyMWZjMjRmNWNhNWMzOQ==
-  fingerprint: !binary |-
-    MWY1MzYwNTljNWFlMmI2NzMwOWZlMDU3M2IwZDBhZGYxNzgzMTJlMQ==
+  sha1: a21596264a7b03eb231a122a3a21fc24f5ca5c39
+  fingerprint: 1f536059c5ae2b67309fe0573b0d0adf178312e1
   dependencies: []
 - name: ruby
   version: 5
-  sha1: !binary |-
-    YzJmM2Q3NzE4MDJmMWE0YzJjZTRiNDI0ZGM5NjBlNTg3MTJjYjAyMA==
-  fingerprint: !binary |-
-    MzkyOTZmOGZjOWUxMmE2ODI5Mjk2YzY3ODE3NWJiMzFiY2E5YmE2OQ==
+  sha1: c2f3d771802f1a4c2ce4b424dc960e58712cb020
+  fingerprint: 39296f8fc9e12a6829296c678175bb31bca9ba69
   dependencies: []
 jobs:
 - name: acceptance-tests
   version: 1
-  fingerprint: !binary |-
-    MGVkNDcwZWE0MWJjZTY0ZGE2OWVlZWRjMmRhMmU2YjQ3M2YyNWNjYw==
-  sha1: !binary |-
-    ODNjZjkwNGNjZTNmMGQ2ZjdlNTgzNGJhODgxZGI2NGZmMjFmODQwMA==
+  fingerprint: 0ed470ea41bce64da69eeedc2da2e6b473f25ccc
+  sha1: 83cf904cce3f0d6f7e5834ba881db64ff21f8400
 - name: broker-deregistrar
   version: 1
-  fingerprint: !binary |-
-    ODA3ZDdmNzYxZTA2M2IwMTRkZWZiNDJhYTM5YjE3OTQxMzMzMDI4YQ==
-  sha1: !binary |-
-    ZDlmZTY2OWEyYzlkY2Y1NDBmNDE2OWFhNmY2MzEzODk5ZTA2YzA3Mw==
+  fingerprint: 807d7f761e063b014defb42aa39b17941333028a
+  sha1: d9fe669a2c9dcf540f4169aa6f6313899e06c073
 - name: broker-registrar
   version: 1
-  fingerprint: !binary |-
-    YzE1MWRjZTZiMzQ4NmEyMmE3YmRkNDQyZjk4Y2U1YWZkNzVmM2JmNg==
-  sha1: !binary |-
-    OTY3Y2FiYmI4YTgyYWI5MDRlMmNlYjEzYWRlMzhjMWRhYWJhZTVmYQ==
+  fingerprint: c151dce6b3486a22a7bdd442f98ce5afd75f3bf6
+  sha1: 967cabbb8a82ab904e2ceb13ade38c1daabae5fa
 - name: cf-mysql-broker
   version: 3
-  fingerprint: !binary |-
-    N2VkOGZhMWRkMmVmZWRlZDhmNDhjMzVjMTI3OGRkODI1MmE1Zjk4MA==
-  sha1: !binary |-
-    NzU4NGViM2ZiMTBjMzhhODg5NzczNWJjMTYzNGIzZGVkYTZmZjE1MA==
+  fingerprint: 7ed8fa1dd2efeded8f48c35c1278dd8252a5f980
+  sha1: 7584eb3fb10c38a8897735bc1634b3deda6ff150
 - name: mysql
   version: 2
-  fingerprint: !binary |-
-    ZDcwYjRhNzY4NDc5YmMyZjg4N2IxNzVjMjNmZGE3YjUzZWJjMDhhOA==
-  sha1: !binary |-
-    OGJlOGY4OWJlYTIyMjMwYjc0N2ViZGFhMDY1OGUxNjc3NGZhMzBmOQ==
+  fingerprint: d70b4a768479bc2f887b175c23fda7b53ebc08a8
+  sha1: 8be8f89bea22230b747ebdaa0658e16774fa30f9
 commit_hash: 58d92677
 uncommitted_changes: true
 name: cf-mysql

@@ -2,54 +2,40 @@
 packages:
 - name: cf-mysql-broker
   version: 3
-  sha1: !binary |-
-    NTU1MmVjM2Y1MWQ1NzNmZGZjNWFmYjJlODBiZmNhNzZiZWMyZTQ4Mg==
-  fingerprint: !binary |-
-    YzcwOGM2ODQxY2ViODJlYWNkNzNlNTQ4MDdkNmNiZGQ1NTM2YjE3Zg==
+  sha1: 5552ec3f51d573fdfc5afb2e80bfca76bec2e482
+  fingerprint: c708c6841ceb82eacd73e54807d6cbdd5536b17f
   dependencies:
   - ruby
   - mysqlclient
 - name: common
   version: 1
-  sha1: !binary |-
-    MTI1MzAxZjZhMGQwZjk5Nzc5NDhlZDU3NTQzMzlkODFmZTA4MWYzZA==
-  fingerprint: !binary |-
-    NDdlYWMzYzQxNmY4N2ViMGE2NDhiM2RmZTQ1NjMyYzY1NGQ2ZTY3Zg==
+  sha1: 125301f6a0d0f9977948ed5754339d81fe081f3d
+  fingerprint: 47eac3c416f87eb0a648b3dfe45632c654d6e67f
   dependencies: []
 - name: mysql
   version: 1
-  sha1: !binary |-
-    NzU0ZWQwZWY4MGFlYzA3ZWQ2Nzk0MGUyNDYzODQ3YWEzOTZhMWY0NQ==
-  fingerprint: !binary |-
-    ZDg5NDQxNDJiZDkwMDQwNDU2MWE3ZjM3NWZmNTFhOWUxZTNmOWEyZA==
+  sha1: 754ed0ef80aec07ed67940e2463847aa396a1f45
+  fingerprint: d8944142bd900404561a7f375ff51a9e1e3f9a2d
   dependencies: []
 - name: mysqlclient
   version: 1
-  sha1: !binary |-
-    YjAwMTNkYzQ4NjI0OTM0MTFiZGY0ZDI1Zjg2YjYyNGNkMTQ1ZmIzMA==
-  fingerprint: !binary |-
-    YTliNjBlNzRlNDk3ZWZhMDJlYTYyYjRjZWRjODBlMDg2NGRmYTIxOA==
+  sha1: b0013dc4862493411bdf4d25f86b624cd145fb30
+  fingerprint: a9b60e74e497efa02ea62b4cedc80e0864dfa218
   dependencies: []
 - name: ruby
   version: 2
-  sha1: !binary |-
-    MjAwZTNmZmYwNjU4M2JhOTc2NDExNjRmYzc1MGI0NzU4MjhiYjE2Mw==
-  fingerprint: !binary |-
-    MjVjODI5YzkyNTI5MDEzNmMxNDEwZjgwOGI0YTBkMzQ3NjAxNDI4Yw==
+  sha1: 200e3fff06583ba97641164fc750b475828bb163
+  fingerprint: 25c829c925290136c1410f808b4a0d347601428c
   dependencies: []
 jobs:
 - name: cf-mysql-broker
   version: 1
-  fingerprint: !binary |-
-    Y2ZmNTFjODM4NzRiZjRmNDA1NmVlNjRhNmYzNTAzNGYwYTFiZjk4Mg==
-  sha1: !binary |-
-    OTZlOTdhNGI4YTNlNDYzM2JiNTQzYjU3NjUyYjEwMDgzMDk3NWNkMA==
+  fingerprint: cff51c83874bf4f4056ee64a6f35034f0a1bf982
+  sha1: 96e97a4b8a3e4633bb543b57652b100830975cd0
 - name: mysql
   version: 1
-  fingerprint: !binary |-
-    ZmJkYTk2ZTk2YmUwOTdlMDg0ODkzMDk2NTZmZTNlMTE2YmFmNjY4MQ==
-  sha1: !binary |-
-    Mzk5MGU3ZDBhYTM5MmM2YWYyYWVmMjQ0NDE4NzBjZGNiZDBmMTRmMg==
+  fingerprint: fbda96e96be097e08489309656fe3e116baf6681
+  sha1: 3990e7d0aa392c6af2aef24441870cdcbd0f14f2
 commit_hash: 385e31cd
 uncommitted_changes: false
 name: cf-mysql

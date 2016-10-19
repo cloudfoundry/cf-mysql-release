@@ -1,228 +1,147 @@
 ---
 packages:
 - name: acceptance-tests
-  version: !binary |-
-    M2Q4ZmZiMzk5OGIxNWUxMDk5YzZlYTBmYzMzMzBjOWVhODEzZDY5OA==
-  sha1: !binary |-
-    ZjU4ODM3ZWE2ZjU2YzIwMTkwYjY1NjlkOTI0NzEyZjMzMDZkODg4Mw==
-  fingerprint: !binary |-
-    M2Q4ZmZiMzk5OGIxNWUxMDk5YzZlYTBmYzMzMzBjOWVhODEzZDY5OA==
+  version: 3d8ffb3998b15e1099c6ea0fc3330c9ea813d698
+  sha1: f58837ea6f56c20190b6569d924712f3306d8883
+  fingerprint: 3d8ffb3998b15e1099c6ea0fc3330c9ea813d698
   dependencies:
   - golang
   - cli
 - name: boost
-  version: !binary |-
-    M2ViOGJkYjFhYmI3ZWZmNWI2M2M0YzViZGI0MWMwYTc3ODkyNWMzMQ==
-  sha1: !binary |-
-    OTA0ZjkwNTQzZjljMmEwOTE3NWQ5M2U4ODE1MjkzNmU3OGQwM2U4MA==
-  fingerprint: !binary |-
-    M2ViOGJkYjFhYmI3ZWZmNWI2M2M0YzViZGI0MWMwYTc3ODkyNWMzMQ==
+  version: 3eb8bdb1abb7eff5b63c4c5bdb41c0a778925c31
+  sha1: 904f90543f9c2a09175d93e88152936e78d03e80
+  fingerprint: 3eb8bdb1abb7eff5b63c4c5bdb41c0a778925c31
   dependencies: []
 - name: broker-registrar
-  version: !binary |-
-    NTUyOGNhN2Y3OWEwMGNmZWVhYjcwYmI5OGM3OTE0Y2QzYWI3MjU5Ng==
-  sha1: !binary |-
-    OWEzMmVhNzdlZGU0NzIwYTI5YTFkNWZhMjA1ODJiNTM1ZjU0MzU2YQ==
-  fingerprint: !binary |-
-    NTUyOGNhN2Y3OWEwMGNmZWVhYjcwYmI5OGM3OTE0Y2QzYWI3MjU5Ng==
+  version: 5528ca7f79a00cfeeab70bb98c7914cd3ab72596
+  sha1: 9a32ea77ede4720a29a1d5fa20582b535f54356a
+  fingerprint: 5528ca7f79a00cfeeab70bb98c7914cd3ab72596
   dependencies:
   - ruby
 - name: cf-mysql-broker
-  version: !binary |-
-    YThmMDZhY2M5MmM5NTc4NGRlYzliMDFkMjk0MWE1MmZhYThjZDgwMg==
-  sha1: !binary |-
-    NzYxYjBmN2ZmY2E2Yjc4YmZhNjY4ZDJmODZmMjMxODY3Mzg4NGQ2Mg==
-  fingerprint: !binary |-
-    YThmMDZhY2M5MmM5NTc4NGRlYzliMDFkMjk0MWE1MmZhYThjZDgwMg==
+  version: a8f06acc92c95784dec9b01d2941a52faa8cd802
+  sha1: 761b0f7ffca6b78bfa668d2f86f2318673884d62
+  fingerprint: a8f06acc92c95784dec9b01d2941a52faa8cd802
   dependencies:
   - ruby
   - mysqlclient
 - name: check
-  version: !binary |-
-    ZDY4MTFmMjVlOWQ1NjQyOGE5Yjk0MjYzMWMyN2M5YjI0ZjUwNjRkYw==
-  sha1: !binary |-
-    ZGI4MjhjM2Y3MmY4NWI5OGI1YWZkNTExYjE2MjdiNmY0ZmUxNmQyYw==
-  fingerprint: !binary |-
-    ZDY4MTFmMjVlOWQ1NjQyOGE5Yjk0MjYzMWMyN2M5YjI0ZjUwNjRkYw==
+  version: d6811f25e9d56428a9b942631c27c9b24f5064dc
+  sha1: db828c3f72f85b98b5afd511b1627b6f4fe16d2c
+  fingerprint: d6811f25e9d56428a9b942631c27c9b24f5064dc
   dependencies: []
 - name: cli
-  version: !binary |-
-    YTE1YjRmMzlkOWVkMGM0NjFjYzc0Nzg0OGUwMTM2NzcyZDYyNmEwNQ==
-  sha1: !binary |-
-    ZWQ1OGZmZWM4MDgyYzg3YThiMjU5NTgwZDcxMGY3M2E4MTJkNjM0Mw==
-  fingerprint: !binary |-
-    YTE1YjRmMzlkOWVkMGM0NjFjYzc0Nzg0OGUwMTM2NzcyZDYyNmEwNQ==
+  version: a15b4f39d9ed0c461cc747848e0136772d626a05
+  sha1: ed58ffec8082c87a8b259580d710f73a812d6343
+  fingerprint: a15b4f39d9ed0c461cc747848e0136772d626a05
   dependencies: []
 - name: common
-  version: !binary |-
-    OGVjY2VkNjM4MzMxMDQ5MmI1NDNkMmE1YTMwNDE0MTBjN2IzMzYyMg==
-  sha1: !binary |-
-    MmM3MzFiMTBmMDZiMjViMWFiNzcxMzUzODQzYjUxZmVhMmQ0YjkwZQ==
-  fingerprint: !binary |-
-    OGVjY2VkNjM4MzMxMDQ5MmI1NDNkMmE1YTMwNDE0MTBjN2IzMzYyMg==
+  version: 8ecced6383310492b543d2a5a3041410c7b33622
+  sha1: 2c731b10f06b25b1ab771353843b51fea2d4b90e
+  fingerprint: 8ecced6383310492b543d2a5a3041410c7b33622
   dependencies: []
 - name: galera
-  version: !binary |-
-    M2JjNDc4MGVkYjRjNDRlNTNjMTI0Y2E1ZTA1NWRmMmU2YWVlYTg0MA==
-  sha1: !binary |-
-    NWJlYjlmY2JmOWM4OWIzYjY2ZWJiYzJlYjc5ODMwZjk4MjI1NTE4MA==
-  fingerprint: !binary |-
-    M2JjNDc4MGVkYjRjNDRlNTNjMTI0Y2E1ZTA1NWRmMmU2YWVlYTg0MA==
+  version: 3bc4780edb4c44e53c124ca5e055df2e6aeea840
+  sha1: 5beb9fcbf9c89b3b66ebbc2eb79830f982255180
+  fingerprint: 3bc4780edb4c44e53c124ca5e055df2e6aeea840
   dependencies:
   - scons
   - boost
   - check
 - name: galera-healthcheck
-  version: !binary |-
-    OWQ4MmNiYTc1M2ExZmFhOGRjOWViNTE3N2Y2MmU4N2Q1MzM2ZjU2NA==
-  sha1: !binary |-
-    Yjg5YmQyYmE0ZDFmNjAyYThlYzNmZmQzZTQwNzA4YWI2ZjZmMDU0Yg==
-  fingerprint: !binary |-
-    OWQ4MmNiYTc1M2ExZmFhOGRjOWViNTE3N2Y2MmU4N2Q1MzM2ZjU2NA==
+  version: 9d82cba753a1faa8dc9eb5177f62e87d5336f564
+  sha1: b89bd2ba4d1f602a8ec3ffd3e40708ab6f6f054b
+  fingerprint: 9d82cba753a1faa8dc9eb5177f62e87d5336f564
   dependencies:
   - golang
 - name: golang
-  version: !binary |-
-    YWE1ZjkwZjA2YWRhMzc2MDg1NDE0YmZjMGM1NmM4Y2Q2N2FiYmE5Yw==
-  sha1: !binary |-
-    OGUwYjM5NTU3ZDg1OTY2NmJiMTI5Y2RkMjgyMmY3MmE3ZDU5MjMzOA==
-  fingerprint: !binary |-
-    YWE1ZjkwZjA2YWRhMzc2MDg1NDE0YmZjMGM1NmM4Y2Q2N2FiYmE5Yw==
+  version: aa5f90f06ada376085414bfc0c56c8cd67abba9c
+  sha1: 8e0b39557d859666bb129cdd2822f72a7d592338
+  fingerprint: aa5f90f06ada376085414bfc0c56c8cd67abba9c
   dependencies: []
 - name: gra-log-purger
-  version: !binary |-
-    NWJhMTRiYjJjZmY1YjI2YmQwYzc5NTc5MjJmMGQ0Yzc5MTczYTYxNQ==
-  sha1: !binary |-
-    NDUzYWJmYjdiZGVmMGM0ZWVhOGZmOGQ2YjI2Mzk3NzE1Y2M2N2ZjNQ==
-  fingerprint: !binary |-
-    NWJhMTRiYjJjZmY1YjI2YmQwYzc5NTc5MjJmMGQ0Yzc5MTczYTYxNQ==
+  version: 5ba14bb2cff5b26bd0c7957922f0d4c79173a615
+  sha1: 453abfb7bdef0c4eea8ff8d6b26397715cc67fc5
+  fingerprint: 5ba14bb2cff5b26bd0c7957922f0d4c79173a615
   dependencies:
   - golang
 - name: haproxy
-  version: !binary |-
-    NzY2ZjlhNjExMDMxODY5NDE0ZTlhNDliNzcyN2RmMmMwY2I0ZjQyMA==
-  sha1: !binary |-
-    Y2QzNzVkNjljZTE4ZTM2YjZhN2U1NGI5NmVlYzQ0MTdjYjU5ODZiOA==
-  fingerprint: !binary |-
-    NzY2ZjlhNjExMDMxODY5NDE0ZTlhNDliNzcyN2RmMmMwY2I0ZjQyMA==
+  version: 766f9a611031869414e9a49b7727df2c0cb4f420
+  sha1: cd375d69ce18e36b6a7e54b96eec4417cb5986b8
+  fingerprint: 766f9a611031869414e9a49b7727df2c0cb4f420
   dependencies: []
 - name: mariadb
-  version: !binary |-
-    NWEyMGZhMDRiYjEyNDRlYjA2YzQ3OWI3N2U0NjllNjcyZDg2OGVhNQ==
-  sha1: !binary |-
-    Y2I1YmFkNzUwNDIxNjEzYTA0NmNmM2FiM2IyOWU2YmRjM2EwMzAxOQ==
-  fingerprint: !binary |-
-    NWEyMGZhMDRiYjEyNDRlYjA2YzQ3OWI3N2U0NjllNjcyZDg2OGVhNQ==
+  version: 5a20fa04bb1244eb06c479b77e469e672d868ea5
+  sha1: cb5bad750421613a046cf3ab3b29e6bdc3a03019
+  fingerprint: 5a20fa04bb1244eb06c479b77e469e672d868ea5
   dependencies:
   - galera
 - name: mariadb_ctrl
-  version: !binary |-
-    OGU2NzQ3MTg0ODk2YjY2M2M4YWI0ZTQyM2Y4NGNiYmU2MTA2NTE5OA==
-  sha1: !binary |-
-    ZjA2OTgwOTgzMjdjYmY2MGNmNjRjM2UwMGIwYTM3Yjk0OWEyMTNiNQ==
-  fingerprint: !binary |-
-    OGU2NzQ3MTg0ODk2YjY2M2M4YWI0ZTQyM2Y4NGNiYmU2MTA2NTE5OA==
+  version: 8e6747184896b663c8ab4e423f84cbbe61065198
+  sha1: f0698098327cbf60cf64c3e00b0a37b949a213b5
+  fingerprint: 8e6747184896b663c8ab4e423f84cbbe61065198
   dependencies:
   - golang
 - name: mysql
-  version: !binary |-
-    OWYxYmFmOTdiMjBjYjAxOTNkMmI3ZjA1YzY0MzkzMTdkNDZlYWQ4NA==
-  sha1: !binary |-
-    Njc4Y2E4MGMzNDU2YjdiNTY4YWFjYzVjMmQ1OTliYjMzYjM2NDBjZg==
-  fingerprint: !binary |-
-    OWYxYmFmOTdiMjBjYjAxOTNkMmI3ZjA1YzY0MzkzMTdkNDZlYWQ4NA==
+  version: 9f1baf97b20cb0193d2b7f05c6439317d46ead84
+  sha1: 678ca80c3456b7b568aacc5c2d599bb33b3640cf
+  fingerprint: 9f1baf97b20cb0193d2b7f05c6439317d46ead84
   dependencies: []
 - name: mysqlclient
-  version: !binary |-
-    NDYzNTY5NTA0YTk1N2U0MWVkZGQ4MzEyM2JmZjEyY2M0MThjYmI1NA==
-  sha1: !binary |-
-    Y2VmNTMyZTU5NTc1NDM0NmFmODBkZGViNzRiZGYwNGVhOTBiNjk4OA==
-  fingerprint: !binary |-
-    NDYzNTY5NTA0YTk1N2U0MWVkZGQ4MzEyM2JmZjEyY2M0MThjYmI1NA==
+  version: 463569504a957e41eddd83123bff12cc418cbb54
+  sha1: cef532e595754346af80ddeb74bdf04ea90b6988
+  fingerprint: 463569504a957e41eddd83123bff12cc418cbb54
   dependencies: []
 - name: route-registrar
-  version: !binary |-
-    NjljMWI0NjMwNDZjNGIxZmU0NGM2NzliMTM0YTA5ZGJmNWEzYjQ2MA==
-  sha1: !binary |-
-    NDhiZDcyMTg0YmMzY2M5MGZmYmEzMDAxZjNlODE0NGE1YThkOGZlNA==
-  fingerprint: !binary |-
-    NjljMWI0NjMwNDZjNGIxZmU0NGM2NzliMTM0YTA5ZGJmNWEzYjQ2MA==
+  version: 69c1b463046c4b1fe44c679b134a09dbf5a3b460
+  sha1: 48bd72184bc3cc90ffba3001f3e8144a5a8d8fe4
+  fingerprint: 69c1b463046c4b1fe44c679b134a09dbf5a3b460
   dependencies:
   - golang
 - name: ruby
-  version: !binary |-
-    Y2Q0ZDg0OTRhMTM3ZTIyOGU2MzU4ZWIxOGVlZTc1MjhlMzcxYTBhMA==
-  sha1: !binary |-
-    MTlmNmFlNzNhNjU0YWYzNTIyZTBiZjk1NmEyOWU5ZWI0ODY4NDU5OQ==
-  fingerprint: !binary |-
-    Y2Q0ZDg0OTRhMTM3ZTIyOGU2MzU4ZWIxOGVlZTc1MjhlMzcxYTBhMA==
+  version: cd4d8494a137e228e6358eb18eee7528e371a0a0
+  sha1: 19f6ae73a654af3522e0bf956a29e9eb48684599
+  fingerprint: cd4d8494a137e228e6358eb18eee7528e371a0a0
   dependencies: []
 - name: scons
-  version: !binary |-
-    MWRlYzMzNWUzZTgzZDExMTU2MjA0ZjdhM2NkY2M0NTJkOGEzZmZmZQ==
-  sha1: !binary |-
-    OTc1YTEwNTUwZDI0MjA3MmM0MWY1NGQzZmM3ZmI3Y2ZjMmZhMWY4NQ==
-  fingerprint: !binary |-
-    MWRlYzMzNWUzZTgzZDExMTU2MjA0ZjdhM2NkY2M0NTJkOGEzZmZmZQ==
+  version: 1dec335e3e83d11156204f7a3cdcc452d8a3fffe
+  sha1: 975a10550d242072c41f54d3fc7fb7cfc2fa1f85
+  fingerprint: 1dec335e3e83d11156204f7a3cdcc452d8a3fffe
   dependencies: []
 - name: syslog_aggregator
-  version: !binary |-
-    MDc4ZGE2ZGNiOTk5YzFlNmY1Mzk4YTZlYjczOTE4MmNjYjRhYmEyNQ==
-  sha1: !binary |-
-    NGIwMmZlZWEzOTA1MDc0MmIzMGE0ODdjMzJkZWJjMzNmYmIzNDFhMw==
-  fingerprint: !binary |-
-    MDc4ZGE2ZGNiOTk5YzFlNmY1Mzk4YTZlYjczOTE4MmNjYjRhYmEyNQ==
+  version: 078da6dcb999c1e6f5398a6eb739182ccb4aba25
+  sha1: 4b02feea39050742b30a487c32debc33fbb341a3
+  fingerprint: 078da6dcb999c1e6f5398a6eb739182ccb4aba25
   dependencies: []
 jobs:
 - name: acceptance-tests
-  version: !binary |-
-    ZTNiMTI3NDZkZWI2NWJhMjcxYTdjNGUzZmRjZTUzODA2MmQ2YTU2Mg==
-  fingerprint: !binary |-
-    ZTNiMTI3NDZkZWI2NWJhMjcxYTdjNGUzZmRjZTUzODA2MmQ2YTU2Mg==
-  sha1: !binary |-
-    ZWY4OTg1YWM5Njc4NjIwY2QzZTg4MjdlYzI1YTcyOGYyYTI4ZDk4Mw==
+  version: e3b12746deb65ba271a7c4e3fdce538062d6a562
+  fingerprint: e3b12746deb65ba271a7c4e3fdce538062d6a562
+  sha1: ef8985ac9678620cd3e8827ec25a728f2a28d983
 - name: broker-deregistrar
-  version: !binary |-
-    NmNkYmYyNjI0NmQxOGI0Y2RhYmUyNjBkZGFkZGNlN2FhNWIxNTE3YQ==
-  fingerprint: !binary |-
-    NmNkYmYyNjI0NmQxOGI0Y2RhYmUyNjBkZGFkZGNlN2FhNWIxNTE3YQ==
-  sha1: !binary |-
-    NDFjY2IyZmYzYzhmZjk0ZTEyYjI3ZmZhNDYxYzkxNGUzYWJkNTAxYw==
+  version: 6cdbf26246d18b4cdabe260ddaddce7aa5b1517a
+  fingerprint: 6cdbf26246d18b4cdabe260ddaddce7aa5b1517a
+  sha1: 41ccb2ff3c8ff94e12b27ffa461c914e3abd501c
 - name: broker-registrar
-  version: !binary |-
-    ODU0ZTkzNTA3ZWE1ZGIwZGZjZGI3NDYyODBjMzczMWJlMmNiYjYwNw==
-  fingerprint: !binary |-
-    ODU0ZTkzNTA3ZWE1ZGIwZGZjZGI3NDYyODBjMzczMWJlMmNiYjYwNw==
-  sha1: !binary |-
-    NTAyOTU5MDI4MGI0ZDhmM2FhYWQzOGRiNDYwYTA5NWVhZTA5OTEyZQ==
+  version: 854e93507ea5db0dfcdb746280c3731be2cbb607
+  fingerprint: 854e93507ea5db0dfcdb746280c3731be2cbb607
+  sha1: 5029590280b4d8f3aaad38db460a095eae09912e
 - name: cf-mysql-broker
-  version: !binary |-
-    ZTljNzIwY2EwOWE5MTQ2NTJhZWI3MTQ5YzdiNzU1MWVjZjc5YTRjZg==
-  fingerprint: !binary |-
-    ZTljNzIwY2EwOWE5MTQ2NTJhZWI3MTQ5YzdiNzU1MWVjZjc5YTRjZg==
-  sha1: !binary |-
-    OTM2MGE5ODQzZWRjZTg0YTk4OGVlNzM2YTQ4MzkzNGEzMjgzZWQ5Yg==
+  version: e9c720ca09a914652aeb7149c7b7551ecf79a4cf
+  fingerprint: e9c720ca09a914652aeb7149c7b7551ecf79a4cf
+  sha1: 9360a9843edce84a988ee736a483934a3283ed9b
 - name: haproxy
-  version: !binary |-
-    OWZiZmQ3OWViOTFlZGIwYjIwMjgxYjViMWRhM2FkM2I4MWE1ZjU0Yg==
-  fingerprint: !binary |-
-    OWZiZmQ3OWViOTFlZGIwYjIwMjgxYjViMWRhM2FkM2I4MWE1ZjU0Yg==
-  sha1: !binary |-
-    NjhhODBkMTUzNmRhZDQ4MGE4MGNlNGFiZTBkMjJlYTIyM2ViZjRjYQ==
+  version: 9fbfd79eb91edb0b20281b5b1da3ad3b81a5f54b
+  fingerprint: 9fbfd79eb91edb0b20281b5b1da3ad3b81a5f54b
+  sha1: 68a80d1536dad480a80ce4abe0d22ea223ebf4ca
 - name: mysql
-  version: !binary |-
-    NTYxMTIzNzBjNDAxZTU5NWI0M2M4ZGE4YWY1ODIwYWYyMTRkODk4MQ==
-  fingerprint: !binary |-
-    NTYxMTIzNzBjNDAxZTU5NWI0M2M4ZGE4YWY1ODIwYWYyMTRkODk4MQ==
-  sha1: !binary |-
-    MTk1NmEzNGVmMWVmZTQwOWM0YzE5Yjc2YjQ0MzBkZTMxNmFiMTQzNQ==
+  version: 56112370c401e595b43c8da8af5820af214d8981
+  fingerprint: 56112370c401e595b43c8da8af5820af214d8981
+  sha1: 1956a34ef1efe409c4c19b76b4430de316ab1435
 - name: mysql_placeholder
-  version: !binary |-
-    OTBjMThkMWIxMmU2NzBlNjQyYjFhMTlhOGU5ZjZhMTZmYzczYjBiMw==
-  fingerprint: !binary |-
-    OTBjMThkMWIxMmU2NzBlNjQyYjFhMTlhOGU5ZjZhMTZmYzczYjBiMw==
-  sha1: !binary |-
-    YjQ4ZDIwYjMwYTJlZjExOTI2NGRlYmViY2JiZDA4ZGNjNzA3Yjk1OA==
+  version: 90c18d1b12e670e642b1a19a8e9f6a16fc73b0b3
+  fingerprint: 90c18d1b12e670e642b1a19a8e9f6a16fc73b0b3
+  sha1: b48d20b30a2ef119264debebcbbd08dcc707b958
 commit_hash: 36393a26
 uncommitted_changes: true
 name: cf-mysql
