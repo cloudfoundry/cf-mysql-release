@@ -51,6 +51,9 @@ properties:
   wsrep_max_ws_size:
     description: 'Maximum permitted size in bytes per writeset.'
     default: 1073741824
+  wsrep_debug:
+    description: "When set to 1 or 2, the database server logs additional events surrounding errors to help in identifying and correcting problems. Note, these logs are written to disk and to syslog. Enabling this will possibly expose unencrypted application data."
+    default: 0
 
   #these two properties are also used by the Broker
   gcache_size:
