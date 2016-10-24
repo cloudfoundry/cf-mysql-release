@@ -9,6 +9,8 @@ vm_types:
       size: 1024
       type: gp2
 disk_types:
+- name: small
+  disk_size: 10000
 - name: large
   disk_size: 100000
 compilation:
