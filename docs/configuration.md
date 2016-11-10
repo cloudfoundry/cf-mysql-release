@@ -53,24 +53,3 @@ Note 1: If a seeded database is renamed in the manifest, a new database will be 
 Note 2: If all you need is a database deployment, it is possible to deploy this
 release with zero broker instances and completely remove any dependencies on Cloud Foundry.
 See the [proxy](jobs/proxy/spec) and [acceptance-tests](jobs/acceptance-tests/spec) spec files for standalone configuration options.
-
-## Configuring how long the startup script waits for the database to come online
-
-On larger databases, the default database startup timeout may be too low.
-This would result in the job reporting as failing, while MySQL continues to bootstrap in the background (see [Known Issues > Long SST Transfers](known-issues.md#long-sst-transfers)).
-To increase the duration that the startup script waits for MySQL to start, add the following to your deployment stub:
-
-```yaml
-jobs:
-- name: mysql_z1
-  properties:
-    database_startup_timeout: 360
-```
-
-Note: This is independent of the overall BOSH timeout which is also configurable in the manifest. The BOSH timeout should always be higher than the database startup timeout:
-
-```yaml
-update:
-  canary_watch_time: 10000-600000
-  update_watch_time: 10000-600000
-```
