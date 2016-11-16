@@ -1,4 +1,9 @@
 ---
-- type: replace
-  path: /instance_groups/name=broker/instances
-  value: 0
+- type: remove
+  path: /instance_groups/name=broker
+- type: remove
+  path: /instance_groups/name=broker-registrar
+- type: remove
+  path: /instance_groups/name=broker-deregistrar
+- type: remove
+  path: /properties/cf_mysql/broker
