@@ -172,7 +172,7 @@ properties:
     default: true
     description: 'Enable binlogs across all nodes'
   cf_mysql.mysql.binlog_expire_days:
-    default: 60
+    default: 7
     description: 'Time in days to store binlogs before purging'
   cf_mysql.mysql.wsrep_debug:
     description: "When set to 1 or 2, the database server logs additional events surrounding errors to help in identifying and correcting problems. Note, these logs are written to disk and to syslog. Enabling this will possibly expose unencrypted application data."
