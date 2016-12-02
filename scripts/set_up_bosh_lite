@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -eux
+
+SCRIPT_DIR=$(dirname "$0")
+MYSQL_RELEASE_DIR="${SCRIPT_DIR}/.."
+WORKSPACE="${MYSQL_RELEASE_DIR}/.."
+CF_RELEASE_DIR="${WORKSPACE}/cf-release"
+
+if [[ "$(echo $(bosh status) | grep Name)" != *"Bosh Lite Director"* ]]; then
+  echo "Can only target Bosh Lite Director. Please use 'bosh target lite' before running this script."
+  exit 1
+fi
+
+pushd "${CF_RELEASE_DIR}"
+  git pull
+  git checkout master
+  ./scripts/generate-bosh-lite-dev-manifest
+  bosh upload stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent
+  bosh upload release https://bosh.io/d/github.com/cloudfoundry/cf-release
+  gobosh -e lite -d cf-warden -n deploy ./bosh-lite/deployments/cf.yml
+popd
