@@ -23,8 +23,8 @@ pushd "${CF_RELEASE_DIR}"
 popd
 
 pushd "${MYSQL_RELEASE_DIR}"
-   #git pull
-   #git checkout master
+   git pull
+   git checkout master
 popd
 
 if [[ "${stemcell_status}" != *"ubuntu-trusty"* ]]; then
