@@ -199,7 +199,7 @@ Run the upload command, referencing the latest config file in the `releases` dir
   $ cd ~/workspace/cf-mysql-release
   $ git checkout master
   $ ./scripts/update
-  $ bosh upload release releases/cf-mysql-<N>.yml
+  $ bosh upload release releases/cf-mysq/cf-mysql-<N>.yml
   ```
 
 If deploying an **older** final release than the latest, check out the tag for the desired version; this is necessary for generating a manifest that matches the code you're deploying.
@@ -208,7 +208,7 @@ If deploying an **older** final release than the latest, check out the tag for t
   $ cd ~/workspace/cf-mysql-release
   $ git checkout v<N>
   $ ./scripts/update
-  $ bosh upload release releases/cf-mysql-<N>.yml
+  $ bosh upload release releases/cf-mysq/cf-mysql-<N>.yml
   ```
 
 #### Create and upload a BOSH Release:
