@@ -101,7 +101,6 @@ properties:
       auth_username: (( property_overrides.broker.auth_username ))
       auth_password: (( property_overrides.broker.auth_password ))
       cookie_secret: (( property_overrides.broker.cookie_secret ))
-      external_host: (( property_overrides.broker.external_domain || .properties.cf_mysql.external_host ))
       protocol: (( property_overrides.broker.protocol || nil ))
       port: (( property_overrides.broker.port || nil ))
       quota_enforcer: (( property_overrides.broker.quota_enforcer ))
