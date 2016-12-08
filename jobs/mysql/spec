@@ -183,3 +183,7 @@ properties:
   cf_mysql.mysql.log_queries_not_using_indexes:
     default: false
     description: "Queries that don't use an index, or that perform a full index scan where the index doesn't limit the number of rows, will be logged to the slow query log."
+
+  cf_mysql.mysql.startup_timeout:
+    default: 60
+    description: 'Number of seconds that monit should wait for mysql to start before giving up'

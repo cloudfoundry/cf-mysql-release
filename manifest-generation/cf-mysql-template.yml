@@ -84,6 +84,7 @@ properties:
       cluster_health:
         password: (( property_overrides.mysql.cluster_health.password ))
       binlog_enabled: (( property_overrides.mysql.binlog_enabled || true ))
+      startup_timeout: (( property_overrides.mysql.startup_timeout || nil ))
     proxy:
       api_username: (( property_overrides.proxy.api_username ))
       api_password: (( property_overrides.proxy.api_password ))
