@@ -82,6 +82,7 @@ properties:
       server_audit_excluded_users: (( property_overrides.mysql.server_audit_excluded_users || nil ))
       cluster_health:
         password: (( property_overrides.mysql.cluster_health.password ))
+      startup_timeout: (( property_overrides.mysql.startup_timeout || nil ))
     proxy:
       api_username: (( property_overrides.proxy.api_username ))
       api_password: (( property_overrides.proxy.api_password ))
