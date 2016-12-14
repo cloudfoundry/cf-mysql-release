@@ -205,7 +205,7 @@ base_templates:
     name: arbitrator
     consumes: {mysql: nil, arbitrator: nil}
   broker:
-  - release: cf-mysql,
+  - release: cf-mysql
     name: cf-mysql-broker
     consumes: {mysql: nil}
 
