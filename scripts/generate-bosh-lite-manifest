@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#
+# This is the old spiff-type manifest generator. The new bosh2.0 scripts generate a different manifest.
+#
+
 set -e
 
 MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
