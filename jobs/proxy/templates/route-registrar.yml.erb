@@ -22,6 +22,7 @@
   proxy_index = proxy_ips.index(my_ip)
 %>
 
+<% if p("cf_mysql.standalone") == false %>
 message_bus_servers:
 <% p('nats.machines').each do |ip| %>
 - host: <%= ip %>:<%= p('nats.port') %>
@@ -35,3 +36,4 @@ routes:
   uris:
   - proxy-<%= proxy_index %>-<%= p('cf_mysql.external_host') %>
   registration_interval: 10s
+<% end %>

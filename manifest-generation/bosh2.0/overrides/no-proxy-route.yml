@@ -1,4 +1,0 @@
----
-- type: replace
-  path: /properties/cf_mysql/standalone?
-  value: true

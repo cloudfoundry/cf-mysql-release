@@ -1,9 +1,0 @@
----
-- type: remove
-  path: /instance_groups/name=broker
-- type: remove
-  path: /instance_groups/name=broker-registrar
-- type: remove
-  path: /instance_groups/name=broker-deregistrar
-- type: remove
-  path: /properties/cf_mysql/broker
