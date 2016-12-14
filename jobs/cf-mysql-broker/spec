@@ -16,6 +16,11 @@ templates:
   registrar_settings.yml.erb: config/registrar_settings.yml
   route-registrar_ctl.erb: bin/route-registrar_ctl
 
+consumes:
+- name: mysql
+  type: mysql
+  optional: true
+
 packages:
 - ruby
 - mysqlclient

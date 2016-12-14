@@ -42,6 +42,8 @@ consumes:
 provides:
 - name: mysql
   type: mysql
+  properties:
+  - cf_mysql.mysql.port
 
 properties:
   syslog_aggregator.address:
