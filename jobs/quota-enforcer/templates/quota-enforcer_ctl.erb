@@ -2,9 +2,9 @@
 
 set -eo pipefail
 
-job_dir=/var/vcap/jobs/cf-mysql-broker
-run_dir=/var/vcap/sys/run/cf-mysql-broker
-log_dir=/var/vcap/sys/log/cf-mysql-broker
+job_dir=/var/vcap/jobs/cf-mysql-quota-enforcer
+run_dir=/var/vcap/sys/run/cf-mysql-broker # TODO: this is broker for backwards compatibility
+log_dir=/var/vcap/sys/log/cf-mysql-quota-enforcer
 package_dir=/var/vcap/packages/quota-enforcer
 pidfile=$run_dir/quota-enforcer.pid
 oldpidfile=/var/vcap/sys/run/quota-enforcer/quota-enforcer.pid

@@ -9,12 +9,3 @@ check process cf-mysql-route-registrar
   start program "/var/vcap/jobs/cf-mysql-broker/bin/route-registrar_ctl start"
   stop program "/var/vcap/jobs/cf-mysql-broker/bin/route-registrar_ctl stop"
   group vcap
-
-<% if p("cf_mysql.broker.disable_quota_enforcer") == false %>
-check process quota-enforcer
-  with pidfile /var/vcap/sys/run/cf-mysql-broker/quota-enforcer.pid
-  start program "/var/vcap/jobs/cf-mysql-broker/bin/quota-enforcer_ctl start" with timeout 60 seconds
-  stop program "/var/vcap/jobs/cf-mysql-broker/bin/quota-enforcer_ctl stop" with timeout 60 seconds
-  group vcap
-  depends on cf-mysql-broker
-<% end %>

@@ -8,9 +8,6 @@ templates:
   cf_mysql_broker_setup.sql.erb: config/cf_mysql_broker_setup.sql
   unicorn.conf.rb.erb: config/unicorn.conf.rb
   database.yml.erb: config/database.yml
-  quota-enforcer_ctl.erb: bin/quota-enforcer_ctl
-  quota_enforcer_config.yml.erb: config/quota_enforcer_config.yml
-  quota_enforcer_setup.sql.erb: config/quota_enforcer_setup.sql
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
   healthcheck.sh.erb: bin/healthcheck.sh
   registrar_settings.yml.erb: config/registrar_settings.yml
@@ -29,7 +26,6 @@ packages:
 - mariadb
 - syslog_aggregator
 - cf-mysql-route-registrar
-- quota-enforcer
 
 properties:
   nats.user:
@@ -112,15 +108,3 @@ properties:
   cf_mysql.broker.port:
     default: 8081
     description: "Port for broker"
-  cf_mysql.broker.disable_quota_enforcer:
-    default: false
-    description: 'Disable the Quota Enforcer process'
-
-  cf_mysql.broker.quota_enforcer.password:
-    description: 'The password for the quota-enforcer user'
-  cf_mysql.broker.quota_enforcer.ignored_users:
-    description: 'Array of users that the quota enforcer will not enforce quotas on'
-    default: []
-  cf_mysql.broker.quota_enforcer.pause:
-    description: 'In seconds, the interval that the Quota Enforcer pauses between checks for violators and reformers'
-    default: 1

@@ -59,6 +59,7 @@ instance_groups:
   stemcell: default
   jobs:
   - {release: cf-mysql, name: cf-mysql-broker}
+  - {release: cf-mysql, name: quota-enforcer}
 
 - name: bootstrap
   instances: 1
