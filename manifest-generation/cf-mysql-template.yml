@@ -205,7 +205,10 @@ base_templates:
     name: arbitrator
     consumes: {mysql: nil, arbitrator: nil}
   broker:
-  - {release: cf-mysql, name: cf-mysql-broker}
+  - release: cf-mysql,
+    name: cf-mysql-broker
+    consumes: {mysql: nil}
+
 colocated_jobs:
   mysql_z1: (( job_overrides.colocated_jobs.mysql_z1.additional_templates || empty_list ))
   mysql_z2: (( job_overrides.colocated_jobs.mysql_z2.additional_templates || empty_list ))
