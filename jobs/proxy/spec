@@ -73,6 +73,7 @@ properties:
     default: true
   cf_mysql.proxy.api_username:
     description: "Username for Basic Auth used to secure API"
+    default: proxy
   cf_mysql.proxy.api_password:
     description: "Password for Basic Auth used to secure API"
   cf_mysql.proxy.health_port:

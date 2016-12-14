@@ -90,11 +90,9 @@ properties:
       galera_healthcheck:
         db_password: ((cf_mysql_mysql_galera_healthcheck_db_password))
         endpoint_password: ((cf_mysql_mysql_galera_healthcheck_endpoint_password))
-        endpoint_username: username
       persistent_disk: 100000
       roadmin_password: ((cf_mysql_mysql_roadmin_password))
     proxy:
-      api_username: username
       api_password: ((cf_mysql_proxy_api_password))
     standalone: true
 

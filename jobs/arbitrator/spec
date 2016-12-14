@@ -40,6 +40,7 @@ properties:
     description: '(Optional) List of nodes.  Must have the same number of ips as there are nodes in the cluster'
   cf_mysql.mysql.galera_healthcheck.endpoint_username:
     description: 'Username used by the sidecar endpoints for Basic Auth'
+    default: galera-healthcheck
   cf_mysql.mysql.galera_healthcheck.endpoint_password:
     description: 'Password used by the sidecar endpoints for Basic Auth'
   cf_mysql.mysql.galera_healthcheck.port:
