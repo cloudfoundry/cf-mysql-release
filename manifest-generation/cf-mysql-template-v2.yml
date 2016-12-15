@@ -81,6 +81,17 @@ instance_groups:
   jobs:
   - {release: cf-mysql, name: verify-cluster-schemas}
 
+- name: smoke-tests
+  instances: 1
+  lifecycle: errand
+  azs: [z1]
+  networks: [{name: default}]
+  vm_type: default
+  stemcell: default
+  jobs:
+  - {release: cf-mysql, name: smoke-tests}
+
+
 properties:
   cf_mysql:
     mysql:
@@ -95,6 +106,8 @@ properties:
     proxy:
       api_password: ((cf_mysql_proxy_api_password))
     standalone: true
+    smoke_tests:
+      standalone_tests_only: true
 
 variables:
 - name: cf_mysql_mysql_admin_password

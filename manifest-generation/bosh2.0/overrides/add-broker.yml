@@ -38,19 +38,6 @@
     - {release: cf-mysql, name: broker-deregistrar}
 
 - type: replace
-  path: /instance_groups/-
-  value:
-    name: smoke-tests
-    instances: 1
-    lifecycle: errand
-    azs: [z1]
-    networks: [{name: default}]
-    vm_type: default
-    stemcell: default
-    jobs:
-    - {release: cf-mysql, name: smoke-tests}
-
-- type: replace
   path: /properties/cf_mysql/broker?
   value:
     db_password: ((cf_mysql_broker_db_password))
@@ -100,9 +87,12 @@
     skip_ssl_validation: ((cf_skip_ssl_validation))
 
 - type: replace
-  path: /properties/cf_mysql/smoke_tests?
-  value:
-    password: ((cf_mysql_smoke_tests_password))
+  path: /properties/cf_mysql/smoke_tests/standalone_tests_only?
+  value: false
+
+- type: replace
+  path: /properties/cf_mysql/smoke_tests/password?
+  value: ((cf_mysql_smoke_tests_password))
 
 - type: replace
   path: /properties/cf_mysql/host?
