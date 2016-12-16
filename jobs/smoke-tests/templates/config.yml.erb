@@ -1,11 +1,11 @@
 <%=
 
-  mysql_service = nil
-  if_p('cf_mysql.broker.services') do |s|
-    mysql_service = s.first
-  end
+mysql_service = nil
+if_p('cf_mysql.broker.services') do |s|
+  mysql_service = s.first
+end
 
-if ! p('cf_mysql.smoke_tests.standalone_tests_only') then
+if ! p('cf_mysql.smoke_tests.standalone_tests_only')
   raise "services must be non-empty if standalone_tests_only is true" unless mysql_service
   raise "plans must be non-empty if standalone_tests_only is true" unless mysql_service['plans']
 end
@@ -47,16 +47,16 @@ config = {
   }
 }
 
-if_p('cf.smoke_tests.use_existing_org') do
+if p('cf.smoke_tests.use_existing_org')
   config[:org_name] = p('cf.smoke_tests.org')
 end
 
 default_max_user_connections = 40
-if mysql_service && mysql_service['max_user_connections_default'] then
+if mysql_service && mysql_service['max_user_connections_default']
   default_max_user_connections = mysql_service['max_user_connections_default']
 end
 
-if mysql_service then
+if mysql_service
   config[:plans] = mysql_service['plans'].map do | plan |
     {
       plan_name:            plan['name'],
@@ -70,7 +70,7 @@ end
 standalone_tests_only = p('cf_mysql.smoke_tests.standalone_tests_only')
 config[:standalone_only] = standalone_tests_only
 
-if standalone_tests_only then
+if standalone_tests_only
   cluster_ips = nil
   if_p('cf_mysql.mysql.cluster_ips') do |ips|
     # cluster_ips may contain nil values due to lack of flexibility in spiff
