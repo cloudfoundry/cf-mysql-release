@@ -48,7 +48,7 @@ config = {
 }
 
 if_p('cf.smoke_tests.use_existing_org') do
-  config['org_name'] = p('cf.smoke_tests.org')
+  config[:org_name] = p('cf.smoke_tests.org')
 end
 
 default_max_user_connections = 40
@@ -57,7 +57,7 @@ if mysql_service && mysql_service['max_user_connections_default'] then
 end
 
 if mysql_service then
-  config['plans'] = mysql_service['plans'].each do | plan |
+  config[:plans] = mysql_service['plans'].map do | plan |
     {
       plan_name:            plan['name'],
       private:              plan.has_key?('private') ? plan['private'] : false,
@@ -68,7 +68,7 @@ if mysql_service then
 end
 
 standalone_tests_only = p('cf_mysql.smoke_tests.standalone_tests_only')
-config['standalone_only'] = standalone_tests_only
+config[:standalone_only] = standalone_tests_only
 
 if standalone_tests_only then
   cluster_ips = nil
@@ -93,7 +93,7 @@ if standalone_tests_only then
 
   raise "could not determine mysql host for standalone tests" unless mysql_host
 
-  config['standalone'] = {
+  config[:standalone] = {
     host:     mysql_host,
     port:     p('cf_mysql.mysql.port'),
     username: p('cf_mysql.mysql.admin_username'),
