@@ -41,6 +41,7 @@ For instance, our template assumes your cloud-config has a persistent-disk type 
 ```bash
 gobosh \
   -e <environment> \
+  -d <deployment name> \
   deploy \
   "${CF_MYSQL_RELEASE_DIR}/manifest-generation/cf-mysql-template-v2.yml" \
   -l "cf-mysql-vars.yml" \
