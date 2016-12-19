@@ -11,7 +11,7 @@
 
 HealthcheckURLs:
   <% cluster_ips.each do |ip| %>
-  - http://<%= ip %>:<%= p('cf_mysql.mysql.healthcheck_port') %>
+  - http://<%= ip %>:<%= p('cf_mysql.mysql.galera_healthcheck_port') %>
   <% end %>
 Username: <%= p('cf_mysql.mysql.galera_healthcheck.endpoint_username') %>
 Password: <%= p('cf_mysql.mysql.galera_healthcheck.endpoint_password') %>
