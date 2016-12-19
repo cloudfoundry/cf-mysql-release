@@ -25,6 +25,8 @@ provides:
   properties:
   - cf_mysql.proxy.api_username
   - cf_mysql.proxy.api_password
+  - cf_mysql.proxy.api_port
+  - cf_mysql.external_host
 
 packages:
 - switchboard
