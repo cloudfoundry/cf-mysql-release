@@ -15,10 +15,24 @@
     galera_healthcheck_port = link('mysql').p('cf_mysql.mysql.galera_healthcheck.port')
   end
 
+  galera_healthcheck_username = nil
+  if_p('cf_mysql.mysql.galera_healthcheck.endpoint_username') do |username|
+    galera_healthcheck_username = username
+  end.else do
+    galera_healthcheck_username = link('mysql').p('cf_mysql.mysql.galera_healthcheck.endpoint_username')
+  end
+
+  galera_healthcheck_password = nil
+  if_p('cf_mysql.mysql.galera_healthcheck.endpoint_password') do |password|
+    galera_healthcheck_password = password
+  end.else do
+    galera_healthcheck_password = link('mysql').p('cf_mysql.mysql.galera_healthcheck.endpoint_password')
+  end
+
   config = {
     HealthcheckURLs: cluster_ips.map {|ip| "http://#{ip}:#{galera_healthcheck_port}" },
-    Username: p('cf_mysql.mysql.galera_healthcheck.endpoint_username'),
-    Password: p('cf_mysql.mysql.galera_healthcheck.endpoint_password'),
+    Username: galera_healthcheck_username,
+    Password: galera_healthcheck_password,
     LogFilePath: '/var/vcap/sys/log/bootstrap/bootstrap.log',
     RepairMode: 'bootstrap'
   }
