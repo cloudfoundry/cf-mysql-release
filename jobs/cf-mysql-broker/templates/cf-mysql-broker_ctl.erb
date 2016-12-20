@@ -16,6 +16,10 @@ export SETTINGS_PATH=$JOB_DIR/config/settings.yml
 export HOME=/home/vcap
 export JOB_INDEX=<%= index %>
 
+source /var/vcap/packages/cf-mysql-common/syslog_utils.sh
+
+tee_output_to_sys_log ${LOG_DIR}
+
 # add mysql to path
 if [ ! -f /usr/local/bin/mysql ]; then
   echo "Adding mysql to path"
