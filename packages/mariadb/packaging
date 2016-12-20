@@ -1,7 +1,7 @@
 # abort script on any command that exits with a non zero value
 set -e
 
-MARIADB_VERSION=10.1.18
+MARIADB_VERSION=10.1.20
 MY_DIR=$(pwd)
 
 tar xzf mariadb/mariadb-${MARIADB_VERSION}.tar.gz
