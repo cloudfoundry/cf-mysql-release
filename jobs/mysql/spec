@@ -44,7 +44,7 @@ provides:
   type: mysql
   properties:
   - cf_mysql.mysql.port
-  - cf_mysql.mysql.galera_port
+  - cf_mysql.mysql.galera_healthcheck.port
 
 properties:
   syslog_aggregator.address:
