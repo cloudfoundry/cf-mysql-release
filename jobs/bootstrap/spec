@@ -15,7 +15,7 @@ consumes:
   optional: true
 
 properties:
-  cf_mysql.mysql.galera_healthcheck_port:
+  cf_mysql.mysql.galera_healthcheck.port:
     description: 'Port used by healthcheck process to listen on'
     default: 9200
   cf_mysql.mysql.cluster_ips:
