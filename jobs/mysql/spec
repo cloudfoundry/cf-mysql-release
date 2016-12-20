@@ -45,6 +45,8 @@ provides:
   properties:
   - cf_mysql.mysql.port
   - cf_mysql.mysql.galera_healthcheck.port
+  - cf_mysql.mysql.galera_healthcheck.endpoint_username
+  - cf_mysql.mysql.galera_healthcheck.endpoint_password
 
 properties:
   syslog_aggregator.address:
