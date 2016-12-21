@@ -8,5 +8,5 @@
   value: ((cf_mysql_external_host))
 
 - type: replace
-  path: /properties/cf_mysql/standalone?
+  path: /instance_groups/name=proxy/properties/cf_mysql/standalone?
   value: false

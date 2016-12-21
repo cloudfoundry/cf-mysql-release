@@ -50,6 +50,9 @@ instance_groups:
   stemcell: default
   jobs:
   - {release: cf-mysql, name: proxy}
+  properties:
+    cf_mysql:
+      standalone: true
 
 - name: bootstrap
   instances: 1
@@ -91,7 +94,6 @@ instance_groups:
   jobs:
   - {release: cf-mysql, name: smoke-tests}
 
-
 properties:
   cf_mysql:
     mysql:
@@ -105,7 +107,6 @@ properties:
       roadmin_password: ((cf_mysql_mysql_roadmin_password))
     proxy:
       api_password: ((cf_mysql_proxy_api_password))
-    standalone: true
     smoke_tests:
       standalone_tests_only: true
 
