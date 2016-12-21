@@ -17,6 +17,13 @@
     mysql_port = link('mysql').p('cf_mysql.mysql.port')
   end
 
+  mysql_host = nil
+  if_p('cf_mysql.host') do |host|
+    mysql_host = host
+  end.else do
+    mysql_host = link('proxy').instances.first.address
+  end
+
   config = {
     production: {
       adapter: "mysql2",
@@ -26,7 +33,7 @@
       connect_timeout: 20,
       read_timeout: 20,
       reconnect: true,
-      host: p('cf_mysql.host'),
+      host: mysql_host,
       port: mysql_port,
       username: "cf-mysql-broker",
       password: p('cf_mysql.broker.db_password')

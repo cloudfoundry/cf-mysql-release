@@ -95,10 +95,6 @@
   value: ((cf_mysql_smoke_tests_password))
 
 - type: replace
-  path: /properties/cf_mysql/host?
-  value: 10.244.7.3 # TODO: linkify the broker
-
-- type: replace
   path: /properties/cf_mysql/external_host?
   value: ((cf_mysql_external_host))
 

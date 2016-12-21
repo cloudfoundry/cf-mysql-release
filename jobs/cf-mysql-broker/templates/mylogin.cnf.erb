@@ -5,10 +5,17 @@
   end.else do
     mysql_port = link('mysql').p('cf_mysql.mysql.port')
   end
+
+  mysql_host = nil
+  if_p('cf_mysql.host') do |host|
+    mysql_host = host
+  end.else do
+    mysql_host = link('proxy').instances.first.address
+  end
 %>
 
 [client]
 user="<%= p('cf_mysql.mysql.admin_username') %>"
 password="<%= p('cf_mysql.mysql.admin_password') %>"
-host="<%= p('cf_mysql.host') %>"
+host="<%= mysql_host %>"
 port="<%= mysql_port %>"

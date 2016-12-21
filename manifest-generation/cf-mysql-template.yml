@@ -207,7 +207,7 @@ base_templates:
   broker:
   - release: cf-mysql
     name: cf-mysql-broker
-    consumes: {mysql: nil}
+    consumes: {mysql: nil, proxy: nil}
 
 colocated_jobs:
   mysql_z1: (( job_overrides.colocated_jobs.mysql_z1.additional_templates || empty_list ))

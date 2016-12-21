@@ -20,6 +20,13 @@ consumes:
 - name: mysql
   type: mysql
   optional: true
+- name: proxy
+  type: proxy
+  optional: true
+
+produces:
+- name: broker
+  type: broker
 
 packages:
 - ruby

@@ -18,8 +18,15 @@
     mysql_port = link('mysql').p('cf_mysql.mysql.port')
   end
 
+  mysql_host = nil
+  if_p('cf_mysql.host') do |host|
+    mysql_host = host
+  end.else do
+    mysql_host = link('proxy').instances.first.address
+  end
+
   config = {
-    Host: p('cf_mysql.host'),
+    Host: mysql_host,
     Port: mysql_port,
     User: "quota-enforcer",
     Password: password,
