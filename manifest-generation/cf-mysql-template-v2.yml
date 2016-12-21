@@ -20,19 +20,17 @@ instance_groups:
 - name: mysql
   instances: 2
   azs: [z1, z2]
-  networks:
-  - name: default
+  networks: [{name: default}]
   vm_type: default
   stemcell: default
-  persistent_disk_type: large
+  persistent_disk: 10000
   jobs:
   - {release: cf-mysql, name: mysql}
 
 - name: arbitrator
   instances: 1
   azs: [z3]
-  networks:
-  - name: default
+  networks: [{name: default}]
   vm_type: default
   stemcell: default
   jobs:
@@ -40,12 +38,8 @@ instance_groups:
 
 - name: proxy
   instances: 2
-  azs: [z1,z2]
-  networks:
-  - name: default
-    static_ips:
-    - 10.244.7.3
-    - 10.244.8.3
+  azs: [z1, z2]
+  networks: [{name: default}]
   vm_type: default
   stemcell: default
   jobs:
