@@ -61,6 +61,13 @@ properties:
 
   cf_mysql.mysql.cluster_ips:
     description: "Optional, list of nodes.  Must have the same number of ips as there are nodes in the cluster"
+  cf_mysql.mysql.port:
+    description: 'Port the mysql server listens on'
+    default: 3306
+  cf_mysql.mysql.galera_healthcheck.port:
+    description: 'Port galera_healthcheck sidecar process listens on'
+    default: 9200
+
   cf_mysql.proxy.port:
     description: "Port for the proxy to listen on"
     default: 3306

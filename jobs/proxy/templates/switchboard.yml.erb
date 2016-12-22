@@ -11,6 +11,20 @@
   end.else do
     cluster_ips = link('mysql').instances.map { |instance| instance.address }
   end
+
+  galera_healthcheck_port = nil
+  if_p('cf_mysql.mysql.galera_healthcheck.port') do |port|
+    galera_healthcheck_port = port
+  end.else do
+    galera_healthcheck_port = link('mysql').p('cf_mysql.mysql.galera_healthcheck.port')
+  end
+
+  mysql_port = nil
+  if_p('cf_mysql.mysql.port') do |port|
+    mysql_port = port
+  end.else do
+    mysql_port = link('mysql').p('cf_mysql.mysql.port')
+  end
 %>
 
 API:
@@ -24,8 +38,8 @@ Proxy:
   Backends:
   <% cluster_ips.each_with_index do |ip, n| %>
   - Host: <%= ip %>
-    Port: 3306
-    StatusPort: 9200
+    Port: <%= mysql_port %>
+    StatusPort: <%= galera_healthcheck_port %>
     StatusEndpoint: galera_status
     Name: "backend-<%= n %>"
   <% end %>
