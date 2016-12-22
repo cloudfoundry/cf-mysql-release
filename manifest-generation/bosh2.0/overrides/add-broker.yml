@@ -87,11 +87,11 @@
     skip_ssl_validation: ((cf_skip_ssl_validation))
 
 - type: replace
-  path: /instance_groups/name=smoke-tests/properties/cf_mysql/smoke_tests/standalone_tests_only
+  path: /instance_groups/name=smoke-tests/properties/cf_mysql/smoke_tests/standalone_tests_only?
   value: false
 
 - type: replace
-  path: /properties/cf_mysql/smoke_tests/password?
+  path: /instance_groups/name=smoke-tests/properties/cf_mysql/smoke_tests/password?
   value: ((cf_mysql_smoke_tests_password))
 
 - type: replace
