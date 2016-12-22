@@ -87,6 +87,10 @@ instance_groups:
   stemcell: default
   jobs:
   - {release: cf-mysql, name: smoke-tests}
+  properties:
+    cf_mysql:
+      smoke_tests:
+        standalone_tests_only: true
 
 properties:
   cf_mysql:
@@ -101,8 +105,6 @@ properties:
       roadmin_password: ((cf_mysql_mysql_roadmin_password))
     proxy:
       api_password: ((cf_mysql_proxy_api_password))
-    smoke_tests:
-      standalone_tests_only: true
 
 variables:
 - name: cf_mysql_mysql_admin_password
