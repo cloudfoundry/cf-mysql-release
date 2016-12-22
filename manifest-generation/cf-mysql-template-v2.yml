@@ -26,6 +26,9 @@ instance_groups:
   persistent_disk: 10000
   jobs:
   - {release: cf-mysql, name: mysql}
+  migrated_from:
+  - {name: mysql_z1, az: z1}
+  - {name: mysql_z2, az: z2}
 
 - name: arbitrator
   instances: 1
@@ -35,6 +38,8 @@ instance_groups:
   stemcell: default
   jobs:
   - {release: cf-mysql, name: arbitrator}
+  migrated_from:
+  - {name: arbitrator_z3, az: z3}
 
 - name: proxy
   instances: 2
@@ -47,6 +52,9 @@ instance_groups:
   properties:
     cf_mysql:
       standalone: true
+  migrated_from:
+  - {name: proxy_z1, az: z1}
+  - {name: proxy_z2, az: z2}
 
 - name: bootstrap
   instances: 1

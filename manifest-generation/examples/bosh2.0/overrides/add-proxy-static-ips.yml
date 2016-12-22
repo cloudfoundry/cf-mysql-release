@@ -1,6 +1,7 @@
 ---
 # We want one entry per instance that needs a static IP - typically this will
 # look like one entry per instance. The example below would be for two instances.
+# These static IPs must match the configuration in the cloud config.
 - type: replace
   path: /instance_groups/name=proxy/networks/name=default/static_ips?/-
   value: 10.244.7.3

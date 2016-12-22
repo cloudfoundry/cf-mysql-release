@@ -10,6 +10,9 @@
     stemcell: default
     jobs:
     - {release: cf-mysql, name: cf-mysql-broker}
+    migrated_from:
+    - {name: cf-mysql-broker_z1, az: z1}
+    - {name: cf-mysql-broker_z2, az: z2}
 
 - type: replace
   path: /instance_groups/-
