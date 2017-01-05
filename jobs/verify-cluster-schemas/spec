@@ -31,6 +31,7 @@ properties:
     default: 9200
   cf_mysql.mysql.galera_healthcheck.endpoint_username:
     description: 'Username used to authenticate with galera healthcheck'
+    default: galera-healthcheck
   cf_mysql.mysql.galera_healthcheck.endpoint_password:
     description: 'Password used to authenticate with galera healthcheck'
 
