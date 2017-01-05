@@ -89,6 +89,7 @@ properties:
     description: 'The password for the cf-mysql-broker MySQL user'
   cf_mysql.broker.auth_username:
     description: "Broker's basic auth username"
+    default: admin
   cf_mysql.broker.auth_password:
     description: "Broker's basic auth password"
   cf_mysql.broker.cookie_secret:
