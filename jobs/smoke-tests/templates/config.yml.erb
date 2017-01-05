@@ -11,11 +11,11 @@ if ! p('cf_mysql.smoke_tests.standalone_tests_only')
 end
 
 proxy_ips = nil
-if_p('cf_mysql.proxy.proxy_ips') do |ips|
-  # proxy_ips may contain nil values due to lack of flexibility in spiff
-  proxy_ips = ips.compact
-end.else do
+if_link('proxy') do
   proxy_ips= link('proxy').instances.map { |instance| instance.address }
+end.else do
+  # proxy_ips may contain nil values due to lack of flexibility in spiff
+  proxy_ips = p('cf_mysql.proxy.proxy_ips').compact
 end
 
 proxy_urls = proxy_ips.each_with_index.map do |_, index|
@@ -72,16 +72,16 @@ config[:standalone_only] = standalone_tests_only
 
 if standalone_tests_only
   cluster_ips = nil
-  if_p('cf_mysql.mysql.cluster_ips') do |ips|
+  if_link('mysql') do
+    cluster_ips = link('mysql').instances.map { |instance| instance.address }
+  end.else do
     # cluster_ips may contain nil values due to lack of flexibility in spiff
-    cluster_ips = ips.compact
+    cluster_ips = p('cf_mysql.mysql.cluster_ips').compact
 
     # do not route traffic to arbitrator
     if_p('cf_mysql.proxy.arbitrator_ip') do |arbitrator_ip|
       cluster_ips.delete(arbitrator_ip)
     end
-  end.else do
-    cluster_ips = link('mysql').instances.map { |instance| instance.address }
   end
 
   mysql_host = nil

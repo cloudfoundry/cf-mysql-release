@@ -14,11 +14,12 @@
   my_ip = discover_external_ip
 
   proxy_ips = nil
-  if_p('cf_mysql.proxy.proxy_ips') do |ips|
-    proxy_ips = ips.compact
-  end.else do
+  if_link('proxy') do
     proxy_ips= link('proxy').instances.map { |instance| instance.address }
+  end.else do
+    proxy_ips = p('cf_mysql.proxy.proxy_ips').compact
   end
+
   proxy_index = proxy_ips.index(my_ip)
 
   if ! p('cf_mysql.standalone')
