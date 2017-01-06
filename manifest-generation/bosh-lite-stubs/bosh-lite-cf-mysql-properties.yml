@@ -47,7 +47,7 @@ cf_mysql_mysql_galera_healthcheck_endpoint_username: username
 cf_mysql_mysql_galera_healthcheck_endpoint_password: password
 cf_mysql_mysql_roadmin_enabled: true
 cf_mysql_mysql_roadmin_password: password
-cf_mysql_proxy_api_username: username
+cf_mysql_proxy_api_username: proxy
 cf_mysql_proxy_api_password: password
 
 consul_agent_domain: cf.internal
