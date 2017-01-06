@@ -12,7 +12,7 @@ property_overrides:
       endpoint_password: password
       db_password: gh_password
   proxy:
-    api_username: username
+    api_username: proxy
     api_password: password
   broker:
     auth_username: admin
