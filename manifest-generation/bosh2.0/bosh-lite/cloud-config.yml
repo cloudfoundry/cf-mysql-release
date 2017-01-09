@@ -19,16 +19,16 @@ networks:
   subnets:
   - az: z1
     range: 10.244.7.0/24
-    reserved: 10.244.7.1
+    gateway: 10.244.7.1
     cloud_properties:
       name: random
   - az: z2
     range: 10.244.8.0/24
-    reserved: 10.244.8.1
+    gateway: 10.244.8.1
     cloud_properties:
       name: random
   - az: z3
     range: 10.244.9.0/24
-    reserved: 10.244.9.1
+    gateway: 10.244.9.1
     cloud_properties:
       name: random
