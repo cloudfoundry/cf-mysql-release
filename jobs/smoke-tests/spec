@@ -7,8 +7,12 @@ packages:
 
 templates:
   errand.sh.erb: bin/run
+  config.yml.erb: bin/config.yml
 
 consumes:
+- name: mysql
+  type: mysql
+  optional: true
 - name: proxy
   type: proxy
   optional: true
@@ -17,12 +21,16 @@ properties:
   cf.api_url:
     description: 'Full URL of Cloud Foundry API'
     example: 'https://api.your-domain.example.com'
+    default: ''
   cf.admin_username:
     description: 'Username of the admin user'
+    default: ''
   cf.admin_password:
     description: 'Password of the admin user'
+    default: ''
   cf.app_domains:
     description: 'List of shared domains for pushed apps (tests will use the first domain)'
+    default: null
   cf.skip_ssl_validation:
     description: 'Whether to add --skip-ssl-validation for cf cli'
     default: false
@@ -35,6 +43,7 @@ properties:
 
   cf_mysql.smoke_tests.password:
     description: 'Password for generated user to comply with CF password policy, if exists.'
+    default: ''
   cf_mysql.smoke_tests.standalone_tests_only:
     description: 'Instead of running the full smoke test suite, only run a minimal set of tests that do not require a running CF deployment'
     default: false
@@ -43,9 +52,14 @@ properties:
     default: 1
 
   cf_mysql.host:
-    description: 'Hostname given to apps by the broker, usually a Load Balancer address or the IP of the first proxy'
+    description: |
+      Hostname given to apps by the broker, usually a Load Balancer address or the IP of the first proxy.
+      Used only by the standalone tests, and is optional.
+      If omitted, and `standalone_tests_only` is true, either `cluster_ips` must be provided,
+      or mysql links must be provided.
   cf_mysql.external_host:
     description: 'Hostname given for dashboard URLs (e.g. p-mysql.example.com)'
+    default: ''
 
   cf_mysql.mysql.port:
     description: 'Port used to access MySQL'
@@ -58,9 +72,11 @@ properties:
 
   cf_mysql.broker.services:
     description: 'Array of Services the broker provides'
+    default: null
 
   cf_mysql.proxy.api_username:
     description: 'Proxy API username'
+    default: proxy
   cf_mysql.proxy.api_password:
     description: 'Proxy API password'
   cf_mysql.proxy.api_force_https:

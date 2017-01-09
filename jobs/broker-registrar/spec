@@ -42,5 +42,6 @@ properties:
     default: 443
   cf_mysql.broker.auth_username:
     description: 'Basic Auth username for the service broker'
+    default: admin
   cf_mysql.broker.auth_password:
     description: 'Basic Auth password for the service broker'

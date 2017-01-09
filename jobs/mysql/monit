@@ -1,9 +1,8 @@
 check process mariadb_ctrl
   with pidfile /var/vcap/sys/run/mariadb_ctl/mariadb_ctl.pid
-  start program "/var/vcap/jobs/mysql/bin/mariadb_ctl start"
-  stop program "/var/vcap/jobs/mysql/bin/mariadb_ctl stop" with timeout 30 seconds
+  start program "/var/vcap/jobs/mysql/bin/mariadb_ctl start" with timeout <%= p('cf_mysql.mysql.startup_timeout') %> seconds
+  stop program "/var/vcap/jobs/mysql/bin/mariadb_ctl stop"
   group vcap
-  depends on gra-log-purger-executable
 
 check process galera-healthcheck
   with pidfile /var/vcap/sys/run/galera-healthcheck/galera-healthcheck.pid

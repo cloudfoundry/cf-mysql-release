@@ -74,13 +74,17 @@ properties:
       skip_name_resolve: (( property_overrides.mysql.skip_name_resolve || nil ))
       gcache_size: (( property_overrides.mysql.gcache_size || nil ))
       ib_log_file_size: (( property_overrides.mysql.ib_log_file_size || nil ))
+      innodb_buffer_pool_instances: (( property_overrides.mysql.innodb_buffer_pool_instances || nil ))
       innodb_buffer_pool_size: (( property_overrides.mysql.innodb_buffer_pool_size || nil ))
+      interrupt_notify_cmd: (( property_overrides.mysql.interrupt_notify_cmd || nil ))
       max_connections: (( property_overrides.mysql.max_connections || nil ))
       persistent_disk: (( disk_pools.mysql-persistent-disk.disk_size ))
       server_audit_events: (( property_overrides.mysql.server_audit_events || nil ))
       server_audit_excluded_users: (( property_overrides.mysql.server_audit_excluded_users || nil ))
       cluster_health:
         password: (( property_overrides.mysql.cluster_health.password ))
+      binlog_enabled: (( property_overrides.mysql.binlog_enabled || true ))
+      startup_timeout: (( property_overrides.mysql.startup_timeout || nil ))
     proxy:
       api_username: (( property_overrides.proxy.api_username ))
       api_password: (( property_overrides.proxy.api_password ))
@@ -100,7 +104,6 @@ properties:
       auth_username: (( property_overrides.broker.auth_username ))
       auth_password: (( property_overrides.broker.auth_password ))
       cookie_secret: (( property_overrides.broker.cookie_secret ))
-      external_host: (( property_overrides.broker.external_domain || .properties.cf_mysql.external_host ))
       protocol: (( property_overrides.broker.protocol || nil ))
       port: (( property_overrides.broker.port || nil ))
       quota_enforcer: (( property_overrides.broker.quota_enforcer ))
@@ -202,7 +205,10 @@ base_templates:
     name: arbitrator
     consumes: {mysql: nil, arbitrator: nil}
   broker:
-  - {release: cf-mysql, name: cf-mysql-broker}
+  - release: cf-mysql
+    name: cf-mysql-broker
+    consumes: {mysql: nil, proxy: nil}
+
 colocated_jobs:
   mysql_z1: (( job_overrides.colocated_jobs.mysql_z1.additional_templates || empty_list ))
   mysql_z2: (( job_overrides.colocated_jobs.mysql_z2.additional_templates || empty_list ))

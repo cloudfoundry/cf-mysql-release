@@ -1,0 +1,42 @@
+---
+packages:
+- name: cf-mysql-broker
+  version: 3
+  sha1: 5552ec3f51d573fdfc5afb2e80bfca76bec2e482
+  fingerprint: c708c6841ceb82eacd73e54807d6cbdd5536b17f
+  dependencies:
+  - ruby
+  - mysqlclient
+- name: common
+  version: 1
+  sha1: 125301f6a0d0f9977948ed5754339d81fe081f3d
+  fingerprint: 47eac3c416f87eb0a648b3dfe45632c654d6e67f
+  dependencies: []
+- name: mysql
+  version: 1
+  sha1: 754ed0ef80aec07ed67940e2463847aa396a1f45
+  fingerprint: d8944142bd900404561a7f375ff51a9e1e3f9a2d
+  dependencies: []
+- name: mysqlclient
+  version: 1
+  sha1: b0013dc4862493411bdf4d25f86b624cd145fb30
+  fingerprint: a9b60e74e497efa02ea62b4cedc80e0864dfa218
+  dependencies: []
+- name: ruby
+  version: 2
+  sha1: 200e3fff06583ba97641164fc750b475828bb163
+  fingerprint: 25c829c925290136c1410f808b4a0d347601428c
+  dependencies: []
+jobs:
+- name: cf-mysql-broker
+  version: 1
+  fingerprint: cff51c83874bf4f4056ee64a6f35034f0a1bf982
+  sha1: 96e97a4b8a3e4633bb543b57652b100830975cd0
+- name: mysql
+  version: 1
+  fingerprint: fbda96e96be097e08489309656fe3e116baf6681
+  sha1: 3990e7d0aa392c6af2aef24441870cdcbd0f14f2
+commit_hash: 385e31cd
+uncommitted_changes: false
+name: cf-mysql
+version: 4

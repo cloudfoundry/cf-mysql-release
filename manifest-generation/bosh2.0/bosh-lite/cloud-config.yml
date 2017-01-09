@@ -8,9 +8,6 @@ vm_types:
     ephemeral_disk:
       size: 1024
       type: gp2
-disk_types:
-- name: large
-  disk_size: 100000
 compilation:
   workers: 1
   network: default
@@ -23,24 +20,15 @@ networks:
   - az: z1
     range: 10.244.7.0/24
     reserved: 10.244.7.1
-    static:
-    - 10.244.7.2
-    - 10.244.7.3
     cloud_properties:
       name: random
   - az: z2
     range: 10.244.8.0/24
     reserved: 10.244.8.1
-    static:
-    - 10.244.8.2
-    - 10.244.8.3
     cloud_properties:
       name: random
   - az: z3
     range: 10.244.9.0/24
     reserved: 10.244.9.1
-    static:
-    - 10.244.9.2
-    - 10.244.9.6
     cloud_properties:
       name: random

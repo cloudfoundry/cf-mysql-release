@@ -1,5 +1,21 @@
+<%
+  mysql_port = nil
+  if_link('mysql') do |mysql|
+    mysql_port = mysql.p('cf_mysql.mysql.port')
+  end.else do
+    mysql_port = p('cf_mysql.mysql.port')
+  end
+
+  mysql_host = nil
+  if_link('proxy') do |proxy|
+    mysql_host = proxy.instances.first.address
+  end.else do
+    mysql_host = p('cf_mysql.host')
+  end
+%>
+
 [client]
 user="<%= p('cf_mysql.mysql.admin_username') %>"
 password="<%= p('cf_mysql.mysql.admin_password') %>"
-host="<%= p('cf_mysql.host') %>"
-port="<%= p('cf_mysql.mysql.port') %>"
+host="<%= mysql_host %>"
+port="<%= mysql_port %>"

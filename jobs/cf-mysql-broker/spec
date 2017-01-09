@@ -16,6 +16,18 @@ templates:
   registrar_settings.yml.erb: config/registrar_settings.yml
   route-registrar_ctl.erb: bin/route-registrar_ctl
 
+consumes:
+- name: mysql
+  type: mysql
+  optional: true
+- name: proxy
+  type: proxy
+  optional: true
+
+produces:
+- name: broker
+  type: broker
+
 packages:
 - ruby
 - mysqlclient
@@ -47,9 +59,6 @@ properties:
     description: "IP address for syslog aggregator"
   syslog_aggregator.port:
     description: "TCP port of syslog aggregator"
-  syslog_aggregator.all:
-    description: "Define whether forwarders should also send non-mysql syslog activity to the aggregator."
-    default: false
   syslog_aggregator.transport:
     description: "Transport to be used when forwarding logs (tcp|udp|relp)."
     default: "tcp"
@@ -80,6 +89,7 @@ properties:
     description: 'The password for the cf-mysql-broker MySQL user'
   cf_mysql.broker.auth_username:
     description: "Broker's basic auth username"
+    default: admin
   cf_mysql.broker.auth_password:
     description: "Broker's basic auth password"
   cf_mysql.broker.cookie_secret:

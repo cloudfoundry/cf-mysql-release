@@ -1,0 +1,10 @@
+---
+- type: replace
+  path: /properties/syslog_aggregator?/address
+  value: ((syslog_aggregator_address))
+- type: replace
+  path: /properties/syslog_aggregator?/port
+  value: ((syslog_aggregator_port))
+- type: replace
+  path: /properties/syslog_aggregator?/transport
+  value: ((syslog_aggregator_transport))

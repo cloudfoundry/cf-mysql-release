@@ -20,7 +20,7 @@ property_overrides:
     standalone_tests_only: true
   broker:
     db_password: UNUSED_VALUE
-    auth_username: UNUSED_VALUE
+    auth_username: ~
     auth_password: UNUSED_VALUE
     cookie_secret: UNUSED_VALUE
     auth_password: UNUSED_VALUE
