@@ -1,4 +1,0 @@
----
-- type: replace
-  path: /properties/cf_mysql/mysql/gcache_size?
-  value: 513
