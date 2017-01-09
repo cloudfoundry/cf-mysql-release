@@ -16,6 +16,7 @@ export SETTINGS_PATH=$JOB_DIR/config/settings.yml
 export HOME=/home/vcap
 export JOB_INDEX=<%= index %>
 
+source /var/vcap/packages/cf-mysql-common/pid_utils.sh
 source /var/vcap/packages/cf-mysql-common/syslog_utils.sh
 
 tee_output_to_sys_log ${LOG_DIR}
@@ -94,7 +95,7 @@ case $1 in
     ;;
 
   stop)
-    kill -QUIT `cat $PIDFILE`
+    kill_and_wait "${PIDFILE}"
     ;;
 
   *)
