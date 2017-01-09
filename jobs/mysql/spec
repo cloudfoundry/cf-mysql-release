@@ -101,7 +101,7 @@ properties:
     default: 33554432
   cf_mysql.mysql.wsrep_max_ws_rows:
     description: 'Maximum permitted number of rows per writeset.'
-    default: 131072
+    default: 0
   cf_mysql.mysql.wsrep_max_ws_size:
     description: 'Maximum permitted size in bytes per writeset.'
     default: 1073741824
