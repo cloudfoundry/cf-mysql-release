@@ -76,7 +76,6 @@ instance_groups:
 name: cf-warden-mysql
 
 properties:
-  app_domains: ((app_domains))
   cf:
     admin_password: ((cf_admin_password))
     admin_username: ((cf_admin_username))

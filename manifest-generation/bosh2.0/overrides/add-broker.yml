@@ -101,9 +101,5 @@
   value: ((cf_mysql_external_host))
 
 - type: replace
-  path: /properties/app_domains?
-  value: ((app_domains))
-
-- type: replace
   path: /properties/nats?
   value: ((nats))
