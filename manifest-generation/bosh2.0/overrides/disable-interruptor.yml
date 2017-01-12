@@ -1,0 +1,4 @@
+---
+- type: replace
+  path: /properties/cf_mysql?/mysql?/disable_auto_sst
+  value: false
