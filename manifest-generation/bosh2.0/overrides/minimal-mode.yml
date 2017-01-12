@@ -1,0 +1,8 @@
+---
+- type: replace
+  path: /instance_groups/name=arbitrator/instances
+  value: 0
+- type: replace
+  path: /instance_groups/name=mysql/instances
+  value: 1
+
