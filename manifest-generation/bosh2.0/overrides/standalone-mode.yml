@@ -1,7 +1,9 @@
 ---
-- type: replace
-  path: /instance_groups/name=cf-mysql-broker/instances
-  value: 0
+
+# We don't have a broker by default
+#- type: replace
+#  path: /instance_groups/name=cf-mysql-broker/instances
+#  value: 0
 
 - type: replace
   path: /properties/cf_mysql?/smoke_tests?
