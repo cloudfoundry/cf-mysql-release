@@ -1,0 +1,13 @@
+---
+- type: replace
+  path: /instance_groups/name=cf-mysql-broker/instances
+  value: 0
+
+- type: replace
+  path: /properties/cf_mysql?/standalone
+  value: true
+
+- type: replace
+  path: /properties/cf_mysql?/smoke_tests?
+  value:
+    standalone_tests_only: true
