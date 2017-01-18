@@ -1,6 +1,6 @@
 ---
 - type: replace
-  path: /instance_groups/name=cf-mysql-broker/instances
+  path: /instance_groups/name=broker/instances
   value: 0
 
 - type: replace
