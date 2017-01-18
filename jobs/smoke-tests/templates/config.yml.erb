@@ -59,7 +59,7 @@ end
 if mysql_service
   config[:plans] = mysql_service['plans'].map do | plan |
     {
-      plan_name:            plan['name'],
+      name:                 plan['name'],
       private:              plan.has_key?('private') ? plan['private'] : false,
       max_storage_mb:       plan['max_storage_mb'],
       max_user_connections: plan['max_user_connections'] || default_max_user_connections

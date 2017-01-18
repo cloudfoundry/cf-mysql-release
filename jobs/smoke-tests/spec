@@ -7,7 +7,7 @@ packages:
 
 templates:
   errand.sh.erb: bin/run
-  config.yml.erb: bin/config.yml
+  config.yml.erb: config/config.yml
 
 consumes:
 - name: mysql
