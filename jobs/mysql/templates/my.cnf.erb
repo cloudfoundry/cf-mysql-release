@@ -78,6 +78,7 @@ max_allowed_packet = <%= p('cf_mysql.mysql.max_allowed_packet') %>
 <%= "skip_name_resolve" if disable_dns %>
 <% end %>
 enforce_storage_engine = InnoDB
+sql-mode  = NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION,STRICT_ALL_TABLES
 
 <% if p('cf_mysql.mysql.binlog_enabled') %>
 log_bin = mysql-bin
