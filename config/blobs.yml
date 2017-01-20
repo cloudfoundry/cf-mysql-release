@@ -39,10 +39,9 @@ xtrabackup/libtool-2.4.2.tar.gz:
   object_id: 958f3335-2373-4c4f-9db1-7391a9a7e6f2
   sha: 22b71a8b5ce3ad86e1094e7285981cae10e6ff88
   size: 2632347
-xtrabackup/socat-1.7.2.4.tar.gz:
-  object_id: cd877813-c9ac-4596-b4e4-d361fe5bbdb6
-  sha: c33904b83295accef2aaff8adf7eedd3310f9777
-  size: 583762
+xtrabackup/socat-1.7.3.1.tar.gz:
+  size: 606049
+  sha: a6f1d8ab3e85f565dbe172f33a9be6708dd52ffb
 mysqlclient/mariadb-connector-c-2.1.0-src.tar.gz:
   object_id: e1e0446a-8cbd-4b8e-b496-fc20f530fd7c
   sha: 2fea886fd8ddf3e17d6228d282828afeaee0a317
