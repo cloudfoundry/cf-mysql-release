@@ -2,7 +2,7 @@
 set -e
 set -x
 
-XTRABACKUP_VERSION=2.2.10
+XTRABACKUP_VERSION=2.4.5
 PREFIX=${BOSH_INSTALL_TARGET}
 
 export PATH=$PATH:${BOSH_INSTALL_TARGET}/bin:/var/vcap/packages/mariadb/bin
@@ -78,6 +78,43 @@ tar xzf xtrabackup/libaio_0.3.110.orig.tar.gz
   cd libaio-0.3.110
   make install
 
+)
+
+# boost
+tar xzf xtrabackup/boost_1_59_0.tar.gz
+(
+  set -e
+  cd boost_1_59_0
+  ./bootstrap.sh --with-libraries=program_options,system --prefix=${BOSH_INSTALL_TARGET}
+
+  # Go Agent cannot handle more than 10MB output, so trim it
+  set +e
+  ./b2 install > build.out 2> build.err
+  BUILD_EXIT_CODE=$?
+  set -e
+
+  if [ $BUILD_EXIT_CODE -ne 0 ]; then
+      tail -n 1000 build.err
+      exit $BUILD_EXIT_CODE
+  fi
+  tail -n 1000 build.out
+
+  # Copy includes and libraries to standard locations to be consistent
+  # with thedirectory structure in cf-mysql-release
+  cp -R /var/vcap/packages/xtrabackup/lib/* /usr/lib/
+  cp -R /var/vcap/packages/xtrabackup/include/* /usr/include/
+)
+
+tar xzf xtrabackup/libev-4.22.tar.gz
+(
+	set -e
+
+	cd libev-4.22
+
+	./configure --prefix=/usr --disable-static &&
+	make
+	make check
+  make install
 )
 
 tar xzf xtrabackup/percona-xtrabackup-percona-xtrabackup-${XTRABACKUP_VERSION}.tar.gz

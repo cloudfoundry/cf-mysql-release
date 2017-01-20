@@ -87,3 +87,15 @@ mariadb/mariadb-10.1.20.tar.gz:
   object_id: 401f2d6e-81af-4dc2-a13b-880811314efc
   sha: 13dd9efcc41bbb7affe4032108a6227d5a567ccc
   size: 61312731
+xtrabackup/boost_1_59_0.tar.gz:
+  object_id: 9f1801dc-7a8c-4969-a97f-c0432a3a4331
+  sha: 5123209db194d66d69a9cfa5af8ff473d5941d97
+  size: 83709983
+xtrabackup/libev-4.22.tar.gz:
+  object_id: 023ba1e4-a21c-44f8-8c7d-51933bb0a3c9
+  sha: b5cc3f6d8d842e23fccc9b27d318ae7fa3d3bf60
+  size: 530094
+xtrabackup/percona-xtrabackup-percona-xtrabackup-2.4.5.tar.gz:
+  object_id: 54fc2860-5858-4c85-b110-3b37633676cb
+  sha: 8f86039fa330739e1a6be77dcbd2274498e090bf
+  size: 51954652
