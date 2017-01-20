@@ -125,11 +125,11 @@ check_mount() {
   exports=$2
   mount_point=$3
 
-  if grep -qs $mount_point /proc/mounts; then
+  if grep -qs "$mount_point" /proc/mounts; then
     echo "Found NFS mount $mount_point"
   else
     echo "Mounting NFS..."
-    mount $opts $exports $mount_point
+    mount "$opts" "$exports" "$mount_point"
     if [ $? != 0 ]; then
       echo "Cannot mount NFS from $exports to $mount_point, exiting..."
       exit 1
