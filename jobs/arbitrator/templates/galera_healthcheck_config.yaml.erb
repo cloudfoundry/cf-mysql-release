@@ -5,6 +5,7 @@ MysqldPath: '/var/vcap/packages/mariadb/bin/mysqld'
 DB:
   User: <%= p('cf_mysql.mysql.admin_username') %>
   Password: <%= p('cf_mysql.mysql.admin_password') %>
+  Port: <%= p('cf_mysql.mysql.port') %>
 # This is the config that bosh sets up by default for monit.
 Monit:
   User: 'vcap'
