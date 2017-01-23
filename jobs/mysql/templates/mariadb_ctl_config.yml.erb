@@ -68,4 +68,4 @@ Manager:
   <% cluster_ips.each do |ip| %>
   - <%= ip %>
   <% end %>
-  MyIP: <%= network_ip %>
+  MyIP: <%= p('cf_mysql.mysql.advertise_host') || network_ip %>

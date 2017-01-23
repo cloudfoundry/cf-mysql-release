@@ -67,6 +67,8 @@ properties:
   cf_mysql.mysql.port:
     description: 'Port the mysql server should bind to'
     default: 3306
+  cf_mysql.mysql.advertise_host:
+    description: 'IP address used to reach mysql from other cluster members'
   cf_mysql.mysql.galera_port:
     description: 'Port which Galera Cluster uses for communication across nodes'
     default: 4567
