@@ -73,7 +73,7 @@ instance_groups:
   - name: broker-registrar
     release: cf-mysql
 
-name: cf-warden-mysql
+name: cf-mysql
 
 properties:
   cf:
