@@ -1,7 +1,6 @@
 property_overrides:
   <<: (( merge || nil ))
   deployment_name: REPLACE_WITH_YOUR_DEPLOYMENT_NAME # Optional, when setting this parameter, it overrides the hardcoded deployment name
-  standalone: true
   host: YOUR_LOAD_BALANCER_ADDRESS # Optional, set to your Load Balancer address if configured
   mysql:
     admin_password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP #The admin password for the MySQL server process

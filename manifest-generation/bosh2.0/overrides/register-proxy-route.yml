@@ -4,5 +4,23 @@
   value: ((cf_mysql_external_host))
 
 - type: replace
-  path: /instance_groups/name=proxy/properties/cf_mysql/standalone?
-  value: false
+  path: /releases/name=routing?
+  value:
+    name: routing
+    version: latest
+
+- type: replace
+  path: /instance_groups/name=proxy/jobs/-
+  value:
+    release: routing
+    name: route_registrar
+    properties:
+      nats: ((nats))
+      route_registrar:
+        routes:
+        - name: cf-mysql-proxy
+          port: 8080 # must match the value of 'cf_mysql.proxy.api_port'
+          registration_interval: 10s
+          uris:
+          - proxy-((cf_mysql_external_host))
+          prepend_instance_index: true

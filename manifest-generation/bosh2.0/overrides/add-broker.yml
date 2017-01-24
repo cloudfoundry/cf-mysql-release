@@ -1,5 +1,11 @@
 ---
 - type: replace
+  path: /releases/name=routing?
+  value:
+    name: routing
+    version: latest
+
+- type: replace
   path: /instance_groups/-
   value:
     name: broker
@@ -9,7 +15,22 @@
     vm_type: default
     stemcell: default
     jobs:
-    - {release: cf-mysql, name: cf-mysql-broker}
+    - name: cf-mysql-broker
+      release: cf-mysql
+    - name: route_registrar
+      release: routing
+      properties:
+        nats: ((nats))
+        route_registrar:
+          routes:
+          - name: cf-mysql-broker
+            port: 8081 # must match the value of 'cf_mysql.broker.port'
+            registration_interval: 10s
+            uris:
+            - ((cf_mysql_external_host))
+            health_check:
+              name: script
+              script_path: /var/vcap/jobs/cf-mysql-broker/bin/healthcheck.sh
     migrated_from:
     - {name: cf-mysql-broker_z1, az: z1}
     - {name: cf-mysql-broker_z2, az: z2}
