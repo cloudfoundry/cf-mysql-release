@@ -13,8 +13,6 @@ templates:
   quota_enforcer_setup.sql.erb: config/quota_enforcer_setup.sql
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
   healthcheck.sh.erb: bin/healthcheck.sh
-  registrar_settings.yml.erb: config/registrar_settings.yml
-  route-registrar_ctl.erb: bin/route-registrar_ctl
 
 consumes:
 - name: mysql
@@ -35,7 +33,6 @@ packages:
 - cf-mysql-common
 - mariadb
 - syslog_aggregator
-- cf-mysql-route-registrar
 - quota-enforcer
 
 properties:

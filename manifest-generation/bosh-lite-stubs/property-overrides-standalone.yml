@@ -2,7 +2,6 @@ property_overrides:
   deployment_name: cf-mysql
   cc:
     srv_api_uri: https://api.bosh-lite.com
-  standalone: true
   mysql:
     admin_password: password
     roadmin_enabled: true

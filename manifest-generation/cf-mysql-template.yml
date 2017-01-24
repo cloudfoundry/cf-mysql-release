@@ -52,7 +52,6 @@ properties:
       org: (( config_from_cf.smoke_tests.org || nil ))
   syslog_aggregator: (( property_overrides.syslog_aggregator || nil ))
   cf_mysql:
-    standalone: (( property_overrides.standalone || false ))
     external_host: (( property_overrides.mysql.external_host || "p-mysql." .config_from_cf.system_domain ))
     host: (( property_overrides.host || jobs.proxy_z1.networks.mysql1.static_ips.[0] || nil ))
     mysql:
@@ -151,6 +150,8 @@ properties:
 base_releases:
 - name: cf-mysql
   version: (( release_versions.cf-mysql.version || "latest" ))
+- name: routing
+  version: (( release_versions.routing.version || "latest" ))
 base_disk_pools:
 - name: mysql-persistent-disk
   disk_size: (( iaas_settings.disk_pools.mysql-persistent-disk.disk_size || 100000 ))
@@ -192,15 +193,12 @@ base_resource_pools:
   network: mysql1
   stemcell: (( iaas_settings.stemcell ))
   cloud_properties: (( iaas_settings.resource_pool_cloud_properties.errands_z1.cloud_properties ))
+
 base_templates:
   mysql:
   - release: cf-mysql
     name: mysql
     consumes: {mysql: nil, arbitrator: nil}
-  proxy:
-  - release: cf-mysql
-    name: proxy
-    consumes: {mysql: nil, arbitrator: nil, proxy: nil}
   arbitrator:
   - release: cf-mysql
     name: arbitrator
@@ -209,6 +207,20 @@ base_templates:
   - release: cf-mysql
     name: cf-mysql-broker
     consumes: {mysql: nil, proxy: nil}
+  - release: routing
+    name: route_registrar
+  proxy: (( default_proxy_templates proxy_route_registration_templates ))
+
+default_proxy_templates:
+- release: cf-mysql
+  name: proxy
+  consumes: {mysql: nil, arbitrator: nil, proxy: nil}
+
+route_registration_templates:
+- release: routing
+  name: route_registrar
+
+proxy_route_registration_templates: (( merge || route_registration_templates ))
 
 colocated_jobs:
   mysql_z1: (( job_overrides.colocated_jobs.mysql_z1.additional_templates || empty_list ))
@@ -260,6 +272,14 @@ base_jobs:
   networks:
   - name: mysql1
     static_ips: (( static_ips(1) ))
+  properties:
+    route_registrar:
+      routes:
+      - name: cf-mysql-proxy
+        port: (( property_overrides.proxy.api_port || 8080 )) # the default here must match the default in the job spec
+        registration_interval: 10s
+        uris:
+        - (( "proxy-0-" .properties.cf_mysql.external_host ))
 - name: proxy_z2
   templates: (( base_templates.proxy colocated_jobs.proxy_z2 ))
   instances: (( instance_count_overrides.proxy_z2.instances || 1 ))
@@ -267,18 +287,48 @@ base_jobs:
   networks:
   - name: mysql2
     static_ips: (( static_ips(1) ))
+  properties:
+    route_registrar:
+      routes:
+      - name: cf-mysql-proxy
+        port: (( property_overrides.proxy.api_port || 8080 )) # the default here must match the default in the job spec
+        registration_interval: 10s
+        uris:
+        - (( "proxy-1-" .properties.cf_mysql.external_host ))
 - name: cf-mysql-broker_z1
   templates: (( base_templates.broker colocated_jobs.cf-mysql-broker_z1 ))
   instances: (( instance_count_overrides.cf-mysql-broker_z1.instances || 1 ))
   resource_pool: cf-mysql-broker_z1
   networks:
   - name: mysql1
+  properties:
+    route_registrar:
+      routes:
+      - name: cf-mysql-broker
+        port: (( property_overrides.broker.port || 8081 )) # the default here must match the default in the job spec
+        registration_interval: 10s
+        uris:
+        - (( .properties.cf_mysql.external_host ))
+        health_check:
+          name: script
+          script_path: /var/vcap/jobs/cf-mysql-broker/bin/healthcheck.sh
 - name: cf-mysql-broker_z2
   templates: (( base_templates.broker colocated_jobs.cf-mysql-broker_z2 ))
   instances: (( instance_count_overrides.cf-mysql-broker_z2.instances || 1 ))
   resource_pool: cf-mysql-broker_z2
   networks:
   - name: mysql2
+  properties:
+    route_registrar:
+      routes:
+      - name: cf-mysql-broker
+        port: (( property_overrides.broker.port || 8081 )) # the default here must match the default in the job spec
+        registration_interval: 10s
+        uris:
+        - (( .properties.cf_mysql.external_host ))
+        health_check:
+          name: script
+          script_path: /var/vcap/jobs/cf-mysql-broker/bin/healthcheck.sh
 - name: broker-registrar
   template: broker-registrar
   release: cf-mysql
@@ -340,7 +390,7 @@ iaas_settings: (( merge ))
 instance_count_overrides: (( merge || nil ))
 property_overrides: (( merge ))
 release_versions: (( merge || nil ))
-job_overrides: (( merge || nil ))  
+job_overrides: (( merge || nil ))
 default_mysql_cluster_ips:
 - (( jobs.mysql_z1.networks.mysql1.static_ips.[0] ))
 - (( jobs.mysql_z2.networks.mysql2.static_ips.[0] || nil ))

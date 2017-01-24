@@ -2,7 +2,6 @@ property_overrides:
   <<: (( merge || nil ))
   deployment_name: REPLACE_WITH_YOUR_DEPLOYMENT_NAME # Optional, when setting this parameter, it overrides the hardcoded deployment name
   syslog_aggregator: ~
-  standalone: false
   host: REPLACE_WITH_LB_HOSTNAME # Optional, set to your Load Balancer address if configured; delete this line otherwise
   mysql:
     admin_password: REPLACE_WITH_A_PASSWORD_YOU_MAKE_UP #The admin password for the MySQL server process

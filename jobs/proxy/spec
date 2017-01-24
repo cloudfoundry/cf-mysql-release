@@ -5,9 +5,8 @@ templates:
   switchboard_ctl.erb: bin/switchboard_ctl
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
   switchboard.yml.erb: config/switchboard.yml
-  route-registrar_ctl.erb: bin/route-registrar_ctl
-  route-registrar.yml.erb: config/route-registrar.yml
   post-start.erb: bin/post-start
+
 consumes:
 - name: proxy
   type: proxy
@@ -33,7 +32,6 @@ packages:
 - switchboard
 - cf-mysql-common
 - syslog_aggregator
-- cf-mysql-route-registrar
 
 properties:
   nats.user:
@@ -55,10 +53,6 @@ properties:
 
   cf_mysql.external_host:
     description: 'Domain of the route registered for the UI via NATS (with the router in cf-release)'
-
-  cf_mysql.standalone:
-    description: "Standalone Mode: Are you deploying MySQL without a CloudFoundry deployment?"
-    default: false
 
   cf_mysql.mysql.cluster_ips:
     description: "Optional, list of nodes.  Must have the same number of ips as there are nodes in the cluster"
