@@ -80,7 +80,7 @@ instance_groups:
   jobs:
   - {release: cf-mysql, name: broker-registrar}
 
-- name: broker-deregistrar
+- name: deregister-and-purge-instances
   instances: 1
   lifecycle: errand
   azs: [z1]
@@ -88,7 +88,7 @@ instance_groups:
   vm_type: default
   stemcell: default
   jobs:
-  - {release: cf-mysql, name: broker-deregistrar}
+  - {release: cf-mysql, name: deregister-and-purge-instances}
 
 - name: rejoin-unsafe
   instances: 1

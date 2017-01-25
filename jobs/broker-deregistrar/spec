@@ -1,5 +1,5 @@
 ---
-name: broker-deregistrar
+name: deregister-and-purge-instances
 packages:
 - cli
 templates:
@@ -16,6 +16,6 @@ properties:
   cf.admin_password:
     description: 'Password of the admin user'
   cf_mysql.broker.services:
-    description: 'Array of services. Note - the broker-deregistrar errand only deregisters the first service'
+    description: 'Array of services. Note - the deregister-and-purge-instances errand only deregisters the first service'
     example: |
       - name: REPLACE-WITH-SERVICE-NAME
