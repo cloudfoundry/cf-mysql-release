@@ -7,7 +7,7 @@ templates:
   switchboard.yml.erb: config/switchboard.yml
   route-registrar_ctl.erb: bin/route-registrar_ctl
   route-registrar.yml.erb: config/route-registrar.yml
-
+  post-start.erb: bin/post-start
 consumes:
 - name: proxy
   type: proxy
@@ -105,3 +105,6 @@ properties:
   cf_mysql.proxy.profiling_enabled:
     description: "When set to true, the switchboard will listen on port 6060 and enable profiling of the process"
     default: false
+  cf_mysql.proxy.startup_delay:
+    description: "If your load balancer requires multiple successful healthcheck attempts before sending traffic to a resource, set this to that total time. E.g., if your LB polls every 30 seconds and requires 3 successful attempts, then set this property to 90 seconds."
+    default: 0
