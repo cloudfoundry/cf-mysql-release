@@ -1,5 +1,5 @@
 ---
-name: broker-deregistrar
+name: deregister-and-purge-instances
 packages:
 - cli 
 templates:

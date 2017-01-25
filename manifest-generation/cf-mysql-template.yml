@@ -266,8 +266,8 @@ base_jobs:
   networks:
   - name: mysql1
   properties: {}
-- name: broker-deregistrar
-  template: broker-deregistrar
+- name: deregister-and-purge-instances
+  template: deregister-and-purge-instances
   release: cf-mysql
   instances: 1
   resource_pool: errands_z1

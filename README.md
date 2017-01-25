@@ -439,7 +439,7 @@ BOSH errands were introduced in version 2366 of the BOSH CLI, BOSH Director, and
 This errand runs the two commands listed in the manual section below from a BOSH-deployed VM.
 
 ```
-$ bosh run errand broker-deregistrar
+$ bosh run errand deregister-and-purge-instances
 ```
 
 ### Manually
