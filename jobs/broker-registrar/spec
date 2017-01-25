@@ -35,7 +35,7 @@ properties:
           max_storage_mb: 1000
           max_user_connections: 40
   cf_mysql.broker.protocol:
-    description: 'Protocol (http/https) provided to the Cloud Controller when registering/deregistering the broker'
+    description: 'Protocol (http/https) provided to the Cloud Controller when registering/de-registering the broker'
     default: https
   cf_mysql.broker.port:
     description: 'Port for the service broker'

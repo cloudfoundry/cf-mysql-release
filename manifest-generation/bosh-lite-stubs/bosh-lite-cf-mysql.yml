@@ -62,7 +62,7 @@ instance_groups:
     release: cf-mysql
 - instances: 1
   lifecycle: errand
-  name: broker-deregistrar
+  name: deregister-and-purge-instances
   azs: [z1]
   networks:
   - name: default
