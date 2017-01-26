@@ -60,8 +60,8 @@ If one or more nodes are not reachable (i.e. the VM exists but in an unknown sta
 1. Verify that deployment succeeds and all jobs are healthy. A healthy deployment should look like this:
 
 ```
-$ bosh vms cf-warden-mysql'
-Acting as user 'admin' on deployment 'cf-warden-mysql' on 'Bosh Lite Director'
+$ bosh vms cf-mysql'
+Acting as user 'admin' on deployment 'cf-mysql' on 'Bosh Lite Director'
 | mysql_z1/0           | running | mysql_z1           | 10.244.7.2   |
 | mysql_z2/0           | running | mysql_z2           | 10.244.8.2   |
 | arbitrator_z3/0      | running | arbitrator_z3      | 10.244.9.6   |
