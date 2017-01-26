@@ -106,5 +106,16 @@ properties:
     description: "When set to true, the switchboard will listen on port 6060 and enable profiling of the process"
     default: false
   cf_mysql.proxy.startup_delay:
-    description: "If your load balancer requires multiple successful healthcheck attempts before sending traffic to a resource, set this to that total time. E.g., if your LB polls every 30 seconds and requires 3 successful attempts, then set this property to 90 seconds."
+    description: |
+      If using a load balancer above the proxies,
+      enter your load balancer's unhealthy total threshold time here in seconds.
+      E.g., if your LB polls every 30 seconds, and immediately fails over upon failure,
+      then set this property to 30 seconds.
+    default: 0
+  cf_mysql.proxy.shutdown_delay:
+    description: |
+      If using a load balancer above the proxies,
+      enter your load balancer's healthy total threshold time here in seconds.
+      E.g., if your LB polls every 30 seconds and requires 3 successful attempts,
+      then set this property to 90 seconds.
     default: 0

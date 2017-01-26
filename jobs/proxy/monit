@@ -1,7 +1,7 @@
 check process switchboard
   with pidfile /var/vcap/sys/run/proxy/switchboard.pid
   start program "/var/vcap/jobs/proxy/bin/switchboard_ctl start" with timeout 10 seconds
-  stop program "/var/vcap/jobs/proxy/bin/switchboard_ctl stop" with timeout 10 seconds
+  stop program "/var/vcap/jobs/proxy/bin/switchboard_ctl stop" with timeout <%= p('cf_mysql.proxy.shutdown_delay') %> seconds
   group vcap
 
 <% if p("cf_mysql.standalone") == false %>

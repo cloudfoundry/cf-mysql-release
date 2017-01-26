@@ -28,6 +28,7 @@ API:
 Proxy:
   Port: <%= p('cf_mysql.proxy.port') %>
   HealthcheckTimeoutMillis: <%= p('cf_mysql.proxy.healthcheck_timeout_millis') %>
+  ShutdownDelaySeconds: <%= p('cf_mysql.proxy.shutdown_delay') %>
   Backends:
   <% cluster_ips.each_with_index do |ip, n| %>
   - Host: <%= ip %>
