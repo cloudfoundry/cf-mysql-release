@@ -1,21 +1,34 @@
 <%
-  mysql_port = nil
-  if_link('mysql') do |mysql|
-    mysql_port = mysql.p('cf_mysql.mysql.port')
+  db_port = nil
+  if_link('proxy') do |proxy|
+    db_port = proxy.p('cf_mysql.proxy.port')
   end.else do
-    mysql_port = p('cf_mysql.mysql.port')
+    if_link('mysql') do |mysql|
+      db_port = mysql.p('cf_mysql.mysql.port')
+    end.else do
+      # This will not work if the proxy and mysql are on different ports,
+      # and is a consequency of using the same, globally-namespaced property
+      # for the mysql and the broker jobs, but not for the proxy job.
+      db_port = p('cf_mysql.mysql.port')
+    end
   end
 
-  mysql_host = nil
-  if_link('proxy') do |proxy|
-    mysql_host = proxy.instances.first.address
+  db_host = nil
+  if_p('cf_mysql.host') do |host|
+    db_host = host
   end.else do
-    mysql_host = p('cf_mysql.host')
+    if_link('proxy') do |proxy|
+      db_host = proxy.instances.first.address
+    end.else do
+      if_link('mysql') do |mysql|
+        db_host = mysql.instances.first.address
+      end
+    end
   end
 %>
 
 [client]
 user="<%= p('cf_mysql.mysql.admin_username') %>"
 password="<%= p('cf_mysql.mysql.admin_password') %>"
-host="<%= mysql_host %>"
-port="<%= mysql_port %>"
+host="<%= db_host %>"
+port="<%= db_port %>"
