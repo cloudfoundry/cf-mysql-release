@@ -189,5 +189,5 @@ properties:
     default: false
     description: "Queries that don't use an index, or that perform a full index scan where the index doesn't limit the number of rows, will be logged to the slow query log."
   cf_mysql.mysql.event_scheduler:
-    default: on
+    default: off
     description: Events are named database objects containing SQL statements that are to be executed at a later stage, either once off, or at regular intervals.
