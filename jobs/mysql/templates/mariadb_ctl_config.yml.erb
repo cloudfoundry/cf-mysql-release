@@ -14,7 +14,6 @@ def discover_external_ip
      end
      network.ip
    end
-   network_ip = discover_external_ip
 %>
 
 <%
@@ -68,4 +67,4 @@ Manager:
   <% cluster_ips.each do |ip| %>
   - <%= ip %>
   <% end %>
-  MyIP: <%= network_ip %>
+  MyIP: <%= p('cf_mysql.mysql.advertise_host') || discover_external_ip %>
