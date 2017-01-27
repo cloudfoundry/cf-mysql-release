@@ -196,7 +196,7 @@ properties:
   cf_mysql.mysql.event_scheduler:
     default: off
     description: Events are named database objects containing SQL statements that are to be executed at a later stage, either once off, or at regular intervals.
- cf_mysql.mysql.startup_timeout:
+  cf_mysql.mysql.startup_timeout:
     default: 60
     description: 'Number of seconds that monit should wait for mysql to start before giving up'
 
