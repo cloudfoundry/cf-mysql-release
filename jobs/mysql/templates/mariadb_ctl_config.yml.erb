@@ -34,6 +34,11 @@ def discover_external_ip
     # cluster_ips may contain nil values due to lack of flexibility in spiff
     cluster_ips = p('cf_mysql.mysql.cluster_ips').compact
   end
+
+  node_host = discover_external_ip
+  if_p('cf_mysql.mysql.advertise_host') do |advertise_host|
+    node_host = advertise_host
+  end
 %>
 
 LogFileLocation: /var/vcap/sys/log/mysql/mariadb_ctrl.combined.log
@@ -67,4 +72,4 @@ Manager:
   <% cluster_ips.each do |ip| %>
   - <%= ip %>
   <% end %>
-  MyIP: <%= p('cf_mysql.mysql.advertise_host') || discover_external_ip %>
+  MyIP: <%= node_host %>

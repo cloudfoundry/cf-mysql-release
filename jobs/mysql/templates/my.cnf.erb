@@ -29,6 +29,11 @@
   def excluded_audit_users
     return ['cluster-health-logger', 'quota-enforcer', 'galera-healthcheck'] + p('cf_mysql.mysql.server_audit_excluded_users')
   end
+
+  node_host = discover_external_ip
+  if_p('cf_mysql.mysql.advertise_host') do |advertise_host|
+    node_host = advertise_host
+  end
 %>
 
 [client]
@@ -44,7 +49,7 @@ wsrep_on=ON
 wsrep_provider=/var/vcap/packages/mariadb/lib/plugin/libgalera_smm.so
 wsrep_provider_options="gcache.size=<%= p('cf_mysql.mysql.gcache_size') %>M;pc.recovery=TRUE;pc.checksum=TRUE"
 wsrep_cluster_address="gcomm://<%= cluster_ips.join(",") %>"
-wsrep_node_address='<%= p('cf_mysql.mysql.advertise_host') || discover_external_ip %>:<%= p('cf_mysql.mysql.galera_port') %>'
+wsrep_node_address='<%= node_host %>:<%= p('cf_mysql.mysql.galera_port') %>'
 wsrep_node_name='<%= name %>/<%= index %>'
 wsrep_cluster_name='cf-mariadb-galera-cluster'
 wsrep_sst_method=xtrabackup-v2
