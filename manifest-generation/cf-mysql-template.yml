@@ -123,7 +123,7 @@ properties:
           documentationUrl: (( property_overrides.broker.service_documentationUrl || "https://github.com/cloudfoundry/cf-mysql-release/blob/master/README.md" ))
           supportUrl: (( property_overrides.broker.service_supportUrl || "https://support.pivotal.io" ))
         dashboard_client:
-          id: (( property_overrides.broker.dashboard_id || p-mysql ))
+          id: (( property_overrides.broker.dashboard_id || "p-mysql" ))
           secret: (( property_overrides.broker.dashboard_secret ))
         plans: (( property_overrides.broker.plans ))
     smoke_tests:
