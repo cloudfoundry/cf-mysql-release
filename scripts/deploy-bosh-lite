@@ -13,5 +13,6 @@ pushd "${RELEASE_DIR}" > /dev/null
     deploy \
     "${RELEASE_DIR}/manifest-generation/cf-mysql-template-v2.yml" \
     -l "${RELEASE_DIR}/manifest-generation/bosh2.0/bosh-lite/default-vars.yml" \
+    --no-redact \
     "$@"
 popd > /dev/null
