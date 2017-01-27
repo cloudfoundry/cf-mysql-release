@@ -34,7 +34,7 @@ Proxy:
   - Host: <%= ip %>
     Port: <%= mysql_port %>
     StatusPort: <%= galera_healthcheck_port %>
-    StatusEndpoint: galera_status
+    StatusEndpoint: api/v1/status
     Name: "backend-<%= n %>"
   <% end %>
 HealthPort: <%= p('cf_mysql.proxy.health_port') %>
