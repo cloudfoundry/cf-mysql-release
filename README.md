@@ -39,7 +39,7 @@ A BOSH release of a MySQL database-as-a-service for Cloud Foundry using [MariaDB
    </tr>
    <tr>
      <td>MySQL Server</td>
-     <td>MariaDB 10.0.24; database instances are hosted on the servers.</td>
+     <td>The MySQL instances, either single or 3-node cluster. Currently using MariaDB 10 (versions vary by release).</td>
    </tr>
       <tr>
      <td>Proxy</td>
@@ -147,7 +147,7 @@ you if you have [direnv](http://direnv.net) installed.
     direnv allow
 
     # initialize and sync submodules
-    ./update
+    ./scripts/update
 
 If you do not wish to use direnv, you can simply `source` the `.envrc` file in the root
 of the release repo.  You may manually need to update your `$GOPATH` and `$PATH` variables
@@ -198,8 +198,8 @@ Run the upload command, referencing the latest config file in the `releases` dir
   ```
   $ cd ~/workspace/cf-mysql-release
   $ git checkout master
-  $ ./update
-  $ bosh upload release releases/cf-mysql-<N>.yml
+  $ ./scripts/update
+  $ bosh upload release releases/cf-mysql/cf-mysql-<N>.yml
   ```
 
 If deploying an **older** final release than the latest, check out the tag for the desired version; this is necessary for generating a manifest that matches the code you're deploying.
@@ -207,8 +207,8 @@ If deploying an **older** final release than the latest, check out the tag for t
   ```
   $ cd ~/workspace/cf-mysql-release
   $ git checkout v<N>
-  $ ./update
-  $ bosh upload release releases/cf-mysql-<N>.yml
+  $ ./scripts/update
+  $ bosh upload release releases/cf-mysql/cf-mysql-<N>.yml
   ```
 
 #### Create and upload a BOSH Release:
@@ -218,7 +218,7 @@ If deploying an **older** final release than the latest, check out the tag for t
   ```
   $ cd ~/workspace/cf-mysql-release
   $ git checkout release-candidate
-  $ ./update
+  $ ./scripts/update
   $ bosh create release
   ```
 

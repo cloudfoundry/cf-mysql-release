@@ -15,12 +15,13 @@ consumes:
   optional: true
 
 properties:
-  cf_mysql.mysql.healthcheck_port:
+  cf_mysql.mysql.galera_healthcheck.port:
     description: 'Port used by healthcheck process to listen on'
     default: 9200
   cf_mysql.mysql.cluster_ips:
     description: 'IP addresses of all MySQL nodes'
   cf_mysql.mysql.galera_healthcheck.endpoint_username:
     description: 'Username used to contact the sidecar endpoints via Basic Auth'
+    default: galera-healthcheck
   cf_mysql.mysql.galera_healthcheck.endpoint_password:
     description: 'Password used to contact the sidecar endpoints via Basic Auth'

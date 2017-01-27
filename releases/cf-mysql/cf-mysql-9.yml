@@ -1,0 +1,135 @@
+---
+packages:
+- name: acceptance-tests
+  version: 3
+  sha1: 6dc52f6cd30bfaff9f48051a9d3004a7a56fc9d2
+  fingerprint: 38886cec86ee7f9088932784d91d3bacbd0cd841
+  dependencies:
+  - golang
+  - cli
+- name: boost
+  version: 1
+  sha1: 3f40a093274c5326c95e2b994a1afe5569f5d442
+  fingerprint: 7080115ab3d860136afe50622a6c5802fe79822a
+  dependencies: []
+- name: broker-registrar
+  version: 1
+  sha1: 11346a9ffceaf12e7be42e43aaf7b8df5e278b29
+  fingerprint: afbe9cac439447eec386343cc83ca5eb8b8d3164
+  dependencies:
+  - ruby
+- name: cf-mysql-broker
+  version: 9
+  sha1: 99c85f7aca86297d68a81db4e5c1d52fce953c77
+  fingerprint: 53e4e194e3b248eb357417b0818131aca1570c80
+  dependencies:
+  - ruby
+  - mysqlclient
+- name: check
+  version: 1
+  sha1: 411c9d5770d82b2695494ccfbe4fb43e104ba778
+  fingerprint: 4aee66deb5fb26341de985d61f95aba083d2b1ea
+  dependencies: []
+- name: cli
+  version: 1
+  sha1: b34181f05a09004f099d9a0003d6d52a43b3357b
+  fingerprint: 2d158a41b0cf0b37dd810ca48d582684b841863d
+  dependencies: []
+- name: common
+  version: 1
+  sha1: 125301f6a0d0f9977948ed5754339d81fe081f3d
+  fingerprint: 47eac3c416f87eb0a648b3dfe45632c654d6e67f
+  dependencies: []
+- name: galera
+  version: 1
+  sha1: a34fff181f3416756063b566b15317ec3bb24743
+  fingerprint: 0fa3cc1eda8c66e22e9f0e995100015a3138a292
+  dependencies:
+  - scons
+  - boost
+  - check
+- name: galera-healthcheck
+  version: 1
+  sha1: cb13e2bac1e10cf179cddf83b99505b6e97bc134
+  fingerprint: 31e73817575c7c89d3a4ef473826ccfb91169d3d
+  dependencies:
+  - golang
+- name: golang
+  version: 1
+  sha1: 3453b728781ed3fa35d85b76cc71f78590791a51
+  fingerprint: ba87344c45ae47385a22dbede25c56a762a0b4ac
+  dependencies: []
+- name: haproxy
+  version: 1
+  sha1: bec735ec459aaf8e6af20e5eee9d61a8f1110cc9
+  fingerprint: eb0ad330f04f4d5a7d009b41c83ad02e2af02c06
+  dependencies: []
+- name: mariadb
+  version: 1
+  sha1: 28c2055eccac883e7a64d941568b85e1836f8e7c
+  fingerprint: 97562c643552ad7f64cab70014950db4d99c6502
+  dependencies:
+  - galera
+- name: mariadb_ctrl
+  version: 1
+  sha1: 9467aaa6b5acb1444fa3153e0e67ad6608adfd4d
+  fingerprint: fe376a6107ff7168336e397c209811d889c43509
+  dependencies: []
+- name: mysql
+  version: 3
+  sha1: 286ff8f126c50be1512282368957fbd624824742
+  fingerprint: 503d8c59e1dc120220d7ddabfedace7c0c9b0f02
+  dependencies: []
+- name: mysqlclient
+  version: 2
+  sha1: a21596264a7b03eb231a122a3a21fc24f5ca5c39
+  fingerprint: 1f536059c5ae2b67309fe0573b0d0adf178312e1
+  dependencies: []
+- name: ruby
+  version: 5
+  sha1: c2f3d771802f1a4c2ce4b424dc960e58712cb020
+  fingerprint: 39296f8fc9e12a6829296c678175bb31bca9ba69
+  dependencies: []
+- name: scons
+  version: 1
+  sha1: fb841c8043c8b877c8d7ece26332be416b30a131
+  fingerprint: 434432a860a254be39ad80a5be8deeef7e5b7049
+  dependencies: []
+- name: syslog_aggregator
+  version: 1
+  sha1: b56514db4fd5c677687f502969c2776355607ea4
+  fingerprint: 07b9243e83aabc9586360c16890f4d5fbdfb9752
+  dependencies: []
+jobs:
+- name: acceptance-tests
+  version: 3
+  fingerprint: 5312c815499534f314c9afdab577e40335974ea4
+  sha1: ca80f6fd5af9239f9667e57ded492465eda3dac6
+- name: broker-deregistrar
+  version: 2
+  fingerprint: 108972ebaf443d3ec3122014d12a6c4f776f837d
+  sha1: b36df124bec70dc54167fac5820c8b9aee6576e3
+- name: broker-registrar
+  version: 1
+  fingerprint: c151dce6b3486a22a7bdd442f98ce5afd75f3bf6
+  sha1: 967cabbb8a82ab904e2ceb13ade38c1daabae5fa
+- name: cf-mysql-broker
+  version: 5
+  fingerprint: 1c25e0541d1fdc034c73badd1df20f65d208e5f4
+  sha1: 9ea1a5320f5bbeb5f0171edcfe9667dbb816face
+- name: haproxy
+  version: 1
+  fingerprint: cd0e471b51a7662ef7b43afa5d2f4b909ed6ffda
+  sha1: 01ad6dc40d9a72e26e15aff1604d6787f1497179
+- name: mysql
+  version: 4
+  fingerprint: 8cdbf8c9295bea5fd46d14ba915e610d3d813747
+  sha1: 7db2e6197a7e3280be40c2a2e5bbdf4702426b46
+- name: mysql_placeholder
+  version: 1
+  fingerprint: 265fc7a57aa1aea35c6e07bf9a87eca71bdb1b5b
+  sha1: b98fe1b361036408a889ac0a630e5622992f35d4
+commit_hash: bcd336df
+uncommitted_changes: true
+name: cf-mysql
+version: 9

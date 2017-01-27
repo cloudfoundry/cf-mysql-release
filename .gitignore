@@ -27,3 +27,4 @@ src/github.com/cloudfoundry-incubator/spiff/
 src/github.com/vito/gosub/
 src/github.com/codegangsta/cli/
 *.iml
+manifest-generation/bosh2.0/secrets

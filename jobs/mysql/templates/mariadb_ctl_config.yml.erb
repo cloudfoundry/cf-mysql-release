@@ -19,12 +19,21 @@ def discover_external_ip
 
 <%
   cluster_ips = nil
-  if_p('cf_mysql.mysql.cluster_ips') do |ips|
-    # cluster_ips may contain nil values due to lack of flexibility in spiff
-    cluster_ips = ips.compact
+  if_link('mysql') do
+    bootstrap_ip = nil
+    cluster_ips = link('mysql').instances.map do |instance|
+      bootstrap_ip = instance.address if instance.bootstrap
+      instance.address
+    end
+    cluster_ips.delete(bootstrap_ip)
+    cluster_ips.unshift(bootstrap_ip)
+
+    if_link('arbitrator') do
+      cluster_ips += link('arbitrator').instances.map { |instance| instance.address }
+    end
   end.else do
-    cluster_ips = link('mysql').instances.map { |instance| instance.address }
-    cluster_ips += link('arbitrator').instances.map { |instance| instance.address }
+    # cluster_ips may contain nil values due to lack of flexibility in spiff
+    cluster_ips = p('cf_mysql.mysql.cluster_ips').compact
   end
 %>
 

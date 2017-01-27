@@ -6,7 +6,6 @@ cf_skip_ssl_validation: true
 
 cf_mysql_smoke_tests_password: password
 
-cf_mysql_broker_auth_username: admin
 cf_mysql_broker_auth_password: password
 cf_mysql_broker_cookie_secret: 94046872-2602-4ca6-8d07-8b0da9762477
 cf_mysql_broker_external_host: p-mysql.bosh-lite.com
@@ -48,7 +47,7 @@ cf_mysql_mysql_galera_healthcheck_endpoint_username: username
 cf_mysql_mysql_galera_healthcheck_endpoint_password: password
 cf_mysql_mysql_roadmin_enabled: true
 cf_mysql_mysql_roadmin_password: password
-cf_mysql_proxy_api_username: username
+cf_mysql_proxy_api_username: proxy
 cf_mysql_proxy_api_password: password
 
 consul_agent_domain: cf.internal

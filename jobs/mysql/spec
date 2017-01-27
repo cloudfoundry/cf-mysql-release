@@ -42,15 +42,17 @@ consumes:
 provides:
 - name: mysql
   type: mysql
+  properties:
+  - cf_mysql.mysql.port
+  - cf_mysql.mysql.galera_healthcheck.port
+  - cf_mysql.mysql.galera_healthcheck.endpoint_username
+  - cf_mysql.mysql.galera_healthcheck.endpoint_password
 
 properties:
   syslog_aggregator.address:
     description: "IP address for syslog aggregator"
   syslog_aggregator.port:
     description: "TCP port of syslog aggregator"
-  syslog_aggregator.all:
-    description: "Define whether forwarders should also send non-mysql syslog activity to the aggregator."
-    default: false
   syslog_aggregator.transport:
     description: "Transport to be used when forwarding logs (tcp|udp|relp)."
     default: "tcp"
@@ -61,7 +63,7 @@ properties:
   cf_mysql.mysql.admin_password:
     description: 'Password for the MySQL server admin user'
   cf_mysql.mysql.previous_admin_username:
-    description: 'Previous username of the MySQL server admin user to be removed'
+    description: 'Optional. Previous username of the MySQL server admin user to be removed. Use this when changing the admin_username to avoid leaving around an unused user with root access.'
   cf_mysql.mysql.port:
     description: 'Port the mysql server should bind to'
     default: 3306
@@ -149,11 +151,10 @@ properties:
     default: 30
   cf_mysql.mysql.cluster_health.password:
     description: 'Password for the cluster logger health user'
-  cf_mysql.mysql.database_startup_timeout:
-    description: 'How long the startup script waits for the database to come online (in seconds)'
 
   cf_mysql.mysql.galera_healthcheck.endpoint_username:
     description: 'Username used by the sidecar endpoints for Basic Auth'
+    default: galera-healthcheck
   cf_mysql.mysql.galera_healthcheck.endpoint_password:
     description: 'Password used by the sidecar endpoints for Basic Auth'
   cf_mysql.mysql.galera_healthcheck.port:
@@ -177,7 +178,7 @@ properties:
     default: true
     description: 'Enable binlogs across all nodes'
   cf_mysql.mysql.binlog_expire_days:
-    default: 60
+    default: 7
     description: 'Time in days to store binlogs before purging'
   cf_mysql.mysql.wsrep_debug:
     description: "When set to 1 or 2, the database server logs additional events surrounding errors to help in identifying and correcting problems. Note, these logs are written to disk and to syslog. Enabling this will possibly expose unencrypted application data."
@@ -191,3 +192,7 @@ properties:
   cf_mysql.mysql.event_scheduler:
     default: off
     description: Events are named database objects containing SQL statements that are to be executed at a later stage, either once off, or at regular intervals.
+ cf_mysql.mysql.startup_timeout:
+    default: 60
+    description: 'Number of seconds that monit should wait for mysql to start before giving up'
+

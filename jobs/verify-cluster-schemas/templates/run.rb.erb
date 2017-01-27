@@ -2,11 +2,32 @@
 
 require '/var/vcap/packages/cluster-schema-verifier/cluster_schema_verifier.rb'
 
+<%
+  cluster_ips = nil
+  galera_healthcheck_port = nil
+  if_link('mysql') do
+    cluster_ips = link('mysql').instances.map(&:address).compact
+    galera_healthcheck_port = link('mysql').p('cf_mysql.mysql.galera_healthcheck.port')
+  end.else do
+    cluster_ips = p('cf_mysql.mysql.cluster_ips').compact
+    galera_healthcheck_port = p('cf_mysql.mysql.galera_healthcheck.port')
+  end
+
+  arbitrator_ip = nil
+  if_link('arbitrator') do |arbitrator|
+    arbitrator_ip = arbitrator.instances.map(&:address).first
+  end.else do
+    if_p('cf_mysql.proxy.arbitrator_ip') do |ip|
+      arbitrator_ip = ip
+    end
+  end
+%>
+
 config = {
-    cluster_ips: <%= p('cf_mysql.mysql.cluster_ips').compact %>,
-    arbitrator_ip: '<%= p('cf_mysql.proxy.arbitrator_ip') %>',
+    cluster_ips: <%= cluster_ips %>,
+    arbitrator_ip: '<%= arbitrator_ip %>',
     mysql_port: <%= p('cf_mysql.mysql.port') %>,
-    healthcheck_port: <%= p('cf_mysql.mysql.healthcheck_port') %>,
+    healthcheck_port: <%= galera_healthcheck_port %>,
     mysql_user: '<%= p('cf_mysql.mysql.admin_username') %>',
     mysql_password: '<%= p('cf_mysql.mysql.admin_password') %>',
     healthcheck_user: '<%= p('cf_mysql.mysql.galera_healthcheck.endpoint_username') %>',

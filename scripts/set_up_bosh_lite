@@ -1,0 +1,45 @@
+#!/bin/bash
+
+set -eux
+
+SCRIPT_DIR=$(dirname "$0")
+MYSQL_RELEASE_DIR="${SCRIPT_DIR}/.."
+WORKSPACE="${MYSQL_RELEASE_DIR}/.."
+CF_RELEASE_DIR="${WORKSPACE}/cf-release"
+
+if [[ "$(echo $(bosh status) | grep Name)" != *"Bosh Lite Director"* ]]; then
+  echo "Can only target Bosh Lite Director. Please use 'bosh target lite' before running this script."
+  exit 1
+fi
+
+stemcell_status="$(gobosh -e lite stemcells)"
+release_status="$(gobosh -e lite releases)"
+mysql_release_status="$(gobosh -e lite releases)"
+
+pushd "${CF_RELEASE_DIR}"
+  git pull
+  git checkout master
+  ./scripts/generate-bosh-lite-dev-manifest
+popd
+
+pushd "${MYSQL_RELEASE_DIR}"
+   git pull
+   git checkout master
+popd
+
+if [[ "${stemcell_status}" != *"ubuntu-trusty"* ]]; then
+  bosh upload stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent
+fi
+
+if [[ "${release_status}" != *"cf"* ]]; then
+  bosh upload release https://bosh.io/d/github.com/cloudfoundry/cf-release
+fi
+
+if [[ "${release_status}" != *"mysql"* ]]; then
+  bosh upload release https://bosh.io/d/github.com/cloudfoundry/cf-mysql-release
+fi
+
+gobosh -e lite -d cf-warden -n deploy "${CF_RELEASE_DIR}/bosh-lite/deployments/cf.yml"
+
+gobosh -e lite -n update-cloud-config "${MYSQL_RELEASE_DIR}/manifest-generation/bosh2.0/bosh-lite/cloud-config.yml"
+gobosh -e lite -d cf-mysql -n deploy "${MYSQL_RELEASE_DIR}/manifest-generation/cf-mysql-template-v2.yml" -l "${MYSQL_RELEASE_DIR}/manifest-generation/bosh2.0/bosh-lite/default-vars.yml"

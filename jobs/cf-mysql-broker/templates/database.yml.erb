@@ -9,15 +9,36 @@
 # And be sure to use new-style password hashing:
 #   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
 
-production:
-  adapter: mysql2
-  encoding: utf8
-  database: mysql_broker
-  pool: 5
-  connect_timeout: 20
-  read_timeout: 20
-  reconnect: true
-  host: <%= p('cf_mysql.host') %>
-  port: <%= p('cf_mysql.mysql.port') %>
-  username: cf-mysql-broker
-  password: <%= p('cf_mysql.broker.db_password') %>
+<%=
+  mysql_port = nil
+  if_link('mysql') do |mysql|
+    mysql_port = mysql.p('cf_mysql.mysql.port')
+  end.else do
+    mysql_port = p('cf_mysql.mysql.port')
+  end
+
+  mysql_host = nil
+  if_link('proxy') do |proxy|
+    mysql_host = proxy.instances.first.address
+  end.else do
+    mysql_host = p('cf_mysql.host')
+  end
+
+  config = {
+    production: {
+      adapter: "mysql2",
+      encoding: "utf8",
+      database: "mysql_broker",
+      pool: 5,
+      connect_timeout: 20,
+      read_timeout: 20,
+      reconnect: true,
+      host: mysql_host,
+      port: mysql_port,
+      username: "cf-mysql-broker",
+      password: p('cf_mysql.broker.db_password')
+    }
+  }
+
+  JSON.pretty_generate(config)
+%>

@@ -1,19 +1,30 @@
-<%
+<%=
   cluster_ips = nil
-  if_p('cf_mysql.mysql.cluster_ips') do |ips|
-    # cluster_ips may contain nil values due to lack of flexibility in spiff
-    cluster_ips = ips.compact
-  end.else do
-    cluster_ips = link('mysql').instances.map { |instance| instance.address }
+  galera_healthcheck_port = nil
+  galera_healthcheck_username = nil
+  galera_healthcheck_password = nil
+  if_link('mysql') do |mysql|
+    cluster_ips = mysql.instances.map { |instance| instance.address }
     cluster_ips += link('arbitrator').instances.map { |instance| instance.address }
-  end
-%>
 
-HealthcheckURLs:
-  <% cluster_ips.each do |ip| %>
-  - http://<%= ip %>:<%= p('cf_mysql.mysql.healthcheck_port') %>
-  <% end %>
-Username: <%= p('cf_mysql.mysql.galera_healthcheck.endpoint_username') %>
-Password: <%= p('cf_mysql.mysql.galera_healthcheck.endpoint_password') %>
-LogFilePath: "/var/vcap/sys/log/bootstrap/bootstrap.log"
-RepairMode: "bootstrap"
+    galera_healthcheck_port = mysql.p('cf_mysql.mysql.galera_healthcheck.port')
+    galera_healthcheck_username = mysql.p('cf_mysql.mysql.galera_healthcheck.endpoint_username')
+    galera_healthcheck_password = mysql.p('cf_mysql.mysql.galera_healthcheck.endpoint_password')
+  end.else do
+    # cluster_ips may contain nil values due to lack of flexibility in spiff
+    cluster_ips = p('cf_mysql.mysql.cluster_ips').compact
+    galera_healthcheck_port = p('cf_mysql.mysql.galera_healthcheck.port')
+    galera_healthcheck_username = p('cf_mysql.mysql.galera_healthcheck.endpoint_username')
+    galera_healthcheck_password = p('cf_mysql.mysql.galera_healthcheck.endpoint_password')
+  end
+
+  config = {
+    HealthcheckURLs: cluster_ips.map {|ip| "http://#{ip}:#{galera_healthcheck_port}" },
+    Username: galera_healthcheck_username,
+    Password: galera_healthcheck_password,
+    LogFilePath: '/var/vcap/sys/log/bootstrap/bootstrap.log',
+    RepairMode: 'bootstrap'
+  }
+
+  JSON.pretty_generate(config)
+%>

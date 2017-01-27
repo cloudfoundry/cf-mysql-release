@@ -1,0 +1,71 @@
+---
+packages:
+- name: acceptance-tests
+  version: 2
+  sha1: 2fb08b111b2434d7b709f96eda554419d6d11349
+  fingerprint: 00d529e49e2a1840e604d3bc2104a4c3a9fb0a4c
+  dependencies:
+  - golang
+- name: broker-registrar
+  version: 1
+  sha1: 11346a9ffceaf12e7be42e43aaf7b8df5e278b29
+  fingerprint: afbe9cac439447eec386343cc83ca5eb8b8d3164
+  dependencies:
+  - ruby
+- name: cf-mysql-broker
+  version: 8
+  sha1: b330bdc803317dc7ab3064fa0ff525bb6bfe5830
+  fingerprint: 76ba59f8b2ddb9086ff82a8ca9dbaba10da581b3
+  dependencies:
+  - ruby
+  - mysqlclient
+- name: common
+  version: 1
+  sha1: 125301f6a0d0f9977948ed5754339d81fe081f3d
+  fingerprint: 47eac3c416f87eb0a648b3dfe45632c654d6e67f
+  dependencies: []
+- name: golang
+  version: 1
+  sha1: 3453b728781ed3fa35d85b76cc71f78590791a51
+  fingerprint: ba87344c45ae47385a22dbede25c56a762a0b4ac
+  dependencies: []
+- name: mysql
+  version: 2
+  sha1: a34c138846c9f636e59682f8af6ad56376e67800
+  fingerprint: 5cc412cba650b1f1e377c5a067c79d7a4a8b9869
+  dependencies: []
+- name: mysqlclient
+  version: 2
+  sha1: a21596264a7b03eb231a122a3a21fc24f5ca5c39
+  fingerprint: 1f536059c5ae2b67309fe0573b0d0adf178312e1
+  dependencies: []
+- name: ruby
+  version: 5
+  sha1: c2f3d771802f1a4c2ce4b424dc960e58712cb020
+  fingerprint: 39296f8fc9e12a6829296c678175bb31bca9ba69
+  dependencies: []
+jobs:
+- name: acceptance-tests
+  version: 2
+  fingerprint: 52b93f79fda2b5bba4bcdec9ddc286e412f11702
+  sha1: e092ee5366dd79b6bfa394e0908ac684e5db7e76
+- name: broker-deregistrar
+  version: 1
+  fingerprint: 807d7f761e063b014defb42aa39b17941333028a
+  sha1: d9fe669a2c9dcf540f4169aa6f6313899e06c073
+- name: broker-registrar
+  version: 1
+  fingerprint: c151dce6b3486a22a7bdd442f98ce5afd75f3bf6
+  sha1: 967cabbb8a82ab904e2ceb13ade38c1daabae5fa
+- name: cf-mysql-broker
+  version: 4
+  fingerprint: 3f1d9ee2798100e2ed83bb3e3b78e02be5511d58
+  sha1: b7751d3b8a6a0ab6656c9b0603e8a25e66f3118f
+- name: mysql
+  version: 3
+  fingerprint: 757f1125bb47f38fd7f91961c6c58c12935e00d4
+  sha1: 6ff67293ff03409f230f5c17b63eec9f9f2804a0
+commit_hash: 199c2433
+uncommitted_changes: true
+name: cf-mysql
+version: 8
