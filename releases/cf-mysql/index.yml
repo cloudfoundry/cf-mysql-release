@@ -66,4 +66,6 @@ builds:
     version: '14'
   60c116bd-e8c4-40da-a839-b46244b6c6e8:
     version: '32.1'
+  c6f5543f-1c92-40b8-bbef-c855cc89423a:
+    version: '32.2'
 format-version: '2'
