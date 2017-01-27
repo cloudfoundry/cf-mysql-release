@@ -41,7 +41,7 @@ case $1 in
 
   stop)
     log "Stopping switchboard..."
-    kill_and_wait $pidfile <%= p('cf_mysql.proxy.shutdown_delay') %>
+    kill_and_wait $pidfile <%= p('cf_mysql.proxy.shutdown_delay').to_i + 20 %>
     log "Stopping switchboard... done"
     ;;
 
