@@ -276,12 +276,14 @@ The brokers each register a route with the router, which load balances requests 
 <a name="create_manifest"></a>
 ### Create Manifest and Deploy
 
-Please note that the manifest generation scripts require spiff version 1.0.7 or greater. 
+Please note that the manifest generation scripts require spiff version 1.0.7
+or greater.
 
 <a name="bosh-lite"></a>
 #### Deploy on BOSH-lite
 
-To use the provided manifest stubs you will need a version of bosh-lite that supports multiple containers on the same subnet (bosh-lite version 9000.50.0+).
+To use the provided manifest stubs you will need a version of bosh-lite that
+supports multiple containers on the same subnet (bosh-lite version 9000.50.0+).
 
 1. Run the following script to generate a working manifest for a bosh-lite on your local machine:
     ```
@@ -305,34 +307,27 @@ Note: Only AWS and vSphere infrastructures are currently tested by the cf-mysql 
 ##### Copy sample stubs and fill in values
 
 We have provided example stubs to serve as a starting point.
-Copy these stubs to your config repository, and fill in the `REPLACE_WITH` text with values for your environment.
+Copy these stubs to your config repository, and fill in the `REPLACE_WITH`
+text with values for your environment.
 
 For example, the following files can be used for an AWS deployment:
 ```
 $ cp cf-mysql-release/manifest-generation/examples/aws/iaas-settings.yml \
     cf-mysql-release/manifest-generation/examples/property-overrides.yml \
-    cf-mysql-release/manifest-generation/examples/cf-stub.yml \
     <YOUR_CONFIG_REPO>/cf-mysql/
 ```
 
-Additional example stubs can be found under [cf-mysql-release/manifest-generation/examples/](manifest-generation/examples).
+Additional example stubs can be found under
+[cf-mysql-release/manifest-generation/examples/](manifest-generation/examples).
 These include:
 - Deploying with a minimal number of VMs ([examples/minimal/](manifest-generation/examples/minimal/))
 - Deploying without a running CF deployment ([examples/standalone/](manifest-generation/examples/standalone/))
 - Replacing the arbitrator with a full MySQL node ([examples/no-arbitrator/](manifest-generation/examples/no-arbitrator/))
 
-##### Fill in the CF stub
-
-The script must obtain some configuration options from the CF deployment (e.g. CF Admin credentials).
-Edit the copied `cf-stub.yml` from the previous section to include values from your CF manifest.
-Existing admin users can be found under `properties.uaa.scim.users` in the CF manifest.
-This admin user must have the `cloud_controller.admin` UAA permission.
-
-Note: This change to the CF manifest is temporary while we investigate better methods for sharing properties across deployments.
-
 ##### Generate an AWS, vSphere, or OpenStack manifest
 
-Run the `./scripts/generate-deployment-manifest` with the stubs you created in the preceeding steps.
+Run the `./scripts/generate-deployment-manifest` with the stubs you created in
+the preceeding steps.
 
 ```
 Usage:
@@ -407,42 +402,6 @@ Note: the broker-registrar errand will fail if the broker has already been regis
     For more information, see [Managing Service Brokers](http://docs.cloudfoundry.org/services/managing-service-brokers.html).
 
 2. Then [make the service plan public](http://docs.cloudfoundry.org/services/managing-service-brokers.html#make-plans-public).
-
-## Security Groups
-
-Note: adding additional security groups for cf-mysql is not required on bosh-lites running cf-release [v212](https://github.com/cloudfoundry/cf-release/blob/v212/bosh-lite/cf-stub-spiff.yml#L47) or later.
-
-Since [cf-release](https://github.com/cloudfoundry/cf-release) v175, applications by default cannot to connect to IP addresses on the private network. This prevents applications from connecting to the MySQL service. To enable access to the service, create a new security group for the IP configured in your manifest for the property `jobs.cf-mysql-broker_z1.mysql_node.host`.
-
-1. Add the rule to a file in the following json format; multiple rules are supported.
-
-  ```
-  [
-		{
-			"destination": "10.10.163.1-10.10.163.255",
-			"protocol": "all"
-		},
-		{
-			"destination": "10.10.164.1-10.10.164.255",
-			"protocol": "all"
-		},
-		{
-			"destination": "10.10.165.1-10.10.165.255",
-			"protocol": "all"
-		}
-	]
-  ```
-- Create a security group from the rule file.
-  ```shell
-  $ cf create-security-group p-mysql rule.json
-  ```
-
-- Enable the rule for all apps
-  ```
-  $ cf bind-running-security-group p-mysql
-  ```
-
-Security group changes are only applied to new application containers; existing apps must be restarted.
 
 <a name="smoke-tests"></a>
 ## Smoke Tests
