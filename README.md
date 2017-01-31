@@ -403,6 +403,50 @@ Note: the broker-registrar errand will fail if the broker has already been regis
 
 2. Then [make the service plan public](http://docs.cloudfoundry.org/services/managing-service-brokers.html#make-plans-public).
 
+## Security Groups
+
+By default, applications cannot to connect to IP addresses on the private network,
+preventing applications from connecting to the MySQL service.
+To enable access to the service, create a new security group for the IP
+configured in your manifest for the property `jobs.cf-mysql-broker_z1.mysql_node.host`.
+
+Note: This is not required for CF running on bosh-lite, as these application
+groups are pre-configured.
+
+1. Add the rule to a file in the following json format; multiple rules are supported.
+
+  ```
+  [
+   {
+     "destination": "10.10.163.1-10.10.163.255",
+     "protocol": "all"
+    },
+   {
+     "destination": "10.10.164.1-10.10.164.255",
+     "protocol": "all"
+    },
+   {
+     "destination": "10.10.165.1-10.10.165.255",
+     "protocol": "all"
+    }
+ ]
+  ```
+
+- Create a security group from the rule file.
+
+  ```shell
+  $ cf create-security-group p-mysql rule.json
+  ```
+
+- Enable the rule for all apps
+
+  ```shell
+  $ cf bind-running-security-group p-mysql
+  ```
+
+Security group changes are only applied to new application containers;
+existing apps must be restarted.
+
 <a name="smoke-tests"></a>
 ## Smoke Tests
 
