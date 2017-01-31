@@ -14,6 +14,6 @@ disk_pools: (( merge || [] ))
 
 resource_pools: (( merge ))
 
-jobs: (( merge ))
+instance_groups: (( merge ))
 
 properties: (( merge ))

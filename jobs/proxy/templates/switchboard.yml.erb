@@ -1,22 +1,18 @@
 <%
-  cluster_ips = nil
-  galera_healthcheck_port = nil
-  mysql_port = nil
-  if_link('mysql') do
-    cluster_ips = link('mysql').instances.map { |instance| instance.address }
-    galera_healthcheck_port = link('mysql').p('cf_mysql.mysql.galera_healthcheck.port')
-    mysql_port = link('mysql').p('cf_mysql.mysql.port')
-  end.else do
-    # cluster_ips may contain nil values due to lack of flexibility in spiff
-    cluster_ips = p('cf_mysql.mysql.cluster_ips').compact
+  m = link('mysql')
 
-    # do not route traffic to arbitrator
-    if_p('cf_mysql.proxy.arbitrator_ip') do |arbitrator_ip|
-      cluster_ips.delete(arbitrator_ip)
-    end
+  cluster_ips = m.instances.map { |instance| instance.address }
+  galera_healthcheck_port = m.p('cf_mysql.mysql.galera_healthcheck.port')
+  mysql_port = m.p('cf_mysql.mysql.port')
 
-    galera_healthcheck_port = p('cf_mysql.mysql.galera_healthcheck.port')
-    mysql_port = p('cf_mysql.mysql.port')
+  Backends = cluster_ips.map.with_index do |ip,n|
+    {
+      Host: ip,
+      Port: mysql_port,
+      StatusPort: galera_healthcheck_port,
+      StatusEndpoint: "api/v1/status",
+      Name: "backend-#{n}"
+    }
   end
 %>
 
@@ -29,14 +25,7 @@ Proxy:
   Port: <%= p('cf_mysql.proxy.port') %>
   HealthcheckTimeoutMillis: <%= p('cf_mysql.proxy.healthcheck_timeout_millis') %>
   ShutdownDelaySeconds: <%= p('cf_mysql.proxy.shutdown_delay') %>
-  Backends:
-  <% cluster_ips.each_with_index do |ip, n| %>
-  - Host: <%= ip %>
-    Port: <%= mysql_port %>
-    StatusPort: <%= galera_healthcheck_port %>
-    StatusEndpoint: api/v1/status
-    Name: "backend-<%= n %>"
-  <% end %>
+  Backends: <%= Backends.to_json %>
 HealthPort: <%= p('cf_mysql.proxy.health_port') %>
 Profiling:
   Enabled: <%= p('cf_mysql.proxy.profiling_enabled') %>

@@ -5,7 +5,7 @@ director_uuid: (( config_from_cf.cf_director_uuid ))
 releases: (( base_releases additional_releases ))
 
 compilation:
-  workers: (( iaas_settings.compilation_workers || 4)) 
+  workers: (( iaas_settings.compilation_workers || 4))
   network: mysql1
   reuse_compilation_vms: true
   cloud_properties: (( iaas_settings.compilation_cloud_properties ))
@@ -32,7 +32,7 @@ disk_pools: (( base_disk_pools additional_disk_pools ))
 
 resource_pools: (( base_resource_pools additional_resource_pools ))
 
-jobs: (( base_jobs additional_jobs ))
+instance_groups: (( base_jobs additional_jobs ))
 
 properties:
   <<: (( merge || nil ))
@@ -55,37 +55,6 @@ properties:
     standalone: (( property_overrides.standalone || false ))
     external_host: (( property_overrides.mysql.external_host || "p-mysql." .config_from_cf.system_domain ))
     host: (( property_overrides.host || jobs.proxy_z1.networks.mysql1.static_ips.[0] || nil ))
-    mysql:
-      admin_username: (( property_overrides.mysql.admin_username || nil ))
-      admin_password: (( property_overrides.mysql.admin_password ))
-      disable_auto_sst: (( property_overrides.mysql.disable_auto_sst || nil ))
-      port: (( property_overrides.mysql.port || nil ))
-      galera_port: (( property_overrides.mysql.galera_port || nil ))
-      galera_healthcheck: (( property_overrides.mysql.galera_healthcheck || nil ))
-      cluster_ips: (( property_overrides.mysql.cluster_ips || default_mysql_cluster_ips ))
-      roadmin_enabled: (( property_overrides.mysql.roadmin_enabled || false ))
-      roadmin_password: (( property_overrides.mysql.roadmin_password ))
-      seeded_databases: (( property_overrides.mysql.seeded_databases || nil ))
-      max_heap_table_size: (( property_overrides.mysql.max_heap_table_size || nil ))
-      tmp_table_size: (( property_overrides.mysql.tmp_table_size || nil ))
-      wsrep_max_ws_rows: (( property_overrides.mysql.wsrep_max_ws_rows || nil ))
-      wsrep_max_ws_size: (( property_overrides.mysql.wsrep_max_ws_size || nil ))
-      skip_name_resolve: (( property_overrides.mysql.skip_name_resolve || nil ))
-      gcache_size: (( property_overrides.mysql.gcache_size || nil ))
-      ib_log_file_size: (( property_overrides.mysql.ib_log_file_size || nil ))
-      innodb_buffer_pool_instances: (( property_overrides.mysql.innodb_buffer_pool_instances || nil ))
-      innodb_buffer_pool_size: (( property_overrides.mysql.innodb_buffer_pool_size || nil ))
-      interrupt_notify_cmd: (( property_overrides.mysql.interrupt_notify_cmd || nil ))
-      max_connections: (( property_overrides.mysql.max_connections || nil ))
-      persistent_disk: (( disk_pools.mysql-persistent-disk.disk_size ))
-      userstat: (( property_overrides.mysql.userstat || false ))
-      wsrep_debug: (( property_overrides.mysql.wsrep_debug || 0 ))
-      server_audit_events: (( property_overrides.mysql.server_audit_events || nil ))
-      server_audit_excluded_users: (( property_overrides.mysql.server_audit_excluded_users || nil ))
-      cluster_health:
-        password: (( property_overrides.mysql.cluster_health.password ))
-      binlog_enabled: (( property_overrides.mysql.binlog_enabled || true ))
-      startup_timeout: (( property_overrides.mysql.startup_timeout || nil ))
     proxy:
       api_username: (( property_overrides.proxy.api_username ))
       api_password: (( property_overrides.proxy.api_password ))
@@ -193,18 +162,130 @@ base_resource_pools:
   stemcell: (( iaas_settings.stemcell ))
   cloud_properties: (( iaas_settings.resource_pool_cloud_properties.errands_z1.cloud_properties ))
 base_templates:
+  mysql_z1:
+  - release: cf-mysql
+    name: mysql
+    consumes: {mysql: {from: mysql_z1}, arbitrator: nil}
+    provides: {mysql: {as: mysql_z1}}
+    properties:
+      cf_mysql:
+        mysql:
+          port: (( property_overrides.mysql.port || nil ))
+          admin_username: (( property_overrides.mysql.admin_username || nil ))
+          admin_password: (( property_overrides.mysql.admin_password ))
+          disable_auto_sst: (( property_overrides.mysql.disable_auto_sst || nil ))
+          galera_port: (( property_overrides.mysql.galera_port || nil ))
+          galera_healthcheck: (( property_overrides.mysql.galera_healthcheck || nil ))
+          cluster_ips: (( property_overrides.mysql.cluster_ips || default_mysql_cluster_ips ))
+          roadmin_enabled: (( property_overrides.mysql.roadmin_enabled || false ))
+          roadmin_password: (( property_overrides.mysql.roadmin_password ))
+          seeded_databases: (( property_overrides.mysql.seeded_databases || nil ))
+          max_heap_table_size: (( property_overrides.mysql.max_heap_table_size || nil ))
+          tmp_table_size: (( property_overrides.mysql.tmp_table_size || nil ))
+          wsrep_max_ws_rows: (( property_overrides.mysql.wsrep_max_ws_rows || nil ))
+          wsrep_max_ws_size: (( property_overrides.mysql.wsrep_max_ws_size || nil ))
+          skip_name_resolve: (( property_overrides.mysql.skip_name_resolve || nil ))
+          gcache_size: (( property_overrides.mysql.gcache_size || nil ))
+          ib_log_file_size: (( property_overrides.mysql.ib_log_file_size || nil ))
+          innodb_buffer_pool_instances: (( property_overrides.mysql.innodb_buffer_pool_instances || nil ))
+          innodb_buffer_pool_size: (( property_overrides.mysql.innodb_buffer_pool_size || nil ))
+          interrupt_notify_cmd: (( property_overrides.mysql.interrupt_notify_cmd || nil ))
+          max_connections: (( property_overrides.mysql.max_connections || nil ))
+          persistent_disk: (( disk_pools.mysql-persistent-disk.disk_size ))
+          userstat: (( property_overrides.mysql.userstat || false ))
+          wsrep_debug: (( property_overrides.mysql.wsrep_debug || 0 ))
+          server_audit_events: (( property_overrides.mysql.server_audit_events || nil ))
+          server_audit_excluded_users: (( property_overrides.mysql.server_audit_excluded_users || nil ))
+          cluster_health:
+            password: (( property_overrides.mysql.cluster_health.password ))
+          binlog_enabled: (( property_overrides.mysql.binlog_enabled || true ))
+          startup_timeout: (( property_overrides.mysql.startup_timeout || nil ))
   mysql:
   - release: cf-mysql
     name: mysql
-    consumes: {mysql: nil, arbitrator: nil}
+    consumes: {mysql: {from: mysql_z1}, arbitrator: nil}
+    provides: {mysql: nil}
+    properties:
+      cf_mysql:
+        mysql:
+          port: (( property_overrides.mysql.port || nil ))
+          admin_username: (( property_overrides.mysql.admin_username || nil ))
+          admin_password: (( property_overrides.mysql.admin_password ))
+          disable_auto_sst: (( property_overrides.mysql.disable_auto_sst || nil ))
+          galera_port: (( property_overrides.mysql.galera_port || nil ))
+          galera_healthcheck: (( property_overrides.mysql.galera_healthcheck || nil ))
+          cluster_ips: (( property_overrides.mysql.cluster_ips || default_mysql_cluster_ips ))
+          roadmin_enabled: (( property_overrides.mysql.roadmin_enabled || false ))
+          roadmin_password: (( property_overrides.mysql.roadmin_password ))
+          seeded_databases: (( property_overrides.mysql.seeded_databases || nil ))
+          max_heap_table_size: (( property_overrides.mysql.max_heap_table_size || nil ))
+          tmp_table_size: (( property_overrides.mysql.tmp_table_size || nil ))
+          wsrep_max_ws_rows: (( property_overrides.mysql.wsrep_max_ws_rows || nil ))
+          wsrep_max_ws_size: (( property_overrides.mysql.wsrep_max_ws_size || nil ))
+          skip_name_resolve: (( property_overrides.mysql.skip_name_resolve || nil ))
+          gcache_size: (( property_overrides.mysql.gcache_size || nil ))
+          ib_log_file_size: (( property_overrides.mysql.ib_log_file_size || nil ))
+          innodb_buffer_pool_instances: (( property_overrides.mysql.innodb_buffer_pool_instances || nil ))
+          innodb_buffer_pool_size: (( property_overrides.mysql.innodb_buffer_pool_size || nil ))
+          interrupt_notify_cmd: (( property_overrides.mysql.interrupt_notify_cmd || nil ))
+          max_connections: (( property_overrides.mysql.max_connections || nil ))
+          persistent_disk: (( disk_pools.mysql-persistent-disk.disk_size ))
+          userstat: (( property_overrides.mysql.userstat || false ))
+          wsrep_debug: (( property_overrides.mysql.wsrep_debug || 0 ))
+          server_audit_events: (( property_overrides.mysql.server_audit_events || nil ))
+          server_audit_excluded_users: (( property_overrides.mysql.server_audit_excluded_users || nil ))
+          cluster_health:
+            password: (( property_overrides.mysql.cluster_health.password ))
+          binlog_enabled: (( property_overrides.mysql.binlog_enabled || true ))
+          startup_timeout: (( property_overrides.mysql.startup_timeout || nil ))
+  proxy_z1:
+  - release: cf-mysql
+    name: proxy
+    consumes: {mysql: {from: mysql_z1}, arbitrator: {from: arbitrator_z3}, proxy: {from: proxy_z1}}
+    provides: {proxy: {as: proxy_z1}}
   proxy:
   - release: cf-mysql
     name: proxy
-    consumes: {mysql: nil, arbitrator: nil, proxy: nil}
-  arbitrator:
+    consumes: {mysql: {from: mysql_z1}, arbitrator: {from: arbitrator_z3}, proxy: {from: proxy_z1}}
+    provides: {proxy: nil}
+  arbitrator_z3:
   - release: cf-mysql
     name: arbitrator
-    consumes: {mysql: nil, arbitrator: nil}
+    consumes: {mysql: nil, arbitrator: {from: arbitrator_z3}}
+    provides: {arbitrator: {as: arbitrator_z3}}
+    properties:
+      cf_mysql:
+        mysql:
+          port: (( property_overrides.mysql.port || nil ))
+          admin_username: (( property_overrides.mysql.admin_username || nil ))
+          admin_password: (( property_overrides.mysql.admin_password ))
+          disable_auto_sst: (( property_overrides.mysql.disable_auto_sst || nil ))
+          galera_port: (( property_overrides.mysql.galera_port || nil ))
+          galera_healthcheck: (( property_overrides.mysql.galera_healthcheck || nil ))
+          cluster_ips: (( property_overrides.mysql.cluster_ips || default_mysql_cluster_ips ))
+          roadmin_enabled: (( property_overrides.mysql.roadmin_enabled || false ))
+          roadmin_password: (( property_overrides.mysql.roadmin_password ))
+          seeded_databases: (( property_overrides.mysql.seeded_databases || nil ))
+          max_heap_table_size: (( property_overrides.mysql.max_heap_table_size || nil ))
+          tmp_table_size: (( property_overrides.mysql.tmp_table_size || nil ))
+          wsrep_max_ws_rows: (( property_overrides.mysql.wsrep_max_ws_rows || nil ))
+          wsrep_max_ws_size: (( property_overrides.mysql.wsrep_max_ws_size || nil ))
+          skip_name_resolve: (( property_overrides.mysql.skip_name_resolve || nil ))
+          gcache_size: (( property_overrides.mysql.gcache_size || nil ))
+          ib_log_file_size: (( property_overrides.mysql.ib_log_file_size || nil ))
+          innodb_buffer_pool_instances: (( property_overrides.mysql.innodb_buffer_pool_instances || nil ))
+          innodb_buffer_pool_size: (( property_overrides.mysql.innodb_buffer_pool_size || nil ))
+          interrupt_notify_cmd: (( property_overrides.mysql.interrupt_notify_cmd || nil ))
+          max_connections: (( property_overrides.mysql.max_connections || nil ))
+          persistent_disk: (( disk_pools.mysql-persistent-disk.disk_size ))
+          userstat: (( property_overrides.mysql.userstat || false ))
+          wsrep_debug: (( property_overrides.mysql.wsrep_debug || 0 ))
+          server_audit_events: (( property_overrides.mysql.server_audit_events || nil ))
+          server_audit_excluded_users: (( property_overrides.mysql.server_audit_excluded_users || nil ))
+          cluster_health:
+            password: (( property_overrides.mysql.cluster_health.password ))
+          binlog_enabled: (( property_overrides.mysql.binlog_enabled || true ))
+          startup_timeout: (( property_overrides.mysql.startup_timeout || nil ))
   broker:
   - release: cf-mysql
     name: cf-mysql-broker
@@ -222,7 +303,7 @@ colocated_jobs:
 
 base_jobs:
 - name: mysql_z1
-  templates: (( base_templates.mysql colocated_jobs.mysql_z1 ))
+  jobs: (( base_templates.mysql_z1 colocated_jobs.mysql_z1 ))
   instances: (( instance_count_overrides.mysql_z1.instances || 1 ))
   resource_pool: mysql_z1
   persistent_disk_pool: mysql-persistent-disk
@@ -230,7 +311,7 @@ base_jobs:
   - name: mysql1
     static_ips: (( static_ips(0) ))
 - name: mysql_z2
-  templates: (( base_templates.mysql colocated_jobs.mysql_z2 ))
+  jobs: (( base_templates.mysql colocated_jobs.mysql_z2 ))
   instances: (( instance_count_overrides.mysql_z2.instances || 1 ))
   resource_pool: mysql_z2
   persistent_disk_pool: mysql-persistent-disk
@@ -238,7 +319,7 @@ base_jobs:
   - name: mysql2
     static_ips: (( static_ips(0) ))
 - name: mysql_z3
-  templates: (( base_templates.mysql colocated_jobs.mysql_z3 ))
+  jobs: (( base_templates.mysql colocated_jobs.mysql_z3 ))
   # defaults to using an arbitrator in place of mysql node in z3
   instances: (( instance_count_overrides.mysql_z3.instances || 0 ))
   resource_pool: mysql_z3
@@ -247,34 +328,34 @@ base_jobs:
   - name: mysql3
     static_ips: (( static_ips(0) ))
 - name: arbitrator_z3
-  templates: (( base_templates.arbitrator colocated_jobs.arbitrator_z3 ))
+  jobs: (( base_templates.arbitrator_z3 colocated_jobs.arbitrator_z3 ))
   instances: (( instance_count_overrides.arbitrator_z3.instances || 1 ))
   resource_pool: arbitrator_z3
   networks:
   - name: mysql3
     static_ips: (( static_ips(1) ))
 - name: proxy_z1
-  templates: (( base_templates.proxy colocated_jobs.proxy_z1 ))
+  jobs: (( base_templates.proxy_z1 colocated_jobs.proxy_z1 ))
   instances: (( instance_count_overrides.proxy_z1.instances || 1 ))
   resource_pool: proxy_z1
   networks:
   - name: mysql1
     static_ips: (( static_ips(1) ))
 - name: proxy_z2
-  templates: (( base_templates.proxy colocated_jobs.proxy_z2 ))
+  jobs: (( base_templates.proxy colocated_jobs.proxy_z2 ))
   instances: (( instance_count_overrides.proxy_z2.instances || 1 ))
   resource_pool: proxy_z2
   networks:
   - name: mysql2
     static_ips: (( static_ips(1) ))
 - name: cf-mysql-broker_z1
-  templates: (( base_templates.broker colocated_jobs.cf-mysql-broker_z1 ))
+  jobs: (( base_templates.broker colocated_jobs.cf-mysql-broker_z1 ))
   instances: (( instance_count_overrides.cf-mysql-broker_z1.instances || 1 ))
   resource_pool: cf-mysql-broker_z1
   networks:
   - name: mysql1
 - name: cf-mysql-broker_z2
-  templates: (( base_templates.broker colocated_jobs.cf-mysql-broker_z2 ))
+  jobs: (( base_templates.broker colocated_jobs.cf-mysql-broker_z2 ))
   instances: (( instance_count_overrides.cf-mysql-broker_z2.instances || 1 ))
   resource_pool: cf-mysql-broker_z2
   networks:
@@ -340,11 +421,11 @@ iaas_settings: (( merge ))
 instance_count_overrides: (( merge || nil ))
 property_overrides: (( merge ))
 release_versions: (( merge || nil ))
-job_overrides: (( merge || nil ))  
+job_overrides: (( merge || nil ))
 default_mysql_cluster_ips:
-- (( jobs.mysql_z1.networks.mysql1.static_ips.[0] ))
-- (( jobs.mysql_z2.networks.mysql2.static_ips.[0] || nil ))
-- (( jobs.mysql_z3.networks.mysql3.static_ips.[0] || nil ))
+- (( instance_groups.mysql_z1.networks.mysql1.static_ips.[0] ))
+- (( instance_groups.mysql_z2.networks.mysql2.static_ips.[0] || nil ))
+- (( instance_groups.mysql_z3.networks.mysql3.static_ips.[0] || nil ))
 - (( jobs.arbitrator_z3.networks.mysql3.static_ips.[0] || nil ))
 default_proxy_ips:
 - (( jobs.proxy_z1.networks.mysql1.static_ips.[0] || nil ))
