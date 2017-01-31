@@ -151,6 +151,9 @@ innodb_flush_method=O_DIRECT
 max_connections = <%= max_connections %>
 <% end %>
 
+# Event Scheduler
+event_scheduler=<%= p('cf_mysql.mysql.event_scheduler') %>
+
 [mysqldump]
 quick
 quote-names
@@ -161,7 +164,3 @@ max_allowed_packet = <%= p('cf_mysql.mysql.max_allowed_packet') %>
 
 [isamchk]
 key_buffer		= 16M
-
-
-# Event Scheduler
-event_scheduler=<%= p('cf_mysql.mysql.event_scheduler') %>
