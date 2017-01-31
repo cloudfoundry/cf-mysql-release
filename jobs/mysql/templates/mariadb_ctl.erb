@@ -25,7 +25,6 @@ MARIADB_CTRL_PACKAGE=/var/vcap/packages/mariadb_ctrl
 PROC_NAME=mariadb_ctl
 RUN_DIR=/var/vcap/sys/run/$PROC_NAME
 PIDFILE=$RUN_DIR/$PROC_NAME.pid
-PRESTART_MARKER_FILE=$RUN_DIR/prestart_marker
 
 source /var/vcap/packages/cf-mysql-common/pid_utils.sh
 source /var/vcap/packages/cf-mysql-common/syslog_utils.sh
@@ -43,6 +42,11 @@ export PERL5LIB=$PERL5LIB:/var/vcap/packages/xtrabackup/lib/perl/5.18.2
 
 ulimit -n <%= p('cf_mysql.mysql.max_open_files') %>
 
+if [[ ! -d "$RUN_DIR" ]]; then
+  mkdir -p $RUN_DIR
+  chown -R vcap:vcap $RUN_DIR
+fi
+
 case $1 in
 
   # The start script must always exit 0 if there's a chance Maria could start successfully,
@@ -52,11 +56,6 @@ case $1 in
   # monit unmonitor && monit monitor, at which point monit would find the pid and reset the status to 'running'
 
   start)
-    if [ ! -f ${PRESTART_MARKER_FILE} ]; then
-      >&2 echo "This bosh version and/or stemcell version is not pre-start compatible"
-      exit 1
-    fi
-
     # WORKAROUND: monit may attempt to run this script multiple times if mysqld does not start in time.
     # Ensure that running this script multiple times does not spawn multiple copies of _ctrl
     LAUNCHER_NAME=mariadb_ctl_launcher
