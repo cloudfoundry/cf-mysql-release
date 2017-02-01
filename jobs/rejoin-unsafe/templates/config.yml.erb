@@ -5,8 +5,9 @@
   galera_healthcheck_password = nil
   if_link('mysql') do |mysql|
     cluster_ips = mysql.instances.map { |instance| instance.address }
-    cluster_ips += link('arbitrator').instances.map { |instance| instance.address }
-
+    if_link('arbitrator') do |arb|
+      cluster_ips += arb.instances.map { |instance| instance.address }
+    end
     galera_healthcheck_port = mysql.p('cf_mysql.mysql.galera_healthcheck.port')
     galera_healthcheck_username = mysql.p('cf_mysql.mysql.galera_healthcheck.endpoint_username')
     galera_healthcheck_password = mysql.p('cf_mysql.mysql.galera_healthcheck.endpoint_password')
