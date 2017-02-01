@@ -4,31 +4,9 @@
 - [cloud config](https://bosh.io/docs/cloud-config.html)
 - [job links](https://bosh.io/docs/links.html)
 - [new CLI](https://github.com/cloudfoundry/bosh-cli)
+  - The new BOSH CLI must be installed according to the instructions [here](https://bosh.io/docs/cli-v2.html).
 
-These features are designed to simplify managing bosh deployments, and we
-strongly recommend all operators take advantage of these new features.
-
-## Prerequisites
-- The new BOSH CLI must be installed according to the instructions [here](https://bosh.io/docs/cli-v2.html).
-
-- The new BOSH CLI requires that directors have an SSL cert and that this cert
-is valid for the domain. Self-signed certs can be validated against the root
-certificate authority by providing the root ca to the bosh CLI as follows:
-
-  ```sh
-  bosh \
-    --ca-cert <path-to-ca-cert> \
-    login
-  ```
-
-- The BOSH director must be relatively new (e.g. links was available
-starting with bosh-release `v255.5`).
-
-- Add cloud-config to the director with:
-
-  ```sh
-  bosh update-cloud-config <path-to-cloud-config>
-  ```
+This file uses BOSH-2.0 features such as links, AZs, etc. Please refer to BOSH documentation for more details. If you're having troubles with the pre-requisites, please contact the BOSH team for help (perhaps on [slack](https://slack.cloudfoundry.org/)).
 
 ## New deployments
 
@@ -66,11 +44,10 @@ bosh \
 If you are upgrading an existing deployment of cf-mysql-release with a manifest
 that does not take advantage of these new features, for example if the manifest
 was generated via the spiff templates and stubs provided in this repository,
-then you will need to follow the steps outlined below:
+then be aware:
 
-1. Ensure the networks defined in cloud-config match what was previously defined in the mysql manifest.
-1. Create an override to set the new deployment name to your existing one. See below for instructions on creating override files.
-1. By default the deployment manifest will not deploy brokers, nor try to register
+1. The base manifest refers to AZs called `z1`, `z2`, and `z3`. If your cloud-config doesn't have those AZs, it will result in an error.
+1. The base manifest will not deploy brokers, nor try to register
 routes for the proxies with a Cloud Foundry router. If you wish to preserve this
 behavior you will need to include the
 [add brokers](https://github.com/cloudfoundry/cf-mysql-release/tree/master/manifest-generation/bosh2.0/overrides/add-broker.yml)
