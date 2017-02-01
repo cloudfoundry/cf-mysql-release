@@ -19,8 +19,9 @@
       release: cf-mysql
     - name: route_registrar
       release: routing
+      consumes:
+        nats: {from: nats, deployment: cf}
       properties:
-        nats: ((nats))
         route_registrar:
           routes:
           - name: cf-mysql-broker
@@ -120,7 +121,3 @@
 - type: replace
   path: /properties/cf_mysql/external_host?
   value: ((cf_mysql_external_host))
-
-- type: replace
-  path: /properties/nats?
-  value: ((nats))

@@ -14,8 +14,9 @@
   value:
     release: routing
     name: route_registrar
+    consumes:
+      nats: {from: nats, deployment: cf}
     properties:
-      nats: ((nats))
       route_registrar:
         routes:
         - name: cf-mysql-proxy
