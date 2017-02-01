@@ -25,12 +25,6 @@ cf_admin_password: admin
 cf_api_url: https://api.bosh-lite.com
 cf_skip_ssl_validation: true
 cf_system_domain:
-nats:
-  machines:
-  - 10.244.0.6
-  user: nats
-  password: nats
-  port: 4222
 consul:
   agent:
     domain: cf.internal
