@@ -5,7 +5,9 @@
     cluster_ips = ips.compact
   end.else do
     cluster_ips = link('mysql').instances.map { |instance| instance.address }
-    cluster_ips += link('arbitrator').instances.map { |instance| instance.address }
+    if_link('arbitrator') do |arb|
+      cluster_ips += arb.instances.map { |instance| instance.address }
+    end
   end
 %>
 
