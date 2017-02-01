@@ -81,29 +81,9 @@ tar xzf xtrabackup/libaio_0.3.110.orig.tar.gz
 )
 
 # boost
-tar xzf xtrabackup/boost_1_59_0.tar.gz
-(
-  set -e
-  cd boost_1_59_0
-  ./bootstrap.sh --with-libraries=program_options,system --prefix=${BOSH_INSTALL_TARGET}
 
-  # Go Agent cannot handle more than 10MB output, so trim it
-  set +e
-  ./b2 install > build.out 2> build.err
-  BUILD_EXIT_CODE=$?
-  set -e
-
-  if [ $BUILD_EXIT_CODE -ne 0 ]; then
-      tail -n 1000 build.err
-      exit $BUILD_EXIT_CODE
-  fi
-  tail -n 1000 build.out
-
-  # Copy includes and libraries to standard locations to be consistent
-  # with thedirectory structure in cf-mysql-release
-  cp -R /var/vcap/packages/xtrabackup/lib/* /usr/lib/
-  cp -R /var/vcap/packages/xtrabackup/include/* /usr/include/
-)
+cp -R /var/vcap/packages/boost/lib/* /usr/lib/
+cp -R /var/vcap/packages/boost/include/* /usr/include/
 
 tar xzf xtrabackup/libev-4.22.tar.gz
 (

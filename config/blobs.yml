@@ -1,8 +1,4 @@
 ---
-boost/boost_1_55_0.tar.gz:
-  object_id: 52348346-ba79-41e1-9c71-74ee464570d6
-  sha: 61ed0e57d3c7c8985805bb0682de3f4c65f4b6e5
-  size: 69481257
 scons/scons-2.3.1.tar.gz:
   object_id: e3136aa7-9bf6-4c49-a26d-9ebe85665818
   sha: 775e715e49fe5fd8e1d29551a296fdc9267509e7
@@ -83,7 +79,7 @@ mariadb/mariadb-10.1.20.tar.gz:
   object_id: 401f2d6e-81af-4dc2-a13b-880811314efc
   sha: 13dd9efcc41bbb7affe4032108a6227d5a567ccc
   size: 61312731
-xtrabackup/boost_1_59_0.tar.gz:
+boost/boost_1_59_0.tar.gz:
   object_id: 9f1801dc-7a8c-4969-a97f-c0432a3a4331
   sha: 5123209db194d66d69a9cfa5af8ff473d5941d97
   size: 83709983

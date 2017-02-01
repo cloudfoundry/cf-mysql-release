@@ -2,8 +2,8 @@
 set -e
 
 cd boost
-tar xfz boost_1_55_0.tar.gz
-cd boost_1_55_0
+tar xfz boost_1_59_0.tar.gz
+cd boost_1_59_0
 ./bootstrap.sh --with-libraries=program_options,system --prefix=${BOSH_INSTALL_TARGET}
 
 # Go Agent cannot handle more than 10MB output, so trim it
