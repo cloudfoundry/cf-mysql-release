@@ -6,3 +6,7 @@
 - type: replace
   path: /instance_groups/name=proxy/properties/cf_mysql/standalone?
   value: false
+
+- type: replace
+  path: /properties/nats?
+  value: ((nats))
