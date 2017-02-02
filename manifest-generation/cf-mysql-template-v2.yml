@@ -24,7 +24,7 @@ instance_groups:
   - name: default
   vm_type: default
   stemcell: default
-  persistent_disk_type: large
+  persistent_disk: 10000
   jobs:
   - {release: cf-mysql, name: mysql}
 
