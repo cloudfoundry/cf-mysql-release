@@ -114,6 +114,7 @@ properties:
       roadmin_password: ((cf_mysql_mysql_roadmin_password))
     proxy:
       api_password: ((cf_mysql_proxy_api_password))
+      api_username: ((cf_mysql_proxy_api_username))
 
 variables:
 - name: cf_mysql_mysql_admin_password
