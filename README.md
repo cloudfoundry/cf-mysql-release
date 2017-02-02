@@ -161,6 +161,9 @@ For release notes and known issues, see [the release wiki](https://github.com/cl
 <a name='deploying'></a>
 ## Deploying
 
+See https://github.com/cloudfoundry/cf-mysql-deployment to deploy with new
+BOSH features such as cloud-config and links.
+
 ### Prerequisites
 
 - A deployment of [BOSH](https://github.com/cloudfoundry/bosh)
