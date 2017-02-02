@@ -1,0 +1,12 @@
+---
+- type: replace
+  path: /properties/cf_mysql/external_host?
+  value: ((cf_mysql_external_host))
+
+- type: replace
+  path: /instance_groups/name=proxy/properties/cf_mysql/standalone?
+  value: false
+
+- type: replace
+  path: /properties/nats?
+  value: ((nats))
