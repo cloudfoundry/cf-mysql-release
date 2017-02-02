@@ -1,4 +1,0 @@
----
-- type: replace
-  path: /properties/cf/skip_ssl_validation
-  value: false
