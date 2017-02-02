@@ -39,9 +39,6 @@ xtrabackup/libtool-2.4.2.tar.gz:
   object_id: 958f3335-2373-4c4f-9db1-7391a9a7e6f2
   sha: 22b71a8b5ce3ad86e1094e7285981cae10e6ff88
   size: 2632347
-xtrabackup/socat-1.7.3.1.tar.gz: # http://www.dest-unreach.org/socat/download/socat-1.7.3.1.tar.gz
-  size: 606049
-  sha: a6f1d8ab3e85f565dbe172f33a9be6708dd52ffb
 mysqlclient/mariadb-connector-c-2.1.0-src.tar.gz:
   object_id: e1e0446a-8cbd-4b8e-b496-fc20f530fd7c
   sha: 2fea886fd8ddf3e17d6228d282828afeaee0a317
@@ -90,3 +87,7 @@ xtrabackup/percona-xtrabackup-percona-xtrabackup-2.4.5.tar.gz:
   object_id: 54fc2860-5858-4c85-b110-3b37633676cb
   sha: 8f86039fa330739e1a6be77dcbd2274498e090bf
   size: 51954652
+xtrabackup/socat-1.7.3.1.tar.gz:
+  object_id: e70cc852-c9b3-4e69-8b67-0badc7cacaaf
+  sha: a6f1d8ab3e85f565dbe172f33a9be6708dd52ffb
+  size: 606049
