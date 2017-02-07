@@ -44,8 +44,8 @@ ulimit -n <%= p('cf_mysql.mysql.max_open_files') %>
 
 if [[ ! -d "$RUN_DIR" ]]; then
   mkdir -p $RUN_DIR
-  chown -R vcap:vcap $RUN_DIR
 fi
+chown -R vcap:vcap $RUN_DIR
 
 case $1 in
 
