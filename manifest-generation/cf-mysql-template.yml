@@ -279,7 +279,7 @@ base_jobs:
         port: (( property_overrides.proxy.api_port || 8080 )) # the default here must match the default in the job spec
         registration_interval: 10s
         uris:
-        - (( "proxy-0-" .properties.cf_mysql.external_host ))
+        - (( "0-proxy-" .properties.cf_mysql.external_host ))
 - name: proxy_z2
   templates: (( base_templates.proxy colocated_jobs.proxy_z2 ))
   instances: (( instance_count_overrides.proxy_z2.instances || 1 ))
@@ -294,7 +294,7 @@ base_jobs:
         port: (( property_overrides.proxy.api_port || 8080 )) # the default here must match the default in the job spec
         registration_interval: 10s
         uris:
-        - (( "proxy-1-" .properties.cf_mysql.external_host ))
+        - (( "1-proxy-" .properties.cf_mysql.external_host ))
 - name: cf-mysql-broker_z1
   templates: (( base_templates.broker colocated_jobs.cf-mysql-broker_z1 ))
   instances: (( instance_count_overrides.cf-mysql-broker_z1.instances || 1 ))
