@@ -169,6 +169,16 @@ BOSH features such as cloud-config and links.
 - A deployment of [BOSH](https://github.com/cloudfoundry/bosh)
 - A deployment of [Cloud Foundry](https://github.com/cloudfoundry/cf-release), [final release 193](https://github.com/cloudfoundry/cf-release/tree/v193) or greater
 - Instructions for installing BOSH and Cloud Foundry can be found at http://docs.cloudfoundry.org/.
+- [Routing release](https://github.com/cloudfoundry-incubator/routing-release)
+v0.145.0 or later is required to register the proxy and broker routes with
+Cloud Foundry:
+
+    ```bash
+    bosh upload release https://bosh.io/d/github.com/cloudfoundry-incubator/cf-routing-release?v=0.145.0
+    ```
+
+    Standalone deployments (i.e. deployments that do not interact with Cloud Foundry)
+    do not require the routing release.
 
 ### Overview
 
