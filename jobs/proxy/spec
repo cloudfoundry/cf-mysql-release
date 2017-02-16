@@ -109,14 +109,14 @@ properties:
   cf_mysql.proxy.startup_delay:
     description: |
       If using a load balancer above the proxies,
-      enter your load balancer's unhealthy total threshold time here in seconds.
-      E.g., if your LB polls every 30 seconds, and immediately fails over upon failure,
-      then set this property to 30 seconds.
+      enter your load balancer's healthy total threshold time here in seconds.
+      E.g., if your LB polls every 30 seconds and requires 3 successful attempts,
+      then set this property to 90 seconds.
     default: 0
   cf_mysql.proxy.shutdown_delay:
     description: |
       If using a load balancer above the proxies,
-      enter your load balancer's healthy total threshold time here in seconds.
-      E.g., if your LB polls every 30 seconds and requires 3 successful attempts,
-      then set this property to 90 seconds.
+      enter your load balancer's unhealthy total threshold time here in seconds.
+      E.g., if your LB polls every 30 seconds, and immediately fails over upon failure,
+      then set this property to 30 seconds.
     default: 0
