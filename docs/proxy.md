@@ -165,7 +165,7 @@ property_overrides:
 
 ## API
 
-The proxy hosts a JSON API at `proxy-<bosh job index>-p-mysql.<system domain>/v0/`.
+The proxy hosts a JSON API at `<bosh job index>-proxy-p-mysql.<system domain>/v0/`.
 
 The API provides the following route:
 
@@ -205,4 +205,6 @@ Response:
 
 ## Dashboard
 
-The proxy also provides a Dashboard UI to view the current status of the database nodes. This is hosted at `proxy-<bosh job index>-p-mysql.<system domain>`.
+The proxy also provides a Dashboard UI to view the current status of the database nodes. This is hosted at `<bosh job index>-proxy-p-mysql.<system domain>`.
+
+The Proxy Springboard page at `proxy-p-mysql.<system domain>` contains links to each of the Proxy Dashboard pages.

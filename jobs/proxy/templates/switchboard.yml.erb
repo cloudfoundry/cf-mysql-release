@@ -1,4 +1,4 @@
-<%
+<%=
   cluster_ips = nil
   galera_healthcheck_port = nil
   mysql_port = nil
@@ -18,32 +18,53 @@
     galera_healthcheck_port = p('cf_mysql.mysql.galera_healthcheck.port')
     mysql_port = p('cf_mysql.mysql.port')
   end
-%>
 
-API:
-  Port: <%= p('cf_mysql.proxy.api_port') %>
-  ForceHttps: <%= p('cf_mysql.proxy.api_force_https') %>
-  Username: <%= p('cf_mysql.proxy.api_username') %>
-  Password: <%= p('cf_mysql.proxy.api_password') %>
-Proxy:
-  Port: <%= p('cf_mysql.proxy.port') %>
-  HealthcheckTimeoutMillis: <%= p('cf_mysql.proxy.healthcheck_timeout_millis') %>
-  ShutdownDelaySeconds: <%= p('cf_mysql.proxy.shutdown_delay') %>
-  Backends:
-  <% cluster_ips.each_with_index do |ip, n| %>
-  - Host: <%= ip %>
-    Port: <%= mysql_port %>
-    StatusPort: <%= galera_healthcheck_port %>
-    StatusEndpoint: api/v1/status
-    Name: "backend-<%= n %>"
-  <% end %>
-HealthPort: <%= p('cf_mysql.proxy.health_port') %>
-Profiling:
-  Enabled: <%= p('cf_mysql.proxy.profiling_enabled') %>
-  Port: 6060
-StaticDir: /var/vcap/packages/switchboard/static
-PidFile: /var/vcap/sys/run/proxy/switchboard.pid
-<% if p('cf_mysql.proxy.consul_enabled') %>
-ConsulCluster: http://127.0.0.1:8500
-ConsulServiceName: <%= p('cf_mysql.proxy.consul_service_name') %>
-<% end %>
+  proxy_uris = []
+  if_p('cf_mysql.proxy.api_uri') do |api_uri|
+    proxy_uris = link('proxy').instances.map do |instance|
+      "#{instance.index}-#{api_uri}"
+    end
+  end
+
+  backends = cluster_ips.map.with_index do |ip, n|
+    {
+      Host: ip,
+      Port: mysql_port,
+      StatusPort: galera_healthcheck_port,
+      StatusEndpoint: 'api/v1/status',
+      Name: "backend-#{n}"
+    }
+  end
+
+  config = {
+    API: {
+      ProxyURIs: proxy_uris,
+      Port: p('cf_mysql.proxy.api_port'),
+      AggregatorPort: p('cf_mysql.proxy.api_aggregator_port'),
+      ForceHttps: p('cf_mysql.proxy.api_force_https'),
+      Username: p('cf_mysql.proxy.api_username'),
+      Password: p('cf_mysql.proxy.api_password')
+    },
+    Proxy: {
+      Port: p('cf_mysql.proxy.port'),
+      HealthcheckTimeoutMillis: p('cf_mysql.proxy.healthcheck_timeout_millis'),
+      ShutdownDelaySeconds: p('cf_mysql.proxy.shutdown_delay'),
+      Backends: backends,
+    },
+    HealthPort: p('cf_mysql.proxy.health_port'),
+    Profiling: {
+      Enabled: p('cf_mysql.proxy.profiling_enabled'),
+      Port: 6060
+    },
+    StaticDir: '/var/vcap/packages/switchboard/static',
+    PidFile: '/var/vcap/sys/run/proxy/switchboard.pid'
+
+  }
+
+  if p('cf_mysql.proxy.consul_enabled')
+    config[:ConsulCluster] = 'http://127.0.0.1:8500'
+    config[:ConsulServiceName] = p('cf_mysql.proxy.consul_service_name')
+  end
+
+  JSON.pretty_generate(config)
+%>
