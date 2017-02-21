@@ -22,8 +22,6 @@ proxy_urls = proxy_ips.each_with_index.map do |_, index|
   "https://#{index}-proxy-#{p('cf_mysql.external_host')}"
 end
 
-aggregator_url = "https://proxy-#{p('cf_mysql.external_host')}"
-
 apps_domain=nil
 if_p('cf.app_domains') do |domains|
   apps_domain=domains.first
@@ -41,7 +39,6 @@ config = {
   service_name:        service_name,
   skip_ssl_validation: p('cf.skip_ssl_validation'),
   proxy: {
-    aggregator_url:      aggregator_url,
     dashboard_urls:      proxy_urls,
     api_username:        p('cf_mysql.proxy.api_username'),
     api_password:        p('cf_mysql.proxy.api_password'),
