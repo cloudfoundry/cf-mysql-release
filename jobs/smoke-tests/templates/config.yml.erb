@@ -23,7 +23,9 @@ proxy_urls = proxy_ips.each_with_index.map do |_, index|
 end
 
 apps_domain=nil
-if_p('cf.app_domains') do |domains|
+if_link('cloud_controller') do |cloud_controller|
+  apps_domain=cloud_controller.p('app_domains').first
+end.else_if_p('cf.app_domains') do |domains|
   apps_domain=domains.first
 end
 
