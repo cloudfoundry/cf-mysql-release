@@ -71,10 +71,6 @@ ruby/rubygems-2.6.6.tgz:
   object_id: 605ceb49-5efe-41ae-be4d-79432f783125
   sha: 2b9b8038fc92a6c5ab6dda3fda95f1f6bc42fd02
   size: 730034
-golang/go1.5.1.linux-amd64.tar.gz:
-  object_id: 57718a28-73c7-4d17-a46b-12c8cc40a503
-  sha: 46eecd290d8803887dec718c691cc243f2175fe0
-  size: 77875767
 galera/galera-25.3.17.tar.gz:
   object_id: de96dedb-2e26-440f-b6c8-8cc31e4a2f77
   sha: ff5c16f1116565cf318c7d84c0f60d7a10d84f0f
@@ -87,3 +83,7 @@ mariadb/mariadb-10.1.18.tar.gz:
   object_id: c947ae95-6712-4996-a0de-14eb4dcd072a
   sha: 345a108fd92474abc760ca803c121f76c8abef3c
   size: 61187451
+golang/go1.7.linux-amd64.tar.gz:
+  object_id: cc14bd51-82d9-4df5-8653-125b8bad365b
+  sha: a744e29da97fc3aadad1ee0d7d89b0d899645e50
+  size: 81573766
