@@ -158,38 +158,49 @@ base_resource_pools:
   network: mysql1
   stemcell: (( iaas_settings.stemcell ))
   cloud_properties: (( iaas_settings.resource_pool_cloud_properties.mysql_z1.cloud_properties ))
+  env: &vcap_password
+    bosh:
+      password: "$6$4gDD3aV0rdqlrKC$2axHCxGKIObs6tAmMTqYCspcdvQXh3JJcvWOY2WGb4SrdXtnCyNaWlrf3WEqvYR2MYizEGp3kMmbpwBC6jsHt0"
 - name: mysql_z2
   network: mysql2
   stemcell: (( iaas_settings.stemcell ))
   cloud_properties: (( iaas_settings.resource_pool_cloud_properties.mysql_z2.cloud_properties ))
+  env: *vcap_password
 - name: mysql_z3
   network: mysql3
   stemcell: (( iaas_settings.stemcell ))
   cloud_properties: (( iaas_settings.resource_pool_cloud_properties.mysql_z3.cloud_properties ))
+  env: *vcap_password
 - name: arbitrator_z3
   network: mysql3
   stemcell: (( iaas_settings.stemcell ))
   cloud_properties: (( iaas_settings.resource_pool_cloud_properties.arbitrator_z3.cloud_properties ))
+  env: *vcap_password
 - name: proxy_z1
   network: mysql1
   stemcell: (( iaas_settings.stemcell ))
   cloud_properties: (( iaas_settings.resource_pool_cloud_properties.proxy_z1.cloud_properties ))
+  env: *vcap_password
 - name: proxy_z2
   network: mysql2
   stemcell: (( iaas_settings.stemcell ))
   cloud_properties: (( iaas_settings.resource_pool_cloud_properties.proxy_z2.cloud_properties ))
+  env: *vcap_password
 - name: cf-mysql-broker_z1
   network: mysql1
   stemcell: (( iaas_settings.stemcell ))
   cloud_properties: (( iaas_settings.resource_pool_cloud_properties.cf-mysql-broker_z1.cloud_properties ))
+  env: *vcap_password
 - name: cf-mysql-broker_z2
   network: mysql2
   stemcell: (( iaas_settings.stemcell ))
   cloud_properties: (( iaas_settings.resource_pool_cloud_properties.cf-mysql-broker_z2.cloud_properties ))
+  env: *vcap_password
 - name: errands_z1
   network: mysql1
   stemcell: (( iaas_settings.stemcell ))
   cloud_properties: (( iaas_settings.resource_pool_cloud_properties.errands_z1.cloud_properties ))
+  env: *vcap_password
 base_templates:
   mysql:
   - release: cf-mysql
