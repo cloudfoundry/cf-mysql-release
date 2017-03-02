@@ -9,40 +9,42 @@ builds:
     version: "17"
   0c8dee6d595059a19ca9009a0ceeb0a3c825be78:
     version: "3"
+  0ea25314-58ee-4d77-601d-628d0068a534:
+    version: 26.9.0
   0efd7f30c9e3c418f250ef48596a67d4335fa648:
     version: "5"
   0f311eb812dfba396daf49bf3ab665dcb51b3934:
     version: "2"
-  136192ce-c7bc-43a5-a516-d041d967e8fa:
-    version: "15"
   1ad5b254-608e-4c74-8294-1d4ddd1dc2cc:
     version: "26.3"
-  21b84ab3-24e0-4995-9bab-b750820f8084:
-    version: "26.4"
-  23587fb910cc4f86ceab93a947ad2352558b1a40:
-    version: "8"
-  24dc4efa-66af-4260-4b1b-7fcab591d175:
-    version: "26.9"
-  25901885086118c3e535dbb5558a50fa6e509de4:
-    version: "6"
-  31dff698-8e78-42cf-be6b-718145eb2cb5:
-    version: "20"
-  36f28a69-36e2-4aa4-9009-77abd333535c:
-    version: "11"
-  40a152d7ba6f04700c7f454d50c32f2e03d2c7e3:
-    version: "1"
   5266aa5d-5384-45c1-b701-118bf8ac833d:
     version: "26.6"
   5a7a133a-b90e-43ef-515a-e7f3bf32517e:
     version: "26.10"
   5f4ab841-9372-425a-a8e3-a2e2cabeef50:
     version: "26.1"
-  80275d6bdb0016dc7a9e83410222761620393ad0:
-    version: "4"
   9a29cf0d-b256-48c9-bfe8-5b85ffa6f17f:
     version: "21"
   9abee393-5b23-423b-a4af-6305493d2348:
     version: "12"
+  21b84ab3-24e0-4995-9bab-b750820f8084:
+    version: "26.4"
+  24dc4efa-66af-4260-4b1b-7fcab591d175:
+    version: "26.9"
+  31dff698-8e78-42cf-be6b-718145eb2cb5:
+    version: "20"
+  36f28a69-36e2-4aa4-9009-77abd333535c:
+    version: "11"
+  40a152d7ba6f04700c7f454d50c32f2e03d2c7e3:
+    version: "1"
+  23587fb910cc4f86ceab93a947ad2352558b1a40:
+    version: "8"
+  80275d6bdb0016dc7a9e83410222761620393ad0:
+    version: "4"
+  136192ce-c7bc-43a5-a516-d041d967e8fa:
+    version: "15"
+  25901885086118c3e535dbb5558a50fa6e509de4:
+    version: "6"
   a3f883bb-2bc8-4071-8524-ebebcc5b4f88:
     version: "18"
   b142afd8-e6db-40d4-8a30-a1fe3dbad792:
@@ -51,12 +53,12 @@ builds:
     version: "26.2"
   ccbf21f1-c3eb-4f3b-97e0-8dd66bf4a412:
     version: "23"
-  d1524036-b6dd-43fd-bf0b-3aa22f6ddb6c:
-    version: "24"
   d4bd38f6-f348-4e19-842b-134e923e443d:
     version: "26.7"
   d4d7ae44-068b-4755-aade-bdc10d46d5e7:
     version: "22"
+  d1524036-b6dd-43fd-bf0b-3aa22f6ddb6c:
+    version: "24"
   e15d6f2607325c4d530799d7af39bbd7d730f999:
     version: "7"
   e1ada0f7-2bbc-4147-a81b-21f92bb77549:
