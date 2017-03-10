@@ -83,6 +83,9 @@ properties:
     description: 'Optional, number of buffer pool instances for InnoDB used if innodb_buffer_pool_size > 1GB'
   cf_mysql.mysql.innodb_lock_wait_timeout:
     description: 'Optional, time in seconds that an InnoDB transaction waits for an InnoDB row lock'
+  cf_mysql.mysql.innodb_large_prefix_enabled:
+    description: 'Whether innodb_large_prefix is enabled'
+    default: true
   cf_mysql.mysql.cluster_ips:
     description: 'Optional, list of nodes.  Must have the same number of ips as there are nodes in the cluster'
   cf_mysql.mysql.max_allowed_packet:

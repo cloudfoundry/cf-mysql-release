@@ -102,9 +102,13 @@ userstat = 1
 
 innodb_file_per_table = ON
 innodb_file_format = Barracuda
-innodb_large_prefix = ON
 innodb_log_file_size = "<%= p('cf_mysql.mysql.ib_log_file_size')%>MB"
 innodb_support_xa = OFF
+<% if p('cf_mysql.mysql.innodb_large_prefix_enabled') %>
+innodb_large_prefix = ON
+<% else %>
+innodb_large_prefix = OFF
+<% end %>
 
 max_heap_table_size = <%= p('cf_mysql.mysql.max_heap_table_size') %>
 tmp_table_size = <%= p('cf_mysql.mysql.tmp_table_size') %>
