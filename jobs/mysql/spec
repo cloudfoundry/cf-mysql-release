@@ -99,6 +99,9 @@ properties:
   cf_mysql.mysql.innodb_flush_log_at_trx_commit:
     description: 'Optional, control balance between performance and full ACID compliance. Valid values are: 0, 1, 2'
     default: 1
+  cf_mysql.mysql.innodb_large_prefix_enabled:
+    description: 'Whether innodb_large_prefix is enabled'
+    default: true
   cf_mysql.mysql.max_allowed_packet:
     description: 'The maximum size in bytes of a packet or a generated/intermediate string'
     default: 256M
