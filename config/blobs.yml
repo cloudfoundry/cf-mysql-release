@@ -27,14 +27,6 @@ xtrabackup/libaio_0.3.110.orig.tar.gz:
   object_id: 10d3be70-6c51-4220-9d46-8de75281fd3d
   sha: f8f6ed15f22e528f6f415939b07854539e3360e4
   size: 42270
-xtrabackup/libdbd-mysql-perl_4.025.orig.tar.gz:
-  object_id: 4013014b-5261-4fea-915f-d7f08c3b3733
-  sha: 7c148d347988785239973835f8b5a8b78677ae47
-  size: 135538
-xtrabackup/libdbi-perl_1.630.orig.tar.gz:
-  object_id: 2c9e9439-ef0d-400e-a79c-d608c04ef8c3
-  sha: 8e8ca6484a3e0c7f4e268e46101faed576e072fc
-  size: 588554
 xtrabackup/libtool-2.4.2.tar.gz:
   object_id: 958f3335-2373-4c4f-9db1-7391a9a7e6f2
   sha: 22b71a8b5ce3ad86e1094e7285981cae10e6ff88

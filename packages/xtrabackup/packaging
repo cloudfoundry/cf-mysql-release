@@ -19,26 +19,6 @@ tar xzf xtrabackup/socat-1.7.3.1.tar.gz
   make install prefix=$PREFIX
 )
 
-# DBI-perl
-tar xzf xtrabackup/libdbi-perl_1.630.orig.tar.gz
-(
-  set -e
-  cd DBI-1.630
-  perl Makefile.PL PREFIX=$PREFIX
-  make
-  make install prefix=$PREFIX
-)
-
-# DBD-mysql-perl
-tar xzf xtrabackup/libdbd-mysql-perl_4.025.orig.tar.gz
-(
-  set -e
-  cd DBD-mysql-4.025
-  perl -I${BOSH_INSTALL_TARGET}/lib/perl/5.18.2/ Makefile.PL PREFIX=$PREFIX
-  make
-  make install prefix=$PREFIX
-)
-
 # Install Xtrabackup compilation dependencies
 # autoconf
 
