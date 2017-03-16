@@ -31,6 +31,9 @@ fi
 # add xtrabackup to path
 export PATH=$PATH:/var/vcap/packages/xtrabackup/bin
 
+# add perl libraries to perl env
+export PERL5LIB=$PERL5LIB:/var/vcap/packages/xtrabackup/lib/perl/5.18.2
+
 log "pre-start execution script: starting mariadb_ctrl in prestart mode"
 
 # Setup pidguard and logging
@@ -41,7 +44,7 @@ cd $MARIADB_CTRL_PACKAGE
 
 set +e
 $MARIADB_CTRL_PREFIX_CMD \
-"PATH=$PATH $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl-prestart \
+"PATH=$PATH PERL5LIB=$PERL5LIB $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl-prestart \
          -configPath=$CONFIG_FILE \
          2>&1 \
          | tee -a $LOG_FILE \
