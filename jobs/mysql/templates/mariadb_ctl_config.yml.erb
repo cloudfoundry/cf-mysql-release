@@ -43,6 +43,7 @@ def discover_external_ip
 
 LogFileLocation: /var/vcap/sys/log/mysql/mariadb_ctrl.combined.log
 PidFile: /var/vcap/sys/run/mariadb_ctl/mariadb_ctl.pid
+ChildPidFile: /var/vcap/sys/run/mysql/mysql.pid
 Db:
   DaemonPath: /var/vcap/packages/mariadb_ctrl/bin/mysql_daemon.sh
   UpgradePath: /var/vcap/packages/mariadb/bin/mysql_upgrade
