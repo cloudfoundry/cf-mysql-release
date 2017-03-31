@@ -7,6 +7,8 @@ builds:
     version: "5"
   0f311eb812dfba396daf49bf3ab665dcb51b3934:
     version: "2"
+  6a798df2-0d89-47be-50af-c77434ee27bc:
+    version: 24.14.0
   9a29cf0d-b256-48c9-bfe8-5b85ffa6f17f:
     version: "21"
   9abee393-5b23-423b-a4af-6305493d2348:
