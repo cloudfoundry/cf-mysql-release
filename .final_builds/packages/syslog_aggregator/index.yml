@@ -1,13 +1,14 @@
----
 builds:
-  !binary "MDdiOTI0M2U4M2FhYmM5NTg2MzYwYzE2ODkwZjRkNWZiZGZiOTc1Mg==":
-    blobstore_id: 37982f4c-f404-4f67-81b8-29eb1414db47
-    version: 1
-    sha1: !binary |-
-      YjU2NTE0ZGI0ZmQ1YzY3NzY4N2Y1MDI5NjljMjc3NjM1NTYwN2VhNA==
-  !binary "MDc4ZGE2ZGNiOTk5YzFlNmY1Mzk4YTZlYjczOTE4MmNjYjRhYmEyNQ==":
+  4036b6d910ae30ae14a0e33059bb434ec61bba21:
+    version: 4036b6d910ae30ae14a0e33059bb434ec61bba21
+    blobstore_id: 56a45439-f3d3-4049-4121-86511f613d76
+    sha1: 2ba30fbe09118e9f5e17c461697f65d1f41020fe
+  MDc4ZGE2ZGNiOTk5YzFlNmY1Mzk4YTZlYjczOTE4MmNjYjRhYmEyNQ==:
+    version: MDc4ZGE2ZGNiOTk5YzFlNmY1Mzk4YTZlYjczOTE4MmNjYjRhYmEyNQ==
     blobstore_id: 0f18b2a3-9698-4075-95db-771b961b795d
-    version: !binary |-
-      MDc4ZGE2ZGNiOTk5YzFlNmY1Mzk4YTZlYjczOTE4MmNjYjRhYmEyNQ==
-    sha1: !binary |-
-      NGIwMmZlZWEzOTA1MDc0MmIzMGE0ODdjMzJkZWJjMzNmYmIzNDFhMw==
+    sha1: NGIwMmZlZWEzOTA1MDc0MmIzMGE0ODdjMzJkZWJjMzNmYmIzNDFhMw==
+  MDdiOTI0M2U4M2FhYmM5NTg2MzYwYzE2ODkwZjRkNWZiZGZiOTc1Mg==:
+    version: "1"
+    blobstore_id: 37982f4c-f404-4f67-81b8-29eb1414db47
+    sha1: YjU2NTE0ZGI0ZmQ1YzY3NzY4N2Y1MDI5NjljMjc3NjM1NTYwN2VhNA==
+format-version: "2"
