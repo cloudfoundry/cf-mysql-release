@@ -13,14 +13,14 @@
   end
   my_ip = discover_external_ip
 
-  proxy_ips = nil
+  proxy_index = nil
   if_link('proxy') do
-    proxy_ips= link('proxy').instances.map { |instance| instance.address }
+    instance_ids = link('proxy').instances.map { |instance| instance.id }
+    proxy_index = instance_ids.index(spec.id)
   end.else do
     proxy_ips = p('cf_mysql.proxy.proxy_ips').compact
+    proxy_index = proxy_ips.index(my_ip)
   end
-
-  proxy_index = proxy_ips.index(my_ip)
 
   if ! p('cf_mysql.standalone')
     message_bus_servers = p('nats.machines').map do |ip|
