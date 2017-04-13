@@ -27,6 +27,8 @@ provides:
   - cf_mysql.proxy.api_port
   - cf_mysql.proxy.api_aggregator_port
   - cf_mysql.proxy.port
+- name: mysql-database
+  type: database
 
 packages:
 - switchboard
