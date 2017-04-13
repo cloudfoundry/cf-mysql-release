@@ -136,6 +136,13 @@ query_cache_size = 0
 innodb_stats_on_metadata = ON
 innodb_stats_persistent = OFF
 
+<%
+  if not [0, 1, 2].include?(p('cf_mysql.mysql.innodb_flush_log_at_trx_commit'))
+    raise("cf_mysql.mysql.innodb_flush_log_at_trx_commit value is invalid")
+  end
+%>
+innodb_flush_log_at_trx_commit = <%= p('cf_mysql.mysql.innodb_flush_log_at_trx_commit') %>
+
 <% if_p('cf_mysql.mysql.innodb_lock_wait_timeout') do |innodb_lock_wait_timeout| %>
 innodb_lock_wait_timeout = <%= innodb_lock_wait_timeout %>
 <% end %>
