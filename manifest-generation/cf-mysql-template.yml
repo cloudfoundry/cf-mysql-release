@@ -74,6 +74,7 @@ properties:
       ib_log_file_size: (( property_overrides.mysql.ib_log_file_size || nil ))
       innodb_buffer_pool_instances: (( property_overrides.mysql.innodb_buffer_pool_instances || nil ))
       innodb_buffer_pool_size: (( property_overrides.mysql.innodb_buffer_pool_size || nil ))
+      innodb_flush_log_at_trx_commit: (( property_overrides.mysql.innodb_flush_log_at_trx_commit || nil ))
       interrupt_notify_cmd: (( property_overrides.mysql.interrupt_notify_cmd || nil ))
       max_connections: (( property_overrides.mysql.max_connections || nil ))
       persistent_disk: (( disk_pools.mysql-persistent-disk.disk_size ))
