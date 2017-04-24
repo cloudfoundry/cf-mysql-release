@@ -39,7 +39,8 @@
          name: "proxy_#{proxy_index}",
          port: p('cf_mysql.proxy.api_port'),
          uris: [
-           "proxy-#{proxy_index}-#{p('cf_mysql.external_host')}"
+           "proxy-#{proxy_index}-#{p('cf_mysql.external_host')}",
+           "#{proxy_index}-proxy-#{p('cf_mysql.external_host')}"
          ],
          registration_interval: '10s',
        }
