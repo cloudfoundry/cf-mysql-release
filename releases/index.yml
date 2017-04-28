@@ -51,4 +51,6 @@ builds:
     version: "16"
   f5a4ad97-d3fc-45e7-966d-1ffabe7a7390:
     version: "14"
+  f1584375-d02d-49a8-7ccd-93ef4a90f208:
+    version: 24.15.0
 format-version: "2"
