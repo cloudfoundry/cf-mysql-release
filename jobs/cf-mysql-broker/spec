@@ -36,15 +36,6 @@ packages:
 - quota-enforcer
 
 properties:
-  nats.user:
-    description: 'Username for broker to register a route with NATS'
-  nats.password:
-    description: 'Password for broker to register a route with NATS'
-  nats.port:
-    description: 'IP port of Cloud Foundry NATS server'
-  nats.machines:
-    description: 'IP of each NATS cluster member.'
-
   cf.api_url:
     description: 'URL of the CloudFoundry Cloud Controller'
     example: 'https://api.your-domain.example.com'

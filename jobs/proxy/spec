@@ -36,15 +36,6 @@ packages:
 - syslog_aggregator
 
 properties:
-  nats.user:
-    description: 'Username to register a route via NATS'
-  nats.password:
-    description: 'Password to register a route via NATS'
-  nats.port:
-    description: 'IP port of Cloud Foundry NATS server'
-  nats.machines:
-    description: 'IP of each NATS cluster member.'
-
   syslog_aggregator.address:
     description: "IP address for syslog aggregator"
   syslog_aggregator.port:
