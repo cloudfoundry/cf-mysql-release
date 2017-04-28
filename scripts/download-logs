@@ -11,7 +11,7 @@ function usage(){
   -n (Required) IP address or hostname of the mysql or proxy node to retrieve logs from (can be specified multiple times)
   -d (Required) The output directory
   -X (Optional) Include audit and binary logs
-  -i (Optional) Private SSH key authentication
+  -i (Optional) Location of the ssh private key file for the identity used by VMs in the deployment.
 
   example:
     ./download-logs -d /tmp -n 10.0.0.1 -n 10.0.0.2
