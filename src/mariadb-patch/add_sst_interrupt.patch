@@ -8,9 +8,9 @@ index a836d5e..14e8b5e 100644
 
 +        if [ ${DISABLE_SST:=0} -eq 1 ]
 +        then
-+            wsrep_log_error "##############################################################################"
-+            wsrep_log_error "SST disabled due to danger of data loss. Verify data and bootstrap the cluster"
-+            wsrep_log_error "##############################################################################"
++            wsrep_log_error "#####################################################################################"
++            wsrep_log_error "SST disabled due to danger of data loss. Verify data and run the rejoin-unsafe errand"
++            wsrep_log_error "#####################################################################################"
 +
 +            if [ -n "${INTERRUPT_NOTIFY_CMD:=}" ]
 +            then
