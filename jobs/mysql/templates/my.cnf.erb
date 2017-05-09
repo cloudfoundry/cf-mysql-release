@@ -56,10 +56,10 @@ wsrep_sst_method=xtrabackup-v2
 wsrep_sst_auth=<%= p('cf_mysql.mysql.admin_username')%>:<%= p('cf_mysql.mysql.admin_password')%>
 wsrep_max_ws_rows=<%= p('cf_mysql.mysql.wsrep_max_ws_rows') %>
 wsrep_max_ws_size=<%= p('cf_mysql.mysql.wsrep_max_ws_size') %>
-wsrep_load_data_splitting='ON'
-wsrep_replicate_myisam='OFF'
+wsrep_load_data_splitting = ON
+wsrep_replicate_myisam = OFF
 <% if p('cf_mysql.mysql.log_conflicts') %>
-wsrep_log_conflicts='ON'
+wsrep_log_conflicts = ON
 <% end %>
 wsrep_debug=<%= p('cf_mysql.mysql.wsrep_debug') %>
 
