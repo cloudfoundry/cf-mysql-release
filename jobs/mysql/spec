@@ -204,4 +204,7 @@ properties:
   cf_mysql.mysql.startup_timeout:
     default: 60
     description: 'Number of seconds that monit should wait for mysql to start before giving up'
+  cf_mysql.mysql.enable_local_file:
+    default: false
+    description: 'Allow or disallow clients to access local files'
 

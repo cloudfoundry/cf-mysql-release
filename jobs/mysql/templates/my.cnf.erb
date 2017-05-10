@@ -86,6 +86,11 @@ max_allowed_packet = <%= p('cf_mysql.mysql.max_allowed_packet') %>
 enforce_storage_engine = InnoDB
 sql-mode  = NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION,STRICT_ALL_TABLES
 
+<% if p('cf_mysql.mysql.enable_local_file') %>
+local_infile = ON
+<% else %>
+local_infile = OFF
+<% end %>
 <% if p('cf_mysql.mysql.binlog_enabled') %>
 log_bin = mysql-bin
 log_slave_updates = 1
