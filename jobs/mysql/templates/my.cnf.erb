@@ -78,6 +78,7 @@ log_error = /var/vcap/sys/log/mysql/mysql.err.log
 init_file = /var/vcap/jobs/mysql/config/mariadb_init
 skip_external_locking = TRUE
 symbolic-links = OFF
+secure_file_priv = /var/vcap/data/mysql/files
 
 max_allowed_packet = <%= p('cf_mysql.mysql.max_allowed_packet') %>
 <% if_p('cf_mysql.mysql.skip_name_resolve') do |disable_dns| %>

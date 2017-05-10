@@ -15,6 +15,7 @@ MARIADB_JOB_DIR=/var/vcap/jobs/mysql
 JOB_INDEX=<%= index %>
 TMP_DIR=/var/vcap/data/mysql/tmp
 PERSISTENT_TMP_DIR=/var/vcap/data/tmp
+SECURE_FILE_PRIV=/var/vcap/data/mysql/files
 
 source /var/vcap/packages/cf-mysql-common/pid_utils.sh
 
@@ -26,6 +27,10 @@ if [[ ! -d "$TMP_DIR" ]]; then
 fi
 chown -R vcap:vcap $TMP_DIR
 chown -R vcap:vcap $PERSISTENT_TMP_DIR
+
+mkdir -p $SECURE_FILE_PRIV
+chmod 0750 $SECURE_FILE_PRIV
+chown -R vcap:vcap $SECURE_FILE_PRIV
 
 mkdir -p $LOG_DIR
 touch $LOG_FILE
