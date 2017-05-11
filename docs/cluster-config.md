@@ -74,9 +74,13 @@ it is possible for queries to receive no space left errors.
 
 ### Security Concerns
 
-We use the `--skip-symbolic-links` flag to prevent use of symbolic links. With
+MySQL as its associated processes are run as `vcap`, never `root`.
+
+cf-mysql always uses the `--skip-symbolic-links` flag to prevent use of symbolic links.
+This is a general security recommendation for MySQL
+([docs](https://dev.mysql.com/doc/refman/5.7/en/security-against-attack.html). With
 symbolic links enabled, if somebody had write access to the data directory, they could
-delete any file in the system.
+change or delete other files owned by the same user.
 
 We expose an `enable_local_file` property with a default of `false` to toggle the
 `local_infile` system variable. This causes the server to refuse all LOAD DATA LOCAL
