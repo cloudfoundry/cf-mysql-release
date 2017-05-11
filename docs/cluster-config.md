@@ -71,3 +71,16 @@ uses more than 32MB of data space. Users can see if a query is using a temporary
 table by using the EXPLAIN command and looking for "Using temporary," in the output.
 If the server processes very large queries that use /tmp space simultaneously,
 it is possible for queries to receive no space left errors.
+
+### Security Concerns
+
+We use the `--skip-symbolic-links` flag to prevent use of symbolic links. With
+symbolic links enabled, if somebody had write access to the data directory, they could
+delete any file in the system.
+
+We expose an `enable_local_file` property with a default of `false` to toggle the
+`local_infile` system variable. This causes the server to refuse all LOAD DATA LOCAL
+statements, punting those with an ERROR 1148.
+
+`secure_file_priv` has been configured to `/var/vcap/data/mysql/files` to ensure
+files are not accidentally exposed.
