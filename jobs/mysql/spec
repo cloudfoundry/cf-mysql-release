@@ -108,6 +108,10 @@ properties:
   cf_mysql.mysql.galera_healthcheck.db_password:
     description: 'Password used by the sidecar to connect to the database'
 
+  cf_mysql.mysql.cluster_probe_timeout:
+    description: 'The maximum time, in seconds, that a new node will search for an existing cluster.'
+    default: 10
+
   cf_mysql.mysql.binlog_enabled:
     default: true
     description: 'Enable binlogs across all nodes'

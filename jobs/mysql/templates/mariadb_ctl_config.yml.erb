@@ -29,7 +29,7 @@ Db:
   UpgradePath: /var/vcap/packages/mariadb/bin/mysql_upgrade
   User: <%= p('cf_mysql.mysql.admin_username')%>
   Password: <%= p('cf_mysql.mysql.admin_password')%>
-  ReadOnlyUserEnabled: <%= p('cf_mysql.mysql.roadmin_enabled')%> 
+  ReadOnlyUserEnabled: <%= p('cf_mysql.mysql.roadmin_enabled')%>
   ReadOnlyUser: roadmin
 <% if_p('cf_mysql.mysql.roadmin_password') do |rpwd| %>
   ReadOnlyPassword: <%= rpwd %>
@@ -54,3 +54,4 @@ Manager:
   <% end %>
   MyIP: <%= network_ip %>
   DatabaseStartupTimeout: <%= (p('cf_mysql.mysql.database_startup_timeout') * 0.8).round %>
+  ClusterProbeTimeout: <%= p('cf_mysql.mysql.cluster_probe_timeout') %>
