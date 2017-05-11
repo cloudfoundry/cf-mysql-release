@@ -179,6 +179,10 @@ properties:
     description: 'Path to a binary to run when SST is prevented from running'
     default: ""
 
+  cf_mysql.mysql.cluster_probe_timeout:
+    description: 'The maximum time, in seconds, that a new node will search for an existing cluster.'
+    default: 10
+
   cf_mysql.mysql.userstat:
     default: false
     description: 'Enables user statistics, adding several new information schema tables and new FLUSH and SHOW commands.'
