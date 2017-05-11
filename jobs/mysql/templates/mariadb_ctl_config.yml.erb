@@ -77,3 +77,4 @@ Manager:
   - <%= ip %>
   <% end %>
   MyIP: <%= node_host %>
+  ClusterProbeTimeout: <%= p('cf_mysql.mysql.cluster_probe_timeout') %>
