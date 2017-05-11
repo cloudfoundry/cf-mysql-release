@@ -41,3 +41,4 @@ Manager:
   <% end %>
   MyIP: <%= network_ip %>
   DatabaseStartupTimeout: <%= (p('database_startup_timeout') * 0.8).round %>
+  ClusterProbeTimeout: <%= p('cf_mysql.mysql.cluster_probe_timeout') %>
