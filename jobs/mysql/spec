@@ -2,6 +2,7 @@
 name: mysql
 
 templates:
+  drain.sh: bin/drain
   mariadb_ctl.erb: bin/mariadb_ctl
   my.cnf.erb: config/my.cnf
   mylogin.cnf.erb: config/mylogin.cnf
