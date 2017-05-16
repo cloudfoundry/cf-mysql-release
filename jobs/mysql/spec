@@ -2,6 +2,7 @@
 name: mysql
 
 templates:
+  disable_mysql_cli_history.sh.erb: config/disable_mysql_cli_history.sh
   drain.sh: bin/drain
   mariadb_ctl.erb: bin/mariadb_ctl
   my.cnf.erb: config/my.cnf
@@ -194,6 +195,9 @@ properties:
   cf_mysql.mysql.binlog_expire_days:
     default: 7
     description: 'Time in days to store binlogs before purging'
+  cf_mysql.mysql.cli_history:
+    description: "When set to false, disables cli history on the mysql vms."
+    default: true
   cf_mysql.mysql.wsrep_debug:
     description: "When set to on, enables additional debugging output for the database server error log."
     default: "off"
