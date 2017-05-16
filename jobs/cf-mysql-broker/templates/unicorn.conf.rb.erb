@@ -6,7 +6,7 @@ worker_processes 4
 
 working_directory '/var/vcap/packages/cf-mysql-broker'
 
-listen 80, :tcp_nopush => true
+listen <%= p('cf_mysql.broker.nginx.port') %>, :tcp_nopush => true
 
 pid '/var/vcap/sys/run/cf-mysql-broker/unicorn.pid'
 

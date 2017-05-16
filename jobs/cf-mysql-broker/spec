@@ -105,3 +105,6 @@ properties:
   cf_mysql.broker.quota_enforcer.pause:
     description: 'In seconds, the interval that the Quota Enforcer pauses between checks for violators and reformers'
     default: 1
+  cf_mysql.broker.nginx.port:
+    default: 80
+    description: "Port for nginx"
