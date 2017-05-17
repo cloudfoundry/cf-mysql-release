@@ -24,7 +24,7 @@ PATH=$PATH:/var/vcap/packages/python/bin
 # Go Agent cannot handle more than 10MB output, so trim it
 #
 set +e
-/var/vcap/packages/scons/bin/scons > build.out 2> build.err
+/var/vcap/packages/scons/bin/scons tests=0 > build.out 2> build.err
 BUILD_EXIT_CODE=$?
 set -e
 
