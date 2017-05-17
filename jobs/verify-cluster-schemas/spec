@@ -14,10 +14,6 @@ consumes:
 templates:
   run.rb.erb: bin/run
 properties:
-  cf_mysql.mysql.cluster_ips:
-    description: 'IP addresses of all MySQL nodes'
-  cf_mysql.proxy.arbitrator_ip:
-    description: 'IP address of the arbitrator if it exists'
   cf_mysql.mysql.port:
     description: 'Port the mysql servers are running on'
     default: 3306

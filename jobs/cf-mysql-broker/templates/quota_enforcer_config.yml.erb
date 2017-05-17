@@ -15,14 +15,7 @@
   if_link('proxy') do |proxy|
     db_port = proxy.p('cf_mysql.proxy.port')
   end.else do
-    if_link('mysql') do |mysql|
-      db_port = mysql.p('cf_mysql.mysql.port')
-    end.else do
-      # This will not work if the proxy and mysql are on different ports,
-      # and is a consequency of using the same, globally-namespaced property
-      # for the mysql and the broker jobs, but not for the proxy job.
-      db_port = p('cf_mysql.mysql.port')
-    end
+    db_port = link('mysql').p('cf_mysql.mysql.port')
   end
 
   db_host = nil
@@ -32,9 +25,7 @@
     if_link('proxy') do |proxy|
       db_host = proxy.instances.first.address
     end.else do
-      if_link('mysql') do |mysql|
-        db_host = mysql.instances.first.address
-      end
+      db_host = link('mysql').instances.first.address
     end
   end
 

@@ -44,8 +44,6 @@ properties:
     description: "Transport to be used when forwarding logs (tcp|udp|relp)."
     default: "tcp"
 
-  cf_mysql.mysql.cluster_ips:
-    description: "Optional, list of nodes.  Must have the same number of ips as there are nodes in the cluster"
   cf_mysql.mysql.port:
     description: 'Port the mysql server listens on'
     default: 3306
@@ -81,12 +79,6 @@ properties:
   cf_mysql.proxy.health_port:
     description: "Port for checking the health of the proxy process"
     default: 1936
-  cf_mysql.proxy.proxy_ips:
-    description: "Optional, list of IP addresses for all proxy jobs"
-  cf_mysql.proxy.arbitrator_ip:
-    description: |
-      Optional, list of IP addresses for the arbitrator nodes of the MySQL cluster
-    default: null
   cf_mysql.proxy.consul_enabled:
     description: |
       Enable discovery of switchboard through consul

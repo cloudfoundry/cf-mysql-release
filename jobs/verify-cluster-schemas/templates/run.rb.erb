@@ -3,23 +3,12 @@
 require '/var/vcap/packages/cluster-schema-verifier/cluster_schema_verifier.rb'
 
 <%
-  cluster_ips = nil
-  galera_healthcheck_port = nil
-  if_link('mysql') do
-    cluster_ips = link('mysql').instances.map(&:address).compact
-    galera_healthcheck_port = link('mysql').p('cf_mysql.mysql.galera_healthcheck.port')
-  end.else do
-    cluster_ips = p('cf_mysql.mysql.cluster_ips').compact
-    galera_healthcheck_port = p('cf_mysql.mysql.galera_healthcheck.port')
-  end
+  cluster_ips = link('mysql').instances.map(&:address).compact
+  galera_healthcheck_port = link('mysql').p('cf_mysql.mysql.galera_healthcheck.port')
 
   arbitrator_ip = nil
   if_link('arbitrator') do |arbitrator|
     arbitrator_ip = arbitrator.instances.map(&:address).first
-  end.else do
-    if_p('cf_mysql.proxy.arbitrator_ip') do |ip|
-      arbitrator_ip = ip
-    end
   end
 %>
 

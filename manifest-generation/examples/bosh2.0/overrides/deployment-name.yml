@@ -1,5 +1,0 @@
----
-# The deployment name should match what is provided with -d when using the CLI
-- type: replace
-  path: /name?
-  value: my-custom-deployment-name

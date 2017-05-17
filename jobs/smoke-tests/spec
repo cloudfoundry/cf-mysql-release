@@ -85,6 +85,3 @@ properties:
   cf_mysql.proxy.api_force_https:
     description: 'Expect proxy to force redirect to HTTPS'
     default: true
-  cf_mysql.proxy.proxy_ips:
-    description: 'Use to construct an array of proxy dashboard url (e.g. https://proxy-INDEX-EXTERNAL_HOST)'
-    default: null

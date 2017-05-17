@@ -99,8 +99,6 @@ properties:
   cf_mysql.mysql.innodb_flush_log_at_trx_commit:
     description: 'Optional, control balance between performance and full ACID compliance. Valid values are: 0, 1, 2'
     default: 1
-  cf_mysql.mysql.cluster_ips:
-    description: 'Optional, list of nodes.  Must have the same number of ips as there are nodes in the cluster'
   cf_mysql.mysql.max_allowed_packet:
     description: 'The maximum size in bytes of a packet or a generated/intermediate string'
     default: 256M
