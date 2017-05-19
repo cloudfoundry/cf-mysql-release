@@ -73,7 +73,12 @@ for node in "${nodes[@]}"; do
       --gzip \
       --null \
       --files-from -" > "${output_dir}/${node}.tar.gz"
+  exit_code=$?
   set -e
+  if [ ${exit_code} == 255 ]; then
+    echo -e "\n********** Error occurred while trying to ssh into ${node} **********"
+    exit 1
+  fi
 done
 
 pushd "${output_dir}"
