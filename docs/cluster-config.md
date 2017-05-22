@@ -97,4 +97,4 @@ The following default users are created:
 | cluster-health-logger@127.0.0.1 | USAGE ON \*.\* |
 | galera-healthcheck@127.0.0.1 | USAGE ON \*.\* |
 | cf-mysql-broker@% | SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER, CREATE TABLESPACE ON \*.\* WITH GRANT OPTION |
-| quota-enforcer@% | ALL PRIVILEGES ON \*.\* |
+| quota-enforcer@% | ALL PRIVILEGES ON \*.\* WITH GRANT OPTION |
