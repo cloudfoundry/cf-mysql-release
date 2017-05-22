@@ -49,7 +49,7 @@ provides:
   - cf_mysql.mysql.galera_healthcheck.port
   - cf_mysql.mysql.galera_healthcheck.endpoint_username
   - cf_mysql.mysql.galera_healthcheck.endpoint_password
-- name: mysql-database
+- name: internal-mysql-database
   type: database
 
 properties:
