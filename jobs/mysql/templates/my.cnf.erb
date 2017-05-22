@@ -74,6 +74,7 @@ skip_external_locking = TRUE
 symbolic-links = OFF
 secure_file_priv = /var/vcap/data/mysql/files
 table_definition_cache = <%= p('cf_mysql.mysql.table_definition_cache_size') %>
+table_open_cache = <%= p('cf_mysql.mysql.table_open_cache') %>
 
 max_allowed_packet = <%= p('cf_mysql.mysql.max_allowed_packet') %>
 <% if_p('cf_mysql.mysql.skip_name_resolve') do |disable_dns| %>

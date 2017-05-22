@@ -111,6 +111,9 @@ properties:
   cf_mysql.mysql.table_definition_cache_size:
     description: 'Set this to a number relative to the number of tables the server will manage.'
     default: 8192
+  cf_mysql.mysql.table_open_cache:
+    description: 'Configure the number of table handles to keep open'
+    default: 2000
   cf_mysql.mysql.tmp_table_size:
     description: 'The maximum size (in bytes) of internal in-memory temporary tables'
     default: 33554432
