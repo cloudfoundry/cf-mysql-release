@@ -1,4 +1,2 @@
-GRANT ALL PRIVILEGES ON `cf_%`.* TO `cf-mysql-broker`@`%` IDENTIFIED BY '<%= p('cf_mysql.broker.db_password') %>' WITH GRANT OPTION;
-GRANT CREATE USER ON *.* TO `cf-mysql-broker`@`%`;
-GRANT SELECT ON `mysql`.* TO `cf-mysql-broker`@`%`;
-GRANT ALL PRIVILEGES ON `mysql_broker`.* TO `cf-mysql-broker`@`%`;
+GRANT ALL ON *.* TO 'cf-mysql-broker'@'%' IDENTIFIED BY '<%= p('cf_mysql.broker.db_password') %>' WITH GRANT OPTION;
+REVOKE FILE, PROCESS, REPLICATION CLIENT, REPLICATION SLAVE, SHOW DATABASES, SHUTDOWN, SUPER ON *.* FROM 'cf-mysql-broker';

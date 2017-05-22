@@ -4,7 +4,4 @@
     <% password = quota_enforcer_password %>
 <% end %>
 <% raise('cf_mysql.broker.quota_enforcer.password must be provided') if password.empty? && !disable_quota_enforcer %>
-GRANT ALL PRIVILEGES ON `cf_%`.* TO `quota-enforcer`@`%` IDENTIFIED BY '<%= password %>' WITH GRANT OPTION;
-GRANT SELECT ON `mysql_broker`.* TO `quota-enforcer`@`%`;
-GRANT SELECT ON `mysql`.* TO `quota-enforcer`@`%`;
-GRANT PROCESS, SUPER ON *.* TO `quota-enforcer`@`%`;
+GRANT ALL PRIVILEGES ON *.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= password %>' WITH GRANT OPTION;
