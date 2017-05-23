@@ -1,7 +1,7 @@
 # abort script on any command that exits with a non zero value
 set -e
 
-GALERA_VERSION=25.3.19
+GALERA_VERSION=25.3.20
 
 export HOME=/var/vcap/data
 cd galera
