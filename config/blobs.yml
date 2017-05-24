@@ -1,11 +1,3 @@
-galera/galera-25.3.20.tar.gz:
-  size: 3322846
-  object_id: 5a3df186-0126-40d6-4bde-3aa7528646f1
-  sha: 350bb947ecb40f47186da6e50b3453d29db7d68e
-mariadb/mariadb-10.1.23.tar.gz:
-  size: 61772244
-  object_id: 4e498442-2704-47b0-53e0-4b0c90de941a
-  sha: 59b07e45f99802a53ef20e04c616f652ad678c7c
 boost/boost_1_59_0.tar.gz:
   size: 83709983
   object_id: 9f1801dc-7a8c-4969-a97f-c0432a3a4331
@@ -18,10 +10,18 @@ cli/cf-cli_6.22.2_linux_x86-64.tgz:
   size: 6497363
   object_id: 192e2f8f-869d-4a68-9b89-f071ed3d0643
   sha: 72f398b59bc041826a7658e318794a84bd428729
-golang/go1.7.linux-amd64.tar.gz:
-  size: 81573766
-  object_id: 0aac416f-8a5b-42df-a6ee-1c36c52583d3
-  sha: a744e29da97fc3aadad1ee0d7d89b0d899645e50
+galera/galera-25.3.20.tar.gz:
+  size: 3322846
+  object_id: 5a3df186-0126-40d6-4bde-3aa7528646f1
+  sha: 350bb947ecb40f47186da6e50b3453d29db7d68e
+golang/go1.8.1.linux-amd64.tar.gz:
+  size: 91277742
+  object_id: c29f23d3-8ba4-434b-55ca-9c9650078b89
+  sha: a433f76c569055ff8536d796995518dd91a9fa5b
+mariadb/mariadb-10.1.23.tar.gz:
+  size: 61772244
+  object_id: 4e498442-2704-47b0-53e0-4b0c90de941a
+  sha: 59b07e45f99802a53ef20e04c616f652ad678c7c
 mysqlclient/mariadb-connector-c-2.1.0-src.tar.gz:
   size: 1912888
   object_id: e1e0446a-8cbd-4b8e-b496-fc20f530fd7c
