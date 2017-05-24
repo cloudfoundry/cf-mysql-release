@@ -22,7 +22,7 @@ consumes:
   type: proxy
   optional: true
 
-produces:
+provides:
 - name: broker
   type: broker
 
