@@ -96,6 +96,9 @@ properties:
     description: 'Optional, number of buffer pool instances for InnoDB used if innodb_buffer_pool_size > 1GB'
   cf_mysql.mysql.innodb_lock_wait_timeout:
     description: 'Optional, time in seconds that an InnoDB transaction waits for an InnoDB row lock'
+  cf_mysql.mysql.innodb_log_buffer_size:
+    description: 'Size in bytes of the buffer for writing log files to disk. Increasing this means larger transactions can run without needing to perform disk I/O before committing.'
+    default: 32M
   cf_mysql.mysql.innodb_flush_log_at_trx_commit:
     description: 'Optional, control balance between performance and full ACID compliance. Valid values are: 0, 1, 2'
     default: 1
