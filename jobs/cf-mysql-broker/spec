@@ -52,7 +52,7 @@ properties:
     default: "tcp"
 
   cf_mysql.host:
-    description: 'Host (DNS) or IP address used by the broker and bound applications to reach the service'
+    description: 'Host (DNS) or IP address of the load balancer, which sits above the mysql proxy, used by the broker and bound applications to reach the service'
   cf_mysql.external_host:
     description: 'Host used to register a route for the broker with the router in cf-release via NATS. By registering the broker with Cloud Foundry using this route, and using the router for load balancing, the broker can be horizontally scaled. Domain is typically the same as system domain in cf-release.'
 
