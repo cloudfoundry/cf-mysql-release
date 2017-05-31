@@ -1,89 +1,87 @@
----
 boost/boost_1_55_0.tar.gz:
+  size: 69481257
   object_id: 52348346-ba79-41e1-9c71-74ee464570d6
   sha: 61ed0e57d3c7c8985805bb0682de3f4c65f4b6e5
-  size: 69481257
-scons/scons-2.3.1.tar.gz:
-  object_id: e3136aa7-9bf6-4c49-a26d-9ebe85665818
-  sha: 775e715e49fe5fd8e1d29551a296fdc9267509e7
-  size: 499037
 check/check-0.9.13.tar.gz:
+  size: 752880
   object_id: d6c51160-8a67-4290-a337-dbc9d515d08a
   sha: 09f682d2239b1353818b74d06099a17460450240
-  size: 752880
-pcre-8.35.tar.gz:
-  object_id: 34f25eac-2566-45c5-afee-babae9b83f63
-  sha: 5a0efc7332c6741114372020a60acfed22befcb9
-  size: 1996552
-python/Python-2.7.8.tgz:
-  object_id: f9c52077-dfa2-4f9a-80d4-46e3b22adf51
-  sha: 511960dd78451a06c9df76509635aeec05b2051a
-  size: 14846119
-xtrabackup/autoconf-2.65.tar.gz:
-  object_id: 12402e0c-14bd-4a31-8344-858c09639f67
-  sha: ae9e1ab046822007f25c88e1d8f2166e065da8c2
-  size: 1738880
-xtrabackup/automake-1.14.1.tar.gz:
-  object_id: 22110fae-0404-48d2-a2a0-869b40172c09
-  sha: 0bb1714b78d70cab9907d2013082978a28f48a46
-  size: 2240681
-xtrabackup/libaio_0.3.110.orig.tar.gz:
-  object_id: 10d3be70-6c51-4220-9d46-8de75281fd3d
-  sha: f8f6ed15f22e528f6f415939b07854539e3360e4
-  size: 42270
-xtrabackup/libdbd-mysql-perl_4.025.orig.tar.gz:
-  object_id: 4013014b-5261-4fea-915f-d7f08c3b3733
-  sha: 7c148d347988785239973835f8b5a8b78677ae47
-  size: 135538
-xtrabackup/libdbi-perl_1.630.orig.tar.gz:
-  object_id: 2c9e9439-ef0d-400e-a79c-d608c04ef8c3
-  sha: 8e8ca6484a3e0c7f4e268e46101faed576e072fc
-  size: 588554
-xtrabackup/libtool-2.4.2.tar.gz:
-  object_id: 958f3335-2373-4c4f-9db1-7391a9a7e6f2
-  sha: 22b71a8b5ce3ad86e1094e7285981cae10e6ff88
-  size: 2632347
-xtrabackup/socat-1.7.2.4.tar.gz:
-  object_id: cd877813-c9ac-4596-b4e4-d361fe5bbdb6
-  sha: c33904b83295accef2aaff8adf7eedd3310f9777
-  size: 583762
-xtrabackup/percona-xtrabackup-percona-xtrabackup-2.2.10.tar.gz:
-  object_id: a195ae63-042e-448d-9020-b2dc1bd5b661
-  sha: e93d34bc0ef6bc06bf356523c11c9906a079fd8f
-  size: 33248338
-mysqlclient/mariadb-connector-c-2.1.0-src.tar.gz:
-  object_id: e1e0446a-8cbd-4b8e-b496-fc20f530fd7c
-  sha: 2fea886fd8ddf3e17d6228d282828afeaee0a317
-  size: 1912888
-golang/go1.7.linux-amd64.tar.gz:
-  object_id: 0aac416f-8a5b-42df-a6ee-1c36c52583d3
-  sha: a744e29da97fc3aadad1ee0d7d89b0d899645e50
-  size: 81573766
-ruby/ruby-2.3.1.tar.gz:
-  object_id: ba97d279-69da-4802-b142-83a4c6853bc2
-  sha: c39b4001f7acb4e334cb60a0f4df72d434bef711
-  size: 17797997
-ruby/bundler-1.12.5.gem:
-  object_id: 6aa476be-2c24-43db-a409-3ad7828164b1
-  sha: a414b2aafa54affac99dc453ced5adc152211eb9
-  size: 280064
-ruby/rubygems-2.6.6.tgz:
-  object_id: 605ceb49-5efe-41ae-be4d-79432f783125
-  sha: 2b9b8038fc92a6c5ab6dda3fda95f1f6bc42fd02
-  size: 730034
-ruby/yaml-0.1.6.tar.gz:
-  object_id: 566e2377-6c7b-4c24-8757-60efb86da513
-  sha: f3d404e11bec3c4efcddfd14c42d46f1aabe0b5d
-  size: 503012
 cli/cf-cli_6.21.1_linux_x86-64.tgz:
+  size: 6543090
   object_id: 25b6d3de-e535-4b46-9ba8-1d2222394731
   sha: 7dc397d2a0d93887ef50bc1f852beb686563049e
-  size: 6543090
 galera/galera-25.3.17.tar.gz:
+  size: 3005918
   object_id: de96dedb-2e26-440f-b6c8-8cc31e4a2f77
   sha: ff5c16f1116565cf318c7d84c0f60d7a10d84f0f
-  size: 3005918
+golang/go1.7.linux-amd64.tar.gz:
+  size: 81573766
+  object_id: 0aac416f-8a5b-42df-a6ee-1c36c52583d3
+  sha: a744e29da97fc3aadad1ee0d7d89b0d899645e50
 mariadb/mariadb-10.1.18.tar.gz:
+  size: 61187451
   object_id: c947ae95-6712-4996-a0de-14eb4dcd072a
   sha: 345a108fd92474abc760ca803c121f76c8abef3c
-  size: 61187451
+mysqlclient/mariadb-connector-c-2.1.0-src.tar.gz:
+  size: 1912888
+  object_id: e1e0446a-8cbd-4b8e-b496-fc20f530fd7c
+  sha: 2fea886fd8ddf3e17d6228d282828afeaee0a317
+pcre-8.35.tar.gz:
+  size: 1996552
+  object_id: 34f25eac-2566-45c5-afee-babae9b83f63
+  sha: 5a0efc7332c6741114372020a60acfed22befcb9
+python/Python-2.7.13.tgz:
+  size: 17076672
+  sha: dce2b862a30099ee48c19a7c34e2d7c2eeff5670
+ruby/bundler-1.12.5.gem:
+  size: 280064
+  object_id: 6aa476be-2c24-43db-a409-3ad7828164b1
+  sha: a414b2aafa54affac99dc453ced5adc152211eb9
+ruby/ruby-2.3.1.tar.gz:
+  size: 17797997
+  object_id: ba97d279-69da-4802-b142-83a4c6853bc2
+  sha: c39b4001f7acb4e334cb60a0f4df72d434bef711
+ruby/rubygems-2.6.6.tgz:
+  size: 730034
+  object_id: 605ceb49-5efe-41ae-be4d-79432f783125
+  sha: 2b9b8038fc92a6c5ab6dda3fda95f1f6bc42fd02
+ruby/yaml-0.1.6.tar.gz:
+  size: 503012
+  object_id: 566e2377-6c7b-4c24-8757-60efb86da513
+  sha: f3d404e11bec3c4efcddfd14c42d46f1aabe0b5d
+scons/scons-2.3.1.tar.gz:
+  size: 499037
+  object_id: e3136aa7-9bf6-4c49-a26d-9ebe85665818
+  sha: 775e715e49fe5fd8e1d29551a296fdc9267509e7
+xtrabackup/autoconf-2.65.tar.gz:
+  size: 1738880
+  object_id: 12402e0c-14bd-4a31-8344-858c09639f67
+  sha: ae9e1ab046822007f25c88e1d8f2166e065da8c2
+xtrabackup/automake-1.14.1.tar.gz:
+  size: 2240681
+  object_id: 22110fae-0404-48d2-a2a0-869b40172c09
+  sha: 0bb1714b78d70cab9907d2013082978a28f48a46
+xtrabackup/libaio_0.3.110.orig.tar.gz:
+  size: 42270
+  object_id: 10d3be70-6c51-4220-9d46-8de75281fd3d
+  sha: f8f6ed15f22e528f6f415939b07854539e3360e4
+xtrabackup/libdbd-mysql-perl_4.025.orig.tar.gz:
+  size: 135538
+  object_id: 4013014b-5261-4fea-915f-d7f08c3b3733
+  sha: 7c148d347988785239973835f8b5a8b78677ae47
+xtrabackup/libdbi-perl_1.630.orig.tar.gz:
+  size: 588554
+  object_id: 2c9e9439-ef0d-400e-a79c-d608c04ef8c3
+  sha: 8e8ca6484a3e0c7f4e268e46101faed576e072fc
+xtrabackup/libtool-2.4.2.tar.gz:
+  size: 2632347
+  object_id: 958f3335-2373-4c4f-9db1-7391a9a7e6f2
+  sha: 22b71a8b5ce3ad86e1094e7285981cae10e6ff88
+xtrabackup/percona-xtrabackup-percona-xtrabackup-2.2.10.tar.gz:
+  size: 33248338
+  object_id: a195ae63-042e-448d-9020-b2dc1bd5b661
+  sha: e93d34bc0ef6bc06bf356523c11c9906a079fd8f
+xtrabackup/socat-1.7.2.4.tar.gz:
+  size: 583762
+  object_id: cd877813-c9ac-4596-b4e4-d361fe5bbdb6
+  sha: c33904b83295accef2aaff8adf7eedd3310f9777
