@@ -30,10 +30,10 @@ pcre-8.35.tar.gz:
   size: 1996552
   object_id: 34f25eac-2566-45c5-afee-babae9b83f63
   sha: 5a0efc7332c6741114372020a60acfed22befcb9
-python/Python-2.7.8.tgz:
-  size: 14846119
-  object_id: f9c52077-dfa2-4f9a-80d4-46e3b22adf51
-  sha: 511960dd78451a06c9df76509635aeec05b2051a
+python/Python-2.7.13.tgz:
+  size: 17076672
+  object_id: d97aea2b-8036-4b6a-709c-200865a69da1
+  sha: dce2b862a30099ee48c19a7c34e2d7c2eeff5670
 ruby/bundler-1.12.5.gem:
   size: 280064
   object_id: 6aa476be-2c24-43db-a409-3ad7828164b1
