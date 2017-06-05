@@ -2,7 +2,7 @@
 set -e
 set -x
 
-XTRABACKUP_VERSION=2.2.10
+XTRABACKUP_VERSION=2.4.5
 PREFIX=${BOSH_INSTALL_TARGET}
 
 export PATH=$PATH:${BOSH_INSTALL_TARGET}/bin:/var/vcap/packages/mariadb/bin
@@ -58,6 +58,23 @@ tar xzf xtrabackup/libaio_0.3.110.orig.tar.gz
   cd libaio-0.3.110
   make install
 
+)
+
+# boost
+
+cp -R /var/vcap/packages/boost/lib/* /usr/lib/
+cp -R /var/vcap/packages/boost/include/* /usr/include/
+
+tar xzf xtrabackup/libev-4.22.tar.gz
+(
+	set -e
+
+	cd libev-4.22
+
+	./configure --prefix=/usr --disable-static &&
+	make
+	make check
+  make install
 )
 
 tar xzf xtrabackup/percona-xtrabackup-percona-xtrabackup-${XTRABACKUP_VERSION}.tar.gz

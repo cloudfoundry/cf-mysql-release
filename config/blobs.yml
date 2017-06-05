@@ -1,7 +1,7 @@
-boost/boost_1_55_0.tar.gz:
-  size: 69481257
-  object_id: 52348346-ba79-41e1-9c71-74ee464570d6
-  sha: 61ed0e57d3c7c8985805bb0682de3f4c65f4b6e5
+boost/boost_1_59_0.tar.gz:
+  size: 83709983
+  object_id: 9f1801dc-7a8c-4969-a97f-c0432a3a4331
+  sha: 5123209db194d66d69a9cfa5af8ff473d5941d97
 check/check-0.9.13.tar.gz:
   size: 752880
   object_id: d6c51160-8a67-4290-a337-dbc9d515d08a
@@ -66,15 +66,19 @@ xtrabackup/libaio_0.3.110.orig.tar.gz:
   size: 42270
   object_id: 10d3be70-6c51-4220-9d46-8de75281fd3d
   sha: f8f6ed15f22e528f6f415939b07854539e3360e4
+xtrabackup/libev-4.22.tar.gz:
+  size: 530094
+  object_id: 023ba1e4-a21c-44f8-8c7d-51933bb0a3c9
+  sha: b5cc3f6d8d842e23fccc9b27d318ae7fa3d3bf60
 xtrabackup/libtool-2.4.2.tar.gz:
   size: 2632347
   object_id: 958f3335-2373-4c4f-9db1-7391a9a7e6f2
   sha: 22b71a8b5ce3ad86e1094e7285981cae10e6ff88
-xtrabackup/percona-xtrabackup-percona-xtrabackup-2.2.10.tar.gz:
-  size: 33248338
-  object_id: a195ae63-042e-448d-9020-b2dc1bd5b661
-  sha: e93d34bc0ef6bc06bf356523c11c9906a079fd8f
-xtrabackup/socat-1.7.2.4.tar.gz:
-  size: 583762
-  object_id: cd877813-c9ac-4596-b4e4-d361fe5bbdb6
-  sha: c33904b83295accef2aaff8adf7eedd3310f9777
+xtrabackup/percona-xtrabackup-percona-xtrabackup-2.4.5.tar.gz:
+  size: 51954652
+  object_id: 54fc2860-5858-4c85-b110-3b37633676cb
+  sha: 8f86039fa330739e1a6be77dcbd2274498e090bf
+xtrabackup/socat-1.7.3.1.tar.gz:
+  size: 606049
+  object_id: e70cc852-c9b3-4e69-8b67-0badc7cacaaf
+  sha: a6f1d8ab3e85f565dbe172f33a9be6708dd52ffb
