@@ -66,6 +66,26 @@ if [ -d ${datadir} ]; then
 fi
 <% end %>
 
+DATADIR_DEVICE=$(stat -c "%d" "${datadir}")
+EPHEMERAL_DEVICE=$(stat -c "%d" "/var/vcap/data/")
+if [[ "$DATADIR_DEVICE" == "$EPHEMERAL_DEVICE" ]]
+then
+  echo "###################################################################################################################################" >> "${LOG_FILE}"
+  echo "!!! Data directory (${datadir}) is on the same filesystem as /var/vcap/data. Have you attached persistent disk? !!!" >> "${LOG_FILE}"
+  echo "####################################################################################################################################" >> "${LOG_FILE}"
+  exit 1
+fi
+
+DATADIR_CAPACITY=$(df -B1 --output=target,size "${datadir}" | awk ' NR==2 { print $2 } ')
+MINIMUM_REQUIRED_SPACE=10737418240
+if [[ "${DATADIR_CAPACITY}" < "${MINIMUM_REQUIRED_SPACE}" ]]
+then
+    echo "########################################################################################" >> "${LOG_FILE}"
+    echo "!!! Datadir capacity is ${DATADIR_CAPACITY}, which is under the minimum required: ${MINIMUM_REQUIRED_SPACE} !!!" >> "${LOG_FILE}"
+    echo "########################################################################################" >> "${LOG_FILE}"
+    exit 1
+fi
+
 if ! test -d ${datadir}; then
   log "pre-start setup script: making ${datadir} and running /var/vcap/packages/mariadb/scripts/mysql_install_db"
   mkdir -p ${datadir}
