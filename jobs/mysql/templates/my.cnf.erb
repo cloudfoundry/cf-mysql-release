@@ -118,6 +118,11 @@ innodb_large_prefix = ON
 <% else %>
 innodb_large_prefix = OFF
 <% end %>
+<% if p('cf_mysql.mysql.innodb_strict_mode') %>
+innodb_strict_mode = ON
+<% else %>
+innodb_strict_mode = OFF
+<% end %>
 
 max_heap_table_size = <%= p('cf_mysql.mysql.max_heap_table_size') %>
 tmp_table_size = <%= p('cf_mysql.mysql.tmp_table_size') %>

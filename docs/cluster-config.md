@@ -63,6 +63,11 @@ see MySQL's documentation for
 To take advantage of all the extra features available with the
 `innodb_file_per_table = ON` option, we use the `Barracuda` file format.
 
+### Innodb Strict Mode
+
+Innodb Strict Mode is disabled by default by can be enabled by configuring the
+`cf_mysql.mysql.innodb_strict_mode` property of the mysql job to `true`
+
 ### Temporary Tables
 
 MySQL is configured to convert temporary in-memory tables to temporary on-disk
