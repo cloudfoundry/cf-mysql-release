@@ -2,6 +2,7 @@
 name: xtrabackup
 
 dependencies:
+  - boost
   - mariadb
 
 files:
