@@ -170,6 +170,9 @@ properties:
       - monitoring_user
       - other_excluded_user
       - bot_user
+  cf_mysql.mysql.cluster_name:
+    description: 'A unique name for this cluster. ONLY set before first deployment. DO NOT attempt to change an existing multi-node cluster.'
+    default: 'cf-mariadb-galera-cluster'
   cf_mysql.mysql.cluster_health.log_interval:
     description: 'Time in seconds between log entries for cluster health'
     default: 30

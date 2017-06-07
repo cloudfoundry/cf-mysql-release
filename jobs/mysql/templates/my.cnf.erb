@@ -45,7 +45,7 @@ wsrep_provider_options="gcache.size=<%= p('cf_mysql.mysql.gcache_size') %>M;pc.r
 wsrep_cluster_address="gcomm://<%= cluster_ips.join(",") %>"
 wsrep_node_address='<%= node_host %>:<%= p('cf_mysql.mysql.galera_port') %>'
 wsrep_node_name='<%= name %>/<%= index %>'
-wsrep_cluster_name='cf-mariadb-galera-cluster'
+wsrep_cluster_name='<%= p('cf_mysql.mysql.cluster_name') %>'
 wsrep_sst_method=xtrabackup-v2
 wsrep_sst_auth=<%= p('cf_mysql.mysql.admin_username')%>:<%= p('cf_mysql.mysql.admin_password')%>
 wsrep_max_ws_rows=<%= p('cf_mysql.mysql.wsrep_max_ws_rows') %>
