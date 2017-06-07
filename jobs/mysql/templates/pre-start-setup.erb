@@ -77,12 +77,12 @@ function check_mysql_filesystem() {
 }
 
 function check_mysql_disk_capacity() {
-  local datadir_capacity=$(df -B1 --output=target,size "${datadir}" | awk ' NR==2 { print $2 } ')
-  local minimum_required_space=10737418240  # 10GiB
+  local datadir_capacity=$(df -BMB --output=target,size "${datadir}" | awk ' NR==2 { print $2 } ')
+  local minimum_required_space=10000
   if [[ "${datadir_capacity}" < "${minimum_required_space}" ]]
   then
     echo "########################################################################################" >> "${LOG_FILE}"
-    echo "!!! Datadir capacity is ${datadir_capacity}, which is under the minimum required: ${minium_required_space} !!!" >> "${LOG_FILE}"
+    echo "!!! Datadir capacity is ${datadir_capacity}, which is under the minimum required: ${minimum_required_space} !!!" >> "${LOG_FILE}"
     echo "########################################################################################" >> "${LOG_FILE}"
     exit 1
   fi
