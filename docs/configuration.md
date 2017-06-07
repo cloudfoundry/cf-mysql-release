@@ -53,3 +53,14 @@ Note 1: If a seeded database is renamed in the manifest, a new database will be 
 Note 2: If all you need is a database deployment, it is possible to deploy this
 release with zero broker instances and completely remove any dependencies on Cloud Foundry.
 See the [proxy](jobs/proxy/spec) and [acceptance-tests](jobs/acceptance-tests/spec) spec files for standalone configuration options.
+
+## Setting wsrep_cluster_name
+
+The current the version now allows `wsrep_cluster_name` to be set manually.
+
+To set the name for a new cluster, update the `cf_mysql.mysql.cluster_name` property in the mysql instance group. Deploy and the cluster should come up with your new name.
+
+To set the name for an existing cluster is a bit more moving parts and requires some down time. Steps are as follows:
+ * Scale the cluster down to 1 node
+ * Update the `cf_mysql.mysql.cluster_name` property in the mysql instance group
+ * Scale the cluster back up to 3 nodes
