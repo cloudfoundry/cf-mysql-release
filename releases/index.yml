@@ -33,6 +33,8 @@ builds:
     version: "6"
   a3f883bb-2bc8-4071-8524-ebebcc5b4f88:
     version: "18"
+  b4a23707-b19e-4b54-6167-5ded0b6b05eb:
+    version: 24.18.0
   ccbf21f1-c3eb-4f3b-97e0-8dd66bf4a412:
     version: "23"
   d4d7ae44-068b-4755-aade-bdc10d46d5e7:
