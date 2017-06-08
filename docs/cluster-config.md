@@ -63,6 +63,14 @@ see MySQL's documentation for
 To take advantage of all the extra features available with the
 `innodb_file_per_table = ON` option, we use the `Barracuda` file format.
 
+### Innodb Flush Method
+
+Defines the method used to flush data to InnoDB data files, which can affect I/O throughput. If unspecified, fsync() is
+used to flush data and logs. Buffered I/O is used when reading from disk and uses the OS caching mechanisms.
+`cf_mysql.mysql.innodb_flush_method` may be set to `O_DIRECT` to avoid double-buffering, which may be more performant
+when `innodb_buffer_pool_size` is also set sufficiently large. `O_DIRECT` does not use the OS file caching mechanisms
+and may be slower in some environments.
+
 ### Innodb Strict Mode
 
 Innodb Strict Mode is disabled by default by can be enabled by configuring the
