@@ -81,8 +81,8 @@ if standalone_tests_only
   config[:standalone] = {
     host:     mysql_host,
     port:     p('cf_mysql.mysql.port'),
-    username: p('cf_mysql.mysql.admin_username'),
-    password: p('cf_mysql.mysql.admin_password')
+    username: 'smoke-tests',
+    password: p('cf_mysql.smoke_tests.db_password')
   }
 end
 

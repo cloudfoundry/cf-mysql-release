@@ -1,0 +1,6 @@
+#!/bin/bash
+set -eux
+
+/var/vcap/packages/mariadb/bin/mysql \
+  --defaults-file="/var/vcap/jobs/mysql/config/mylogin.cnf" \
+  < "/var/vcap/jobs/smoke-tests-user/config/smoke_tests_user_setup.sql"

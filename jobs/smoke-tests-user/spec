@@ -1,0 +1,12 @@
+---
+name: smoke-tests-user
+
+templates:
+  post-start.erb: bin/post-start
+  smoke_tests_user_setup.sql.erb: config/smoke_tests_user_setup.sql
+
+packages: []
+
+properties:
+  cf_mysql.smoke_tests.db_password:
+    description: 'Password for generated database user'
