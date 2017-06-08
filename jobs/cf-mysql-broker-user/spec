@@ -1,0 +1,15 @@
+---
+name: cf-mysql-broker-user
+
+templates:
+  post-start.erb: bin/post-start
+  cf_mysql_broker_user_setup.sql.erb: config/cf_mysql_broker_user_setup.sql
+  quota_enforcer_user_setup.sql.erb: config/quota_enforcer_user_setup.sql
+
+consumes:
+- name: broker
+  type: broker
+
+packages: []
+
+properties: {}

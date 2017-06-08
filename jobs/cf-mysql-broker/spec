@@ -3,14 +3,11 @@ name: cf-mysql-broker
 
 templates:
   settings.yml.erb: config/settings.yml
-  mylogin.cnf.erb: config/mylogin.cnf
   cf-mysql-broker_ctl.erb: bin/cf-mysql-broker_ctl
-  cf_mysql_broker_setup.sql.erb: config/cf_mysql_broker_setup.sql
   unicorn.conf.rb.erb: config/unicorn.conf.rb
   database.yml.erb: config/database.yml
   quota-enforcer_ctl.erb: bin/quota-enforcer_ctl
   quota_enforcer_config.yml.erb: config/quota_enforcer_config.yml
-  quota_enforcer_setup.sql.erb: config/quota_enforcer_setup.sql
   syslog_forwarder.conf.erb: config/syslog_forwarder.conf
   healthcheck.sh.erb: bin/healthcheck.sh
 
@@ -25,6 +22,10 @@ consumes:
 provides:
 - name: broker
   type: broker
+  properties:
+  - cf_mysql.broker.db_password
+  - cf_mysql.broker.disable_quota_enforcer
+  - cf_mysql.broker.quota_enforcer.password
 
 packages:
 - ruby
@@ -59,11 +60,6 @@ properties:
   cf_mysql.mysql.port:
     description: 'Port used by the broker and bound applications to reach the service'
     default: 3306
-  cf_mysql.mysql.admin_username:
-    description: 'Username for the admin MySQL account'
-    default: 'root'
-  cf_mysql.mysql.admin_password:
-    description: 'Password for the admin MySQL account'
   cf_mysql.mysql.persistent_disk:
     description: 'Size of the persistent disk allocated to the MySQL node for storage'
   cf_mysql.mysql.gcache_size:

@@ -1,7 +1,0 @@
-<% disable_quota_enforcer = p('cf_mysql.broker.disable_quota_enforcer') %>
-<% password = '' %>
-<% if_p('cf_mysql.broker.quota_enforcer.password') do |quota_enforcer_password| %>
-    <% password = quota_enforcer_password %>
-<% end %>
-<% raise('cf_mysql.broker.quota_enforcer.password must be provided') if password.empty? && !disable_quota_enforcer %>
-GRANT ALL PRIVILEGES ON *.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= password %>' WITH GRANT OPTION;

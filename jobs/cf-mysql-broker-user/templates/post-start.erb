@@ -1,0 +1,10 @@
+#!/bin/bash
+set -eux
+
+/var/vcap/packages/mariadb/bin/mysql \
+  --defaults-file="/var/vcap/jobs/mysql/config/mylogin.cnf" \
+  < "/var/vcap/jobs/cf-mysql-broker-user/config/cf_mysql_broker_user_setup.sql"
+
+/var/vcap/packages/mariadb/bin/mysql \
+  --defaults-file="/var/vcap/jobs/mysql/config/mylogin.cnf" \
+  < "/var/vcap/jobs/cf-mysql-broker-user/config/quota_enforcer_user_setup.sql"

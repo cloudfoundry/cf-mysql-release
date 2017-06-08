@@ -1,0 +1,2 @@
+GRANT ALL ON *.* TO 'cf-mysql-broker'@'%' IDENTIFIED BY '<%= link('broker').p('cf_mysql.broker.db_password') %>' WITH GRANT OPTION;
+REVOKE FILE, PROCESS, REPLICATION CLIENT, REPLICATION SLAVE, SHOW DATABASES, SHUTDOWN, SUPER ON *.* FROM 'cf-mysql-broker';

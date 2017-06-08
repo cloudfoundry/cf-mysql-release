@@ -1,0 +1,3 @@
+<% unless link('broker').p('cf_mysql.broker.disable_quota_enforcer') %>
+GRANT ALL PRIVILEGES ON *.* TO 'quota-enforcer'@'%' IDENTIFIED BY '<%= link('broker').p('cf_mysql.broker.quota_enforcer.password') %>' WITH GRANT OPTION;
+<% end %>
