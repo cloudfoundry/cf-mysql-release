@@ -106,8 +106,10 @@ The following default users are created:
 
 | User | Permissions |
 |---|---|
-| root@% or cf_mysql.mysql.admin_username@% | ALL PRIVILEGES ON \*.\* WITH GRANT OPTION |
+| cf_mysql.mysql.admin_username@localhost | ALL PRIVILEGES ON \*.\* WITH GRANT OPTION |
 | cluster-health-logger@127.0.0.1 | USAGE ON \*.\* |
 | galera-healthcheck@127.0.0.1 | USAGE ON \*.\* |
 | cf-mysql-broker@% | SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER, CREATE TABLESPACE ON \*.\* WITH GRANT OPTION |
 | quota-enforcer@% | ALL PRIVILEGES ON \*.\* WITH GRANT OPTION |
+
+`cf_mysql.mysql.admin_username@localhost` is only able to connect locally from the mysql nodes when `cf_mysql.mysql.remote_admin_access` is disabled.

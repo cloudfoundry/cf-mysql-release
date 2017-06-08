@@ -68,6 +68,9 @@ properties:
     description: 'Password for the MySQL server admin user'
   cf_mysql.mysql.previous_admin_username:
     description: 'Optional. Previous username of the MySQL server admin user to be removed. Use this when changing the admin_username to avoid leaving around an unused user with root access.'
+  cf_mysql.mysql.remote_admin_access:
+    description: 'When enabled, admin and roadmin will be able to connect from any remote host.'
+    default: false
   cf_mysql.mysql.port:
     description: 'Port the mysql server should bind to'
     default: 3306
