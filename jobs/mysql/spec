@@ -102,6 +102,8 @@ properties:
   cf_mysql.mysql.innodb_flush_log_at_trx_commit:
     description: 'Optional, control balance between performance and full ACID compliance. Valid values are: 0, 1, 2'
     default: 1
+  cf_mysql.mysql.innodb_flush_method:
+    description: 'Advanced configuration variable, consult the documentation before changing. Controls how MySQL opens data files; by default uses fsync(). Set to O_DIRECT if innodb_buffer_pool is sufficiently large that you can use O_DIRECT thus avoiding double-buffering.'
   cf_mysql.mysql.innodb_large_prefix_enabled:
     description: 'Whether innodb_large_prefix is enabled'
     default: true

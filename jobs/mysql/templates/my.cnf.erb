@@ -28,6 +28,12 @@
   if_p('cf_mysql.mysql.advertise_host') do |advertise_host|
     node_host = advertise_host
   end
+
+  if_p('cf_mysql.mysql.innodb_flush_method') do |innodb_flush_method|
+    if innodb_flush_method != 'O_DIRECT'
+        raise "Only innodb-flush-method=O_DIRECT or unset is supported!"
+    end
+  end
 %>
 
 [client]
@@ -166,7 +172,10 @@ innodb_buffer_pool_size = <%= innodb_buffer_pool_size %>
 <% if_p('cf_mysql.mysql.innodb_buffer_pool_instances') do |innodb_buffer_pool_instances| %>
 innodb_buffer_pool_instances = <%= innodb_buffer_pool_instances %>
 <% end %>
-innodb_flush_method=O_DIRECT
+<% if_p('cf_mysql.mysql.innodb_flush_method') do |innodb_flush_method| %>
+innodb_flush_method = <%= innodb_flush_method %>
+<% end %>
+
 innodb_log_buffer_size = <%= p('cf_mysql.mysql.innodb_log_buffer_size') %>
 
 <% if_p('cf_mysql.mysql.max_connections') do |max_connections| %>
