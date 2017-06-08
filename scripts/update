@@ -37,8 +37,6 @@ git submodule foreach --recursive 'git submodule sync; git clean -d --force --fo
 # Update submodule content, checkout if necessary
 git submodule update --init --recursive --force
 
-git clean -ffd
-
 set +x # stop showing commands
 
 echo "Update complete"
