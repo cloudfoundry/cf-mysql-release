@@ -218,7 +218,7 @@ properties:
     default: true
   cf_mysql.mysql.wsrep_debug:
     description: "When set to on, enables additional debugging output for the database server error log."
-    default: "off"
+    default: "OFF"
   cf_mysql.mysql.log_conflicts:
     default: true
     description: 'Defines whether the node logs additional information about conflicts. The values that were in conflict are logged, so it is possible for user data to end up in the logs.'
@@ -226,7 +226,7 @@ properties:
     default: false
     description: "Queries that don't use an index, or that perform a full index scan where the index doesn't limit the number of rows, will be logged to the slow query log."
   cf_mysql.mysql.event_scheduler:
-    default: "off"
+    default: "OFF"
     description: Events are named database objects containing SQL statements that are to be executed at a later stage, either once off, or at regular intervals.
   cf_mysql.mysql.startup_timeout:
     default: 60

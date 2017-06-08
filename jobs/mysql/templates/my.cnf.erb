@@ -34,164 +34,164 @@
         raise "Only innodb-flush-method=O_DIRECT or unset is supported!"
     end
   end
-%>
+-%>
 
 [client]
-port      = <%= p('cf_mysql.mysql.port') %>
-socket		= <%= "#{base_folder}/mysqld.sock" %>
+port                            = <%= p('cf_mysql.mysql.port') %>
+socket                          = <%= "#{base_folder}/mysqld.sock" %>
 
 [mysqld_safe]
-nice      = 0
+nice                            = 0
 
 [mysqld]
 # GALERA options:
-wsrep_on=ON
-wsrep_provider=/var/vcap/packages/mariadb/lib/plugin/libgalera_smm.so
-wsrep_provider_options="gcache.size=<%= p('cf_mysql.mysql.gcache_size') %>M;pc.recovery=TRUE;pc.checksum=TRUE"
-wsrep_cluster_address="gcomm://<%= cluster_ips.join(",") %>"
-wsrep_node_address='<%= node_host %>:<%= p('cf_mysql.mysql.galera_port') %>'
-wsrep_node_name='<%= name %>/<%= index %>'
-wsrep_cluster_name='<%= p('cf_mysql.mysql.cluster_name') %>'
-wsrep_sst_method=xtrabackup-v2
-wsrep_sst_auth=<%= p('cf_mysql.mysql.admin_username')%>:<%= p('cf_mysql.mysql.admin_password')%>
-wsrep_max_ws_rows=<%= p('cf_mysql.mysql.wsrep_max_ws_rows') %>
-wsrep_max_ws_size=<%= p('cf_mysql.mysql.wsrep_max_ws_size') %>
-wsrep_load_data_splitting = ON
-wsrep_replicate_myisam = OFF
-<% if p('cf_mysql.mysql.log_conflicts') %>
-wsrep_log_conflicts = ON
-<% end %>
-wsrep_debug=<%= p('cf_mysql.mysql.wsrep_debug') %>
+wsrep_on                        = ON
+wsrep_provider                  = /var/vcap/packages/mariadb/lib/plugin/libgalera_smm.so
+wsrep_provider_options          = "gcache.size=<%= p('cf_mysql.mysql.gcache_size') %>M;pc.recovery=TRUE;pc.checksum=TRUE"
+wsrep_cluster_address           = gcomm://<%= cluster_ips.join(",") %>
+wsrep_node_address              = <%= node_host -%>:<%= p('cf_mysql.mysql.galera_port') %>
+wsrep_node_name                 = <%= name -%>/<%= index %>
+wsrep_cluster_name              = <%= p('cf_mysql.mysql.cluster_name') %>
+wsrep_sst_method                = xtrabackup-v2
+wsrep_sst_auth                  = <%= p('cf_mysql.mysql.admin_username')%>:<%= p('cf_mysql.mysql.admin_password') %>
+wsrep_max_ws_rows               = <%= p('cf_mysql.mysql.wsrep_max_ws_rows') %>
+wsrep_max_ws_size               = <%= p('cf_mysql.mysql.wsrep_max_ws_size') %>
+wsrep_load_data_splitting       = ON
+wsrep_replicate_myisam          = OFF
+<% if p('cf_mysql.mysql.log_conflicts') -%>
+wsrep_log_conflicts             = ON
+<% end -%>
+wsrep_debug                     = <%= p('cf_mysql.mysql.wsrep_debug') %>
 
 # Regular MYSQL options:
-character_set_server    = <%= p('cf_mysql.mysql.character_set_server') %>
-collation_server        = <%= p('cf_mysql.mysql.collation_server') %>
-user		= vcap
-socket		= <%= "#{base_folder}/mysqld.sock" %>
-port      = <%= p('cf_mysql.mysql.port') %>
-basedir		= /var/vcap/packages/mariadb
-datadir		= /var/vcap/store/mysql
-tmpdir		= /var/vcap/data/mysql/tmp
-language	= /var/vcap/packages/mariadb/share/english
-pid-file  = /var/vcap/sys/run/mysql/mysql.pid
-log_error = /var/vcap/sys/log/mysql/mysql.err.log
-init_file = /var/vcap/jobs/mysql/config/mariadb_init
-skip_external_locking = TRUE
-symbolic-links = OFF
-secure_file_priv = /var/vcap/data/mysql/files
-table_definition_cache = <%= p('cf_mysql.mysql.table_definition_cache_size') %>
-table_open_cache = <%= p('cf_mysql.mysql.table_open_cache') %>
+character_set_server            = <%= p('cf_mysql.mysql.character_set_server') %>
+collation_server                = <%= p('cf_mysql.mysql.collation_server') %>
+user                            = vcap
+socket                          = <%= "#{base_folder}/mysqld.sock" %>
+port                            = <%= p('cf_mysql.mysql.port') %>
+basedir                         = /var/vcap/packages/mariadb
+datadir                         = /var/vcap/store/mysql
+tmpdir                          = /var/vcap/data/mysql/tmp
+language                        = /var/vcap/packages/mariadb/share/english
+pid-file                        = /var/vcap/sys/run/mysql/mysql.pid
+log_error                       = /var/vcap/sys/log/mysql/mysql.err.log
+init_file                       = /var/vcap/jobs/mysql/config/mariadb_init
+skip_external_locking           = TRUE
+symbolic-links                  = OFF
+secure_file_priv                = /var/vcap/data/mysql/files
+table_definition_cache          = <%= p('cf_mysql.mysql.table_definition_cache_size') %>
+table_open_cache                = <%= p('cf_mysql.mysql.table_open_cache') %>
 
-max_allowed_packet = <%= p('cf_mysql.mysql.max_allowed_packet') %>
-<% if_p('cf_mysql.mysql.skip_name_resolve') do |disable_dns| %>
+max_allowed_packet              = <%= p('cf_mysql.mysql.max_allowed_packet') %>
+<% if_p('cf_mysql.mysql.skip_name_resolve') do |disable_dns| -%>
 <%= "skip_name_resolve" if disable_dns %>
-<% end %>
-enforce_storage_engine = InnoDB
-sql-mode  = NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION,STRICT_ALL_TABLES
+<% end -%>
+enforce_storage_engine          = InnoDB
+sql-mode                        = NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION,STRICT_ALL_TABLES
 
-<% if p('cf_mysql.mysql.enable_local_file') %>
-local_infile = ON
-<% else %>
-local_infile = OFF
-<% end %>
-<% if p('cf_mysql.mysql.binlog_enabled') %>
-log_bin = mysql-bin
-log_slave_updates = 1
-expire_logs_days = <%= p('cf_mysql.mysql.binlog_expire_days') %>
-<% end %>
+<% if p('cf_mysql.mysql.enable_local_file') -%>
+local_infile                    = ON
+<% else -%>
+local_infile                    = OFF
+<% end -%>
+<% if p('cf_mysql.mysql.binlog_enabled') -%>
+log_bin                         = mysql-bin
+log_slave_updates               = 1
+expire_logs_days                = <%= p('cf_mysql.mysql.binlog_expire_days') %>
+<% end -%>
 
 # Required for user to create triggers when binlog is enabled
-log_bin_trust_function_creators=1
+log_bin_trust_function_creators = 1
 
 # Slow query logging:
-slow_query_log = 1
-slow_query_log_file = /var/vcap/sys/log/mysql/mysql_slow_query.log
-<% if p('cf_mysql.mysql.log_queries_not_using_indexes') %>
-log_queries_not_using_indexes = ON
-<% end %>
+slow_query_log                  = 1
+slow_query_log_file             = /var/vcap/sys/log/mysql/mysql_slow_query.log
+<% if p('cf_mysql.mysql.log_queries_not_using_indexes') -%>
+log_queries_not_using_indexes   = ON
+<% end -%>
 
 # User statistics
-<% if p('cf_mysql.mysql.userstat') %>
-userstat = 1
-<% end %>
+<% if p('cf_mysql.mysql.userstat') -%>
+userstat                        = 1
+<% end -%>
 
-innodb_file_per_table = ON
-innodb_file_format = Barracuda
-innodb_log_file_size = "<%= p('cf_mysql.mysql.ib_log_file_size')%>MB"
-innodb_support_xa = OFF
-<% if p('cf_mysql.mysql.innodb_large_prefix_enabled') %>
-innodb_large_prefix = ON
-<% else %>
-innodb_large_prefix = OFF
-<% end %>
-<% if p('cf_mysql.mysql.innodb_strict_mode') %>
-innodb_strict_mode = ON
-<% else %>
-innodb_strict_mode = OFF
-<% end %>
+innodb_file_per_table           = ON
+innodb_file_format              = Barracuda
+innodb_log_file_size            = <%= p('cf_mysql.mysql.ib_log_file_size')%>MB
+innodb_support_xa               = OFF
+<% if p('cf_mysql.mysql.innodb_large_prefix_enabled') -%>
+innodb_large_prefix             = ON
+<% else -%>
+innodb_large_prefix             = OFF
+<% end -%>
+<% if p('cf_mysql.mysql.innodb_strict_mode') -%>
+innodb_strict_mode              = ON
+<% else -%>
+innodb_strict_mode              = OFF
+<% end -%>
 
-max_heap_table_size = <%= p('cf_mysql.mysql.max_heap_table_size') %>
-tmp_table_size = <%= p('cf_mysql.mysql.tmp_table_size') %>
+max_heap_table_size             = <%= p('cf_mysql.mysql.max_heap_table_size') %>
+tmp_table_size                  = <%= p('cf_mysql.mysql.tmp_table_size') %>
 
+<% if_p('cf_mysql.mysql.server_audit_events') do |server_audit_events| -%>
 # Audit logging
-<% if_p('cf_mysql.mysql.server_audit_events') do |server_audit_events| %>
-plugin-load = server_audit=server_audit.so
-server_audit_logging = ON
-server_audit_events = <%= server_audit_events %>
-server_audit_output_type = file
-server_audit_file_path = /var/vcap/store/mysql_audit_logs/mysql_server_audit.log
-server_audit_excl_users=<%= excluded_audit_users.join(',') %>
-server_audit_file_rotations=0
-<% end %>
+plugin-load                     = server_audit=server_audit.so
+server_audit_logging            = ON
+server_audit_events             = <%= server_audit_events %>
+server_audit_output_type        = file
+server_audit_file_path          = /var/vcap/store/mysql_audit_logs/mysql_server_audit.log
+server_audit_excl_users         = <%= excluded_audit_users.join(',') %>
+server_audit_file_rotations     = 0
+<% end -%>
 
 # These are mandatory MySQL settings for MariaDB Galera to work
-binlog_format = ROW
-default_storage_engine = InnoDB
-innodb_autoinc_lock_mode = 2
-innodb_doublewrite = 1
-query_cache_size = 0
-query_cache_type = OFF
+binlog_format                   = ROW
+default_storage_engine          = InnoDB
+innodb_autoinc_lock_mode        = 2
+innodb_doublewrite              = 1
+query_cache_size                = 0
+query_cache_type                = OFF
 
 # These are required to make the quota enforcer work
-innodb_stats_on_metadata = ON
-innodb_stats_persistent = OFF
+innodb_stats_on_metadata        = ON
+innodb_stats_persistent         = OFF
 
 <%
   if not [0, 1, 2].include?(p('cf_mysql.mysql.innodb_flush_log_at_trx_commit'))
     raise("cf_mysql.mysql.innodb_flush_log_at_trx_commit value is invalid")
   end
-%>
-innodb_flush_log_at_trx_commit = <%= p('cf_mysql.mysql.innodb_flush_log_at_trx_commit') %>
+-%>
+innodb_flush_log_at_trx_commit  = <%= p('cf_mysql.mysql.innodb_flush_log_at_trx_commit') %>
 
-<% if_p('cf_mysql.mysql.innodb_lock_wait_timeout') do |innodb_lock_wait_timeout| %>
-innodb_lock_wait_timeout = <%= innodb_lock_wait_timeout %>
-<% end %>
-<% if_p('cf_mysql.mysql.innodb_buffer_pool_size') do |innodb_buffer_pool_size| %>
-innodb_buffer_pool_size = <%= innodb_buffer_pool_size %>
-<% end %>
-<% if_p('cf_mysql.mysql.innodb_buffer_pool_instances') do |innodb_buffer_pool_instances| %>
-innodb_buffer_pool_instances = <%= innodb_buffer_pool_instances %>
-<% end %>
-<% if_p('cf_mysql.mysql.innodb_flush_method') do |innodb_flush_method| %>
-innodb_flush_method = <%= innodb_flush_method %>
-<% end %>
+<% if_p('cf_mysql.mysql.innodb_lock_wait_timeout') do |innodb_lock_wait_timeout| -%>
+innodb_lock_wait_timeout        = <%= innodb_lock_wait_timeout %>
+<% end -%>
+<% if_p('cf_mysql.mysql.innodb_buffer_pool_size') do |innodb_buffer_pool_size| -%>
+innodb_buffer_pool_size         = <%= innodb_buffer_pool_size %>
+<% end -%>
+<% if_p('cf_mysql.mysql.innodb_buffer_pool_instances') do |innodb_buffer_pool_instances| -%>
+innodb_buffer_pool_instances    = <%= innodb_buffer_pool_instances %>
+<% end -%>
+<% if_p('cf_mysql.mysql.innodb_flush_method') do |innodb_flush_method| -%>
+innodb_flush_method             = <%= innodb_flush_method %>
+<% end -%>
 
-innodb_log_buffer_size = <%= p('cf_mysql.mysql.innodb_log_buffer_size') %>
+innodb_log_buffer_size          = <%= p('cf_mysql.mysql.innodb_log_buffer_size') %>
 
-<% if_p('cf_mysql.mysql.max_connections') do |max_connections| %>
-max_connections = <%= max_connections %>
-<% end %>
+<% if_p('cf_mysql.mysql.max_connections') do |max_connections| -%>
+max_connections                 = <%= max_connections %>
+<% end -%>
 
 # Event Scheduler
-event_scheduler=<%= p('cf_mysql.mysql.event_scheduler') %>
+event_scheduler                 = <%= p('cf_mysql.mysql.event_scheduler') %>
 
 [mysqldump]
 quick
 quote-names
-max_allowed_packet = <%= p('cf_mysql.mysql.max_allowed_packet') %>
+max_allowed_packet              = <%= p('cf_mysql.mysql.max_allowed_packet') %>
 
 [mysql]
-max_allowed_packet = <%= p('cf_mysql.mysql.max_allowed_packet') %>
+max_allowed_packet              = <%= p('cf_mysql.mysql.max_allowed_packet') %>
 
 [isamchk]
-key_buffer		= 16M
+key_buffer                      = 16M
