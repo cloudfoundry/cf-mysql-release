@@ -2,7 +2,7 @@
   if p('cf_mysql.mysql.remote_admin_access')
     hosts = ['%']
   else
-    hosts = %w{localhost 127.0.0.1}
+    hosts = %w{localhost 127.0.0.1 ::1}
   end
   quoted_hosts_string = hosts.map {|host| "'#{host}'"}.join(', ')
 -%>
