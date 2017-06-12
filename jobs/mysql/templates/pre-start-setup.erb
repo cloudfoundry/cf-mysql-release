@@ -57,6 +57,9 @@ mkdir -p $CONFIG_DIR
 chown vcap:vcap $CONFIG_DIR
 rm -f $CONFIG_DIR/my.cnf
 ln -sf $MARIADB_JOB_DIR/config/my.cnf $CONFIG_DIR/my.cnf
+/var/vcap/packages/generate-auto-tune-mysql/bin/generate-auto-tune-mysql \
+    -f /var/vcap/jobs/mysql/config/auto-tune.cnf \
+    -P <%= p('cf_mysql.mysql.innodb_buffer_pool_size_percent') %>
 
 rm -f /etc/profile.d/disable_mysql_cli_history.sh
 <% unless p('cf_mysql.mysql.cli_history') %>

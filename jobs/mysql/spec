@@ -32,6 +32,7 @@ packages:
 - cf-mysql-common
 - cf-mysql-cluster-health-logger
 - syslog_aggregator
+- generate-auto-tune-mysql
 
 consumes:
 - name: mysql
@@ -95,6 +96,9 @@ properties:
     default: 65536
   cf_mysql.mysql.innodb_buffer_pool_size:
     description: 'Optional, the size in bytes of the memory buffer InnoDB uses to cache data and indexes of its tables'
+  cf_mysql.mysql.innodb_buffer_pool_size_percent:
+    description: "Set this to an integer which represents the percentage of system RAM to reserve for InnoDB's buffer pool"
+    default: 50
   cf_mysql.mysql.innodb_buffer_pool_instances:
     description: 'Optional, number of buffer pool instances for InnoDB used if innodb_buffer_pool_size > 1GB'
   cf_mysql.mysql.innodb_lock_wait_timeout:

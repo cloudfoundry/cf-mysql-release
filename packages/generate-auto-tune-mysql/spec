@@ -1,0 +1,9 @@
+---
+name: generate-auto-tune-mysql
+
+dependencies:
+  - golang
+files:
+  - generate-auto-tune-mysql/**/*.go
+excluded_files:
+  - "**/*_test.go"

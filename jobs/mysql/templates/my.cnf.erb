@@ -43,6 +43,8 @@ socket                          = <%= "#{base_folder}/mysqld.sock" %>
 [mysqld_safe]
 nice                            = 0
 
+!include                        /var/vcap/jobs/mysql/config/auto-tune.cnf
+
 [mysqld]
 # GALERA options:
 wsrep_on                        = ON
