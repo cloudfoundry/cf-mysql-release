@@ -1,6 +1,7 @@
 property_overrides:
   deployment_name: cf-mysql
   mysql:
+    <<: (( merge || nil ))
     admin_password: password
     disable_auto_sst:
     gcache_size:
