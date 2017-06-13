@@ -50,6 +50,16 @@ external locking.
 We allow blobs up to 256MB. This size is unlikely to limit a user's query,
 but is also manageable for our InnoDB log file size.
 
+### Innodb Buffer Pool Size
+
+The Buffer Pool Size can be configured as a percent of the total memory using the
+`cf_mysql.mysql.innodb_buffer_pool_size_percent` property. It can be configured as an absolute number of bytes by using
+the `cf_mysql.mysql.innodb_buffer_pool_size` property. If both properties are specified,
+`cf_mysql.mysql.innodb_buffer_pool_size` is used.
+
+If deploying to bosh lite, `cf_mysql.mysql.innodb_buffer_pool_size` should be used as the percentage calculation will
+be based on the total bosh lite VM size and could cause the 3 nodes to consume more memory than expected.
+
 ### Innodb File Per Table
 
 Innodb allows using either a single file to represent all data, or a separate
