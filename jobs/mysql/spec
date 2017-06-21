@@ -51,7 +51,7 @@ provides:
   - cf_mysql.mysql.galera_healthcheck.endpoint_username
   - cf_mysql.mysql.galera_healthcheck.endpoint_password
 - name: internal-mysql-database
-  type: database
+  type: internal-database
 
 properties:
   syslog_aggregator.address:
