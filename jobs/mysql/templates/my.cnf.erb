@@ -51,8 +51,8 @@ wsrep_on                        = ON
 wsrep_provider                  = /var/vcap/packages/mariadb/lib/plugin/libgalera_smm.so
 wsrep_provider_options          = "gcache.size=<%= p('cf_mysql.mysql.gcache_size') %>M;pc.recovery=TRUE;pc.checksum=TRUE"
 wsrep_cluster_address           = gcomm://<%= cluster_ips.join(",") %>
-wsrep_node_address              = <%= node_host -%>:<%= p('cf_mysql.mysql.galera_port') %>
-wsrep_node_name                 = <%= name -%>/<%= index %>
+wsrep_node_address              = <%= node_host %>:<%= p('cf_mysql.mysql.galera_port') %>
+wsrep_node_name                 = <%= name %>/<%= index %>
 wsrep_cluster_name              = <%= p('cf_mysql.mysql.cluster_name') %>
 wsrep_sst_method                = xtrabackup-v2
 wsrep_sst_auth                  = <%= p('cf_mysql.mysql.admin_username')%>:<%= p('cf_mysql.mysql.admin_password') %>
