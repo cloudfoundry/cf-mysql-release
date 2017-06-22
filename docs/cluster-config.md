@@ -52,13 +52,10 @@ but is also manageable for our InnoDB log file size.
 
 ### Innodb Buffer Pool Size
 
-The Buffer Pool Size can be configured as a percent of the total memory using the
-`cf_mysql.mysql.innodb_buffer_pool_size_percent` property. It can be configured as an absolute number of bytes by using
-the `cf_mysql.mysql.innodb_buffer_pool_size` property. If both properties are specified,
-`cf_mysql.mysql.innodb_buffer_pool_size` is used.
+You can tune the InnoDB Buffer Pool size via two different properties. The absolute number of bytes to allocate to the buffer pool can be specified by the `cf_mysql.mysql.innodb_buffer_pool_size` property. If you deploy to a variety of VM sizes, you can specify a percentage of total system memory using the `cf_mysql.mysql.innodb_buffer_pool_size_percent` property instead. The buffer pool will be re-calculated on every deploy. If both properties are specified, the absolute number of bytes,`cf_mysql.mysql.innodb_buffer_pool_size`, is used.
 
-If deploying to bosh lite, `cf_mysql.mysql.innodb_buffer_pool_size` should be used as the percentage calculation will
-be based on the total bosh lite VM size and could cause the 3 nodes to consume more memory than expected.
+If deploying to bosh lite, use `cf_mysql.mysql.innodb_buffer_pool_size`. The percentage calculation will
+be based on the total bosh lite VM size and will cause the 3 nodes to consume more memory than desired.
 
 ### Innodb File Per Table
 
