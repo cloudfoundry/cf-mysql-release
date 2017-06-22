@@ -17,6 +17,20 @@ After you've run both `bosh deploy` and `bosh run errand deregister-and-purge-in
     TIP:  Use 'cf marketplace -s SERVICE' to view descriptions of individual plans of a given service.
     ```
 
+## Setting the Cluster Name
+
+In [cf-mysql v36](https://github.com/cloudfoundry/cf-mysql-release/releases/tag/v36) and later, you can customize the `wsrep_cluster_name`. Previously, all cf-mysql clusters used the name `cf-mariadb-galera-cluster`, which remains the default. When you've got several deplyoments, changing the cluster name to something unique across deployments is helpful when you need to ensure you're working on the correct one.
+
+**To avoid downtime, we recommend you set the cluster name before initial deployment.**
+
+To set the name for a new cluster, add the `cf_mysql.mysql.cluster_name` manifest property to the mysql instance group and deploy.
+
+For an existing cluster, **you must follow these steps. Simply changing the property and re-deploying will fail to deploy and cause downtime.** Note that scaling back up to three nodes will copy all of the data from the single node. Depending on the amount of data, this can take considerable time.
+ * Scale the cluster down to 1 node
+ * Update the `cf_mysql.mysql.cluster_name` property in the mysql instance group
+ * Scale the cluster back up to 3 nodes
+ * Check the change has taken effect with this query: `select @@wsrep_cluster_name\G`
+
 ## Updating Service Plans
 
 Updating the service instances is supported; see [Service plans and instances](docs/service-plans-instances.md) for details.
@@ -53,14 +67,3 @@ Note 1: If a seeded database is renamed in the manifest, a new database will be 
 Note 2: If all you need is a database deployment, it is possible to deploy this
 release with zero broker instances and completely remove any dependencies on Cloud Foundry.
 See the [proxy](jobs/proxy/spec) and [acceptance-tests](jobs/acceptance-tests/spec) spec files for standalone configuration options.
-
-## Setting wsrep_cluster_name
-
-The current the version now allows `wsrep_cluster_name` to be set manually.
-
-To set the name for a new cluster, update the `cf_mysql.mysql.cluster_name` property in the mysql instance group. Deploy and the cluster should come up with your new name.
-
-To set the name for an existing cluster is a bit more moving parts and requires some down time. Steps are as follows:
- * Scale the cluster down to 1 node
- * Update the `cf_mysql.mysql.cluster_name` property in the mysql instance group
- * Scale the cluster back up to 3 nodes
