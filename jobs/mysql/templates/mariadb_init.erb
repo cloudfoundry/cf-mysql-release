@@ -9,7 +9,7 @@
 
 DELETE FROM mysql.user WHERE User='';
 <% if_p('cf_mysql.mysql.previous_admin_username') do |previous_username| %>
-  <%-
+  <%
     if previous_username == p('cf_mysql.mysql.admin_username')
       raise "cf_mysql.mysql.admin_username must not equal cf_mysql.mysql.previous_admin_username"
     end
@@ -24,11 +24,11 @@ DELETE FROM mysql.user WHERE User='root';
 CREATE USER IF NOT EXISTS '<%= p('cf_mysql.mysql.admin_username') %>'@'<%= host %>' IDENTIFIED BY '<%= p('cf_mysql.mysql.admin_password') %>';
 GRANT ALL PRIVILEGES ON *.* TO '<%= p('cf_mysql.mysql.admin_username') %>'@'<%= host %>' WITH GRANT OPTION;
 
-  <%- if p('cf_mysql.mysql.roadmin_enabled') %>
+  <% if p('cf_mysql.mysql.roadmin_enabled') %>
 CREATE USER IF NOT EXISTS 'roadmin'@'<%= host %>' IDENTIFIED BY '<%= p('cf_mysql.mysql.roadmin_password') %>';
 SET PASSWORD FOR 'roadmin'@'<%= host %>' = PASSWORD('<%= p('cf_mysql.mysql.roadmin_password') %>');
 GRANT SELECT, PROCESS ON *.* TO 'roadmin'@'<%= host %>';
-  <%- end %>
+  <% end %>
 <% end %>
 
 UPDATE mysql.user SET Password=PASSWORD('<%= p('cf_mysql.mysql.admin_password') %>') WHERE User='<%= p('cf_mysql.mysql.admin_username') %>';
