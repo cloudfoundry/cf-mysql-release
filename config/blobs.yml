@@ -18,10 +18,10 @@ golang/go1.8.3.linux-amd64.tar.gz:
   size: 90029041
   object_id: a9a0aa90-83c2-40dc-499b-7b5d33918fdd
   sha: 838c415896ef5ecd395dfabde5e7e6f8ac943c8e
-mariadb/mariadb-10.1.23.tar.gz:
-  size: 61772244
-  object_id: 4e498442-2704-47b0-53e0-4b0c90de941a
-  sha: 59b07e45f99802a53ef20e04c616f652ad678c7c
+mariadb/mariadb-10.1.24.tar.gz:
+  size: 61780687
+  object_id: d1232682-2988-43f3-6296-a7b2d2db26a9
+  sha: 77bf12f253bc4397fa0379dcdba81ae8f6f03d17
 mysqlclient/mariadb-connector-c-2.1.0-src.tar.gz:
   size: 1912888
   object_id: e1e0446a-8cbd-4b8e-b496-fc20f530fd7c
