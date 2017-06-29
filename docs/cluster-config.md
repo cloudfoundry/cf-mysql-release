@@ -50,6 +50,10 @@ external locking.
 We allow blobs up to 256MB. This size is unlikely to limit a user's query,
 but is also manageable for our InnoDB log file size.
 
+### Query Cache Type and Size
+
+Matching MariaDB's default as of [version 10.1.7](https://mariadb.com/kb/en/mariadb/mariadb-1017-release-notes/) cf-mysql-release disables `query_cache_type` and set `query_cache_size = 0`.
+
 ### Innodb Buffer Pool Size
 
 You can tune the InnoDB Buffer Pool size via two different properties. The absolute number of bytes to allocate to the buffer pool can be specified by the `cf_mysql.mysql.innodb_buffer_pool_size` property. If you deploy to a variety of VM sizes, you can specify a percentage of total system memory using the `cf_mysql.mysql.innodb_buffer_pool_size_percent` property instead. The buffer pool will be re-calculated on every deploy. If both properties are specified, the absolute number of bytes,`cf_mysql.mysql.innodb_buffer_pool_size`, is used.
