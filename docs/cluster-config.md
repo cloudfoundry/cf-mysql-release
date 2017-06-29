@@ -52,7 +52,7 @@ but is also manageable for our InnoDB log file size.
 
 ### Query Cache Type and Size
 
-Matching MariaDB's default as of [version 10.1.7](https://mariadb.com/kb/en/mariadb/mariadb-1017-release-notes/) cf-mysql-release disables `query_cache_type` and set `query_cache_size = 0`.
+Matching MariaDB's default as of [version 10.1.7](https://mariadb.com/kb/en/mariadb/mariadb-1017-release-notes/) and later, cf-mysql-release disables `query_cache_type` and set `query_cache_size = 0`.
 
 ### Innodb Buffer Pool Size
 
