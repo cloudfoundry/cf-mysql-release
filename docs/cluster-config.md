@@ -98,7 +98,7 @@ MySQL as its associated processes are run as `vcap`, never `root`.
 
 cf-mysql always uses the `--skip-symbolic-links` flag to prevent use of symbolic links.
 This is a general security recommendation for MySQL
-([docs](https://dev.mysql.com/doc/refman/5.7/en/security-against-attack.html). With
+([docs](https://dev.mysql.com/doc/refman/5.7/en/security-against-attack.html)). With
 symbolic links enabled, if somebody had write access to the data directory, they could
 change or delete other files owned by the same user.
 
