@@ -14,10 +14,10 @@ galera/galera-25.3.17.tar.gz:
   size: 3005918
   object_id: de96dedb-2e26-440f-b6c8-8cc31e4a2f77
   sha: ff5c16f1116565cf318c7d84c0f60d7a10d84f0f
-golang/go1.7.linux-amd64.tar.gz:
-  size: 81573766
-  object_id: 0aac416f-8a5b-42df-a6ee-1c36c52583d3
-  sha: a744e29da97fc3aadad1ee0d7d89b0d899645e50
+golang/go1.8.3.linux-amd64.tar.gz:
+  size: 90029041
+  object_id: a9a0aa90-83c2-40dc-499b-7b5d33918fdd
+  sha: 838c415896ef5ecd395dfabde5e7e6f8ac943c8e
 mariadb/mariadb-10.1.20.tar.gz:
   size: 61312731
   object_id: 401f2d6e-81af-4dc2-a13b-880811314efc
