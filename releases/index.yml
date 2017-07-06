@@ -23,6 +23,8 @@ builds:
     version: "11"
   40a152d7ba6f04700c7f454d50c32f2e03d2c7e3:
     version: "1"
+  52d35697-6e2c-4de4-7b53-fb2a15315f67:
+    version: 24.20.0
   6a798df2-0d89-47be-50af-c77434ee27bc:
     version: 24.14.0
   80275d6bdb0016dc7a9e83410222761620393ad0:
