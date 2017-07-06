@@ -1,4 +1,6 @@
 builds:
+  037bd34ea14a2dea99c479442a61d1b1f3582558:
+    version: "10"
   0a13aa4c-fc3a-4907-bcbc-27734554d962:
     version: "17"
   0c8dee6d595059a19ca9009a0ceeb0a3c825be78:
@@ -7,40 +9,38 @@ builds:
     version: "5"
   0f311eb812dfba396daf49bf3ab665dcb51b3934:
     version: "2"
-  6a798df2-0d89-47be-50af-c77434ee27bc:
-    version: 24.14.0
-  9a29cf0d-b256-48c9-bfe8-5b85ffa6f17f:
-    version: "21"
-  9abee393-5b23-423b-a4af-6305493d2348:
-    version: "12"
+  136192ce-c7bc-43a5-a516-d041d967e8fa:
+    version: "15"
+  23587fb910cc4f86ceab93a947ad2352558b1a40:
+    version: "8"
+  25901885086118c3e535dbb5558a50fa6e509de4:
+    version: "6"
+  28246466-0a78-4159-61b0-e42265440b44:
+    version: 24.17.0
   31dff698-8e78-42cf-be6b-718145eb2cb5:
     version: "20"
   36f28a69-36e2-4aa4-9009-77abd333535c:
     version: "11"
-  037bd34ea14a2dea99c479442a61d1b1f3582558:
-    version: "10"
   40a152d7ba6f04700c7f454d50c32f2e03d2c7e3:
     version: "1"
-  23587fb910cc4f86ceab93a947ad2352558b1a40:
-    version: "8"
+  6a798df2-0d89-47be-50af-c77434ee27bc:
+    version: 24.14.0
   80275d6bdb0016dc7a9e83410222761620393ad0:
     version: "4"
-  136192ce-c7bc-43a5-a516-d041d967e8fa:
-    version: "15"
-  28246466-0a78-4159-61b0-e42265440b44:
-    version: 24.17.0
-  25901885086118c3e535dbb5558a50fa6e509de4:
-    version: "6"
+  9a29cf0d-b256-48c9-bfe8-5b85ffa6f17f:
+    version: "21"
+  9abee393-5b23-423b-a4af-6305493d2348:
+    version: "12"
   a3f883bb-2bc8-4071-8524-ebebcc5b4f88:
     version: "18"
   b4a23707-b19e-4b54-6167-5ded0b6b05eb:
     version: 24.18.0
   ccbf21f1-c3eb-4f3b-97e0-8dd66bf4a412:
     version: "23"
-  d4d7ae44-068b-4755-aade-bdc10d46d5e7:
-    version: "22"
   d1524036-b6dd-43fd-bf0b-3aa22f6ddb6c:
     version: "24"
+  d4d7ae44-068b-4755-aade-bdc10d46d5e7:
+    version: "22"
   da3e1986-d81d-4bc3-4376-2658da934db7:
     version: 24.13.0
   e15d6f2607325c4d530799d7af39bbd7d730f999:
@@ -49,14 +49,16 @@ builds:
     version: "13"
   e1dff369-95ca-4d3c-74fb-01c5685eb90c:
     version: 24.16.0
+  ec02908a-ba4d-4300-704d-e6ea28f3989c:
+    version: 24.19.0
   ee13233bbe5145880df31c53e0697b9bc931d128:
     version: "9"
   ef8c84da-6cd3-4dc9-8192-64e8f5f0a789:
     version: "19"
   f02e5c59-55f4-4655-ac0c-f51bcd8f6b97:
     version: "16"
-  f5a4ad97-d3fc-45e7-966d-1ffabe7a7390:
-    version: "14"
   f1584375-d02d-49a8-7ccd-93ef4a90f208:
     version: 24.15.0
+  f5a4ad97-d3fc-45e7-966d-1ffabe7a7390:
+    version: "14"
 format-version: "2"
