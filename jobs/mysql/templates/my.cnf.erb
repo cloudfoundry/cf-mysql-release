@@ -21,7 +21,15 @@
   end
 
   def excluded_audit_users
-    return ['cluster-health-logger', 'quota-enforcer', 'galera-healthcheck'] + p('cf_mysql.mysql.server_audit_excluded_users')
+    return ['cluster-health-logger', 'quota-enforcer', 'galera-healthcheck'] + p('cf_mysql.mysql.server_audit_excluded_users') + csv_excluded_audit_users
+  end
+
+  def csv_excluded_audit_users
+    if_p('cf_mysql.mysql.server_audit_excluded_users_csv') do |user_csv|
+      user_csv.split(',')
+    end.else do
+      []
+    end
   end
 
   node_host = discover_external_ip

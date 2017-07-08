@@ -179,6 +179,8 @@ properties:
       - monitoring_user
       - other_excluded_user
       - bot_user
+  cf_mysql.mysql.server_audit_excluded_users_csv:
+    description: 'Additional database users to exclude from audit logging, will be combined with uses specified in server_audit_excluded_users'
   cf_mysql.mysql.cluster_name:
     description: 'A unique name for this cluster. ONLY set before first deployment. DO NOT attempt to change an existing multi-node cluster.'
     default: 'cf-mariadb-galera-cluster'
