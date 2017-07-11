@@ -1,3 +1,7 @@
+### verify-cluster-schemas issue in cf-mysql v36
+
+In v36, we introduced a way to limit admin access to the database by adding the `cf_mysql.mysql.remote_admin_access` property. When set to `false`, no user is able to connect to the database as the admin user from a remote host. The `verify-cluster-schemas` errand is not compatible with this restriction, and cannot run when `cf-mysql` is deployed in this configuration.
+
 ### Build issue with cf-mysql v26
 
 The release tagged `v26` will no longer build from source due to a dependency that is no longer available. To continue working from source, update your source tree to `develop`.
