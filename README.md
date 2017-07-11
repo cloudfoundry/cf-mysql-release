@@ -156,9 +156,9 @@ as you switch in and out of the directory.
 <a name='release-notes'></a>
 ## Release Notes, Known Issues, and Documentation
 
-[Release Notes](/cloudfoundry/cf-mysql-release/releases)
+[Release Notes](https://github.com/cloudfoundry/cf-mysql-release/releases/)
 
-[Known Issues](/cloudfoundry/cf-mysql-release/blob/master/docs/known-issues.md)
+[Known Issues](/docs/known-issues.md)
 
 For more information, check out the [documentation](https://github.com/cloudfoundry/cf-mysql-release/tree/master/docs).
 
