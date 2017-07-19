@@ -6,7 +6,10 @@ REPO=/var/vcap/packages/acceptance-tests/src/github.com/cloudfoundry-incubator/c
 cd ${REPO}
 
 <%
-  mysql_service = p('cf_mysql.broker.services').first
+  mysql_service = {'plans' => []}
+  if_p('cf_mysql.broker.services') do |services|
+    mysql_service = services.first
+  end
   default_max_user_connections = mysql_service['max_user_connections_default'] || 40
 
   proxy_ips = nil
