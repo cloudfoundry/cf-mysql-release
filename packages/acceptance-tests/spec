@@ -6,5 +6,6 @@ dependencies:
 files:
   - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/bin/*
   - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/assets/**/*
+  - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/vendor/**/*
   - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/**/*.go
   - github.com/onsi/ginkgo/**/*.go
