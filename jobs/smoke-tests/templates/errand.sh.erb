@@ -62,6 +62,7 @@ cat > integration_config.json <<EOF
 EOF
 <% if p('cf_mysql.smoke_tests.standalone_tests_only') %>
 cat >> integration_config.json <<EOF
+  "standalone_only": true,
   "standalone": {
     "host":  "<%= p('cf_mysql.host') %>",
     "port": <%= p('cf_mysql.mysql.port') %>,
