@@ -7,6 +7,23 @@ MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # This script assumes that it lives one directory below the release directory.
 RELEASE_DIR="$( cd "${MY_DIR}/.." && pwd )"
 
+function verify_config_file_updated_with_tests() {
+  pushd "${RELEASE_DIR}/jobs/mysql/templates" > /dev/null
+    oldsha=$(cat my.cnf.erb.shasum)
+    newsha=$(shasum my.cnf.erb | awk '{print $1}')
+
+    if [ "$oldsha" != "$newsha" ]; then
+      echo -e "\n\nDetected my.cnf.erb change without sha being updated"
+      echo "Did you update my.cnf.erb without updating the tuning tests?"
+      echo "Please update the tests and then run 'shasum my.cnf.erb | awk '{print \$1}' > my.cnf.erb.shasum'"
+      exit 1
+    fi
+  popd > /dev/null
+}
+
+echo -e "\nVerifying shasum of my.cnf.erb..."
+verify_config_file_updated_with_tests
+
 # shellcheck source=/dev/null
 source "${RELEASE_DIR}/.envrc"
 
