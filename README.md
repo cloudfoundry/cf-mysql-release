@@ -123,8 +123,10 @@ To trust self-signed SSL certificates, you can change `jobs.cf-mysql-broker.skip
 <a name='downloading-a-stable-release'></a>
 ## Downloading a Stable Release
 
-Final releases are designed for public use, and are tagged with a version number of the form "v<N>".
-The releases and corresponding release notes can be found on [github](https://github.com/cloudfoundry/cf-mysql-release/releases).
+Stable releases, also known as final releases, are available for general use. Release notes and source code are available on [github](https://github.com/cloudfoundry/cf-mysql-release/releases).
+Instructions for uploading a final release to your BOSH director can be found on [bosh.io](bosh.io/releases/github.com/cloudfoundry/cf-mysql-release).
+
+**Note:** If your BOSH director's able to access the Internet, you don't need to download and upload a release to your BOSH director. When using [cf-mysql-deployment](https://github.com/cloudfoundry/cf-mysql-deployment), the correct release is referenced in the manifest, and will be automatically retrieved by the BOSH director.
 
 <a name='development'></a>
 ## Development
