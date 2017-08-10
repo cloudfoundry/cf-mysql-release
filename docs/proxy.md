@@ -43,9 +43,9 @@ When a new node is added to the cluster or rejoins the cluster, it synchronizes 
 
 If the operator sets the total number of proxies to 0 hosts in their manifest, then applications will start routing connections directly to one healthy MariaDB node making that node a single point of failure for the cluster.
 
-The recommended number of proxies are 2; this provides redundancy should one of the proxies fail.
+The recommended number of proxies is 2; this provides redundancy should one of the proxies fail.
 
-## Removing the proxy as a SPOF
+## Setting a load balancer in front of the proxies
 
 The proxy tier is responsible for routing connections from applications to healthy MariaDB cluster nodes, even in the event of node failure.
 
@@ -60,36 +60,38 @@ Bound applications are provided with a hostname or IP address to reach a databas
 ### Configuring load balancer
 
 Configure the load balancer to route traffic for TCP port 3306 to the IPs of all proxy instances on TCP port 3306.
-Next, configure the load balancer's healthcheck to use the proxy health port.
 
-The proxies have an HTTP server listening on port 1936. It returns 200 in all cases and for all endpoints. This can be used to configure a Load Balancer that requires HTTP healthchecks.
+Next, configure the load balancer's healthcheck to use the proxy health port.
+The proxies have an HTTP server listening on the health port. It returns 200 in all cases and for all endpoints. This can be used to configure a Load Balancer that requires HTTP healthchecks.
 
 Because HTTP uses TCP connections, the port also accepts TCP requests, useful for configuring a Load Balancer with a TCP healthcheck.
 
-By default, the port is 1936 to maintain backwards compatibility with previous releases, but this port can be configured by changing the following manifest property in the `property-overrides` stub:
+By default, the health port is 1936 to maintain backwards compatibility with previous releases, but this port can be configured by adding the `cf_mysql.proxy.health_port` manifest property to the proxy job and deploying.
+
+Add an entry to your [cloud config](https://bosh.io/docs/cloud-config.html) defining a [vm_extension](https://bosh.io/docs/cloud-config.html#vm-extensions) that receives load balanced traffic.
+This can be accomplished by including IaaS-specific cloud properties that define a load-balanced VM.
 
 ```
-property_overrides:
-  proxy:
-    health_port: <port>
+vm_extensions:
+- name: load_balancer_for_mysql_proxy
+  cloud_properties:
+    ...    
 ```
+
+You'll need to consult your IaaS documentation as well as your BOSH CPI documentation for the specifics of the `cloud_properties` definitions to use in your `vm_extension`. 
+
+Next, you'll need to configure your proxy to use the vm_extension by setting the proxy's `vm_extensions` property to an array including the name of your load balancing vm_extension:
+
+```
+instance_groups:
+- name: proxy
+  vm_extensions:
+  - load_balancer_for_mysql_proxy
+```
+
 
 ### Configuring cf-mysql-release to give applications the address of the load balancer
-To ensure that bound applications will use the load balancer to reach bound databases, the set `property_overrides.host` in the `property-overrides` stub:
-
-```
-property_overrides:
-  host: <load balancer address>
-```
-
-If deploying on AWS, also add the ELB name (not the address) in the `iaas-settings` stub:
-
-```
-properties:
-  template_only:
-    aws:
-      mysql_elb_names: [<load balancer name>]
-```
+To ensure that bound applications will use the load balancer to reach bound databases, set `cf_mysql.host` in the cf-mysql-broker job to your load balancer's IP.
 
 ### AWS Route 53
 
