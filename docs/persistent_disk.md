@@ -1,3 +1,22 @@
+# Monitor Available Disk Space
+
+**It is important to closely monitor free disk space. MySQL does not gracefully handle the condition when there is no available free space on either ephemeral or persistent disks.**
+
+There are two circumstances in which you may need to re-deploy with larger persistent disks.
+1. There's sufficient data stored on the disk such that there's very little free space remaining.
+2. The Service Broker has allocated an amount of plans such that there's insufficient reserved space to allocate to new service instances.
+
+# Redeploying with larger persistent disks
+
+BOSH will resize disks automatically ([docs](https://bosh.io/docs/persistent-disks.html#changing-persistent-disk)). If using Cloud Config, specify a [vm_extension](https://bosh.io/docs/cloud-config.html#vm-extensions) and re-deploy using an override file. Here's an example:
+
+    ---
+    - type: replace
+      path: /instance_groups/name=mysql/vm_extensions?
+      value: [50GB_ephemeral_disk]
+
+Note that during re-deploy, BOSH will take time to copy data from the old disk to the new. When running in single-node mode, the service will not be available during this time. When running in clustered mode, so long as `max_in_flight` is set to 1 (the default), the service will remain available so long as there is sufficient disk for normal operation.
+
 # Recovering from issues with persistent disk(s)
 
 Problems with persistent disks typically are caused by infrastructure failure (ex: an administrator disables/deletes/detaches a disk) or hardware failure (ex: a disk physically breaks). The MariaDB nodes store their data on the persistent disk, so it is neccessary to either re-attach or re-create the disk before restarting the node.
