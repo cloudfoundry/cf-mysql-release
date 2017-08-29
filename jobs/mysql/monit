@@ -4,6 +4,7 @@ check process mariadb_ctrl
   stop program "/var/vcap/jobs/mysql/bin/mariadb_ctl stop"
   group vcap
 
+<% if p('cf_mysql.mysql.enable_galera') %>
 check process galera-healthcheck
   with pidfile /var/vcap/sys/run/galera-healthcheck/galera-healthcheck.pid
   start program "/var/vcap/jobs/mysql/bin/galera-healthcheck_ctl start" with timeout 60 seconds
@@ -21,3 +22,4 @@ check process cluster_health_logger
   start program "/var/vcap/jobs/mysql/bin/cluster_health_logger_ctl start"
   stop program "/var/vcap/jobs/mysql/bin/cluster_health_logger_ctl stop"
   group vcap
+<% end %>

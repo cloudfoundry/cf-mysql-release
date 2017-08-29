@@ -54,6 +54,7 @@ nice                            = 0
 !include                        /var/vcap/jobs/mysql/config/auto-tune.cnf
 
 [mysqld]
+<% if p('cf_mysql.mysql.enable_galera') %>
 # GALERA options:
 wsrep_on                        = ON
 wsrep_provider                  = /var/vcap/packages/mariadb/lib/plugin/libgalera_smm.so
@@ -72,6 +73,7 @@ wsrep_replicate_myisam          = OFF
 wsrep_log_conflicts             = ON
 <% end %>
 wsrep_debug                     = <%= p('cf_mysql.mysql.wsrep_debug') %>
+<% end %>
 
 # Regular MYSQL options:
 character_set_server            = <%= p('cf_mysql.mysql.character_set_server') %>
