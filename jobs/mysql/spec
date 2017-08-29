@@ -244,3 +244,6 @@ properties:
     default: false
     description: 'Allow or disallow clients to access local files'
 
+  cf_mysql.mysql.enable_galera:
+    default: true
+    description: 'Advanced feature. Only use this when deploying a single MySQL node with no intention to run any other components of cf-mysql-release.'
