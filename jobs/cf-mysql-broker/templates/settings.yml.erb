@@ -15,6 +15,8 @@ production:
   ib_log_file_size: <%= p('cf_mysql.mysql.ib_log_file_size')%>
   gcache_size: <%= p('cf_mysql.mysql.gcache_size')%>
 
+  disable_table_locks: <%= !p('cf_mysql.mysql.allow_table_locks') %>
+
   services:
   <% p('cf_mysql.broker.services').each do |service| %>
   - id: <%= service['id'] %>
