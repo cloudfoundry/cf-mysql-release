@@ -45,8 +45,8 @@ chown -R vcap:vcap "${HEALTHCHECK_LOG_DIR}"
 # Start syslog forwarding
 /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $MARIADB_JOB_DIR/config
 <% end.else do %>
-if [[ -e /etc/rsyslog.d/00-syslog_forwarder.conf ]]; then
-  rm -f /etc/rsyslog.d/00-syslog_forwarder.conf
+if [[ -e /etc/rsyslog.d/01-mysql.conf ]]; then
+  rm -f /etc/rsyslog.d/01-mysql.conf
   /usr/sbin/service rsyslog restart
 fi
 <% end %>
