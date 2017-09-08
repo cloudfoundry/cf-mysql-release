@@ -57,9 +57,6 @@ properties:
   cf_mysql.external_host:
     description: 'Host used to register a route for the broker with the router in cf-release via NATS. By registering the broker with Cloud Foundry using this route, and using the router for load balancing, the broker can be horizontally scaled. Domain is typically the same as system domain in cf-release.'
 
-  cf_mysql.mysql.allow_table_locks:
-    description: 'When enabled, clients will be able to acquire locks on the node processing the transaction. Note that locks are not replicated across cluster nodes.'
-    default: true
   cf_mysql.mysql.port:
     description: 'Port used by the broker and bound applications to reach the service'
     default: 3306
@@ -72,6 +69,9 @@ properties:
     description: 'Size of the ib_log_file used by innodb, in MB'
     default: 1024
 
+  cf_mysql.broker.allow_table_locks:
+    description: 'When enabled, clients will be able to acquire locks on the node processing the transaction. Note that locks are not replicated across cluster nodes.'
+    default: true
   cf_mysql.broker.db_password:
     description: 'The password for the cf-mysql-broker MySQL user'
   cf_mysql.broker.auth_username:
