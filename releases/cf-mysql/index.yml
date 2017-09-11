@@ -35,6 +35,8 @@ builds:
     version: 36.2.0
   80275d6bdb0016dc7a9e83410222761620393ad0:
     version: "4"
+  8daa8d29-3b77-44f6-7fef-342cfd0e1301:
+    version: 36.5.0
   9a29cf0d-b256-48c9-bfe8-5b85ffa6f17f:
     version: "21"
   9abee393-5b23-423b-a4af-6305493d2348:
