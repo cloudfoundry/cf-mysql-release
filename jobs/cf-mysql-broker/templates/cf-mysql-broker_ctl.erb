@@ -40,52 +40,57 @@ case $1 in
     /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $JOB_DIR/config
     <% end %>
 
-    # Run the migrations only on the first node
-    if [ $JOB_INDEX -eq 0 ]; then
-      pushd $PACKAGE_DIR
-        # Needed because rake db:migrate attempts to rewrite schema.rb file
-        # which is currently owned by root
-        #
-        # Needs to live here instead of above because chown -R does not follow symlinks
-        chown -R vcap:vcap .
+    pushd $PACKAGE_DIR
+      # Run the migrations only on the first node
+      if [ $JOB_INDEX -eq 0 ]; then
+          # Needed because rake db:migrate attempts to rewrite schema.rb file
+          # which is currently owned by root
+          #
+          # Needs to live here instead of above because chown -R does not follow symlinks
+          chown -R vcap:vcap .
 
-        # Create DB and run migrations
-        set +e
-        su - vcap -p -c -o pipefail "PATH=$PATH bundle exec rake db:create 2>&1 \
-            | tee -a $LOG_DIR/db_migrate.combined.log \
-            | logger -p local1.error -t mysql-broker-dbcreate"
-
-        su - vcap -p -c -o pipefail "PATH=$PATH bundle exec rake db:migrate 2>&1 \
-            | tee -a $LOG_DIR/db_migrate.combined.log \
-            | logger -p local1.error -t mysql-broker-dbmigrate"
-
-        EXIT_STATUS=$?
-        set -e
-
-        if [ $EXIT_STATUS != 0 ]; then
-          echo "Migrations failed at `date`" \
+          # Create DB and run migrations
+          set +e
+          su - vcap -p -c -o pipefail "PATH=$PATH bundle exec rake db:create 2>&1 \
               | tee -a $LOG_DIR/db_migrate.combined.log \
-              | logger -p local1.error -t mysql-broker-dbmigrate
-          exit 1
-        fi
+              | logger -p local1.error -t mysql-broker-dbcreate"
 
-        # Sync size of existing service instances to match plans in manifest
-        set +e
-        su - vcap -p -c -o pipefail "PATH=$PATH bundle exec rake broker:sync_plans_in_db 2>&1 \
-            | tee -a $LOG_DIR/cf-mysql-broker.log \
-            | logger -p local1.error -t mysql-broker-plans"
+          su - vcap -p -c -o pipefail "PATH=$PATH bundle exec rake db:migrate 2>&1 \
+              | tee -a $LOG_DIR/db_migrate.combined.log \
+              | logger -p local1.error -t mysql-broker-dbmigrate"
 
-        EXIT_STATUS=$?
-        set -e
+          EXIT_STATUS=$?
+          set -e
 
-        if [ $EXIT_STATUS != 0 ]; then
-          echo "Failed to sync broker plans at `date`" \
+          if [ $EXIT_STATUS != 0 ]; then
+            echo "Migrations failed at `date`" \
+                | tee -a $LOG_DIR/db_migrate.combined.log \
+                | logger -p local1.error -t mysql-broker-dbmigrate
+            exit 1
+          fi
+
+          # Sync size of existing service instances to match plans in manifest
+          set +e
+          su - vcap -p -c -o pipefail "PATH=$PATH bundle exec rake broker:sync_plans_in_db 2>&1 \
               | tee -a $LOG_DIR/cf-mysql-broker.log \
-              | logger -p local1.error -t mysql-broker-plans
-          exit 1
-        fi
-      popd
-    fi
+              | logger -p local1.error -t mysql-broker-plans"
+
+          EXIT_STATUS=$?
+          set -e
+
+          if [ $EXIT_STATUS != 0 ]; then
+            echo "Failed to sync broker plans at `date`" \
+                | tee -a $LOG_DIR/cf-mysql-broker.log \
+                | logger -p local1.error -t mysql-broker-plans
+            exit 1
+          fi
+      fi
+
+      su - vcap -p -c -o pipefail "PATH=$PATH bundle exec rake table_locks:update_table_lock_permissions 2>&1 \
+        | tee -a $LOG_DIR/cf-mysql-broker.log \
+        | logger -p local1.error -t mysql-broker-update-table-lock-permissions"
+
+    popd
 
     su - vcap -p -c -o pipefail "PATH=$PATH bundle exec unicorn -c $JOB_DIR/config/unicorn.conf.rb 2>&1 \
         | tee -a $LOG_DIR/cf-mysql-broker.log \
