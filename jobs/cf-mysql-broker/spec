@@ -71,7 +71,7 @@ properties:
 
   cf_mysql.broker.allow_table_locks:
     description: 'When enabled, clients will be able to acquire locks on the node processing the transaction. Note that locks are not replicated across cluster nodes.'
-    default: true
+    default: false
   cf_mysql.broker.db_password:
     description: 'The password for the cf-mysql-broker MySQL user'
   cf_mysql.broker.auth_username:
