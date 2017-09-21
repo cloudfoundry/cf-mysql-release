@@ -247,3 +247,7 @@ properties:
   cf_mysql.mysql.enable_galera:
     default: true
     description: 'Advanced feature. Only use this when deploying a single MySQL node with no intention to run any other components of cf-mysql-release.'
+
+  cf_mysql.mysql.performance_schema_enabled:
+    default: false
+    description: "Enables Mariadb Performance Schema when set to true"
