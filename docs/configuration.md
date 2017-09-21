@@ -67,3 +67,10 @@ Note 1: If a seeded database is renamed in the manifest, a new database will be 
 Note 2: If all you need is a database deployment, it is possible to deploy this
 release with zero broker instances and completely remove any dependencies on Cloud Foundry.
 See the [proxy](jobs/proxy/spec) and [acceptance-tests](jobs/acceptance-tests/spec) spec files for standalone configuration options.
+
+## Instance tuning ##
+### slow query log ###
+ 
+The slow query log is enabled and you can find long query exceeded 10 seconds (by default) in `/var/vcap/sys/log/mysql/mysql_slow_query.log`
+
+To change the threshold above which SQL queries get logged in the slow query log file, update  `cf_mysql.mysql.long_query_time` (time in seconds/microseconds).
