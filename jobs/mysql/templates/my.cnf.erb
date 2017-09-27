@@ -195,6 +195,13 @@ max_connections                 = <%= p('cf_mysql.mysql.max_connections') %>
 # Event Scheduler
 event_scheduler                 = <%= p('cf_mysql.mysql.event_scheduler') %>
 
+# TLS configuration
+<% if_p('cf_mysql.mysql.tls.server_certificate') do %>
+ssl-cert                        = /etc/mysql/server-cert.pem
+<% end %>
+<% if_p('cf_mysql.mysql.tls.server_key') do %>
+ssl-key                         = /etc/mysql/server-key.pem
+<% end %>
 [mysqldump]
 quick
 quote-names
