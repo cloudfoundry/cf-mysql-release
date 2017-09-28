@@ -21,6 +21,8 @@ templates:
   cluster_health_logger_config.yml.erb: config/cluster_health_logger_config.yml
   cluster_health_logger_setup.sql.erb: config/cluster_health_logger_setup.sql
   mysql_audit_logs.logrotate.erb: config/mysql_audit_logs.logrotate
+  server-cert.pem.erb: certificates/server-cert.pem
+  server-key.pem.erb: certificates/server-key.pem
 
 packages:
 - xtrabackup

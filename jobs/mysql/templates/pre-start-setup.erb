@@ -74,26 +74,6 @@ if [ -d ${datadir} ]; then
 fi
 <% end %>
 
-<% if_p("cf_mysql.mysql.tls.server_certificate") do |server_certificate| %>
-  cat > $CONFIG_DIR/server-cert.pem <<EOF
-<%= server_certificate %>
-EOF
-<% end.else do %>
-  if [[ -e $CONFIG_DIR/server-cert.pem ]]; then
-  rm -f $CONFIG_DIR/server-cert.pem
-  fi
-<% end %>
-
-<% if_p("cf_mysql.mysql.tls.server_key") do |server_key| %>
-  cat > $CONFIG_DIR/server-key.pem <<EOF
-<%= server_key %>
-EOF
-<% end.else do %>
-  if [[ -e $CONFIG_DIR/server-key.pem ]]; then
-  rm -f $CONFIG_DIR/server-key.pem
-  fi
-<% end %>
-
 function check_mysql_filesystem() {
   if [[ $(mountpoint -d "${datadir}") == $(mountpoint -d /) ]]
   then
