@@ -17,6 +17,10 @@ production:
 
   allow_table_locks: <%= p('cf_mysql.broker.allow_table_locks') %>
 
+  <% link('mysql').if_p('cf_mysql.mysql.tls.ca_certificate') do |cert| %>
+  tls_ca_certificate: "<%= cert.gsub("\n", "\\n") %>"
+  <% end %>
+
   services:
   <% p('cf_mysql.broker.services').each do |service| %>
   - id: <%= service['id'] %>
