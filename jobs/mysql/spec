@@ -52,6 +52,7 @@ provides:
   - cf_mysql.mysql.galera_healthcheck.port
   - cf_mysql.mysql.galera_healthcheck.endpoint_username
   - cf_mysql.mysql.galera_healthcheck.endpoint_password
+  - cf_mysql.mysql.tls.ca_certificate
 - name: internal-mysql-database
   type: internal-database
 
@@ -87,6 +88,8 @@ properties:
   cf_mysql.mysql.max_connections:
     description: 'Maximum total number of database connections for the node'
     default: 1500
+  cf_mysql.mysql.tls.ca_certificate:
+    description: 'CA Certificate which signed the server certificate'
   cf_mysql.mysql.tls.server_certificate:
     description: 'Server certificate presented to the client for TLS connection to the database'
   cf_mysql.mysql.tls.server_key:
