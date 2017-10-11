@@ -15,3 +15,5 @@ acceptance_tests_src=${BOSH_INSTALL_TARGET}/src/github.com/cloudfoundry-incubato
 # this is solely for the purposes of validating compilation
 ginkgo build ${acceptance_tests_src}/cf-mysql-service/* 
 
+mkdir -p ${BOSH_INSTALL_TARGET}/cipher_finder
+cp cipher_finder/cipher_finder.jar ${BOSH_INSTALL_TARGET}/cipher_finder/
