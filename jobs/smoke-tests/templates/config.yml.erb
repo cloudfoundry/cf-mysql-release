@@ -53,7 +53,8 @@ config = {
 }
 
 if p('cf.smoke_tests.use_existing_org')
-  config[:org_name] = p('cf.smoke_tests.org')
+  config[:use_existing_organization] = true
+  config[:existing_organization] = p('cf.smoke_tests.org')
 end
 
 default_max_user_connections = 40
