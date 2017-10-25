@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+if [ "${branch}" == "master" ]
+then
+  echo "Refusing to commit to 'master'. Please commit to 'develop' or other branches"
+  exit 1
+fi

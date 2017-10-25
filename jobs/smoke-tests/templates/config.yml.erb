@@ -24,6 +24,13 @@ end.else_if_p('cf.app_domains') do |domains|
   apps_domain=domains.first
 end
 
+enable_tls_tests = false
+if_link('mysql') do |mysql|
+  mysql.if_p('cf_mysql.mysql.tls.ca_certificate') do
+    enable_tls_tests = true
+  end
+end
+
 service_name = mysql_service ? mysql_service['name'] : ''
 
 config = {
@@ -33,6 +40,7 @@ config = {
   admin_password:      p('cf.admin_password'),
   test_password:       p('cf_mysql.smoke_tests.password'),
   broker_host:         p('cf_mysql.external_host'),
+  enable_tls_tests:    enable_tls_tests,
   service_name:        service_name,
   skip_ssl_validation: p('cf.skip_ssl_validation'),
   proxy: {
@@ -45,7 +53,8 @@ config = {
 }
 
 if p('cf.smoke_tests.use_existing_org')
-  config[:org_name] = p('cf.smoke_tests.org')
+  config[:use_existing_organization] = true
+  config[:existing_organization] = p('cf.smoke_tests.org')
 end
 
 default_max_user_connections = 40
