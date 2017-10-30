@@ -197,8 +197,9 @@ event_scheduler                 = <%= p('cf_mysql.mysql.event_scheduler') %>
 
 <% if_p('cf_mysql.mysql.tls.server_certificate', 'cf_mysql.mysql.tls.server_key') do %>
 # TLS configuration
-ssl-cert                        = /var/vcap/jobs/mysql/certificates/server-cert.pem
-ssl-key                         = /var/vcap/jobs/mysql/certificates/server-key.pem
+ssl_cert                        = /var/vcap/jobs/mysql/certificates/server-cert.pem
+ssl_key                         = /var/vcap/jobs/mysql/certificates/server-key.pem
+ssl_cipher                      = TLSv1.2
 <% end %>
 
 [mysqldump]
