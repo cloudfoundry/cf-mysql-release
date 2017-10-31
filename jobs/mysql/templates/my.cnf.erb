@@ -26,9 +26,9 @@
 
   def csv_excluded_audit_users
     if_p('cf_mysql.mysql.server_audit_excluded_users_csv') do |user_csv|
-      user_csv.split(',')
+      return user_csv.split(',')
     end.else do
-      []
+      return []
     end
   end
 
@@ -54,6 +54,7 @@ nice                            = 0
 !include                        /var/vcap/jobs/mysql/config/auto-tune.cnf
 
 [mysqld]
+<% if p('cf_mysql.mysql.enable_galera') %>
 # GALERA options:
 wsrep_on                        = ON
 wsrep_provider                  = /var/vcap/packages/mariadb/lib/plugin/libgalera_smm.so
@@ -72,6 +73,7 @@ wsrep_replicate_myisam          = OFF
 wsrep_log_conflicts             = ON
 <% end %>
 wsrep_debug                     = <%= p('cf_mysql.mysql.wsrep_debug') %>
+<% end %>
 
 # Regular MYSQL options:
 character_set_server            = <%= p('cf_mysql.mysql.character_set_server') %>
@@ -188,12 +190,51 @@ innodb_flush_method             = <%= innodb_flush_method %>
 
 innodb_log_buffer_size          = <%= p('cf_mysql.mysql.innodb_log_buffer_size') %>
 
-<% if_p('cf_mysql.mysql.max_connections') do |max_connections| %>
-max_connections                 = <%= max_connections %>
-<% end %>
+max_connections                 = <%= p('cf_mysql.mysql.max_connections') %>
 
 # Event Scheduler
 event_scheduler                 = <%= p('cf_mysql.mysql.event_scheduler') %>
+
+<% if p('cf_mysql.mysql.performance_schema_enabled') %>
+performance_schema              = ON
+# Specifies the maximum number of each instrument
+performance_schema_max_cond_classes                    = 80
+performance_schema_max_file_classes                    = 50
+performance_schema_max_mutex_classes                   = 200
+performance_schema_max_rwlock_classes                  = 40
+performance_schema_max_socket_classes                  = 10
+performance_schema_max_stage_classes                   = 150
+performance_schema_max_statement_classes               = 168
+performance_schema_max_thread_classes                  = 50
+# indicates how many different users, hosts, or accounts (combinations of 'user_name'@'host_name') are expected to connect to the server.
+performance_schema_accounts_size                       = 100
+performance_schema_hosts_size                          = 100
+performance_schema_users_size                          = 100
+# affect directly how much memory is used to keep historical data, but have no impact on CPU. 
+performance_schema_events_stages_history_long_size     = 1000
+performance_schema_events_stages_history_size          = 10
+performance_schema_events_statements_history_long_size = 1000
+performance_schema_events_statements_history_size      = 10
+performance_schema_events_waits_history_long_size      = 10000
+performance_schema_events_waits_history_size           = 10
+#
+performance_schema_max_cond_instances                  = 1258
+performance_schema_max_file_handles                    = 32768
+performance_schema_max_file_instances                  = 6250
+performance_schema_max_mutex_instances                 = 5133 
+performance_schema_max_rwlock_instances                = 2765
+performance_schema_max_table_handles                   = 366
+performance_schema_max_table_instances                 = 587
+performance_schema_max_socket_instances                = 230
+performance_schema_max_thread_instances                = 288
+#
+performance_schema_setup_actors_size                   = 100
+performance_schema_setup_objects_size                  = 100
+performance_schema_session_connect_attrs_size          = 512
+performance_schema_digests_size                        = 5000
+<% else %>
+performance_schema              = OFF
+<% end %>    
 
 [mysqldump]
 quick

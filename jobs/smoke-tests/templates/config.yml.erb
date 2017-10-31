@@ -10,10 +10,11 @@ if ! p('cf_mysql.smoke_tests.standalone_tests_only')
   raise "plans must be non-empty if standalone_tests_only is true" unless mysql_service['plans']
 end
 
-proxy_ips= link('proxy').instances.map { |instance| instance.address }
-
-proxy_urls = proxy_ips.each_with_index.map do |_, index|
-  "https://#{index}-proxy-#{p('cf_mysql.external_host')}"
+proxy_urls = []
+if_link('proxy') do |proxy|
+  proxy_urls = proxy.instances.each_with_index.map do |_, index|
+    "https://#{index}-proxy-#{p('cf_mysql.external_host')}"
+  end
 end
 
 apps_domain=nil
