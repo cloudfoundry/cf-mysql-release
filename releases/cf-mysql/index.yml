@@ -37,6 +37,8 @@ builds:
     version: "12"
   a3f883bb-2bc8-4071-8524-ebebcc5b4f88:
     version: "18"
+  b0b52e7c-ee3b-49f3-4952-d2241b671ea6:
+    version: 36.8.0
   b142afd8-e6db-40d4-8a30-a1fe3dbad792:
     version: "25"
   b1f004fd-a99f-44fa-80d4-7c058a5c73a5:
