@@ -64,7 +64,7 @@ case $1 in
       ipsec_status=$?
 
       if [ ${ipsec_status} -ne 0 ]; then
-        echo "IPsec is present but not yet running, bailing"
+        echo "Exiting for restart because IPsec is present but not yet running"
         exit 1
       fi
     fi
