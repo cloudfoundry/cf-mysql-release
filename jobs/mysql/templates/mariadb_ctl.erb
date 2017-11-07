@@ -56,6 +56,20 @@ case $1 in
   # monit unmonitor && monit monitor, at which point monit would find the pid and reset the status to 'running'
 
   start)
+    # Ensure that if IPsec is present, it is running before we try to start
+    set +e
+    ipsec_path=$(ls /var/vcap/packages/strongswan*/sbin/ipsec | head -1)
+    if [ "${ipsec_path}" != "" ]; then
+      $ipsec_path status
+      ipsec_status=$?
+
+      if [ ${ipsec_status} -ne 0 ]; then
+        echo "IPsec is present but not yet running, bailing"
+        exit 1
+      fi
+    fi
+    set -e
+
     # WORKAROUND: monit may attempt to run this script multiple times if mysqld does not start in time.
     # Ensure that running this script multiple times does not spawn multiple copies of _ctrl
     LAUNCHER_NAME=mariadb_ctl_launcher
