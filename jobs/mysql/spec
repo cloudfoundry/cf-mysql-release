@@ -212,7 +212,7 @@ properties:
 
   cf_mysql.mysql.disable_auto_sst:
     description: 'When disable_auto_sst is true, nodes unable to IST will be prevented from automatically deleting their data and performing an SST'
-    default: true
+    default: false
   cf_mysql.mysql.interrupt_notify_cmd:
     description: 'Path to a binary to run when SST is prevented from running'
     default: ""
