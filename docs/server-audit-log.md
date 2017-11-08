@@ -22,6 +22,6 @@ See (MariaDB audit plugin documentation)[https://mariadb.com/kb/en/mariadb/about
 
 By default, the audit log will live in /var/vcap/store/mysql_audit_logs/mysql_server_audit.log.
 
-## Using Syslog
+## Syslog
 
-If syslog is enabled (i.e., `syslog_aggregator.address` is set), then the server audit logs will be written to syslog as well as a local logfile.
+Due to the fact that the audit log may contain sensitive application data, it is not sent to syslog.
