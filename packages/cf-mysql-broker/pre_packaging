@@ -1,11 +1,28 @@
-# abort script on any command that exits with a non zero value
-set -e
+set -e -x
 
 pushd ${BUILD_DIR}/cf-mysql-broker
-  # cache gems
-  rm -rf vendor/*
-  bundle package --all --no-install
+  rm -rf ./vendor/cache/
 
-  # remove unneeded files
+  set +e
+  for i in {1..3}; do
+    bundle config --local specific_platform true
+    BUNDLE_WITHOUT=development:test bundle package --all --all-platforms --no-install --path ./vendor/cache
+    exit_code="$?"
+
+    if [ "${exit_code}" == "0" ]; then
+      break
+    fi
+    sleep 1
+  done
+  set -e
+  if [ "${exit_code}" != "0" ]; then
+    echo "ERROR: Failed to run 'bundle package' after 3 attempts"
+    exit "${exit_code}"
+  fi
+
+  rm -rf ./vendor/cache/ruby
+  rm -rf ./vendor/cache/vendor
+  bundle config --delete NO_INSTALL
+
   rm -rf spec
 popd

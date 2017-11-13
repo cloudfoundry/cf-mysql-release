@@ -38,22 +38,22 @@ python/Python-2.7.13.tgz:
   size: 17076672
   object_id: d97aea2b-8036-4b6a-709c-200865a69da1
   sha: dce2b862a30099ee48c19a7c34e2d7c2eeff5670
-ruby/bundler-1.12.5.gem:
-  size: 280064
-  object_id: 6aa476be-2c24-43db-a409-3ad7828164b1
-  sha: a414b2aafa54affac99dc453ced5adc152211eb9
-ruby/ruby-2.3.1.tar.gz:
-  size: 17797997
-  object_id: ba97d279-69da-4802-b142-83a4c6853bc2
-  sha: c39b4001f7acb4e334cb60a0f4df72d434bef711
-ruby/rubygems-2.6.13.tgz:
-  size: 768906
-  object_id: b3209093-5aa7-4381-45da-f2f644cf749d
-  sha: ebc88822f50656e84ec87687029e9baf5b895f63
-ruby/yaml-0.1.6.tar.gz:
-  size: 503012
-  object_id: 566e2377-6c7b-4c24-8757-60efb86da513
-  sha: f3d404e11bec3c4efcddfd14c42d46f1aabe0b5d
+ruby/bundler-1.16.0.gem:
+  size: 350208
+  object_id: 5b13ebf7-2d99-4096-7968-015d0a32df5e
+  sha: cb3c531fd27f82a7525224e4315418757056dc67
+ruby/ruby-2.3.5.tar.gz:
+  size: 17836997
+  object_id: 821e39bd-4996-428b-4d5d-50d69cf58743
+  sha: 3247e217d6745c27ef23bdc77b6abdb4b57a118f
+ruby/rubygems-2.6.14.tgz:
+  size: 769418
+  object_id: 7c11fe2a-3f49-42b3-522f-458b7ec1fb5c
+  sha: d9c131e7b84fbe9179033545ffddc4097e9c6c7b
+ruby/yaml-0.1.7.tar.gz:
+  size: 527518
+  object_id: 4f10a1e8-949e-4d9b-6e49-fabe5cba6fc0
+  sha: 3590cbf092ef4c71bc0a9b404c00a626b1e04dee
 scons/scons-2.3.1.tar.gz:
   size: 499037
   object_id: e3136aa7-9bf6-4c49-a26d-9ebe85665818
@@ -82,7 +82,7 @@ xtrabackup/percona-xtrabackup-percona-xtrabackup-2.4.5.tar.gz:
   size: 51954652
   object_id: 54fc2860-5858-4c85-b110-3b37633676cb
   sha: 8f86039fa330739e1a6be77dcbd2274498e090bf
-xtrabackup/socat-1.7.3.1.tar.gz:
-  size: 606049
-  object_id: e70cc852-c9b3-4e69-8b67-0badc7cacaaf
-  sha: a6f1d8ab3e85f565dbe172f33a9be6708dd52ffb
+xtrabackup/socat-1.7.3.2.tar.gz:
+  size: 611707
+  object_id: ba6cfda8-0c00-451e-6338-2007ef503d56
+  sha: 28eca1f8efeadde3f96c1ac89e553c28d736d41d
