@@ -66,4 +66,25 @@ Note 1: If a seeded database is renamed in the manifest, a new database will be 
 
 Note 2: If all you need is a database deployment, it is possible to deploy this
 release with zero broker instances and completely remove any dependencies on Cloud Foundry.
-See the [proxy](jobs/proxy/spec) and [acceptance-tests](jobs/acceptance-tests/spec) spec files for standalone configuration options.
+See the [proxy](jobs/proxy/spec) and [acceptance-tests](jobs/acceptance-tests/spec) spec files for standalone configuration options.  
+
+## Instance tuning ##
+### Performance schema ###
+
+The Performance Schema is a feature for monitoring server performance, see related mariadb documentation : [https://mariadb.com/kb/en/library/performance-schema/](https://mariadb.com/kb/en/library/performance-schema/ "https://mariadb.com/kb/en/library/performance-schema/").   
+Performance_schema database, consists of a number of tables that can be queried with regular SQL statements, returning specific performance information.  
+
+To activate Performance_schema, update `cf_mysql.mysql.performance_schema_enabled` property in mysql instance group.  
+
+Performance_schema uses a memory engine (performance_schema) which can potentially increase memory usage when enabled.  
+To see memory used by performance_schema in bytes:
+   
+```
+MariaDB [(none)]> show engine performance_schema status;  
++--------------------+--------------------------------------------------------------+----------+  
+| Type               | Name                                                         | Status   |  
++--------------------+--------------------------------------------------------------+----------+  
+...
+| performance_schema | performance_schema.memory                                    | 68024448 |
++--------------------+--------------------------------------------------------------+----------+ 
+```
