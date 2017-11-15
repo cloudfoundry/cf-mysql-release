@@ -59,7 +59,8 @@ case $1 in
     # Ensure that if IPsec is present, it is running before we try to start
     set +e
     ipsec_path=$(ls /var/vcap/packages/strongswan*/sbin/ipsec | head -1)
-    if [ "${ipsec_path}" != "" ]; then
+    ipsec_monit_job=$(/var/vcap/bosh/bin/monit summary | grep ipsec)
+    if [ -n "${ipsec_monit_job}" ]; then
       $ipsec_path status
       ipsec_status=$?
 
