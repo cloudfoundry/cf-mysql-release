@@ -118,6 +118,7 @@ log_bin_trust_function_creators = 1
 # Slow query logging:
 slow_query_log                  = 1
 slow_query_log_file             = /var/vcap/sys/log/mysql/mysql_slow_query.log
+long_query_time                 = <%= p('cf_mysql.mysql.long_query_time') %>
 <% if p('cf_mysql.mysql.log_queries_not_using_indexes') %>
 log_queries_not_using_indexes   = ON
 <% end %>
