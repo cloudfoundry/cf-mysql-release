@@ -32,7 +32,6 @@ Db:
   UpgradePath: /var/vcap/packages/mariadb/bin/mysql_upgrade
   User: <%= p('cf_mysql.mysql.admin_username')%>
   Password: <%= p('cf_mysql.mysql.admin_password')%>
-  Port: <%= p('cf_mysql.mysql.port') %>
   PreseededDatabases:
   <% p("cf_mysql.mysql.seeded_databases").each do |seed| %>
   - DBName: <%= seed["name"] %>
@@ -42,6 +41,7 @@ Db:
   PostStartSQLFiles:
   - /var/vcap/jobs/mysql/config/galera_healthcheck_setup.sql
   - /var/vcap/jobs/mysql/config/cluster_health_logger_setup.sql
+  Socket: /var/vcap/sys/run/mysql/mysqld.sock
 Upgrader:
   PackageVersionFile: /var/vcap/packages/mariadb/VERSION
   LastUpgradedVersionFile: /var/vcap/store/mysql/mysql_upgrade_info
