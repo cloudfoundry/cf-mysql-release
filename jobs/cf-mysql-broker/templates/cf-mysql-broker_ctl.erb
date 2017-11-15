@@ -17,9 +17,9 @@ export HOME=/home/vcap
 export JOB_INDEX=<%= index %>
 
 source /var/vcap/packages/cf-mysql-common/pid_utils.sh
-source /var/vcap/packages/cf-mysql-common/syslog_utils.sh
+source /var/vcap/packages/cf-mysql-common/logging.sh
 
-tee_output_to_sys_log ${LOG_DIR}
+output_to_logfiles ${LOG_DIR}
 
 # add mysql to path
 if [ ! -f /usr/local/bin/mysql ]; then
@@ -34,11 +34,6 @@ case $1 in
     chown -R vcap:vcap $RUN_DIR
     mkdir -p $LOG_DIR
     chown -R vcap:vcap $LOG_DIR
-
-    <% if_p("syslog_aggregator.address", "syslog_aggregator.port", "syslog_aggregator.transport") do %>
-    # Start syslog forwarding
-    /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $JOB_DIR/config
-    <% end %>
 
     pushd $PACKAGE_DIR
       # Run the migrations only on the first node

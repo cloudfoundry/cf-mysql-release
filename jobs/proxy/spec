@@ -3,7 +3,6 @@ name: proxy
 
 templates:
   switchboard_ctl.erb: bin/switchboard_ctl
-  syslog_forwarder.conf.erb: config/syslog_forwarder.conf
   switchboard.yml.erb: config/switchboard.yml
   post-start.erb: bin/post-start
 
@@ -33,16 +32,8 @@ provides:
 packages:
 - switchboard
 - cf-mysql-common
-- syslog_aggregator
 
 properties:
-  syslog_aggregator.address:
-    description: "IP address for syslog aggregator"
-  syslog_aggregator.port:
-    description: "TCP port of syslog aggregator"
-  syslog_aggregator.transport:
-    description: "Transport to be used when forwarding logs (tcp|udp|relp)."
-    default: "tcp"
 
   cf_mysql.mysql.port:
     description: 'Port the mysql server listens on'

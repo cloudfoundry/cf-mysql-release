@@ -41,34 +41,6 @@ date >> $SLOW_QUERY_LOG_FILE 2>> $SLOW_QUERY_LOG_FILE
 mkdir -p "${HEALTHCHECK_LOG_DIR}"
 chown -R vcap:vcap "${HEALTHCHECK_LOG_DIR}"
 
-<% if_p("syslog_aggregator.address", "syslog_aggregator.port", "syslog_aggregator.transport") do %>
-# Start syslog forwarding
-/var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $MARIADB_JOB_DIR/config
-<% end.else do %>
-if [[ -e /etc/rsyslog.d/01-mysql.conf ]]; then
-  rm -f /etc/rsyslog.d/01-mysql.conf
-
-  attempts=0
-  set +e
-  /usr/sbin/service rsyslog restart
-
-  # Attempt to restart syslog because of race condition with other releases
-  while [  $? -ne 0 ]; do
-    let attempts=attempts+1
-
-    if [ ${attempts} -ge 10 ]; then
-      echo "Unable to restart rsyslog" >> "${LOG_FILE}"
-      exit 1
-    fi
-    echo "Failed restarting rsyslog; Attempt ${attempts} of 10" >> "${LOG_FILE}"
-
-    sleep 5
-    /usr/sbin/service rsyslog restart
-  done
-
-  set -e
-fi
-<% end %>
 
 # It is surprisingly hard to get the config file location passed in
 # on the command line to the mysql.server script. This is easier.

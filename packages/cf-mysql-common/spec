@@ -2,4 +2,4 @@
 name: cf-mysql-common
 files:
 - cf-mysql-common/pid_utils.sh
-- cf-mysql-common/syslog_utils.sh
+- cf-mysql-common/logging.sh

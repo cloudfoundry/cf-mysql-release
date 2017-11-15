@@ -8,7 +8,6 @@ templates:
   database.yml.erb: config/database.yml
   quota-enforcer_ctl.erb: bin/quota-enforcer_ctl
   quota_enforcer_config.yml.erb: config/quota_enforcer_config.yml
-  syslog_forwarder.conf.erb: config/syslog_forwarder.conf
   healthcheck.sh.erb: bin/healthcheck.sh
 
 consumes:
@@ -33,7 +32,6 @@ packages:
 - cf-mysql-broker
 - cf-mysql-common
 - mariadb
-- syslog_aggregator
 - quota-enforcer
 
 properties:
@@ -43,14 +41,6 @@ properties:
   cf.skip_ssl_validation:
     description: 'Determines whether dashboard verifies SSL certificates when communicating with Cloud Controller and UAA'
     default: false
-
-  syslog_aggregator.address:
-    description: "IP address for syslog aggregator"
-  syslog_aggregator.port:
-    description: "TCP port of syslog aggregator"
-  syslog_aggregator.transport:
-    description: "Transport to be used when forwarding logs (tcp|udp|relp)."
-    default: "tcp"
 
   cf_mysql.host:
     description: 'Host (DNS) or IP address of the load balancer, which sits above the mysql proxy, used by the broker and bound applications to reach the service'

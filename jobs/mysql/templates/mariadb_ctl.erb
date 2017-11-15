@@ -27,9 +27,9 @@ RUN_DIR=/var/vcap/sys/run/$PROC_NAME
 PIDFILE=$RUN_DIR/$PROC_NAME.pid
 
 source /var/vcap/packages/cf-mysql-common/pid_utils.sh
-source /var/vcap/packages/cf-mysql-common/syslog_utils.sh
+source /var/vcap/packages/cf-mysql-common/logging.sh
 
-tee_output_to_sys_log ${LOG_DIR}
+output_to_logfiles ${LOG_DIR}
 
 # logrotate audit logs
 ln -sf /var/vcap/jobs/mysql/config/mysql_audit_logs.logrotate /etc/logrotate.d/mysql_audit_logs

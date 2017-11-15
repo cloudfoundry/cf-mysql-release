@@ -14,7 +14,6 @@ templates:
   galera_healthcheck_setup.sql.erb: config/galera_healthcheck_setup.sql
   gra-log-purger_ctl.erb: bin/gra-log-purger_ctl
   gra-log-purger.sh.erb: bin/gra-log-purger.sh
-  syslog_forwarder.conf.erb: config/syslog_forwarder.conf
   pre-start-setup.erb: bin/pre-start
   pre-start-execution.erb: bin/pre-start-execution
   cluster_health_logger_ctl.erb: bin/cluster_health_logger_ctl
@@ -33,7 +32,6 @@ packages:
 - gra-log-purger
 - cf-mysql-common
 - cf-mysql-cluster-health-logger
-- syslog_aggregator
 - generate-auto-tune-mysql
 
 consumes:
@@ -57,13 +55,6 @@ provides:
   type: internal-database
 
 properties:
-  syslog_aggregator.address:
-    description: "IP address for syslog aggregator"
-  syslog_aggregator.port:
-    description: "TCP port of syslog aggregator"
-  syslog_aggregator.transport:
-    description: "Transport to be used when forwarding logs (tcp|udp|relp)."
-    default: "tcp"
 
   cf_mysql.mysql.admin_username:
     description: 'Username for the MySQL server admin user'
