@@ -27,7 +27,7 @@ GRANT ALL PRIVILEGES ON *.* TO '<%= p('cf_mysql.mysql.admin_username') %>'@'<%= 
   <% if p('cf_mysql.mysql.roadmin_enabled') %>
 CREATE USER IF NOT EXISTS 'roadmin'@'<%= host %>' IDENTIFIED BY '<%= p('cf_mysql.mysql.roadmin_password') %>';
 SET PASSWORD FOR 'roadmin'@'<%= host %>' = PASSWORD('<%= p('cf_mysql.mysql.roadmin_password') %>');
-GRANT SELECT, PROCESS ON *.* TO 'roadmin'@'<%= host %>';
+GRANT SELECT, PROCESS, REPLICATION CLIENT ON *.* TO 'roadmin'@'<%= host %>';
   <% end %>
 <% end %>
 
