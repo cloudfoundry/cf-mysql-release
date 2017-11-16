@@ -106,8 +106,8 @@ This is a general security recommendation for MySQL
 symbolic links enabled, if somebody had write access to the data directory, they could
 change or delete other files owned by the same user.
 
-We expose an `enable_local_file` property with a default of `false` to toggle the
-`local_infile` system variable. This causes the server to refuse all LOAD DATA LOCAL
+We expose an `enable_local_file` property with a default of `true` to toggle the
+`local_infile` system variable. If this is disabled, the server will refuse all LOAD DATA LOCAL
 statements, punting those with an ERROR 1148.
 
 `secure_file_priv` has been configured to `/var/vcap/data/mysql/files` to ensure
