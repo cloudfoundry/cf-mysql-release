@@ -5,6 +5,8 @@ builds:
     version: "36"
   0a13aa4c-fc3a-4907-bcbc-27734554d962:
     version: "17"
+  0a359d9f-8492-4bed-6bf2-c0a3e70aef1f:
+    version: 36.10.0
   0c8dee6d595059a19ca9009a0ceeb0a3c825be78:
     version: "3"
   0efd7f30c9e3c418f250ef48596a67d4335fa648:
