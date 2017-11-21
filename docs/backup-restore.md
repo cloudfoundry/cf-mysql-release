@@ -94,7 +94,7 @@ Perform the following steps to restore your MySQL data from a manual backup with
     ```
 
 1. When restoring all databases, if you are running in HA mode, re-configure the cluster to use three nodes and redeploy. If you are not running HA mode, restart the database server. This step is not necessary if scaling back to three MySQL nodes.
-  ```
-  $ monit stop mariadb_ctrl
-  $ monit start mariadb_ctrl
-  ```
+    ```
+    $ monit stop mariadb_ctrl
+    $ monit start mariadb_ctrl
+    ```
