@@ -78,10 +78,10 @@ xtrabackup/libtool-2.4.2.tar.gz:
   size: 2632347
   object_id: 958f3335-2373-4c4f-9db1-7391a9a7e6f2
   sha: 22b71a8b5ce3ad86e1094e7285981cae10e6ff88
-xtrabackup/percona-xtrabackup-percona-xtrabackup-2.4.5.tar.gz:
-  size: 51954652
-  object_id: 54fc2860-5858-4c85-b110-3b37633676cb
-  sha: 8f86039fa330739e1a6be77dcbd2274498e090bf
+xtrabackup/percona-xtrabackup-2.4.8.tar.gz:
+  size: 57965576
+  object_id: ca08f6b1-14a5-45f7-4e57-df362b2fcb8a
+  sha: 5cc6b689b9682923211f9aace7ec6c6d22b69346
 xtrabackup/socat-1.7.3.2.tar.gz:
   size: 611707
   object_id: ba6cfda8-0c00-451e-6338-2007ef503d56
