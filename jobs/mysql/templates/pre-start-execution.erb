@@ -43,9 +43,7 @@ set +e
 $MARIADB_CTRL_PREFIX_CMD \
 "PATH=$PATH $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl-prestart \
          -configPath=$CONFIG_FILE \
-         2>&1 \
-         | tee -a $LOG_FILE \
-         | logger -p local1.error -t mariadb_ctrl"
+         >> $LOG_FILE 2>&1"
 status=$?
 set -e
 

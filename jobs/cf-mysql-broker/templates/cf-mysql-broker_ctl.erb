@@ -46,50 +46,43 @@ case $1 in
 
           # Create DB and run migrations
           set +e
-          su - vcap -p -c -o pipefail "PATH=$PATH bundle exec rake db:create 2>&1 \
-              | tee -a $LOG_DIR/db_migrate.combined.log \
-              | logger -p local1.error -t mysql-broker-dbcreate"
+          su - vcap -p -c -o pipefail "PATH=$PATH bundle exec rake db:create \
+              >> $LOG_DIR/db_migrate.combined.log 2>&1"
 
-          su - vcap -p -c -o pipefail "PATH=$PATH bundle exec rake db:migrate 2>&1 \
-              | tee -a $LOG_DIR/db_migrate.combined.log \
-              | logger -p local1.error -t mysql-broker-dbmigrate"
+          su - vcap -p -c -o pipefail "PATH=$PATH bundle exec rake db:migrate \
+              >> $LOG_DIR/db_migrate.combined.log 2>&1"
 
           EXIT_STATUS=$?
           set -e
 
           if [ $EXIT_STATUS != 0 ]; then
             echo "Migrations failed at `date`" \
-                | tee -a $LOG_DIR/db_migrate.combined.log \
-                | logger -p local1.error -t mysql-broker-dbmigrate
+                >> $LOG_DIR/db_migrate.combined.log
             exit 1
           fi
 
           # Sync size of existing service instances to match plans in manifest
           set +e
-          su - vcap -p -c -o pipefail "PATH=$PATH bundle exec rake broker:sync_plans_in_db 2>&1 \
-              | tee -a $LOG_DIR/cf-mysql-broker.log \
-              | logger -p local1.error -t mysql-broker-plans"
+          su - vcap -p -c -o pipefail "PATH=$PATH bundle exec rake broker:sync_plans_in_db \
+              >> $LOG_DIR/cf-mysql-broker.log 2>&1"
 
           EXIT_STATUS=$?
           set -e
 
           if [ $EXIT_STATUS != 0 ]; then
             echo "Failed to sync broker plans at `date`" \
-                | tee -a $LOG_DIR/cf-mysql-broker.log \
-                | logger -p local1.error -t mysql-broker-plans
+                >> $LOG_DIR/cf-mysql-broker.log
             exit 1
           fi
       fi
 
-      su - vcap -p -c -o pipefail "PATH=$PATH bundle exec rake table_locks:update_table_lock_permissions 2>&1 \
-        | tee -a $LOG_DIR/cf-mysql-broker.log \
-        | logger -p local1.error -t mysql-broker-update-table-lock-permissions"
+      su - vcap -p -c -o pipefail "PATH=$PATH bundle exec rake table_locks:update_table_lock_permissions \
+        >> $LOG_DIR/cf-mysql-broker.log 2>&1"
 
     popd
 
-    su - vcap -p -c -o pipefail "PATH=$PATH bundle exec unicorn -c $JOB_DIR/config/unicorn.conf.rb 2>&1 \
-        | tee -a $LOG_DIR/cf-mysql-broker.log \
-        | logger -p local1.error -t mysql-broker &"
+    su - vcap -p -c -o pipefail "PATH=$PATH bundle exec unicorn -c $JOB_DIR/config/unicorn.conf.rb \
+        >> $LOG_DIR/cf-mysql-broker.log 2>&1 &"
     ;;
 
   stop)

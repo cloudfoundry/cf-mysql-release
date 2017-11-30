@@ -91,9 +91,7 @@ case $1 in
     su - vcap -c -o pipefail \
     "<%= disable_sst_string %> PATH=$PATH PERL5LIB=$PERL5LIB $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
              -configPath=$CONFIG_FILE \
-             2>&1 \
-             | tee -a $LOG_FILE \
-             | logger -p user.error -t mariadb_ctrl &"
+             >> $LOG_FILE 2>&1 &"
 
     echo $! > $LAUNCHER_PID_FILE
 

@@ -29,9 +29,7 @@ case $1 in
     su - vcap -c -o pipefail "$package_dir/bin/switchboard \
       -configPath=$job_dir/config/switchboard.yml \
       --logLevel="info" \
-      2>&1 \
-      | tee -a $log_dir/switchboard.combined.log \
-      | logger -p local1.error -t switchboard"
+      >> $log_dir/switchboard.combined.log 2>&1"
 
     log "Starting switchboard... done"
     ;;
