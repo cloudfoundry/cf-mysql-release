@@ -39,6 +39,9 @@ pid_guard $PIDFILE $PROC_NAME
 
 cd $MARIADB_CTRL_PACKAGE
 
+# Ignore failures during pre-start
+#   The interruptor will prevent prestart from succeeding, and then galera-healthcheck will not be running.
+#   The rejoin-unsafe errand only works on nodes that have a galera-healthcheck process running.
 set +e
 $MARIADB_CTRL_PREFIX_CMD \
 "PATH=$PATH $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl-prestart \
