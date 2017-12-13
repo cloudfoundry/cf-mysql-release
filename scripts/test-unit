@@ -55,9 +55,6 @@ echo -e "\n>>>>>>>> Testing Galera Healthcheck..."
 echo -e "\n>>>>>>>> Testing MariaDB Control..."
 "${RELEASE_DIR}/src/github.com/cloudfoundry/mariadb_ctrl/bin/test-unit" "$@"
 
-echo -e "\n>>>>>>>> Testing MariaDB Control Mysql Integration..."
-"${RELEASE_DIR}/src/github.com/cloudfoundry/mariadb_ctrl/bin/test-integration" "$@"
-
 echo -e "\n>>>>>>>> Testing Quota Enforcer..."
 "${RELEASE_DIR}/src/github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/bin/test-unit" "$@"
 
