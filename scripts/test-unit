@@ -21,17 +21,17 @@ function verify_config_file_updated_with_tests() {
   popd > /dev/null
 }
 
-echo -e "\nVerifying shasum of my.cnf.erb..."
+echo -e "\n>>>>>>>> Verifying shasum of my.cnf.erb..."
 verify_config_file_updated_with_tests
 
 # shellcheck source=/dev/null
 source "${RELEASE_DIR}/.envrc"
 
-echo -e "\nTesting our bash scripts fatally..."
+echo -e "\n>>>>>>>> Testing our bash scripts fatally..."
 # Custom shellcheck exclusions
 shellcheck --shell=bash "${RELEASE_DIR}/scripts/download-logs" -e SC2029 -e SC2068 -e SC2086
 
-echo -e "\nTesting the rest of our bash scripts..."
+echo -e "\n>>>>>>>> Testing the rest of our bash scripts..."
 # Things we have yet to address
 pushd "${RELEASE_DIR}"
 set +e
@@ -44,21 +44,25 @@ popd
 # Remove and reinstall the ginkgo binary as it might be from the wrong target architecture
 rm -rf "${RELEASE_DIR}/bin/ginkgo"
 go install -v github.com/onsi/ginkgo/ginkgo
+go get github.com/maxbrunsfeld/counterfeiter
 
-echo -e "\nTesting Switchboard..."
+echo -e "\n>>>>>>>> Testing Switchboard..."
 "${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/switchboard/bin/test" "$@"
 
-echo -e "\nTesting Galera Healthcheck..."
+echo -e "\n>>>>>>>> Testing Galera Healthcheck..."
 "${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/galera-healthcheck/bin/test" "$@"
 
-echo -e "\nTesting MariaDB Control..."
+echo -e "\n>>>>>>>> Testing MariaDB Control..."
 "${RELEASE_DIR}/src/github.com/cloudfoundry/mariadb_ctrl/bin/test-unit" "$@"
 
-echo -e "\nTesting Quota Enforcer..."
+echo -e "\n>>>>>>>> Testing MariaDB Control Mysql Integration..."
+"${RELEASE_DIR}/src/github.com/cloudfoundry/mariadb_ctrl/bin/test-integration" "$@"
+
+echo -e "\n>>>>>>>> Testing Quota Enforcer..."
 "${RELEASE_DIR}/src/github.com/pivotal-cf-experimental/cf-mysql-quota-enforcer/bin/test-unit" "$@"
 
-echo -e "\nTesting Bootstrapper..."
+echo -e "\n>>>>>>>> Testing Bootstrapper..."
 "${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/cf-mysql-bootstrap/bin/test" "$@"
 
-echo -e "\nTesting Cluster Health Logger..."
+echo -e "\n>>>>>>>> Testing Cluster Health Logger..."
 "${RELEASE_DIR}/src/github.com/cloudfoundry-incubator/cf-mysql-cluster-health-logger/bin/test" "$@"
