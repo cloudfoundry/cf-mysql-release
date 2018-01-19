@@ -8,8 +8,8 @@ check/check-0.9.13.tar.gz:
   sha: 09f682d2239b1353818b74d06099a17460450240
 cipher_finder/cipher_finder.jar:
   size: 22062035
-  object_id: a5b8ee17-6ae6-449c-729a-3a8e5478a051
-  sha: 476971590b368b3e4e5f46cc87ec77d9babc1986
+  object_id: 3590844f-0cca-4892-4c3c-a98850158952
+  sha: 2450167b812bc3f98f57598f64465903d908f495
 cli/cf-cli_6.32.0_linux_x86-64.tgz:
   size: 6065317
   object_id: 1d0c8a45-f1d8-4d53-40fe-f21a177cd03a
