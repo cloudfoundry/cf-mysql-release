@@ -1,0 +1,11 @@
+---
+Host: localhost
+Port: 3306
+User: root
+Password:
+IgnoredUsers:
+- cluster-health
+DBName: development
+PauseInSeconds: 1
+AdminUser: root
+AdminPassword:

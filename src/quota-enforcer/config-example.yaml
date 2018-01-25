@@ -1,0 +1,11 @@
+---
+Host: 127.0.0.1
+Port: 3306
+User: quota-enforcer
+Password: password
+IgnoredUsers:
+- cluster-health-logger
+DBName: development
+PauseInSeconds: 1
+AdminUser: root
+AdminPassword: password

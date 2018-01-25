@@ -21,7 +21,7 @@ case $1 in
     mkdir -p $log_dir
     chown -R vcap:vcap $log_dir
 
-    su - vcap -c -o pipefail "$package_dir/bin/cf-mysql-quota-enforcer \
+    su - vcap -c -o pipefail "$package_dir/bin/quota-enforcer \
         -pidFile=$pidfile \
         -configPath=$job_dir/config/quota_enforcer_config.yml \
      >>$log_dir/quota_enforcer.stdout.log 2>>$log_dir/quota_enforcer.stderr.log"

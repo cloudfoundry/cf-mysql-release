@@ -1,0 +1,136 @@
+{
+	"version": 0,
+	"dependencies": [
+		{
+			"importpath": "code.cloudfoundry.org/cflager",
+			"repository": "https://github.com/cloudfoundry/cflager",
+			"vcs": "git",
+			"revision": "3b0406dd8038bb31452dfaf171c4f0efa55393bf",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "code.cloudfoundry.org/lager",
+			"repository": "https://github.com/cloudfoundry/lager",
+			"vcs": "git",
+			"revision": "62951a8009ab331bb21dc418074fa54e66eb9b6a",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/DATA-DOG/go-sqlmock",
+			"repository": "https://github.com/DATA-DOG/go-sqlmock",
+			"vcs": "git",
+			"revision": "05f39e9110c0ed1ec1834d06004693026a4d24f1",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/go-sql-driver/mysql",
+			"repository": "https://github.com/go-sql-driver/mysql",
+			"vcs": "git",
+			"revision": "0b58b37b664c21f3010e836f1b931e1d0b0b0685",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/golang/protobuf/proto",
+			"repository": "https://github.com/golang/protobuf",
+			"vcs": "git",
+			"revision": "f592bd283e9ef86337a432eb50e592278c3d534d",
+			"branch": "master",
+			"path": "/proto",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/golang/protobuf/ptypes/any",
+			"repository": "https://github.com/golang/protobuf",
+			"vcs": "git",
+			"revision": "f592bd283e9ef86337a432eb50e592278c3d534d",
+			"branch": "master",
+			"path": "ptypes/any",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/imdario/mergo",
+			"repository": "https://github.com/imdario/mergo",
+			"vcs": "git",
+			"revision": "50d4dbd4eb0e84778abe37cefef140271d96fade",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/kisielk/sqlstruct",
+			"repository": "https://github.com/kisielk/sqlstruct",
+			"vcs": "git",
+			"revision": "648daed35d49dac24a4bff253b190a80da3ab6a5",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/nu7hatch/gouuid",
+			"repository": "https://github.com/nu7hatch/gouuid",
+			"vcs": "git",
+			"revision": "179d4d0c4d8d407a32af483c2354df1d2c91e6c3",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/onsi/ginkgo",
+			"repository": "https://github.com/onsi/ginkgo",
+			"vcs": "git",
+			"revision": "43e2af1f01ace55adbb6d7d0f30416476db1baae",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/onsi/gomega",
+			"repository": "https://github.com/onsi/gomega",
+			"vcs": "git",
+			"revision": "c90bd38f8da6e92f8b114953db2f0ad7361fb4b4",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/pivotal-cf-experimental/service-config",
+			"repository": "https://github.com/pivotal-cf-experimental/service-config",
+			"vcs": "git",
+			"revision": "b1dc94de6ada8bfddf159ce2234958a8f02aec77",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/tedsuo/ifrit",
+			"repository": "https://github.com/tedsuo/ifrit",
+			"vcs": "git",
+			"revision": "6711154296c2b3fc5cd1932f0638c8ca0ce8a8a7",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "golang.org/x/sys/unix",
+			"repository": "https://go.googlesource.com/sys",
+			"vcs": "git",
+			"revision": "a646d33e2ee3172a661fc09bca23bb4889a41bc8",
+			"branch": "master",
+			"path": "/unix",
+			"notests": true
+		},
+		{
+			"importpath": "gopkg.in/validator.v2",
+			"repository": "https://gopkg.in/validator.v2",
+			"vcs": "git",
+			"revision": "3e4f037f12a1221a0864cf0dd2e81c452ab22448",
+			"branch": "v2",
+			"notests": true
+		},
+		{
+			"importpath": "gopkg.in/yaml.v2",
+			"repository": "https://gopkg.in/yaml.v2",
+			"vcs": "git",
+			"revision": "e4d366fc3c7938e2958e662b4258c7a89e1f0e3e",
+			"branch": "v2",
+			"notests": true
+		}
+	]
+}
