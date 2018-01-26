@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+SRC_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
+
+go tool vet -composites=false $SRC_DIR 2>&1 | grep -v /vendor/

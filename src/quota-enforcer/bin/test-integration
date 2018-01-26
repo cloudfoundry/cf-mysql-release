@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -eux
+
+MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
+
+# This script assumes that it lives one directory below the src directory.
+SRC_DIR="$( cd $MY_DIR/.. && pwd  )"
+
+export CONFIG_PATH=${CONFIG_PATH:-$SRC_DIR/config-default.yaml}
+
+ginkgo -r -race -failOnPending -randomizeAllSpecs "$@" ${SRC_DIR}/integration

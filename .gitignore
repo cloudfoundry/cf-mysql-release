@@ -21,7 +21,6 @@ releases/**/*.tgz
 *#
 #*
 *config.json
-bin/
 pkg/
 src/github.com/cloudfoundry-incubator/spiff/
 src/github.com/vito/gosub/

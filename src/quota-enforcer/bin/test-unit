@@ -1,0 +1,14 @@
+#!/bin/bash
+
+result=0
+
+bin=$(dirname $0)
+
+echo -e "\nFormatting packages..."
+go fmt quota-enforcer/...
+
+echo -e "\nVetting packages for potential issues..."
+$bin/govet
+
+echo -e "\nTesting packages..."
+ginkgo -p -r -race -failOnPending -randomizeAllSpecs -skipPackage=integration $bin/..
