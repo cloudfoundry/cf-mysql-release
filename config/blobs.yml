@@ -7,9 +7,9 @@ check/check-0.9.13.tar.gz:
   object_id: d6c51160-8a67-4290-a337-dbc9d515d08a
   sha: 09f682d2239b1353818b74d06099a17460450240
 cipher_finder/cipher_finder.jar:
-  size: 22062035
-  object_id: 7f378d22-e3ef-4134-5197-ce25ce37f3fd
-  sha: 5e19e15e10837827f9d5104b969be9399a66eae2
+  size: 22062037
+  object_id: 1d7f9dc7-db2b-4ff6-4f96-79577a38234e
+  sha: 262a6023f3054fa4b4764edecfa561dde87c3870
 cli/cf-cli_6.32.0_linux_x86-64.tgz:
   size: 6065317
   object_id: 1d0c8a45-f1d8-4d53-40fe-f21a177cd03a
