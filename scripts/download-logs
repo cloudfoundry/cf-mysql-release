@@ -58,6 +58,14 @@ function check_bosh_cli() {
   fi
 }
 
+function get_vm_and_deployments_info() {
+  echo "Retrieving deployment and vm info..."
+
+  $bosh --tty deployments &> "${tempdir}/deployments"
+  $bosh --tty instances --details &> "${tempdir}/instances.details"
+  $bosh --tty vms --vitals &> "${tempdir}/vms.vitals"
+}
+
 function download_logs() {
   echo "Downloading deployment logs..."
   $bosh logs --dir="${tempdir}"
@@ -145,6 +153,7 @@ function main() {
 
   check_fast_fails
   check_bosh_cli
+  get_vm_and_deployments_info
   download_logs
   encrypt_logs
   cleanup
