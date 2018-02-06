@@ -29,7 +29,7 @@ source "${RELEASE_DIR}/.envrc"
 
 echo -e "\n>>>>>>>> Testing our bash scripts fatally..."
 # Custom shellcheck exclusions
-shellcheck --shell=bash "${RELEASE_DIR}/scripts/download-logs" -e SC2029 -e SC2068 -e SC2086
+shellcheck --shell=bash "${RELEASE_DIR}/scripts/download-logs"
 
 echo -e "\n>>>>>>>> Testing the rest of our bash scripts..."
 # Things we have yet to address

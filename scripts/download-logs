@@ -44,11 +44,11 @@ function check_fast_fails() {
 }
 
 function check_bosh_cli() {
-  if [[ $(bosh --version 2>/dev/null | grep "version 2.") ]]; then
+  if bosh --version 2>/dev/null | grep -q "version 2." ; then
     bosh="bosh"
   fi
 
-  if [[ $(bosh2 --version 2>/dev/null | grep "version 2.") ]]; then
+  if bosh2 --version 2>/dev/null | grep -q "version 2." ; then
     bosh="bosh2"
   fi
 
@@ -60,15 +60,15 @@ function check_bosh_cli() {
 
 function download_logs() {
   echo "Downloading deployment logs..."
-  $bosh logs --dir="${tempdir}" &> /dev/null
+  $bosh logs --dir="${tempdir}"
 
   for node in $($bosh instances --column="Instance" | grep -E "(database|mysql)/"); do
-    echo "Downloading logs for: ${node}"
-    download_logs_from_node "${node}" &> /dev/null
+    echo -e "\\nDownloading logs for: ${node}"
+    download_logs_from_node "${node}"
   done
 
   pushd "${tempdir}" > /dev/null
-    tar czf "${tempdir}/mysql-logs.tar.gz" *
+    tar czf "${tempdir}/mysql-logs.tar.gz" ./*
   popd > /dev/null
 }
 
@@ -81,18 +81,39 @@ function download_logs_from_node() {
 
   mkdir -p "${node_specific_log_containing_directory}"
 
-  set +e
-  mkdir -p "${node_specific_log_containing_directory}/gralogs"
-  $bosh scp "${node}":/var/vcap/store/mysql/GRA*.log "${node_specific_log_containing_directory}/gralogs/"
+  scpfiles "${node}" "${node_specific_log_containing_directory}/gralogs/" "/var/vcap/store/mysql/GRA*.log"
 
   if [ -n "${extra_logs}" ]; then
-    mkdir -p "${node_specific_log_containing_directory}/binlogs"
-    mkdir -p "${node_specific_log_containing_directory}/auditlogs"
+    scpfiles "${node}" "${node_specific_log_containing_directory}/binlogs/" "/var/vcap/store/mysql/mysql-bin.*"
+    scpfiles "${node}" "${node_specific_log_containing_directory}/auditlogs/" "/var/vcap/store/mysql_audit_logs/*"
+  fi
+}
 
-    $bosh scp "${node}":/var/vcap/store/mysql/mysql-bin.* "${node_specific_log_containing_directory}/binlogs/"
-    $bosh scp "${node}":/var/vcap/store/mysql_audit_logs/* "${node_specific_log_containing_directory}/auditlogs/"
+function scpfiles() {
+  local node
+  node="${1}"
+
+  local logdir
+  logdir="${2}"
+
+  local files
+  files="${3}"
+
+  local sshoutput=""
+
+  set +e
+  sshoutput=$(bosh ssh "${node}" -c "ls ${files} | wc -l")
+  if [ $? == 1 ]; then
+    echo -e "\\n\\nFailed to perform \"bosh ssh\", ensure that BOSH_GW_PRIVATE_KEY and BOSH_GW_HOST are set\\n\\n"
+    exit 1
   fi
   set -e
+
+  if ! echo "${sshoutput}" | grep -q "stdout | 0"; then
+    mkdir -p "${logdir}"
+    echo "Retrieving ${files}"
+    $bosh scp "${node}":"${files}" "${logdir}"
+  fi
 }
 
 function encrypt_logs() {
@@ -107,6 +128,21 @@ function cleanup() {
 }
 
 function main() {
+  while getopts "o:X" opt; do
+    case $opt in
+      o)
+        output_dir=$OPTARG
+        ;;
+      X)
+        extra_logs="true"
+        ;;
+      *)
+        echo "Unknown arguments"
+        usage
+        ;;
+    esac
+  done
+
   check_fast_fails
   check_bosh_cli
   download_logs
@@ -114,19 +150,5 @@ function main() {
   cleanup
 }
 
-while getopts "o:X" opt; do
-  case $opt in
-    o)
-      output_dir=$OPTARG
-      ;;
-    X)
-      extra_logs="true"
-      ;;
-    *)
-      echo "Unknown arguments"
-      usage
-      ;;
-  esac
-done
 
-main
+main "${@}"
