@@ -34,7 +34,7 @@ function check_fast_fails() {
   set +u
   if [ -z "${BOSH_ENVIRONMENT}" ] || [ -z "${BOSH_CLIENT_SECRET}" ] || [ -z "${BOSH_CLIENT}" ] || [ -z "${BOSH_CA_CERT}" ] || [ -z "${BOSH_DEPLOYMENT}" ] ; then
     echo "BOSH_DEPLOYMENT, BOSH_ENVIRONMENT, BOSH_CLIENT_SECRET, BOSH_CLIENT, and BOSH_CA_CERT are required environment variables"
-    exit 1
+    usage
   fi
   set -u
 
@@ -112,7 +112,7 @@ function scpfiles() {
   if ! echo "${sshoutput}" | grep -q "stdout | 0"; then
     mkdir -p "${logdir}"
     echo "Retrieving ${files}"
-    $bosh scp "${node}":"${files}" "${logdir}"
+    $bosh scp "${node}:${files}" "${logdir}"
   fi
 }
 
@@ -151,4 +151,4 @@ function main() {
 }
 
 
-main "${@}"
+main "${@:-}"
