@@ -1,38 +1,126 @@
 #!/bin/bash
 set -eu
 
-output_dir=${output_dir:-}
-nodes=()
-extra_log_files=""
-ssh_command="ssh"
+set -o pipefail
+
+datestring="$(date +%Y-%m-%d-%H-%M-%S)"
+output_dir=""
+output_file="${datestring}-mysql-logs.tar.gz.gpg"
+extra_logs=""
+bosh=""
+tempdir="$(mktemp -d)"
 
 function usage(){
   >&2 echo "Usage:
-  -n (Required) IP address or hostname of the mysql or proxy node to retrieve logs from (can be specified multiple times)
-  -d (Required) The output directory
+  -o (Required) The output directory
   -X (Optional) Include audit and binary logs
-  -i (Optional) Location of the ssh private key file for the identity used by VMs in the deployment.
 
-  example:
-    ./download-logs -d /tmp -n 10.0.0.1 -n 10.0.0.2
+  This tool requires the bosh v2 cli and the following environment variables to be set:
+    BOSH_ENVIRONMENT
+    BOSH_CLIENT_SECRET
+    BOSH_CLIENT
+    BOSH_CA_CERT
+    BOSH_DEPLOYMENT
+
+  Optionally if you require communicating with your BOSH director through a gateway, you must set:
+    BOSH_GW_PRIVATE_KEY
+    BOSH_GW_USER
+    BOSH_GW_HOST
   "
   exit 1
 }
 
-while getopts "d:n:i:X" opt; do
+function check_fast_fails() {
+  set +u
+  if [ -z "${BOSH_ENVIRONMENT}" ] || [ -z "${BOSH_CLIENT_SECRET}" ] || [ -z "${BOSH_CLIENT}" ] || [ -z "${BOSH_CA_CERT}" ] || [ -z "${BOSH_DEPLOYMENT}" ] ; then
+    echo "BOSH_DEPLOYMENT, BOSH_ENVIRONMENT, BOSH_CLIENT_SECRET, BOSH_CLIENT, and BOSH_CA_CERT are required environment variables"
+    exit 1
+  fi
+  set -u
+
+  if [ -z "${output_dir}" ]; then
+    usage
+  fi
+}
+
+function check_bosh_cli() {
+  if [[ $(bosh --version 2>/dev/null | grep "version 2.") ]]; then
+    bosh="bosh"
+  fi
+
+  if [[ $(bosh2 --version 2>/dev/null | grep "version 2.") ]]; then
+    bosh="bosh2"
+  fi
+
+  if [ -z "${bosh}" ]; then
+    echo "bosh v2 cli was not found on your PATH"
+    exit 1
+  fi
+}
+
+function download_logs() {
+  echo "Downloading deployment logs..."
+  $bosh logs --dir="${tempdir}" &> /dev/null
+
+  for node in $($bosh instances --column="Instance" | grep -E "(database|mysql)/"); do
+    echo "Downloading logs for: ${node}"
+    download_logs_from_node "${node}" &> /dev/null
+  done
+
+  pushd "${tempdir}" > /dev/null
+    tar czf "${tempdir}/mysql-logs.tar.gz" *
+  popd > /dev/null
+}
+
+function download_logs_from_node() {
+  local node
+  node="${1}"
+
+  local node_specific_log_containing_directory
+  node_specific_log_containing_directory="${tempdir}/${node}"
+
+  mkdir -p "${node_specific_log_containing_directory}"
+
+  set +e
+  mkdir -p "${node_specific_log_containing_directory}/gralogs"
+  $bosh scp "${node}":/var/vcap/store/mysql/GRA*.log "${node_specific_log_containing_directory}/gralogs/"
+
+  if [ -n "${extra_logs}" ]; then
+    mkdir -p "${node_specific_log_containing_directory}/binlogs"
+    mkdir -p "${node_specific_log_containing_directory}/auditlogs"
+
+    $bosh scp "${node}":/var/vcap/store/mysql/mysql-bin.* "${node_specific_log_containing_directory}/binlogs/"
+    $bosh scp "${node}":/var/vcap/store/mysql_audit_logs/* "${node_specific_log_containing_directory}/auditlogs/"
+  fi
+  set -e
+}
+
+function encrypt_logs() {
+  echo "Specify a passphrase of 6-8 words long. Do not use a private passphrase, you will need to share this passphrase with anyone who will decrypt this archive."
+  gpg -c --yes --cipher-algo AES256 --symmetric --force-mdc -o "${output_dir}/${output_file}" "${tempdir}/mysql-logs.tar.gz"
+
+  echo "Encrypted logs saved at ${output_dir}/${output_file}"
+}
+
+function cleanup() {
+  rm -r "${tempdir}"
+}
+
+function main() {
+  check_fast_fails
+  check_bosh_cli
+  download_logs
+  encrypt_logs
+  cleanup
+}
+
+while getopts "o:X" opt; do
   case $opt in
-    d)
+    o)
       output_dir=$OPTARG
       ;;
-    n)
-      nodes+=("$OPTARG")
-      ;;
-    i)
-      ssh_command="ssh -i ${OPTARG}"
-      ;;
     X)
-      extra_log_files="-o -path '/var/vcap/store/mysql/mysql-bin.*' \
-                       -o -path '/var/vcap/store/mysql_audit_logs/*'"
+      extra_logs="true"
       ;;
     *)
       echo "Unknown arguments"
@@ -41,53 +129,4 @@ while getopts "d:n:i:X" opt; do
   esac
 done
 
-if [ -z "${output_dir}" ]; then
-  usage
-fi
-
-if [ ${#nodes[@]} == 0 ]; then
-  usage
-fi
-
-for node in "${nodes[@]}"; do
-  node_logs+="${node}.tar.gz "
-
-  # tar exits non-zero on warnings, such as "file changed as we read it"
-  # We want to still capture as much data as we can in these cases
-  set +e
-
-  $ssh_command "vcap@${node}" "found_paths=(); \
-    for path in '/var/vcap/sys/log' '/var/vcap/store/mysql' '/var/vcap/store/mysql_audit_logs'; do \
-      if [ -d \${path} ]; then \
-        found_paths+=(\${path}); \
-      fi; \
-    done; \
-    find \${found_paths[@]} \( \
-      -path '/var/vcap/sys/log/*' \
-      -o -path '/var/vcap/store/mysql/GRA*.log' \
-      ${extra_log_files} \
-      \) \
-      -print0 | tar --create \
-      --absolute-names \
-      --transform s%^%${node}% \
-      --gzip \
-      --null \
-      --files-from -" > "${output_dir}/${node}.tar.gz"
-  exit_code=$?
-  set -e
-  if [ ${exit_code} == 255 ]; then
-    echo -e "\n********** Error occurred while trying to ssh into ${node} **********"
-    exit 1
-  fi
-done
-
-pushd "${output_dir}"
-  tar -zcvf mysql-logs.tar.gz ${node_logs[@]}
-  rm ${node_logs[@]}
-
-  echo "Specify a passphrase of 6-8 words long. Do not use a private passphrase, you will need to share this passphrase with anyone who will decrypt this archive."
-  gpg -c --yes --cipher-algo AES256 --symmetric --force-mdc ./mysql-logs.tar.gz
-  rm mysql-logs.tar.gz
-popd
-
-echo "Encrypted logs saved at ${output_dir}/mysql-logs.tar.gz.gpg"
+main
