@@ -90,6 +90,7 @@ function download_logs_from_node() {
   mkdir -p "${node_specific_log_containing_directory}"
 
   scpfiles "${node}" "${node_specific_log_containing_directory}/gralogs/" "/var/vcap/store/mysql/GRA*.log"
+  scpfiles "${node}" "${node_specific_log_containing_directory}/innobackup/" "/var/vcap/store/mysql/innobackup.*.log"
 
   if [ -n "${extra_logs}" ]; then
     scpfiles "${node}" "${node_specific_log_containing_directory}/binlogs/" "/var/vcap/store/mysql/mysql-bin.*"
