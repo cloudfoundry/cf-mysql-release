@@ -17,3 +17,6 @@ mysqld_safe &
 
 echo -e "\n>>>>>>>> Testing MariaDB Control Integration..."
 "${RELEASE_DIR}/src/github.com/cloudfoundry/mariadb_ctrl/bin/test-integration" "$@"
+
+echo -e "\n>>>>>>>> Testing Quota Enforcer Integration..."
+"${RELEASE_DIR}/src/quota-enforcer/bin/test-integration" "$@"
