@@ -13,7 +13,7 @@ go install -v github.com/onsi/ginkgo/ginkgo
 go get github.com/maxbrunsfeld/counterfeiter
 
 # Start mysql to run integration tests against
-mysqld_safe &
+mysqld_safe --character-set-server=utf8 --collation-server=utf8_unicode_ci &
 
 echo -e "\n>>>>>>>> Testing MariaDB Control Integration..."
 "${RELEASE_DIR}/src/github.com/cloudfoundry/mariadb_ctrl/bin/test-integration" "$@"
