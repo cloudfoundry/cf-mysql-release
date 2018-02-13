@@ -4,9 +4,7 @@
 
 Follow these steps to make a contribution to any of CF open source repositories:
 
-1. Ensure that you have completed our CLA Agreement for
-   [individuals](http://www.cloudfoundry.org/individualcontribution.pdf) or
-   [corporations](http://www.cloudfoundry.org/corpcontribution.pdf).
+1. Ensure that you have completed our CLA Agreement: https://docs.cloudfoundry.org/concepts/contribute.html#cla.
 
 1. Set your name and email (these should match the information on your submitted CLA)
 
