@@ -252,15 +252,15 @@ properties:
     default: 10
     description: 'Threshold in seconds above which SQL queries get logged in the slow query log file'
 
-cf_mysql.mysql.evs.keepalive_period:
-  default: 1
-  desciption: 'How often keepalive beacons should be transmitted when there's no other traffic (in seconds).'
-cf_mysql.mysql.evs.suspect_timeout:
-  default: 5
-  desciption: 'A node will be suspected to be dead after this period of inactivity (in seconds). If all nodes agree, the node is dropped from the cluster before evs.inactive_timeout is reached.'
-cf_mysql.mysql.evs.inactive_timeout:
-  default: 15
-  desciption: 'Time limit that a node can be inactive before being pronounced as dead (in seconds).'
-cf_mysql.mysql.evs.install_timeout:
-  default: 15
-  desciption: 'Timeout on waits for install message acknowledgments (in seconds). Replaces evs.consensus_timeout.'
+  cf_mysql.mysql.evs.keepalive_period:
+    default: 1
+    desciption: 'How often keepalive beacons should be transmitted when theres no other traffic (in seconds).'
+  cf_mysql.mysql.evs.suspect_timeout:
+    default: 5
+    desciption: 'A node will be suspected to be dead after this period of inactivity (in seconds). If all nodes agree, the node is dropped from the cluster before evs.inactive_timeout is reached.'
+  cf_mysql.mysql.evs.inactive_timeout:
+    default: 15
+    desciption: 'Time limit that a node can be inactive before being pronounced as dead (in seconds).'
+  cf_mysql.mysql.evs.install_timeout:
+    default: 15
+    desciption: 'Timeout on waits for install message acknowledgments (in seconds). Replaces evs.consensus_timeout.'
