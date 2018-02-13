@@ -32,4 +32,6 @@ src/quota-enforcer/config.json
 src/quota-enforcer/tmp/
 src/quota-enforcer/**/*.test
 src/quota-enforcer/out/*
-
+src/github.com/maxbrunsfeld/
+src/golang.org
+bin/
