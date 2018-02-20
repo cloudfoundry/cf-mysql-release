@@ -58,7 +58,7 @@ nice                            = 0
 # GALERA options:
 wsrep_on                        = ON
 wsrep_provider                  = /var/vcap/packages/mariadb/lib/plugin/libgalera_smm.so
-wsrep_provider_options          = "gcache.size=<%= p('cf_mysql.mysql.gcache_size') %>M;pc.recovery=FALSE;pc.checksum=TRUE"
+wsrep_provider_options          = "gcache.size=<%= p('cf_mysql.mysql.gcache_size') %>M;pc.recovery=FALSE;pc.checksum=TRUE;evs.keepalive_period=PT<%= p('cf_mysql.mysql.evs.keepalive_period') %>S;evs.suspect_timeout=PT<%= p('cf_mysql.mysql.evs.suspect_timeout') %>S;evs.inactive_timeout=PT<%= p('cf_mysql.mysql.evs.inactive_timeout') %>S;evs.install_timeout=PT<%= p('cf_mysql.mysql.evs.install_timeout') %>S"
 wsrep_cluster_address           = gcomm://<%= cluster_ips.join(",") %>
 wsrep_node_address              = <%= node_host %>:<%= p('cf_mysql.mysql.galera_port') %>
 wsrep_node_name                 = <%= name %>/<%= index %>
