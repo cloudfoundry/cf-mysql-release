@@ -1,3 +1,4 @@
+<% if p('cf_mysql_enabled') == true %>
 check process mariadb_ctrl
   with pidfile /var/vcap/sys/run/mariadb_ctl/mariadb_ctl.pid
   start program "/var/vcap/jobs/mysql/bin/mariadb_ctl start" with timeout <%= p('cf_mysql.mysql.startup_timeout') %> seconds
@@ -22,4 +23,5 @@ check process cluster_health_logger
   start program "/var/vcap/jobs/mysql/bin/cluster_health_logger_ctl start"
   stop program "/var/vcap/jobs/mysql/bin/cluster_health_logger_ctl stop"
   group vcap
+<% end %>
 <% end %>

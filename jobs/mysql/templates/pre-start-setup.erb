@@ -1,12 +1,11 @@
 #!/bin/bash
-
+<% if p('cf_mysql_enabled') == true %>
 set -e
 set -o pipefail
 
 ## NOTE: This script MUST ALWAYS run as root user.
 
 datadir=/var/vcap/store/mysql
-CONFIG_DIR=/etc/mysql
 LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/pre-start.stdout.log
 SLOW_QUERY_LOG_FILE=$LOG_DIR/mysql_slow_query.log
@@ -41,13 +40,6 @@ date >> $SLOW_QUERY_LOG_FILE 2>> $SLOW_QUERY_LOG_FILE
 mkdir -p "${HEALTHCHECK_LOG_DIR}"
 chown -R vcap:vcap "${HEALTHCHECK_LOG_DIR}"
 
-
-# It is surprisingly hard to get the config file location passed in
-# on the command line to the mysql.server script. This is easier.
-mkdir -p $CONFIG_DIR
-chown vcap:vcap $CONFIG_DIR
-rm -f $CONFIG_DIR/my.cnf
-ln -sf $MARIADB_JOB_DIR/config/my.cnf $CONFIG_DIR/my.cnf
 /var/vcap/packages/generate-auto-tune-mysql/bin/generate-auto-tune-mysql \
     -f /var/vcap/jobs/mysql/config/auto-tune.cnf \
     -P <%= p('cf_mysql.mysql.innodb_buffer_pool_size_percent') %>
@@ -93,6 +85,7 @@ if ! test -d ${datadir}; then
   check_mysql_filesystem
   check_mysql_disk_capacity
   /var/vcap/packages/mariadb/scripts/mysql_install_db \
+         --defaults-file=/var/vcap/jobs/mysql/config/my.cnf \
          --basedir=/var/vcap/packages/mariadb \
          --user=vcap \
          --datadir=${datadir} >> $LOG_FILE 2>> $LOG_FILE
@@ -104,3 +97,4 @@ rm -f /etc/my.cnf
 # This currently uses "su vcap" instead of "su - vcap" because it needs to share the DISABLE_SST
 # environment variable all the way down to wsrep_sst_xtrabackup-v2 for SSTs
 MARIADB_CTRL_PREFIX_CMD="su vcap -c -o pipefail" ${MARIADB_JOB_DIR}/bin/pre-start-execution
+<% end %>

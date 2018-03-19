@@ -57,6 +57,9 @@ provides:
 
 properties:
 
+  cf_mysql_enabled:
+    description: 'When false, mysql will not be started; Disabling the database is used for orchestrating migration to pxc-release'
+    default: true
   cf_mysql.mysql.admin_username:
     description: 'Username for the MySQL server admin user'
     default: 'root'
