@@ -12,6 +12,7 @@ templates:
   galera-healthcheck_ctl.erb: bin/galera-healthcheck_ctl
   galera_healthcheck_config.yaml.erb: config/galera_healthcheck_config.yaml
   galera_healthcheck_setup.sql.erb: config/galera_healthcheck_setup.sql
+  get-sequence-number.sh: bin/get-sequence-number
   gra-log-purger_ctl.erb: bin/gra-log-purger_ctl
   gra-log-purger.sh.erb: bin/gra-log-purger.sh
   pre-start-setup.erb: bin/pre-start
