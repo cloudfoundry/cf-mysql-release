@@ -14,14 +14,14 @@ cli/cf-cli_6.32.0_linux_x86-64.tgz:
   size: 6065317
   object_id: 1d0c8a45-f1d8-4d53-40fe-f21a177cd03a
   sha: ad4dd01db5e6498bd38583d73c75480c700e1b5f
-golang/go1.9.4.linux-amd64.tar.gz:
-  size: 105600650
-  object_id: 2e4b475e-a166-48e6-5dcf-93a717180819
-  sha: ed1bd37c356338a5a04923c183931a96687f202e
 galera/galera-25.3.20.tar.gz:
   size: 3322846
   object_id: 5a3df186-0126-40d6-4bde-3aa7528646f1
   sha: 350bb947ecb40f47186da6e50b3453d29db7d68e
+golang/go1.9.4.linux-amd64.tar.gz:
+  size: 105600650
+  object_id: 2e4b475e-a166-48e6-5dcf-93a717180819
+  sha: ed1bd37c356338a5a04923c183931a96687f202e
 mariadb/mariadb-10.1.30.tar.gz:
   size: 67930015
   object_id: c8954457-8147-4f28-6145-225e50a06f67
@@ -38,10 +38,10 @@ python/Python-2.7.13.tgz:
   size: 17076672
   object_id: d97aea2b-8036-4b6a-709c-200865a69da1
   sha: dce2b862a30099ee48c19a7c34e2d7c2eeff5670
-ruby/bundler-1.16.0.gem:
-  size: 350208
-  object_id: 5b13ebf7-2d99-4096-7968-015d0a32df5e
-  sha: cb3c531fd27f82a7525224e4315418757056dc67
+ruby/bundler-1.16.1.gem:
+  size: 349696
+  object_id: 8a15e71c-4392-4566-7a4e-56b4d18f4493
+  sha: bca8cd6a0d44524c55a04256307da33e6fe37d5f
 ruby/ruby-2.3.5.tar.gz:
   size: 17836997
   object_id: 821e39bd-4996-428b-4d5d-50d69cf58743
