@@ -85,7 +85,7 @@ Perform the following steps to restore your MySQL data from a manual backup with
     > mysql -u admin -p PASSWORD -h MYSQL-NODE-IP -e "SET GLOBAL enforce_storage_engine='InnoDB'"
 
     And optionally:
-    > mysql -u admin -p PASSWORD -h MYSQL-NODE-IP -e "SET GLOBL slow_query_log=ON"
+    > mysql -u admin -p PASSWORD -h MYSQL-NODE-IP -e "SET GLOBAL slow_query_log=ON"
 
     For example:
     ```
