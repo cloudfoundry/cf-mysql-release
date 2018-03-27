@@ -42,7 +42,11 @@ properties:
     default: false
   cf.smoke_tests.org:
     description: 'The name of the Org to run acceptance tests against'
-    default: ''
+  cf.smoke_tests.use_existing_space:
+    description: 'Runs smoke test errand as an existing space. Creates a new space if false'
+    default: false
+  cf.smoke_tests.space:
+    description: 'The name of the Space to run acceptance tests against'
 
   cf_mysql.smoke_tests.db_password:
     description: 'Password for generated database user'

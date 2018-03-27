@@ -55,6 +55,10 @@ config = {
 if p('cf.smoke_tests.use_existing_org')
   config[:use_existing_organization] = true
   config[:existing_organization] = p('cf.smoke_tests.org')
+  if p('cf.smoke_tests.use_existing_space')
+    config[:use_existing_space] = true
+    config[:existing_space] = p('cf.smoke_tests.space')
+  end
 end
 
 default_max_user_connections = 40
