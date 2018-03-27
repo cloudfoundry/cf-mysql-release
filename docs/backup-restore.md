@@ -48,6 +48,8 @@ The procedure for restoring your MySQL data from a manual backup requires more s
 
 **WARNING:** Restoring a database deletes all data that existed in the database before the restore. Restoring a database using a full backup artifact, produced by <code>mysqldump --all-databases</code> for example, replaces all data and user permissions.
 
+For a point in time recovery see the [mysql docs](https://dev.mysql.com/doc/refman/5.7/en/point-in-time-recovery.html).
+
 Perform the following steps to restore your MySQL data from a manual backup with remote admin access enabled:
 
 1. When restoring all databases, if running in HA configuration, reduce the size of the cluster to a single node, and redeploy.
