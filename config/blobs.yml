@@ -14,18 +14,18 @@ cli/cf-cli_6.32.0_linux_x86-64.tgz:
   size: 6065317
   object_id: 1d0c8a45-f1d8-4d53-40fe-f21a177cd03a
   sha: ad4dd01db5e6498bd38583d73c75480c700e1b5f
-galera/galera-25.3.20.tar.gz:
-  size: 3322846
-  object_id: 5a3df186-0126-40d6-4bde-3aa7528646f1
-  sha: 350bb947ecb40f47186da6e50b3453d29db7d68e
+galera/galera-25.3.23.tar.gz:
+  size: 3338538
+  object_id: 90c147fb-a02a-45c7-5036-2dee134223ac
+  sha: 000e20ad02113e796a8a551a2733674338fbbc92
 golang/go1.9.4.linux-amd64.tar.gz:
   size: 105600650
   object_id: 2e4b475e-a166-48e6-5dcf-93a717180819
   sha: ed1bd37c356338a5a04923c183931a96687f202e
-mariadb/mariadb-10.1.30.tar.gz:
-  size: 67930015
-  object_id: c8954457-8147-4f28-6145-225e50a06f67
-  sha: 52d7e77ed57c08ff7a0b6cc68ebf2946deab683b
+mariadb/mariadb-10.1.32.tar.gz:
+  size: 68001321
+  object_id: 2bfe222d-4f57-493c-400b-299727b94bac
+  sha: c315c5054612647c3665d286910d9f33c5c61ce3
 mysqlclient/mariadb-connector-c-2.1.0-src.tar.gz:
   size: 1912888
   object_id: e1e0446a-8cbd-4b8e-b496-fc20f530fd7c
