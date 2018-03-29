@@ -2,6 +2,7 @@
 Port: <%= p('cf_mysql.mysql.galera_healthcheck.port') %>
 PidFile: '/var/vcap/sys/run/galera-healthcheck/galera-healthcheck.pid'
 MysqldPath: '/var/vcap/packages/mariadb/bin/mysqld'
+MyCnfPath: '/var/vcap/jobs/mysql/config/my.cnf'
 DB:
   User: <%= p('cf_mysql.mysql.admin_username') %>
   Password: <%= p('cf_mysql.mysql.admin_password') %>
