@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 <% if p('cf_mysql_enabled') == true %>
 set -e
 set -o pipefail
@@ -57,8 +58,8 @@ if [ -d ${datadir} ]; then
 fi
 <% end %>
 
-function check_mysql_filesystem() {
-  if [[ $(mountpoint -d "${datadir}") == $(mountpoint -d /) ]]
+function check_mysql_disk_persistence() {
+  if [[ $(mountpoint -d /var/vcap/store) == $(mountpoint -d /) ]]
   then
     echo "###################################################################################################################################" >> "${LOG_FILE}"
     echo "!!! Data directory (${datadir}) is on the same filesystem as /. Have you attached persistent disk? !!!" >> "${LOG_FILE}"
@@ -68,22 +69,23 @@ function check_mysql_filesystem() {
 }
 
 function check_mysql_disk_capacity() {
-  local datadir_capacity=$(df -BMB --output=target,size "${datadir}" | awk ' NR==2 { print $2 } ')
-  local minimum_required_space=10000
-  if [[ "${datadir_capacity}" < "${minimum_required_space}" ]]
+  local datadir_capacity=$(df --block-size=1M --output=target,size /var/vcap/store | awk ' NR==2 { print $2 } ')
+  local minimum_required_space_in_mb=10000
+  if [[ "${datadir_capacity}" -lt "${minimum_required_space_in_mb}" ]]
   then
     echo "########################################################################################" >> "${LOG_FILE}"
-    echo "!!! Datadir capacity is ${datadir_capacity}, which is under the minimum required: ${minimum_required_space} !!!" >> "${LOG_FILE}"
+    echo "!!! Datadir capacity is ${datadir_capacity}MB, which is under the minimum required: ${minimum_required_space_in_mb}MB !!!" >> "${LOG_FILE}"
     echo "########################################################################################" >> "${LOG_FILE}"
     exit 1
   fi
 }
 
+check_mysql_disk_persistence
+check_mysql_disk_capacity
+
 if ! test -d ${datadir}; then
   log "pre-start setup script: making ${datadir} and running /var/vcap/packages/mariadb/scripts/mysql_install_db"
   mkdir -p ${datadir}
-  check_mysql_filesystem
-  check_mysql_disk_capacity
   /var/vcap/packages/mariadb/scripts/mysql_install_db \
          --defaults-file=/var/vcap/jobs/mysql/config/my.cnf \
          --basedir=/var/vcap/packages/mariadb \
