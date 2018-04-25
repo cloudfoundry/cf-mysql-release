@@ -10,10 +10,10 @@ cipher_finder/cipher_finder.jar:
   size: 22062037
   object_id: 814c01f1-ba14-4f94-46d2-66838551293d
   sha: f5697d957fdc71e32b1e421594e084c0c3c7aea2
-cli/cf-cli_6.32.0_linux_x86-64.tgz:
-  size: 6065317
-  object_id: 1d0c8a45-f1d8-4d53-40fe-f21a177cd03a
-  sha: ad4dd01db5e6498bd38583d73c75480c700e1b5f
+cli/cf-cli_6.36.1_linux_x86-64.tgz:
+  size: 5910456
+  object_id: 3cea6e9c-e3ed-40f2-7929-c07a0ed77149
+  sha: faade069c0e7a76cb3bb1c9dfd69da2d340155c9
 galera/galera-25.3.23.tar.gz:
   size: 3338538
   object_id: 90c147fb-a02a-45c7-5036-2dee134223ac
