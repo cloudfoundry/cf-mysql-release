@@ -70,7 +70,7 @@ function check_mysql_disk_persistence() {
 
 function check_mysql_disk_capacity() {
   local datadir_capacity=$(df --block-size=1M --output=target,size /var/vcap/store | awk ' NR==2 { print $2 } ')
-  local minimum_required_space_in_mb=10000
+  local minimum_required_space_in_mb=5000
   if [[ "${datadir_capacity}" -lt "${minimum_required_space_in_mb}" ]]
   then
     echo "########################################################################################" >> "${LOG_FILE}"
