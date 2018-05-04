@@ -1,4 +1,4 @@
-Thanks for opening a PR. Please make sure you've read and followed the [Contributing guide](CONTRIBUTING.md), including signing the Contributor License Agreement.
+Thanks for opening a PR. Please make sure you've read and followed the [Contributing guide](https://github.com/cloudfoundry/cf-mysql-release/blob/develop/CONTRIBUTING.md), including signing the Contributor License Agreement.
 
 # Feature or Bug Description
 What does this PR change?  
