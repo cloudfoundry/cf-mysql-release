@@ -14,7 +14,7 @@ set -o pipefail
     disable_sst_string << " INTERRUPT_NOTIFY_CMD='#{p('cf_mysql.mysql.interrupt_notify_cmd')}'"
   end
 %>
-
+export TMPDIR=/var/vcap/data/mysql/tmp
 export MARIADB_JOB_DIR=/var/vcap/jobs/mysql
 LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/mariadb_ctrl.combined.log

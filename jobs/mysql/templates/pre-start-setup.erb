@@ -6,6 +6,8 @@ set -o pipefail
 
 ## NOTE: This script MUST ALWAYS run as root user.
 
+export TMPDIR=/var/vcap/data/mysql/tmp
+
 datadir=/var/vcap/store/mysql
 LOG_DIR=/var/vcap/sys/log/mysql
 LOG_FILE=$LOG_DIR/pre-start.stdout.log
@@ -13,7 +15,6 @@ SLOW_QUERY_LOG_FILE=$LOG_DIR/mysql_slow_query.log
 HEALTHCHECK_LOG_DIR="/var/vcap/sys/log/galera-healthcheck"
 MARIADB_JOB_DIR=/var/vcap/jobs/mysql
 JOB_INDEX=<%= index %>
-TMP_DIR=/var/vcap/data/mysql/tmp
 PERSISTENT_TMP_DIR=/var/vcap/data/tmp
 SECURE_FILE_PRIV=/var/vcap/data/mysql/files
 
@@ -21,12 +22,11 @@ source /var/vcap/packages/cf-mysql-common/pid_utils.sh
 
 log "pre-start setup script: set up ENV and logging"
 
-if [[ ! -d "$TMP_DIR" ]]; then
-  log "pre-start setup script: directory $TMP_DIR does not exist, creating it now"
-  mkdir -p $TMP_DIR
+if [[ ! -d "$TMPDIR" ]]; then
+  log "pre-start setup script: directory $TMPDIR does not exist, creating it now"
+  mkdir -p $TMPDIR
 fi
-chown -R vcap:vcap $TMP_DIR
-chown -R vcap:vcap $PERSISTENT_TMP_DIR
+chown -R vcap:vcap $TMPDIR
 
 mkdir -p $SECURE_FILE_PRIV
 chmod 0750 $SECURE_FILE_PRIV
