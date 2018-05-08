@@ -44,16 +44,16 @@ function check_fast_fails() {
 }
 
 function check_bosh_cli() {
-  if bosh --version 2>/dev/null | grep -q "version 2." ; then
+  if bosh --version 2>/dev/null | grep -q "version" ; then
     bosh="bosh"
   fi
 
-  if bosh2 --version 2>/dev/null | grep -q "version 2." ; then
+  if bosh2 --version 2>/dev/null | grep -q "version" ; then
     bosh="bosh2"
   fi
 
   if [ -z "${bosh}" ]; then
-    echo "bosh v2 cli was not found on your PATH"
+    echo "bosh cli >= v2 was not found on your PATH"
     exit 1
   fi
 }
