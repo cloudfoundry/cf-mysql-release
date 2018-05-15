@@ -91,7 +91,7 @@ case $1 in
     su - vcap -c -o pipefail \
     "<%= disable_sst_string %> PATH=$PATH PERL5LIB=$PERL5LIB $MARIADB_CTRL_PACKAGE/bin/mariadb_ctrl \
              -configPath=$CONFIG_FILE \
-             >> $LOG_FILE 2>&1 &"
+             >> $LOG_FILE 2>&1" &
 
     echo $! > $LAUNCHER_PID_FILE
 
