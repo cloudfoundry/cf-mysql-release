@@ -42,14 +42,14 @@ ruby/bundler-1.16.1.gem:
   size: 349696
   object_id: 8a15e71c-4392-4566-7a4e-56b4d18f4493
   sha: bca8cd6a0d44524c55a04256307da33e6fe37d5f
-ruby/ruby-2.3.5.tar.gz:
-  size: 17836997
-  object_id: 821e39bd-4996-428b-4d5d-50d69cf58743
-  sha: 3247e217d6745c27ef23bdc77b6abdb4b57a118f
-ruby/rubygems-2.6.14.tgz:
-  size: 769418
-  object_id: 7c11fe2a-3f49-42b3-522f-458b7ec1fb5c
-  sha: d9c131e7b84fbe9179033545ffddc4097e9c6c7b
+ruby/ruby-2.3.7.tar.gz:
+  size: 17859100
+  object_id: e148ea10-7e77-474e-62ce-8acc4b49de94
+  sha: 540996fec64984ab6099e34d2f5820b14904f15a
+ruby/rubygems-2.7.6.tgz:
+  size: 852486
+  object_id: e3c0b159-a925-48a0-4fe0-e7b3dcc5dcf4
+  sha: 72a14791b96cc05a79d2a649fe7170fd1faf3e0a
 ruby/yaml-0.1.7.tar.gz:
   size: 527518
   object_id: 4f10a1e8-949e-4d9b-6e49-fabe5cba6fc0
