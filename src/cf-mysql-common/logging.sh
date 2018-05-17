@@ -11,3 +11,8 @@ function output_to_logfiles() {
 function prepend_datetime() {
   awk -W interactive '{ system("echo -n [$(date +\"%Y-%m-%d %H:%M:%S%z\")]"); print " " $0 }'
 }
+
+function err() {
+  message=$1
+  echo "$(date +"%Y-%m-%d %H:%M:%S %z") ERROR: ${message}" >&2
+}

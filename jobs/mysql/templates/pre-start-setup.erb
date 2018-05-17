@@ -18,6 +18,7 @@ JOB_INDEX=<%= index %>
 PERSISTENT_TMP_DIR=/var/vcap/data/tmp
 SECURE_FILE_PRIV=/var/vcap/data/mysql/files
 
+source /var/vcap/packages/cf-mysql-common/logging.sh
 source /var/vcap/packages/cf-mysql-common/pid_utils.sh
 
 log "pre-start setup script: set up ENV and logging"
@@ -59,11 +60,9 @@ fi
 <% end %>
 
 function check_mysql_disk_persistence() {
-  if [[ $(mountpoint -d /var/vcap/store) == $(mountpoint -d /) ]]
+  if [[ (! -d /var/vcap/store) || $(mountpoint -d /var/vcap/store) == $(mountpoint -d /) ]]
   then
-    echo "###################################################################################################################################" >> "${LOG_FILE}"
-    echo "!!! Data directory (${datadir}) is on the same filesystem as /. Have you attached persistent disk? !!!" >> "${LOG_FILE}"
-    echo "####################################################################################################################################" >> "${LOG_FILE}"
+    err "Persistent disk not found"
     exit 1
   fi
 }
@@ -73,9 +72,7 @@ function check_mysql_disk_capacity() {
   local minimum_required_space_in_mb=5000
   if [[ "${datadir_capacity}" -lt "${minimum_required_space_in_mb}" ]]
   then
-    echo "########################################################################################" >> "${LOG_FILE}"
-    echo "!!! Datadir capacity is ${datadir_capacity}MB, which is under the minimum required: ${minimum_required_space_in_mb}MB !!!" >> "${LOG_FILE}"
-    echo "########################################################################################" >> "${LOG_FILE}"
+    err "Datadir capacity is ${datadir_capacity}MB, which is under the minimum required: ${minimum_required_space_in_mb}MB"
     exit 1
   fi
 }

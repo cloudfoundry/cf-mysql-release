@@ -158,5 +158,5 @@ file_must_include() {
 
 log(){
   message=$1
-  echo "$(date +"%Y-%m-%d %H:%M:%S") ----- $message"
+  echo "$(date +"%Y-%m-%d %H:%M:%S %z") ----- $message"
 }
