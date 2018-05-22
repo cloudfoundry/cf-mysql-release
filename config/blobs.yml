@@ -38,10 +38,6 @@ python/Python-2.7.13.tgz:
   size: 17076672
   object_id: d97aea2b-8036-4b6a-709c-200865a69da1
   sha: dce2b862a30099ee48c19a7c34e2d7c2eeff5670
-ruby/bundler-1.16.1.gem:
-  size: 349696
-  object_id: 8a15e71c-4392-4566-7a4e-56b4d18f4493
-  sha: bca8cd6a0d44524c55a04256307da33e6fe37d5f
 ruby/ruby-2.3.7.tar.gz:
   size: 17859100
   object_id: e148ea10-7e77-474e-62ce-8acc4b49de94
