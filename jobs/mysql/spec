@@ -256,7 +256,7 @@ properties:
     default: 10
     description: 'Threshold in seconds above which SQL queries get logged in the slow query log file'
 
-  cf_mysql.mysql.bootstrap_enabled
+  cf_mysql.mysql.bootstrap_enabled:
     default: true 
     description: 'Enables ussage of bootsrap procedure'
 
