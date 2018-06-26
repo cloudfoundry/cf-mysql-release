@@ -51,5 +51,5 @@ Manager:
   <% cluster_ips.each do |ip| %>
   - <%= ip %>
   <% end %>
-  BootstrapNode: <%= spec.bootstrap %>
+  BootstrapNode: <%= spec.bootstrap && p("cf_mysql.mysql.bootstrap_enabled") %>
   ClusterProbeTimeout: <%= p('cf_mysql.mysql.cluster_probe_timeout') %>
