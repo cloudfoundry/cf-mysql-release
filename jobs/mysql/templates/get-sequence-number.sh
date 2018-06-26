@@ -29,8 +29,8 @@ regex="[0-9]+$"
 seq_no=$(cat /var/vcap/store/mysql/grastate.dat | grep 'seqno:')
 
 if [ "$seq_no" = "seqno:   -1" ]; then
-   /var/vcap/packages/mariadb/bin/mysqld --wsrep-recover
-   seq_no=$(grep "Recovered position" /var/vcap/sys/log/mysql/mysql.err.log | tail -1)
+  /var/vcap/packages/mariadb/bin/mysqld --defaults-file=/var/vcap/jobs/mysql/config/my.cnf --wsrep-recover
+  seq_no=$(grep "Recovered position" /var/vcap/sys/log/mysql/mysql.err.log | tail -1)
 fi
 
 if [[ "$seq_no" =~ $regex ]]; then
