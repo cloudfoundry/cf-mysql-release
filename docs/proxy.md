@@ -8,7 +8,7 @@ When a node becomes unhealthy, the proxy re-routes all subsequent connections to
 
 ## Consistent Routing
 
-At any given time, Switchboard will only route to one active node. That node will continue to be the only active node until it becomes unhealthy.
+At any given time, Switchboard will only route to one active node. The Switchboard will select the node with the lowest `wsrep_local_index`. The `wsrep_local_index` is a Galera status variable indicating Galera's internal indexing of nodes. The index can change, and there is no guarantee that it corresponds to the BOSH index. The chosen active node will continue to be the only active node until it becomes unhealthy.
 
 If multiple Switchboard proxies are used in parallel (ex: behind a load-balancer) there is no guarantee that the proxies will choose the same active node. This can result in deadlocks, wherein attempts to update the same row by multiple clients will result one commit succeeding and the other fails. This is a known issue, with exploration of mitigation options on the roadmap for this product. To avoid this problem, use a single proxy instance or an external failover system to direct traffic to one proxy instance at a time.
 
