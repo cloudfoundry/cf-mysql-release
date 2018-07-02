@@ -39,6 +39,7 @@ Db:
     Password: <%= seed["password"] %>
   <% end %>
   PostStartSQLFiles:
+  - /var/vcap/jobs/mysql/config/drain_user_setup.sql
   - /var/vcap/jobs/mysql/config/galera_healthcheck_setup.sql
   - /var/vcap/jobs/mysql/config/cluster_health_logger_setup.sql
   Socket: /var/vcap/sys/run/mysql/mysqld.sock
