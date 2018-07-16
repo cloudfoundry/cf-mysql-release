@@ -102,9 +102,8 @@ case $1 in
     echo "stop script: stopping mariadb_ctrl..."
 
     echo "stop script: stopping node $JOB_INDEX"
-    #kill -9 $(cat $PIDFILE)
-    /var/vcap/packages/mariadb/support-files/mysql.server stop --pid-file=/var/vcap/sys/run/mysql/mysql.pid
-    rm $PIDFILE
+    kill_and_wait ${PIDFILE} 25 0
+
     echo "stop script: completed stopping mariadb_ctrl"
     ;;
 
