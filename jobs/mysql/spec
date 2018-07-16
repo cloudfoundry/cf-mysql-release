@@ -256,3 +256,6 @@ properties:
     default: 10
     description: 'Threshold in seconds above which SQL queries get logged in the slow query log file'
 
+  cf_mysql.mysql.performance_schema_enabled:
+    default: false
+    description: "Enables Mariadb Performance Schema when set to true"

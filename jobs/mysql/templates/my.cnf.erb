@@ -202,6 +202,20 @@ ssl_cert                        = /var/vcap/jobs/mysql/certificates/server-cert.
 ssl_key                         = /var/vcap/jobs/mysql/certificates/server-key.pem
 <% end %>
 
+<% if p('cf_mysql.mysql.performance_schema_enabled') %>
+performance_schema              = ON
+# Specifies the maximum number of few instruments to limit memory consumption under 125Mb with 1500 connections
+performance_schema_max_cond_instances   = 1270         #Specifies the maximum number of instrumented condition objects.       (default automated sizing : 2540)
+performance_schema_max_mutex_instances  = 2215         #Specifies the maximum number of instrumented mutex instances.         (default automated sizing : 8860)
+performance_schema_max_rwlock_instances = 1000         #Specifies the maximum number of instrumented rwlock objects.          (default automated sizing : 4620)
+performance_schema_max_socket_instances = 230          #Specifies the maximum number of instrumented socket objects.          (default automated sizing : 640)
+performance_schema_max_table_handles    = 1000         #Specifies the maximum number of opened table objects                  (default automated sizing : 2000)       
+performance_schema_max_table_instances  = 1000         #Specifies the maximum number of instrumented table objects            (default automated sizing : 12500)    
+performance_schema_max_thread_instances = 360          #Specifies how many of the running server threads can be instrumented. (default automated sizing : 720) 
+<% else %>
+performance_schema              = OFF
+<% end %> 
+
 [mysqldump]
 quick
 quote-names

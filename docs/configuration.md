@@ -74,3 +74,22 @@ See the [proxy](jobs/proxy/spec) and [acceptance-tests](jobs/acceptance-tests/sp
 The slow query log is enabled and you can find long query exceeded 10 seconds (by default) in `/var/vcap/sys/log/mysql/mysql_slow_query.log`
 
 To change the threshold above which SQL queries get logged in the slow query log file, update  `cf_mysql.mysql.long_query_time` (time in seconds/microseconds).
+
+### Performance schema ###
+
+The Performance Schema is a feature for monitoring server performance, see related mariadb documentation : [https://mariadb.com/kb/en/library/performance-schema/](https://mariadb.com/kb/en/library/performance-schema/ "https://mariadb.com/kb/en/library/performance-schema/").   
+Performance_schema database, consists of a number of tables that can be queried with regular SQL statements, returning specific performance information.  
+
+To activate Performance_schema, update `cf_mysql.mysql.performance_schema_enabled` property in mysql instance group.  
+
+Performance_schema uses a memory engine (performance_schema) which can potentially increase memory usage when enabled.  
+To see memory used by performance_schema in bytes:
+   
+```
+MariaDB [(none)]> show engine performance_schema status;  
++--------------------+--------------------------------------------------------------+-----------+  
+| Type               | Name                                                         |  Status   |  
++--------------------+--------------------------------------------------------------+-----------+  
+...
+| performance_schema | performance_schema.memory                                    | 131117680 |
++--------------------+--------------------------------------------------------------+-----------+ 
