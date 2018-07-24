@@ -1,82 +1,54 @@
 #!/usr/bin/env bash
 
+<% if p('cf_mysql_enabled') == true %>
 set -e -o pipefail
 
 <%
-  require "shellwords"
-
   cluster_ips = link('mysql').instances.map(&:address)
   if_link('arbitrator') do
     cluster_ips += link('arbitrator').instances.map(&:address)
   end
 %>
 
-CLUSTER_NODES=(<%= cluster_ips.map{|e| Shellwords.escape e}.join(' ') %>)
-MYSQL_PORT=<%= Shellwords.escape p("cf_mysql.mysql.port") %>
-
-function prepend_datetime() {
-  awk -W interactive '{ system("echo -n [$(date +%FT%T%z)]"); print " " $0 }'
-}
-
-function wsrep_var() {
-  local var_name="$1"
-  local host="$2"
-  if [[ $var_name =~ ^wsrep_[a-z_]+$ ]]; then
-    timeout 5 \
-      /usr/local/bin/mysql --defaults-file=/var/vcap/jobs/mysql/config/drain.cnf -h "$host" -P "$MYSQL_PORT" \
-      --execute="SHOW STATUS LIKE '$var_name'" -N \
-      | awk '{print $2}' \
-      | tr -d '\n'
-  fi
-}
-
+CLUSTER_NODES=(<%= cluster_ips.map{|e| e }.join(' ') %>)
+MYSQL_PORT=<%= p("cf_mysql.mysql.port") %>
+GALERA_HEALTHCHECK_PORT=<%= p("cf_mysql.mysql.galera_healthcheck.port") %>
 LOG_DIR="/var/vcap/sys/log/mysql"
 
-exec 3>&1
-exec \
-  1> >(prepend_datetime >> $LOG_DIR/drain.out.log) \
-  2> >(prepend_datetime >> $LOG_DIR/drain.err.log)
-
-# if the node ain't running, ain't got nothin' to drain
-if ! ps -p $(</var/vcap/sys/run/mysql/mysql.pid) >/dev/null; then
-  echo "mysql is not running: drain OK"
-  echo 0 >&3; exit 0 # drain success
+# If the node is not running, exit drain successfully
+if ! ps -p "$(</var/vcap/sys/run/mysql/mysql.pid)" >/dev/null; then
+  echo "$(date): mysql is not running: OK to drain" >> "${LOG_DIR}/drain.log"
+  echo 0; exit 0 # drain success
 fi
 
-# Check each cluster node's availability.
-# Jump to next node if unreachable(timeout 5 sec), then do not add it as test component.
-# Node may have been deleted or mysql port has been updated.
+# Check the galera healthcheck endpoint on all of the nodes. If the http status returned is 000, there
+# is no node at that IP, so we assume we are scaling down. If the http status returned is 200 from all nodes
+# it will continue to drain. If it detects any other nodes to be unhealthy, it will fail to drain
+# and exit.
 for NODE in "${CLUSTER_NODES[@]}"; do
-  { nc -zv -w 5 $NODE $MYSQL_PORT \
-  && CLUSTER_TEST_NODES=(${CLUSTER_TEST_NODES[@]} $NODE); } \
-  || continue
-done
-
-# Check if all nodes are part of the PRIMARY component; if not then
-# something is terribly wrong (loss of quorum or split-brain) and doing a
-# rolling restart can actually cause data loss (e.g. if a node that is out
-# of sync is used to bootstrap the cluster): in this case we fail immediately.
-for TEST_NODE in "${CLUSTER_TEST_NODES[@]}"; do
-  cluster_status=$(wsrep_var wsrep_cluster_status "$TEST_NODE")
-  if [ "$cluster_status" != Primary ]; then
-    echo "wsrep_cluster_status of node '$TEST_NODE' is '$cluster_status' (expected 'Primary'): drain failed"
-    exit -1 # drain failed
+  set +e
+  status_code=$(curl -s -o "/dev/null" -w "%{http_code}" "$NODE:$GALERA_HEALTHCHECK_PORT")
+  set -e
+  if [[ $status_code -eq 000 || $status_code -eq 200 ]]; then
+    continue
+  else
+    echo "$(date): galera heathcheck returned $status_code; drain failed on node ${NODE}" >> "${LOG_DIR}/drain.err.log"
+    exit -1
   fi
 done
 
-# Check if all nodes are synced: if not we wait and retry
-# This check must be done against *ALL* nodes, not just against the local node.
-# Consider a 3 node cluster: if node1 is donor for node2 and we shut down node3
-# -that is synced- then node1 is joining, node2 is donor and node3 is down: as
-# a result the cluster lose quorum until node1/node2 complete the transfer!)
-for TEST_NODE in "${CLUSTER_TEST_NODES[@]}"; do
-  state=$(wsrep_var wsrep_local_state_comment "$TEST_NODE")
-  if [ "$state" != Synced ]; then
-    echo "wsrep_local_state_comment of node '$TEST_NODE' is '$state' (expected 'Synced'): retry drain in 5 seconds"
-    # TODO: rewrite to avoid using dynamic drain (soon to be deprecated)
-    echo -5 >&3; exit 0 # retry in 5 seconds
-  fi
-done
+# Actually drain with a kill_and_wait on the mysql pid
+PIDFILE=/var/vcap/sys/run/mariadb_ctl/mariadb_ctl.pid
+source /var/vcap/packages/cf-mysql-common/pid_utils.sh
 
-echo "Drain Success"
-echo 0 >&3; exit 0 # drain success
+set +e
+kill_and_wait "${PIDFILE}" 300 0 > /dev/null
+return_code=$?
+
+echo 0
+exit ${return_code}
+
+<% else %>
+echo 0
+exit 0
+<% end %>

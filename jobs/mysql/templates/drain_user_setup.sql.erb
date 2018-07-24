@@ -1,5 +1,0 @@
-<%
-  node_ip = spec.ip
-  hosts = (node_ip.split(".")[0..-2] + ["%"]).join('.')
-%>
-GRANT USAGE ON mysql.* TO 'drain'@'<%= hosts %>' IDENTIFIED BY '<%= p('cf_mysql.mysql.drain.db_password') %>'
