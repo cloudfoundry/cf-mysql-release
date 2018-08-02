@@ -2,7 +2,7 @@
 
 <% if p('cf_mysql_enabled') == true %>
 set -e -o pipefail
-
+<% if p('cf_mysql.mysql.enable_drain_healthcheck') == true %>
 <%
   cluster_ips = link('mysql').instances.map(&:address)
   if_link('arbitrator') do
@@ -36,7 +36,7 @@ for NODE in "${CLUSTER_NODES[@]}"; do
     exit -1
   fi
 done
-
+<% end %>
 # Actually drain with a kill_and_wait on the mysql pid
 PIDFILE=/var/vcap/sys/run/mariadb_ctl/mariadb_ctl.pid
 source /var/vcap/packages/cf-mysql-common/pid_utils.sh
