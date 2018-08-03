@@ -258,5 +258,5 @@ properties:
 
   cf_mysql.mysql.bootstrap_enabled:
     default: true 
-    description: 'Enables ussage of bootsrap procedure'
+    description: 'Enables usage of bootsrap procedure'
 
