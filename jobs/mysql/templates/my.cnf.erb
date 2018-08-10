@@ -130,6 +130,7 @@ userstat                        = 1
 
 innodb_file_per_table           = ON
 innodb_file_format              = Barracuda
+innodb_default_row_format       = <%= p('cf_mysql.mysql.innodb_default_row_format') %>
 innodb_log_file_size            = <%= p('cf_mysql.mysql.ib_log_file_size')%>MB
 innodb_support_xa               = OFF
 <% if p('cf_mysql.mysql.innodb_large_prefix_enabled') %>
