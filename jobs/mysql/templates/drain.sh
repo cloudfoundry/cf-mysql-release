@@ -5,9 +5,6 @@ set -e -o pipefail
 <% if p('cf_mysql.mysql.enable_drain_healthcheck') == true %>
 <%
   cluster_ips = link('mysql').instances.map(&:address)
-  if_link('arbitrator') do
-    cluster_ips += link('arbitrator').instances.map(&:address)
-  end
 %>
 
 CLUSTER_NODES=(<%= cluster_ips.map{|e| e }.join(' ') %>)
