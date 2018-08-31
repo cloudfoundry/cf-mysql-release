@@ -83,6 +83,12 @@ properties:
   cf_mysql.mysql.max_connections:
     description: 'Maximum total number of database connections for the node'
     default: 1500
+  cf_mysql.extra_max_connections
+    description: 'The number of connections on the extra_port, additional to cf_mysql.mysql.max_connections'
+    default: 1
+  cf_mysql.extra_port
+    description: 'Extra port number to use for tcp-connections in a one-thread-per-connection manner. See also cf_mysql.extra_max_connections.'
+    default: 0
   cf_mysql.mysql.enable_drain_healthcheck:
     description: 'When this is enabled, the --skip-drain flag is required in order to delete a deployment. Drain healthcheck cannot be enabled when using the arbitrator. Enabling this ensures mysql nodes will verify the health of all other nodes before draining.'
     default: false

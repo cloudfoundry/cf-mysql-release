@@ -193,6 +193,8 @@ innodb_flush_method             = <%= innodb_flush_method %>
 innodb_log_buffer_size          = <%= p('cf_mysql.mysql.innodb_log_buffer_size') %>
 
 max_connections                 = <%= p('cf_mysql.mysql.max_connections') %>
+extra_max_connections		= <%= p('cf_mysql.mysql.extra_max_connections') %>
+extra_port			= <%= p('cf_mysql.mysql.extra_port') %>
 
 # Event Scheduler
 event_scheduler                 = <%= p('cf_mysql.mysql.event_scheduler') %>
