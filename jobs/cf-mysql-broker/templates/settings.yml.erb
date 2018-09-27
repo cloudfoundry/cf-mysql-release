@@ -81,9 +81,11 @@ production:
           <% else %>
           costs:
           <% costs.each do |cost| %>
-            - amount:
-                usd: <%= cost['amount']['usd'] %>
-              unit: <%= cost['unit'] %>
+          - amount:
+            <% cost['amount'].each do |currency, value| %>
+              <%= currency %>: <%= value %>
+            <% end %>
+            unit: <%= cost['unit'] %>
           <% end %>
           <% end %>
 
