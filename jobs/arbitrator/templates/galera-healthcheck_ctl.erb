@@ -6,9 +6,6 @@ log_dir=/var/vcap/sys/log/galera-healthcheck
 package_dir=/var/vcap/packages/galera-healthcheck
 pidfile=$run_dir/galera-healthcheck.pid
 
-export GOROOT=/var/vcap/packages/golang
-export PATH=$GOROOT/bin:$PWD/bin:$PATH
-
 source /var/vcap/packages/cf-mysql-common/pid_utils.sh
 
 case $1 in

@@ -8,7 +8,7 @@ REPO=/var/vcap/packages/acceptance-tests/src/github.com/cloudfoundry-incubator/c
 cd ${REPO}
 
 export GOPATH=/var/vcap/packages/acceptance-tests
-export GOROOT=/var/vcap/packages/golang
+export GOROOT=$(readlink -nf /var/vcap/packages/golang-1.11-linux)
 export PATH=/var/vcap/packages/cli/bin:$GOPATH/bin:$GOROOT/bin:$PWD/bin:$PATH
 
 # smoke tests shell out to cf cli

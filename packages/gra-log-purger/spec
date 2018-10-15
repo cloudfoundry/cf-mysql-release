@@ -1,7 +1,7 @@
 ---
 name: gra-log-purger
 dependencies:
-  - golang
+  - golang-1.11-linux
 files:
   - gra-log-purger/src/gra-log-purger/**/*.go
 excluded_files:

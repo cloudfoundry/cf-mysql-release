@@ -1,7 +1,7 @@
 ---
 name: switchboard
 dependencies:
-  - golang
+  - golang-1.11-linux
 files:
   - github.com/cloudfoundry-incubator/switchboard/static/**/* # static UI files
   - github.com/cloudfoundry-incubator/switchboard/**/*.go

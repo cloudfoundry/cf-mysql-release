@@ -1,7 +1,7 @@
 ---
 name: bootstrap
 dependencies:
-- golang
+- golang-1.11-linux
 files:
   - github.com/cloudfoundry-incubator/cf-mysql-bootstrap/**/*.go
 excluded_files:

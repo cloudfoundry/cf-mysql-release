@@ -2,7 +2,7 @@
 name: generate-auto-tune-mysql
 
 dependencies:
-  - golang
+  - golang-1.11-linux
 files:
   - generate-auto-tune-mysql/**/*.go
 excluded_files:

@@ -1,7 +1,7 @@
 ---
 name: quota-enforcer
 dependencies:
-  - golang
+  - golang-1.11-linux
 files:
   - quota-enforcer/**/*.go
 excluded_files:

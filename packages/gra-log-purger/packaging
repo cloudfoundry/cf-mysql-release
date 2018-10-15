@@ -1,12 +1,11 @@
+#!/usr/bin/env bash
+
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 
 #compile
-export GOROOT=$(readlink -nf /var/vcap/packages/golang)
-export PATH=$GOROOT/bin:$PATH
+export GOROOT=$(readlink -nf /var/vcap/packages/golang-1.11-linux)
+export GOPATH=${BOSH_INSTALL_TARGET}
+export PATH=${GOROOT}/bin:${GOPATH}/bin:${PATH}
 
-export GOPATH=$PWD/gra-log-purger
-
-go install gra-log-purger
-
-cp gra-log-purger/bin/gra-log-purger $BOSH_INSTALL_TARGET/gra-log-purger-executable
+go build -o ${GOPATH}/gra-log-purger-executable ./gra-log-purger/src/gra-log-purger

@@ -1,7 +1,7 @@
 ---
 name: smoke-tests
 packages:
-- golang
+- golang-1.11-linux
 - acceptance-tests
 - cli
 

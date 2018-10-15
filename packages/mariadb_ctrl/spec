@@ -1,7 +1,7 @@
 ---
 name: mariadb_ctrl
 dependencies:
-  - golang
+  - golang-1.11-linux
 files:
   - github.com/cloudfoundry/mariadb_ctrl/*.sh
   - github.com/cloudfoundry/mariadb_ctrl/**/*.go

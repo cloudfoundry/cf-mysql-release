@@ -1,7 +1,7 @@
 ---
 name: acceptance-tests
 dependencies:
-  - golang
+  - golang-1.11-linux
   - cli
 files:
   - github.com/cloudfoundry-incubator/cf-mysql-acceptance-tests/bin/*
