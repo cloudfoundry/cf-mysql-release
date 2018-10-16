@@ -1,6 +1,8 @@
 # abort script on any command that exits with a non zero value
 set -e
 
+NPROC="$(nproc)"
+
 # We grab the latest versions that are in the directory
 RUBY_VERSION=`ls -r ruby/ruby-* | sed 's/ruby\/ruby-\(.*\)\.tar\.gz/\1/' | head -1`
 RUBYGEMS_VERSION=`ls -r ruby/rubygems-* | sed 's/ruby\/rubygems-\(.*\)\.tgz/\1/' | head -1`
@@ -12,8 +14,8 @@ tar xzf ruby/yaml-${LIBYAML_VERSION}.tar.gz
   set -e
   cd yaml-${LIBYAML_VERSION}/
   ./configure --prefix=${BOSH_INSTALL_TARGET}
-  make -j 3   # Use 3 CPUs, which is 1.5 x 2 (the normal number of compile CPUs)
-  make install
+  make -j "${NPROC}"
+  make -j "${NPROC}" install
   ldconfig
 )
 
@@ -22,8 +24,8 @@ tar xzf ruby/ruby-${RUBY_VERSION}.tar.gz
   set -e
   cd ruby-${RUBY_VERSION}
   LDFLAGS="-Wl,-rpath -Wl,${BOSH_INSTALL_TARGET}" ./configure --prefix=${BOSH_INSTALL_TARGET} --disable-install-doc --with-opt-dir=${BOSH_INSTALL_TARGET}
-  make
-  make install
+  make -j "${NPROC}"
+  make -j "${NPROC}" install
 )
 
 tar zxvf ruby/rubygems-${RUBYGEMS_VERSION}.tgz

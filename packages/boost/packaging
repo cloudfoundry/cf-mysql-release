@@ -1,6 +1,8 @@
 # abort script on any command that exits with a non zero value
 set -e
 
+NPROC="$(nproc)"
+
 cd boost
 tar xfz boost_1_59_0.tar.gz
 cd boost_1_59_0
@@ -8,7 +10,7 @@ cd boost_1_59_0
 
 # Go Agent cannot handle more than 10MB output, so trim it
 set +e
-./b2 install > build.out 2> build.err
+./b2 -j "${NPROC}" install > build.out 2> build.err
 BUILD_EXIT_CODE=$?
 set -e
 

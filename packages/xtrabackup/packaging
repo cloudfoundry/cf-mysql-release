@@ -2,6 +2,8 @@
 set -e
 set -x
 
+NPROC="$(nproc)"
+
 XTRABACKUP_VERSION=2.4.8
 PREFIX=${BOSH_INSTALL_TARGET}
 
@@ -15,8 +17,8 @@ tar xzf xtrabackup/socat-1.7.3.2.tar.gz
   set -e
   cd socat-1.7.3.2
   ./configure --prefix=$PREFIX
-  make
-  make install prefix=$PREFIX
+  make -j "${NPROC}"
+  make -j "${NPROC}" install prefix=$PREFIX
 )
 
 # Install Xtrabackup compilation dependencies
@@ -27,8 +29,8 @@ tar xzf xtrabackup/autoconf-2.65.tar.gz
   set -e
   cd autoconf-2.65
   autoconf_dir=$PREFIX/share/autoconf ./configure --prefix=$PREFIX
-  make
-  make install prefix=$PREFIX
+  make -j "${NPROC}"
+  make -j "${NPROC}" install prefix=$PREFIX
 )
 
 # automake
@@ -37,8 +39,8 @@ tar xzf xtrabackup/automake-1.14.1.tar.gz
   set -e
   cd automake-1.14.1
   ./configure --prefix=$PREFIX
-  make
-  make install prefix=$PREFIX
+  make -j "${NPROC}"
+  make -j "${NPROC}" install prefix=$PREFIX
 )
 
 # libtool
@@ -47,8 +49,8 @@ tar xzf xtrabackup/libtool-2.4.2.tar.gz
   set -e
   cd libtool-2.4.2
   ./configure --prefix=$PREFIX
-  make
-  make install prefix=$PREFIX
+  make -j "${NPROC}"
+  make -j "${NPROC}" install prefix=$PREFIX
 )
 
 # libaio
@@ -56,8 +58,7 @@ tar xzf xtrabackup/libaio_0.3.110.orig.tar.gz
 (
   set -e
   cd libaio-0.3.110
-  make install
-
+  make -j "${NPROC}" install
 )
 
 # boost
@@ -67,14 +68,14 @@ cp -R /var/vcap/packages/boost/include/* /usr/include/
 
 tar xzf xtrabackup/libev-4.22.tar.gz
 (
-	set -e
+  set -e
 
-	cd libev-4.22
+  cd libev-4.22
 
-	./configure --prefix=/usr --disable-static &&
-	make
-	make check
-  make install
+  ./configure --prefix=/usr --disable-static &&
+  make -j "${NPROC}"
+  make -j "${NPROC}" check
+  make -j "${NPROC}" install
 )
 
 tar xzf xtrabackup/percona-xtrabackup-${XTRABACKUP_VERSION}.tar.gz
@@ -86,7 +87,7 @@ tar xzf xtrabackup/percona-xtrabackup-${XTRABACKUP_VERSION}.tar.gz
       -DBUILD_CONFIG=xtrabackup_release \
       -DCMAKE_INSTALL_PREFIX=${BOSH_INSTALL_TARGET} \
       -DWITH_MAN_PAGES=OFF
-  make -j4
-  make install
+  make -j "${NPROC}"
+  make -j "${NPROC}" install
 )
 

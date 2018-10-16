@@ -1,6 +1,8 @@
 # abort script on any command that exits with a non zero value
 set -e
 
+NPROC="$(nproc)"
+
 VERSION=2.1.0
 
 tar xzf mysqlclient/mariadb-connector-c-${VERSION}-src.tar.gz
@@ -10,6 +12,6 @@ tar xzf mysqlclient/mariadb-connector-c-${VERSION}-src.tar.gz
   mkdir bld
   cd bld
   cmake .. -DCMAKE_INSTALL_PREFIX=${BOSH_INSTALL_TARGET}
-  make
-  make install
+  make -j "${NPROC}"
+  make -j "${NPROC}" install
 )
