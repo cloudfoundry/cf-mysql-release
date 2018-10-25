@@ -1,6 +1,6 @@
 ---
 name: ruby
 files:
-- ruby/ruby-2.3.7.tar.gz # Downloaded from https://cache.ruby-lang.org/pub/ruby/2.3/ruby-2.3.7.tar.gz
+- ruby/ruby-2.3.8.tar.gz # Downloaded from https://cache.ruby-lang.org/pub/ruby/2.3/ruby-2.3.8.tar.gz
 - ruby/rubygems-2.7.6.tgz # Downloaded from https://rubygems.org/rubygems/rubygems-2.7.6.tgz
 - ruby/yaml-0.1.7.tar.gz # Downloaded from http://pyyaml.org/download/libyaml/yaml-0.1.7.tar.gz

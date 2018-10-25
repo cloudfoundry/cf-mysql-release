@@ -34,10 +34,10 @@ python/Python-2.7.13.tgz:
   size: 17076672
   object_id: d97aea2b-8036-4b6a-709c-200865a69da1
   sha: dce2b862a30099ee48c19a7c34e2d7c2eeff5670
-ruby/ruby-2.3.7.tar.gz:
-  size: 17859100
-  object_id: e148ea10-7e77-474e-62ce-8acc4b49de94
-  sha: 540996fec64984ab6099e34d2f5820b14904f15a
+ruby/ruby-2.3.8.tar.gz:
+  size: 17858806
+  object_id: 8f9fd1fa-5198-4fec-5a2c-4b9d7ea34c97
+  sha: 69311991a9cd2c8e3c86a0dbbaaf915ae91f0bec
 ruby/rubygems-2.7.6.tgz:
   size: 852486
   object_id: e3c0b159-a925-48a0-4fe0-e7b3dcc5dcf4
