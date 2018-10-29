@@ -4,7 +4,7 @@
 [submodule "src/github.com/cloudfoundry-incubator/galera-healthcheck"]
 	path = src/github.com/cloudfoundry-incubator/galera-healthcheck
 	url = https://github.com/cloudfoundry-incubator/galera-healthcheck.git
-	branch = master
+	branch = cf-mysql-no-bpm
 [submodule "src/github.com/cloudfoundry/mariadb_ctrl"]
 	path = src/github.com/cloudfoundry/mariadb_ctrl
 	url = https://github.com/cloudfoundry/mariadb_ctrl.git
