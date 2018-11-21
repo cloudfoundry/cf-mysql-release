@@ -1,4 +1,6 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+
+set -euo pipefail
 
 job_dir=/var/vcap/jobs/proxy
 run_dir=/var/vcap/sys/run/proxy
@@ -23,7 +25,7 @@ case $1 in
 
     cd $package_dir
 
-    su - vcap -c -o pipefail "$package_dir/bin/switchboard \
+    chpst -u vcap:vcap bash -c "$package_dir/bin/switchboard \
       -configPath=$job_dir/config/switchboard.yml \
       --logLevel="info" \
       >> $log_dir/switchboard.combined.log 2>&1"
