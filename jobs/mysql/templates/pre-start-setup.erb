@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 <% if p('cf_mysql_enabled') == true %>
-set -e
-set -o pipefail
+set -eo pipefail
 
 ## NOTE: This script MUST ALWAYS run as root user.
 
