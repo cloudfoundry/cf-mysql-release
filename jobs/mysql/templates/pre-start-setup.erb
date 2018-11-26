@@ -93,7 +93,5 @@ chown -R vcap:vcap ${datadir}
 
 rm -f /etc/my.cnf
 
-# This currently uses "su vcap" instead of "su - vcap" because it needs to share the DISABLE_SST
-# environment variable all the way down to wsrep_sst_xtrabackup-v2 for SSTs
-MARIADB_CTRL_PREFIX_CMD="su vcap -c -o pipefail" ${MARIADB_JOB_DIR}/bin/pre-start-execution
+MARIADB_CTRL_PREFIX_CMD="chpst -u vcap:vcap bash -c" ${MARIADB_JOB_DIR}/bin/pre-start-execution
 <% end %>
