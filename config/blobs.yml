@@ -20,6 +20,7 @@ galera/galera-25.3.23.tar.gz:
   sha: 000e20ad02113e796a8a551a2733674338fbbc92
 mariadb-10.1.37.tar.gz:
   size: 63492946
+  object_id: 936874dc-0d2b-4c84-7af5-512a7bbd50af
   sha: 35e9c15b5532c2e7c746b1e7452952053d7d5b5a
 mysqlclient/mariadb-connector-c-2.1.0-src.tar.gz:
   size: 1912888
