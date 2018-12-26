@@ -1,0 +1,193 @@
+name: cf-mysql
+version: 36.17.0
+commit_hash: 3c323dd
+uncommitted_changes: false
+jobs:
+- name: arbitrator
+  version: bda91cb56fd9bb6dc8b7ce736eb8b17c2601584d
+  fingerprint: bda91cb56fd9bb6dc8b7ce736eb8b17c2601584d
+  sha1: 13eddb6b1049fba214e6791ec26257d6c3386ba5
+- name: bootstrap
+  version: 4ca12ef06b2236261da2984bd956c0507e4a75ef
+  fingerprint: 4ca12ef06b2236261da2984bd956c0507e4a75ef
+  sha1: 7114d1dcbd4fcdb9e5fb85159f09ab5622a0aa77
+- name: broker-registrar
+  version: 842ab0cbc443c0c5929f6a7a7c2833a7a3be1893
+  fingerprint: 842ab0cbc443c0c5929f6a7a7c2833a7a3be1893
+  sha1: c8ffc76f50503cfa224ed99a1a52160b458d1f44
+- name: cf-mysql-broker
+  version: 5cfb1fc7132306dff6a2f036d12bfa0dc0d2ffc7
+  fingerprint: 5cfb1fc7132306dff6a2f036d12bfa0dc0d2ffc7
+  sha1: 79c51a3e365b1d2fde90f7cdc2ed5f8fce56241c
+- name: cf-mysql-broker-user
+  version: 0cbe66c733d68c0c71711d5b139532a7728aa8d8
+  fingerprint: 0cbe66c733d68c0c71711d5b139532a7728aa8d8
+  sha1: e84704ce91a5356f2ccb0ffc3ee5bfdd3d417000
+- name: deregister-and-purge-instances
+  version: 94c073d24dac8393925181f85a6207498c7d0e61
+  fingerprint: 94c073d24dac8393925181f85a6207498c7d0e61
+  sha1: 10cf33d1d99298cfa7bcf398770e548ac13c28ba
+- name: mysql
+  version: 1d439fe176eba8a9547ff0f35db2861ba78209b9
+  fingerprint: 1d439fe176eba8a9547ff0f35db2861ba78209b9
+  sha1: e2e6095771ea90e6712c79b4690ababfa1fe4257
+- name: proxy
+  version: adace443ffba57ee1a22e25e292452d1a192cc9b
+  fingerprint: adace443ffba57ee1a22e25e292452d1a192cc9b
+  sha1: 279d7a8496b5ff3ebb3a3ecd6a7ea361bc039ae9
+- name: rejoin-unsafe
+  version: a2b1c9c5017fbe80ff25e1921975026af6bc924a
+  fingerprint: a2b1c9c5017fbe80ff25e1921975026af6bc924a
+  sha1: 7a844db2cf4026b4b65828e0a8453c49d43cdfcf
+- name: smoke-tests
+  version: 8fe7581003d6c548e01906d8816cb257d7652d9c
+  fingerprint: 8fe7581003d6c548e01906d8816cb257d7652d9c
+  sha1: 0fc6caf8c142bd12b6907b2b67fca4d8515f9782
+- name: smoke-tests-user
+  version: a836a949e081486fd44a61db352d6d9bd335f1d0
+  fingerprint: a836a949e081486fd44a61db352d6d9bd335f1d0
+  sha1: 3335dacc316589ef184acbc1e1b2b94427831f4a
+- name: verify-cluster-schemas
+  version: 2a049bb02c5a0e76582c6c90d4e06f510fb2638a
+  fingerprint: 2a049bb02c5a0e76582c6c90d4e06f510fb2638a
+  sha1: dd7311a32406be8e005fba514da95d76220882d2
+packages:
+- name: acceptance-tests
+  version: 4e662a0accbdba67f1939b524658c4538972d3eb
+  fingerprint: 4e662a0accbdba67f1939b524658c4538972d3eb
+  sha1: 7db75d86310a26734487820b281cf073608547cb
+  dependencies:
+  - golang-1.11-linux
+  - cli
+- name: boost
+  version: 3a37ca307a1a9376b298ce032367c5448e4362f3
+  fingerprint: 3a37ca307a1a9376b298ce032367c5448e4362f3
+  sha1: 44a94d96ddb23d168ccaea0c4e0c2458503c4c06
+  dependencies: []
+- name: bootstrap
+  version: f3c80556844acda61709e09c1c05a5222b2c1639
+  fingerprint: f3c80556844acda61709e09c1c05a5222b2c1639
+  sha1: 248c8d0928b1285dcc71bb81b16547a7de52b084
+  dependencies:
+  - golang-1.11-linux
+- name: cf-mysql-broker
+  version: e4cdea23218c9e610758d7b8e95afb8f494c4f9f
+  fingerprint: e4cdea23218c9e610758d7b8e95afb8f494c4f9f
+  sha1: 0724a90e66ce0fa0ff014a5e96b3726ca060cde0
+  dependencies:
+  - ruby
+  - mysqlclient
+- name: cf-mysql-cluster-health-logger
+  version: f7176fda2e4398ec24c51fad813c69f2b7d6a570
+  fingerprint: f7176fda2e4398ec24c51fad813c69f2b7d6a570
+  sha1: dde5967bd201208b78b88bb5a5f5bc0252c5d6c5
+  dependencies:
+  - golang-1.11-linux
+- name: cf-mysql-common
+  version: b0dd848055e84c2014b1bdafd02384d639cb08e0
+  fingerprint: b0dd848055e84c2014b1bdafd02384d639cb08e0
+  sha1: 9971d391a4f348223101a03dad38783d9f9fee50
+  dependencies: []
+- name: check
+  version: a3e2a82ec2aa054b05b2a39e7c0fb716a6e91254
+  fingerprint: a3e2a82ec2aa054b05b2a39e7c0fb716a6e91254
+  sha1: dc04b98010313654d5761ea3e847f262a51276d7
+  dependencies: []
+- name: cli
+  version: ffcc6e2f36ba09da3e082d4e0ad2a6ee76b9c1f8
+  fingerprint: ffcc6e2f36ba09da3e082d4e0ad2a6ee76b9c1f8
+  sha1: d2b106b4b4baa0b86196217eed59369227684ea3
+  dependencies: []
+- name: cluster-schema-verifier
+  version: a2f8659250e5b51a7f5d0b0fdff5dbdc5ee98895
+  fingerprint: a2f8659250e5b51a7f5d0b0fdff5dbdc5ee98895
+  sha1: 88e115cfd17eadab90a4308ab466b756732ca8db
+  dependencies: []
+- name: galera
+  version: f480a48c26d56d050bc0b579ed60750ccf52dadb
+  fingerprint: f480a48c26d56d050bc0b579ed60750ccf52dadb
+  sha1: 18d28e6de2f0e31db1d2294d49c7280fd740f2da
+  dependencies:
+  - scons
+  - boost
+  - check
+  - python
+- name: galera-healthcheck
+  version: 2e14c9bfac17d655789f550ba108e73bbf0ac3ec
+  fingerprint: 2e14c9bfac17d655789f550ba108e73bbf0ac3ec
+  sha1: e79f5de3dd87cb2871075c7931c8f0837064e79e
+  dependencies:
+  - golang-1.11-linux
+- name: generate-auto-tune-mysql
+  version: ff7da53ae7fe5a8a715c2f02fcaf22f21800574f
+  fingerprint: ff7da53ae7fe5a8a715c2f02fcaf22f21800574f
+  sha1: 77f1bd7c58f829fc57b6a4e6c87bcf5af35b5fca
+  dependencies:
+  - golang-1.11-linux
+- name: golang-1.11-linux
+  version: 3857982490fde4d8313d68c0b8c6c6e406800035
+  fingerprint: 3857982490fde4d8313d68c0b8c6c6e406800035
+  sha1: 146279cf88abae067a361ece807a155fbf0865ec
+  dependencies: []
+- name: gra-log-purger
+  version: 12835e28aad353eef767f61902b4420b1233e8fb
+  fingerprint: 12835e28aad353eef767f61902b4420b1233e8fb
+  sha1: 3bb3e67b7c2a8976af8149141cf601aeebb6daff
+  dependencies:
+  - golang-1.11-linux
+- name: mariadb
+  version: be66bc5630fd95c89b545125522b95fd717da83a
+  fingerprint: be66bc5630fd95c89b545125522b95fd717da83a
+  sha1: d7e779611cd5ef9c2092ace5e5e83b49810c86d1
+  dependencies:
+  - galera
+- name: mariadb_ctrl
+  version: 1607e318d85e64de8d7741f497b5ffbcfe2b27c7
+  fingerprint: 1607e318d85e64de8d7741f497b5ffbcfe2b27c7
+  sha1: 1df3e15ef6c7b23671f5406a76a4ce8dc7d30c60
+  dependencies:
+  - golang-1.11-linux
+- name: mysqlclient
+  version: 5d8731f16321178f1dcd61f4ef1bca8f43b17467
+  fingerprint: 5d8731f16321178f1dcd61f4ef1bca8f43b17467
+  sha1: cc3e1809c5bf730a7d4cfcc2d562f7aae7ea0635
+  dependencies: []
+- name: python
+  version: 9569dff3df4b2c8adc8c83944c9b46a44a1beb14
+  fingerprint: 9569dff3df4b2c8adc8c83944c9b46a44a1beb14
+  sha1: 3a5a451fc75ed559dbd4ef7c45972fcf50b411d4
+  dependencies: []
+- name: quota-enforcer
+  version: 1f555f9937ec8b88ddc02e1c139a2eabbe0784bb
+  fingerprint: 1f555f9937ec8b88ddc02e1c139a2eabbe0784bb
+  sha1: d0328d7b44b93485467fcdd42dae28c4fcfbf8b7
+  dependencies:
+  - golang-1.11-linux
+- name: ruby
+  version: 547e9da4736f76311116c9ec249d2613547bc02b
+  fingerprint: 547e9da4736f76311116c9ec249d2613547bc02b
+  sha1: c3d6dcf15c1283529f16c9ee6bb9277d7e3a5663
+  dependencies: []
+- name: scons
+  version: dbd49f7f2517cdb1853cd5e08eb59219731eb4c6
+  fingerprint: dbd49f7f2517cdb1853cd5e08eb59219731eb4c6
+  sha1: 763eccb09357c476478de30cdb934bdefc023a05
+  dependencies:
+  - python
+- name: switchboard
+  version: c3091a855336586029066f279b0b088d09d43def
+  fingerprint: c3091a855336586029066f279b0b088d09d43def
+  sha1: a32191db93eb532ce9f75a7585755a140bbe79c6
+  dependencies:
+  - golang-1.11-linux
+- name: xtrabackup
+  version: 6b89c4b6f0d340ae3bd6d3c93592e6eb621ec191
+  fingerprint: 6b89c4b6f0d340ae3bd6d3c93592e6eb621ec191
+  sha1: 7b469748139e04109379a3f6514953b80a68be65
+  dependencies:
+  - mariadb
+  - boost
+license:
+  version: 3c95ceb4a4bb0bcb890b6e572d367e1b95b1c7e8
+  fingerprint: 3c95ceb4a4bb0bcb890b6e572d367e1b95b1c7e8
+  sha1: 272673fefc6e2528aeed60c45e4ab806b3b6ec06
