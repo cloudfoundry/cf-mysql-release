@@ -1,6 +1,8 @@
 builds:
   037bd34ea14a2dea99c479442a61d1b1f3582558:
     version: "10"
+  03a865e0-e722-4d44-4d4c-afc30edb92fd:
+    version: 36.18.0
   0654a665-3cfa-469f-5152-517481d7b861:
     version: "36"
   0a13aa4c-fc3a-4907-bcbc-27734554d962:
