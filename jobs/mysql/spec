@@ -14,7 +14,6 @@ templates:
   galera_healthcheck_setup.sql.erb: config/galera_healthcheck_setup.sql
   get-sequence-number.sh: bin/get-sequence-number
   gra-log-purger_ctl.erb: bin/gra-log-purger_ctl
-  gra-log-purger.sh.erb: bin/gra-log-purger.sh
   pre-start-setup.erb: bin/pre-start
   pre-start-execution.erb: bin/pre-start-execution
   cluster_health_logger_ctl.erb: bin/cluster_health_logger_ctl
