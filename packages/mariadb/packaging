@@ -3,7 +3,7 @@ set -e
 
 NPROC="$(nproc)"
 
-MARIADB_VERSION=10.1.36
+MARIADB_VERSION=10.1.38
 MY_DIR=$(pwd)
 
 tar xzf mariadb/mariadb-${MARIADB_VERSION}.tar.gz
