@@ -52,6 +52,9 @@ production:
 
         <% max_user_connections = plan['max_user_connections'] || p('cf_mysql.broker.max_user_connections_default') %>
         max_user_connections: <%= max_user_connections %>
+        <% if !plan['free'].nil? %>
+        free: <%= plan['free'] %>
+        <% end %>
 
         <%
         if !plan['metadata']
@@ -78,9 +81,11 @@ production:
           <% else %>
           costs:
           <% costs.each do |cost| %>
-            - amount:
-                usd: <%= cost['amount']['usd'] %>
-              unit: <%= cost['unit'] %>
+          - amount:
+            <% cost['amount'].each do |currency, value| %>
+              <%= currency %>: <%= value %>
+            <% end %>
+            unit: <%= cost['unit'] %>
           <% end %>
           <% end %>
 
