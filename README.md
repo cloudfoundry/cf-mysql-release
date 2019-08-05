@@ -1,3 +1,5 @@
+# This release will be deprecated in favor of https://github.com/cloudfoundry-incubator/pxc-release, which is the new default backing database for Cloud Foundry
+
 # Cloud Foundry MySQL Service
 
 ### Table of contents
