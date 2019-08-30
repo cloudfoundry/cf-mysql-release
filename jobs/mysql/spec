@@ -84,7 +84,7 @@ properties:
     description: 'Maximum total number of database connections for the node'
     default: 1500
   cf_mysql.mysql.enable_drain_healthcheck:
-    description: 'When this is enabled, the --skip-drain flag is required in order to delete a deployment. Drain healthcheck cannot be enabled when using the arbitrator. Enabling this ensures mysql nodes will verify the health of all other nodes before draining.'
+    description: 'When this is enabled, the --skip-drain flag is required in order to delete a deployment and scaling down of instances. Drain healthcheck cannot be enabled when using the arbitrator. Enabling this ensures mysql nodes will verify the health of all other nodes before draining.'
     default: false
   cf_mysql.mysql.tls.ca_certificate:
     description: 'CA Certificate which signed the server certificate'
