@@ -263,6 +263,17 @@ properties:
     description: 'Threshold in seconds above which SQL queries get logged in the slow query log file'
 
   cf_mysql.mysql.bootstrap_enabled:
-    default: true 
+    default: true
     description: 'Enables usage of bootsrap procedure'
 
+  cf_mysql.mysql.wait_timeout:
+    default: 28800
+    description: 'The number of seconds the server waits for activity on a noninteractive connection before closing it.'
+
+  cf_mysql.mysql.interactive_timeout:
+    default: 28800
+    description: 'The number of seconds the server waits for activity on an interactive connection before closing it.'
+
+  cf_mysql.mysql.innodb_force_primary_key:
+    default: false
+    description: 'If set to true (false is default) CREATE TABLEs without a primary or unique key where all keyparts are NOT NULL will not be accepted, and will return an error.'
