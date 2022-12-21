@@ -26,7 +26,7 @@ for NODE in "${CLUSTER_NODES[@]}"; do
   set +e
   status_code=$(curl -s -o "/dev/null" -w "%{http_code}" "$NODE:$GALERA_HEALTHCHECK_PORT")
   set -e
-  if [[ $status_code -eq 000 || $status_code -eq 200 ]]; then
+  if [ $status_code -eq 200 ]; then
     continue
   else
     echo "$(date): galera heathcheck returned $status_code; drain failed on node ${NODE}" >> "${LOG_DIR}/drain.err.log"
